@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -u
+
+# Pass non-agent invocations (notably `opencode --version` from doctor)
+# straight to the real OpenCode binary.
+if [[ "${1:-}" != "run" ]]; then
+  exec "${ORCHESTRATOR_REAL_OPENCODE:?ORCHESTRATOR_REAL_OPENCODE is not set}" "$@"
+fi
+
+model=""
+previous=""
+for argument in "$@"; do
+  if [[ "$previous" == "--model" ]]; then
+    model="$argument"
+    break
+  fi
+  previous="$argument"
+done
+
+if [[ -z "$model" ]]; then
+  printf 'orchestrator opencode wrapper: missing --model\n' >&2
+  exit 2
+fi
+
+case "$model" in
+  ollama/*) model_id="${model#ollama/}" ;;
+  *)
+    printf 'orchestrator opencode wrapper: refusing non-Ollama model: %s\n' "$model" >&2
+    exit 2
+    ;;
+esac
+
+# Orchestrator passes its security policy as inline OpenCode config. Ollama's
+# official launcher also uses OPENCODE_CONFIG_CONTENT for the provider/model
+# definition, so preserve our policy as a temporary file and let Ollama own
+# the inline layer. OpenCode deep-merges both configuration sources.
+policy_file="$(mktemp "${TMPDIR:-/tmp}/memorithm-opencode-policy.XXXXXX.json")" || exit 1
+cleanup() {
+  rm -f "$policy_file"
+}
+trap cleanup EXIT INT TERM
+
+printf '%s' "${OPENCODE_CONFIG_CONTENT:-{}}" >"$policy_file"
+unset OPENCODE_CONFIG_CONTENT
+
+printf '\n===== OLLAMA -> OPENCODE BRIDGE =====\n'
+printf 'model: %s\n' "$model_id"
+printf 'plugins: disabled (--pure)\n\n'
+
+# Use Ollama's supported OpenCode integration. --pure prevents unrelated
+# globally-installed OpenCode plugins from entering autonomous runs.
+PATH="${ORCHESTRATOR_ORIGINAL_PATH:?ORCHESTRATOR_ORIGINAL_PATH is not set}" \
+OPENCODE_CONFIG="$policy_file" \
+ollama launch opencode --model "$model_id" -- --pure "$@"
+status=$?
+
+exit "$status"
