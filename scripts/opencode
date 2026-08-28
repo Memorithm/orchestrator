@@ -61,8 +61,27 @@ CI repair hard requirement:
 - Continue until the reproduced local CI gates pass, or leave the narrowest safe partial fix with a precise blocker."
 fi
 
+validate_rust_ci() {
+  local log_file="$1"
+
+  if ! cargo fmt --all -- --check >"$log_file" 2>&1; then
+    return 1
+  fi
+  if ! cargo check --workspace >"$log_file" 2>&1; then
+    return 1
+  fi
+  if ! cargo clippy --workspace --all-targets -- -D warnings >"$log_file" 2>&1; then
+    return 1
+  fi
+  if [[ "${ORCHESTRATOR_FULL_VALIDATION:-0}" == "1" ]]; then
+    if ! cargo test --workspace >"$log_file" 2>&1; then
+      return 1
+    fi
+  fi
+  return 0
+}
+
 deterministic_changes=0
-followup_failure_log=""
 
 # Deterministic repair comes before probabilistic repair. For Rust CI-fix
 # tasks, reproduce rustfmt with the repository CI toolchain selected by the
@@ -96,17 +115,8 @@ fi
 if (( deterministic_changes == 1 )); then
   printf '\n===== DETERMINISTIC FOLLOW-UP VALIDATION =====\n'
   validation_log="$(mktemp "${TMPDIR:-/tmp}/memorithm-ci-followup.XXXXXX.log")" || exit 1
-  validation_failed=0
 
-  if ! cargo check --workspace >"$validation_log" 2>&1; then
-    validation_failed=1
-  elif ! cargo clippy --workspace --all-targets -- -D warnings >"$validation_log" 2>&1; then
-    validation_failed=1
-  elif [[ "${ORCHESTRATOR_FULL_VALIDATION:-0}" == "1" ]] && ! cargo test --workspace >"$validation_log" 2>&1; then
-    validation_failed=1
-  fi
-
-  if (( validation_failed == 0 )); then
+  if validate_rust_ci "$validation_log"; then
     rm -f "$validation_log"
     printf 'deterministic repair passes local Rust CI gates\n'
     printf '\n===== DETERMINISTIC REPAIR COMPLETE =====\n'
@@ -135,15 +145,66 @@ printf 'permissions: runtime-enforced\n'
 printf 'agent cargo bridge: enabled\n'
 printf 'logs: INFO to stderr\n\n'
 
-# The agent PATH contains only Orchestrator's cargo wrapper plus the original
-# host PATH, so cargo commands continue to mirror CI-pinned rustfmt while
-# `opencode` resolves to the real binary and cannot recurse into this wrapper.
-PATH="${ORCHESTRATOR_AGENT_PATH:?ORCHESTRATOR_AGENT_PATH is not set}" \
-OPENCODE_PERMISSION="$permission_json" \
-OPENCODE_DISABLE_DEFAULT_PLUGINS=1 \
-OPENCODE_DISABLE_CLAUDE_CODE=1 \
-ollama launch opencode --model "$model_id" -- \
-  --pure --print-logs --log-level INFO "${args[@]}"
-status=$?
+run_agent_once() {
+  PATH="${ORCHESTRATOR_AGENT_PATH:?ORCHESTRATOR_AGENT_PATH is not set}" \
+  OPENCODE_PERMISSION="$permission_json" \
+  OPENCODE_DISABLE_DEFAULT_PLUGINS=1 \
+  OPENCODE_DISABLE_CLAUDE_CODE=1 \
+  ollama launch opencode --model "$model_id" -- \
+    --pure --print-logs --log-level INFO "${args[@]}"
+}
 
-exit "$status"
+# First probabilistic repair pass.
+run_agent_once
+status=$?
+if (( status != 0 )); then
+  exit "$status"
+fi
+
+# For CI repair work, never hand control back to the Rust commit/push path
+# until the same local Rust gates have been replayed after agent edits. Give
+# the agent one bounded follow-up pass with the exact residual failure before
+# failing the cycle closed.
+if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
+  printf '\n===== POST-AGENT CI VALIDATION =====\n'
+  post_log="$(mktemp "${TMPDIR:-/tmp}/memorithm-post-agent-ci.XXXXXX.log")" || exit 1
+
+  if validate_rust_ci "$post_log"; then
+    rm -f "$post_log"
+    printf 'post-agent Rust CI gates: PASS\n'
+    exit 0
+  fi
+
+  printf 'post-agent Rust CI gates: FAIL\n'
+  cat "$post_log"
+  residual_log="$(tail -c 16000 "$post_log")"
+  rm -f "$post_log"
+
+  args[$last_index]="${args[$last_index]}
+
+Follow-up repair pass: your previous edits are still in the working tree, but the reproduced Rust CI gates remain red. Do not restart or revert correct prior changes. Repair only the residual failure below, then run the relevant CI-matched commands again.
+
+Residual local CI failure (tail, up to 16000 bytes):
+${residual_log}"
+
+  printf '\n===== OPENCODE FOLLOW-UP PASS =====\n'
+  run_agent_once
+  status=$?
+  if (( status != 0 )); then
+    exit "$status"
+  fi
+
+  final_log="$(mktemp "${TMPDIR:-/tmp}/memorithm-final-agent-ci.XXXXXX.log")" || exit 1
+  if validate_rust_ci "$final_log"; then
+    rm -f "$final_log"
+    printf 'final Rust CI gates: PASS\n'
+    exit 0
+  fi
+
+  printf 'final Rust CI gates: FAIL; refusing commit/push\n' >&2
+  cat "$final_log" >&2
+  rm -f "$final_log"
+  exit 1
+fi
+
+exit 0
