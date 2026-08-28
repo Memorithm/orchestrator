@@ -62,13 +62,14 @@ CI repair hard requirement:
 - If the failure is formatting-only, apply formatting with that exact toolchain and leave the resulting changes in the working tree."
 fi
 
+deterministic_changes=0
+
 # Deterministic repair comes before probabilistic repair. For a Rust CI-fix
 # task, reproduce the formatter gate with the Orchestrator cargo wrapper. The
 # wrapper mirrors an explicitly pinned `cargo +X.Y.Z fmt` from GitHub
 # workflows. If the check fails but formatting succeeds and changes files,
 # leave those edits in the worktree for Orchestrator's normal validation,
-# commit and push path. The LLM still runs afterwards so it can inspect the
-# failure and make additional changes if formatting was not sufficient.
+# commit and push path.
 if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
   printf '\n===== DETERMINISTIC CI PREFLIGHT =====\n'
   printf 'checking Rust formatting with repository CI toolchain policy\n'
@@ -83,16 +84,24 @@ if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
       if git diff --quiet -- .; then
         printf 'rustfmt repair produced no tracked changes\n'
       else
+        deterministic_changes=1
         printf 'rustfmt repair produced working-tree changes\n'
-        args[$last_index]="${args[$last_index]}
-
-Orchestrator deterministic preflight already applied the repository's CI-matched Rust formatter and left its changes in the working tree. Inspect that diff first. Keep it if correct; do not revert deterministic formatting merely to match a newer local rustfmt."
       fi
     else
       printf 'deterministic rustfmt repair could not be applied; delegating to agent\n' >&2
     fi
   fi
   rm -f "$fmt_log"
+fi
+
+# A deterministic formatter repair is sufficient for this cycle. Returning
+# success lets the Rust orchestrator run its normal sensitive-path checks,
+# full validation, commit and push logic. If the next CI attempt reveals a
+# second failure, a later cycle will handle it with fresh evidence.
+if (( deterministic_changes == 1 )); then
+  printf '\n===== DETERMINISTIC REPAIR COMPLETE =====\n'
+  printf 'LLM skipped: CI-matched rustfmt produced the repair for this cycle.\n'
+  exit 0
 fi
 
 printf '\n===== OLLAMA -> OPENCODE BRIDGE =====\n'
