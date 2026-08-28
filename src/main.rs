@@ -339,8 +339,7 @@ fn check_gh_pr_checks_json() -> bool {
         .args(["pr", "checks", "--help"])
         .output()
         .map(|output| {
-            output.status.success()
-                && String::from_utf8_lossy(&output.stdout).contains("--json")
+            output.status.success() && String::from_utf8_lossy(&output.stdout).contains("--json")
         })
         .unwrap_or(false)
 }
@@ -562,7 +561,11 @@ fn scan(organization: &str) -> ExitCode {
     let mut counts = BTreeMap::<&'static str, usize>::new();
     for repository in &repositories {
         *counts
-            .entry(if repository.archived { "archived" } else { "active" })
+            .entry(if repository.archived {
+                "archived"
+            } else {
+                "active"
+            })
             .or_default() += 1;
         *counts
             .entry(match repository.visibility.as_str() {
@@ -585,7 +588,11 @@ fn scan(organization: &str) -> ExitCode {
             repository.name_with_owner,
             repository.default_branch.as_deref().unwrap_or("-"),
             repository.visibility,
-            if repository.archived { "archived" } else { "active" },
+            if repository.archived {
+                "archived"
+            } else {
+                "active"
+            },
             if repository.fork { "fork" } else { "source" },
             pilotability.as_str()
         );
@@ -595,12 +602,30 @@ fn scan(organization: &str) -> ExitCode {
     println!("Summary");
     println!("-------");
     println!("Total                  : {}", repositories.len());
-    println!("Active                 : {}", counts.get("active").copied().unwrap_or(0));
-    println!("Archived               : {}", counts.get("archived").copied().unwrap_or(0));
-    println!("Public                 : {}", counts.get("public").copied().unwrap_or(0));
-    println!("Private                : {}", counts.get("private").copied().unwrap_or(0));
-    println!("Forks                  : {}", counts.get("forks").copied().unwrap_or(0));
-    println!("No default branch      : {}", counts.get("no_default").copied().unwrap_or(0));
+    println!(
+        "Active                 : {}",
+        counts.get("active").copied().unwrap_or(0)
+    );
+    println!(
+        "Archived               : {}",
+        counts.get("archived").copied().unwrap_or(0)
+    );
+    println!(
+        "Public                 : {}",
+        counts.get("public").copied().unwrap_or(0)
+    );
+    println!(
+        "Private                : {}",
+        counts.get("private").copied().unwrap_or(0)
+    );
+    println!(
+        "Forks                  : {}",
+        counts.get("forks").copied().unwrap_or(0)
+    );
+    println!(
+        "No default branch      : {}",
+        counts.get("no_default").copied().unwrap_or(0)
+    );
     println!();
     println!("Pilotability");
     println!("------------");
@@ -1174,7 +1199,11 @@ fn prepare_issue_workspace(
         "git",
         &["checkout", "-B", default_branch, remote_default.as_str()],
     )?;
-    run_in_dir(&workspace, "git", &["reset", "--hard", remote_default.as_str()])?;
+    run_in_dir(
+        &workspace,
+        "git",
+        &["reset", "--hard", remote_default.as_str()],
+    )?;
 
     let branch = format!("orchestrator/issue-{issue_number}-{}", unix_timestamp());
     run_in_dir(&workspace, "git", &["checkout", "-b", branch.as_str()])?;
@@ -1212,11 +1241,20 @@ fn prepare_pr_workspace(
 
     let status = Command::new("gh")
         .current_dir(&workspace)
-        .args(["pr", "checkout", number.as_str(), "--repo", repository, "--force"])
+        .args([
+            "pr",
+            "checkout",
+            number.as_str(),
+            "--repo",
+            repository,
+            "--force",
+        ])
         .status()
         .map_err(|error| format!("failed to execute gh pr checkout: {error}"))?;
     if !status.success() {
-        return Err(format!("gh pr checkout failed for {repository}#{pr_number}"));
+        return Err(format!(
+            "gh pr checkout failed for {repository}#{pr_number}"
+        ));
     }
     Ok(workspace)
 }
@@ -1304,9 +1342,11 @@ fn run_agent(config: &RunConfig, workspace: &Path, prompt: &str) -> Result<(), S
 }
 
 fn has_changes(workspace: &Path) -> Result<bool, String> {
-    Ok(!capture_in_dir(workspace, "git", &["status", "--porcelain"])?
-        .trim()
-        .is_empty())
+    Ok(
+        !capture_in_dir(workspace, "git", &["status", "--porcelain"])?
+            .trim()
+            .is_empty(),
+    )
 }
 
 fn reject_sensitive_paths(workspace: &Path) -> Result<(), String> {
@@ -1413,7 +1453,11 @@ fn execute_issue(
     let message = format!("feat: progress issue #{}", item.number);
     let commit_sha = commit_changes(&workspace, &message)?;
     println!("Created commit {commit_sha}");
-    run_in_dir(&workspace, "git", &["push", "-u", "origin", branch.as_str()])?;
+    run_in_dir(
+        &workspace,
+        "git",
+        &["push", "-u", "origin", branch.as_str()],
+    )?;
 
     let title = truncate_chars(
         &format!("orchestrator: {} (#{} slice)", item.title, item.number),
@@ -1513,7 +1557,10 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), String
     let number = item.number.to_string();
     let head_sha = pr_head_sha(&item.repository, item.number)?;
     if item.draft {
-        println!("Marking {}#{} ready for review", item.repository, item.number);
+        println!(
+            "Marking {}#{} ready for review",
+            item.repository, item.number
+        );
         let status = Command::new("gh")
             .args(["pr", "ready"])
             .arg(&number)
@@ -1529,7 +1576,10 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), String
         }
     }
 
-    println!("Merging {}#{} after validated green state", item.repository, item.number);
+    println!(
+        "Merging {}#{} after validated green state",
+        item.repository, item.number
+    );
     let status = Command::new("gh")
         .args(["pr", "merge"])
         .arg(&number)
@@ -1664,7 +1714,8 @@ fn usage(program: &str) {
 }
 
 fn organization_arg(args: &mut impl Iterator<Item = String>) -> String {
-    args.next().unwrap_or_else(|| DEFAULT_ORGANIZATION.to_owned())
+    args.next()
+        .unwrap_or_else(|| DEFAULT_ORGANIZATION.to_owned())
 }
 
 fn main() -> ExitCode {
@@ -1723,10 +1774,9 @@ mod tests {
 
     #[test]
     fn parses_repository_and_empty_state() {
-        let repository = parse_repository_line(
-            "Memorithm/scirust-automotive\t-\tPUBLIC\tactive\tsource\tempty",
-        )
-        .unwrap();
+        let repository =
+            parse_repository_line("Memorithm/scirust-automotive\t-\tPUBLIC\tactive\tsource\tempty")
+                .unwrap();
         assert_eq!(repository.default_branch, None);
         assert!(repository.empty);
     }
