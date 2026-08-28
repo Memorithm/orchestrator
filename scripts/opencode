@@ -45,13 +45,17 @@ unset OPENCODE_CONFIG_CONTENT
 
 printf '\n===== OLLAMA -> OPENCODE BRIDGE =====\n'
 printf 'model: %s\n' "$model_id"
-printf 'plugins: disabled (--pure)\n\n'
+printf 'plugins: disabled (--pure)\n'
+printf 'logs: INFO to stderr\n\n'
 
 # Use Ollama's supported OpenCode integration. --pure prevents unrelated
-# globally-installed OpenCode plugins from entering autonomous runs.
+# globally-installed OpenCode plugins from entering autonomous runs. Printing
+# INFO logs makes provider/session failures actionable without exposing DEBUG
+# payloads by default.
 PATH="${ORCHESTRATOR_ORIGINAL_PATH:?ORCHESTRATOR_ORIGINAL_PATH is not set}" \
 OPENCODE_CONFIG="$policy_file" \
-ollama launch opencode --model "$model_id" -- --pure "$@"
+ollama launch opencode --model "$model_id" -- \
+  --pure --print-logs --log-level INFO "$@"
 status=$?
 
 exit "$status"
