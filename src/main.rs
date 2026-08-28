@@ -30,6 +30,15 @@ const TOOLS: &[Tool] = &[
     },
 ];
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct Repository {
+    name_with_owner: String,
+    default_branch: Option<String>,
+    visibility: String,
+    archived: bool,
+    fork: bool,
+}
+
 fn command_available(name: &str) -> bool {
     Command::new(name)
         .arg("--version")
@@ -126,9 +135,163 @@ fn doctor() -> ExitCode {
     }
 }
 
+fn parse_repository_line(line: &str) -> Result<Repository, String> {
+    let fields: Vec<&str> = line.split('\t').collect();
+
+    if fields.len() != 5 {
+        return Err(format!(
+            "expected 5 tab-separated fields, got {}: {line}",
+            fields.len()
+        ));
+    }
+
+    let default_branch = match fields[1] {
+        "-" | "" => None,
+        branch => Some(branch.to_owned()),
+    };
+
+    let archived = match fields[3] {
+        "active" => false,
+        "archived" => true,
+        other => return Err(format!("unknown repository state: {other}")),
+    };
+
+    let fork = match fields[4] {
+        "source" => false,
+        "fork" => true,
+        other => return Err(format!("unknown repository origin: {other}")),
+    };
+
+    Ok(Repository {
+        name_with_owner: fields[0].to_owned(),
+        default_branch,
+        visibility: fields[2].to_owned(),
+        archived,
+        fork,
+    })
+}
+
+fn discover_repositories(organization: &str) -> Result<Vec<Repository>, String> {
+    let jq = r#".[] | [
+        .nameWithOwner,
+        (.defaultBranchRef.name // "-"),
+        .visibility,
+        (if .isArchived then "archived" else "active" end),
+        (if .isFork then "fork" else "source" end)
+    ] | @tsv"#;
+
+    let output = Command::new("gh")
+        .args([
+            "repo",
+            "list",
+            organization,
+            "--limit",
+            "1000",
+            "--json",
+            "nameWithOwner,defaultBranchRef,visibility,isArchived,isFork",
+            "--jq",
+            jq,
+        ])
+        .output()
+        .map_err(|error| format!("failed to execute gh: {error}"))?;
+
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(format!("gh repo list failed: {}", stderr.trim()));
+    }
+
+    let stdout = String::from_utf8(output.stdout)
+        .map_err(|error| format!("invalid UTF-8 from gh: {error}"))?;
+
+    let mut repositories = stdout
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+        .map(parse_repository_line)
+        .collect::<Result<Vec<_>, _>>()?;
+
+    repositories.sort_by(|left, right| left.name_with_owner.cmp(&right.name_with_owner));
+
+    Ok(repositories)
+}
+
+fn scan(organization: &str) -> ExitCode {
+    let repositories = match discover_repositories(organization) {
+        Ok(repositories) => repositories,
+        Err(error) => {
+            eprintln!("scan failed: {error}");
+            return ExitCode::FAILURE;
+        }
+    };
+
+    println!("Repository scan: {organization}");
+    println!("==============================");
+    println!();
+    println!(
+        "{:<48} {:<32} {:<8} {:<9} TYPE",
+        "REPOSITORY", "DEFAULT BRANCH", "VISIBILITY", "STATE"
+    );
+    println!("{}", "-".repeat(115));
+
+    let mut active = 0usize;
+    let mut archived = 0usize;
+    let mut public = 0usize;
+    let mut private = 0usize;
+    let mut forks = 0usize;
+    let mut without_default_branch = 0usize;
+
+    for repository in &repositories {
+        if repository.archived {
+            archived += 1;
+        } else {
+            active += 1;
+        }
+
+        match repository.visibility.as_str() {
+            "PUBLIC" => public += 1,
+            "PRIVATE" => private += 1,
+            _ => {}
+        }
+
+        if repository.fork {
+            forks += 1;
+        }
+
+        if repository.default_branch.is_none() {
+            without_default_branch += 1;
+        }
+
+        println!(
+            "{:<48} {:<32} {:<10} {:<9} {}",
+            repository.name_with_owner,
+            repository.default_branch.as_deref().unwrap_or("-"),
+            repository.visibility,
+            if repository.archived {
+                "archived"
+            } else {
+                "active"
+            },
+            if repository.fork { "fork" } else { "source" }
+        );
+    }
+
+    println!();
+    println!("Summary");
+    println!("-------");
+    println!("Total                  : {}", repositories.len());
+    println!("Active                 : {active}");
+    println!("Archived               : {archived}");
+    println!("Public                 : {public}");
+    println!("Private                : {private}");
+    println!("Forks                  : {forks}");
+    println!("No default branch      : {without_default_branch}");
+
+    ExitCode::SUCCESS
+}
+
 fn usage(program: &str) {
     eprintln!("Usage:");
     eprintln!("  {program} doctor");
+    eprintln!("  {program} scan [organization]");
 }
 
 fn main() -> ExitCode {
@@ -137,6 +300,10 @@ fn main() -> ExitCode {
 
     match args.next().as_deref() {
         Some("doctor") => doctor(),
+        Some("scan") => {
+            let organization = args.next().unwrap_or_else(|| "Memorithm".to_owned());
+            scan(&organization)
+        }
         _ => {
             usage(&program);
             ExitCode::FAILURE
@@ -146,7 +313,7 @@ fn main() -> ExitCode {
 
 #[cfg(test)]
 mod tests {
-    use super::TOOLS;
+    use super::{Repository, TOOLS, parse_repository_line};
 
     #[test]
     fn required_runtime_contains_local_agent_stack() {
@@ -170,5 +337,47 @@ mod tests {
             .expect("codex specification");
 
         assert!(!codex.required);
+    }
+
+    #[test]
+    fn parses_repository_with_default_branch() {
+        let repository =
+            parse_repository_line("Memorithm/ADA\tmain\tPUBLIC\tactive\tsource").unwrap();
+
+        assert_eq!(
+            repository,
+            Repository {
+                name_with_owner: "Memorithm/ADA".to_owned(),
+                default_branch: Some("main".to_owned()),
+                visibility: "PUBLIC".to_owned(),
+                archived: false,
+                fork: false,
+            }
+        );
+    }
+
+    #[test]
+    fn parses_repository_without_default_branch() {
+        let repository =
+            parse_repository_line("Memorithm/scirust-automotive\t-\tPUBLIC\tactive\tsource")
+                .unwrap();
+
+        assert_eq!(repository.default_branch, None);
+    }
+
+    #[test]
+    fn parses_archived_private_repository() {
+        let repository =
+            parse_repository_line("Memorithm/CCOS\tmain\tPRIVATE\tarchived\tsource").unwrap();
+
+        assert!(repository.archived);
+        assert_eq!(repository.visibility, "PRIVATE");
+    }
+
+    #[test]
+    fn rejects_malformed_repository_line() {
+        let error = parse_repository_line("Memorithm/ADA\tmain").unwrap_err();
+
+        assert!(error.contains("expected 5"));
     }
 }
