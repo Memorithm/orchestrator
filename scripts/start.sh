@@ -23,18 +23,24 @@ if [[ -z "$REAL_CARGO" ]]; then
   exit 1
 fi
 
-# Put private runtime wrappers first in PATH. OpenCode is bridged through
-# Ollama with runtime-enforced permissions. Cargo mirrors an explicitly
-# pinned GitHub CI formatter toolchain when one is declared by the target
-# repository. Generated executables live under target/ only.
+# Runtime wrappers used by Orchestrator itself.
 WRAPPER_DIR="$ROOT/target/orchestrator-bin"
 mkdir -p "$WRAPPER_DIR"
 install -m 700 "$ROOT/scripts/opencode" "$WRAPPER_DIR/opencode"
 install -m 700 "$ROOT/scripts/cargo" "$WRAPPER_DIR/cargo"
 
+# Agent PATH intentionally contains only the cargo wrapper. This lets
+# OpenCode and commands it launches reproduce CI-pinned Rust formatting while
+# ensuring Ollama resolves the real OpenCode binary instead of recursively
+# entering Orchestrator's opencode wrapper.
+AGENT_WRAPPER_DIR="$ROOT/target/orchestrator-agent-bin"
+mkdir -p "$AGENT_WRAPPER_DIR"
+install -m 700 "$ROOT/scripts/cargo" "$AGENT_WRAPPER_DIR/cargo"
+
 export ORCHESTRATOR_REAL_OPENCODE="$REAL_OPENCODE"
 export ORCHESTRATOR_REAL_CARGO="$REAL_CARGO"
 export ORCHESTRATOR_ORIGINAL_PATH="$PATH"
+export ORCHESTRATOR_AGENT_PATH="$AGENT_WRAPPER_DIR:$PATH"
 export PATH="$WRAPPER_DIR:$PATH"
 
 printf '\n===== BUILD ORCHESTRATOR =====\n'
@@ -50,6 +56,7 @@ printf 'interval=%ss\n' "$ORCHESTRATOR_INTERVAL_SECS"
 printf 'auto_merge=%s\n' "$ORCHESTRATOR_AUTO_MERGE"
 printf 'full_validation=%s\n' "$ORCHESTRATOR_FULL_VALIDATION"
 printf 'opencode_bridge=ollama-launch+runtime-permissions\n'
-printf 'cargo_bridge=ci-pinned-rustfmt\n\n'
+printf 'cargo_bridge=ci-pinned-rustfmt\n'
+printf 'agent_cargo_bridge=enabled\n\n'
 
 exec ./target/release/orchestrator run "$ORGANIZATION"
