@@ -37,6 +37,30 @@ struct Repository {
     visibility: String,
     archived: bool,
     fork: bool,
+    empty: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Pilotability {
+    Eligible,
+    BlockedArchived,
+    BlockedEmpty,
+    ReviewFork,
+    ReviewSpecialBranch,
+    SelfRepository,
+}
+
+impl Pilotability {
+    const fn as_str(self) -> &'static str {
+        match self {
+            Self::Eligible => "ELIGIBLE",
+            Self::BlockedArchived => "BLOCKED_ARCHIVED",
+            Self::BlockedEmpty => "BLOCKED_EMPTY",
+            Self::ReviewFork => "REVIEW_FORK",
+            Self::ReviewSpecialBranch => "REVIEW_SPECIAL_BRANCH",
+            Self::SelfRepository => "SELF",
+        }
+    }
 }
 
 fn command_available(name: &str) -> bool {
@@ -138,9 +162,9 @@ fn doctor() -> ExitCode {
 fn parse_repository_line(line: &str) -> Result<Repository, String> {
     let fields: Vec<&str> = line.split('\t').collect();
 
-    if fields.len() != 5 {
+    if fields.len() != 6 {
         return Err(format!(
-            "expected 5 tab-separated fields, got {}: {line}",
+            "expected 6 tab-separated fields, got {}: {line}",
             fields.len()
         ));
     }
@@ -162,12 +186,19 @@ fn parse_repository_line(line: &str) -> Result<Repository, String> {
         other => return Err(format!("unknown repository origin: {other}")),
     };
 
+    let empty = match fields[5] {
+        "non-empty" => false,
+        "empty" => true,
+        other => return Err(format!("unknown repository emptiness: {other}")),
+    };
+
     Ok(Repository {
         name_with_owner: fields[0].to_owned(),
         default_branch,
         visibility: fields[2].to_owned(),
         archived,
         fork,
+        empty,
     })
 }
 
@@ -177,7 +208,8 @@ fn discover_repositories(organization: &str) -> Result<Vec<Repository>, String> 
         (.defaultBranchRef.name // "-"),
         .visibility,
         (if .isArchived then "archived" else "active" end),
-        (if .isFork then "fork" else "source" end)
+        (if .isFork then "fork" else "source" end),
+        (if .isEmpty then "empty" else "non-empty" end)
     ] | @tsv"#;
 
     let output = Command::new("gh")
@@ -188,7 +220,7 @@ fn discover_repositories(organization: &str) -> Result<Vec<Repository>, String> 
             "--limit",
             "1000",
             "--json",
-            "nameWithOwner,defaultBranchRef,visibility,isArchived,isFork",
+            "nameWithOwner,defaultBranchRef,visibility,isArchived,isFork,isEmpty",
             "--jq",
             jq,
         ])
@@ -214,6 +246,31 @@ fn discover_repositories(organization: &str) -> Result<Vec<Repository>, String> 
     Ok(repositories)
 }
 
+fn classify_repository(repository: &Repository, organization: &str) -> Pilotability {
+    let orchestrator_name = format!("{organization}/orchestrator");
+
+    if repository.name_with_owner == orchestrator_name {
+        return Pilotability::SelfRepository;
+    }
+
+    if repository.archived {
+        return Pilotability::BlockedArchived;
+    }
+
+    if repository.empty {
+        return Pilotability::BlockedEmpty;
+    }
+
+    if repository.fork {
+        return Pilotability::ReviewFork;
+    }
+
+    match repository.default_branch.as_deref() {
+        Some("main" | "master") => Pilotability::Eligible,
+        Some(_) | None => Pilotability::ReviewSpecialBranch,
+    }
+}
+
 fn scan(organization: &str) -> ExitCode {
     let repositories = match discover_repositories(organization) {
         Ok(repositories) => repositories,
@@ -227,10 +284,10 @@ fn scan(organization: &str) -> ExitCode {
     println!("==============================");
     println!();
     println!(
-        "{:<48} {:<32} {:<8} {:<9} TYPE",
-        "REPOSITORY", "DEFAULT BRANCH", "VISIBILITY", "STATE"
+        "{:<48} {:<32} {:<10} {:<9} {:<8} PILOTABILITY",
+        "REPOSITORY", "DEFAULT BRANCH", "VISIBILITY", "STATE", "TYPE"
     );
-    println!("{}", "-".repeat(115));
+    println!("{}", "-".repeat(145));
 
     let mut active = 0usize;
     let mut archived = 0usize;
@@ -238,6 +295,12 @@ fn scan(organization: &str) -> ExitCode {
     let mut private = 0usize;
     let mut forks = 0usize;
     let mut without_default_branch = 0usize;
+    let mut eligible = 0usize;
+    let mut blocked_archived = 0usize;
+    let mut blocked_empty = 0usize;
+    let mut review_fork = 0usize;
+    let mut review_special_branch = 0usize;
+    let mut self_repository = 0usize;
 
     for repository in &repositories {
         if repository.archived {
@@ -260,8 +323,19 @@ fn scan(organization: &str) -> ExitCode {
             without_default_branch += 1;
         }
 
+        let pilotability = classify_repository(repository, organization);
+
+        match pilotability {
+            Pilotability::Eligible => eligible += 1,
+            Pilotability::BlockedArchived => blocked_archived += 1,
+            Pilotability::BlockedEmpty => blocked_empty += 1,
+            Pilotability::ReviewFork => review_fork += 1,
+            Pilotability::ReviewSpecialBranch => review_special_branch += 1,
+            Pilotability::SelfRepository => self_repository += 1,
+        }
+
         println!(
-            "{:<48} {:<32} {:<10} {:<9} {}",
+            "{:<48} {:<32} {:<10} {:<9} {:<8} {}",
             repository.name_with_owner,
             repository.default_branch.as_deref().unwrap_or("-"),
             repository.visibility,
@@ -270,7 +344,8 @@ fn scan(organization: &str) -> ExitCode {
             } else {
                 "active"
             },
-            if repository.fork { "fork" } else { "source" }
+            if repository.fork { "fork" } else { "source" },
+            pilotability.as_str()
         );
     }
 
@@ -284,6 +359,15 @@ fn scan(organization: &str) -> ExitCode {
     println!("Private                : {private}");
     println!("Forks                  : {forks}");
     println!("No default branch      : {without_default_branch}");
+    println!();
+    println!("Pilotability");
+    println!("------------");
+    println!("Eligible               : {eligible}");
+    println!("Blocked archived       : {blocked_archived}");
+    println!("Blocked empty          : {blocked_empty}");
+    println!("Review fork            : {review_fork}");
+    println!("Review special branch  : {review_special_branch}");
+    println!("Self                   : {self_repository}");
 
     ExitCode::SUCCESS
 }
@@ -313,7 +397,7 @@ fn main() -> ExitCode {
 
 #[cfg(test)]
 mod tests {
-    use super::{Repository, TOOLS, parse_repository_line};
+    use super::{Pilotability, Repository, TOOLS, classify_repository, parse_repository_line};
 
     #[test]
     fn required_runtime_contains_local_agent_stack() {
@@ -342,7 +426,8 @@ mod tests {
     #[test]
     fn parses_repository_with_default_branch() {
         let repository =
-            parse_repository_line("Memorithm/ADA\tmain\tPUBLIC\tactive\tsource").unwrap();
+            parse_repository_line("Memorithm/ADA\tmain\tPUBLIC\tactive\tsource\tnon-empty")
+                .unwrap();
 
         assert_eq!(
             repository,
@@ -352,6 +437,7 @@ mod tests {
                 visibility: "PUBLIC".to_owned(),
                 archived: false,
                 fork: false,
+                empty: false,
             }
         );
     }
@@ -359,25 +445,114 @@ mod tests {
     #[test]
     fn parses_repository_without_default_branch() {
         let repository =
-            parse_repository_line("Memorithm/scirust-automotive\t-\tPUBLIC\tactive\tsource")
+            parse_repository_line("Memorithm/scirust-automotive\t-\tPUBLIC\tactive\tsource\tempty")
                 .unwrap();
 
         assert_eq!(repository.default_branch, None);
+        assert!(repository.empty);
     }
 
     #[test]
     fn parses_archived_private_repository() {
         let repository =
-            parse_repository_line("Memorithm/CCOS\tmain\tPRIVATE\tarchived\tsource").unwrap();
+            parse_repository_line("Memorithm/CCOS\tmain\tPRIVATE\tarchived\tsource\tnon-empty")
+                .unwrap();
 
         assert!(repository.archived);
         assert_eq!(repository.visibility, "PRIVATE");
+        assert!(!repository.empty);
     }
 
     #[test]
     fn rejects_malformed_repository_line() {
         let error = parse_repository_line("Memorithm/ADA\tmain").unwrap_err();
 
-        assert!(error.contains("expected 5"));
+        assert!(error.contains("expected 6"));
+    }
+
+    #[test]
+    fn classifies_standard_main_repository_as_eligible() {
+        let repository =
+            parse_repository_line("Memorithm/ADA\tmain\tPUBLIC\tactive\tsource\tnon-empty")
+                .unwrap();
+
+        assert_eq!(
+            classify_repository(&repository, "Memorithm"),
+            Pilotability::Eligible
+        );
+    }
+
+    #[test]
+    fn classifies_standard_master_repository_as_eligible() {
+        let repository =
+            parse_repository_line("Memorithm/scirust\tmaster\tPUBLIC\tactive\tsource\tnon-empty")
+                .unwrap();
+
+        assert_eq!(
+            classify_repository(&repository, "Memorithm"),
+            Pilotability::Eligible
+        );
+    }
+
+    #[test]
+    fn blocks_archived_repository() {
+        let repository =
+            parse_repository_line("Memorithm/CCOS\tmain\tPRIVATE\tarchived\tsource\tnon-empty")
+                .unwrap();
+
+        assert_eq!(
+            classify_repository(&repository, "Memorithm"),
+            Pilotability::BlockedArchived
+        );
+    }
+
+    #[test]
+    fn blocks_empty_repository() {
+        let repository =
+            parse_repository_line("Memorithm/scirust-automotive\t-\tPUBLIC\tactive\tsource\tempty")
+                .unwrap();
+
+        assert_eq!(
+            classify_repository(&repository, "Memorithm"),
+            Pilotability::BlockedEmpty
+        );
+    }
+
+    #[test]
+    fn reviews_nonstandard_default_branch() {
+        let repository = parse_repository_line(
+            "Memorithm/ExtremEngine\tagent/initial-engine\tPUBLIC\tactive\tsource\tnon-empty",
+        )
+        .unwrap();
+
+        assert_eq!(
+            classify_repository(&repository, "Memorithm"),
+            Pilotability::ReviewSpecialBranch
+        );
+    }
+
+    #[test]
+    fn never_auto_selects_orchestrator_itself() {
+        let repository = parse_repository_line(
+            "Memorithm/orchestrator\tmain\tPRIVATE\tactive\tsource\tnon-empty",
+        )
+        .unwrap();
+
+        assert_eq!(
+            classify_repository(&repository, "Memorithm"),
+            Pilotability::SelfRepository
+        );
+    }
+
+    #[test]
+    fn reviews_forks_before_autonomous_work() {
+        let repository =
+            parse_repository_line("Memorithm/example\tmain\tPUBLIC\tactive\tfork\tnon-empty")
+                .unwrap();
+
+        assert_eq!(
+            classify_repository(&repository, "Memorithm"),
+            Pilotability::ReviewFork
+        );
     }
 }
