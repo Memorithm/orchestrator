@@ -30,36 +30,53 @@ case "$model" in
     ;;
 esac
 
-# Orchestrator passes its security policy as inline OpenCode config. Ollama's
-# official launcher also uses OPENCODE_CONFIG_CONTENT for the provider/model
-# definition, so preserve our policy as a temporary file and let Ollama own
-# the inline layer. OpenCode deep-merges both configuration sources.
-policy_file="$(mktemp "${TMPDIR:-/tmp}/memorithm-opencode-policy.XXXXXX.json")" || exit 1
-cleanup() {
-  rm -f "$policy_file"
-}
-trap cleanup EXIT INT TERM
-
+# Rust supplies the autonomous permission contract through
+# OPENCODE_CONFIG_CONTENT. Extract only the permission object and pass it via
+# OpenCode's dedicated runtime permission environment variable. This has a
+# stronger boundary than a custom config file, which project-local config can
+# otherwise override later in OpenCode's config precedence chain.
 if [[ -n "${OPENCODE_CONFIG_CONTENT:-}" ]]; then
-  printf '%s' "$OPENCODE_CONFIG_CONTENT" >"$policy_file"
+  permission_json="$(python3 - <<'PY'
+import json
+import os
+
+config = json.loads(os.environ["OPENCODE_CONFIG_CONTENT"])
+print(json.dumps(config.get("permission", {}), separators=(",", ":")))
+PY
+)" || exit 1
 else
-  printf '%s' '{}' >"$policy_file"
+  permission_json='{}'
 fi
 unset OPENCODE_CONFIG_CONTENT
 
+args=("$@")
+last_index=$((${#args[@]} - 1))
+if (( last_index >= 0 )) && [[ "${args[$last_index]}" == *"Task: FIX_CI"* ]]; then
+  args[$last_index]="${args[$last_index]}
+
+CI repair hard requirement:
+- Before concluding that no change is needed, inspect the current failing GitHub checks and workflow job logs.
+- Reproduce the exact failing CI command, including any explicit Rust toolchain such as cargo +X.Y.Z.
+- If the failure is formatting-only, apply formatting with that exact toolchain and leave the resulting changes in the working tree."
+fi
+
 printf '\n===== OLLAMA -> OPENCODE BRIDGE =====\n'
 printf 'model: %s\n' "$model_id"
-printf 'plugins: disabled (--pure)\n'
+printf 'plugins: disabled\n'
+printf 'claude compatibility: disabled\n'
+printf 'permissions: runtime-enforced\n'
 printf 'logs: INFO to stderr\n\n'
 
-# Use Ollama's supported OpenCode integration. --pure prevents unrelated
-# globally-installed OpenCode plugins from entering autonomous runs. Printing
-# INFO logs makes provider/session failures actionable without exposing DEBUG
-# payloads by default.
+# Use Ollama's supported OpenCode integration. Disable default plugins and
+# Claude compatibility sources so global user tooling cannot enter autonomous
+# repository runs. Runtime permissions are supplied independently from
+# project configuration.
 PATH="${ORCHESTRATOR_ORIGINAL_PATH:?ORCHESTRATOR_ORIGINAL_PATH is not set}" \
-OPENCODE_CONFIG="$policy_file" \
+OPENCODE_PERMISSION="$permission_json" \
+OPENCODE_DISABLE_DEFAULT_PLUGINS=1 \
+OPENCODE_DISABLE_CLAUDE_CODE=1 \
 ollama launch opencode --model "$model_id" -- \
-  --pure --print-logs --log-level INFO "$@"
+  --pure --print-logs --log-level INFO "${args[@]}"
 status=$?
 
 exit "$status"
