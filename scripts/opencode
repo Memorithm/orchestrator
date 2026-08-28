@@ -32,9 +32,7 @@ esac
 
 # Rust supplies the autonomous permission contract through
 # OPENCODE_CONFIG_CONTENT. Extract only the permission object and pass it via
-# OpenCode's dedicated runtime permission environment variable. This has a
-# stronger boundary than a custom config file, which project-local config can
-# otherwise override later in OpenCode's config precedence chain.
+# OpenCode's dedicated runtime permission environment variable.
 if [[ -n "${OPENCODE_CONFIG_CONTENT:-}" ]]; then
   permission_json="$(python3 - <<'PY'
 import json
@@ -57,19 +55,20 @@ if (( last_index >= 0 )) && [[ "${args[$last_index]}" == *"Task: FIX_CI"* ]]; th
   args[$last_index]="${args[$last_index]}
 
 CI repair hard requirement:
-- Before concluding that no change is needed, inspect the current failing GitHub checks and workflow job logs.
-- Reproduce the exact failing CI command, including any explicit Rust toolchain such as cargo +X.Y.Z.
-- If the failure is formatting-only, apply formatting with that exact toolchain and leave the resulting changes in the working tree."
+- Inspect the current failing GitHub checks and workflow job logs.
+- Reproduce the exact failing CI commands, including explicit Rust toolchains.
+- Preserve any deterministic repair already left in the working tree.
+- Continue until the reproduced local CI gates pass, or leave the narrowest safe partial fix with a precise blocker."
 fi
 
 deterministic_changes=0
+followup_failure_log=""
 
-# Deterministic repair comes before probabilistic repair. For a Rust CI-fix
-# task, reproduce the formatter gate with the Orchestrator cargo wrapper. The
-# wrapper mirrors an explicitly pinned `cargo +X.Y.Z fmt` from GitHub
-# workflows. If the check fails but formatting succeeds and changes files,
-# leave those edits in the worktree for Orchestrator's normal validation,
-# commit and push path.
+# Deterministic repair comes before probabilistic repair. For Rust CI-fix
+# tasks, reproduce rustfmt with the repository CI toolchain selected by the
+# Orchestrator cargo wrapper. If rustfmt changes tracked files, immediately
+# exercise the standard Rust CI gates. A clean deterministic repair skips the
+# LLM; a second failure is passed verbatim to the LLM in the same cycle.
 if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
   printf '\n===== DETERMINISTIC CI PREFLIGHT =====\n'
   printf 'checking Rust formatting with repository CI toolchain policy\n'
@@ -94,14 +93,38 @@ if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
   rm -f "$fmt_log"
 fi
 
-# A deterministic formatter repair is sufficient for this cycle. Returning
-# success lets the Rust orchestrator run its normal sensitive-path checks,
-# full validation, commit and push logic. If the next CI attempt reveals a
-# second failure, a later cycle will handle it with fresh evidence.
 if (( deterministic_changes == 1 )); then
-  printf '\n===== DETERMINISTIC REPAIR COMPLETE =====\n'
-  printf 'LLM skipped: CI-matched rustfmt produced the repair for this cycle.\n'
-  exit 0
+  printf '\n===== DETERMINISTIC FOLLOW-UP VALIDATION =====\n'
+  validation_log="$(mktemp "${TMPDIR:-/tmp}/memorithm-ci-followup.XXXXXX.log")" || exit 1
+  validation_failed=0
+
+  if ! cargo check --workspace >"$validation_log" 2>&1; then
+    validation_failed=1
+  elif ! cargo clippy --workspace --all-targets -- -D warnings >"$validation_log" 2>&1; then
+    validation_failed=1
+  elif [[ "${ORCHESTRATOR_FULL_VALIDATION:-0}" == "1" ]] && ! cargo test --workspace >"$validation_log" 2>&1; then
+    validation_failed=1
+  fi
+
+  if (( validation_failed == 0 )); then
+    rm -f "$validation_log"
+    printf 'deterministic repair passes local Rust CI gates\n'
+    printf '\n===== DETERMINISTIC REPAIR COMPLETE =====\n'
+    printf 'LLM skipped: deterministic repair is sufficient for this cycle.\n'
+    exit 0
+  fi
+
+  printf 'deterministic repair exposed an additional CI failure\n'
+  cat "$validation_log"
+  followup_failure_log="$(tail -c 16000 "$validation_log")"
+  rm -f "$validation_log"
+
+  args[$last_index]="${args[$last_index]}
+
+Orchestrator deterministic preflight already applied CI-matched rustfmt and then reproduced the next failing Rust CI gate. Keep the existing formatting diff unless it is demonstrably wrong. Repair this additional failure without unrelated refactoring.
+
+Reproduced local CI failure (tail, up to 16000 bytes):
+${followup_failure_log}"
 fi
 
 printf '\n===== OLLAMA -> OPENCODE BRIDGE =====\n'
@@ -112,10 +135,9 @@ printf 'permissions: runtime-enforced\n'
 printf 'agent cargo bridge: enabled\n'
 printf 'logs: INFO to stderr\n\n'
 
-# Use Ollama's supported OpenCode integration. The agent PATH contains only
-# Orchestrator's cargo wrapper plus the original host PATH, so cargo commands
-# continue to mirror CI-pinned rustfmt while `opencode` resolves to the real
-# binary and cannot recurse into this wrapper.
+# The agent PATH contains only Orchestrator's cargo wrapper plus the original
+# host PATH, so cargo commands continue to mirror CI-pinned rustfmt while
+# `opencode` resolves to the real binary and cannot recurse into this wrapper.
 PATH="${ORCHESTRATOR_AGENT_PATH:?ORCHESTRATOR_AGENT_PATH is not set}" \
 OPENCODE_PERMISSION="$permission_json" \
 OPENCODE_DISABLE_DEFAULT_PLUGINS=1 \
