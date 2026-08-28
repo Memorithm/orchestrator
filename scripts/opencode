@@ -51,7 +51,9 @@ unset OPENCODE_CONFIG_CONTENT
 
 args=("$@")
 last_index=$((${#args[@]} - 1))
+is_ci_fix=0
 if (( last_index >= 0 )) && [[ "${args[$last_index]}" == *"Task: FIX_CI"* ]]; then
+  is_ci_fix=1
   args[$last_index]="${args[$last_index]}
 
 CI repair hard requirement:
@@ -60,17 +62,50 @@ CI repair hard requirement:
 - If the failure is formatting-only, apply formatting with that exact toolchain and leave the resulting changes in the working tree."
 fi
 
+# Deterministic repair comes before probabilistic repair. For a Rust CI-fix
+# task, reproduce the formatter gate with the Orchestrator cargo wrapper. The
+# wrapper mirrors an explicitly pinned `cargo +X.Y.Z fmt` from GitHub
+# workflows. If the check fails but formatting succeeds and changes files,
+# leave those edits in the worktree for Orchestrator's normal validation,
+# commit and push path. The LLM still runs afterwards so it can inspect the
+# failure and make additional changes if formatting was not sufficient.
+if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
+  printf '\n===== DETERMINISTIC CI PREFLIGHT =====\n'
+  printf 'checking Rust formatting with repository CI toolchain policy\n'
+  fmt_log="$(mktemp "${TMPDIR:-/tmp}/memorithm-rustfmt-check.XXXXXX.log")" || exit 1
+  if cargo fmt --all -- --check >"$fmt_log" 2>&1; then
+    printf 'rustfmt check: PASS\n'
+  else
+    printf 'rustfmt check: FAIL\n'
+    cat "$fmt_log"
+    printf '\napplying deterministic rustfmt repair\n'
+    if cargo fmt --all; then
+      if git diff --quiet -- .; then
+        printf 'rustfmt repair produced no tracked changes\n'
+      else
+        printf 'rustfmt repair produced working-tree changes\n'
+        args[$last_index]="${args[$last_index]}
+
+Orchestrator deterministic preflight already applied the repository's CI-matched Rust formatter and left its changes in the working tree. Inspect that diff first. Keep it if correct; do not revert deterministic formatting merely to match a newer local rustfmt."
+      fi
+    else
+      printf 'deterministic rustfmt repair could not be applied; delegating to agent\n' >&2
+    fi
+  fi
+  rm -f "$fmt_log"
+fi
+
 printf '\n===== OLLAMA -> OPENCODE BRIDGE =====\n'
 printf 'model: %s\n' "$model_id"
-printf 'plugins: disabled\n'
+printf 'default plugins: disable requested\n'
 printf 'claude compatibility: disabled\n'
 printf 'permissions: runtime-enforced\n'
 printf 'logs: INFO to stderr\n\n'
 
 # Use Ollama's supported OpenCode integration. Disable default plugins and
-# Claude compatibility sources so global user tooling cannot enter autonomous
-# repository runs. Runtime permissions are supplied independently from
-# project configuration.
+# Claude compatibility sources so global user tooling is minimized during
+# autonomous repository runs. Runtime permissions are supplied independently
+# from project configuration.
 PATH="${ORCHESTRATOR_ORIGINAL_PATH:?ORCHESTRATOR_ORIGINAL_PATH is not set}" \
 OPENCODE_PERMISSION="$permission_json" \
 OPENCODE_DISABLE_DEFAULT_PLUGINS=1 \
