@@ -100,13 +100,14 @@ printf 'model: %s\n' "$model_id"
 printf 'default plugins: disable requested\n'
 printf 'claude compatibility: disabled\n'
 printf 'permissions: runtime-enforced\n'
+printf 'agent cargo bridge: enabled\n'
 printf 'logs: INFO to stderr\n\n'
 
-# Use Ollama's supported OpenCode integration. Disable default plugins and
-# Claude compatibility sources so global user tooling is minimized during
-# autonomous repository runs. Runtime permissions are supplied independently
-# from project configuration.
-PATH="${ORCHESTRATOR_ORIGINAL_PATH:?ORCHESTRATOR_ORIGINAL_PATH is not set}" \
+# Use Ollama's supported OpenCode integration. The agent PATH contains only
+# Orchestrator's cargo wrapper plus the original host PATH, so cargo commands
+# continue to mirror CI-pinned rustfmt while `opencode` resolves to the real
+# binary and cannot recurse into this wrapper.
+PATH="${ORCHESTRATOR_AGENT_PATH:?ORCHESTRATOR_AGENT_PATH is not set}" \
 OPENCODE_PERMISSION="$permission_json" \
 OPENCODE_DISABLE_DEFAULT_PLUGINS=1 \
 OPENCODE_DISABLE_CLAUDE_CODE=1 \
