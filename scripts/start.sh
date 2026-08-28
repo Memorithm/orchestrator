@@ -17,15 +17,23 @@ if [[ -z "$REAL_OPENCODE" ]]; then
   exit 1
 fi
 
-# The Rust runtime intentionally calls a command named `opencode`. Put a
-# private wrapper first in PATH so autonomous runs go through Ollama's
-# supported integration while ordinary OpenCode commands still reach the
-# original binary. The generated executable lives under target/ only.
+REAL_CARGO="$(command -v cargo)"
+if [[ -z "$REAL_CARGO" ]]; then
+  printf 'ERROR: cargo is not installed or not on PATH\n' >&2
+  exit 1
+fi
+
+# Put private runtime wrappers first in PATH. OpenCode is bridged through
+# Ollama with runtime-enforced permissions. Cargo mirrors an explicitly
+# pinned GitHub CI formatter toolchain when one is declared by the target
+# repository. Generated executables live under target/ only.
 WRAPPER_DIR="$ROOT/target/orchestrator-bin"
 mkdir -p "$WRAPPER_DIR"
 install -m 700 "$ROOT/scripts/opencode" "$WRAPPER_DIR/opencode"
+install -m 700 "$ROOT/scripts/cargo" "$WRAPPER_DIR/cargo"
 
 export ORCHESTRATOR_REAL_OPENCODE="$REAL_OPENCODE"
+export ORCHESTRATOR_REAL_CARGO="$REAL_CARGO"
 export ORCHESTRATOR_ORIGINAL_PATH="$PATH"
 export PATH="$WRAPPER_DIR:$PATH"
 
@@ -41,6 +49,7 @@ printf 'model=%s\n' "$ORCHESTRATOR_MODEL"
 printf 'interval=%ss\n' "$ORCHESTRATOR_INTERVAL_SECS"
 printf 'auto_merge=%s\n' "$ORCHESTRATOR_AUTO_MERGE"
 printf 'full_validation=%s\n' "$ORCHESTRATOR_FULL_VALIDATION"
-printf 'opencode_bridge=ollama-launch+pure\n\n'
+printf 'opencode_bridge=ollama-launch+runtime-permissions\n'
+printf 'cargo_bridge=ci-pinned-rustfmt\n\n'
 
 exec ./target/release/orchestrator run "$ORGANIZATION"
