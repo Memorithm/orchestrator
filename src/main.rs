@@ -125,6 +125,7 @@ struct PullRequest {
     number: u64,
     title: String,
     draft: bool,
+    author: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -160,6 +161,7 @@ enum WorkKind {
     FixCi,
     PullRequest,
     Issue,
+    ExternalPr,
     WaitCi,
     UnknownCi,
 }
@@ -170,6 +172,7 @@ impl WorkKind {
             Self::FixCi => "FIX_CI",
             Self::PullRequest => "PR_ATTENTION",
             Self::Issue => "ISSUE",
+            Self::ExternalPr => "EXTERNAL_PR",
             Self::WaitCi => "WAIT_CI",
             Self::UnknownCi => "UNKNOWN_CI",
         }
@@ -184,6 +187,7 @@ impl WorkKind {
             Self::FixCi => 0,
             Self::PullRequest => 1,
             Self::Issue => 2,
+            Self::ExternalPr => 249,
             Self::WaitCi => 250,
             Self::UnknownCi => 251,
         }
@@ -359,11 +363,9 @@ fn check_model_available(model: &str) -> bool {
     let Some(local_name) = model.strip_prefix("ollama/") else {
         return false;
     };
-
     let Ok(output) = Command::new("ollama").arg("list").output() else {
         return false;
     };
-
     if !output.status.success() {
         return false;
     }
@@ -381,10 +383,8 @@ fn doctor() -> ExitCode {
     println!();
 
     let mut failure = false;
-
     for tool in TOOLS {
         let available = command_available(tool.name);
-
         if available {
             print!("OK       ");
             print_version(tool.name);
@@ -399,21 +399,18 @@ fn doctor() -> ExitCode {
     println!();
     println!("Runtime checks");
     println!("--------------");
-
     if check_github_auth() {
         println!("OK       GitHub CLI authenticated");
     } else {
         println!("FAILED   GitHub CLI authentication");
         failure = true;
     }
-
     if check_gh_pr_checks_json() {
         println!("OK       gh pr checks JSON support");
     } else {
         println!("FAILED   gh pr checks lacks --json support");
         failure = true;
     }
-
     if check_ollama() {
         println!("OK       Ollama server reachable");
     } else {
@@ -446,7 +443,6 @@ fn doctor() -> ExitCode {
 
 fn parse_repository_line(line: &str) -> Result<Repository, String> {
     let fields: Vec<&str> = line.split('\t').collect();
-
     if fields.len() != 6 {
         return Err(format!(
             "expected 6 tab-separated fields, got {}: {line}",
@@ -458,19 +454,16 @@ fn parse_repository_line(line: &str) -> Result<Repository, String> {
         "-" | "" => None,
         branch => Some(branch.to_owned()),
     };
-
     let archived = match fields[3] {
         "active" => false,
         "archived" => true,
         other => return Err(format!("unknown repository state: {other}")),
     };
-
     let fork = match fields[4] {
         "source" => false,
         "fork" => true,
         other => return Err(format!("unknown repository origin: {other}")),
     };
-
     let empty = match fields[5] {
         "non-empty" => false,
         "empty" => true,
@@ -511,7 +504,6 @@ fn discover_repositories(organization: &str) -> Result<Vec<Repository>, String> 
         ])
         .output()
         .map_err(|error| format!("failed to execute gh: {error}"))?;
-
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
         return Err(format!("gh repo list failed: {}", stderr.trim()));
@@ -519,20 +511,17 @@ fn discover_repositories(organization: &str) -> Result<Vec<Repository>, String> 
 
     let stdout = String::from_utf8(output.stdout)
         .map_err(|error| format!("invalid UTF-8 from gh: {error}"))?;
-
     let mut repositories = stdout
         .lines()
         .filter(|line| !line.trim().is_empty())
         .map(parse_repository_line)
         .collect::<Result<Vec<_>, _>>()?;
-
     repositories.sort_by(|left, right| left.name_with_owner.cmp(&right.name_with_owner));
     Ok(repositories)
 }
 
 fn classify_repository(repository: &Repository, organization: &str) -> Pilotability {
     let orchestrator_name = format!("{organization}/orchestrator");
-
     if repository.name_with_owner == orchestrator_name {
         return Pilotability::SelfRepository;
     }
@@ -571,7 +560,6 @@ fn scan(organization: &str) -> ExitCode {
     println!("{}", "-".repeat(145));
 
     let mut counts = BTreeMap::<&'static str, usize>::new();
-
     for repository in &repositories {
         *counts
             .entry(if repository.archived { "archived" } else { "active" })
@@ -592,7 +580,6 @@ fn scan(organization: &str) -> ExitCode {
 
         let pilotability = classify_repository(repository, organization);
         *counts.entry(pilotability.as_str()).or_default() += 1;
-
         println!(
             "{:<48} {:<32} {:<10} {:<9} {:<8} {}",
             repository.name_with_owner,
@@ -627,15 +614,14 @@ fn scan(organization: &str) -> ExitCode {
     ] {
         println!("{state:<23}: {}", counts.get(state).copied().unwrap_or(0));
     }
-
     ExitCode::SUCCESS
 }
 
 fn parse_pull_request_line(line: &str) -> Result<PullRequest, String> {
-    let fields = line.splitn(4, '\t').collect::<Vec<_>>();
-    if fields.len() != 4 {
+    let fields = line.splitn(5, '\t').collect::<Vec<_>>();
+    if fields.len() != 5 {
         return Err(format!(
-            "expected 4 tab-separated PR fields, got {}: {line}",
+            "expected 5 tab-separated PR fields, got {}: {line}",
             fields.len()
         ));
     }
@@ -652,8 +638,9 @@ fn parse_pull_request_line(line: &str) -> Result<PullRequest, String> {
     Ok(PullRequest {
         repository: fields[0].to_owned(),
         number,
-        title: fields[3].to_owned(),
         draft,
+        author: fields[3].to_owned(),
+        title: fields[4].to_owned(),
     })
 }
 
@@ -669,7 +656,6 @@ fn parse_issue_line(line: &str) -> Result<Issue, String> {
     let number = fields[1]
         .parse::<u64>()
         .map_err(|error| format!("invalid issue number {}: {error}", fields[1]))?;
-
     Ok(Issue {
         repository: fields[0].to_owned(),
         number,
@@ -682,6 +668,7 @@ fn discover_open_pull_requests(organization: &str) -> Result<Vec<PullRequest>, S
         .repository.nameWithOwner,
         (.number | tostring),
         (if .isDraft then "draft" else "ready" end),
+        (.author.login // "-"),
         .title
     ] | @tsv"#;
 
@@ -696,13 +683,12 @@ fn discover_open_pull_requests(organization: &str) -> Result<Vec<PullRequest>, S
             "--limit",
             "1000",
             "--json",
-            "repository,number,title,isDraft",
+            "repository,number,title,isDraft,author",
             "--jq",
             jq,
         ])
         .output()
         .map_err(|error| format!("failed to execute gh search prs: {error}"))?;
-
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
         return Err(format!("gh search prs failed: {}", stderr.trim()));
@@ -710,13 +696,11 @@ fn discover_open_pull_requests(organization: &str) -> Result<Vec<PullRequest>, S
 
     let stdout = String::from_utf8(output.stdout)
         .map_err(|error| format!("invalid UTF-8 from gh search prs: {error}"))?;
-
     let mut pull_requests = stdout
         .lines()
         .filter(|line| !line.trim().is_empty())
         .map(parse_pull_request_line)
         .collect::<Result<Vec<_>, _>>()?;
-
     pull_requests.sort_by(|left, right| {
         left.repository
             .cmp(&right.repository)
@@ -749,7 +733,6 @@ fn discover_open_issues(organization: &str) -> Result<Vec<Issue>, String> {
         ])
         .output()
         .map_err(|error| format!("failed to execute gh search issues: {error}"))?;
-
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
         return Err(format!("gh search issues failed: {}", stderr.trim()));
@@ -757,13 +740,11 @@ fn discover_open_issues(organization: &str) -> Result<Vec<Issue>, String> {
 
     let stdout = String::from_utf8(output.stdout)
         .map_err(|error| format!("invalid UTF-8 from gh search issues: {error}"))?;
-
     let mut issues = stdout
         .lines()
         .filter(|line| !line.trim().is_empty())
         .map(parse_issue_line)
         .collect::<Result<Vec<_>, _>>()?;
-
     issues.sort_by(|left, right| {
         left.repository
             .cmp(&right.repository)
@@ -781,7 +762,6 @@ fn summarize_ci_buckets(output: &str) -> CiState {
     let mut pending = false;
     let mut passed = false;
     let mut unknown = false;
-
     for line in output.lines().filter(|line| !line.trim().is_empty()) {
         let bucket = line.split('\t').next().unwrap_or_default();
         match bucket {
@@ -808,11 +788,11 @@ fn summarize_ci_buckets(output: &str) -> CiState {
 fn pull_request_ci_state(pull_request: &PullRequest) -> Result<CiState, String> {
     let number = pull_request.number.to_string();
     let jq = r#".[] | [.bucket, .state, .name] | @tsv"#;
-
     let output = Command::new("gh")
         .args(["pr", "checks"])
         .arg(&number)
-        .args(["--repo", &pull_request.repository])
+        .arg("--repo")
+        .arg(&pull_request.repository)
         .args(["--json", "name,state,bucket", "--jq", jq])
         .output()
         .map_err(|error| {
@@ -850,6 +830,10 @@ fn work_kind_for_ci(state: CiState) -> WorkKind {
     }
 }
 
+fn authenticated_github_login() -> Result<String, String> {
+    capture("gh", &["api", "user", "--jq", ".login"])
+}
+
 fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
     let repositories = discover_repositories(organization)?;
     let eligible = repositories
@@ -860,6 +844,7 @@ fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
         .map(|repository| repository.name_with_owner.clone())
         .collect::<BTreeSet<_>>();
 
+    let trusted_login = authenticated_github_login()?;
     let pull_requests = discover_open_pull_requests(organization)?;
     let issues = discover_open_issues(organization)?;
     let mut items = Vec::new();
@@ -870,9 +855,22 @@ fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
         .filter(|pull_request| eligible.contains(&pull_request.repository))
     {
         repositories_with_open_pr.insert(pull_request.repository.clone());
+
+        if pull_request.author != trusted_login {
+            items.push(WorkItem {
+                kind: WorkKind::ExternalPr,
+                repository: pull_request.repository.clone(),
+                number: pull_request.number,
+                title: pull_request.title.clone(),
+                detail: format!("untrusted author={}", pull_request.author),
+                ci_state: None,
+                draft: pull_request.draft,
+            });
+            continue;
+        }
+
         let ci_state = pull_request_ci_state(pull_request)?;
         let kind = work_kind_for_ci(ci_state);
-
         items.push(WorkItem {
             kind,
             repository: pull_request.repository.clone(),
@@ -967,6 +965,11 @@ fn print_triage(snapshot: &TriageSnapshot, organization: &str) {
         .iter()
         .filter(|item| item.kind == WorkKind::UnknownCi)
         .count();
+    let external = snapshot
+        .items
+        .iter()
+        .filter(|item| item.kind == WorkKind::ExternalPr)
+        .count();
 
     println!();
     println!("Safety");
@@ -978,6 +981,7 @@ fn print_triage(snapshot: &TriageSnapshot, organization: &str) {
     );
     println!("Waiting on CI               : {waiting}");
     println!("Unknown CI state            : {unknown}");
+    println!("External/untrusted PR       : {external}");
 }
 
 fn triage(organization: &str) -> ExitCode {
@@ -1078,13 +1082,11 @@ fn acquire_instance_lock(data_root: &Path) -> Result<InstanceLock, String> {
                     .ok()
                     .and_then(|value| value.trim().parse::<u32>().ok())
                     .is_some_and(|pid| !process_is_alive(pid));
-
                 if stale {
                     fs::remove_file(&path)
                         .map_err(|error| format!("failed to remove stale lock: {error}"))?;
                     continue;
                 }
-
                 return Err(format!(
                     "another orchestrator instance appears active (lock: {})",
                     path.display()
@@ -1123,7 +1125,6 @@ fn ensure_clone(config: &RunConfig, repository: &str) -> Result<PathBuf, String>
             workspace.display()
         ));
     }
-
     if let Some(parent) = workspace.parent() {
         fs::create_dir_all(parent)
             .map_err(|error| format!("failed to create {}: {error}", parent.display()))?;
@@ -1132,13 +1133,12 @@ fn ensure_clone(config: &RunConfig, repository: &str) -> Result<PathBuf, String>
     let destination = workspace.to_string_lossy().into_owned();
     println!("Cloning {repository} into {}", workspace.display());
     let status = Command::new("gh")
-        .args(["repo", "clone", repository, &destination])
+        .args(["repo", "clone", repository, destination.as_str()])
         .status()
         .map_err(|error| format!("failed to execute gh repo clone: {error}"))?;
     if !status.success() {
         return Err(format!("gh repo clone failed for {repository}"));
     }
-
     Ok(workspace)
 }
 
@@ -1218,7 +1218,6 @@ fn prepare_pr_workspace(
     if !status.success() {
         return Err(format!("gh pr checkout failed for {repository}#{pr_number}"));
     }
-
     Ok(workspace)
 }
 
@@ -1229,7 +1228,6 @@ fn github_body(item: &WorkItem) -> Result<String, String> {
     } else {
         "pr"
     };
-
     capture(
         "gh",
         &[
@@ -1237,7 +1235,7 @@ fn github_body(item: &WorkItem) -> Result<String, String> {
             "view",
             number.as_str(),
             "--repo",
-            &item.repository,
+            item.repository.as_str(),
             "--json",
             "body",
             "--jq",
@@ -1266,7 +1264,10 @@ fn agent_prompt(item: &WorkItem, body: &str) -> String {
             "Implement one small, coherent, reviewable next slice of issue #{}. If the issue is broad, do not attempt the entire roadmap in one change; choose the earliest unfinished deliverable explicitly supported by the issue.",
             item.number
         ),
-        _ => format!("Inspect pull request #{} and make only changes required for correctness.", item.number),
+        _ => format!(
+            "Inspect pull request #{} and make only changes required for correctness.",
+            item.number
+        ),
     };
 
     format!(
@@ -1290,10 +1291,11 @@ fn run_agent(config: &RunConfig, workspace: &Path, prompt: &str) -> Result<(), S
         .current_dir(workspace)
         .env("OPENCODE_CONFIG_CONTENT", OPENCODE_INLINE_CONFIG)
         .env("OPENCODE_DISABLE_AUTOUPDATE", "1")
-        .args(["run", "--auto", "--model", &config.model, prompt])
+        .args(["run", "--auto", "--model"])
+        .arg(&config.model)
+        .arg(prompt)
         .status()
         .map_err(|error| format!("failed to execute opencode: {error}"))?;
-
     if status.success() {
         Ok(())
     } else {
@@ -1336,7 +1338,6 @@ fn validate_workspace(config: &RunConfig, workspace: &Path) -> Result<(), String
     println!();
     println!("===== ORCHESTRATOR VALIDATION =====");
     run_in_dir(workspace, "git", &["diff", "--check"])?;
-
     if workspace.join("Cargo.toml").is_file() {
         run_in_dir(workspace, "cargo", &["fmt", "--all", "--", "--check"])?;
         run_in_dir(workspace, "cargo", &["check", "--workspace"])?;
@@ -1344,7 +1345,6 @@ fn validate_workspace(config: &RunConfig, workspace: &Path) -> Result<(), String
             run_in_dir(workspace, "cargo", &["test", "--workspace"])?;
         }
     }
-
     Ok(())
 }
 
@@ -1427,24 +1427,19 @@ fn execute_issue(
     println!("Creating draft PR for {branch}");
     let status = Command::new("gh")
         .current_dir(&workspace)
-        .args([
-            "pr",
-            "create",
-            "--repo",
-            &item.repository,
-            "--base",
-            default_branch,
-            "--head",
-            branch.as_str(),
-            "--draft",
-            "--title",
-            title.as_str(),
-            "--body",
-            pr_body.as_str(),
-        ])
+        .args(["pr", "create", "--repo"])
+        .arg(&item.repository)
+        .arg("--base")
+        .arg(default_branch)
+        .arg("--head")
+        .arg(&branch)
+        .arg("--draft")
+        .arg("--title")
+        .arg(&title)
+        .arg("--body")
+        .arg(&pr_body)
         .status()
         .map_err(|error| format!("failed to execute gh pr create: {error}"))?;
-
     if status.success() {
         Ok(())
     } else {
@@ -1506,7 +1501,6 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), String
         );
         return Ok(());
     }
-
     if !matches!(ci_state, CiState::Passing | CiState::NoChecks) {
         return Err(format!(
             "refusing merge for {}#{} with CI state {}",
@@ -1518,38 +1512,40 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), String
 
     let number = item.number.to_string();
     let head_sha = pr_head_sha(&item.repository, item.number)?;
-
     if item.draft {
         println!("Marking {}#{} ready for review", item.repository, item.number);
         let status = Command::new("gh")
-            .args(["pr", "ready", number.as_str(), "--repo", &item.repository])
+            .args(["pr", "ready"])
+            .arg(&number)
+            .arg("--repo")
+            .arg(&item.repository)
             .status()
             .map_err(|error| format!("failed to execute gh pr ready: {error}"))?;
         if !status.success() {
-            return Err(format!("gh pr ready failed for {}#{}", item.repository, item.number));
+            return Err(format!(
+                "gh pr ready failed for {}#{}",
+                item.repository, item.number
+            ));
         }
     }
 
     println!("Merging {}#{} after validated green state", item.repository, item.number);
     let status = Command::new("gh")
-        .args([
-            "pr",
-            "merge",
-            number.as_str(),
-            "--repo",
-            &item.repository,
-            "--squash",
-            "--delete-branch",
-            "--match-head-commit",
-            head_sha.as_str(),
-        ])
+        .args(["pr", "merge"])
+        .arg(&number)
+        .arg("--repo")
+        .arg(&item.repository)
+        .args(["--squash", "--match-head-commit"])
+        .arg(&head_sha)
         .status()
         .map_err(|error| format!("failed to execute gh pr merge: {error}"))?;
-
     if status.success() {
         Ok(())
     } else {
-        Err(format!("gh pr merge failed for {}#{}", item.repository, item.number))
+        Err(format!(
+            "gh pr merge failed for {}#{}",
+            item.repository, item.number
+        ))
     }
 }
 
@@ -1594,7 +1590,7 @@ fn execute_selected(config: &RunConfig, snapshot: &TriageSnapshot) -> Result<(),
         WorkKind::FixCi => execute_ci_fix(config, item),
         WorkKind::PullRequest => handle_pr_attention(config, item),
         WorkKind::Issue => execute_issue(config, &snapshot.repositories, item),
-        WorkKind::WaitCi | WorkKind::UnknownCi => Ok(()),
+        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => Ok(()),
     }
 }
 
@@ -1620,7 +1616,14 @@ fn run_loop(config: RunConfig) -> ExitCode {
     println!("interval         : {}s", config.interval.as_secs());
     println!("auto merge       : {}", config.auto_merge);
     println!("full validation  : {}", config.full_validation);
-    println!("max cycles       : {}", if config.max_cycles == 0 { "unlimited".to_owned() } else { config.max_cycles.to_string() });
+    println!(
+        "max cycles       : {}",
+        if config.max_cycles == 0 {
+            "unlimited".to_owned()
+        } else {
+            config.max_cycles.to_string()
+        }
+    );
     println!("paid LLM APIs    : DISABLED");
 
     let mut cycle = 0_u64;
@@ -1628,7 +1631,6 @@ fn run_loop(config: RunConfig) -> ExitCode {
         cycle += 1;
         println!();
         println!("================ CYCLE {cycle} ================");
-
         match build_triage(&config.organization) {
             Ok(snapshot) => {
                 print_triage(&snapshot, &config.organization);
@@ -1643,14 +1645,12 @@ fn run_loop(config: RunConfig) -> ExitCode {
             println!("Reached configured cycle limit.");
             break;
         }
-
         println!(
             "Sleeping {} seconds before the next GitHub scan...",
             config.interval.as_secs()
         );
         thread::sleep(config.interval);
     }
-
     ExitCode::SUCCESS
 }
 
@@ -1670,7 +1670,6 @@ fn organization_arg(args: &mut impl Iterator<Item = String>) -> String {
 fn main() -> ExitCode {
     let mut args = env::args();
     let program = args.next().unwrap_or_else(|| "orchestrator".to_owned());
-
     match args.next().as_deref() {
         Some("doctor") => doctor(),
         Some("scan") => scan(&organization_arg(&mut args)),
@@ -1767,14 +1766,20 @@ mod tests {
     #[test]
     fn parses_pull_request_and_issue() {
         let pull_request = parse_pull_request_line(
-            "Memorithm/ADA\t33\tdraft\tci: extend verification ladder",
+            "Memorithm/ADA\t33\tdraft\tCHECKUPAUTO\tci: extend verification ladder",
         )
         .unwrap();
         assert_eq!(pull_request.number, 33);
         assert!(pull_request.draft);
+        assert_eq!(pull_request.author, "CHECKUPAUTO");
 
         let issue = parse_issue_line("Memorithm/TDI\t57\tTDI-AI bridge").unwrap();
         assert_eq!(issue.number, 57);
+    }
+
+    #[test]
+    fn external_pr_is_not_actionable() {
+        assert!(!WorkKind::ExternalPr.actionable());
     }
 
     #[test]
