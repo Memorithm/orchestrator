@@ -30,15 +30,17 @@ orchestrator run-once [organization]
 3. open issues in repositories without an open PR;
 4. pending CI and unknown CI states are non-actionable.
 
+Open PRs whose author does not match the currently authenticated GitHub account are classified `EXTERNAL_PR`: they block new issue work in that repository but are never repaired or merged automatically.
+
 `run` continuously repeats triage and executes one actionable unit per cycle.
 
 ## Autonomous workflow
 
-For a failing PR, Orchestrator checks out the existing PR branch, launches the local coding worker, validates the resulting working tree, commits, and pushes without force.
+For a failing trusted PR, Orchestrator checks out the existing PR branch, launches the local coding worker, validates the resulting working tree, commits, and pushes without force.
 
 For an issue, Orchestrator creates a dedicated branch from the repository default branch, asks the agent for one small reviewable slice, validates it, commits, pushes, and opens a draft PR. The PR deliberately does not auto-close broad research issues.
 
-For a green PR, optional automatic merge is available through `ORCHESTRATOR_AUTO_MERGE=1`. The merge uses the observed PR head SHA and does not use admin bypass.
+For a trusted green PR, optional automatic merge is available through `ORCHESTRATOR_AUTO_MERGE=1`. The merge uses the observed PR head SHA, uses squash merge, and does not use admin bypass or force push.
 
 ## OpenCode containment
 
