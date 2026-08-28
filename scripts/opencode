@@ -40,7 +40,11 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-printf '%s' "${OPENCODE_CONFIG_CONTENT:-{}}" >"$policy_file"
+if [[ -n "${OPENCODE_CONFIG_CONTENT:-}" ]]; then
+  printf '%s' "$OPENCODE_CONFIG_CONTENT" >"$policy_file"
+else
+  printf '%s' '{}' >"$policy_file"
+fi
 unset OPENCODE_CONFIG_CONTENT
 
 printf '\n===== OLLAMA -> OPENCODE BRIDGE =====\n'
