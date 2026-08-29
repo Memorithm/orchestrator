@@ -39,30 +39,50 @@ if [[ -z "$REAL_GH" ]]; then
   exit 1
 fi
 
+# Preserve the authenticated GitHub CLI configuration before the coding agent
+# receives an isolated HOME/XDG tree. The agent can only reach gh through the
+# read-only bridge installed below.
+REAL_GH_CONFIG_DIR="${GH_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/gh}"
+
 # Runtime wrappers used by Orchestrator itself. Git protects validated pushes
 # from non-fast-forward races. gh stages the current PR base before validation
 # so a stale branch cannot make Qwen repair code already fixed on the base.
-# Neither wrapper is exposed to the local coding agent.
 WRAPPER_DIR="$ROOT/target/orchestrator-bin"
 mkdir -p "$WRAPPER_DIR"
-install -m 700 "$ROOT/scripts/opencode" "$WRAPPER_DIR/opencode"
+install -m 700 "$ROOT/scripts/opencode-env" "$WRAPPER_DIR/opencode"
+install -m 700 "$ROOT/scripts/opencode" "$WRAPPER_DIR/opencode-core"
 install -m 700 "$ROOT/scripts/cargo" "$WRAPPER_DIR/cargo"
 install -m 700 "$ROOT/scripts/git" "$WRAPPER_DIR/git"
 install -m 700 "$ROOT/scripts/gh" "$WRAPPER_DIR/gh"
 
-# Agent PATH intentionally contains only the cargo wrapper. This lets
-# OpenCode and commands it launches reproduce CI-pinned Rust formatting while
-# ensuring Ollama resolves the real OpenCode binary instead of recursively
-# entering Orchestrator's opencode wrapper. Git and gh remain the real system
-# binaries under the agent's existing restrictive OpenCode permission contract.
+# The coding worker receives only explicitly managed command bridges. Cargo
+# mirrors repository CI formatting policy; Git and GitHub are technically
+# read-only even if an agent prompt is ignored or a plugin attempts mutation.
 AGENT_WRAPPER_DIR="$ROOT/target/orchestrator-agent-bin"
-mkdir -p "$AGENT_WRAPPER_DIR"
+AGENT_HOME="${ORCHESTRATOR_AGENT_HOME:-$ROOT/target/orchestrator-agent-home}"
+AGENT_CONFIG_DIR="$AGENT_HOME/.config"
+AGENT_DATA_DIR="$AGENT_HOME/.local/share"
+AGENT_CACHE_DIR="$AGENT_HOME/.cache"
+mkdir -p \
+  "$AGENT_WRAPPER_DIR" \
+  "$AGENT_HOME" \
+  "$AGENT_CONFIG_DIR" \
+  "$AGENT_DATA_DIR" \
+  "$AGENT_CACHE_DIR"
 install -m 700 "$ROOT/scripts/cargo" "$AGENT_WRAPPER_DIR/cargo"
+install -m 700 "$ROOT/scripts/agent-git" "$AGENT_WRAPPER_DIR/git"
+install -m 700 "$ROOT/scripts/agent-gh" "$AGENT_WRAPPER_DIR/gh"
 
 export ORCHESTRATOR_REAL_OPENCODE="$REAL_OPENCODE"
 export ORCHESTRATOR_REAL_CARGO="$REAL_CARGO"
 export ORCHESTRATOR_REAL_GIT="$REAL_GIT"
 export ORCHESTRATOR_REAL_GH="$REAL_GH"
+export ORCHESTRATOR_GH_CONFIG_DIR="$REAL_GH_CONFIG_DIR"
+export ORCHESTRATOR_OPENCODE_CORE="$WRAPPER_DIR/opencode-core"
+export ORCHESTRATOR_AGENT_HOME="$AGENT_HOME"
+export ORCHESTRATOR_AGENT_CONFIG_DIR="$AGENT_CONFIG_DIR"
+export ORCHESTRATOR_AGENT_DATA_DIR="$AGENT_DATA_DIR"
+export ORCHESTRATOR_AGENT_CACHE_DIR="$AGENT_CACHE_DIR"
 export ORCHESTRATOR_ORIGINAL_PATH="$PATH"
 export ORCHESTRATOR_AGENT_PATH="$AGENT_WRAPPER_DIR:$PATH"
 export PATH="$WRAPPER_DIR:$PATH"
@@ -80,10 +100,13 @@ printf 'surgical_model=%s\n' "$ORCHESTRATOR_SURGICAL_MODEL"
 printf 'interval=%ss\n' "$ORCHESTRATOR_INTERVAL_SECS"
 printf 'auto_merge=%s\n' "$ORCHESTRATOR_AUTO_MERGE"
 printf 'full_validation=%s\n' "$ORCHESTRATOR_FULL_VALIDATION"
-printf 'opencode_bridge=ollama-launch+runtime-permissions\n'
+printf 'opencode_bridge=isolated-ollama-launch+runtime-permissions\n'
 printf 'cargo_bridge=ci-pinned-rustfmt\n'
 printf 'git_bridge=push-race-recovery\n'
 printf 'gh_bridge=pr-base-sync\n'
-printf 'agent_cargo_bridge=enabled\n\n'
+printf 'agent_cargo_bridge=enabled\n'
+printf 'agent_git_bridge=read-only\n'
+printf 'agent_gh_bridge=read-only\n'
+printf 'agent_config=isolate-home-xdg\n\n'
 
 exec ./target/release/orchestrator run "$ORGANIZATION"
