@@ -1890,7 +1890,10 @@ mod tests {
             repositories_with_open_pr: 1,
         };
 
-        assert_eq!(snapshot.selected_for_run(false).unwrap().kind, WorkKind::Issue);
+        assert_eq!(
+            snapshot.selected_for_run(false).unwrap().kind,
+            WorkKind::Issue
+        );
         assert_eq!(
             snapshot.selected_for_run(true).unwrap().kind,
             WorkKind::PullRequest
