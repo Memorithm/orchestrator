@@ -7,6 +7,8 @@ use std::process::{Command, ExitCode};
 use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
+mod state;
+
 #[derive(Debug, Clone, Copy)]
 struct Tool {
     name: &'static str,
@@ -37,7 +39,7 @@ const TOOLS: &[Tool] = &[
 ];
 
 const DEFAULT_ORGANIZATION: &str = "Memorithm";
-const DEFAULT_MODEL: &str = "ollama/muse-glimmer:latest";
+const DEFAULT_MODEL: &str = "ollama/qwen3.8:latest";
 const DEFAULT_INTERVAL_SECS: u64 = 180;
 
 const OPENCODE_INLINE_CONFIG: &str = r#"{
@@ -217,14 +219,6 @@ impl TriageSnapshot {
     fn selected(&self) -> Option<&WorkItem> {
         self.items.iter().find(|item| item.kind.actionable())
     }
-
-    fn selected_for_run(&self, auto_merge: bool) -> Option<&WorkItem> {
-        self.items.iter().find(|item| match item.kind {
-            WorkKind::FixCi | WorkKind::Issue => true,
-            WorkKind::PullRequest => auto_merge,
-            WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => false,
-        })
-    }
 }
 
 #[derive(Debug, Clone)]
@@ -236,6 +230,7 @@ struct RunConfig {
     auto_merge: bool,
     full_validation: bool,
     max_cycles: u64,
+    retry_policy: state::RetryPolicy,
 }
 
 struct InstanceLock {
@@ -1084,6 +1079,16 @@ impl RunConfig {
             full_validation: env_flag("ORCHESTRATOR_FULL_VALIDATION", false),
             max_cycles: max_cycles_override
                 .unwrap_or_else(|| env_u64("ORCHESTRATOR_MAX_CYCLES", 0)),
+            retry_policy: state::RetryPolicy {
+                success_cooldown_secs: env_u64("ORCHESTRATOR_SUCCESS_COOLDOWN_SECS", 900),
+                failure_base_cooldown_secs: env_u64("ORCHESTRATOR_FAILURE_BASE_COOLDOWN_SECS", 300),
+                failure_max_cooldown_secs: env_u64("ORCHESTRATOR_FAILURE_MAX_COOLDOWN_SECS", 7_200),
+                quarantine_after_failures: env::var("ORCHESTRATOR_QUARANTINE_AFTER_FAILURES")
+                    .ok()
+                    .and_then(|value| value.parse::<u32>().ok())
+                    .unwrap_or(4),
+                quarantine_secs: env_u64("ORCHESTRATOR_QUARANTINE_SECS", 21_600),
+            },
         })
     }
 }
@@ -1648,12 +1653,52 @@ fn runtime_preflight(config: &RunConfig) -> Result<(), String> {
     Ok(())
 }
 
-fn execute_selected(config: &RunConfig, snapshot: &TriageSnapshot) -> Result<(), String> {
-    let Some(item) = snapshot.selected_for_run(config.auto_merge) else {
-        println!("No actionable work this cycle.");
-        return Ok(());
-    };
+fn work_key(item: &WorkItem) -> state::WorkKey {
+    state::WorkKey::new(&item.repository, item.kind.as_str(), item.number)
+}
 
+fn work_item_runnable(item: &WorkItem, auto_merge: bool) -> bool {
+    match item.kind {
+        WorkKind::FixCi | WorkKind::Issue => true,
+        WorkKind::PullRequest => auto_merge,
+        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => false,
+    }
+}
+
+fn selected_for_run_with_state<'a>(
+    snapshot: &'a TriageSnapshot,
+    auto_merge: bool,
+    attempt_store: &state::AttemptStore,
+    now: u64,
+) -> Result<Option<&'a WorkItem>, String> {
+    for item in &snapshot.items {
+        if !work_item_runnable(item, auto_merge) {
+            continue;
+        }
+
+        let key = work_key(item);
+        let attempt_state = attempt_store.load(&key)?;
+        if attempt_state.is_eligible(now) {
+            return Ok(Some(item));
+        }
+
+        println!(
+            "Scheduler cooldown: {}#{} {} deferred until unix={} (failures={})",
+            item.repository,
+            item.number,
+            item.kind.as_str(),
+            attempt_state.eligible_at(),
+            attempt_state.consecutive_failures
+        );
+    }
+    Ok(None)
+}
+
+fn execute_item(
+    config: &RunConfig,
+    snapshot: &TriageSnapshot,
+    item: &WorkItem,
+) -> Result<(), String> {
     println!();
     println!("===== SELECTED WORK =====");
     println!("kind       : {}", item.kind.as_str());
@@ -1700,7 +1745,24 @@ fn run_loop(config: RunConfig) -> ExitCode {
         }
     );
     println!("paid LLM APIs    : DISABLED");
+    println!(
+        "success cooldown : {}s",
+        config.retry_policy.success_cooldown_secs
+    );
+    println!(
+        "failure cooldown : {}s..={}s",
+        config.retry_policy.failure_base_cooldown_secs,
+        config.retry_policy.failure_max_cooldown_secs
+    );
+    println!(
+        "quarantine       : after {} failures for {}s",
+        config.retry_policy.quarantine_after_failures, config.retry_policy.quarantine_secs
+    );
 
+    let attempt_store = state::AttemptStore::new(
+        config.data_root.join("state/work-items"),
+        config.retry_policy,
+    );
     let mut cycle = 0_u64;
     loop {
         cycle += 1;
@@ -1709,8 +1771,62 @@ fn run_loop(config: RunConfig) -> ExitCode {
         match build_triage(&config.organization) {
             Ok(snapshot) => {
                 print_triage(&snapshot, &config.organization);
-                if let Err(error) = execute_selected(&config, &snapshot) {
-                    eprintln!("cycle {cycle} action failed: {error}");
+                let selection_time = unix_timestamp();
+                match selected_for_run_with_state(
+                    &snapshot,
+                    config.auto_merge,
+                    &attempt_store,
+                    selection_time,
+                ) {
+                    Ok(Some(item)) => {
+                        let key = work_key(item);
+                        match execute_item(&config, &snapshot, item) {
+                            Ok(()) => {
+                                match attempt_store.record(
+                                    &key,
+                                    state::AttemptOutcome::Success,
+                                    unix_timestamp(),
+                                ) {
+                                    Ok(attempt_state) => println!(
+                                        "Scheduler recorded success; {}#{} next eligible at unix={}",
+                                        item.repository,
+                                        item.number,
+                                        attempt_state.eligible_at()
+                                    ),
+                                    Err(state_error) => {
+                                        eprintln!(
+                                            "scheduler state write failed after success: {state_error}"
+                                        );
+                                        return ExitCode::FAILURE;
+                                    }
+                                }
+                            }
+                            Err(error) => {
+                                eprintln!("cycle {cycle} action failed: {error}");
+                                match attempt_store.record(
+                                    &key,
+                                    state::AttemptOutcome::Failure,
+                                    unix_timestamp(),
+                                ) {
+                                    Ok(attempt_state) => eprintln!(
+                                        "Scheduler recorded failure {} for {}#{}; next eligible at unix={}",
+                                        attempt_state.consecutive_failures,
+                                        item.repository,
+                                        item.number,
+                                        attempt_state.eligible_at()
+                                    ),
+                                    Err(state_error) => {
+                                        eprintln!(
+                                            "scheduler state write failed after action failure: {state_error}"
+                                        );
+                                        return ExitCode::FAILURE;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Ok(None) => println!("No runtime-eligible actionable work this cycle."),
+                    Err(error) => eprintln!("cycle {cycle} scheduler state failed: {error}"),
                 }
             }
             Err(error) => eprintln!("cycle {cycle} triage failed: {error}"),
@@ -1863,41 +1979,29 @@ mod tests {
     }
 
     #[test]
-    fn run_selection_skips_green_pr_when_auto_merge_is_disabled() {
-        let snapshot = TriageSnapshot {
-            repositories: Vec::new(),
-            items: vec![
-                WorkItem {
-                    kind: WorkKind::PullRequest,
-                    repository: "Memorithm/AAA".to_owned(),
-                    number: 1,
-                    title: "green PR".to_owned(),
-                    detail: "ci=PASSING ready".to_owned(),
-                    ci_state: Some(CiState::Passing),
-                    draft: false,
-                },
-                WorkItem {
-                    kind: WorkKind::Issue,
-                    repository: "Memorithm/BBB".to_owned(),
-                    number: 2,
-                    title: "next issue".to_owned(),
-                    detail: "open issue".to_owned(),
-                    ci_state: None,
-                    draft: false,
-                },
-            ],
-            eligible_count: 2,
-            repositories_with_open_pr: 1,
+    fn runtime_policy_skips_green_pr_when_auto_merge_is_disabled() {
+        let green_pr = WorkItem {
+            kind: WorkKind::PullRequest,
+            repository: "Memorithm/AAA".to_owned(),
+            number: 1,
+            title: "green PR".to_owned(),
+            detail: "ci=PASSING ready".to_owned(),
+            ci_state: Some(CiState::Passing),
+            draft: false,
+        };
+        let issue = WorkItem {
+            kind: WorkKind::Issue,
+            repository: "Memorithm/BBB".to_owned(),
+            number: 2,
+            title: "next issue".to_owned(),
+            detail: "open issue".to_owned(),
+            ci_state: None,
+            draft: false,
         };
 
-        assert_eq!(
-            snapshot.selected_for_run(false).unwrap().kind,
-            WorkKind::Issue
-        );
-        assert_eq!(
-            snapshot.selected_for_run(true).unwrap().kind,
-            WorkKind::PullRequest
-        );
+        assert!(!work_item_runnable(&green_pr, false));
+        assert!(work_item_runnable(&green_pr, true));
+        assert!(work_item_runnable(&issue, false));
     }
 
     #[test]
@@ -1963,5 +2067,57 @@ mod tests {
         assert!(OPENCODE_INLINE_CONFIG.contains("\"gh pr merge *\": \"deny\""));
         assert!(OPENCODE_INLINE_CONFIG.contains("\"external_directory\": \"deny\""));
         assert!(OPENCODE_INLINE_CONFIG.contains("\"enabled_providers\": [\"ollama\"]"));
+    }
+
+    #[test]
+    fn state_aware_selection_skips_cooling_priority_item() {
+        let root = std::env::temp_dir().join(format!(
+            "orchestrator-selection-test-{}-{}",
+            std::process::id(),
+            unix_timestamp()
+        ));
+        let policy = state::RetryPolicy {
+            success_cooldown_secs: 30,
+            failure_base_cooldown_secs: 60,
+            failure_max_cooldown_secs: 60,
+            quarantine_after_failures: 4,
+            quarantine_secs: 600,
+        };
+        let store = state::AttemptStore::new(root.clone(), policy);
+        let first = WorkItem {
+            kind: WorkKind::Issue,
+            repository: "Memorithm/AAA".to_owned(),
+            number: 1,
+            title: "first".to_owned(),
+            detail: "open issue".to_owned(),
+            ci_state: None,
+            draft: false,
+        };
+        let second = WorkItem {
+            kind: WorkKind::Issue,
+            repository: "Memorithm/BBB".to_owned(),
+            number: 2,
+            title: "second".to_owned(),
+            detail: "open issue".to_owned(),
+            ci_state: None,
+            draft: false,
+        };
+        let snapshot = TriageSnapshot {
+            repositories: Vec::new(),
+            items: vec![first.clone(), second.clone()],
+            eligible_count: 2,
+            repositories_with_open_pr: 0,
+        };
+
+        store
+            .record(&work_key(&first), state::AttemptOutcome::Failure, 100)
+            .unwrap();
+        let selected = selected_for_run_with_state(&snapshot, false, &store, 101)
+            .unwrap()
+            .unwrap();
+        assert_eq!(selected.repository, second.repository);
+        assert_eq!(selected.number, second.number);
+
+        let _ = std::fs::remove_dir_all(root);
     }
 }

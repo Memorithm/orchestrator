@@ -62,7 +62,7 @@ impl AttemptOutcome {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub(crate) struct AttemptState {
     pub(crate) total_attempts: u64,
     pub(crate) consecutive_failures: u32,
@@ -70,19 +70,6 @@ pub(crate) struct AttemptState {
     pub(crate) next_eligible_at: u64,
     pub(crate) quarantine_until: u64,
     pub(crate) last_outcome: Option<AttemptOutcome>,
-}
-
-impl Default for AttemptState {
-    fn default() -> Self {
-        Self {
-            total_attempts: 0,
-            consecutive_failures: 0,
-            last_attempt_at: 0,
-            next_eligible_at: 0,
-            quarantine_until: 0,
-            last_outcome: None,
-        }
-    }
 }
 
 impl AttemptState {
@@ -144,11 +131,8 @@ impl AttemptStore {
         }
         let contents = fs::read_to_string(&path)
             .map_err(|error| format!("failed to read attempt state {}: {error}", path.display()))?;
-        parse_state(&contents).map_err(|error| format!("invalid attempt state {}: {error}", path.display()))
-    }
-
-    pub(crate) fn is_eligible(&self, key: &WorkKey, now: u64) -> Result<bool, String> {
-        Ok(self.load(key)?.is_eligible(now))
+        parse_state(&contents)
+            .map_err(|error| format!("invalid attempt state {}: {error}", path.display()))
     }
 
     pub(crate) fn record(
@@ -219,9 +203,7 @@ fn serialize_state(state: &AttemptState) -> String {
         state.last_attempt_at,
         state.next_eligible_at,
         state.quarantine_until,
-        state
-            .last_outcome
-            .map_or("none", AttemptOutcome::as_str)
+        state.last_outcome.map_or("none", AttemptOutcome::as_str)
     )
 }
 
