@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+set -u
+
+REAL_GIT="${ORCHESTRATOR_REAL_GIT:?ORCHESTRATOR_REAL_GIT is not set}"
+
+# Orchestrator owns Git mutations. The local coding agent never receives this
+# wrapper in ORCHESTRATOR_AGENT_PATH. Pass every command through unchanged
+# except the exact same-repository PR push used by execute_ci_fix.
+if [[ "$#" -ne 3 || "${1:-}" != "push" || "${2:-}" != "origin" || "${3:-}" != "HEAD" ]]; then
+  exec "$REAL_GIT" "$@"
+fi
+
+push_output="$($REAL_GIT "$@" 2>&1)"
+push_status=$?
+printf '%s\n' "$push_output"
+if (( push_status == 0 )); then
+  exit 0
+fi
+
+# Retry only the race we know how to reconcile safely. Authentication,
+# permissions, hooks, network errors, and every other push failure remain
+# fail-closed and are returned to the parent unchanged.
+if ! grep -Eqi 'non-fast-forward|fetch first|rejected.*HEAD|failed to push some refs' <<<"$push_output"; then
+  exit "$push_status"
+fi
+
+branch="$($REAL_GIT branch --show-current)"
+if [[ -z "$branch" ]]; then
+  printf 'orchestrator git wrapper: push raced but HEAD is detached; refusing recovery\n' >&2
+  exit "$push_status"
+fi
+
+local_head="$($REAL_GIT rev-parse HEAD)"
+safe_branch="$(printf '%s' "$branch" | tr -c 'A-Za-z0-9._-' '-')"
+recovery_ref="refs/orchestrator/recovery/$safe_branch"
+$REAL_GIT update-ref "$recovery_ref" "$local_head"
+printf '\n===== PUSH RACE RECOVERY =====\n'
+printf 'saved validated local head %s at %s\n' "$local_head" "$recovery_ref"
+printf 'fetching origin/%s before a non-destructive rebase\n' "$branch"
+
+if ! $REAL_GIT fetch origin "$branch"; then
+  printf 'orchestrator git wrapper: fetch failed; validated commit preserved at %s\n' "$recovery_ref" >&2
+  exit "$push_status"
+fi
+
+remote_ref="refs/remotes/origin/$branch"
+if ! $REAL_GIT rev-parse --verify "$remote_ref" >/dev/null 2>&1; then
+  printf 'orchestrator git wrapper: %s was not fetched; validated commit preserved at %s\n' "$remote_ref" "$recovery_ref" >&2
+  exit "$push_status"
+fi
+
+# If the remote already contains the local commit, the desired publication is
+# complete even though the first push raced with another writer.
+if $REAL_GIT merge-base --is-ancestor "$local_head" "$remote_ref"; then
+  printf 'remote already contains validated local head; treating push as complete\n'
+  $REAL_GIT update-ref -d "$recovery_ref" || true
+  exit 0
+fi
+
+printf 'rebasing validated repair onto %s\n' "$remote_ref"
+if ! $REAL_GIT rebase "$remote_ref"; then
+  $REAL_GIT rebase --abort >/dev/null 2>&1 || true
+  printf 'orchestrator git wrapper: rebase conflicted; original validated commit preserved at %s\n' "$recovery_ref" >&2
+  exit 1
+fi
+
+printf '\n===== POST-RACE REVALIDATION =====\n'
+if ! $REAL_GIT diff --check "$remote_ref"..HEAD; then
+  printf 'orchestrator git wrapper: diff validation failed after rebase; recovery ref retained: %s\n' "$recovery_ref" >&2
+  exit 1
+fi
+
+if [[ -f Cargo.toml ]]; then
+  if ! cargo fmt --all -- --check; then
+    printf 'orchestrator git wrapper: rustfmt failed after rebase; recovery ref retained: %s\n' "$recovery_ref" >&2
+    exit 1
+  fi
+  if ! cargo check --workspace; then
+    printf 'orchestrator git wrapper: cargo check failed after rebase; recovery ref retained: %s\n' "$recovery_ref" >&2
+    exit 1
+  fi
+  if ! cargo clippy --workspace --all-targets -- -D warnings; then
+    printf 'orchestrator git wrapper: clippy failed after rebase; recovery ref retained: %s\n' "$recovery_ref" >&2
+    exit 1
+  fi
+  if [[ "${ORCHESTRATOR_FULL_VALIDATION:-0}" == "1" ]] && ! cargo test --workspace; then
+    printf 'orchestrator git wrapper: tests failed after rebase; recovery ref retained: %s\n' "$recovery_ref" >&2
+    exit 1
+  fi
+fi
+
+rebased_head="$($REAL_GIT rev-parse HEAD)"
+printf 'post-race validation passed; retrying push with rebased head %s\n' "$rebased_head"
+if $REAL_GIT push origin HEAD; then
+  printf 'push race recovered successfully\n'
+  $REAL_GIT update-ref -d "$recovery_ref" || true
+  exit 0
+fi
+
+printf 'orchestrator git wrapper: retry push failed; original validated commit remains at %s\n' "$recovery_ref" >&2
+exit 1
