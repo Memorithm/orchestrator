@@ -47,6 +47,30 @@ else
 fi
 unset OPENCODE_CONFIG_CONTENT
 
+# A second CI-repair pass is deliberately denied remote/history archaeology.
+# OpenCode resolves granular bash patterns in order, with later specific rules
+# overriding the earlier wildcard rule.
+surgical_permission_json="$({ PERMISSION_JSON="$permission_json" python3 - <<'PY'
+import json
+import os
+
+permission = json.loads(os.environ["PERMISSION_JSON"])
+bash = permission.setdefault("bash", {})
+for pattern in (
+    "gh *",
+    "git log*",
+    "git show*",
+    "git cat-file*",
+    "git ls-tree*",
+    "git fetch*",
+    "git remote*",
+    "git diff origin/*",
+):
+    bash[pattern] = "deny"
+print(json.dumps(permission, separators=(",", ":")))
+PY
+} )" || exit 1
+
 args=("$@")
 last_index=$((${#args[@]} - 1))
 is_ci_fix=0
@@ -55,13 +79,11 @@ if (( last_index >= 0 )) && [[ "${args[$last_index]}" == *"Task: FIX_CI"* ]]; th
   args[$last_index]="${args[$last_index]}
 
 CI repair hard requirement:
-- Inspect the current failing GitHub checks and workflow job logs only when the failure has not already been reproduced locally by Orchestrator.
-- A reproduced local compiler/lint/test failure supplied by Orchestrator is authoritative evidence for this repair pass. Do not re-investigate GitHub or Git history before editing unless the current source tree is genuinely ambiguous.
-- Use at most 10 read-only inspection/tool actions before the first working-tree edit once a reproduced local failure is present.
-- Do not spend time on git log/show/history archaeology unless current code cannot explain the failure.
-- Reproduce exact failing CI commands, including explicit Rust toolchains.
-- Preserve any deterministic repair already left in the working tree.
+- A reproduced local compiler/lint/test failure supplied by Orchestrator is authoritative evidence for this repair pass.
+- Do not query GitHub or inspect Git history when Orchestrator already reproduced the failure locally.
+- Inspect only current files directly implicated by the reproduced error.
 - Once the failing symbols/files are identified, edit immediately, then validate.
+- Preserve any deterministic repair already left in the working tree.
 - Continue until the reproduced local CI gates pass, or leave the narrowest safe partial fix with a precise blocker."
 fi
 
@@ -85,13 +107,25 @@ validate_rust_ci() {
   return 0
 }
 
-deterministic_changes=0
+diff_signature() {
+  git diff --binary -- . | sha256sum | awk '{print $1}'
+}
 
-# Deterministic repair comes before probabilistic repair. For Rust CI-fix
-# tasks, reproduce rustfmt with the repository CI toolchain selected by the
-# Orchestrator cargo wrapper. If rustfmt changes tracked files, immediately
-# exercise the standard Rust CI gates. A clean deterministic repair skips the
-# LLM; a second failure is passed verbatim to the LLM in the same cycle.
+append_local_failure() {
+  local failure_log="$1"
+  args[$last_index]="${args[$last_index]}
+
+Orchestrator reproduced the next failing local Rust CI gate. The failure below is authoritative. Do not query GitHub or inspect Git history. Inspect only the current files directly implicated by the error, make the narrowest correction, then run the CI-matched validation commands.
+
+Reproduced local CI failure (tail, up to 16000 bytes):
+${failure_log}"
+}
+
+deterministic_changes=0
+local_failure_available=0
+
+# Deterministic repair comes before probabilistic repair. The cargo wrapper
+# mirrors an explicitly pinned Rust formatter toolchain from repository CI.
 if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
   printf '\n===== DETERMINISTIC CI PREFLIGHT =====\n'
   printf 'checking Rust formatting with repository CI toolchain policy\n'
@@ -114,31 +148,27 @@ if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
     fi
   fi
   rm -f "$fmt_log"
-fi
 
-if (( deterministic_changes == 1 )); then
-  printf '\n===== DETERMINISTIC FOLLOW-UP VALIDATION =====\n'
-  validation_log="$(mktemp "${TMPDIR:-/tmp}/memorithm-ci-followup.XXXXXX.log")" || exit 1
-
+  printf '\n===== LOCAL CI PREFLIGHT =====\n'
+  validation_log="$(mktemp "${TMPDIR:-/tmp}/memorithm-ci-preflight.XXXXXX.log")" || exit 1
   if validate_rust_ci "$validation_log"; then
     rm -f "$validation_log"
-    printf 'deterministic repair passes local Rust CI gates\n'
-    printf '\n===== DETERMINISTIC REPAIR COMPLETE =====\n'
-    printf 'LLM skipped: deterministic repair is sufficient for this cycle.\n'
+    printf 'local Rust CI gates: PASS\n'
+    if (( deterministic_changes == 1 )); then
+      printf '\n===== DETERMINISTIC REPAIR COMPLETE =====\n'
+      printf 'LLM skipped: deterministic repair is sufficient for this cycle.\n'
+      exit 0
+    fi
+    printf 'No local Rust failure remains to delegate; skipping LLM for this cycle.\n'
     exit 0
   fi
 
-  printf 'deterministic repair exposed an additional CI failure\n'
+  printf 'local Rust CI gates: FAIL\n'
   cat "$validation_log"
-  followup_failure_log="$(tail -c 16000 "$validation_log")"
+  failure_tail="$(tail -c 16000 "$validation_log")"
   rm -f "$validation_log"
-
-  args[$last_index]="${args[$last_index]}
-
-Orchestrator deterministic preflight already applied CI-matched rustfmt and reproduced the next failing Rust CI gate. The failure below is authoritative for this pass. Do not query GitHub or inspect Git history before editing unless the current source tree is genuinely ambiguous. Use at most 10 inspection actions before your first edit. Keep the existing formatting diff unless it is demonstrably wrong. Repair this additional failure without unrelated refactoring, then run the CI-matched validation commands.
-
-Reproduced local CI failure (tail, up to 16000 bytes):
-${followup_failure_log}"
+  append_local_failure "$failure_tail"
+  local_failure_available=1
 fi
 
 printf '\n===== OLLAMA -> OPENCODE BRIDGE =====\n'
@@ -147,29 +177,154 @@ printf 'default plugins: disable requested\n'
 printf 'claude compatibility: disabled\n'
 printf 'permissions: runtime-enforced\n'
 printf 'agent cargo bridge: enabled\n'
-printf 'ci inspection budget: 10 before first edit\n'
+if (( is_ci_fix == 1 && local_failure_available == 1 )); then
+  printf 'first-edit watchdog: 10 tool actions / 300s\n'
+  printf 'surgical retry: 6 tool actions / 180s, history+GitHub denied\n'
+fi
 printf 'logs: INFO to stderr\n\n'
 
-run_agent_once() {
+AGENT_PID=""
+start_agent() {
+  local effective_permission="$1"
+  local log_file="$2"
+
   PATH="${ORCHESTRATOR_AGENT_PATH:?ORCHESTRATOR_AGENT_PATH is not set}" \
-  OPENCODE_PERMISSION="$permission_json" \
+  OPENCODE_PERMISSION="$effective_permission" \
   OPENCODE_DISABLE_DEFAULT_PLUGINS=1 \
   OPENCODE_DISABLE_CLAUDE_CODE=1 \
-  ollama launch opencode --model "$model_id" -- \
-    --pure --print-logs --log-level INFO "${args[@]}"
+  setsid ollama launch opencode --model "$model_id" -- \
+    --pure --print-logs --log-level INFO "${args[@]}" \
+    > >(tee -a "$log_file") 2>&1 &
+  AGENT_PID=$!
 }
 
-# First probabilistic repair pass.
-run_agent_once
-status=$?
+stop_agent_group() {
+  local pid="$1"
+  kill -INT -- "-$pid" 2>/dev/null || kill -INT "$pid" 2>/dev/null || true
+  sleep 2
+  if kill -0 "$pid" 2>/dev/null; then
+    kill -TERM -- "-$pid" 2>/dev/null || kill -TERM "$pid" 2>/dev/null || true
+  fi
+}
+
+# Return 124 when the first-edit budget is exceeded, 125 when the agent exits
+# without changing the baseline diff, otherwise return the agent status.
+run_agent_with_first_edit_watchdog() {
+  local effective_permission="$1"
+  local max_tools="$2"
+  local max_seconds="$3"
+  local baseline_signature="$4"
+  local log_file
+  local deadline
+  local current_signature
+  local tool_count
+  local edited=0
+
+  log_file="$(mktemp "${TMPDIR:-/tmp}/memorithm-opencode-pass.XXXXXX.log")" || return 1
+  deadline=$((SECONDS + max_seconds))
+  start_agent "$effective_permission" "$log_file"
+
+  while kill -0 "$AGENT_PID" 2>/dev/null; do
+    current_signature="$(diff_signature)"
+    if [[ "$current_signature" != "$baseline_signature" ]]; then
+      edited=1
+      break
+    fi
+
+    tool_count="$(grep -c 'message=evaluated permission=' "$log_file" 2>/dev/null || true)"
+    if (( tool_count >= max_tools )); then
+      printf '\n===== FIRST-EDIT WATCHDOG =====\n'
+      printf 'tool budget exhausted (%s/%s) without a new working-tree diff; stopping agent pass\n' "$tool_count" "$max_tools"
+      stop_agent_group "$AGENT_PID"
+      wait "$AGENT_PID" 2>/dev/null || true
+      rm -f "$log_file"
+      return 124
+    fi
+    if (( SECONDS >= deadline )); then
+      printf '\n===== FIRST-EDIT WATCHDOG =====\n'
+      printf 'time budget exhausted (%ss) without a new working-tree diff; stopping agent pass\n' "$max_seconds"
+      stop_agent_group "$AGENT_PID"
+      wait "$AGENT_PID" 2>/dev/null || true
+      rm -f "$log_file"
+      return 124
+    fi
+    sleep 2
+  done
+
+  wait "$AGENT_PID"
+  status=$?
+  if (( edited == 0 )) && [[ "$(diff_signature)" == "$baseline_signature" ]]; then
+    rm -f "$log_file"
+    if (( status == 0 )); then
+      return 125
+    fi
+    return "$status"
+  fi
+  rm -f "$log_file"
+  return "$status"
+}
+
+run_agent_unbounded() {
+  local log_file
+  log_file="$(mktemp "${TMPDIR:-/tmp}/memorithm-opencode-pass.XXXXXX.log")" || return 1
+  start_agent "$permission_json" "$log_file"
+  wait "$AGENT_PID"
+  status=$?
+  rm -f "$log_file"
+  return "$status"
+}
+
+run_ci_repair_pass() {
+  local baseline_signature
+  local status
+
+  baseline_signature="$(diff_signature)"
+  run_agent_with_first_edit_watchdog "$permission_json" 10 300 "$baseline_signature"
+  status=$?
+  if (( status == 0 )); then
+    return 0
+  fi
+
+  if (( status != 124 && status != 125 )); then
+    return "$status"
+  fi
+
+  printf '\n===== OPENCODE SURGICAL RETRY =====\n'
+  printf 'reason: first pass produced no new edit within its enforced budget\n'
+  args[$last_index]="${args[$last_index]}
+
+SURGICAL RETRY MODE:
+- Remote GitHub queries and Git-history archaeology are technically blocked for this pass.
+- The reproduced local CI failure already identifies the defect class.
+- Read only the current files directly implicated by that failure.
+- Make the smallest correct working-tree edit immediately, then validate."
+
+  baseline_signature="$(diff_signature)"
+  run_agent_with_first_edit_watchdog "$surgical_permission_json" 6 180 "$baseline_signature"
+  status=$?
+  if (( status == 124 || status == 125 )); then
+    printf 'surgical retry produced no edit; failing this CI-repair cycle closed\n' >&2
+    return 1
+  fi
+  return "$status"
+}
+
+# CI failures with a locally reproduced error use an enforced first-edit
+# watchdog. Other tasks retain the normal autonomous worker behavior.
+if (( is_ci_fix == 1 && local_failure_available == 1 )); then
+  run_ci_repair_pass
+  status=$?
+else
+  run_agent_unbounded
+  status=$?
+fi
 if (( status != 0 )); then
   exit "$status"
 fi
 
 # For CI repair work, never hand control back to the Rust commit/push path
 # until the same local Rust gates have been replayed after agent edits. Give
-# the agent one bounded follow-up pass with the exact residual failure before
-# failing the cycle closed.
+# the agent one bounded residual-failure pass before failing closed.
 if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
   printf '\n===== POST-AGENT CI VALIDATION =====\n'
   post_log="$(mktemp "${TMPDIR:-/tmp}/memorithm-post-agent-ci.XXXXXX.log")" || exit 1
@@ -185,15 +340,17 @@ if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
   residual_log="$(tail -c 16000 "$post_log")"
   rm -f "$post_log"
 
+  append_local_failure "$residual_log"
   args[$last_index]="${args[$last_index]}
 
-Follow-up repair pass: your previous edits are still in the working tree, but the reproduced Rust CI gates remain red. Treat the residual failure below as authoritative. Do not restart investigation, query GitHub, or inspect Git history before editing. Inspect only the current files directly implicated by the error, make the narrowest correction, and rerun the relevant CI-matched commands.
-
-Residual local CI failure (tail, up to 16000 bytes):
-${residual_log}"
+FOLLOW-UP REPAIR MODE:
+- Your previous edits remain in the working tree.
+- Do not restart investigation, query GitHub, or inspect Git history.
+- Repair only the residual local failure below and preserve correct prior changes."
 
   printf '\n===== OPENCODE FOLLOW-UP PASS =====\n'
-  run_agent_once
+  baseline_signature="$(diff_signature)"
+  run_agent_with_first_edit_watchdog "$surgical_permission_json" 6 180 "$baseline_signature"
   status=$?
   if (( status != 0 )); then
     exit "$status"
