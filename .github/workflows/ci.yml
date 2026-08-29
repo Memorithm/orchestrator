@@ -24,10 +24,13 @@ jobs:
           bash -n scripts/agent-git
           bash -n scripts/agent-gh
           bash -n scripts/selftest-runtime.sh
+          bash -n scripts/selftest-opencode-watchdog.sh
           bash -n scripts/render-systemd-unit.sh
           bash -n scripts/install-systemd.sh
       - name: Runtime bridge selftest
         run: bash scripts/selftest-runtime.sh
+      - name: General agent watchdog selftest
+        run: bash scripts/selftest-opencode-watchdog.sh
       - name: Verify systemd sandbox
         run: |
           mkdir -p "$RUNNER_TEMP/orchestrator-data"
