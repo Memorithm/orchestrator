@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -u
+
+REAL_GH="${ORCHESTRATOR_REAL_GH:?ORCHESTRATOR_REAL_GH is not set}"
+REAL_GIT="${ORCHESTRATOR_REAL_GIT:?ORCHESTRATOR_REAL_GIT is not set}"
+
+# The local coding agent never receives this wrapper. Orchestrator's Rust
+# parent uses it so a stale same-repository PR is validated against its current
+# base before Qwen is asked to change code.
+if [[ "$#" -ne 6 || "${1:-}" != "pr" || "${2:-}" != "checkout" || "${4:-}" != "--repo" || "${6:-}" != "--force" ]]; then
+  exec "$REAL_GH" "$@"
+fi
+
+pr_number="$3"
+repository="$5"
+
+"$REAL_GH" "$@"
+checkout_status=$?
+if (( checkout_status != 0 )); then
+  exit "$checkout_status"
+fi
+
+metadata="$($REAL_GH pr view "$pr_number" --repo "$repository" --json baseRefName,isCrossRepository --jq '[.baseRefName, .isCrossRepository] | @tsv')"
+metadata_status=$?
+if (( metadata_status != 0 )); then
+  printf 'orchestrator gh wrapper: unable to resolve PR base metadata\n' >&2
+  exit "$metadata_status"
+fi
+
+IFS=$'\t' read -r base_branch cross_repository <<<"$metadata"
+if [[ "$cross_repository" == "true" ]]; then
+  printf 'orchestrator gh wrapper: refusing base synchronization for cross-repository PR\n' >&2
+  exit 1
+fi
+if [[ -z "$base_branch" ]]; then
+  printf 'orchestrator gh wrapper: PR base branch is empty\n' >&2
+  exit 1
+fi
+
+if [[ -n "$($REAL_GIT status --porcelain)" ]]; then
+  printf 'orchestrator gh wrapper: checkout is unexpectedly dirty before base synchronization\n' >&2
+  exit 1
+fi
+
+printf '\n===== PR BASE SYNCHRONIZATION =====\n'
+printf 'repository : %s\n' "$repository"
+printf 'PR         : #%s\n' "$pr_number"
+printf 'base       : %s\n' "$base_branch"
+
+if ! "$REAL_GIT" fetch origin "$base_branch"; then
+  printf 'orchestrator gh wrapper: failed to fetch current PR base\n' >&2
+  exit 1
+fi
+
+base_ref="refs/remotes/origin/$base_branch"
+if "$REAL_GIT" merge-base --is-ancestor "$base_ref" HEAD; then
+  printf 'PR head already contains current base; no synchronization required\n'
+  exit 0
+fi
+
+printf 'PR head is behind/diverged from current base; staging a merge for validation\n'
+if "$REAL_GIT" merge --no-commit --no-ff "$base_ref"; then
+  printf 'current base staged successfully; CI validation will run before commit/push\n'
+  exit 0
+fi
+
+"$REAL_GIT" merge --abort >/dev/null 2>&1 || true
+printf 'orchestrator gh wrapper: current base conflicts with PR head; merge aborted and autonomous repair refused\n' >&2
+exit 1
