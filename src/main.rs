@@ -217,6 +217,14 @@ impl TriageSnapshot {
     fn selected(&self) -> Option<&WorkItem> {
         self.items.iter().find(|item| item.kind.actionable())
     }
+
+    fn selected_for_run(&self, auto_merge: bool) -> Option<&WorkItem> {
+        self.items.iter().find(|item| match item.kind {
+            WorkKind::FixCi | WorkKind::Issue => true,
+            WorkKind::PullRequest => auto_merge,
+            WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => false,
+        })
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -521,7 +529,10 @@ fn discover_repositories(organization: &str) -> Result<Vec<Repository>, String> 
 
 fn classify_repository(repository: &Repository, organization: &str) -> Pilotability {
     let orchestrator_name = format!("{organization}/orchestrator");
-    if repository.name_with_owner == orchestrator_name {
+    if repository
+        .name_with_owner
+        .eq_ignore_ascii_case(&orchestrator_name)
+    {
         return Pilotability::SelfRepository;
     }
     if repository.archived {
@@ -1131,11 +1142,25 @@ fn repository_workspace(config: &RunConfig, repository: &str) -> PathBuf {
         .join(repository.replace('/', "__"))
 }
 
+fn github_remote_matches_repository(remote: &str, repository: &str) -> bool {
+    let remote = remote.trim().trim_end_matches('/');
+    [
+        format!("https://github.com/{repository}"),
+        format!("https://github.com/{repository}.git"),
+        format!("git@github.com:{repository}"),
+        format!("git@github.com:{repository}.git"),
+        format!("ssh://git@github.com/{repository}"),
+        format!("ssh://git@github.com/{repository}.git"),
+    ]
+    .iter()
+    .any(|expected| remote.eq_ignore_ascii_case(expected))
+}
+
 fn ensure_clone(config: &RunConfig, repository: &str) -> Result<PathBuf, String> {
     let workspace = repository_workspace(config, repository);
     if workspace.join(".git").is_dir() {
         let remote = capture_in_dir(&workspace, "git", &["remote", "get-url", "origin"])?;
-        if !remote.contains(repository) {
+        if !github_remote_matches_repository(&remote, repository) {
             return Err(format!(
                 "workspace {} has unexpected origin {remote}; refusing destructive cleanup",
                 workspace.display()
@@ -1624,7 +1649,7 @@ fn runtime_preflight(config: &RunConfig) -> Result<(), String> {
 }
 
 fn execute_selected(config: &RunConfig, snapshot: &TriageSnapshot) -> Result<(), String> {
-    let Some(item) = snapshot.selected() else {
+    let Some(item) = snapshot.selected_for_run(config.auto_merge) else {
         println!("No actionable work this cycle.");
         return Ok(());
     };
@@ -1810,6 +1835,65 @@ mod tests {
         assert_eq!(
             classify_repository(&repository, "Memorithm"),
             Pilotability::SelfRepository
+        );
+        assert_eq!(
+            classify_repository(&repository, "memorithm"),
+            Pilotability::SelfRepository
+        );
+    }
+
+    #[test]
+    fn github_remote_match_requires_exact_repository_identity() {
+        assert!(github_remote_matches_repository(
+            "https://github.com/Memorithm/foo.git",
+            "Memorithm/foo"
+        ));
+        assert!(github_remote_matches_repository(
+            "git@github.com:Memorithm/foo.git",
+            "Memorithm/foo"
+        ));
+        assert!(github_remote_matches_repository(
+            "ssh://git@github.com/Memorithm/foo.git",
+            "Memorithm/foo"
+        ));
+        assert!(!github_remote_matches_repository(
+            "https://github.com/Memorithm/foo-backup.git",
+            "Memorithm/foo"
+        ));
+    }
+
+    #[test]
+    fn run_selection_skips_green_pr_when_auto_merge_is_disabled() {
+        let snapshot = TriageSnapshot {
+            repositories: Vec::new(),
+            items: vec![
+                WorkItem {
+                    kind: WorkKind::PullRequest,
+                    repository: "Memorithm/AAA".to_owned(),
+                    number: 1,
+                    title: "green PR".to_owned(),
+                    detail: "ci=PASSING ready".to_owned(),
+                    ci_state: Some(CiState::Passing),
+                    draft: false,
+                },
+                WorkItem {
+                    kind: WorkKind::Issue,
+                    repository: "Memorithm/BBB".to_owned(),
+                    number: 2,
+                    title: "next issue".to_owned(),
+                    detail: "open issue".to_owned(),
+                    ci_state: None,
+                    draft: false,
+                },
+            ],
+            eligible_count: 2,
+            repositories_with_open_pr: 1,
+        };
+
+        assert_eq!(snapshot.selected_for_run(false).unwrap().kind, WorkKind::Issue);
+        assert_eq!(
+            snapshot.selected_for_run(true).unwrap().kind,
+            WorkKind::PullRequest
         );
     }
 
