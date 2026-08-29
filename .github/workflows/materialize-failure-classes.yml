@@ -1,0 +1,99 @@
+name: materialize classified retry policy
+
+on:
+  push:
+    branches: [research/failure-classes]
+    paths:
+      - tools/apply-failure-classes.py
+      - .github/workflows/materialize-failure-classes.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: orchestrator-failure-class-materialization
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply classified retry patch
+        run: python3 tools/apply-failure-classes.py
+
+      - name: Remove one-shot materializer
+        run: |
+          rm tools/apply-failure-classes.py
+          rm .github/workflows/materialize-failure-classes.yml
+
+      - name: Rust toolchain
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt clippy
+
+      - name: Format integrated sources
+        run: cargo fmt --all
+
+      - name: Validate runtime shell
+        run: |
+          bash -n scripts/start.sh
+          bash -n scripts/opencode
+          bash -n scripts/opencode-env
+          bash -n scripts/cargo
+          bash -n scripts/git
+          bash -n scripts/gh
+          bash -n scripts/agent-git
+          bash -n scripts/agent-gh
+          bash -n scripts/selftest-runtime.sh
+          bash -n scripts/selftest-opencode-watchdog.sh
+          bash -n scripts/render-systemd-unit.sh
+          bash -n scripts/install-systemd.sh
+          bash scripts/selftest-runtime.sh
+          bash scripts/selftest-opencode-watchdog.sh
+
+      - name: Verify systemd sandbox
+        run: |
+          mkdir -p "$RUNNER_TEMP/orchestrator-data"
+          touch "$RUNNER_TEMP/orchestrator.env"
+          bash scripts/render-systemd-unit.sh \
+            "$GITHUB_WORKSPACE" \
+            "$RUNNER_TEMP/orchestrator-data" \
+            "$RUNNER_TEMP/orchestrator.env" \
+            > "$RUNNER_TEMP/memorithm-orchestrator.service"
+          systemd-analyze verify "$RUNNER_TEMP/memorithm-orchestrator.service"
+
+      - name: Validate classified scheduler runtime
+        run: |
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+          git diff --check
+
+      - name: Enforce materialized scope
+        run: |
+          changed="$(git status --short | awk '{print $2}')"
+          printf '%s\n' "$changed"
+          for expected in \
+            src/main.rs \
+            src/state.rs \
+            scripts/install-systemd.sh \
+            tools/apply-failure-classes.py \
+            .github/workflows/materialize-failure-classes.yml
+          do
+            printf '%s\n' "$changed" | grep -Fxq "$expected"
+          done
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/main\.rs|src/state\.rs|scripts/install-systemd\.sh|tools/apply-failure-classes\.py|\.github/workflows/materialize-failure-classes\.yml)$' || true)"
+          test -z "$unexpected"
+
+      - name: Commit materialized runtime
+        run: |
+          git config user.name 'Memorithm Orchestrator Integration'
+          git config user.email 'orchestrator@localhost'
+          git add -A
+          git commit -m 'feat(scheduler): classify failures for retry policy'
+          git push origin HEAD:research/failure-classes
