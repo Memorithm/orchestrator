@@ -89,9 +89,12 @@ impl AttemptJournal {
             json_escape(outcome),
             json_escape(&detail),
         );
-        self.file
-            .write_all(line.as_bytes())
-            .map_err(|error| format!("failed to append trajectory {}: {error}", self.path.display()))?;
+        self.file.write_all(line.as_bytes()).map_err(|error| {
+            format!(
+                "failed to append trajectory {}: {error}",
+                self.path.display()
+            )
+        })?;
         self.file
             .sync_data()
             .map_err(|error| format!("failed to sync trajectory {}: {error}", self.path.display()))

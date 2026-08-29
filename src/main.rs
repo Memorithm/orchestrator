@@ -8,6 +8,7 @@ use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 mod state;
+mod trajectory;
 
 #[derive(Debug, Clone, Copy)]
 struct Tool {
@@ -974,8 +975,8 @@ fn print_triage(snapshot: &TriageSnapshot, organization: &str) {
     }
 
     println!();
-    println!("Selection");
-    println!("---------");
+    println!("Priority head (before runtime cooldown)");
+    println!("---------------------------------------");
     if let Some(selected) = snapshot.selected() {
         println!("Kind       : {}", selected.kind.as_str());
         println!("Repository : {}", selected.repository);
@@ -1411,6 +1412,18 @@ fn validate_workspace(config: &RunConfig, workspace: &Path) -> Result<(), String
     if workspace.join("Cargo.toml").is_file() {
         run_in_dir(workspace, "cargo", &["fmt", "--all", "--", "--check"])?;
         run_in_dir(workspace, "cargo", &["check", "--workspace"])?;
+        run_in_dir(
+            workspace,
+            "cargo",
+            &[
+                "clippy",
+                "--workspace",
+                "--all-targets",
+                "--",
+                "-D",
+                "warnings",
+            ],
+        )?;
         if config.full_validation {
             run_in_dir(workspace, "cargo", &["test", "--workspace"])?;
         }
@@ -1763,6 +1776,8 @@ fn run_loop(config: RunConfig) -> ExitCode {
         config.data_root.join("state/work-items"),
         config.retry_policy,
     );
+    let trajectory_root = config.data_root.join("trajectories");
+    println!("trajectories      : {}", trajectory_root.display());
     let mut cycle = 0_u64;
     loop {
         cycle += 1;
@@ -1780,12 +1795,40 @@ fn run_loop(config: RunConfig) -> ExitCode {
                 ) {
                     Ok(Some(item)) => {
                         let key = work_key(item);
+                        let mut journal = match trajectory::AttemptJournal::create(
+                            &trajectory_root,
+                            &item.repository,
+                            item.kind.as_str(),
+                            item.number,
+                            &config.model,
+                            selection_time,
+                        ) {
+                            Ok(journal) => {
+                                println!("trajectory : {}", journal.path().display());
+                                journal
+                            }
+                            Err(journal_error) => {
+                                eprintln!("trajectory creation failed: {journal_error}");
+                                return ExitCode::FAILURE;
+                            }
+                        };
+
                         match execute_item(&config, &snapshot, item) {
                             Ok(()) => {
+                                let finished_at = unix_timestamp();
+                                if let Err(journal_error) = journal.record(
+                                    trajectory::EventPhase::AttemptFinished,
+                                    "success",
+                                    "execution completed",
+                                    finished_at,
+                                ) {
+                                    eprintln!("trajectory finalization failed: {journal_error}");
+                                    return ExitCode::FAILURE;
+                                }
                                 match attempt_store.record(
                                     &key,
                                     state::AttemptOutcome::Success,
-                                    unix_timestamp(),
+                                    finished_at,
                                 ) {
                                     Ok(attempt_state) => println!(
                                         "Scheduler recorded success; {}#{} next eligible at unix={}",
@@ -1802,11 +1845,21 @@ fn run_loop(config: RunConfig) -> ExitCode {
                                 }
                             }
                             Err(error) => {
+                                let finished_at = unix_timestamp();
                                 eprintln!("cycle {cycle} action failed: {error}");
+                                if let Err(journal_error) = journal.record(
+                                    trajectory::EventPhase::AttemptFinished,
+                                    "failure",
+                                    &error,
+                                    finished_at,
+                                ) {
+                                    eprintln!("trajectory finalization failed: {journal_error}");
+                                    return ExitCode::FAILURE;
+                                }
                                 match attempt_store.record(
                                     &key,
                                     state::AttemptOutcome::Failure,
-                                    unix_timestamp(),
+                                    finished_at,
                                 ) {
                                     Ok(attempt_state) => eprintln!(
                                         "Scheduler recorded failure {} for {}#{}; next eligible at unix={}",
