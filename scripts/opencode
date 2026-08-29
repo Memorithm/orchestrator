@@ -47,11 +47,13 @@ primary_edit_max_tools="${ORCHESTRATOR_PRIMARY_EDIT_MAX_TOOLS:-24}"
 primary_edit_idle_secs="${ORCHESTRATOR_PRIMARY_EDIT_IDLE_SECS:-420}"
 surgical_edit_max_tools="${ORCHESTRATOR_SURGICAL_EDIT_MAX_TOOLS:-16}"
 surgical_edit_idle_secs="${ORCHESTRATOR_SURGICAL_EDIT_IDLE_SECS:-300}"
+backend_error_max="${ORCHESTRATOR_BACKEND_ERROR_MAX:-3}"
 for numeric_value in \
   "$primary_edit_max_tools" \
   "$primary_edit_idle_secs" \
   "$surgical_edit_max_tools" \
-  "$surgical_edit_idle_secs"; do
+  "$surgical_edit_idle_secs" \
+  "$backend_error_max"; do
   if [[ ! "$numeric_value" =~ ^[1-9][0-9]*$ ]]; then
     printf 'orchestrator opencode wrapper: invalid positive integer watchdog value: %s\n' "$numeric_value" >&2
     exit 2
@@ -206,6 +208,7 @@ printf 'default plugins: disable requested\n'
 printf 'claude compatibility: disabled\n'
 printf 'permissions: runtime-enforced\n'
 printf 'agent cargo bridge: enabled\n'
+printf 'backend circuit breaker: %s repeated fatal template errors\n' "$backend_error_max"
 if (( is_ci_fix == 1 && local_failure_available == 1 )); then
   printf 'first-edit watchdog: %s tool actions / %ss idle\n' "$primary_edit_max_tools" "$primary_edit_idle_secs"
   printf 'surgical retry: %s tool actions / %ss idle, history+GitHub denied\n' "$surgical_edit_max_tools" "$surgical_edit_idle_secs"
@@ -236,10 +239,34 @@ stop_agent_group() {
   if kill -0 "$pid" 2>/dev/null; then
     kill -TERM -- "-$pid" 2>/dev/null || kill -TERM "$pid" 2>/dev/null || true
   fi
+  sleep 3
+  if kill -0 "$pid" 2>/dev/null; then
+    kill -KILL -- "-$pid" 2>/dev/null || kill -KILL "$pid" 2>/dev/null || true
+  fi
 }
 
-# Return 124 when the first-edit budget is exceeded, 125 when the agent exits
-# without changing the baseline diff, otherwise return the agent status.
+fatal_backend_error_count() {
+  local log_file="$1"
+  grep -c 'No user query found in messages' "$log_file" 2>/dev/null || true
+}
+
+trip_backend_circuit_if_needed() {
+  local log_file="$1"
+  local error_count
+  error_count="$(fatal_backend_error_count "$log_file")"
+  if (( error_count < backend_error_max )); then
+    return 1
+  fi
+
+  printf '\n===== OPENCODE BACKEND CIRCUIT BREAKER =====\n' >&2
+  printf 'fatal backend/template error repeated %s times; stopping this agent pass\n' "$error_count" >&2
+  printf 'signature: No user query found in messages\n' >&2
+  return 0
+}
+
+# Return 124 when the first-edit/progress budget is exceeded, 125 when the
+# agent exits successfully without changing the baseline diff, 70 when a known
+# fatal backend/template loop is detected, otherwise return the agent status.
 run_agent_with_first_edit_watchdog() {
   local effective_permission="$1"
   local max_tools="$2"
@@ -249,19 +276,31 @@ run_agent_with_first_edit_watchdog() {
   local log_file
   local idle_deadline
   local current_signature
+  local last_signature="$baseline_signature"
   local tool_count
   local last_tool_count=0
   local edited=0
+  local status
 
   log_file="$(mktemp "${TMPDIR:-/tmp}/memorithm-opencode-pass.XXXXXX.log")" || return 1
   idle_deadline=$((SECONDS + max_idle_seconds))
   start_agent "$effective_permission" "$log_file" "$effective_model_id"
 
   while kill -0 "$AGENT_PID" 2>/dev/null; do
+    if trip_backend_circuit_if_needed "$log_file"; then
+      stop_agent_group "$AGENT_PID"
+      wait "$AGENT_PID" 2>/dev/null || true
+      rm -f "$log_file"
+      return 70
+    fi
+
     current_signature="$(diff_signature)"
-    if [[ "$current_signature" != "$baseline_signature" ]]; then
-      edited=1
-      break
+    if [[ "$current_signature" != "$last_signature" ]]; then
+      if [[ "$current_signature" != "$baseline_signature" ]]; then
+        edited=1
+      fi
+      last_signature="$current_signature"
+      idle_deadline=$((SECONDS + max_idle_seconds))
     fi
 
     tool_count="$(grep -c 'message=evaluated permission=' "$log_file" 2>/dev/null || true)"
@@ -269,7 +308,7 @@ run_agent_with_first_edit_watchdog() {
       last_tool_count=$tool_count
       idle_deadline=$((SECONDS + max_idle_seconds))
     fi
-    if (( tool_count >= max_tools )); then
+    if (( edited == 0 && tool_count >= max_tools )); then
       printf '\n===== FIRST-EDIT WATCHDOG =====\n'
       printf 'tool budget exhausted (%s/%s) without a new working-tree diff; stopping agent pass\n' "$tool_count" "$max_tools"
       stop_agent_group "$AGENT_PID"
@@ -278,8 +317,12 @@ run_agent_with_first_edit_watchdog() {
       return 124
     fi
     if (( SECONDS >= idle_deadline )); then
-      printf '\n===== FIRST-EDIT WATCHDOG =====\n'
-      printf 'idle budget exhausted (%ss without a new tool action or working-tree diff); stopping agent pass\n' "$max_idle_seconds"
+      printf '\n===== AGENT PROGRESS WATCHDOG =====\n'
+      if (( edited == 0 )); then
+        printf 'idle budget exhausted (%ss without a new tool action or working-tree diff); stopping agent pass\n' "$max_idle_seconds"
+      else
+        printf 'post-edit idle budget exhausted (%ss without a new tool action or diff change); preserving edits and stopping agent pass\n' "$max_idle_seconds"
+      fi
       stop_agent_group "$AGENT_PID"
       wait "$AGENT_PID" 2>/dev/null || true
       rm -f "$log_file"
@@ -303,8 +346,20 @@ run_agent_with_first_edit_watchdog() {
 
 run_agent_unbounded() {
   local log_file
+  local status
   log_file="$(mktemp "${TMPDIR:-/tmp}/memorithm-opencode-pass.XXXXXX.log")" || return 1
   start_agent "$permission_json" "$log_file" "$model_id"
+
+  while kill -0 "$AGENT_PID" 2>/dev/null; do
+    if trip_backend_circuit_if_needed "$log_file"; then
+      stop_agent_group "$AGENT_PID"
+      wait "$AGENT_PID" 2>/dev/null || true
+      rm -f "$log_file"
+      return 70
+    fi
+    sleep 2
+  done
+
   wait "$AGENT_PID"
   status=$?
   rm -f "$log_file"
@@ -359,7 +414,8 @@ SURGICAL RETRY MODE:
 }
 
 # CI failures with a locally reproduced error use an enforced first-edit
-# watchdog. Other tasks retain the normal autonomous worker behavior.
+# watchdog. Other tasks retain normal autonomous behavior but are still guarded
+# against deterministic backend/template retry loops.
 if (( is_ci_fix == 1 && local_failure_available == 1 )); then
   run_ci_repair_pass
   status=$?
