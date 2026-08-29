@@ -1,0 +1,35 @@
+name: temporary-rustfmt-fix
+
+on:
+  push:
+    branches: [fix/ci-rustfmt]
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/ci-rustfmt
+      - name: Rust toolchain
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt
+      - name: Apply rustfmt
+        run: cargo fmt --all
+      - name: Commit formatting
+        run: |
+          git diff --check
+          if git diff --quiet; then
+            echo "No formatting changes required"
+            exit 0
+          fi
+          git config user.name "Memorithm CI"
+          git config user.email "ci@memorithm.local"
+          git add src/main.rs
+          git commit -m "style: apply canonical rustfmt"
+          git push origin HEAD:fix/ci-rustfmt
