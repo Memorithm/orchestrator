@@ -1,0 +1,76 @@
+name: integrate scheduler state
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/apply-scheduler-state.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: orchestrator-scheduler-state-integration
+  cancel-in-progress: false
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply deterministic integration patches
+        run: |
+          python3 tools/apply-scheduler-state.py
+          python3 tools/finalize-scheduler-state.py
+
+      - name: Rust toolchain
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt clippy
+
+      - name: Format integrated sources
+        run: cargo fmt --all
+
+      - name: Validate runtime bridges
+        run: |
+          bash -n scripts/start.sh
+          bash -n scripts/opencode
+          bash -n scripts/opencode-env
+          bash -n scripts/cargo
+          bash -n scripts/git
+          bash -n scripts/gh
+          bash -n scripts/agent-git
+          bash -n scripts/agent-gh
+          bash -n scripts/selftest-runtime.sh
+          bash -n scripts/install-systemd.sh
+          bash scripts/selftest-runtime.sh
+
+      - name: Validate integrated scheduler
+        run: |
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+          git diff --check
+
+      - name: Enforce patch scope
+        run: |
+          changed="$(git diff --name-only)"
+          printf '%s\n' "$changed"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/main\.rs|src/state\.rs)$' || true)"
+          if [ -n "$unexpected" ]; then
+            printf 'unexpected integration paths:\n%s\n' "$unexpected" >&2
+            false
+          fi
+          test -n "$changed"
+
+      - name: Commit validated scheduler integration
+        run: |
+          git config user.name 'Memorithm Orchestrator Integration'
+          git config user.email 'orchestrator@localhost'
+          git add src/main.rs src/state.rs
+          git commit -m 'feat(scheduler): persist retry cooldown state'
+          git push origin HEAD:main
