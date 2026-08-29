@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -u
+
+REAL_GIT="${ORCHESTRATOR_REAL_GIT:?ORCHESTRATOR_REAL_GIT is not set}"
+command_name="${1:-}"
+
+refuse() {
+  printf 'orchestrator agent git wrapper: refusing mutating or unsupported command: git %s\n' "$*" >&2
+  exit 126
+}
+
+case "$command_name" in
+  "")
+    exec "$REAL_GIT"
+    ;;
+  --version|version|status|diff|show|log|grep|rev-parse|rev-list|ls-files|ls-tree|cat-file|blame|shortlog|describe|merge-base|name-rev|archive)
+    exec "$REAL_GIT" "$@"
+    ;;
+  branch)
+    shift
+    if (( $# == 0 )); then
+      exec "$REAL_GIT" branch
+    fi
+    for argument in "$@"; do
+      case "$argument" in
+        --show-current|-a|--all|-r|--remotes|-v|-vv|--contains|--no-contains|--merged|--no-merged|--points-at|--format=*|--sort=*|--list)
+          ;;
+        *) refuse branch "$@" ;;
+      esac
+    done
+    exec "$REAL_GIT" branch "$@"
+    ;;
+  remote)
+    shift
+    case "${1:-}" in
+      -v|--verbose)
+        exec "$REAL_GIT" remote "$@"
+        ;;
+      get-url|show)
+        exec "$REAL_GIT" remote "$@"
+        ;;
+      "")
+        exec "$REAL_GIT" remote
+        ;;
+      *) refuse remote "$@" ;;
+    esac
+    ;;
+  config)
+    shift
+    case "${1:-}" in
+      --get|--get-all|--get-regexp|--list|-l|--show-origin|--show-scope)
+        exec "$REAL_GIT" config "$@"
+        ;;
+      *) refuse config "$@" ;;
+    esac
+    ;;
+  add|am|apply|bisect|checkout|cherry-pick|clean|commit|fetch|gc|merge|mv|notes|pull|push|rebase|remote-*|replace|reset|restore|revert|rm|stash|submodule|switch|tag|update-ref|worktree)
+    refuse "$@"
+    ;;
+  *)
+    refuse "$@"
+    ;;
+esac
