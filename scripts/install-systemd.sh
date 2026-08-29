@@ -30,6 +30,7 @@ chmod 700 "$RUNTIME_HOME" "$CARGO_HOME_PATH"
 # work. Auto-merge remains disabled until unattended validation is proven.
 umask 077
 cat >"$ENV_PATH" <<'EOF'
+ORCHESTRATOR_DATA_ROOT=/root/.local/share/memorithm-orchestrator
 ORCHESTRATOR_MODEL=ollama/qwen3.8:latest
 ORCHESTRATOR_SURGICAL_MODEL=ollama/qwen3.8:latest
 ORCHESTRATOR_INTERVAL_SECS=180
