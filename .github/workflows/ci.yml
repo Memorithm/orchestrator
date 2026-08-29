@@ -24,9 +24,20 @@ jobs:
           bash -n scripts/agent-git
           bash -n scripts/agent-gh
           bash -n scripts/selftest-runtime.sh
+          bash -n scripts/render-systemd-unit.sh
           bash -n scripts/install-systemd.sh
       - name: Runtime bridge selftest
         run: bash scripts/selftest-runtime.sh
+      - name: Verify systemd sandbox
+        run: |
+          mkdir -p "$RUNNER_TEMP/orchestrator-data"
+          touch "$RUNNER_TEMP/orchestrator.env"
+          bash scripts/render-systemd-unit.sh \
+            "$GITHUB_WORKSPACE" \
+            "$RUNNER_TEMP/orchestrator-data" \
+            "$RUNNER_TEMP/orchestrator.env" \
+            > "$RUNNER_TEMP/memorithm-orchestrator.service"
+          systemd-analyze verify "$RUNNER_TEMP/memorithm-orchestrator.service"
       - name: Rust toolchain
         run: |
           rustup update stable
