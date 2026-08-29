@@ -5,6 +5,7 @@ on:
     branches: [research/offline-health]
     paths:
       - tools/apply-offline-health.py
+      - tools/fix-health-clippy.py
       - .github/workflows/materialize-offline-health.yml
 
 permissions:
@@ -23,11 +24,14 @@ jobs:
           fetch-depth: 0
 
       - name: Apply offline health CLI
-        run: python3 tools/apply-offline-health.py
+        run: |
+          python3 tools/apply-offline-health.py
+          python3 tools/fix-health-clippy.py
 
       - name: Remove one-shot materializer
         run: |
           rm tools/apply-offline-health.py
+          rm tools/fix-health-clippy.py
           rm .github/workflows/materialize-offline-health.yml
 
       - name: Rust toolchain
@@ -89,11 +93,12 @@ jobs:
             src/main.rs \
             src/health.rs \
             tools/apply-offline-health.py \
+            tools/fix-health-clippy.py \
             .github/workflows/materialize-offline-health.yml
           do
             printf '%s\n' "$changed" | grep -Fxq "$expected"
           done
-          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/main\.rs|src/health\.rs|tools/apply-offline-health\.py|\.github/workflows/materialize-offline-health\.yml)$' || true)"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/main\.rs|src/health\.rs|tools/apply-offline-health\.py|tools/fix-health-clippy\.py|\.github/workflows/materialize-offline-health\.yml)$' || true)"
           test -z "$unexpected"
 
       - name: Commit materialized health command
