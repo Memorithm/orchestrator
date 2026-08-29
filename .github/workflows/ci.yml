@@ -13,6 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Validate shell scripts
+        run: |
+          bash -n scripts/start.sh
+          bash -n scripts/opencode
+          bash -n scripts/cargo
+          bash -n scripts/git
+          bash -n scripts/gh
+          bash -n scripts/install-systemd.sh
       - name: Rust toolchain
         run: |
           rustup update stable
