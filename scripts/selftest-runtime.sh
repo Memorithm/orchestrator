@@ -65,14 +65,12 @@ fi
 printf 'PASS agent-gh read-only boundary\n'
 
 # ---------------------------------------------------------------------------
-# OpenCode environment: host HOME/XDG/plugin state must not leak into workers.
+# OpenCode environment: host HOME/XDG/plugin/auth state must not leak into workers.
 # ---------------------------------------------------------------------------
 AGENT_HOME="$TMP_ROOT/agent-home"
 AGENT_CONFIG="$AGENT_HOME/.config"
 AGENT_DATA="$AGENT_HOME/.local/share"
 AGENT_CACHE="$AGENT_HOME/.cache"
-GH_CONFIG="$TMP_ROOT/real-gh-config"
-mkdir -p "$GH_CONFIG"
 
 cat >"$TMP_ROOT/fake-opencode-core" <<'EOF'
 #!/usr/bin/env bash
@@ -80,7 +78,11 @@ cat >"$TMP_ROOT/fake-opencode-core" <<'EOF'
 [[ "$XDG_CONFIG_HOME" == "${SELFTEST_EXPECT_CONFIG:?}" ]] || exit 42
 [[ "$XDG_DATA_HOME" == "${SELFTEST_EXPECT_DATA:?}" ]] || exit 43
 [[ "$XDG_CACHE_HOME" == "${SELFTEST_EXPECT_CACHE:?}" ]] || exit 44
-[[ "$GH_CONFIG_DIR" == "${SELFTEST_EXPECT_GH:?}" ]] || exit 45
+[[ "$GH_CONFIG_DIR" == "${SELFTEST_EXPECT_CONFIG:?}/gh-empty" ]] || exit 45
+[[ -z "${GH_TOKEN:-}" ]] || exit 54
+[[ -z "${GITHUB_TOKEN:-}" ]] || exit 55
+[[ -z "${SSH_AUTH_SOCK:-}" ]] || exit 56
+[[ -z "${GIT_CONFIG_GLOBAL:-}" ]] || exit 57
 [[ "$OPENCODE_DISABLE_PROJECT_CONFIG" == "1" ]] || exit 46
 [[ "$OPENCODE_DISABLE_EXTERNAL_SKILLS" == "1" ]] || exit 47
 [[ "$OPENCODE_DISABLE_DEFAULT_PLUGINS" == "1" ]] || exit 48
@@ -98,17 +100,20 @@ export ORCHESTRATOR_AGENT_HOME="$AGENT_HOME"
 export ORCHESTRATOR_AGENT_CONFIG_DIR="$AGENT_CONFIG"
 export ORCHESTRATOR_AGENT_DATA_DIR="$AGENT_DATA"
 export ORCHESTRATOR_AGENT_CACHE_DIR="$AGENT_CACHE"
-export ORCHESTRATOR_GH_CONFIG_DIR="$GH_CONFIG"
 export SELFTEST_EXPECT_HOME="$AGENT_HOME"
 export SELFTEST_EXPECT_CONFIG="$AGENT_CONFIG"
 export SELFTEST_EXPECT_DATA="$AGENT_DATA"
 export SELFTEST_EXPECT_CACHE="$AGENT_CACHE"
-export SELFTEST_EXPECT_GH="$GH_CONFIG"
+export GH_TOKEN='must-not-leak'
+export GITHUB_TOKEN='must-not-leak'
+export SSH_AUTH_SOCK='/tmp/must-not-leak.sock'
+export GIT_CONFIG_GLOBAL='/tmp/must-not-leak.gitconfig'
 
 isolation_output="$(bash "$ROOT/scripts/opencode-env" run sentinel)"
 [[ "$isolation_output" == 'isolated-ok' ]] || fail 'OpenCode isolation wrapper did not execute managed core'
 
-printf 'PASS OpenCode HOME/XDG/plugin isolation\n'
+unset GH_TOKEN GITHUB_TOKEN SSH_AUTH_SOCK GIT_CONFIG_GLOBAL
+printf 'PASS OpenCode HOME/XDG/plugin/credential isolation\n'
 
 # ---------------------------------------------------------------------------
 # Cargo bridge: unstable rustfmt config must select the unique CI nightly even
