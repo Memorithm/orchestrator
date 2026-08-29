@@ -55,9 +55,13 @@ if (( last_index >= 0 )) && [[ "${args[$last_index]}" == *"Task: FIX_CI"* ]]; th
   args[$last_index]="${args[$last_index]}
 
 CI repair hard requirement:
-- Inspect the current failing GitHub checks and workflow job logs.
-- Reproduce the exact failing CI commands, including explicit Rust toolchains.
+- Inspect the current failing GitHub checks and workflow job logs only when the failure has not already been reproduced locally by Orchestrator.
+- A reproduced local compiler/lint/test failure supplied by Orchestrator is authoritative evidence for this repair pass. Do not re-investigate GitHub or Git history before editing unless the current source tree is genuinely ambiguous.
+- Use at most 10 read-only inspection/tool actions before the first working-tree edit once a reproduced local failure is present.
+- Do not spend time on git log/show/history archaeology unless current code cannot explain the failure.
+- Reproduce exact failing CI commands, including explicit Rust toolchains.
 - Preserve any deterministic repair already left in the working tree.
+- Once the failing symbols/files are identified, edit immediately, then validate.
 - Continue until the reproduced local CI gates pass, or leave the narrowest safe partial fix with a precise blocker."
 fi
 
@@ -131,7 +135,7 @@ if (( deterministic_changes == 1 )); then
 
   args[$last_index]="${args[$last_index]}
 
-Orchestrator deterministic preflight already applied CI-matched rustfmt and then reproduced the next failing Rust CI gate. Keep the existing formatting diff unless it is demonstrably wrong. Repair this additional failure without unrelated refactoring.
+Orchestrator deterministic preflight already applied CI-matched rustfmt and reproduced the next failing Rust CI gate. The failure below is authoritative for this pass. Do not query GitHub or inspect Git history before editing unless the current source tree is genuinely ambiguous. Use at most 10 inspection actions before your first edit. Keep the existing formatting diff unless it is demonstrably wrong. Repair this additional failure without unrelated refactoring, then run the CI-matched validation commands.
 
 Reproduced local CI failure (tail, up to 16000 bytes):
 ${followup_failure_log}"
@@ -143,6 +147,7 @@ printf 'default plugins: disable requested\n'
 printf 'claude compatibility: disabled\n'
 printf 'permissions: runtime-enforced\n'
 printf 'agent cargo bridge: enabled\n'
+printf 'ci inspection budget: 10 before first edit\n'
 printf 'logs: INFO to stderr\n\n'
 
 run_agent_once() {
@@ -182,7 +187,7 @@ if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
 
   args[$last_index]="${args[$last_index]}
 
-Follow-up repair pass: your previous edits are still in the working tree, but the reproduced Rust CI gates remain red. Do not restart or revert correct prior changes. Repair only the residual failure below, then run the relevant CI-matched commands again.
+Follow-up repair pass: your previous edits are still in the working tree, but the reproduced Rust CI gates remain red. Treat the residual failure below as authoritative. Do not restart investigation, query GitHub, or inspect Git history before editing. Inspect only the current files directly implicated by the error, make the narrowest correction, and rerun the relevant CI-matched commands.
 
 Residual local CI failure (tail, up to 16000 bytes):
 ${residual_log}"
