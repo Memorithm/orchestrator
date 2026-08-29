@@ -5,6 +5,7 @@ on:
     branches: [research/failure-classes]
     paths:
       - tools/apply-failure-classes.py
+      - tools/fix-failure-class-materializer.py
       - .github/workflows/materialize-failure-classes.yml
 
 permissions:
@@ -23,11 +24,14 @@ jobs:
           fetch-depth: 0
 
       - name: Apply classified retry patch
-        run: python3 tools/apply-failure-classes.py
+        run: |
+          python3 tools/apply-failure-classes.py
+          python3 tools/fix-failure-class-materializer.py
 
       - name: Remove one-shot materializer
         run: |
           rm tools/apply-failure-classes.py
+          rm tools/fix-failure-class-materializer.py
           rm .github/workflows/materialize-failure-classes.yml
 
       - name: Rust toolchain
@@ -83,11 +87,12 @@ jobs:
             src/state.rs \
             scripts/install-systemd.sh \
             tools/apply-failure-classes.py \
+            tools/fix-failure-class-materializer.py \
             .github/workflows/materialize-failure-classes.yml
           do
             printf '%s\n' "$changed" | grep -Fxq "$expected"
           done
-          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/main\.rs|src/state\.rs|scripts/install-systemd\.sh|tools/apply-failure-classes\.py|\.github/workflows/materialize-failure-classes\.yml)$' || true)"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/main\.rs|src/state\.rs|scripts/install-systemd\.sh|tools/apply-failure-classes\.py|tools/fix-failure-class-materializer\.py|\.github/workflows/materialize-failure-classes\.yml)$' || true)"
           test -z "$unexpected"
 
       - name: Commit materialized runtime
