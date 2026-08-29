@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -u
+
+REAL_GH="${ORCHESTRATOR_REAL_GH:?ORCHESTRATOR_REAL_GH is not set}"
+command_name="${1:-}"
+subcommand="${2:-}"
+
+refuse() {
+  printf 'orchestrator agent gh wrapper: refusing mutating or unsupported command: gh %s\n' "$*" >&2
+  exit 126
+}
+
+case "$command_name" in
+  "")
+    exec "$REAL_GH"
+    ;;
+  --version|version|help|status)
+    exec "$REAL_GH" "$@"
+    ;;
+  auth)
+    case "$subcommand" in
+      status) exec "$REAL_GH" "$@" ;;
+      *) refuse "$@" ;;
+    esac
+    ;;
+  pr)
+    case "$subcommand" in
+      view|list|checks|diff) exec "$REAL_GH" "$@" ;;
+      *) refuse "$@" ;;
+    esac
+    ;;
+  issue)
+    case "$subcommand" in
+      view|list|status) exec "$REAL_GH" "$@" ;;
+      *) refuse "$@" ;;
+    esac
+    ;;
+  repo)
+    case "$subcommand" in
+      view|list) exec "$REAL_GH" "$@" ;;
+      *) refuse "$@" ;;
+    esac
+    ;;
+  run)
+    case "$subcommand" in
+      view|list|watch) exec "$REAL_GH" "$@" ;;
+      *) refuse "$@" ;;
+    esac
+    ;;
+  workflow)
+    case "$subcommand" in
+      view|list) exec "$REAL_GH" "$@" ;;
+      *) refuse "$@" ;;
+    esac
+    ;;
+  release)
+    case "$subcommand" in
+      view|list) exec "$REAL_GH" "$@" ;;
+      *) refuse "$@" ;;
+    esac
+    ;;
+  search)
+    case "$subcommand" in
+      code|commits|issues|prs|repos) exec "$REAL_GH" "$@" ;;
+      *) refuse "$@" ;;
+    esac
+    ;;
+  api|alias|cache|codespace|config|extension|gist|label|ruleset|secret|ssh-key|variable)
+    refuse "$@"
+    ;;
+  *)
+    refuse "$@"
+    ;;
+esac
