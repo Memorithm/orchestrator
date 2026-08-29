@@ -1,0 +1,85 @@
+name: integrate general agent supervision
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/apply-general-agent-supervision.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: orchestrator-general-agent-supervision-integration
+  cancel-in-progress: false
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply deterministic supervision patch
+        run: python3 tools/apply-general-agent-supervision.py
+
+      - name: Validate shell syntax
+        run: |
+          bash -n scripts/opencode
+          bash -n scripts/selftest-opencode-watchdog.sh
+          bash -n scripts/start.sh
+          bash -n scripts/opencode-env
+          bash -n scripts/cargo
+          bash -n scripts/git
+          bash -n scripts/gh
+          bash -n scripts/agent-git
+          bash -n scripts/agent-gh
+          bash -n scripts/selftest-runtime.sh
+          bash -n scripts/render-systemd-unit.sh
+          bash -n scripts/install-systemd.sh
+
+      - name: Exercise general watchdog behavior
+        run: bash scripts/selftest-opencode-watchdog.sh
+
+      - name: Exercise runtime bridges
+        run: bash scripts/selftest-runtime.sh
+
+      - name: Verify systemd sandbox
+        run: |
+          mkdir -p "$RUNNER_TEMP/orchestrator-data"
+          touch "$RUNNER_TEMP/orchestrator.env"
+          bash scripts/render-systemd-unit.sh \
+            "$GITHUB_WORKSPACE" \
+            "$RUNNER_TEMP/orchestrator-data" \
+            "$RUNNER_TEMP/orchestrator.env" \
+            > "$RUNNER_TEMP/memorithm-orchestrator.service"
+          systemd-analyze verify "$RUNNER_TEMP/memorithm-orchestrator.service"
+
+      - name: Rust toolchain
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt clippy
+
+      - name: Validate Rust runtime
+        run: |
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+          git diff --check
+
+      - name: Enforce patch scope
+        run: |
+          changed="$(git diff --name-only)"
+          printf '%s\n' "$changed"
+          test "$changed" = "scripts/opencode"
+
+      - name: Commit validated supervision
+        run: |
+          git config user.name 'Memorithm Orchestrator Integration'
+          git config user.email 'orchestrator@localhost'
+          git add scripts/opencode
+          git commit -m 'fix(runtime): bound autonomous research agent execution'
+          git push origin HEAD:main
