@@ -23,7 +23,10 @@ jobs:
           bash -n scripts/gh
           bash -n scripts/agent-git
           bash -n scripts/agent-gh
+          bash -n scripts/selftest-runtime.sh
           bash -n scripts/install-systemd.sh
+      - name: Runtime bridge selftest
+        run: bash scripts/selftest-runtime.sh
       - name: Rust toolchain
         run: |
           rustup update stable
