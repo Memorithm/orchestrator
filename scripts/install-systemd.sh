@@ -20,11 +20,13 @@ done
 
 # Persist only non-secret runtime policy. GitHub authentication remains in the
 # root account's existing gh credential/config store; no token is copied here.
-# Auto-merge starts disabled until one complete unattended repair/push cycle
-# has been observed successfully under systemd.
+# Qwen 3.8 is the sole autonomous model for primary, surgical, and follow-up
+# work. Auto-merge remains disabled until one complete unattended repair/push
+# cycle has been observed successfully under systemd.
 umask 077
 cat >"$ENV_PATH" <<'EOF'
-ORCHESTRATOR_MODEL=ollama/muse-glimmer:latest
+ORCHESTRATOR_MODEL=ollama/qwen3.8:latest
+ORCHESTRATOR_SURGICAL_MODEL=ollama/qwen3.8:latest
 ORCHESTRATOR_INTERVAL_SECS=180
 ORCHESTRATOR_AUTO_MERGE=0
 ORCHESTRATOR_FULL_VALIDATION=1
