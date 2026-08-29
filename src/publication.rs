@@ -147,7 +147,11 @@ impl PublicationStore {
 }
 
 fn validate_ref_component(label: &str, value: &str) -> Result<(), String> {
-    if value.is_empty() || value.contains(['\n', '\r', '\0']) {
+    if value.is_empty()
+        || value
+            .bytes()
+            .any(|byte| matches!(byte, b'\n' | b'\r' | 0))
+    {
         return Err(format!("invalid {label}: control characters or empty value"));
     }
     Ok(())
