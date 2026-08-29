@@ -21,8 +21,7 @@ done
 # Persist only non-secret runtime policy. GitHub authentication remains in the
 # root account's existing gh credential/config store; no token is copied here.
 # Qwen 3.8 is the sole autonomous model for primary, surgical, and follow-up
-# work. Auto-merge remains disabled until one complete unattended repair/push
-# cycle has been observed successfully under systemd.
+# work. Auto-merge remains disabled until unattended validation is proven.
 umask 077
 cat >"$ENV_PATH" <<'EOF'
 ORCHESTRATOR_MODEL=ollama/qwen3.8:latest
@@ -30,6 +29,11 @@ ORCHESTRATOR_SURGICAL_MODEL=ollama/qwen3.8:latest
 ORCHESTRATOR_INTERVAL_SECS=180
 ORCHESTRATOR_AUTO_MERGE=0
 ORCHESTRATOR_FULL_VALIDATION=1
+ORCHESTRATOR_BACKEND_ERROR_MAX=3
+ORCHESTRATOR_PRIMARY_EDIT_MAX_TOOLS=24
+ORCHESTRATOR_PRIMARY_EDIT_IDLE_SECS=420
+ORCHESTRATOR_SURGICAL_EDIT_MAX_TOOLS=16
+ORCHESTRATOR_SURGICAL_EDIT_IDLE_SECS=300
 EOF
 chmod 600 "$ENV_PATH"
 
@@ -53,8 +57,22 @@ EnvironmentFile=$ENV_PATH
 ExecStart=/usr/bin/env bash $ROOT/scripts/start.sh Memorithm
 Restart=always
 RestartSec=15
+
+# The Rust parent receives SIGINT first. Any descendant still alive after the
+# grace period is killed as part of this unit's cgroup, never by a global pkill.
+KillMode=mixed
 KillSignal=SIGINT
-TimeoutStopSec=120
+FinalKillSignal=SIGKILL
+SendSIGKILL=yes
+TimeoutStopSec=30
+TimeoutStopFailureMode=kill
+
+# Keep runaway agent trees bounded without constraining normal Rust/CUDA work.
+TasksMax=4096
+LimitNOFILE=65536
+OOMPolicy=stop
+UMask=0077
+
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=memorithm-orchestrator
