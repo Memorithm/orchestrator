@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${1:-}" != "--" ]]; then
+  printf 'agent sandbox usage: agent-sandbox -- command [args...]\n' >&2
+  exit 2
+fi
+shift
+if [[ "$#" -eq 0 ]]; then
+  printf 'agent sandbox: missing command\n' >&2
+  exit 2
+fi
+
+BWRAP="${ORCHESTRATOR_REAL_BWRAP:?ORCHESTRATOR_REAL_BWRAP is not set}"
+DATA_ROOT="${ORCHESTRATOR_DATA_ROOT:?ORCHESTRATOR_DATA_ROOT is not set}"
+PARENT_HOME="${ORCHESTRATOR_PARENT_HOME:?ORCHESTRATOR_PARENT_HOME is not set}"
+AGENT_HOME="${ORCHESTRATOR_AGENT_HOME:?ORCHESTRATOR_AGENT_HOME is not set}"
+AGENT_WRAPPERS="${ORCHESTRATOR_AGENT_WRAPPER_DIR:?ORCHESTRATOR_AGENT_WRAPPER_DIR is not set}"
+REAL_CARGO="${ORCHESTRATOR_REAL_CARGO:?ORCHESTRATOR_REAL_CARGO is not set}"
+REAL_OPENCODE="${ORCHESTRATOR_REAL_OPENCODE:?ORCHESTRATOR_REAL_OPENCODE is not set}"
+RUSTUP_HOME_HOST="${RUSTUP_HOME:-$PARENT_HOME/.rustup}"
+CARGO_HOME_HOST="${CARGO_HOME:-$DATA_ROOT/cargo-home}"
+
+WORKSPACE="$(pwd -P)"
+WORKSPACES_ROOT="$(realpath -m "$DATA_ROOT/workspaces")"
+case "$WORKSPACE" in
+  "$WORKSPACES_ROOT"/*) ;;
+  *)
+    printf 'agent sandbox: refusing workspace outside %s: %s\n' "$WORKSPACES_ROOT" "$WORKSPACE" >&2
+    exit 2
+    ;;
+esac
+
+for required in \
+  "$BWRAP" \
+  "$AGENT_HOME" \
+  "$AGENT_WRAPPERS" \
+  "$REAL_CARGO" \
+  "$REAL_OPENCODE" \
+  "$RUSTUP_HOME_HOST" \
+  "$CARGO_HOME_HOST"; do
+  if [[ ! -e "$required" ]]; then
+    printf 'agent sandbox: required path missing: %s\n' "$required" >&2
+    exit 2
+  fi
+done
+
+CARGO_BIN_HOST="$(dirname "$REAL_CARGO")"
+OPENCODE_BIN_HOST="$(dirname "$REAL_OPENCODE")"
+REAL_GIT="${ORCHESTRATOR_REAL_GIT:-$(command -v git)}"
+REAL_GH="${ORCHESTRATOR_REAL_GH:-$(command -v gh)}"
+
+# The worker gets an explicit environment allowlist. Do not forward GH_TOKEN,
+# GITHUB_TOKEN, SSH_AUTH_SOCK, cloud credentials, personal HOME, or arbitrary
+# provider/plugin environment variables from the parent daemon.
+env_args=(
+  --clearenv
+  --setenv HOME /tmp/orchestrator/agent-home
+  --setenv XDG_CONFIG_HOME /tmp/orchestrator/agent-home/.config
+  --setenv XDG_DATA_HOME /tmp/orchestrator/agent-home/.local/share
+  --setenv XDG_CACHE_HOME /tmp/orchestrator/agent-home/.cache
+  --setenv GH_CONFIG_DIR /tmp/orchestrator/agent-home/.config/gh-empty
+  --setenv CARGO_HOME /tmp/orchestrator/cargo-home
+  --setenv RUSTUP_HOME /tmp/orchestrator/rustup
+  --setenv TMPDIR /tmp
+  --setenv LANG "${LANG:-C.UTF-8}"
+  --setenv LC_ALL "${LC_ALL:-C.UTF-8}"
+  --setenv OLLAMA_HOST "${OLLAMA_HOST:-127.0.0.1:11434}"
+  --setenv ORCHESTRATOR_REAL_CARGO /tmp/orchestrator/cargo-bin/cargo
+  --setenv ORCHESTRATOR_REAL_GIT "$REAL_GIT"
+  --setenv ORCHESTRATOR_REAL_GH "$REAL_GH"
+  --setenv ORCHESTRATOR_AGENT_PATH /tmp/orchestrator/agent-bin:/tmp/orchestrator/cargo-bin:/tmp/orchestrator/opencode-bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  --setenv PATH /tmp/orchestrator/agent-bin:/tmp/orchestrator/cargo-bin:/tmp/orchestrator/opencode-bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  --setenv OPENCODE_PERMISSION "${OPENCODE_PERMISSION:-{}}"
+  --setenv OPENCODE_DISABLE_DEFAULT_PLUGINS 1
+  --setenv OPENCODE_DISABLE_CLAUDE_CODE 1
+  --setenv OPENCODE_DISABLE_CLAUDE_CODE_PROMPT 1
+  --setenv OPENCODE_DISABLE_CLAUDE_CODE_SKILLS 1
+  --setenv OPENCODE_DISABLE_PROJECT_CONFIG 1
+  --setenv OPENCODE_DISABLE_EXTERNAL_SKILLS 1
+  --setenv OPENCODE_DISABLE_AUTOUPDATE 1
+  --setenv OPENCODE_DISABLE_LSP_DOWNLOAD 1
+  --setenv OPENCODE_DISABLE_MODELS_FETCH 1
+  --setenv OPENCODE_AUTO_SHARE 0
+  --setenv OPENCODE_PURE 1
+)
+
+# Pass only build/runtime variables that do not carry credentials and are
+# routinely needed by native CUDA/Rust projects.
+for name in \
+  CUDA_HOME CUDA_PATH LD_LIBRARY_PATH LIBRARY_PATH CPATH PKG_CONFIG_PATH \
+  CMAKE_PREFIX_PATH RUSTFLAGS RUSTDOCFLAGS CC CXX AR VULKAN_SDK; do
+  if [[ -n "${!name:-}" ]]; then
+    env_args+=(--setenv "$name" "${!name}")
+  fi
+done
+
+exec "$BWRAP" \
+  --die-with-parent \
+  --new-session \
+  --unshare-pid \
+  --unshare-ipc \
+  --unshare-uts \
+  --ro-bind / / \
+  --dev-bind /dev /dev \
+  --proc /proc \
+  --tmpfs /tmp \
+  --dir /tmp/orchestrator \
+  --bind "$WORKSPACE" /tmp/orchestrator/workspace \
+  --bind "$AGENT_HOME" /tmp/orchestrator/agent-home \
+  --ro-bind "$AGENT_WRAPPERS" /tmp/orchestrator/agent-bin \
+  --bind "$CARGO_HOME_HOST" /tmp/orchestrator/cargo-home \
+  --ro-bind "$RUSTUP_HOME_HOST" /tmp/orchestrator/rustup \
+  --ro-bind "$CARGO_BIN_HOST" /tmp/orchestrator/cargo-bin \
+  --ro-bind "$OPENCODE_BIN_HOST" /tmp/orchestrator/opencode-bin \
+  --tmpfs "$PARENT_HOME" \
+  --chdir /tmp/orchestrator/workspace \
+  "${env_args[@]}" \
+  -- \
+  "$@"
