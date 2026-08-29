@@ -10,6 +10,9 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SERVICE_NAME="memorithm-orchestrator"
 UNIT_PATH="/etc/systemd/system/${SERVICE_NAME}.service"
 ENV_PATH="/etc/${SERVICE_NAME}.env"
+RUNTIME_DATA="/root/.local/share/memorithm-orchestrator"
+RUNTIME_HOME="$RUNTIME_DATA/runtime-home"
+CARGO_HOME_PATH="$RUNTIME_DATA/cargo-home"
 
 for command_name in git gh ollama opencode cargo rustc systemctl; do
   if ! command -v "$command_name" >/dev/null 2>&1; then
@@ -17,6 +20,9 @@ for command_name in git gh ollama opencode cargo rustc systemctl; do
     exit 1
   fi
 done
+
+mkdir -p "$RUNTIME_HOME/.config" "$RUNTIME_HOME/.local/share" "$RUNTIME_HOME/.cache" "$CARGO_HOME_PATH"
+chmod 700 "$RUNTIME_HOME" "$CARGO_HOME_PATH"
 
 # Persist only non-secret runtime policy. GitHub authentication remains in the
 # root account's existing gh credential/config store; no token is copied here.
@@ -34,6 +40,11 @@ ORCHESTRATOR_PRIMARY_EDIT_MAX_TOOLS=24
 ORCHESTRATOR_PRIMARY_EDIT_IDLE_SECS=420
 ORCHESTRATOR_SURGICAL_EDIT_MAX_TOOLS=16
 ORCHESTRATOR_SURGICAL_EDIT_IDLE_SECS=300
+ORCHESTRATOR_SUCCESS_COOLDOWN_SECS=900
+ORCHESTRATOR_FAILURE_BASE_COOLDOWN_SECS=300
+ORCHESTRATOR_FAILURE_MAX_COOLDOWN_SECS=7200
+ORCHESTRATOR_QUARANTINE_AFTER_FAILURES=4
+ORCHESTRATOR_QUARANTINE_SECS=21600
 EOF
 chmod 600 "$ENV_PATH"
 
@@ -49,9 +60,17 @@ StartLimitBurst=10
 Type=simple
 User=root
 WorkingDirectory=$ROOT
-Environment=HOME=/root
-Environment=XDG_CONFIG_HOME=/root/.config
-Environment=XDG_DATA_HOME=/root/.local/share
+
+# Give the daemon a private logical home while retaining read-only access to
+# the operator's existing GitHub/Git/Rust authentication and toolchain state.
+Environment=HOME=$RUNTIME_HOME
+Environment=XDG_CONFIG_HOME=$RUNTIME_HOME/.config
+Environment=XDG_DATA_HOME=$RUNTIME_HOME/.local/share
+Environment=XDG_CACHE_HOME=$RUNTIME_HOME/.cache
+Environment=GH_CONFIG_DIR=/root/.config/gh
+Environment=GIT_CONFIG_GLOBAL=/root/.gitconfig
+Environment=CARGO_HOME=$CARGO_HOME_PATH
+Environment=RUSTUP_HOME=/root/.rustup
 Environment=PATH=/root/.cargo/bin:/root/.local/bin:/root/.opencode/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 EnvironmentFile=$ENV_PATH
 ExecStart=/usr/bin/env bash $ROOT/scripts/start.sh Memorithm
@@ -66,6 +85,22 @@ FinalKillSignal=SIGKILL
 SendSIGKILL=yes
 TimeoutStopSec=30
 TimeoutStopFailureMode=kill
+
+# Host filesystem containment. Source/toolchain/auth state is readable, while
+# autonomous writes are restricted to Orchestrator data, build output and the
+# unit's private /tmp. GPU/device access is intentionally left available.
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=-$RUNTIME_DATA
+ReadWritePaths=-$ROOT/target
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectClock=true
+RestrictSUIDSGID=true
+LockPersonality=true
 
 # Keep runaway agent trees bounded without constraining normal Rust/CUDA work.
 TasksMax=4096
@@ -89,6 +124,7 @@ printf '\nMemorithm Orchestrator systemd service installed.\n'
 printf 'Service : %s.service\n' "$SERVICE_NAME"
 printf 'Unit    : %s\n' "$UNIT_PATH"
 printf 'Policy  : %s\n' "$ENV_PATH"
+printf 'Data    : %s\n' "$RUNTIME_DATA"
 printf '\nUseful commands:\n'
 printf '  systemctl status %s --no-pager\n' "$SERVICE_NAME"
 printf '  journalctl -u %s -f\n' "$SERVICE_NAME"
