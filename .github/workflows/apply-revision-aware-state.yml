@@ -21,8 +21,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Apply deterministic revision patch
-        run: python3 tools/apply-revision-aware-state.py
+      - name: Apply deterministic revision patches
+        run: |
+          python3 tools/apply-revision-aware-state.py
+          python3 tools/finalize-revision-aware-state.py
 
       - name: Rust toolchain
         run: |
