@@ -7,6 +7,7 @@ use std::process::{Command, ExitCode};
 use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
+mod health;
 mod merge_policy;
 mod publication;
 mod state;
@@ -2442,9 +2443,21 @@ fn run_loop(config: RunConfig) -> ExitCode {
     ExitCode::SUCCESS
 }
 
+fn health() -> ExitCode {
+    let report = health::inspect(&default_data_root(), unix_timestamp());
+    println!("{}", report.text);
+    if report.degraded {
+        ExitCode::FAILURE
+    } else {
+        ExitCode::SUCCESS
+    }
+}
+
 fn usage(program: &str) {
     eprintln!("Usage:");
     eprintln!("  {program} doctor");
+    eprintln!("  {program} health");
+    eprintln!("  {program} status");
     eprintln!("  {program} scan [organization]");
     eprintln!("  {program} triage [organization]");
     eprintln!("  {program} run [organization]");
@@ -2461,6 +2474,7 @@ fn main() -> ExitCode {
     let program = args.next().unwrap_or_else(|| "orchestrator".to_owned());
     match args.next().as_deref() {
         Some("doctor") => doctor(),
+        Some("health") | Some("status") => health(),
         Some("scan") => scan(&organization_arg(&mut args)),
         Some("triage") => triage(&organization_arg(&mut args)),
         Some("run") => match RunConfig::from_env(organization_arg(&mut args), None) {

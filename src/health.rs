@@ -74,7 +74,11 @@ pub(crate) fn inspect(data_root: &Path, now: u64) -> HealthReport {
     lines.push(format!(
         "trajectories     : {}{}",
         trajectory_files.len(),
-        if trajectory_overflow { "+ (scan bounded)" } else { "" }
+        if trajectory_overflow {
+            "+ (scan bounded)"
+        } else {
+            ""
+        }
     ));
 
     let mut recent = trajectory_files
@@ -148,8 +152,10 @@ fn immediate_directory_count(root: &Path) -> usize {
 
 fn inspect_work_items(root: &Path, now: u64) -> (WorkCounts, bool) {
     let (files, overflow) = collect_files(root, Some("state"));
-    let mut counts = WorkCounts::default();
-    counts.total = files.len();
+    let mut counts = WorkCounts {
+        total: files.len(),
+        ..WorkCounts::default()
+    };
     for path in files {
         match parse_key_value_state(&path, &["v1", "v2", "v3", "v4"]) {
             Ok(fields) => {
@@ -180,8 +186,10 @@ fn inspect_work_items(root: &Path, now: u64) -> (WorkCounts, bool) {
 
 fn inspect_publications(root: &Path) -> (PublicationCounts, bool) {
     let (files, overflow) = collect_files(root, Some("state"));
-    let mut counts = PublicationCounts::default();
-    counts.total = files.len();
+    let mut counts = PublicationCounts {
+        total: files.len(),
+        ..PublicationCounts::default()
+    };
     for path in files {
         match parse_key_value_state(&path, &["v1"]) {
             Ok(fields) => match fields.get("phase").map(String::as_str) {
@@ -206,7 +214,8 @@ fn inspect_attestations(root: &Path) -> (usize, usize, bool) {
                 let sha_valid = fields.get("head_sha").is_some_and(|sha| {
                     sha.len() == 40 && sha.bytes().all(|byte| byte.is_ascii_hexdigit())
                 });
-                let number_valid = numeric_field(&fields, "pr_number").is_ok_and(|value| value != 0);
+                let number_valid =
+                    numeric_field(&fields, "pr_number").is_ok_and(|value| value != 0);
                 if !sha_valid || !number_valid {
                     corrupt += 1;
                 }
@@ -370,7 +379,11 @@ mod tests {
         .unwrap();
         let report = inspect(&root, 100);
         assert!(!report.degraded);
-        assert!(report.text.contains("publications     : total=1 prepared=0 pushed=1 corrupt=0"));
+        assert!(
+            report
+                .text
+                .contains("publications     : total=1 prepared=0 pushed=1 corrupt=0")
+        );
         assert!(report.text.contains("merge attest.    : total=1 corrupt=0"));
         let _ = fs::remove_dir_all(root);
     }
