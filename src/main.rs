@@ -1690,6 +1690,17 @@ fn selected_for_run_with_state<'a>(
         }
 
         let key = work_key(item);
+        if let Some(recovered) = attempt_store.recover_interrupted(&key, now)? {
+            println!(
+                "Scheduler recovered interrupted attempt: {}#{} {} -> failure {}; next eligible at unix={}",
+                item.repository,
+                item.number,
+                item.kind.as_str(),
+                recovered.consecutive_failures,
+                recovered.eligible_at()
+            );
+            continue;
+        }
         let attempt_state = attempt_store.load(&key)?;
         if attempt_state.is_eligible(now) {
             return Ok(Some(item));
@@ -1812,6 +1823,11 @@ fn run_loop(config: RunConfig) -> ExitCode {
                                 return ExitCode::FAILURE;
                             }
                         };
+
+                        if let Err(state_error) = attempt_store.begin(&key, selection_time) {
+                            eprintln!("scheduler failed to persist attempt lease: {state_error}");
+                            return ExitCode::FAILURE;
+                        }
 
                         match execute_item(&config, &snapshot, item) {
                             Ok(()) => {
