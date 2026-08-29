@@ -7,6 +7,7 @@ use std::process::{Command, ExitCode};
 use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
+mod merge_policy;
 mod publication;
 mod state;
 mod trajectory;
@@ -230,6 +231,7 @@ struct RunConfig {
     interval: Duration,
     data_root: PathBuf,
     auto_merge: bool,
+    auto_merge_scope: merge_policy::AutoMergeScope,
     full_validation: bool,
     max_cycles: u64,
     retry_policy: state::RetryPolicy,
@@ -1100,6 +1102,11 @@ impl RunConfig {
             ));
         }
 
+        let auto_merge_scope = merge_policy::AutoMergeScope::parse(
+            &env::var("ORCHESTRATOR_AUTO_MERGE_SCOPE")
+                .unwrap_or_else(|_| "orchestrator-validated".to_owned()),
+        )?;
+
         Ok(Self {
             organization,
             model,
@@ -1109,6 +1116,7 @@ impl RunConfig {
             )),
             data_root: default_data_root(),
             auto_merge: env_flag("ORCHESTRATOR_AUTO_MERGE", false),
+            auto_merge_scope,
             full_validation: env_flag("ORCHESTRATOR_FULL_VALIDATION", false),
             max_cycles: max_cycles_override
                 .unwrap_or_else(|| env_u64("ORCHESTRATOR_MAX_CYCLES", 0)),
@@ -1871,7 +1879,65 @@ fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<(), ActionFailu
         commit_changes(&workspace, &message).classified(state::FailureClass::Repository)?;
     println!("Created commit {commit_sha}");
     run_in_dir(&workspace, "git", &["push", "origin", "HEAD"])
-        .classified(state::FailureClass::Publication)
+        .classified(state::FailureClass::Publication)?;
+    attest_repaired_pr_head(config, &workspace, item)
+}
+
+fn merge_attestation_store(config: &RunConfig) -> merge_policy::AttestationStore {
+    merge_policy::AttestationStore::new(config.data_root.join("state/merge-attestations"))
+}
+
+fn pr_merge_metadata(repository: &str, number: u64) -> Result<merge_policy::MergeMetadata, String> {
+    let number = number.to_string();
+    let output = capture(
+        "gh",
+        &[
+            "pr",
+            "view",
+            number.as_str(),
+            "--repo",
+            repository,
+            "--json",
+            "author,headRefName,headRefOid,baseRefName,isCrossRepository",
+            "--jq",
+            r#"[.author.login // "", .headRefName // "", .headRefOid // "", .baseRefName // "", (.isCrossRepository | tostring)] | @tsv"#,
+        ],
+    )?;
+    merge_policy::MergeMetadata::parse_tsv(&output)
+}
+
+fn attest_repaired_pr_head(
+    config: &RunConfig,
+    workspace: &Path,
+    item: &WorkItem,
+) -> Result<(), ActionFailure> {
+    let local_head = capture_in_dir(workspace, "git", &["rev-parse", "HEAD"])
+        .classified(state::FailureClass::Repository)?;
+    let remote_head = pr_head_sha(&item.repository, item.number)
+        .classified(state::FailureClass::Infrastructure)?;
+    if local_head != remote_head {
+        return Err(ActionFailure::new(
+            state::FailureClass::Publication,
+            format!(
+                "validated local head {local_head} differs from remote PR head {remote_head} after push"
+            ),
+        ));
+    }
+    let attestation = merge_policy::ValidationAttestation::new(
+        &item.repository,
+        item.number,
+        &remote_head,
+        unix_timestamp(),
+    )
+    .classified(state::FailureClass::Infrastructure)?;
+    merge_attestation_store(config)
+        .save(&attestation)
+        .classified(state::FailureClass::Infrastructure)?;
+    println!(
+        "Recorded exact-head validation attestation for {}#{} at {}",
+        item.repository, item.number, remote_head
+    );
+    Ok(())
 }
 
 fn pr_head_sha(repository: &str, number: u64) -> Result<String, String> {
@@ -1892,18 +1958,11 @@ fn pr_head_sha(repository: &str, number: u64) -> Result<String, String> {
     )
 }
 
-fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), ActionFailure> {
-    let ci_state = item.ci_state.unwrap_or(CiState::Unknown);
-    if ci_state == CiState::NoChecks {
-        println!(
-            "{}#{} has no CI checks; validating the checked-out PR locally before any merge.",
-            item.repository, item.number
-        );
-        let workspace = prepare_pr_workspace(config, &item.repository, item.number)
-            .classified(state::FailureClass::Repository)?;
-        validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
-    }
-
+fn handle_pr_attention(
+    config: &RunConfig,
+    repository: &Repository,
+    item: &WorkItem,
+) -> Result<(), ActionFailure> {
     if !config.auto_merge {
         println!(
             "{}#{} is ready for attention, but ORCHESTRATOR_AUTO_MERGE is disabled.",
@@ -1911,6 +1970,8 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), Action
         );
         return Ok(());
     }
+
+    let ci_state = item.ci_state.unwrap_or(CiState::Unknown);
     if !matches!(ci_state, CiState::Passing | CiState::NoChecks) {
         return Err(ActionFailure::new(
             state::FailureClass::Validation,
@@ -1923,12 +1984,78 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), Action
         ));
     }
 
-    let number = item.number.to_string();
-    let head_sha = pr_head_sha(&item.repository, item.number)
+    let default_branch = repository.default_branch.as_deref().ok_or_else(|| {
+        ActionFailure::new(
+            state::FailureClass::Repository,
+            format!("{} has no default branch", repository.name_with_owner),
+        )
+    })?;
+    let trusted_login =
+        authenticated_github_login().classified(state::FailureClass::Infrastructure)?;
+    let metadata = pr_merge_metadata(&item.repository, item.number)
         .classified(state::FailureClass::Infrastructure)?;
+    metadata
+        .validate_static(&trusted_login, default_branch)
+        .classified(state::FailureClass::Validation)?;
+
+    let attested_exact_head = merge_attestation_store(config)
+        .matches_head(&item.repository, item.number, &metadata.head_sha)
+        .classified(state::FailureClass::Infrastructure)?;
+    if !merge_policy::provenance_allows_merge(
+        config.auto_merge_scope,
+        &metadata,
+        attested_exact_head,
+    ) {
+        println!(
+            "{}#{} is green but outside autonomous merge scope {} (head={}); leaving it for manual review.",
+            item.repository,
+            item.number,
+            config.auto_merge_scope.as_str(),
+            metadata.head_sha
+        );
+        return Ok(());
+    }
+
+    println!(
+        "Revalidating exact merge candidate {}#{} head={} base={} scope={}",
+        item.repository,
+        item.number,
+        metadata.head_sha,
+        metadata.base_branch,
+        config.auto_merge_scope.as_str()
+    );
+    let workspace = prepare_pr_workspace(config, &item.repository, item.number)
+        .classified(state::FailureClass::Repository)?;
+    validate_recovered_publication(config, &workspace, default_branch)
+        .classified(state::FailureClass::Validation)?;
+
+    let local_head = capture_in_dir(&workspace, "git", &["rev-parse", "HEAD"])
+        .classified(state::FailureClass::Repository)?;
+    if local_head != metadata.head_sha {
+        return Err(ActionFailure::new(
+            state::FailureClass::Publication,
+            format!(
+                "checked-out PR head changed during validation: expected {}, got {local_head}",
+                metadata.head_sha
+            ),
+        ));
+    }
+
+    let after_validation = pr_merge_metadata(&item.repository, item.number)
+        .classified(state::FailureClass::Infrastructure)?;
+    if after_validation != metadata {
+        return Err(ActionFailure::new(
+            state::FailureClass::Publication,
+            format!(
+                "PR metadata changed during local validation: before={metadata:?} after={after_validation:?}"
+            ),
+        ));
+    }
+
+    let number = item.number.to_string();
     if item.draft {
         println!(
-            "Marking {}#{} ready for review",
+            "Marking {}#{} ready only after exact-head local validation",
             item.repository, item.number
         );
         let status = Command::new("gh")
@@ -1951,9 +2078,25 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), Action
         }
     }
 
+    let final_metadata = pr_merge_metadata(&item.repository, item.number)
+        .classified(state::FailureClass::Infrastructure)?;
+    if final_metadata.head_sha != metadata.head_sha
+        || final_metadata.head_branch != metadata.head_branch
+        || final_metadata.author != metadata.author
+        || final_metadata.base_branch != metadata.base_branch
+        || final_metadata.cross_repository != metadata.cross_repository
+    {
+        return Err(ActionFailure::new(
+            state::FailureClass::Publication,
+            format!(
+                "PR changed after validation and before merge: validated={metadata:?} final={final_metadata:?}"
+            ),
+        ));
+    }
+
     println!(
-        "Merging {}#{} after validated green state",
-        item.repository, item.number
+        "Merging {}#{} at exact validated head {}",
+        item.repository, item.number, metadata.head_sha
     );
     let status = Command::new("gh")
         .args(["pr", "merge"])
@@ -1961,7 +2104,7 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), Action
         .arg("--repo")
         .arg(&item.repository)
         .args(["--squash", "--match-head-commit"])
-        .arg(&head_sha)
+        .arg(&metadata.head_sha)
         .status()
         .map_err(|error| {
             ActionFailure::new(
@@ -2093,7 +2236,11 @@ fn execute_item(
 
     match item.kind {
         WorkKind::FixCi => execute_ci_fix(config, item),
-        WorkKind::PullRequest => handle_pr_attention(config, item),
+        WorkKind::PullRequest => {
+            let repository = repository_by_name(&snapshot.repositories, &item.repository)
+                .classified(state::FailureClass::Repository)?;
+            handle_pr_attention(config, repository, item)
+        }
         WorkKind::Issue => execute_issue(config, &snapshot.repositories, item),
         WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => Ok(()),
     }
@@ -2120,6 +2267,7 @@ fn run_loop(config: RunConfig) -> ExitCode {
     println!("data root        : {}", config.data_root.display());
     println!("interval         : {}s", config.interval.as_secs());
     println!("auto merge       : {}", config.auto_merge);
+    println!("auto merge scope : {}", config.auto_merge_scope.as_str());
     println!("full validation  : {}", config.full_validation);
     println!(
         "max cycles       : {}",

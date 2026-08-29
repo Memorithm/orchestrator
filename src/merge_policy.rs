@@ -1,4 +1,4 @@
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum AutoMergeScope {
@@ -381,13 +381,15 @@ mod tests {
         let attestation = ValidationAttestation::new("Memorithm/ADA", 34, sha, 123).unwrap();
         store.save(&attestation).unwrap();
         assert!(store.matches_head("Memorithm/ADA", 34, sha).unwrap());
-        assert!(!store
-            .matches_head(
-                "Memorithm/ADA",
-                34,
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-            )
-            .unwrap());
+        assert!(
+            !store
+                .matches_head(
+                    "Memorithm/ADA",
+                    34,
+                    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                )
+                .unwrap()
+        );
         let _ = std::fs::remove_dir_all(root);
     }
 
@@ -399,9 +401,6 @@ mod tests {
         .unwrap();
         assert!(parsed.orchestrator_branch());
         assert!(MergeMetadata::parse_tsv("too\tfew\tfields").is_err());
-        assert!(MergeMetadata::parse_tsv(
-            "CHECKUPAUTO\tbranch\tnotasha\tmain\tfalse"
-        )
-        .is_err());
+        assert!(MergeMetadata::parse_tsv("CHECKUPAUTO\tbranch\tnotasha\tmain\tfalse").is_err());
     }
 }
