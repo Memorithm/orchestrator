@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REAL_GIT_BIN="$(command -v git)"
 TMP="$(mktemp -d "${TMPDIR:-/tmp}/orchestrator-watchdog-test.XXXXXX")"
 trap 'rm -rf "$TMP"' EXIT
 
@@ -37,14 +38,14 @@ EOF
 chmod 700 "$BIN/git"
 
 cd "$REPO"
-"${REAL_GIT:-git}" init -q
-"${REAL_GIT:-git}" config user.name test
-"${REAL_GIT:-git}" config user.email test@example.invalid
+"$REAL_GIT_BIN" init -q
+"$REAL_GIT_BIN" config user.name test
+"$REAL_GIT_BIN" config user.email test@example.invalid
 printf 'base\n' > tracked.txt
-"${REAL_GIT:-git}" add tracked.txt
-"${REAL_GIT:-git}" commit -qm base
+"$REAL_GIT_BIN" add tracked.txt
+"$REAL_GIT_BIN" commit -qm base
 
-export REAL_GIT="$(command -v git)"
+export REAL_GIT="$REAL_GIT_BIN"
 export PATH="$BIN:$PATH"
 export ORCHESTRATOR_AGENT_PATH="$BIN:$PATH"
 export ORCHESTRATOR_REAL_OPENCODE=/bin/true
@@ -66,7 +67,7 @@ if [[ "$status" -ne 124 ]]; then
   printf 'expected no-edit watchdog status 124, got %s\n' "$status" >&2
   exit 1
 fi
-if ! "${REAL_GIT}" diff --quiet -- .; then
+if ! "$REAL_GIT_BIN" diff --quiet -- .; then
   printf 'no-edit watchdog unexpectedly changed repository\n' >&2
   exit 1
 fi
@@ -81,7 +82,7 @@ if [[ "$status" -ne 0 ]]; then
   printf 'expected edited watchdog status 0, got %s\n' "$status" >&2
   exit 1
 fi
-if "${REAL_GIT}" diff --quiet -- .; then
+if "$REAL_GIT_BIN" diff --quiet -- .; then
   printf 'edited watchdog failed to preserve working-tree progress\n' >&2
   exit 1
 fi
