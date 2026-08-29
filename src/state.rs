@@ -2,8 +2,9 @@ use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
-const STATE_VERSION: &str = "v2";
-const LEGACY_STATE_VERSION: &str = "v1";
+const STATE_VERSION: &str = "v3";
+const LEGACY_STATE_V1: &str = "v1";
+const LEGACY_STATE_V2: &str = "v2";
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) struct WorkKey {
@@ -63,6 +64,43 @@ impl AttemptOutcome {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum FailureClass {
+    Agent,
+    Validation,
+    Publication,
+    Repository,
+    Infrastructure,
+}
+
+impl FailureClass {
+    pub(crate) const fn as_str(self) -> &'static str {
+        match self {
+            Self::Agent => "agent",
+            Self::Validation => "validation",
+            Self::Publication => "publication",
+            Self::Repository => "repository",
+            Self::Infrastructure => "infrastructure",
+        }
+    }
+
+    fn parse(value: &str) -> Result<Option<Self>, String> {
+        match value {
+            "" | "none" => Ok(None),
+            "agent" => Ok(Some(Self::Agent)),
+            "validation" => Ok(Some(Self::Validation)),
+            "publication" => Ok(Some(Self::Publication)),
+            "repository" => Ok(Some(Self::Repository)),
+            "infrastructure" => Ok(Some(Self::Infrastructure)),
+            other => Err(format!("unknown failure class: {other}")),
+        }
+    }
+
+    const fn transient(self) -> bool {
+        matches!(self, Self::Publication | Self::Infrastructure)
+    }
+}
+
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub(crate) struct AttemptState {
     pub(crate) total_attempts: u64,
@@ -72,6 +110,7 @@ pub(crate) struct AttemptState {
     pub(crate) quarantine_until: u64,
     pub(crate) in_progress_since: u64,
     pub(crate) last_outcome: Option<AttemptOutcome>,
+    pub(crate) last_failure_class: Option<FailureClass>,
 }
 
 impl AttemptState {
@@ -89,6 +128,7 @@ pub(crate) struct RetryPolicy {
     pub(crate) success_cooldown_secs: u64,
     pub(crate) failure_base_cooldown_secs: u64,
     pub(crate) failure_max_cooldown_secs: u64,
+    pub(crate) transient_failure_cooldown_secs: u64,
     pub(crate) quarantine_after_failures: u32,
     pub(crate) quarantine_secs: u64,
 }
@@ -99,6 +139,7 @@ impl Default for RetryPolicy {
             success_cooldown_secs: 900,
             failure_base_cooldown_secs: 300,
             failure_max_cooldown_secs: 7_200,
+            transient_failure_cooldown_secs: 180,
             quarantine_after_failures: 4,
             quarantine_secs: 21_600,
         }
@@ -160,7 +201,7 @@ impl AttemptStore {
             return Ok(None);
         }
         state.in_progress_since = 0;
-        self.apply_outcome(&mut state, AttemptOutcome::Failure, now);
+        self.apply_failure(&mut state, FailureClass::Infrastructure, now);
         self.save(key, &state)?;
         Ok(Some(state))
     }
@@ -171,32 +212,58 @@ impl AttemptStore {
         outcome: AttemptOutcome,
         now: u64,
     ) -> Result<AttemptState, String> {
+        match outcome {
+            AttemptOutcome::Success => {
+                let mut state = self.load(key)?;
+                state.in_progress_since = 0;
+                self.apply_success(&mut state, now);
+                self.save(key, &state)?;
+                Ok(state)
+            }
+            AttemptOutcome::Failure => self.record_failure(key, FailureClass::Validation, now),
+        }
+    }
+
+    pub(crate) fn record_failure(
+        &self,
+        key: &WorkKey,
+        class: FailureClass,
+        now: u64,
+    ) -> Result<AttemptState, String> {
         let mut state = self.load(key)?;
         state.in_progress_since = 0;
-        self.apply_outcome(&mut state, outcome, now);
+        self.apply_failure(&mut state, class, now);
         self.save(key, &state)?;
         Ok(state)
     }
 
-    fn apply_outcome(&self, state: &mut AttemptState, outcome: AttemptOutcome, now: u64) {
+    fn apply_success(&self, state: &mut AttemptState, now: u64) {
         state.total_attempts = state.total_attempts.saturating_add(1);
         state.last_attempt_at = now;
-        state.last_outcome = Some(outcome);
+        state.last_outcome = Some(AttemptOutcome::Success);
+        state.last_failure_class = None;
+        state.consecutive_failures = 0;
+        state.quarantine_until = 0;
+        state.next_eligible_at = now.saturating_add(self.policy.success_cooldown_secs);
+    }
 
-        match outcome {
-            AttemptOutcome::Success => {
-                state.consecutive_failures = 0;
-                state.quarantine_until = 0;
-                state.next_eligible_at = now.saturating_add(self.policy.success_cooldown_secs);
-            }
-            AttemptOutcome::Failure => {
-                state.consecutive_failures = state.consecutive_failures.saturating_add(1);
-                let cooldown = self.policy.failure_cooldown(state.consecutive_failures);
-                state.next_eligible_at = now.saturating_add(cooldown);
-                if state.consecutive_failures >= self.policy.quarantine_after_failures {
-                    state.quarantine_until = now.saturating_add(self.policy.quarantine_secs);
-                }
-            }
+    fn apply_failure(&self, state: &mut AttemptState, class: FailureClass, now: u64) {
+        state.total_attempts = state.total_attempts.saturating_add(1);
+        state.last_attempt_at = now;
+        state.last_outcome = Some(AttemptOutcome::Failure);
+        state.last_failure_class = Some(class);
+
+        if class.transient() {
+            state.next_eligible_at =
+                now.saturating_add(self.policy.transient_failure_cooldown_secs);
+            return;
+        }
+
+        state.consecutive_failures = state.consecutive_failures.saturating_add(1);
+        let cooldown = self.policy.failure_cooldown(state.consecutive_failures);
+        state.next_eligible_at = now.saturating_add(cooldown);
+        if state.consecutive_failures >= self.policy.quarantine_after_failures {
+            state.quarantine_until = now.saturating_add(self.policy.quarantine_secs);
         }
     }
 
@@ -231,24 +298,28 @@ impl AttemptStore {
 
 fn serialize_state(state: &AttemptState) -> String {
     format!(
-        "{STATE_VERSION}\ntotal_attempts={}\nconsecutive_failures={}\nlast_attempt_at={}\nnext_eligible_at={}\nquarantine_until={}\nin_progress_since={}\nlast_outcome={}\n",
+        "{STATE_VERSION}\ntotal_attempts={}\nconsecutive_failures={}\nlast_attempt_at={}\nnext_eligible_at={}\nquarantine_until={}\nin_progress_since={}\nlast_outcome={}\nlast_failure_class={}\n",
         state.total_attempts,
         state.consecutive_failures,
         state.last_attempt_at,
         state.next_eligible_at,
         state.quarantine_until,
         state.in_progress_since,
-        state.last_outcome.map_or("none", AttemptOutcome::as_str)
+        state.last_outcome.map_or("none", AttemptOutcome::as_str),
+        state
+            .last_failure_class
+            .map_or("none", FailureClass::as_str)
     )
 }
 
 fn parse_state(contents: &str) -> Result<AttemptState, String> {
     let mut lines = contents.lines();
     let version = lines.next().unwrap_or_default();
-    if version != STATE_VERSION && version != LEGACY_STATE_VERSION {
+    if version != STATE_VERSION && version != LEGACY_STATE_V1 && version != LEGACY_STATE_V2 {
         return Err(format!("unsupported state version: {version}"));
     }
-    let legacy = version == LEGACY_STATE_VERSION;
+    let legacy_v1 = version == LEGACY_STATE_V1;
+    let legacy_without_failure_class = version != STATE_VERSION;
 
     let mut state = AttemptState::default();
     let mut seen = std::collections::BTreeSet::new();
@@ -289,7 +360,7 @@ fn parse_state(contents: &str) -> Result<AttemptState, String> {
                     .map_err(|error| format!("invalid quarantine_until {value}: {error}"))?;
             }
             "in_progress_since" => {
-                if legacy {
+                if legacy_v1 {
                     return Err("v1 state cannot contain in_progress_since".to_owned());
                 }
                 state.in_progress_since = value
@@ -297,6 +368,12 @@ fn parse_state(contents: &str) -> Result<AttemptState, String> {
                     .map_err(|error| format!("invalid in_progress_since {value}: {error}"))?;
             }
             "last_outcome" => state.last_outcome = AttemptOutcome::parse(value)?,
+            "last_failure_class" => {
+                if legacy_without_failure_class {
+                    return Err(format!("{version} state cannot contain last_failure_class"));
+                }
+                state.last_failure_class = FailureClass::parse(value)?;
+            }
             other => return Err(format!("unknown state field: {other}")),
         }
     }
@@ -324,6 +401,7 @@ mod tests {
             success_cooldown_secs: 30,
             failure_base_cooldown_secs: 10,
             failure_max_cooldown_secs: 40,
+            transient_failure_cooldown_secs: 5,
             quarantine_after_failures: 4,
             quarantine_secs: 300,
         }
@@ -405,9 +483,13 @@ mod tests {
         let recovered = store.recover_interrupted(&key, 120).unwrap().unwrap();
         assert_eq!(recovered.in_progress_since, 0);
         assert_eq!(recovered.total_attempts, 1);
-        assert_eq!(recovered.consecutive_failures, 1);
+        assert_eq!(recovered.consecutive_failures, 0);
         assert_eq!(recovered.last_outcome, Some(AttemptOutcome::Failure));
-        assert_eq!(recovered.next_eligible_at, 130);
+        assert_eq!(
+            recovered.last_failure_class,
+            Some(FailureClass::Infrastructure)
+        );
+        assert_eq!(recovered.next_eligible_at, 125);
 
         assert!(store.recover_interrupted(&key, 121).unwrap().is_none());
         let _ = fs::remove_dir_all(root);
@@ -432,9 +514,54 @@ mod tests {
         assert_eq!(loaded.in_progress_since, 0);
         store.record(&key, AttemptOutcome::Success, 200).unwrap();
         let rewritten = fs::read_to_string(path).unwrap();
-        assert!(rewritten.starts_with("v2\n"));
+        assert!(rewritten.starts_with("v3\n"));
         assert!(rewritten.contains("in_progress_since=0\n"));
 
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn transient_failures_rotate_without_semantic_quarantine() {
+        let root = temporary_root("transient");
+        let store = AttemptStore::new(root.clone(), test_policy());
+        let key = WorkKey::new("Memorithm/ADA", "ISSUE", 7);
+
+        let first = store
+            .record_failure(&key, FailureClass::Infrastructure, 100)
+            .unwrap();
+        assert_eq!(first.total_attempts, 1);
+        assert_eq!(first.consecutive_failures, 0);
+        assert_eq!(first.next_eligible_at, 105);
+        assert_eq!(first.last_failure_class, Some(FailureClass::Infrastructure));
+
+        let second = store
+            .record_failure(&key, FailureClass::Publication, 200)
+            .unwrap();
+        assert_eq!(second.total_attempts, 2);
+        assert_eq!(second.consecutive_failures, 0);
+        assert_eq!(second.quarantine_until, 0);
+        assert_eq!(second.next_eligible_at, 205);
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn v2_state_migrates_with_unknown_legacy_failure_class() {
+        let root = temporary_root("v2");
+        let key = WorkKey::new("Memorithm/ADA", "ISSUE", 7);
+        let path = key.state_path(&root);
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(
+            &path,
+            "v2\ntotal_attempts=2\nconsecutive_failures=1\nlast_attempt_at=100\nnext_eligible_at=110\nquarantine_until=0\nin_progress_since=0\nlast_outcome=failure\n",
+        )
+        .unwrap();
+        let store = AttemptStore::new(root.clone(), test_policy());
+        let loaded = store.load(&key).unwrap();
+        assert_eq!(loaded.last_failure_class, None);
+        store.record(&key, AttemptOutcome::Success, 200).unwrap();
+        let rewritten = fs::read_to_string(path).unwrap();
+        assert!(rewritten.starts_with("v3\n"));
+        assert!(rewritten.contains("last_failure_class=none\n"));
         let _ = fs::remove_dir_all(root);
     }
 
