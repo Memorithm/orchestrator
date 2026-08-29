@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+TMP="$(mktemp -d "${TMPDIR:-/tmp}/orchestrator-watchdog-test.XXXXXX")"
+trap 'rm -rf "$TMP"' EXIT
+
+BIN="$TMP/bin"
+REPO="$TMP/repo"
+mkdir -p "$BIN" "$REPO"
+
+cat >"$BIN/ollama" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${FAKE_AGENT_EDIT:-0}" == "1" ]]; then
+  printf 'changed\n' >> "${FAKE_AGENT_EDIT_FILE:?}"
+fi
+
+for _ in 1 2 3 4 5 6; do
+  printf 'INFO message=evaluated permission=read pattern=*\n'
+done
+sleep 30
+EOF
+chmod 700 "$BIN/ollama"
+
+cat >"$BIN/cargo" <<'EOF'
+#!/usr/bin/env bash
+exec /bin/true
+EOF
+chmod 700 "$BIN/cargo"
+
+cat >"$BIN/git" <<'EOF'
+#!/usr/bin/env bash
+exec "${REAL_GIT:?}" "$@"
+EOF
+chmod 700 "$BIN/git"
+
+cd "$REPO"
+"${REAL_GIT:-git}" init -q
+"${REAL_GIT:-git}" config user.name test
+"${REAL_GIT:-git}" config user.email test@example.invalid
+printf 'base\n' > tracked.txt
+"${REAL_GIT:-git}" add tracked.txt
+"${REAL_GIT:-git}" commit -qm base
+
+export REAL_GIT="$(command -v git)"
+export PATH="$BIN:$PATH"
+export ORCHESTRATOR_AGENT_PATH="$BIN:$PATH"
+export ORCHESTRATOR_REAL_OPENCODE=/bin/true
+export ORCHESTRATOR_GENERAL_MAX_TOOLS=3
+export ORCHESTRATOR_GENERAL_IDLE_SECS=30
+export ORCHESTRATOR_GENERAL_MAX_SECS=30
+export ORCHESTRATOR_BACKEND_ERROR_MAX=3
+
+prompt='Repository: Memorithm/test
+Task: ISSUE
+Title: watchdog selftest'
+
+set +e
+FAKE_AGENT_EDIT=0 bash "$ROOT/scripts/opencode" run --auto --model ollama/qwen3.8:latest "$prompt" >/tmp/orchestrator-watchdog-no-edit.log 2>&1
+status=$?
+set -e
+if [[ "$status" -ne 124 ]]; then
+  cat /tmp/orchestrator-watchdog-no-edit.log >&2 || true
+  printf 'expected no-edit watchdog status 124, got %s\n' "$status" >&2
+  exit 1
+fi
+if ! "${REAL_GIT}" diff --quiet -- .; then
+  printf 'no-edit watchdog unexpectedly changed repository\n' >&2
+  exit 1
+fi
+
+set +e
+FAKE_AGENT_EDIT=1 FAKE_AGENT_EDIT_FILE="$REPO/tracked.txt" \
+  bash "$ROOT/scripts/opencode" run --auto --model ollama/qwen3.8:latest "$prompt" >/tmp/orchestrator-watchdog-edit.log 2>&1
+status=$?
+set -e
+if [[ "$status" -ne 0 ]]; then
+  cat /tmp/orchestrator-watchdog-edit.log >&2 || true
+  printf 'expected edited watchdog status 0, got %s\n' "$status" >&2
+  exit 1
+fi
+if "${REAL_GIT}" diff --quiet -- .; then
+  printf 'edited watchdog failed to preserve working-tree progress\n' >&2
+  exit 1
+fi
+
+printf 'general watchdog selftest: PASS\n'
