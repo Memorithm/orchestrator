@@ -30,6 +30,15 @@ case "$model" in
     ;;
 esac
 
+surgical_model="${ORCHESTRATOR_SURGICAL_MODEL:-ollama/qwen3.8:latest}"
+case "$surgical_model" in
+  ollama/*) surgical_model_id="${surgical_model#ollama/}" ;;
+  *)
+    printf 'orchestrator opencode wrapper: refusing non-Ollama surgical model: %s\n' "$surgical_model" >&2
+    exit 2
+    ;;
+esac
+
 # Rust supplies the autonomous permission contract through
 # OPENCODE_CONFIG_CONTENT. Extract only the permission object and pass it via
 # OpenCode's dedicated runtime permission environment variable.
@@ -173,6 +182,7 @@ fi
 
 printf '\n===== OLLAMA -> OPENCODE BRIDGE =====\n'
 printf 'model: %s\n' "$model_id"
+printf 'surgical model: %s\n' "$surgical_model_id"
 printf 'default plugins: disable requested\n'
 printf 'claude compatibility: disabled\n'
 printf 'permissions: runtime-enforced\n'
@@ -180,6 +190,7 @@ printf 'agent cargo bridge: enabled\n'
 if (( is_ci_fix == 1 && local_failure_available == 1 )); then
   printf 'first-edit watchdog: 10 tool actions / 300s\n'
   printf 'surgical retry: 6 tool actions / 180s, history+GitHub denied\n'
+  printf 'surgical fallback: %s\n' "$surgical_model_id"
 fi
 printf 'logs: INFO to stderr\n\n'
 
@@ -187,12 +198,13 @@ AGENT_PID=""
 start_agent() {
   local effective_permission="$1"
   local log_file="$2"
+  local effective_model_id="$3"
 
   PATH="${ORCHESTRATOR_AGENT_PATH:?ORCHESTRATOR_AGENT_PATH is not set}" \
   OPENCODE_PERMISSION="$effective_permission" \
   OPENCODE_DISABLE_DEFAULT_PLUGINS=1 \
   OPENCODE_DISABLE_CLAUDE_CODE=1 \
-  setsid ollama launch opencode --model "$model_id" -- \
+  setsid ollama launch opencode --model "$effective_model_id" -- \
     --pure --print-logs --log-level INFO "${args[@]}" \
     > >(tee -a "$log_file") 2>&1 &
   AGENT_PID=$!
@@ -214,6 +226,7 @@ run_agent_with_first_edit_watchdog() {
   local max_tools="$2"
   local max_seconds="$3"
   local baseline_signature="$4"
+  local effective_model_id="$5"
   local log_file
   local deadline
   local current_signature
@@ -222,7 +235,7 @@ run_agent_with_first_edit_watchdog() {
 
   log_file="$(mktemp "${TMPDIR:-/tmp}/memorithm-opencode-pass.XXXXXX.log")" || return 1
   deadline=$((SECONDS + max_seconds))
-  start_agent "$effective_permission" "$log_file"
+  start_agent "$effective_permission" "$log_file" "$effective_model_id"
 
   while kill -0 "$AGENT_PID" 2>/dev/null; do
     current_signature="$(diff_signature)"
@@ -267,7 +280,7 @@ run_agent_with_first_edit_watchdog() {
 run_agent_unbounded() {
   local log_file
   log_file="$(mktemp "${TMPDIR:-/tmp}/memorithm-opencode-pass.XXXXXX.log")" || return 1
-  start_agent "$permission_json" "$log_file"
+  start_agent "$permission_json" "$log_file" "$model_id"
   wait "$AGENT_PID"
   status=$?
   rm -f "$log_file"
@@ -279,7 +292,7 @@ run_ci_repair_pass() {
   local status
 
   baseline_signature="$(diff_signature)"
-  run_agent_with_first_edit_watchdog "$permission_json" 10 300 "$baseline_signature"
+  run_agent_with_first_edit_watchdog "$permission_json" 10 300 "$baseline_signature" "$model_id"
   status=$?
   if (( status == 0 )); then
     return 0
@@ -290,20 +303,22 @@ run_ci_repair_pass() {
   fi
 
   printf '\n===== OPENCODE SURGICAL RETRY =====\n'
-  printf 'reason: first pass produced no new edit within its enforced budget\n'
+  printf 'reason: primary model produced no new edit within its enforced budget\n'
+  printf 'switching model: %s -> %s\n' "$model_id" "$surgical_model_id"
   args[$last_index]="${args[$last_index]}
 
 SURGICAL RETRY MODE:
+- You are the local fallback repair agent because the primary model inspected the failure without editing it.
 - Remote GitHub queries and Git-history archaeology are technically blocked for this pass.
 - The reproduced local CI failure already identifies the defect class.
 - Read only the current files directly implicated by that failure.
 - Make the smallest correct working-tree edit immediately, then validate."
 
   baseline_signature="$(diff_signature)"
-  run_agent_with_first_edit_watchdog "$surgical_permission_json" 6 180 "$baseline_signature"
+  run_agent_with_first_edit_watchdog "$surgical_permission_json" 6 180 "$baseline_signature" "$surgical_model_id"
   status=$?
   if (( status == 124 || status == 125 )); then
-    printf 'surgical retry produced no edit; failing this CI-repair cycle closed\n' >&2
+    printf 'surgical fallback produced no edit; failing this CI-repair cycle closed\n' >&2
     return 1
   fi
   return "$status"
@@ -324,7 +339,7 @@ fi
 
 # For CI repair work, never hand control back to the Rust commit/push path
 # until the same local Rust gates have been replayed after agent edits. Give
-# the agent one bounded residual-failure pass before failing closed.
+# the fallback model one bounded residual-failure pass before failing closed.
 if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
   printf '\n===== POST-AGENT CI VALIDATION =====\n'
   post_log="$(mktemp "${TMPDIR:-/tmp}/memorithm-post-agent-ci.XXXXXX.log")" || exit 1
@@ -349,8 +364,9 @@ FOLLOW-UP REPAIR MODE:
 - Repair only the residual local failure below and preserve correct prior changes."
 
   printf '\n===== OPENCODE FOLLOW-UP PASS =====\n'
+  printf 'model: %s\n' "$surgical_model_id"
   baseline_signature="$(diff_signature)"
-  run_agent_with_first_edit_watchdog "$surgical_permission_json" 6 180 "$baseline_signature"
+  run_agent_with_first_edit_watchdog "$surgical_permission_json" 6 180 "$baseline_signature" "$surgical_model_id"
   status=$?
   if (( status != 0 )); then
     exit "$status"
