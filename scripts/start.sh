@@ -4,8 +4,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-export ORCHESTRATOR_MODEL="${ORCHESTRATOR_MODEL:-ollama/muse-glimmer:latest}"
-export ORCHESTRATOR_SURGICAL_MODEL="${ORCHESTRATOR_SURGICAL_MODEL:-ollama/qwen3.8:latest}"
+# Orchestrator intentionally runs one local model only. Keep the primary,
+# surgical, and follow-up repair paths on the same deterministic local agent
+# so stale service environment cannot silently re-enable another model.
+export ORCHESTRATOR_MODEL="ollama/qwen3.8:latest"
+export ORCHESTRATOR_SURGICAL_MODEL="ollama/qwen3.8:latest"
 export ORCHESTRATOR_INTERVAL_SECS="${ORCHESTRATOR_INTERVAL_SECS:-180}"
 export ORCHESTRATOR_AUTO_MERGE="${ORCHESTRATOR_AUTO_MERGE:-0}"
 export ORCHESTRATOR_FULL_VALIDATION="${ORCHESTRATOR_FULL_VALIDATION:-0}"
