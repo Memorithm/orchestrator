@@ -1,0 +1,882 @@
+#!/usr/bin/env python3
+from pathlib import Path
+
+main_path = Path("src/main.rs")
+state_path = Path("src/state.rs")
+service_path = Path("scripts/install-systemd.sh")
+main = main_path.read_text()
+state = state_path.read_text()
+service = service_path.read_text()
+
+
+def replace_once(source: str, old: str, new: str, label: str) -> str:
+    count = source.count(old)
+    if count != 1:
+        raise SystemExit(f"{label}: expected exactly one match, found {count}")
+    return source.replace(old, new, 1)
+
+# ---------- state.rs: v4 = revision-aware + failure-class-aware ----------
+state = replace_once(
+    state,
+    'const STATE_VERSION: &str = "v3";\nconst LEGACY_STATE_VERSIONS: &[&str] = &["v1", "v2"];\n',
+    'const STATE_VERSION: &str = "v4";\nconst LEGACY_STATE_VERSIONS: &[&str] = &["v1", "v2", "v3"];\n',
+    "state version v4",
+)
+
+attempt_impl = '''impl AttemptOutcome {
+    const fn as_str(self) -> &'static str {
+        match self {
+            Self::Success => "success",
+            Self::Failure => "failure",
+        }
+    }
+
+    fn parse(value: &str) -> Result<Option<Self>, String> {
+        match value {
+            "" | "none" => Ok(None),
+            "success" => Ok(Some(Self::Success)),
+            "failure" => Ok(Some(Self::Failure)),
+            other => Err(format!("unknown attempt outcome: {other}")),
+        }
+    }
+}
+'''
+state = replace_once(
+    state,
+    attempt_impl,
+    attempt_impl + '''
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum FailureClass {
+    Agent,
+    Validation,
+    Publication,
+    Repository,
+    Infrastructure,
+}
+
+impl FailureClass {
+    pub(crate) const fn as_str(self) -> &'static str {
+        match self {
+            Self::Agent => "agent",
+            Self::Validation => "validation",
+            Self::Publication => "publication",
+            Self::Repository => "repository",
+            Self::Infrastructure => "infrastructure",
+        }
+    }
+
+    fn parse(value: &str) -> Result<Option<Self>, String> {
+        match value {
+            "" | "none" => Ok(None),
+            "agent" => Ok(Some(Self::Agent)),
+            "validation" => Ok(Some(Self::Validation)),
+            "publication" => Ok(Some(Self::Publication)),
+            "repository" => Ok(Some(Self::Repository)),
+            "infrastructure" => Ok(Some(Self::Infrastructure)),
+            other => Err(format!("unknown failure class: {other}")),
+        }
+    }
+
+    const fn transient(self) -> bool {
+        matches!(self, Self::Publication | Self::Infrastructure)
+    }
+}
+''',
+    "failure class enum",
+)
+
+state = replace_once(
+    state,
+    '''    pub(crate) in_progress_since: u64,
+    pub(crate) last_outcome: Option<AttemptOutcome>,
+''',
+    '''    pub(crate) in_progress_since: u64,
+    pub(crate) last_outcome: Option<AttemptOutcome>,
+    pub(crate) last_failure_class: Option<FailureClass>,
+''',
+    "failure class state field",
+)
+state = replace_once(
+    state,
+    '''    pub(crate) failure_max_cooldown_secs: u64,
+    pub(crate) quarantine_after_failures: u32,
+''',
+    '''    pub(crate) failure_max_cooldown_secs: u64,
+    pub(crate) transient_failure_cooldown_secs: u64,
+    pub(crate) quarantine_after_failures: u32,
+''',
+    "transient retry field",
+)
+state = replace_once(
+    state,
+    '''            failure_max_cooldown_secs: 7_200,
+            quarantine_after_failures: 4,
+''',
+    '''            failure_max_cooldown_secs: 7_200,
+            transient_failure_cooldown_secs: 180,
+            quarantine_after_failures: 4,
+''',
+    "transient retry default",
+)
+
+state = replace_once(
+    state,
+    '''        state.in_progress_since = 0;
+        self.apply_outcome(&mut state, AttemptOutcome::Failure, now);
+        self.save(key, &state)?;
+''',
+    '''        state.in_progress_since = 0;
+        self.apply_failure(&mut state, FailureClass::Infrastructure, now);
+        self.save(key, &state)?;
+''',
+    "interrupted attempts are infrastructure",
+)
+
+old_record = '''    pub(crate) fn record_for_revision(
+        &self,
+        key: &WorkKey,
+        revision: &str,
+        outcome: AttemptOutcome,
+        now: u64,
+    ) -> Result<AttemptState, String> {
+        let mut state = self.load_for_revision(key, revision)?;
+        state.in_progress_since = 0;
+        self.apply_outcome(&mut state, outcome, now);
+        self.save(key, &state)?;
+        Ok(state)
+    }
+
+    fn apply_outcome(&self, state: &mut AttemptState, outcome: AttemptOutcome, now: u64) {
+        state.total_attempts = state.total_attempts.saturating_add(1);
+        state.last_attempt_at = now;
+        state.last_outcome = Some(outcome);
+
+        match outcome {
+            AttemptOutcome::Success => {
+                state.consecutive_failures = 0;
+                state.quarantine_until = 0;
+                state.next_eligible_at = now.saturating_add(self.policy.success_cooldown_secs);
+            }
+            AttemptOutcome::Failure => {
+                state.consecutive_failures = state.consecutive_failures.saturating_add(1);
+                let cooldown = self.policy.failure_cooldown(state.consecutive_failures);
+                state.next_eligible_at = now.saturating_add(cooldown);
+                if state.consecutive_failures >= self.policy.quarantine_after_failures {
+                    state.quarantine_until = now.saturating_add(self.policy.quarantine_secs);
+                }
+            }
+        }
+    }
+'''
+new_record = '''    pub(crate) fn record_for_revision(
+        &self,
+        key: &WorkKey,
+        revision: &str,
+        outcome: AttemptOutcome,
+        now: u64,
+    ) -> Result<AttemptState, String> {
+        match outcome {
+            AttemptOutcome::Success => {
+                let mut state = self.load_for_revision(key, revision)?;
+                state.in_progress_since = 0;
+                self.apply_success(&mut state, now);
+                self.save(key, &state)?;
+                Ok(state)
+            }
+            AttemptOutcome::Failure => self.record_failure_for_revision(
+                key,
+                revision,
+                FailureClass::Validation,
+                now,
+            ),
+        }
+    }
+
+    pub(crate) fn record_failure_for_revision(
+        &self,
+        key: &WorkKey,
+        revision: &str,
+        class: FailureClass,
+        now: u64,
+    ) -> Result<AttemptState, String> {
+        let mut state = self.load_for_revision(key, revision)?;
+        state.in_progress_since = 0;
+        self.apply_failure(&mut state, class, now);
+        self.save(key, &state)?;
+        Ok(state)
+    }
+
+    fn apply_success(&self, state: &mut AttemptState, now: u64) {
+        state.total_attempts = state.total_attempts.saturating_add(1);
+        state.last_attempt_at = now;
+        state.last_outcome = Some(AttemptOutcome::Success);
+        state.last_failure_class = None;
+        state.consecutive_failures = 0;
+        state.quarantine_until = 0;
+        state.next_eligible_at = now.saturating_add(self.policy.success_cooldown_secs);
+    }
+
+    fn apply_failure(&self, state: &mut AttemptState, class: FailureClass, now: u64) {
+        state.total_attempts = state.total_attempts.saturating_add(1);
+        state.last_attempt_at = now;
+        state.last_outcome = Some(AttemptOutcome::Failure);
+        state.last_failure_class = Some(class);
+
+        if class.transient() {
+            state.next_eligible_at = now.saturating_add(self.policy.transient_failure_cooldown_secs);
+            return;
+        }
+
+        state.consecutive_failures = state.consecutive_failures.saturating_add(1);
+        let cooldown = self.policy.failure_cooldown(state.consecutive_failures);
+        state.next_eligible_at = now.saturating_add(cooldown);
+        if state.consecutive_failures >= self.policy.quarantine_after_failures {
+            state.quarantine_until = now.saturating_add(self.policy.quarantine_secs);
+        }
+    }
+'''
+state = replace_once(state, old_record, new_record, "classified revision-aware record")
+
+state = replace_once(
+    state,
+    '''        "{STATE_VERSION}\\nrevision={}\\ntotal_attempts={}\\nconsecutive_failures={}\\nlast_attempt_at={}\\nnext_eligible_at={}\\nquarantine_until={}\\nin_progress_since={}\\nlast_outcome={}\\n",
+        state.revision,
+        state.total_attempts,
+        state.consecutive_failures,
+        state.last_attempt_at,
+        state.next_eligible_at,
+        state.quarantine_until,
+        state.in_progress_since,
+        state.last_outcome.map_or("none", AttemptOutcome::as_str)
+''',
+    '''        "{STATE_VERSION}\\nrevision={}\\ntotal_attempts={}\\nconsecutive_failures={}\\nlast_attempt_at={}\\nnext_eligible_at={}\\nquarantine_until={}\\nin_progress_since={}\\nlast_outcome={}\\nlast_failure_class={}\\n",
+        state.revision,
+        state.total_attempts,
+        state.consecutive_failures,
+        state.last_attempt_at,
+        state.next_eligible_at,
+        state.quarantine_until,
+        state.in_progress_since,
+        state.last_outcome.map_or("none", AttemptOutcome::as_str),
+        state.last_failure_class.map_or("none", FailureClass::as_str)
+''',
+    "v4 serialization",
+)
+state = replace_once(
+    state,
+    '''    let legacy_v1 = version == "v1";
+    let legacy_revision = version != STATE_VERSION;
+''',
+    '''    let legacy_v1 = version == "v1";
+    let legacy_revision = matches!(version, "v1" | "v2");
+    let legacy_failure_class = version != STATE_VERSION;
+''',
+    "v4 legacy flags",
+)
+state = replace_once(
+    state,
+    '''            "last_outcome" => state.last_outcome = AttemptOutcome::parse(value)?,
+            other => return Err(format!("unknown state field: {other}")),
+''',
+    '''            "last_outcome" => state.last_outcome = AttemptOutcome::parse(value)?,
+            "last_failure_class" => {
+                if legacy_failure_class {
+                    return Err(format!("{version} state cannot contain last_failure_class"));
+                }
+                state.last_failure_class = FailureClass::parse(value)?;
+            }
+            other => return Err(format!("unknown state field: {other}")),
+''',
+    "failure class parser",
+)
+state = replace_once(
+    state,
+    '''    if version == STATE_VERSION && state.revision.is_empty() {
+        return Err("v3 state missing revision".to_owned());
+    }
+''',
+    '''    if !legacy_revision && state.revision.is_empty() {
+        return Err(format!("{version} state missing revision"));
+    }
+''',
+    "revision requirement for v3/v4",
+)
+
+state = replace_once(
+    state,
+    '''            failure_max_cooldown_secs: 40,
+            quarantine_after_failures: 4,
+''',
+    '''            failure_max_cooldown_secs: 40,
+            transient_failure_cooldown_secs: 5,
+            quarantine_after_failures: 4,
+''',
+    "state test policy",
+)
+state = replace_once(
+    state,
+    '''        assert_eq!(recovered.consecutive_failures, 1);
+        assert_eq!(recovered.last_outcome, Some(AttemptOutcome::Failure));
+        assert_eq!(recovered.next_eligible_at, 130);
+''',
+    '''        assert_eq!(recovered.consecutive_failures, 0);
+        assert_eq!(recovered.last_outcome, Some(AttemptOutcome::Failure));
+        assert_eq!(recovered.last_failure_class, Some(FailureClass::Infrastructure));
+        assert_eq!(recovered.next_eligible_at, 125);
+''',
+    "interrupted infrastructure test",
+)
+state = state.replace('assert!(rewritten.starts_with("v3\\nrevision=legacy\\n"));', 'assert!(rewritten.starts_with("v4\\nrevision=legacy\\n"));')
+state = state.replace('assert!(rewritten.starts_with("v3\\nrevision=head-a\\n"));', 'assert!(rewritten.starts_with("v4\\nrevision=head-a\\n"));')
+
+state = replace_once(
+    state,
+    '''        let failed = store
+            .record_for_revision(
+                &key,
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                AttemptOutcome::Failure,
+                100,
+            )
+            .unwrap();
+        assert_eq!(failed.consecutive_failures, 1);
+''',
+    '''        let failed = store
+            .record_failure_for_revision(
+                &key,
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                FailureClass::Validation,
+                100,
+            )
+            .unwrap();
+        assert_eq!(failed.consecutive_failures, 1);
+        assert_eq!(failed.last_failure_class, Some(FailureClass::Validation));
+''',
+    "revision reset classified failure",
+)
+state = replace_once(
+    state,
+    '''        assert_eq!(fresh.total_attempts, 0);
+        assert_eq!(fresh.consecutive_failures, 0);
+        assert!(fresh.is_eligible(105));
+''',
+    '''        assert_eq!(fresh.total_attempts, 0);
+        assert_eq!(fresh.consecutive_failures, 0);
+        assert_eq!(fresh.last_failure_class, None);
+        assert!(fresh.is_eligible(105));
+''',
+    "fresh revision clears failure class",
+)
+
+state = replace_once(
+    state,
+    '''    #[test]
+    fn corrupt_or_future_state_fails_closed() {
+''',
+    '''    #[test]
+    fn transient_failures_rotate_without_semantic_quarantine() {
+        let root = temporary_root("transient");
+        let store = AttemptStore::new(root.clone(), test_policy());
+        let key = WorkKey::new("Memorithm/ADA", "ISSUE", 7);
+
+        let first = store
+            .record_failure_for_revision(&key, "issue-v1", FailureClass::Infrastructure, 100)
+            .unwrap();
+        assert_eq!(first.total_attempts, 1);
+        assert_eq!(first.consecutive_failures, 0);
+        assert_eq!(first.next_eligible_at, 105);
+        assert_eq!(first.last_failure_class, Some(FailureClass::Infrastructure));
+
+        let second = store
+            .record_failure_for_revision(&key, "issue-v1", FailureClass::Publication, 200)
+            .unwrap();
+        assert_eq!(second.total_attempts, 2);
+        assert_eq!(second.consecutive_failures, 0);
+        assert_eq!(second.quarantine_until, 0);
+        assert_eq!(second.next_eligible_at, 205);
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn v3_state_adopts_failure_class_schema_without_losing_revision() {
+        let root = temporary_root("v3-class");
+        let key = WorkKey::new("Memorithm/scirust", "FIX_CI", 1338);
+        let path = key.state_path(&root);
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(
+            &path,
+            "v3\\nrevision=head-a\\ntotal_attempts=2\\nconsecutive_failures=1\\nlast_attempt_at=100\\nnext_eligible_at=110\\nquarantine_until=0\\nin_progress_since=0\\nlast_outcome=failure\\n",
+        )
+        .unwrap();
+        let store = AttemptStore::new(root.clone(), test_policy());
+        let loaded = store.load_for_revision(&key, "head-a").unwrap();
+        assert_eq!(loaded.revision, "head-a");
+        assert_eq!(loaded.consecutive_failures, 1);
+        assert_eq!(loaded.last_failure_class, None);
+        store
+            .record_for_revision(&key, "head-a", AttemptOutcome::Success, 200)
+            .unwrap();
+        let rewritten = fs::read_to_string(path).unwrap();
+        assert!(rewritten.starts_with("v4\\nrevision=head-a\\n"));
+        assert!(rewritten.contains("last_failure_class=none\\n"));
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn corrupt_or_future_state_fails_closed() {
+''',
+    "v4 classified state tests",
+)
+
+# ---------- main.rs: typed action failures ----------
+main = replace_once(
+    main,
+    '''    retry_policy: state::RetryPolicy,
+}
+
+struct InstanceLock {
+''',
+    '''    retry_policy: state::RetryPolicy,
+}
+
+#[derive(Debug)]
+struct ActionFailure {
+    class: state::FailureClass,
+    message: String,
+}
+
+impl ActionFailure {
+    fn new(class: state::FailureClass, message: impl Into<String>) -> Self {
+        Self {
+            class,
+            message: message.into(),
+        }
+    }
+}
+
+impl std::fmt::Display for ActionFailure {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(formatter, "[{}] {}", self.class.as_str(), self.message)
+    }
+}
+
+trait ClassifiedResult<T> {
+    fn classified(self, class: state::FailureClass) -> Result<T, ActionFailure>;
+}
+
+impl<T> ClassifiedResult<T> for Result<T, String> {
+    fn classified(self, class: state::FailureClass) -> Result<T, ActionFailure> {
+        self.map_err(|message| ActionFailure::new(class, message))
+    }
+}
+
+struct InstanceLock {
+''',
+    "ActionFailure type",
+)
+main = replace_once(
+    main,
+    '''                failure_max_cooldown_secs: env_u64("ORCHESTRATOR_FAILURE_MAX_COOLDOWN_SECS", 7_200),
+                quarantine_after_failures: env::var("ORCHESTRATOR_QUARANTINE_AFTER_FAILURES")
+''',
+    '''                failure_max_cooldown_secs: env_u64("ORCHESTRATOR_FAILURE_MAX_COOLDOWN_SECS", 7_200),
+                transient_failure_cooldown_secs: env_u64(
+                    "ORCHESTRATOR_TRANSIENT_FAILURE_COOLDOWN_SECS",
+                    180,
+                ),
+                quarantine_after_failures: env::var("ORCHESTRATOR_QUARANTINE_AFTER_FAILURES")
+''',
+    "transient failure env",
+)
+# Explicit test policy literals.
+main = replace_once(
+    main,
+    '''            failure_max_cooldown_secs: 1,
+            quarantine_after_failures: 4,
+''',
+    '''            failure_max_cooldown_secs: 1,
+            transient_failure_cooldown_secs: 1,
+            quarantine_after_failures: 4,
+''',
+    "fair scheduler test policy",
+)
+main = replace_once(
+    main,
+    '''            failure_max_cooldown_secs: 60,
+            quarantine_after_failures: 4,
+''',
+    '''            failure_max_cooldown_secs: 60,
+            transient_failure_cooldown_secs: 1,
+            quarantine_after_failures: 4,
+''',
+    "selection test policy",
+)
+
+old_run_agent = '''fn run_agent(config: &RunConfig, workspace: &Path, prompt: &str) -> Result<(), String> {
+    println!();
+    println!("===== OPENCODE LOCAL AGENT =====");
+    println!("model: {}", config.model);
+    println!("workspace: {}", workspace.display());
+    println!();
+
+    let status = Command::new("opencode")
+        .current_dir(workspace)
+        .env("OPENCODE_CONFIG_CONTENT", OPENCODE_INLINE_CONFIG)
+        .env("OPENCODE_DISABLE_AUTOUPDATE", "1")
+        .args(["run", "--auto", "--model"])
+        .arg(&config.model)
+        .arg(prompt)
+        .status()
+        .map_err(|error| format!("failed to execute opencode: {error}"))?;
+    if status.success() {
+        Ok(())
+    } else {
+        Err(format!("opencode exited with {status}"))
+    }
+}
+'''
+new_run_agent = '''fn run_agent(config: &RunConfig, workspace: &Path, prompt: &str) -> Result<(), ActionFailure> {
+    println!();
+    println!("===== OPENCODE LOCAL AGENT =====");
+    println!("model: {}", config.model);
+    println!("workspace: {}", workspace.display());
+    println!();
+
+    let status = Command::new("opencode")
+        .current_dir(workspace)
+        .env("OPENCODE_CONFIG_CONTENT", OPENCODE_INLINE_CONFIG)
+        .env("OPENCODE_DISABLE_AUTOUPDATE", "1")
+        .args(["run", "--auto", "--model"])
+        .arg(&config.model)
+        .arg(prompt)
+        .status()
+        .map_err(|error| {
+            ActionFailure::new(
+                state::FailureClass::Infrastructure,
+                format!("failed to execute opencode: {error}"),
+            )
+        })?;
+    if status.success() {
+        Ok(())
+    } else {
+        let class = if status.code() == Some(70) {
+            state::FailureClass::Infrastructure
+        } else {
+            state::FailureClass::Agent
+        };
+        Err(ActionFailure::new(class, format!("opencode exited with {status}")))
+    }
+}
+'''
+main = replace_once(main, old_run_agent, new_run_agent, "typed agent failure")
+
+issue_start = main.index("fn execute_issue(\n")
+ci_start = main.index("fn execute_ci_fix(", issue_start)
+pr_sha_start = main.index("fn pr_head_sha(", ci_start)
+pr_attention_start = main.index("fn handle_pr_attention(", pr_sha_start)
+runtime_preflight_start = main.index("fn runtime_preflight(", pr_attention_start)
+
+new_issue = r'''fn execute_issue(
+    config: &RunConfig,
+    repositories: &[Repository],
+    item: &WorkItem,
+) -> Result<(), ActionFailure> {
+    let repository = repository_by_name(repositories, &item.repository)
+        .classified(state::FailureClass::Repository)?;
+    let default_branch = repository
+        .default_branch
+        .as_deref()
+        .ok_or_else(|| {
+            ActionFailure::new(
+                state::FailureClass::Repository,
+                format!("{} has no default branch", item.repository),
+            )
+        })?;
+    let store = issue_publication_store(config);
+    let key = issue_publication_key(item);
+
+    if let Some(pending) = store
+        .load(&key)
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        println!(
+            "Resuming pending publication for {}#{} from {} at {}",
+            item.repository, item.number, pending.branch, pending.commit
+        );
+        return resume_issue_publication(config, repository, item, &store, &key, pending)
+            .classified(state::FailureClass::Publication);
+    }
+
+    if let Some(number) = open_pr_number(&item.repository)
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Err(ActionFailure::new(
+            state::FailureClass::Infrastructure,
+            format!(
+                "repository gained open PR #{number} after triage; deferring issue work to avoid parallel mutation"
+            ),
+        ));
+    }
+
+    let (workspace, branch) = prepare_issue_workspace(config, repository, item.number)
+        .classified(state::FailureClass::Repository)?;
+    let body = github_body(item).classified(state::FailureClass::Infrastructure)?;
+    run_agent(config, &workspace, &agent_prompt(item, &body))?;
+
+    if !has_changes(&workspace).classified(state::FailureClass::Repository)? {
+        println!("Agent produced no working-tree changes; nothing will be pushed.");
+        return Ok(());
+    }
+
+    reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
+    validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
+    let message = format!("feat: progress issue #{}", item.number);
+    let commit_sha = commit_changes(&workspace, &message)
+        .classified(state::FailureClass::Repository)?;
+    println!("Created commit {commit_sha}");
+
+    let mut pending = publication::PendingPublication::new(
+        branch.clone(),
+        commit_sha,
+        default_branch.to_owned(),
+        publication::PublicationPhase::Prepared,
+    )
+    .classified(state::FailureClass::Publication)?;
+    store
+        .save(&key, &pending)
+        .classified(state::FailureClass::Publication)?;
+    println!("Publication transaction prepared for {branch}");
+
+    run_in_dir(
+        &workspace,
+        "git",
+        &["push", "-u", "origin", branch.as_str()],
+    )
+    .classified(state::FailureClass::Publication)?;
+    pending.phase = publication::PublicationPhase::Pushed;
+    store
+        .save(&key, &pending)
+        .classified(state::FailureClass::Publication)?;
+    println!(
+        "Publication transaction recorded pushed commit {}",
+        pending.commit
+    );
+
+    create_issue_pull_request(&workspace, item, default_branch, &branch)
+        .classified(state::FailureClass::Publication)?;
+    store
+        .clear(&key)
+        .classified(state::FailureClass::Publication)?;
+    Ok(())
+}
+
+'''
+new_ci = r'''fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<(), ActionFailure> {
+    let workspace = prepare_pr_workspace(config, &item.repository, item.number)
+        .classified(state::FailureClass::Repository)?;
+    let body = github_body(item).classified(state::FailureClass::Infrastructure)?;
+    run_agent(config, &workspace, &agent_prompt(item, &body))?;
+
+    if !has_changes(&workspace).classified(state::FailureClass::Repository)? {
+        println!("Agent produced no working-tree changes; CI may already have moved on.");
+        return Ok(());
+    }
+
+    reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
+    validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
+    let message = format!("fix: repair CI for PR #{}", item.number);
+    let commit_sha = commit_changes(&workspace, &message)
+        .classified(state::FailureClass::Repository)?;
+    println!("Created commit {commit_sha}");
+    run_in_dir(&workspace, "git", &["push", "origin", "HEAD"])
+        .classified(state::FailureClass::Publication)
+}
+
+'''
+new_attention = r'''fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), ActionFailure> {
+    let ci_state = item.ci_state.unwrap_or(CiState::Unknown);
+    if ci_state == CiState::NoChecks {
+        println!(
+            "{}#{} has no CI checks; validating the checked-out PR locally before any merge.",
+            item.repository, item.number
+        );
+        let workspace = prepare_pr_workspace(config, &item.repository, item.number)
+            .classified(state::FailureClass::Repository)?;
+        validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
+    }
+
+    if !config.auto_merge {
+        println!(
+            "{}#{} is ready for attention, but ORCHESTRATOR_AUTO_MERGE is disabled.",
+            item.repository, item.number
+        );
+        return Ok(());
+    }
+    if !matches!(ci_state, CiState::Passing | CiState::NoChecks) {
+        return Err(ActionFailure::new(
+            state::FailureClass::Validation,
+            format!(
+                "refusing merge for {}#{} with CI state {}",
+                item.repository,
+                item.number,
+                ci_state.as_str()
+            ),
+        ));
+    }
+
+    let number = item.number.to_string();
+    let head_sha = pr_head_sha(&item.repository, item.number)
+        .classified(state::FailureClass::Infrastructure)?;
+    if item.draft {
+        println!(
+            "Marking {}#{} ready for review",
+            item.repository, item.number
+        );
+        let status = Command::new("gh")
+            .args(["pr", "ready"])
+            .arg(&number)
+            .arg("--repo")
+            .arg(&item.repository)
+            .status()
+            .map_err(|error| {
+                ActionFailure::new(
+                    state::FailureClass::Publication,
+                    format!("failed to execute gh pr ready: {error}"),
+                )
+            })?;
+        if !status.success() {
+            return Err(ActionFailure::new(
+                state::FailureClass::Publication,
+                format!("gh pr ready failed for {}#{}", item.repository, item.number),
+            ));
+        }
+    }
+
+    println!(
+        "Merging {}#{} after validated green state",
+        item.repository, item.number
+    );
+    let status = Command::new("gh")
+        .args(["pr", "merge"])
+        .arg(&number)
+        .arg("--repo")
+        .arg(&item.repository)
+        .args(["--squash", "--match-head-commit"])
+        .arg(&head_sha)
+        .status()
+        .map_err(|error| {
+            ActionFailure::new(
+                state::FailureClass::Publication,
+                format!("failed to execute gh pr merge: {error}"),
+            )
+        })?;
+    if status.success() {
+        Ok(())
+    } else {
+        Err(ActionFailure::new(
+            state::FailureClass::Publication,
+            format!("gh pr merge failed for {}#{}", item.repository, item.number),
+        ))
+    }
+}
+
+'''
+main = main[:issue_start] + new_issue + new_ci + main[pr_sha_start:pr_attention_start] + new_attention + main[runtime_preflight_start:]
+
+main = replace_once(
+    main,
+    '''fn execute_item(
+    config: &RunConfig,
+    snapshot: &TriageSnapshot,
+    item: &WorkItem,
+) -> Result<(), String> {
+''',
+    '''fn execute_item(
+    config: &RunConfig,
+    snapshot: &TriageSnapshot,
+    item: &WorkItem,
+) -> Result<(), ActionFailure> {
+''',
+    "typed execute item",
+)
+main = replace_once(
+    main,
+    '''    println!(
+        "quarantine       : after {} failures for {}s",
+        config.retry_policy.quarantine_after_failures, config.retry_policy.quarantine_secs
+    );
+''',
+    '''    println!(
+        "quarantine       : after {} failures for {}s",
+        config.retry_policy.quarantine_after_failures, config.retry_policy.quarantine_secs
+    );
+    println!(
+        "transient retry  : {}s (infrastructure/publication)",
+        config.retry_policy.transient_failure_cooldown_secs
+    );
+''',
+    "transient retry log",
+)
+main = replace_once(
+    main,
+    '''                                if let Err(journal_error) = journal.record(
+                                    trajectory::EventPhase::AttemptFinished,
+                                    "failure",
+                                    &error,
+                                    finished_at,
+                                ) {
+''',
+    '''                                let outcome = format!("failure:{}", error.class.as_str());
+                                if let Err(journal_error) = journal.record(
+                                    trajectory::EventPhase::AttemptFinished,
+                                    &outcome,
+                                    &error.message,
+                                    finished_at,
+                                ) {
+''',
+    "classified trajectory outcome",
+)
+main = replace_once(
+    main,
+    '''                                match attempt_store.record_for_revision(
+                                    &key,
+                                    &revision,
+                                    state::AttemptOutcome::Failure,
+                                    finished_at,
+                                ) {
+                                    Ok(attempt_state) => eprintln!(
+                                        "Scheduler recorded failure {} for {}#{}; next eligible at unix={}",
+                                        attempt_state.consecutive_failures,
+                                        item.repository,
+                                        item.number,
+                                        attempt_state.eligible_at()
+                                    ),
+''',
+    '''                                match attempt_store.record_failure_for_revision(
+                                    &key,
+                                    &revision,
+                                    error.class,
+                                    finished_at,
+                                ) {
+                                    Ok(attempt_state) => eprintln!(
+                                        "Scheduler recorded {} failure; semantic failures={} for {}#{}; next eligible at unix={}",
+                                        error.class.as_str(),
+                                        attempt_state.consecutive_failures,
+                                        item.repository,
+                                        item.number,
+                                        attempt_state.eligible_at()
+                                    ),
+''',
+    "classified retry write",
+)
+
+service = replace_once(
+    service,
+    'ORCHESTRATOR_FAILURE_MAX_COOLDOWN_SECS=7200\n',
+    'ORCHESTRATOR_FAILURE_MAX_COOLDOWN_SECS=7200\nORCHESTRATOR_TRANSIENT_FAILURE_COOLDOWN_SECS=180\n',
+    "service transient retry",
+)
+
+main_path.write_text(main)
+state_path.write_text(state)
+service_path.write_text(service)
