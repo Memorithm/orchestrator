@@ -235,6 +235,37 @@ struct RunConfig {
     retry_policy: state::RetryPolicy,
 }
 
+#[derive(Debug)]
+struct ActionFailure {
+    class: state::FailureClass,
+    message: String,
+}
+
+impl ActionFailure {
+    fn new(class: state::FailureClass, message: impl Into<String>) -> Self {
+        Self {
+            class,
+            message: message.into(),
+        }
+    }
+}
+
+impl std::fmt::Display for ActionFailure {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(formatter, "[{}] {}", self.class.as_str(), self.message)
+    }
+}
+
+trait ClassifiedResult<T> {
+    fn classified(self, class: state::FailureClass) -> Result<T, ActionFailure>;
+}
+
+impl<T> ClassifiedResult<T> for Result<T, String> {
+    fn classified(self, class: state::FailureClass) -> Result<T, ActionFailure> {
+        self.map_err(|message| ActionFailure::new(class, message))
+    }
+}
+
 struct InstanceLock {
     path: PathBuf,
 }
@@ -1085,6 +1116,10 @@ impl RunConfig {
                 success_cooldown_secs: env_u64("ORCHESTRATOR_SUCCESS_COOLDOWN_SECS", 900),
                 failure_base_cooldown_secs: env_u64("ORCHESTRATOR_FAILURE_BASE_COOLDOWN_SECS", 300),
                 failure_max_cooldown_secs: env_u64("ORCHESTRATOR_FAILURE_MAX_COOLDOWN_SECS", 7_200),
+                transient_failure_cooldown_secs: env_u64(
+                    "ORCHESTRATOR_TRANSIENT_FAILURE_COOLDOWN_SECS",
+                    180,
+                ),
                 quarantine_after_failures: env::var("ORCHESTRATOR_QUARANTINE_AFTER_FAILURES")
                     .ok()
                     .and_then(|value| value.parse::<u32>().ok())
@@ -1350,7 +1385,7 @@ fn agent_prompt(item: &WorkItem, body: &str) -> String {
     )
 }
 
-fn run_agent(config: &RunConfig, workspace: &Path, prompt: &str) -> Result<(), String> {
+fn run_agent(config: &RunConfig, workspace: &Path, prompt: &str) -> Result<(), ActionFailure> {
     println!();
     println!("===== OPENCODE LOCAL AGENT =====");
     println!("model: {}", config.model);
@@ -1365,11 +1400,24 @@ fn run_agent(config: &RunConfig, workspace: &Path, prompt: &str) -> Result<(), S
         .arg(&config.model)
         .arg(prompt)
         .status()
-        .map_err(|error| format!("failed to execute opencode: {error}"))?;
+        .map_err(|error| {
+            ActionFailure::new(
+                state::FailureClass::Infrastructure,
+                format!("failed to execute opencode: {error}"),
+            )
+        })?;
     if status.success() {
         Ok(())
     } else {
-        Err(format!("opencode exited with {status}"))
+        let class = if status.code() == Some(70) {
+            state::FailureClass::Infrastructure
+        } else {
+            state::FailureClass::Agent
+        };
+        Err(ActionFailure::new(
+            class,
+            format!("opencode exited with {status}"),
+        ))
     }
 }
 
@@ -1718,42 +1766,56 @@ fn execute_issue(
     config: &RunConfig,
     repositories: &[Repository],
     item: &WorkItem,
-) -> Result<(), String> {
-    let repository = repository_by_name(repositories, &item.repository)?;
-    let default_branch = repository
-        .default_branch
-        .as_deref()
-        .ok_or_else(|| format!("{} has no default branch", item.repository))?;
+) -> Result<(), ActionFailure> {
+    let repository = repository_by_name(repositories, &item.repository)
+        .classified(state::FailureClass::Repository)?;
+    let default_branch = repository.default_branch.as_deref().ok_or_else(|| {
+        ActionFailure::new(
+            state::FailureClass::Repository,
+            format!("{} has no default branch", item.repository),
+        )
+    })?;
     let store = issue_publication_store(config);
     let key = issue_publication_key(item);
 
-    if let Some(pending) = store.load(&key)? {
+    if let Some(pending) = store
+        .load(&key)
+        .classified(state::FailureClass::Infrastructure)?
+    {
         println!(
             "Resuming pending publication for {}#{} from {} at {}",
             item.repository, item.number, pending.branch, pending.commit
         );
-        return resume_issue_publication(config, repository, item, &store, &key, pending);
+        return resume_issue_publication(config, repository, item, &store, &key, pending)
+            .classified(state::FailureClass::Publication);
     }
 
-    if let Some(number) = open_pr_number(&item.repository)? {
-        return Err(format!(
-            "repository gained open PR #{number} after triage; deferring issue work to avoid parallel mutation"
+    if let Some(number) =
+        open_pr_number(&item.repository).classified(state::FailureClass::Infrastructure)?
+    {
+        return Err(ActionFailure::new(
+            state::FailureClass::Infrastructure,
+            format!(
+                "repository gained open PR #{number} after triage; deferring issue work to avoid parallel mutation"
+            ),
         ));
     }
 
-    let (workspace, branch) = prepare_issue_workspace(config, repository, item.number)?;
-    let body = github_body(item)?;
+    let (workspace, branch) = prepare_issue_workspace(config, repository, item.number)
+        .classified(state::FailureClass::Repository)?;
+    let body = github_body(item).classified(state::FailureClass::Infrastructure)?;
     run_agent(config, &workspace, &agent_prompt(item, &body))?;
 
-    if !has_changes(&workspace)? {
+    if !has_changes(&workspace).classified(state::FailureClass::Repository)? {
         println!("Agent produced no working-tree changes; nothing will be pushed.");
         return Ok(());
     }
 
-    reject_sensitive_paths(&workspace)?;
-    validate_workspace(config, &workspace)?;
+    reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
+    validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
     let message = format!("feat: progress issue #{}", item.number);
-    let commit_sha = commit_changes(&workspace, &message)?;
+    let commit_sha =
+        commit_changes(&workspace, &message).classified(state::FailureClass::Repository)?;
     println!("Created commit {commit_sha}");
 
     let mut pending = publication::PendingPublication::new(
@@ -1761,43 +1823,55 @@ fn execute_issue(
         commit_sha,
         default_branch.to_owned(),
         publication::PublicationPhase::Prepared,
-    )?;
-    store.save(&key, &pending)?;
+    )
+    .classified(state::FailureClass::Publication)?;
+    store
+        .save(&key, &pending)
+        .classified(state::FailureClass::Publication)?;
     println!("Publication transaction prepared for {branch}");
 
     run_in_dir(
         &workspace,
         "git",
         &["push", "-u", "origin", branch.as_str()],
-    )?;
+    )
+    .classified(state::FailureClass::Publication)?;
     pending.phase = publication::PublicationPhase::Pushed;
-    store.save(&key, &pending)?;
+    store
+        .save(&key, &pending)
+        .classified(state::FailureClass::Publication)?;
     println!(
         "Publication transaction recorded pushed commit {}",
         pending.commit
     );
 
-    create_issue_pull_request(&workspace, item, default_branch, &branch)?;
-    store.clear(&key)?;
+    create_issue_pull_request(&workspace, item, default_branch, &branch)
+        .classified(state::FailureClass::Publication)?;
+    store
+        .clear(&key)
+        .classified(state::FailureClass::Publication)?;
     Ok(())
 }
 
-fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<(), String> {
-    let workspace = prepare_pr_workspace(config, &item.repository, item.number)?;
-    let body = github_body(item)?;
+fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<(), ActionFailure> {
+    let workspace = prepare_pr_workspace(config, &item.repository, item.number)
+        .classified(state::FailureClass::Repository)?;
+    let body = github_body(item).classified(state::FailureClass::Infrastructure)?;
     run_agent(config, &workspace, &agent_prompt(item, &body))?;
 
-    if !has_changes(&workspace)? {
+    if !has_changes(&workspace).classified(state::FailureClass::Repository)? {
         println!("Agent produced no working-tree changes; CI may already have moved on.");
         return Ok(());
     }
 
-    reject_sensitive_paths(&workspace)?;
-    validate_workspace(config, &workspace)?;
+    reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
+    validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
     let message = format!("fix: repair CI for PR #{}", item.number);
-    let commit_sha = commit_changes(&workspace, &message)?;
+    let commit_sha =
+        commit_changes(&workspace, &message).classified(state::FailureClass::Repository)?;
     println!("Created commit {commit_sha}");
     run_in_dir(&workspace, "git", &["push", "origin", "HEAD"])
+        .classified(state::FailureClass::Publication)
 }
 
 fn pr_head_sha(repository: &str, number: u64) -> Result<String, String> {
@@ -1818,15 +1892,16 @@ fn pr_head_sha(repository: &str, number: u64) -> Result<String, String> {
     )
 }
 
-fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), String> {
+fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), ActionFailure> {
     let ci_state = item.ci_state.unwrap_or(CiState::Unknown);
     if ci_state == CiState::NoChecks {
         println!(
             "{}#{} has no CI checks; validating the checked-out PR locally before any merge.",
             item.repository, item.number
         );
-        let workspace = prepare_pr_workspace(config, &item.repository, item.number)?;
-        validate_workspace(config, &workspace)?;
+        let workspace = prepare_pr_workspace(config, &item.repository, item.number)
+            .classified(state::FailureClass::Repository)?;
+        validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
     }
 
     if !config.auto_merge {
@@ -1837,16 +1912,20 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), String
         return Ok(());
     }
     if !matches!(ci_state, CiState::Passing | CiState::NoChecks) {
-        return Err(format!(
-            "refusing merge for {}#{} with CI state {}",
-            item.repository,
-            item.number,
-            ci_state.as_str()
+        return Err(ActionFailure::new(
+            state::FailureClass::Validation,
+            format!(
+                "refusing merge for {}#{} with CI state {}",
+                item.repository,
+                item.number,
+                ci_state.as_str()
+            ),
         ));
     }
 
     let number = item.number.to_string();
-    let head_sha = pr_head_sha(&item.repository, item.number)?;
+    let head_sha = pr_head_sha(&item.repository, item.number)
+        .classified(state::FailureClass::Infrastructure)?;
     if item.draft {
         println!(
             "Marking {}#{} ready for review",
@@ -1858,11 +1937,16 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), String
             .arg("--repo")
             .arg(&item.repository)
             .status()
-            .map_err(|error| format!("failed to execute gh pr ready: {error}"))?;
+            .map_err(|error| {
+                ActionFailure::new(
+                    state::FailureClass::Publication,
+                    format!("failed to execute gh pr ready: {error}"),
+                )
+            })?;
         if !status.success() {
-            return Err(format!(
-                "gh pr ready failed for {}#{}",
-                item.repository, item.number
+            return Err(ActionFailure::new(
+                state::FailureClass::Publication,
+                format!("gh pr ready failed for {}#{}", item.repository, item.number),
             ));
         }
     }
@@ -1879,13 +1963,18 @@ fn handle_pr_attention(config: &RunConfig, item: &WorkItem) -> Result<(), String
         .args(["--squash", "--match-head-commit"])
         .arg(&head_sha)
         .status()
-        .map_err(|error| format!("failed to execute gh pr merge: {error}"))?;
+        .map_err(|error| {
+            ActionFailure::new(
+                state::FailureClass::Publication,
+                format!("failed to execute gh pr merge: {error}"),
+            )
+        })?;
     if status.success() {
         Ok(())
     } else {
-        Err(format!(
-            "gh pr merge failed for {}#{}",
-            item.repository, item.number
+        Err(ActionFailure::new(
+            state::FailureClass::Publication,
+            format!("gh pr merge failed for {}#{}", item.repository, item.number),
         ))
     }
 }
@@ -1994,7 +2083,7 @@ fn execute_item(
     config: &RunConfig,
     snapshot: &TriageSnapshot,
     item: &WorkItem,
-) -> Result<(), String> {
+) -> Result<(), ActionFailure> {
     println!();
     println!("===== SELECTED WORK =====");
     println!("kind       : {}", item.kind.as_str());
@@ -2053,6 +2142,10 @@ fn run_loop(config: RunConfig) -> ExitCode {
     println!(
         "quarantine       : after {} failures for {}s",
         config.retry_policy.quarantine_after_failures, config.retry_policy.quarantine_secs
+    );
+    println!(
+        "transient retry  : {}s (infrastructure/publication)",
+        config.retry_policy.transient_failure_cooldown_secs
     );
 
     let attempt_store = state::AttemptStore::new(
@@ -2147,23 +2240,25 @@ fn run_loop(config: RunConfig) -> ExitCode {
                             Err(error) => {
                                 let finished_at = unix_timestamp();
                                 eprintln!("cycle {cycle} action failed: {error}");
+                                let outcome = format!("failure:{}", error.class.as_str());
                                 if let Err(journal_error) = journal.record(
                                     trajectory::EventPhase::AttemptFinished,
-                                    "failure",
-                                    &error,
+                                    &outcome,
+                                    &error.message,
                                     finished_at,
                                 ) {
                                     eprintln!("trajectory finalization failed: {journal_error}");
                                     return ExitCode::FAILURE;
                                 }
-                                match attempt_store.record_for_revision(
+                                match attempt_store.record_failure_for_revision(
                                     &key,
                                     &revision,
-                                    state::AttemptOutcome::Failure,
+                                    error.class,
                                     finished_at,
                                 ) {
                                     Ok(attempt_state) => eprintln!(
-                                        "Scheduler recorded failure {} for {}#{}; next eligible at unix={}",
+                                        "Scheduler recorded {} failure; semantic failures={} for {}#{}; next eligible at unix={}",
+                                        error.class.as_str(),
                                         attempt_state.consecutive_failures,
                                         item.repository,
                                         item.number,
@@ -2445,6 +2540,7 @@ mod tests {
             success_cooldown_secs: 1,
             failure_base_cooldown_secs: 1,
             failure_max_cooldown_secs: 1,
+            transient_failure_cooldown_secs: 1,
             quarantine_after_failures: 4,
             quarantine_secs: 60,
         };
@@ -2501,6 +2597,7 @@ mod tests {
             success_cooldown_secs: 30,
             failure_base_cooldown_secs: 60,
             failure_max_cooldown_secs: 60,
+            transient_failure_cooldown_secs: 1,
             quarantine_after_failures: 4,
             quarantine_secs: 600,
         };
