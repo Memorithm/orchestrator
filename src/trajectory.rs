@@ -7,14 +7,6 @@ const DETAIL_LIMIT_CHARS: usize = 16_000;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum EventPhase {
     AttemptStarted,
-    WorkspacePrepared,
-    AgentStarted,
-    AgentFinished,
-    ValidationStarted,
-    ValidationFinished,
-    CommitCreated,
-    PushFinished,
-    PullRequestCreated,
     AttemptFinished,
 }
 
@@ -22,14 +14,6 @@ impl EventPhase {
     const fn as_str(self) -> &'static str {
         match self {
             Self::AttemptStarted => "attempt_started",
-            Self::WorkspacePrepared => "workspace_prepared",
-            Self::AgentStarted => "agent_started",
-            Self::AgentFinished => "agent_finished",
-            Self::ValidationStarted => "validation_started",
-            Self::ValidationFinished => "validation_finished",
-            Self::CommitCreated => "commit_created",
-            Self::PushFinished => "push_finished",
-            Self::PullRequestCreated => "pull_request_created",
             Self::AttemptFinished => "attempt_finished",
         }
     }
@@ -191,21 +175,18 @@ mod tests {
             )
             .unwrap();
             journal
-                .record(EventPhase::AgentStarted, "running", "agent launched", 101)
-                .unwrap();
-            journal
-                .record(EventPhase::AgentFinished, "success", "done", 102)
+                .record(EventPhase::AttemptFinished, "success", "done", 102)
                 .unwrap();
             journal.path().to_path_buf()
         };
 
         let contents = fs::read_to_string(&path).unwrap();
         let lines = contents.lines().collect::<Vec<_>>();
-        assert_eq!(lines.len(), 3);
+        assert_eq!(lines.len(), 2);
         assert!(lines[0].contains("\"seq\":1"));
         assert!(lines[0].contains("\"phase\":\"attempt_started\""));
-        assert!(lines[2].contains("\"seq\":3"));
-        assert!(lines[2].contains("\"phase\":\"agent_finished\""));
+        assert!(lines[1].contains("\"seq\":2"));
+        assert!(lines[1].contains("\"phase\":\"attempt_finished\""));
 
         let _ = fs::remove_dir_all(root);
     }
