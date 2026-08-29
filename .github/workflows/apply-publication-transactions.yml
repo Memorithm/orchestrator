@@ -74,17 +74,18 @@ jobs:
         run: |
           changed="$(git diff --name-only)"
           printf '%s\n' "$changed"
-          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^src/main\.rs$' || true)"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/main\.rs|src/publication\.rs)$' || true)"
           if [ -n "$unexpected" ]; then
             printf 'unexpected integration paths:\n%s\n' "$unexpected" >&2
             false
           fi
-          test "$changed" = "src/main.rs"
+          printf '%s\n' "$changed" | grep -qx 'src/main.rs'
+          printf '%s\n' "$changed" | grep -qx 'src/publication.rs'
 
       - name: Commit validated publication integration
         run: |
           git config user.name 'Memorithm Orchestrator Integration'
           git config user.email 'orchestrator@localhost'
-          git add src/main.rs
+          git add src/main.rs src/publication.rs
           git commit -m 'feat(publication): resume issue PR publication transactionally'
           git push origin HEAD:main
