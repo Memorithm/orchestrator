@@ -2,8 +2,10 @@ use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
-const STATE_VERSION: &str = "v2";
-const LEGACY_STATE_VERSION: &str = "v1";
+const STATE_VERSION: &str = "v3";
+const LEGACY_STATE_VERSIONS: &[&str] = &["v1", "v2"];
+#[cfg(test)]
+const LEGACY_REVISION: &str = "legacy";
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) struct WorkKey {
@@ -65,6 +67,7 @@ impl AttemptOutcome {
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub(crate) struct AttemptState {
+    pub(crate) revision: String,
     pub(crate) total_attempts: u64,
     pub(crate) consecutive_failures: u32,
     pub(crate) last_attempt_at: u64,
@@ -126,19 +129,47 @@ impl AttemptStore {
         Self { root, policy }
     }
 
+    #[cfg(test)]
     pub(crate) fn load(&self, key: &WorkKey) -> Result<AttemptState, String> {
+        self.load_for_revision(key, LEGACY_REVISION)
+    }
+
+    pub(crate) fn load_for_revision(
+        &self,
+        key: &WorkKey,
+        revision: &str,
+    ) -> Result<AttemptState, String> {
+        validate_revision(revision)?;
         let path = key.state_path(&self.root);
         if !path.exists() {
-            return Ok(AttemptState::default());
+            return Ok(fresh_state(revision));
         }
         let contents = fs::read_to_string(&path)
             .map_err(|error| format!("failed to read attempt state {}: {error}", path.display()))?;
-        parse_state(&contents)
-            .map_err(|error| format!("invalid attempt state {}: {error}", path.display()))
+        let mut state = parse_state(&contents)
+            .map_err(|error| format!("invalid attempt state {}: {error}", path.display()))?;
+        if state.revision.is_empty() {
+            state.revision = revision.to_owned();
+            return Ok(state);
+        }
+        if state.revision != revision {
+            return Ok(fresh_state(revision));
+        }
+        Ok(state)
     }
 
+    #[cfg(test)]
     pub(crate) fn begin(&self, key: &WorkKey, now: u64) -> Result<AttemptState, String> {
-        let mut state = self.load(key)?;
+        self.begin_for_revision(key, LEGACY_REVISION, now)
+    }
+
+    pub(crate) fn begin_for_revision(
+        &self,
+        key: &WorkKey,
+        revision: &str,
+        now: u64,
+    ) -> Result<AttemptState, String> {
+        let mut state = self.load_for_revision(key, revision)?;
         if state.in_progress_since != 0 {
             return Err(format!(
                 "attempt already marked in progress since unix={}",
@@ -150,12 +181,22 @@ impl AttemptStore {
         Ok(state)
     }
 
+    #[cfg(test)]
     pub(crate) fn recover_interrupted(
         &self,
         key: &WorkKey,
         now: u64,
     ) -> Result<Option<AttemptState>, String> {
-        let mut state = self.load(key)?;
+        self.recover_interrupted_for_revision(key, LEGACY_REVISION, now)
+    }
+
+    pub(crate) fn recover_interrupted_for_revision(
+        &self,
+        key: &WorkKey,
+        revision: &str,
+        now: u64,
+    ) -> Result<Option<AttemptState>, String> {
+        let mut state = self.load_for_revision(key, revision)?;
         if state.in_progress_since == 0 {
             return Ok(None);
         }
@@ -165,13 +206,24 @@ impl AttemptStore {
         Ok(Some(state))
     }
 
+    #[cfg(test)]
     pub(crate) fn record(
         &self,
         key: &WorkKey,
         outcome: AttemptOutcome,
         now: u64,
     ) -> Result<AttemptState, String> {
-        let mut state = self.load(key)?;
+        self.record_for_revision(key, LEGACY_REVISION, outcome, now)
+    }
+
+    pub(crate) fn record_for_revision(
+        &self,
+        key: &WorkKey,
+        revision: &str,
+        outcome: AttemptOutcome,
+        now: u64,
+    ) -> Result<AttemptState, String> {
+        let mut state = self.load_for_revision(key, revision)?;
         state.in_progress_since = 0;
         self.apply_outcome(&mut state, outcome, now);
         self.save(key, &state)?;
@@ -201,6 +253,7 @@ impl AttemptStore {
     }
 
     fn save(&self, key: &WorkKey, state: &AttemptState) -> Result<(), String> {
+        validate_revision(&state.revision)?;
         let path = key.state_path(&self.root);
         let parent = path
             .parent()
@@ -229,9 +282,29 @@ impl AttemptStore {
     }
 }
 
+fn fresh_state(revision: &str) -> AttemptState {
+    AttemptState {
+        revision: revision.to_owned(),
+        ..AttemptState::default()
+    }
+}
+
+fn validate_revision(revision: &str) -> Result<(), String> {
+    if revision.is_empty()
+        || revision.len() > 256
+        || revision
+            .bytes()
+            .any(|byte| matches!(byte, b'\n' | b'\r' | 0))
+    {
+        return Err("invalid work revision".to_owned());
+    }
+    Ok(())
+}
+
 fn serialize_state(state: &AttemptState) -> String {
     format!(
-        "{STATE_VERSION}\ntotal_attempts={}\nconsecutive_failures={}\nlast_attempt_at={}\nnext_eligible_at={}\nquarantine_until={}\nin_progress_since={}\nlast_outcome={}\n",
+        "{STATE_VERSION}\nrevision={}\ntotal_attempts={}\nconsecutive_failures={}\nlast_attempt_at={}\nnext_eligible_at={}\nquarantine_until={}\nin_progress_since={}\nlast_outcome={}\n",
+        state.revision,
         state.total_attempts,
         state.consecutive_failures,
         state.last_attempt_at,
@@ -245,10 +318,11 @@ fn serialize_state(state: &AttemptState) -> String {
 fn parse_state(contents: &str) -> Result<AttemptState, String> {
     let mut lines = contents.lines();
     let version = lines.next().unwrap_or_default();
-    if version != STATE_VERSION && version != LEGACY_STATE_VERSION {
+    if version != STATE_VERSION && !LEGACY_STATE_VERSIONS.contains(&version) {
         return Err(format!("unsupported state version: {version}"));
     }
-    let legacy = version == LEGACY_STATE_VERSION;
+    let legacy_v1 = version == "v1";
+    let legacy_revision = version != STATE_VERSION;
 
     let mut state = AttemptState::default();
     let mut seen = std::collections::BTreeSet::new();
@@ -263,6 +337,13 @@ fn parse_state(contents: &str) -> Result<AttemptState, String> {
             return Err(format!("duplicate state field: {name}"));
         }
         match name {
+            "revision" => {
+                if legacy_revision {
+                    return Err(format!("{version} state cannot contain revision"));
+                }
+                validate_revision(value)?;
+                state.revision = value.to_owned();
+            }
             "total_attempts" => {
                 state.total_attempts = value
                     .parse()
@@ -289,7 +370,7 @@ fn parse_state(contents: &str) -> Result<AttemptState, String> {
                     .map_err(|error| format!("invalid quarantine_until {value}: {error}"))?;
             }
             "in_progress_since" => {
-                if legacy {
+                if legacy_v1 {
                     return Err("v1 state cannot contain in_progress_since".to_owned());
                 }
                 state.in_progress_since = value
@@ -299,6 +380,9 @@ fn parse_state(contents: &str) -> Result<AttemptState, String> {
             "last_outcome" => state.last_outcome = AttemptOutcome::parse(value)?,
             other => return Err(format!("unknown state field: {other}")),
         }
+    }
+    if version == STATE_VERSION && state.revision.is_empty() {
+        return Err("v3 state missing revision".to_owned());
     }
     Ok(state)
 }
@@ -432,8 +516,61 @@ mod tests {
         assert_eq!(loaded.in_progress_since, 0);
         store.record(&key, AttemptOutcome::Success, 200).unwrap();
         let rewritten = fs::read_to_string(path).unwrap();
-        assert!(rewritten.starts_with("v2\n"));
+        assert!(rewritten.starts_with("v3\nrevision=legacy\n"));
         assert!(rewritten.contains("in_progress_since=0\n"));
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn revision_change_resets_cooldown_and_failure_history() {
+        let root = temporary_root("revision-reset");
+        let store = AttemptStore::new(root.clone(), test_policy());
+        let key = WorkKey::new("Memorithm/scirust", "FIX_CI", 1338);
+
+        let failed = store
+            .record_for_revision(
+                &key,
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                AttemptOutcome::Failure,
+                100,
+            )
+            .unwrap();
+        assert_eq!(failed.consecutive_failures, 1);
+        assert!(!failed.is_eligible(105));
+
+        let fresh = store
+            .load_for_revision(&key, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+            .unwrap();
+        assert_eq!(fresh.revision, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+        assert_eq!(fresh.total_attempts, 0);
+        assert_eq!(fresh.consecutive_failures, 0);
+        assert!(fresh.is_eligible(105));
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn v2_state_adopts_current_revision_without_losing_history() {
+        let root = temporary_root("v2-revision");
+        let key = WorkKey::new("Memorithm/scirust", "FIX_CI", 1338);
+        let path = key.state_path(&root);
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(
+            &path,
+            "v2\ntotal_attempts=2\nconsecutive_failures=1\nlast_attempt_at=100\nnext_eligible_at=110\nquarantine_until=0\nin_progress_since=0\nlast_outcome=failure\n",
+        )
+        .unwrap();
+        let store = AttemptStore::new(root.clone(), test_policy());
+        let loaded = store.load_for_revision(&key, "head-a").unwrap();
+        assert_eq!(loaded.revision, "head-a");
+        assert_eq!(loaded.total_attempts, 2);
+        assert_eq!(loaded.consecutive_failures, 1);
+        store
+            .record_for_revision(&key, "head-a", AttemptOutcome::Success, 200)
+            .unwrap();
+        let rewritten = fs::read_to_string(path).unwrap();
+        assert!(rewritten.starts_with("v3\nrevision=head-a\n"));
 
         let _ = fs::remove_dir_all(root);
     }

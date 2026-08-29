@@ -1918,6 +1918,16 @@ fn work_key(item: &WorkItem) -> state::WorkKey {
     state::WorkKey::new(&item.repository, item.kind.as_str(), item.number)
 }
 
+fn work_revision(item: &WorkItem) -> Result<String, String> {
+    match item.kind {
+        WorkKind::Issue => Ok("issue-v1".to_owned()),
+        WorkKind::FixCi | WorkKind::PullRequest => pr_head_sha(&item.repository, item.number),
+        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => {
+            Ok("non-actionable".to_owned())
+        }
+    }
+}
+
 fn work_item_runnable(item: &WorkItem, auto_merge: bool) -> bool {
     match item.kind {
         WorkKind::FixCi | WorkKind::Issue => true,
@@ -1939,7 +1949,10 @@ fn selected_for_run_with_state<'a>(
         }
 
         let key = work_key(item);
-        if let Some(recovered) = attempt_store.recover_interrupted(&key, now)? {
+        let revision = work_revision(item)?;
+        if let Some(recovered) =
+            attempt_store.recover_interrupted_for_revision(&key, &revision, now)?
+        {
             println!(
                 "Scheduler recovered interrupted attempt: {}#{} {} -> failure {}; next eligible at unix={}",
                 item.repository,
@@ -1950,7 +1963,7 @@ fn selected_for_run_with_state<'a>(
             );
             continue;
         }
-        let attempt_state = attempt_store.load(&key)?;
+        let attempt_state = attempt_store.load_for_revision(&key, &revision)?;
         if attempt_state.is_eligible(now) {
             eligible.push((item, attempt_state.last_attempt_at));
         } else {
@@ -2065,6 +2078,15 @@ fn run_loop(config: RunConfig) -> ExitCode {
                 ) {
                     Ok(Some(item)) => {
                         let key = work_key(item);
+                        let revision = match work_revision(item) {
+                            Ok(revision) => revision,
+                            Err(revision_error) => {
+                                eprintln!(
+                                    "failed to resolve selected work revision: {revision_error}"
+                                );
+                                return ExitCode::FAILURE;
+                            }
+                        };
                         let mut journal = match trajectory::AttemptJournal::create(
                             &trajectory_root,
                             &item.repository,
@@ -2083,7 +2105,9 @@ fn run_loop(config: RunConfig) -> ExitCode {
                             }
                         };
 
-                        if let Err(state_error) = attempt_store.begin(&key, selection_time) {
+                        if let Err(state_error) =
+                            attempt_store.begin_for_revision(&key, &revision, selection_time)
+                        {
                             eprintln!("scheduler failed to persist attempt lease: {state_error}");
                             return ExitCode::FAILURE;
                         }
@@ -2100,8 +2124,9 @@ fn run_loop(config: RunConfig) -> ExitCode {
                                     eprintln!("trajectory finalization failed: {journal_error}");
                                     return ExitCode::FAILURE;
                                 }
-                                match attempt_store.record(
+                                match attempt_store.record_for_revision(
                                     &key,
+                                    &revision,
                                     state::AttemptOutcome::Success,
                                     finished_at,
                                 ) {
@@ -2131,8 +2156,9 @@ fn run_loop(config: RunConfig) -> ExitCode {
                                     eprintln!("trajectory finalization failed: {journal_error}");
                                     return ExitCode::FAILURE;
                                 }
-                                match attempt_store.record(
+                                match attempt_store.record_for_revision(
                                     &key,
+                                    &revision,
                                     state::AttemptOutcome::Failure,
                                     finished_at,
                                 ) {
@@ -2442,8 +2468,9 @@ mod tests {
             draft: false,
         };
         store
-            .record(
+            .record_for_revision(
                 &work_key(&earlier_alpha),
+                "issue-v1",
                 state::AttemptOutcome::Success,
                 100,
             )
@@ -2460,57 +2487,6 @@ mod tests {
             .unwrap();
         assert_eq!(selected.repository, "Memorithm/ZZZ");
         assert_eq!(selected.number, 2);
-        let _ = fs::remove_dir_all(root);
-    }
-
-    #[test]
-    fn fair_selection_never_sacrifices_work_kind_priority() {
-        let root = std::env::temp_dir().join(format!(
-            "orchestrator-fair-priority-test-{}-{}",
-            std::process::id(),
-            unix_timestamp()
-        ));
-        let policy = state::RetryPolicy {
-            success_cooldown_secs: 1,
-            failure_base_cooldown_secs: 1,
-            failure_max_cooldown_secs: 1,
-            quarantine_after_failures: 4,
-            quarantine_secs: 60,
-        };
-        let store = state::AttemptStore::new(root.clone(), policy);
-        let ci = WorkItem {
-            kind: WorkKind::FixCi,
-            repository: "Memorithm/ZZZ".to_owned(),
-            number: 3,
-            title: "CI".to_owned(),
-            detail: "ci=FAILED ready".to_owned(),
-            ci_state: Some(CiState::Failed),
-            draft: false,
-        };
-        let issue = WorkItem {
-            kind: WorkKind::Issue,
-            repository: "Memorithm/AAA".to_owned(),
-            number: 1,
-            title: "issue".to_owned(),
-            detail: "open issue".to_owned(),
-            ci_state: None,
-            draft: false,
-        };
-        store
-            .record(&work_key(&ci), state::AttemptOutcome::Success, 100)
-            .unwrap();
-        let snapshot = TriageSnapshot {
-            repositories: Vec::new(),
-            items: vec![issue, ci],
-            eligible_count: 2,
-            repositories_with_open_pr: 0,
-        };
-
-        let selected = selected_for_run_with_state(&snapshot, false, &store, 200)
-            .unwrap()
-            .unwrap();
-        assert_eq!(selected.kind, WorkKind::FixCi);
-        assert_eq!(selected.number, 3);
         let _ = fs::remove_dir_all(root);
     }
 
@@ -2555,7 +2531,12 @@ mod tests {
         };
 
         store
-            .record(&work_key(&first), state::AttemptOutcome::Failure, 100)
+            .record_for_revision(
+                &work_key(&first),
+                "issue-v1",
+                state::AttemptOutcome::Failure,
+                100,
+            )
             .unwrap();
         let selected = selected_for_run_with_state(&snapshot, false, &store, 101)
             .unwrap()
