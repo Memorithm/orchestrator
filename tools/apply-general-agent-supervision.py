@@ -83,14 +83,18 @@ fi
 )
 
 replace_once(
-    '''    if trip_backend_circuit_if_needed "$log_file"; then
+    '''  while kill -0 "$AGENT_PID" 2>/dev/null; do
+    if trip_backend_circuit_if_needed "$log_file"; then
       stop_agent_group "$AGENT_PID"
       wait "$AGENT_PID" 2>/dev/null || true
       rm -f "$log_file"
       return 70
     fi
+
+    current_signature="$(diff_signature)"
 ''',
-    '''    if trip_backend_circuit_if_needed "$log_file"; then
+    '''  while kill -0 "$AGENT_PID" 2>/dev/null; do
+    if trip_backend_circuit_if_needed "$log_file"; then
       stop_agent_group "$AGENT_PID"
       wait "$AGENT_PID" 2>/dev/null || true
       current_signature="$(diff_signature)"
@@ -101,6 +105,8 @@ replace_once(
       fi
       return 70
     fi
+
+    current_signature="$(diff_signature)"
 ''',
     "CI backend partial-edit recovery",
 )
@@ -160,6 +166,8 @@ new_general = '''run_agent_with_general_watchdog() {
   local idle_deadline
   local wall_deadline
   local status
+  local stop_reason
+  local stop_status
 
   baseline_signature="$(diff_signature)"
   last_signature="$baseline_signature"
