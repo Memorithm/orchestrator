@@ -39,6 +39,25 @@ case "$surgical_model" in
     ;;
 esac
 
+# Qwen 3.8 is deliberate but comparatively slow between tool calls. Bound
+# exploration by tool activity while treating time as an *idle* timeout rather
+# than a wall-clock deadline. This preserves fail-closed behavior without
+# killing an agent that is still making measurable progress.
+primary_edit_max_tools="${ORCHESTRATOR_PRIMARY_EDIT_MAX_TOOLS:-24}"
+primary_edit_idle_secs="${ORCHESTRATOR_PRIMARY_EDIT_IDLE_SECS:-420}"
+surgical_edit_max_tools="${ORCHESTRATOR_SURGICAL_EDIT_MAX_TOOLS:-16}"
+surgical_edit_idle_secs="${ORCHESTRATOR_SURGICAL_EDIT_IDLE_SECS:-300}"
+for numeric_value in \
+  "$primary_edit_max_tools" \
+  "$primary_edit_idle_secs" \
+  "$surgical_edit_max_tools" \
+  "$surgical_edit_idle_secs"; do
+  if [[ ! "$numeric_value" =~ ^[1-9][0-9]*$ ]]; then
+    printf 'orchestrator opencode wrapper: invalid positive integer watchdog value: %s\n' "$numeric_value" >&2
+    exit 2
+  fi
+done
+
 # Rust supplies the autonomous permission contract through
 # OPENCODE_CONFIG_CONTENT. Extract only the permission object and pass it via
 # OpenCode's dedicated runtime permission environment variable.
@@ -188,8 +207,8 @@ printf 'claude compatibility: disabled\n'
 printf 'permissions: runtime-enforced\n'
 printf 'agent cargo bridge: enabled\n'
 if (( is_ci_fix == 1 && local_failure_available == 1 )); then
-  printf 'first-edit watchdog: 10 tool actions / 300s\n'
-  printf 'surgical retry: 6 tool actions / 180s, history+GitHub denied\n'
+  printf 'first-edit watchdog: %s tool actions / %ss idle\n' "$primary_edit_max_tools" "$primary_edit_idle_secs"
+  printf 'surgical retry: %s tool actions / %ss idle, history+GitHub denied\n' "$surgical_edit_max_tools" "$surgical_edit_idle_secs"
   printf 'surgical fallback: %s\n' "$surgical_model_id"
 fi
 printf 'logs: INFO to stderr\n\n'
@@ -224,17 +243,18 @@ stop_agent_group() {
 run_agent_with_first_edit_watchdog() {
   local effective_permission="$1"
   local max_tools="$2"
-  local max_seconds="$3"
+  local max_idle_seconds="$3"
   local baseline_signature="$4"
   local effective_model_id="$5"
   local log_file
-  local deadline
+  local idle_deadline
   local current_signature
   local tool_count
+  local last_tool_count=0
   local edited=0
 
   log_file="$(mktemp "${TMPDIR:-/tmp}/memorithm-opencode-pass.XXXXXX.log")" || return 1
-  deadline=$((SECONDS + max_seconds))
+  idle_deadline=$((SECONDS + max_idle_seconds))
   start_agent "$effective_permission" "$log_file" "$effective_model_id"
 
   while kill -0 "$AGENT_PID" 2>/dev/null; do
@@ -245,6 +265,10 @@ run_agent_with_first_edit_watchdog() {
     fi
 
     tool_count="$(grep -c 'message=evaluated permission=' "$log_file" 2>/dev/null || true)"
+    if (( tool_count > last_tool_count )); then
+      last_tool_count=$tool_count
+      idle_deadline=$((SECONDS + max_idle_seconds))
+    fi
     if (( tool_count >= max_tools )); then
       printf '\n===== FIRST-EDIT WATCHDOG =====\n'
       printf 'tool budget exhausted (%s/%s) without a new working-tree diff; stopping agent pass\n' "$tool_count" "$max_tools"
@@ -253,9 +277,9 @@ run_agent_with_first_edit_watchdog() {
       rm -f "$log_file"
       return 124
     fi
-    if (( SECONDS >= deadline )); then
+    if (( SECONDS >= idle_deadline )); then
       printf '\n===== FIRST-EDIT WATCHDOG =====\n'
-      printf 'time budget exhausted (%ss) without a new working-tree diff; stopping agent pass\n' "$max_seconds"
+      printf 'idle budget exhausted (%ss without a new tool action or working-tree diff); stopping agent pass\n' "$max_idle_seconds"
       stop_agent_group "$AGENT_PID"
       wait "$AGENT_PID" 2>/dev/null || true
       rm -f "$log_file"
@@ -292,7 +316,12 @@ run_ci_repair_pass() {
   local status
 
   baseline_signature="$(diff_signature)"
-  run_agent_with_first_edit_watchdog "$permission_json" 10 300 "$baseline_signature" "$model_id"
+  run_agent_with_first_edit_watchdog \
+    "$permission_json" \
+    "$primary_edit_max_tools" \
+    "$primary_edit_idle_secs" \
+    "$baseline_signature" \
+    "$model_id"
   status=$?
   if (( status == 0 )); then
     return 0
@@ -315,7 +344,12 @@ SURGICAL RETRY MODE:
 - Make the smallest correct working-tree edit immediately, then validate."
 
   baseline_signature="$(diff_signature)"
-  run_agent_with_first_edit_watchdog "$surgical_permission_json" 6 180 "$baseline_signature" "$surgical_model_id"
+  run_agent_with_first_edit_watchdog \
+    "$surgical_permission_json" \
+    "$surgical_edit_max_tools" \
+    "$surgical_edit_idle_secs" \
+    "$baseline_signature" \
+    "$surgical_model_id"
   status=$?
   if (( status == 124 || status == 125 )); then
     printf 'surgical fallback produced no edit; failing this CI-repair cycle closed\n' >&2
@@ -366,7 +400,12 @@ FOLLOW-UP REPAIR MODE:
   printf '\n===== OPENCODE FOLLOW-UP PASS =====\n'
   printf 'model: %s\n' "$surgical_model_id"
   baseline_signature="$(diff_signature)"
-  run_agent_with_first_edit_watchdog "$surgical_permission_json" 6 180 "$baseline_signature" "$surgical_model_id"
+  run_agent_with_first_edit_watchdog \
+    "$surgical_permission_json" \
+    "$surgical_edit_max_tools" \
+    "$surgical_edit_idle_secs" \
+    "$baseline_signature" \
+    "$surgical_model_id"
   status=$?
   if (( status != 0 )); then
     exit "$status"
