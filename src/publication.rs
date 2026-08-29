@@ -89,8 +89,12 @@ impl PublicationStore {
         if !path.exists() {
             return Ok(None);
         }
-        let contents = fs::read_to_string(&path)
-            .map_err(|error| format!("failed to read publication state {}: {error}", path.display()))?;
+        let contents = fs::read_to_string(&path).map_err(|error| {
+            format!(
+                "failed to read publication state {}: {error}",
+                path.display()
+            )
+        })?;
         parse_publication(&contents)
             .map(Some)
             .map_err(|error| format!("invalid publication state {}: {error}", path.display()))
@@ -147,12 +151,10 @@ impl PublicationStore {
 }
 
 fn validate_ref_component(label: &str, value: &str) -> Result<(), String> {
-    if value.is_empty()
-        || value
-            .bytes()
-            .any(|byte| matches!(byte, b'\n' | b'\r' | 0))
-    {
-        return Err(format!("invalid {label}: control characters or empty value"));
+    if value.is_empty() || value.bytes().any(|byte| matches!(byte, b'\n' | b'\r' | 0)) {
+        return Err(format!(
+            "invalid {label}: control characters or empty value"
+        ));
     }
     Ok(())
 }
@@ -259,7 +261,9 @@ mod tests {
         let store = PublicationStore::new(root.clone());
         let key = PublicationKey::new("Memorithm/ADA", 7);
 
-        store.save(&key, &sample(PublicationPhase::Prepared)).unwrap();
+        store
+            .save(&key, &sample(PublicationPhase::Prepared))
+            .unwrap();
         store.save(&key, &sample(PublicationPhase::Pushed)).unwrap();
         assert_eq!(
             store.load(&key).unwrap().unwrap().phase,
@@ -275,7 +279,9 @@ mod tests {
         let store = PublicationStore::new(root.clone());
         let key = PublicationKey::new("Memorithm/TDI", 57);
 
-        store.save(&key, &sample(PublicationPhase::Prepared)).unwrap();
+        store
+            .save(&key, &sample(PublicationPhase::Prepared))
+            .unwrap();
         store.clear(&key).unwrap();
         store.clear(&key).unwrap();
         assert_eq!(store.load(&key).unwrap(), None);
@@ -286,12 +292,14 @@ mod tests {
     #[test]
     fn malformed_or_future_state_fails_closed() {
         assert!(parse_publication("v99\nbranch=x\n").is_err());
-        assert!(PendingPublication::new(
-            "branch".to_owned(),
-            "not-a-commit".to_owned(),
-            "main".to_owned(),
-            PublicationPhase::Prepared,
-        )
-        .is_err());
+        assert!(
+            PendingPublication::new(
+                "branch".to_owned(),
+                "not-a-commit".to_owned(),
+                "main".to_owned(),
+                PublicationPhase::Prepared,
+            )
+            .is_err()
+        );
     }
 }
