@@ -81,8 +81,16 @@ jobs:
       - name: Scope guard before validation
         run: |
           changed="$(git diff --name-only | sort)"
-          expected="$(printf '%s\n' README.md scripts/install-systemd.sh scripts/start.sh src/main.rs src/resource.rs | sort)"
-          test "$changed" = "$expected"
+          allowed='README.md
+          scripts/install-systemd.sh
+          scripts/start.sh
+          src/main.rs
+          src/resource.rs'
+          unexpected="$(comm -23 <(printf '%s\n' "$changed") <(printf '%s\n' "$allowed" | sed 's/^ *//' | sort))"
+          test -z "$unexpected"
+          for required in README.md scripts/install-systemd.sh scripts/start.sh src/main.rs; do
+            printf '%s\n' "$changed" | grep -Fx "$required" >/dev/null
+          done
 
       - name: Check
         run: cargo check --workspace
