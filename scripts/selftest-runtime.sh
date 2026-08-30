@@ -236,3 +236,64 @@ fi
 
 printf 'PASS cargo CI-pinned rustfmt selection\n'
 printf 'runtime bridge selftest: PASS\n'
+
+# ---------------------------------------------------------------------------
+# Contributor attribution: source commits are canonical while GitHub's
+# synthetic merge commit may carry the UI actor as author on a push to main.
+# ---------------------------------------------------------------------------
+ATTR_REPO="$TMP_ROOT/attribution-repo"
+mkdir -p "$ATTR_REPO"
+(
+  cd "$ATTR_REPO"
+  git init -q -b main
+  git config user.name 'ZEKRITI Tarek'
+  git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+  printf 'base\n' > tracked.txt
+  git add tracked.txt
+  git commit -q -m 'test: canonical base'
+  base="$(git rev-parse HEAD)"
+
+  git checkout -q -b topic
+  printf 'topic\n' >> tracked.txt
+  git commit -q -am 'test: canonical topic'
+  topic="$(git rev-parse HEAD)"
+  "$ROOT/scripts/check-contributor-attribution.sh" "$base" "$topic" pull_request >/dev/null
+  if "$ROOT/scripts/check-contributor-attribution.sh" "$base" "$topic" typo >/dev/null 2>&1; then
+    exit 60
+  fi
+
+  git checkout -q main
+  GIT_AUTHOR_NAME='MEMOPERF' \
+  GIT_AUTHOR_EMAIL='contact@checkupauto.fr' \
+  GIT_COMMITTER_NAME='GitHub' \
+  GIT_COMMITTER_EMAIL='noreply@github.com' \
+    git merge -q --no-ff topic -m 'Merge pull request #24 from Memorithm/topic'
+  synthetic="$(git rev-parse HEAD)"
+  "$ROOT/scripts/check-contributor-attribution.sh" "$base" "$synthetic" push >/dev/null
+
+  git checkout -q -B bad "$base"
+  git config user.name 'Wrong Author'
+  git config user.email 'wrong@example.invalid'
+  printf 'bad\n' >> tracked.txt
+  git commit -q -am 'test: noncanonical direct push'
+  bad="$(git rev-parse HEAD)"
+  if "$ROOT/scripts/check-contributor-attribution.sh" "$base" "$bad" push >/dev/null 2>&1; then
+    exit 61
+  fi
+
+  git checkout -q -B bad-topic "$base"
+  printf 'bad topic\n' >> tracked.txt
+  git commit -q -am 'test: noncanonical topic'
+  git checkout -q -B merge-main "$base"
+  GIT_AUTHOR_NAME='MEMOPERF' \
+  GIT_AUTHOR_EMAIL='contact@checkupauto.fr' \
+  GIT_COMMITTER_NAME='GitHub' \
+  GIT_COMMITTER_EMAIL='noreply@github.com' \
+    git merge -q --no-ff bad-topic -m 'Merge pull request #25 from Memorithm/bad-topic'
+  bad_merge="$(git rev-parse HEAD)"
+  if "$ROOT/scripts/check-contributor-attribution.sh" "$base" "$bad_merge" push >/dev/null 2>&1; then
+    exit 62
+  fi
+) || fail 'contributor attribution range policy regression'
+
+printf 'PASS contributor attribution synthetic-merge boundary\n'

@@ -35,28 +35,4 @@ jobs:
             head="${{ github.sha }}"
           fi
 
-          if [[ "$base" =~ ^0+$ ]]; then
-            range="$head"
-          else
-            range="$base..$head"
-          fi
-
-          failed=0
-          while read -r sha; do
-            [[ -n "$sha" ]] || continue
-            author_name="$(git show -s --format='%an' "$sha")"
-            author_email="$(git show -s --format='%ae' "$sha")"
-
-            if [[ "$author_name" != "$CANONICAL_AUTHOR_NAME" || "$author_email" != "$CANONICAL_AUTHOR_EMAIL" ]]; then
-              echo "::error::Commit $sha has unauthorized author: $author_name <$author_email>"
-              failed=1
-            fi
-
-            if git show -s --format='%B' "$sha" | grep -qiE '^[[:space:]]*co-authored-by:[[:space:]]*'; then
-              echo "::error::Commit $sha contains forbidden Co-authored-by attribution"
-              failed=1
-            fi
-          done < <(git rev-list --reverse "$range")
-
-          (( failed == 0 )) || exit 1
-          echo 'Canonical attribution policy satisfied.'
+          scripts/check-contributor-attribution.sh "$base" "$head" "${{ github.event_name }}"
