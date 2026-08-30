@@ -27,8 +27,12 @@ pub(crate) fn record_workspace_use(
 ) -> Result<(), String> {
     validate_repository(repository)?;
     let root = usage_root(data_root);
-    fs::create_dir_all(&root)
-        .map_err(|error| format!("failed to create workspace usage root {}: {error}", root.display()))?;
+    fs::create_dir_all(&root).map_err(|error| {
+        format!(
+            "failed to create workspace usage root {}: {error}",
+            root.display()
+        )
+    })?;
 
     let path = usage_path(data_root, repository);
     let sequence = TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed);
@@ -41,11 +45,17 @@ pub(crate) fn record_workspace_use(
         .write(true)
         .create_new(true)
         .open(&temp)
-        .map_err(|error| format!("failed to create workspace usage temp {}: {error}", temp.display()))?;
-    let contents = format!(
-        "{USAGE_VERSION}\nrepository={repository}\nlast_used={timestamp}\n"
-    );
-    if let Err(error) = file.write_all(contents.as_bytes()).and_then(|_| file.sync_all()) {
+        .map_err(|error| {
+            format!(
+                "failed to create workspace usage temp {}: {error}",
+                temp.display()
+            )
+        })?;
+    let contents = format!("{USAGE_VERSION}\nrepository={repository}\nlast_used={timestamp}\n");
+    if let Err(error) = file
+        .write_all(contents.as_bytes())
+        .and_then(|_| file.sync_all())
+    {
         let _ = fs::remove_file(&temp);
         return Err(format!(
             "failed to persist workspace usage temp {}: {error}",
@@ -63,7 +73,12 @@ pub(crate) fn record_workspace_use(
     }
     File::open(&root)
         .and_then(|directory| directory.sync_all())
-        .map_err(|error| format!("failed to sync workspace usage root {}: {error}", root.display()))?;
+        .map_err(|error| {
+            format!(
+                "failed to sync workspace usage root {}: {error}",
+                root.display()
+            )
+        })?;
     Ok(())
 }
 
@@ -90,7 +105,12 @@ pub(crate) fn reclaim_stale_workspaces(
     }
 
     let mut markers = fs::read_dir(&root)
-        .map_err(|error| format!("failed to read workspace usage root {}: {error}", root.display()))?
+        .map_err(|error| {
+            format!(
+                "failed to read workspace usage root {}: {error}",
+                root.display()
+            )
+        })?
         .filter_map(Result::ok)
         .filter_map(|entry| {
             let kind = entry.file_type().ok()?;
@@ -147,14 +167,14 @@ pub(crate) fn reclaim_stale_workspaces(
             )
         })?;
         removed = removed.saturating_add(1);
-        if let Err(error) = fs::remove_file(&marker) {
-            if error.kind() != std::io::ErrorKind::NotFound {
-                return Err(format!(
-                    "removed workspace {} but failed to remove usage marker {}: {error}",
-                    workspace.display(),
-                    marker.display()
-                ));
-            }
+        if let Err(error) = fs::remove_file(&marker)
+            && error.kind() != std::io::ErrorKind::NotFound
+        {
+            return Err(format!(
+                "removed workspace {} but failed to remove usage marker {}: {error}",
+                workspace.display(),
+                marker.display()
+            ));
         }
     }
 
@@ -202,12 +222,18 @@ fn workspace_is_disposable(workspace: &Path, repository: &str) -> Result<bool, S
         return Ok(false);
     }
 
-    let tags = git_stdout(workspace, &["for-each-ref", "--format=%(refname)", "refs/tags"])?;
+    let tags = git_stdout(
+        workspace,
+        &["for-each-ref", "--format=%(refname)", "refs/tags"],
+    )?;
     if !tags.is_empty() {
         return Ok(false);
     }
 
-    let stash = git_status(workspace, &["show-ref", "--verify", "--quiet", "refs/stash"])?;
+    let stash = git_status(
+        workspace,
+        &["show-ref", "--verify", "--quiet", "refs/stash"],
+    )?;
     match stash.code() {
         Some(0) => return Ok(false),
         Some(1) => {}
@@ -294,19 +320,25 @@ fn contains_lock_file(root: &Path) -> Result<bool, String> {
     let mut pending = vec![root.to_path_buf()];
     let mut visited = 0usize;
     while let Some(directory) = pending.pop() {
-        for entry in fs::read_dir(&directory)
-            .map_err(|error| format!("failed to inspect git refs {}: {error}", directory.display()))?
-        {
+        for entry in fs::read_dir(&directory).map_err(|error| {
+            format!(
+                "failed to inspect git refs {}: {error}",
+                directory.display()
+            )
+        })? {
             let entry = entry.map_err(|error| {
-                format!("failed to inspect git refs entry in {}: {error}", directory.display())
+                format!(
+                    "failed to inspect git refs entry in {}: {error}",
+                    directory.display()
+                )
             })?;
             visited = visited.saturating_add(1);
             if visited > MAX_GIT_REF_SCAN_ENTRIES {
                 return Err("git refs scan exceeded safety bound".to_owned());
             }
-            let kind = entry
-                .file_type()
-                .map_err(|error| format!("failed to inspect {}: {error}", entry.path().display()))?;
+            let kind = entry.file_type().map_err(|error| {
+                format!("failed to inspect {}: {error}", entry.path().display())
+            })?;
             if kind.is_symlink() {
                 return Ok(true);
             }
@@ -390,9 +422,9 @@ fn validate_repository(repository: &str) -> Result<(), String> {
     for component in [owner, name] {
         if component == "."
             || component == ".."
-            || !component
-                .chars()
-                .all(|character| character.is_ascii_alphanumeric() || matches!(character, '-' | '_' | '.'))
+            || !component.chars().all(|character| {
+                character.is_ascii_alphanumeric() || matches!(character, '-' | '_' | '.')
+            })
         {
             return Err(format!("unsafe repository identity: {repository:?}"));
         }
@@ -494,10 +526,7 @@ mod tests {
         assert!(parse_usage("v2\nrepository=Memorithm/ADA\nlast_used=123\n").is_err());
         assert!(parse_usage("v1\nrepository=../ADA\nlast_used=123\n").is_err());
         assert!(parse_usage("v1\nrepository=Memorithm/ADA\nlast_used=x\n").is_err());
-        assert!(parse_usage(
-            "v1\nrepository=Memorithm/ADA\nlast_used=123\nextra=true\n"
-        )
-        .is_err());
+        assert!(parse_usage("v1\nrepository=Memorithm/ADA\nlast_used=123\nextra=true\n").is_err());
     }
 
     #[test]
@@ -515,14 +544,8 @@ mod tests {
         let root = temporary_root("remove");
         let workspace = managed_workspace(&root, "Memorithm/ADA");
         record_workspace_use(&root, "Memorithm/ADA", 100).unwrap();
-        let report = reclaim_stale_workspaces(
-            &root,
-            "Memorithm/Current",
-            700_000,
-            604_800,
-            1,
-        )
-        .unwrap();
+        let report =
+            reclaim_stale_workspaces(&root, "Memorithm/Current", 700_000, 604_800, 1).unwrap();
         assert_eq!(report.removed, 1);
         assert!(!workspace.exists());
         assert!(!usage_path(&root, "Memorithm/ADA").exists());
@@ -536,14 +559,8 @@ mod tests {
         let recent = managed_workspace(&root, "Memorithm/Recent");
         record_workspace_use(&root, "Memorithm/Current", 1).unwrap();
         record_workspace_use(&root, "Memorithm/Recent", 699_900).unwrap();
-        let report = reclaim_stale_workspaces(
-            &root,
-            "Memorithm/Current",
-            700_000,
-            604_800,
-            1,
-        )
-        .unwrap();
+        let report =
+            reclaim_stale_workspaces(&root, "Memorithm/Current", 700_000, 604_800, 1).unwrap();
         assert_eq!(report.removed, 0);
         assert!(current.exists());
         assert!(recent.exists());
@@ -556,28 +573,17 @@ mod tests {
         let dirty = managed_workspace(&root, "Memorithm/Dirty");
         fs::write(dirty.join("tracked.txt"), b"changed\n").unwrap();
         record_workspace_use(&root, "Memorithm/Dirty", 1).unwrap();
-        let report = reclaim_stale_workspaces(
-            &root,
-            "Memorithm/Current",
-            700_000,
-            604_800,
-            1,
-        )
-        .unwrap();
+        let report =
+            reclaim_stale_workspaces(&root, "Memorithm/Current", 700_000, 604_800, 1).unwrap();
         assert_eq!(report.removed, 0);
         assert!(dirty.exists());
 
-        fs::write(dirty.join("tracked.txt"), b"tracked\n").unwrap();
-        git(&dirty, &["add", "tracked.txt"]);
+        git(&dirty, &["checkout", "--", "tracked.txt"]);
+        fs::write(dirty.join("local-only.txt"), b"local commit\n").unwrap();
+        git(&dirty, &["add", "local-only.txt"]);
         git(&dirty, &["commit", "-m", "local-only"]);
-        let report = reclaim_stale_workspaces(
-            &root,
-            "Memorithm/Current",
-            700_000,
-            604_800,
-            1,
-        )
-        .unwrap();
+        let report =
+            reclaim_stale_workspaces(&root, "Memorithm/Current", 700_000, 604_800, 1).unwrap();
         assert_eq!(report.removed, 0);
         assert!(dirty.exists());
         let _ = fs::remove_dir_all(root);
@@ -598,15 +604,9 @@ mod tests {
         fs::write(workspace.join("private.bin"), b"local\n").unwrap();
         record_workspace_use(&root, "Memorithm/LocalState", 1).unwrap();
         assert_eq!(
-            reclaim_stale_workspaces(
-                &root,
-                "Memorithm/Current",
-                700_000,
-                604_800,
-                1,
-            )
-            .unwrap()
-            .removed,
+            reclaim_stale_workspaces(&root, "Memorithm/Current", 700_000, 604_800, 1,)
+                .unwrap()
+                .removed,
             0
         );
         assert!(workspace.exists());
@@ -615,30 +615,18 @@ mod tests {
         fs::write(workspace.join("tracked.txt"), b"stash me\n").unwrap();
         git(&workspace, &["stash", "push", "-m", "local-stash"]);
         assert_eq!(
-            reclaim_stale_workspaces(
-                &root,
-                "Memorithm/Current",
-                700_000,
-                604_800,
-                1,
-            )
-            .unwrap()
-            .removed,
+            reclaim_stale_workspaces(&root, "Memorithm/Current", 700_000, 604_800, 1,)
+                .unwrap()
+                .removed,
             0
         );
         git(&workspace, &["stash", "drop"]);
 
         git(&workspace, &["tag", "local-tag"]);
         assert_eq!(
-            reclaim_stale_workspaces(
-                &root,
-                "Memorithm/Current",
-                700_000,
-                604_800,
-                1,
-            )
-            .unwrap()
-            .removed,
+            reclaim_stale_workspaces(&root, "Memorithm/Current", 700_000, 604_800, 1,)
+                .unwrap()
+                .removed,
             0
         );
         assert!(workspace.exists());
@@ -669,14 +657,8 @@ mod tests {
         fs::create_dir_all(root.join("workspaces")).unwrap();
         symlink(&outside, workspace_path(&root, "Memorithm/Linked")).unwrap();
         record_workspace_use(&root, "Memorithm/Linked", 1).unwrap();
-        let report = reclaim_stale_workspaces(
-            &root,
-            "Memorithm/Current",
-            700_000,
-            604_800,
-            1,
-        )
-        .unwrap();
+        let report =
+            reclaim_stale_workspaces(&root, "Memorithm/Current", 700_000, 604_800, 1).unwrap();
         assert_eq!(report.removed, 0);
         assert!(outside.join("keep").exists());
         let _ = fs::remove_dir_all(root);
@@ -690,14 +672,8 @@ mod tests {
         let newer = managed_workspace(&root, "Memorithm/Newer");
         record_workspace_use(&root, "Memorithm/Oldest", 1).unwrap();
         record_workspace_use(&root, "Memorithm/Newer", 2).unwrap();
-        let report = reclaim_stale_workspaces(
-            &root,
-            "Memorithm/Current",
-            700_000,
-            604_800,
-            1,
-        )
-        .unwrap();
+        let report =
+            reclaim_stale_workspaces(&root, "Memorithm/Current", 700_000, 604_800, 1).unwrap();
         assert_eq!(report.removed, 1);
         assert!(!oldest.exists());
         assert!(newer.exists());
