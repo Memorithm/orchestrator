@@ -283,13 +283,9 @@ mod tests {
 
     #[test]
     fn failing_pr_checks_accept_nonzero_status_when_stdout_is_present() {
-        let output = interpret_pr_checks_output(
-            false,
-            b"fail\tFAILURE\tci",
-            b"",
-            &["pr", "checks", "9"],
-        )
-        .unwrap();
+        let output =
+            interpret_pr_checks_output(false, b"fail\tFAILURE\tci", b"", &["pr", "checks", "9"])
+                .unwrap();
         assert_eq!(output, "fail\tFAILURE\tci");
     }
 
