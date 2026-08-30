@@ -246,6 +246,7 @@ struct RunConfig {
     full_validation: bool,
     max_cycles: u64,
     resource_policy: resource::ResourcePolicy,
+    trajectory_max_per_item: usize,
     retry_policy: state::RetryPolicy,
 }
 
@@ -1194,6 +1195,7 @@ impl RunConfig {
             max_cycles: max_cycles_override
                 .unwrap_or_else(|| env_u64("ORCHESTRATOR_MAX_CYCLES", 0)),
             resource_policy: resource::ResourcePolicy::from_env()?,
+            trajectory_max_per_item: trajectory::max_files_per_item_from_env()?,
             retry_policy: state::RetryPolicy {
                 success_cooldown_secs: env_u64("ORCHESTRATOR_SUCCESS_COOLDOWN_SECS", 900),
                 failure_base_cooldown_secs: env_u64("ORCHESTRATOR_FAILURE_BASE_COOLDOWN_SECS", 300),
@@ -2486,6 +2488,10 @@ fn run_loop(config: RunConfig) -> ExitCode {
         "resource load    : <= {:.2} per CPU",
         config.resource_policy.max_load_per_cpu
     );
+    println!(
+        "trajectory keep  : {} per work item (0=unlimited)",
+        config.trajectory_max_per_item
+    );
 
     let attempt_store = state::AttemptStore::new(
         config.data_root.join("state/work-items"),
@@ -2526,6 +2532,7 @@ fn run_loop(config: RunConfig) -> ExitCode {
                             item.number,
                             &config.model,
                             selection_time,
+                            config.trajectory_max_per_item,
                         ) {
                             Ok(journal) => {
                                 println!("trajectory : {}", journal.path().display());
