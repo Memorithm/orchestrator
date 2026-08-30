@@ -4,8 +4,7 @@ on:
   push:
     branches: [research/parent-ci-evidence]
     paths:
-      - tools/apply-parent-ci-evidence.py
-      - tools/fix-parent-evidence-check-exit.py
+      - tools/apply-parent-ci-evidence-v2.py
       - .github/workflows/apply-parent-ci-evidence.yml
 
 permissions:
@@ -23,10 +22,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Apply deterministic parent-evidence patch
-        run: |
-          python3 tools/apply-parent-ci-evidence.py
-          python3 tools/fix-parent-evidence-check-exit.py
+      - name: Apply section-aware parent-evidence patch
+        run: python3 tools/apply-parent-ci-evidence-v2.py
 
       - name: Rust toolchain
         run: |
