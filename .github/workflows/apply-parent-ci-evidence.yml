@@ -1,0 +1,75 @@
+name: integrate parent CI evidence
+
+on:
+  push:
+    branches: [research/parent-ci-evidence]
+    paths:
+      - tools/apply-parent-ci-evidence.py
+      - .github/workflows/apply-parent-ci-evidence.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: orchestrator-parent-ci-evidence-integration
+  cancel-in-progress: false
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply deterministic parent-evidence patch
+        run: python3 tools/apply-parent-ci-evidence.py
+
+      - name: Rust toolchain
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt clippy
+
+      - name: Format integrated sources
+        run: cargo fmt --all
+
+      - name: Install process sandbox dependency
+        run: |
+          if ! command -v bwrap >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y bubblewrap
+          fi
+
+      - name: Validate runtime safety selftests
+        run: |
+          bash scripts/selftest-runtime.sh
+          bash scripts/selftest-opencode-watchdog.sh
+          sudo bash scripts/selftest-agent-sandbox.sh
+
+      - name: Validate parent CI evidence integration
+        run: |
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+          git diff --check
+
+      - name: Enforce integration scope
+        run: |
+          changed="$(git diff --name-only)"
+          printf '%s\n' "$changed"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/main\.rs|src/evidence\.rs)$' || true)"
+          if [ -n "$unexpected" ]; then
+            printf 'unexpected integration paths:\n%s\n' "$unexpected" >&2
+            false
+          fi
+          printf '%s\n' "$changed" | grep -qx 'src/main.rs'
+          printf '%s\n' "$changed" | grep -qx 'src/evidence.rs'
+
+      - name: Commit validated parent CI evidence
+        run: |
+          git config user.name 'Memorithm Orchestrator Integration'
+          git config user.email 'orchestrator@localhost'
+          git add src/main.rs src/evidence.rs
+          git commit -m 'feat(evidence): inject exact-head CI diagnostics into agent prompt'
+          git push origin HEAD:research/parent-ci-evidence
