@@ -152,6 +152,7 @@ struct PullRequest {
 struct Issue {
     repository: String,
     number: u64,
+    updated_at: String,
     title: String,
 }
 
@@ -224,6 +225,7 @@ struct WorkItem {
     number: u64,
     title: String,
     detail: String,
+    source_revision: Option<String>,
     ci_state: Option<CiState>,
     draft: bool,
 }
@@ -795,10 +797,10 @@ fn parse_pull_request_line(line: &str) -> Result<PullRequest, String> {
 }
 
 fn parse_issue_line(line: &str) -> Result<Issue, String> {
-    let fields = line.splitn(3, '\t').collect::<Vec<_>>();
-    if fields.len() != 3 {
+    let fields = line.splitn(4, '\t').collect::<Vec<_>>();
+    if fields.len() != 4 {
         return Err(format!(
-            "expected 3 tab-separated issue fields, got {}: {line}",
+            "expected 4 tab-separated issue fields, got {}: {line}",
             fields.len()
         ));
     }
@@ -806,10 +808,14 @@ fn parse_issue_line(line: &str) -> Result<Issue, String> {
     let number = fields[1]
         .parse::<u64>()
         .map_err(|error| format!("invalid issue number {}: {error}", fields[1]))?;
+    if fields[2].trim().is_empty() {
+        return Err(format!("issue updatedAt is empty: {line}"));
+    }
     Ok(Issue {
         repository: fields[0].to_owned(),
         number,
-        title: fields[2].to_owned(),
+        updated_at: fields[2].to_owned(),
+        title: fields[3].to_owned(),
     })
 }
 
@@ -863,6 +869,7 @@ fn discover_open_issues(organization: &str) -> Result<Vec<Issue>, String> {
     let jq = r#".[] | [
         .repository.nameWithOwner,
         (.number | tostring),
+        .updatedAt,
         .title
     ] | @tsv"#;
 
@@ -877,7 +884,7 @@ fn discover_open_issues(organization: &str) -> Result<Vec<Issue>, String> {
             "--limit",
             "1000",
             "--json",
-            "repository,number,title",
+            "repository,number,updatedAt,title",
             "--jq",
             jq,
         ])
@@ -1036,6 +1043,7 @@ fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
                 number: pull_request.number,
                 title: pull_request.title.clone(),
                 detail: format!("untrusted author={}", pull_request.author),
+                source_revision: None,
                 ci_state: None,
                 draft: pull_request.draft,
             });
@@ -1057,6 +1065,7 @@ fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
                 ci_state.as_str(),
                 if pull_request.draft { "draft" } else { "ready" }
             ),
+            source_revision: None,
             ci_state: Some(ci_state),
             draft: pull_request.draft,
         });
@@ -1072,6 +1081,7 @@ fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
             number: issue.number,
             title: issue.title.clone(),
             detail: "open issue".to_owned(),
+            source_revision: Some(format!("issue-updated:{}", issue.updated_at)),
             ci_state: None,
             draft: false,
         });
@@ -2701,7 +2711,10 @@ fn work_key(item: &WorkItem) -> state::WorkKey {
 
 fn work_revision(item: &WorkItem) -> Result<String, String> {
     match item.kind {
-        WorkKind::Issue => Ok("issue-v1".to_owned()),
+        WorkKind::Issue => item
+            .source_revision
+            .clone()
+            .ok_or_else(|| "issue work item is missing its GitHub source revision".to_owned()),
         WorkKind::FixCi | WorkKind::PullRequest => pr_head_sha(&item.repository, item.number),
         WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::NoChecks | WorkKind::UnknownCi => {
             Ok("non-actionable".to_owned())
@@ -3522,6 +3535,7 @@ mod tests {
                     number: 2,
                     title: "beta".to_owned(),
                     detail: "open issue".to_owned(),
+                    source_revision: Some("issue-v1".to_owned()),
                     ci_state: None,
                     draft: false,
                 },
@@ -3531,6 +3545,7 @@ mod tests {
                     number: 9,
                     title: "alpha".to_owned(),
                     detail: "open issue".to_owned(),
+                    source_revision: Some("issue-v1".to_owned()),
                     ci_state: None,
                     draft: false,
                 },
@@ -3567,6 +3582,7 @@ mod tests {
             number: 1,
             title: "alpha".to_owned(),
             detail: "open issue".to_owned(),
+            source_revision: Some("issue-v1".to_owned()),
             ci_state: None,
             draft: false,
         };
@@ -3825,6 +3841,67 @@ mod tests {
     }
 
     #[test]
+    fn changed_issue_source_revision_resets_retry_state() {
+        let root = env::temp_dir().join(format!(
+            "orchestrator-issue-revision-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let store = state::AttemptStore::new(root.clone(), state::RetryPolicy::default());
+        let mut item = WorkItem {
+            kind: WorkKind::Issue,
+            repository: "Memorithm/AAA".to_owned(),
+            number: 42,
+            title: "clarify objective".to_owned(),
+            detail: "open issue".to_owned(),
+            source_revision: Some("issue-updated:2026-08-30T18:00:00Z".to_owned()),
+            ci_state: None,
+            draft: false,
+        };
+        let key = work_key(&item);
+        let first_revision = work_revision(&item).unwrap();
+        store
+            .record_failure_for_revision(
+                &key,
+                &first_revision,
+                state::FailureClass::Validation,
+                100,
+            )
+            .unwrap();
+        let failed = store.load_for_revision(&key, &first_revision).unwrap();
+        assert!(!failed.is_eligible(101));
+        assert_eq!(failed.consecutive_failures, 1);
+
+        item.source_revision = Some("issue-updated:2026-08-30T18:05:00Z".to_owned());
+        let second_revision = work_revision(&item).unwrap();
+        assert_ne!(first_revision, second_revision);
+        let fresh = store.load_for_revision(&key, &second_revision).unwrap();
+        assert_eq!(fresh.total_attempts, 0);
+        assert_eq!(fresh.consecutive_failures, 0);
+        assert!(fresh.is_eligible(101));
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn issue_revision_is_required_fail_closed() {
+        let item = WorkItem {
+            kind: WorkKind::Issue,
+            repository: "Memorithm/AAA".to_owned(),
+            number: 7,
+            title: "missing revision".to_owned(),
+            detail: "open issue".to_owned(),
+            source_revision: None,
+            ci_state: None,
+            draft: false,
+        };
+        assert!(work_revision(&item).is_err());
+    }
+
+    #[test]
     fn runtime_policy_skips_green_pr_when_auto_merge_is_disabled() {
         let green_pr = WorkItem {
             kind: WorkKind::PullRequest,
@@ -3832,6 +3909,7 @@ mod tests {
             number: 1,
             title: "green PR".to_owned(),
             detail: "ci=PASSING ready".to_owned(),
+            source_revision: None,
             ci_state: Some(CiState::Passing),
             draft: false,
         };
@@ -3841,6 +3919,7 @@ mod tests {
             number: 2,
             title: "next issue".to_owned(),
             detail: "open issue".to_owned(),
+            source_revision: Some("issue-v1".to_owned()),
             ci_state: None,
             draft: false,
         };
@@ -3860,8 +3939,10 @@ mod tests {
         assert!(pull_request.draft);
         assert_eq!(pull_request.author, "CHECKUPAUTO");
 
-        let issue = parse_issue_line("Memorithm/TDI\t57\tTDI-AI bridge").unwrap();
+        let issue =
+            parse_issue_line("Memorithm/TDI\t57\t2026-08-30T18:00:00Z\tTDI-AI bridge").unwrap();
         assert_eq!(issue.number, 57);
+        assert_eq!(issue.updated_at, "2026-08-30T18:00:00Z");
     }
 
     #[test]
@@ -3948,6 +4029,7 @@ mod tests {
             number: 1,
             title: "already attempted".to_owned(),
             detail: "open issue".to_owned(),
+            source_revision: Some("issue-v1".to_owned()),
             ci_state: None,
             draft: false,
         };
@@ -3957,6 +4039,7 @@ mod tests {
             number: 2,
             title: "never attempted".to_owned(),
             detail: "open issue".to_owned(),
+            source_revision: Some("issue-v1".to_owned()),
             ci_state: None,
             draft: false,
         };
@@ -4005,6 +4088,7 @@ mod tests {
             number: 1,
             title: "first".to_owned(),
             detail: "open issue".to_owned(),
+            source_revision: Some("issue-v1".to_owned()),
             ci_state: None,
             draft: false,
         };
@@ -4014,6 +4098,7 @@ mod tests {
             number: 2,
             title: "second".to_owned(),
             detail: "open issue".to_owned(),
+            source_revision: Some("issue-v1".to_owned()),
             ci_state: None,
             draft: false,
         };
