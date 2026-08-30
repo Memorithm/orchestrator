@@ -21,10 +21,12 @@ if (( push_status == 0 )); then
   exit 0
 fi
 
-# Retry only the race we know how to reconcile safely. Authentication,
-# permissions, hooks, network errors, and every other push failure remain
-# fail-closed and are returned to the parent unchanged.
-if ! grep -Eqi 'non-fast-forward|fetch first|rejected.*HEAD|failed to push some refs' <<<"$push_output"; then
+# Retry only explicit non-fast-forward/fetch-first races. Generic Git
+# footers such as "failed to push some refs" and remote rejections also occur
+# for permission/hooks/policy failures and must never trigger reconciliation.
+# Authentication, permissions, hooks, network errors, and every other failure
+# remain fail-closed and are returned to the parent unchanged.
+if ! grep -Eqi 'non-fast-forward|fetch first' <<<"$push_output"; then
   exit "$push_status"
 fi
 
