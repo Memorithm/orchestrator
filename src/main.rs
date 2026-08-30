@@ -1731,6 +1731,35 @@ fn validate_autonomous_commit(workspace: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_canonical_author_range(workspace: &Path, base_ref: &str) -> Result<(), String> {
+    let range = format!("{base_ref}..HEAD");
+    let commits = capture_in_dir(workspace, "git", &["rev-list", "--reverse", range.as_str()])?;
+
+    for commit in commits.lines().filter(|line| !line.trim().is_empty()) {
+        let author_name =
+            capture_in_dir(workspace, "git", &["show", "-s", "--format=%an", commit])?;
+        let author_email =
+            capture_in_dir(workspace, "git", &["show", "-s", "--format=%ae", commit])?;
+        let message = capture_in_dir(workspace, "git", &["show", "-s", "--format=%B", commit])?;
+        let has_coauthor = message.lines().any(|line| {
+            line.trim_start()
+                .to_ascii_lowercase()
+                .starts_with("co-authored-by:")
+        });
+
+        if author_name != AUTONOMOUS_GIT_NAME
+            || author_email != AUTONOMOUS_GIT_EMAIL
+            || has_coauthor
+        {
+            return Err(format!(
+                "commit {commit} violates canonical author policy: author={author_name} <{author_email}> coauthor={has_coauthor}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn commit_changes(workspace: &Path, message: &str) -> Result<String, String> {
     ensure_git_identity(workspace)?;
     run_in_dir(workspace, "git", &["add", "-A"])?;
@@ -1927,6 +1956,7 @@ fn validate_recovered_publication(
     let base_ref = format!("origin/{base_branch}");
     let range = format!("{base_ref}...HEAD");
     run_in_dir(workspace, "git", &["diff", "--check", range.as_str()])?;
+    validate_canonical_author_range(workspace, &base_ref)?;
     reject_sensitive_committed_paths(workspace, &base_ref)?;
     validate_workspace(config, workspace)
 }
@@ -2400,7 +2430,7 @@ fn handle_pr_attention(
         .arg(&number)
         .arg("--repo")
         .arg(&item.repository)
-        .args(["--squash", "--match-head-commit"])
+        .args(["--rebase", "--match-head-commit"])
         .arg(&metadata.head_sha)
         .status()
         .map_err(|error| {
@@ -3376,6 +3406,44 @@ mod tests {
             capture_in_dir(&repository, "git", &["config", "user.email"]).unwrap(),
             AUTONOMOUS_GIT_EMAIL
         );
+        fs::remove_dir_all(repository).unwrap();
+    }
+
+    #[test]
+    fn canonical_range_rejects_noncanonical_author() {
+        let stamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let repository = env::temp_dir().join(format!(
+            "orchestrator-canonical-range-{}-{stamp}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&repository).unwrap();
+
+        let git = |args: &[&str]| {
+            let status = Command::new("git")
+                .current_dir(&repository)
+                .args(args)
+                .status()
+                .unwrap();
+            assert!(status.success(), "git {} failed", args.join(" "));
+        };
+
+        git(&["init", "-q", "-b", "main"]);
+        fs::write(repository.join("base.txt"), "base\n").unwrap();
+        commit_changes(&repository, "test: canonical base").unwrap();
+        let base = capture_in_dir(&repository, "git", &["rev-parse", "HEAD"]).unwrap();
+
+        git(&["config", "user.name", "Wrong Author"]);
+        git(&["config", "user.email", "wrong@example.invalid"]);
+        fs::write(repository.join("bad.txt"), "bad\n").unwrap();
+        git(&["add", "bad.txt"]);
+        git(&["commit", "-m", "test: wrong author"]);
+
+        let error = validate_canonical_author_range(&repository, &base).unwrap_err();
+        assert!(error.contains("violates canonical author policy"));
+
         fs::remove_dir_all(repository).unwrap();
     }
 
