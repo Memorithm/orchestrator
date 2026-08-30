@@ -15,6 +15,7 @@ mod reclaim;
 mod resource;
 mod state;
 mod trajectory;
+mod workspace_gc;
 
 #[derive(Debug, Clone, Copy)]
 struct Tool {
@@ -248,6 +249,8 @@ struct RunConfig {
     max_cycles: u64,
     resource_policy: resource::ResourcePolicy,
     low_disk_reclaim_max_targets: usize,
+    low_disk_reclaim_max_workspaces: usize,
+    workspace_min_idle_secs: u64,
     trajectory_max_per_item: usize,
     retry_policy: state::RetryPolicy,
 }
@@ -1204,6 +1207,14 @@ impl RunConfig {
             .map_err(|_| {
                 "ORCHESTRATOR_LOW_DISK_RECLAIM_MAX_TARGETS does not fit usize".to_owned()
             })?,
+            low_disk_reclaim_max_workspaces: usize::try_from(env_u64(
+                "ORCHESTRATOR_LOW_DISK_RECLAIM_MAX_WORKSPACES",
+                1,
+            ))
+            .map_err(|_| {
+                "ORCHESTRATOR_LOW_DISK_RECLAIM_MAX_WORKSPACES does not fit usize".to_owned()
+            })?,
+            workspace_min_idle_secs: env_u64("ORCHESTRATOR_WORKSPACE_MIN_IDLE_SECS", 604_800),
             trajectory_max_per_item: trajectory::max_files_per_item_from_env()?,
             retry_policy: state::RetryPolicy {
                 success_cooldown_secs: env_u64("ORCHESTRATOR_SUCCESS_COOLDOWN_SECS", 900),
@@ -1301,6 +1312,7 @@ fn ensure_clone(config: &RunConfig, repository: &str) -> Result<PathBuf, String>
                 workspace.display()
             ));
         }
+        workspace_gc::record_workspace_use(&config.data_root, repository, unix_timestamp())?;
         return Ok(workspace);
     }
 
@@ -1324,6 +1336,14 @@ fn ensure_clone(config: &RunConfig, repository: &str) -> Result<PathBuf, String>
     if !status.success() {
         return Err(format!("gh repo clone failed for {repository}"));
     }
+    let remote = capture_in_dir(&workspace, "git", &["remote", "get-url", "origin"])?;
+    if !github_remote_matches_repository(&remote, repository) {
+        return Err(format!(
+            "new workspace {} has unexpected origin {remote}",
+            workspace.display()
+        ));
+    }
+    workspace_gc::record_workspace_use(&config.data_root, repository, unix_timestamp())?;
     Ok(workspace)
 }
 
@@ -2380,29 +2400,25 @@ fn selected_for_run_with_state<'a>(
     Ok(eligible.first().map(|(item, _)| *item))
 }
 
-fn execute_item(
+fn resource_admission_with_recovery(
     config: &RunConfig,
-    snapshot: &TriageSnapshot,
-    item: &WorkItem,
-) -> Result<ActionOutcome, ActionFailure> {
-    println!();
-    println!("===== SELECTED WORK =====");
-    println!("kind       : {}", item.kind.as_str());
-    println!("repository : {}", item.repository);
-    println!("reference  : #{}", item.number);
-    println!("title      : {}", item.title);
-
-    let mut resources = resource::sample_linux(&config.data_root)
+    current_repository: &str,
+) -> Result<resource::Admission, ActionFailure> {
+    let resources = resource::sample_linux(&config.data_root)
         .classified(state::FailureClass::Infrastructure)?;
     let mut admission = config.resource_policy.evaluate(resources);
-    if matches!(
-        admission,
+
+    if !matches!(
+        &admission,
         resource::Admission::Deferred {
             pressure: resource::PressureKind::Disk,
             ..
         }
-    ) && config.low_disk_reclaim_max_targets > 0
-    {
+    ) {
+        return Ok(admission);
+    }
+
+    if config.low_disk_reclaim_max_targets > 0 {
         println!(
             "resource gate: low disk detected; reclaiming at most {} managed workspace target cache(s)",
             config.low_disk_reclaim_max_targets
@@ -2419,24 +2435,87 @@ fn execute_item(
                 if report.removed > 0 {
                     match resource::sample_linux(&config.data_root) {
                         Ok(resampled) => {
-                            resources = resampled;
-                            admission = config.resource_policy.evaluate(resources);
+                            admission = config.resource_policy.evaluate(resampled);
                         }
                         Err(error) => {
                             println!(
-                                "disk reclaim: resource re-sample failed; keeping original deferral: {error}"
+                                "disk reclaim: resource re-sample failed; keeping deferral: {error}"
                             );
+                            return Ok(admission);
                         }
                     }
                 }
             }
             Err(error) => {
-                println!(
-                    "disk reclaim: failed safely; keeping original resource deferral: {error}"
-                );
+                println!("disk reclaim: failed safely; keeping resource deferral: {error}");
+                return Ok(admission);
             }
         }
     }
+
+    if !matches!(
+        &admission,
+        resource::Admission::Deferred {
+            pressure: resource::PressureKind::Disk,
+            ..
+        }
+    ) {
+        return Ok(admission);
+    }
+
+    if config.low_disk_reclaim_max_workspaces == 0 || config.workspace_min_idle_secs == 0 {
+        return Ok(admission);
+    }
+
+    println!(
+        "resource gate: disk pressure remains; reclaiming at most {} verified stale workspace(s) idle for >= {}s",
+        config.low_disk_reclaim_max_workspaces, config.workspace_min_idle_secs
+    );
+    match workspace_gc::reclaim_stale_workspaces(
+        &config.data_root,
+        current_repository,
+        unix_timestamp(),
+        config.workspace_min_idle_secs,
+        config.low_disk_reclaim_max_workspaces,
+    ) {
+        Ok(report) => {
+            println!(
+                "workspace GC: scanned={} removed={}",
+                report.scanned, report.removed
+            );
+            if report.removed > 0 {
+                match resource::sample_linux(&config.data_root) {
+                    Ok(resampled) => {
+                        admission = config.resource_policy.evaluate(resampled);
+                    }
+                    Err(error) => {
+                        println!(
+                            "workspace GC: resource re-sample failed; keeping deferral: {error}"
+                        );
+                    }
+                }
+            }
+        }
+        Err(error) => {
+            println!("workspace GC: failed safely; keeping resource deferral: {error}");
+        }
+    }
+    Ok(admission)
+}
+
+fn execute_item(
+    config: &RunConfig,
+    snapshot: &TriageSnapshot,
+    item: &WorkItem,
+) -> Result<ActionOutcome, ActionFailure> {
+    println!();
+    println!("===== SELECTED WORK =====");
+    println!("kind       : {}", item.kind.as_str());
+    println!("repository : {}", item.repository);
+    println!("reference  : #{}", item.number);
+    println!("title      : {}", item.title);
+
+    let admission = resource_admission_with_recovery(config, &item.repository)?;
     match admission {
         resource::Admission::Admitted(snapshot) => {
             println!(
@@ -2545,6 +2624,14 @@ fn run_loop(config: RunConfig) -> ExitCode {
     println!(
         "disk reclaim cap : {} workspace targets per pressure event (0=disabled)",
         config.low_disk_reclaim_max_targets
+    );
+    println!(
+        "workspace GC cap : {} stale clones per pressure event (0=disabled)",
+        config.low_disk_reclaim_max_workspaces
+    );
+    println!(
+        "workspace idle   : {}s minimum before GC (0=disabled)",
+        config.workspace_min_idle_secs
     );
     println!(
         "trajectory keep  : {} per work item (0=unlimited)",
