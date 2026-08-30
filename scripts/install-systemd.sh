@@ -14,7 +14,7 @@ RUNTIME_DATA="/root/.local/share/memorithm-orchestrator"
 RUNTIME_HOME="$RUNTIME_DATA/runtime-home"
 CARGO_HOME_PATH="$RUNTIME_DATA/cargo-home"
 
-for command_name in git gh ollama opencode cargo rustc bwrap systemctl; do
+for command_name in git gh ollama opencode cargo rustc bwrap stat systemctl; do
   if ! command -v "$command_name" >/dev/null 2>&1; then
     printf 'ERROR: required command not found: %s\n' "$command_name" >&2
     exit 1
@@ -38,6 +38,7 @@ ORCHESTRATOR_AUTO_MERGE=0
 ORCHESTRATOR_AUTO_MERGE_SCOPE=orchestrator-validated
 ORCHESTRATOR_FULL_VALIDATION=1
 ORCHESTRATOR_MIN_AVAILABLE_MEMORY_MB=4096
+ORCHESTRATOR_MIN_FREE_DISK_MB=8192
 ORCHESTRATOR_MAX_LOAD_PER_CPU=2.0
 ORCHESTRATOR_BACKEND_ERROR_MAX=3
 ORCHESTRATOR_PRIMARY_EDIT_MAX_TOOLS=24
