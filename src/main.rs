@@ -11,6 +11,7 @@ mod evidence;
 mod health;
 mod merge_policy;
 mod publication;
+mod reclaim;
 mod resource;
 mod state;
 mod trajectory;
@@ -246,6 +247,7 @@ struct RunConfig {
     full_validation: bool,
     max_cycles: u64,
     resource_policy: resource::ResourcePolicy,
+    low_disk_reclaim_max_targets: usize,
     trajectory_max_per_item: usize,
     retry_policy: state::RetryPolicy,
 }
@@ -1195,6 +1197,13 @@ impl RunConfig {
             max_cycles: max_cycles_override
                 .unwrap_or_else(|| env_u64("ORCHESTRATOR_MAX_CYCLES", 0)),
             resource_policy: resource::ResourcePolicy::from_env()?,
+            low_disk_reclaim_max_targets: usize::try_from(env_u64(
+                "ORCHESTRATOR_LOW_DISK_RECLAIM_MAX_TARGETS",
+                4,
+            ))
+            .map_err(|_| {
+                "ORCHESTRATOR_LOW_DISK_RECLAIM_MAX_TARGETS does not fit usize".to_owned()
+            })?,
             trajectory_max_per_item: trajectory::max_files_per_item_from_env()?,
             retry_policy: state::RetryPolicy {
                 success_cooldown_secs: env_u64("ORCHESTRATOR_SUCCESS_COOLDOWN_SECS", 900),
@@ -2383,9 +2392,52 @@ fn execute_item(
     println!("reference  : #{}", item.number);
     println!("title      : {}", item.title);
 
-    let resources = resource::sample_linux(&config.data_root)
+    let mut resources = resource::sample_linux(&config.data_root)
         .classified(state::FailureClass::Infrastructure)?;
-    match config.resource_policy.evaluate(resources) {
+    let mut admission = config.resource_policy.evaluate(resources);
+    if matches!(
+        admission,
+        resource::Admission::Deferred {
+            pressure: resource::PressureKind::Disk,
+            ..
+        }
+    ) && config.low_disk_reclaim_max_targets > 0
+    {
+        println!(
+            "resource gate: low disk detected; reclaiming at most {} managed workspace target cache(s)",
+            config.low_disk_reclaim_max_targets
+        );
+        match reclaim::reclaim_workspace_targets(
+            &config.data_root,
+            config.low_disk_reclaim_max_targets,
+        ) {
+            Ok(report) => {
+                println!(
+                    "disk reclaim: scanned={} removed={}",
+                    report.scanned, report.removed
+                );
+                if report.removed > 0 {
+                    match resource::sample_linux(&config.data_root) {
+                        Ok(resampled) => {
+                            resources = resampled;
+                            admission = config.resource_policy.evaluate(resources);
+                        }
+                        Err(error) => {
+                            println!(
+                                "disk reclaim: resource re-sample failed; keeping original deferral: {error}"
+                            );
+                        }
+                    }
+                }
+            }
+            Err(error) => {
+                println!(
+                    "disk reclaim: failed safely; keeping original resource deferral: {error}"
+                );
+            }
+        }
+    }
+    match admission {
         resource::Admission::Admitted(snapshot) => {
             println!(
                 "resource gate: ADMITTED memory={}MiB disk={}MiB load1={:.2} load/cpu={:.2} cpus={}",
@@ -2396,7 +2448,9 @@ fn execute_item(
                 snapshot.cpu_count
             );
         }
-        resource::Admission::Deferred { snapshot, reason } => {
+        resource::Admission::Deferred {
+            snapshot, reason, ..
+        } => {
             println!(
                 "resource gate: DEFERRED memory={}MiB disk={}MiB load1={:.2} load/cpu={:.2} cpus={} reason={reason}",
                 snapshot.available_memory_mb,
@@ -2487,6 +2541,10 @@ fn run_loop(config: RunConfig) -> ExitCode {
     println!(
         "resource load    : <= {:.2} per CPU",
         config.resource_policy.max_load_per_cpu
+    );
+    println!(
+        "disk reclaim cap : {} workspace targets per pressure event (0=disabled)",
+        config.low_disk_reclaim_max_targets
     );
     println!(
         "trajectory keep  : {} per work item (0=unlimited)",

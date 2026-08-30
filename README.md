@@ -102,6 +102,7 @@ ORCHESTRATOR_FULL_VALIDATION=0
 ORCHESTRATOR_MIN_AVAILABLE_MEMORY_MB=4096
 ORCHESTRATOR_MIN_FREE_DISK_MB=8192
 ORCHESTRATOR_MAX_LOAD_PER_CPU=2.0
+ORCHESTRATOR_LOW_DISK_RECLAIM_MAX_TARGETS=4
 ORCHESTRATOR_TRAJECTORY_MAX_PER_ITEM=50
 ORCHESTRATOR_MAX_CYCLES=0
 ORCHESTRATOR_DATA_ROOT=~/.local/share/memorithm-orchestrator
@@ -110,6 +111,8 @@ ORCHESTRATOR_DATA_ROOT=~/.local/share/memorithm-orchestrator
 `ORCHESTRATOR_MAX_CYCLES=0` means unlimited cycles.
 
 Before executing a selected work item, the Linux runtime samples `MemAvailable`, free space on the filesystem containing `ORCHESTRATOR_DATA_ROOT`, and the one-minute load average. By default it defers work when less than 4096 MiB of memory is available, less than 8192 MiB of data-root disk space is free, or load exceeds 2.0 per available CPU. A resource deferral is not a research failure and therefore does not increase the failure/quarantine count. Set any resource threshold to `0` to disable that gate.
+
+When disk pressure alone causes the deferral, Orchestrator may reclaim at most `ORCHESTRATOR_LOW_DISK_RECLAIM_MAX_TARGETS` managed workspace build caches (default 4) before resampling resources. Only a real `<data_root>/workspaces/<owner>__<repo>/target` directory is eligible, and only after the workspace has a real `.git` directory and its `origin` exactly matches the encoded GitHub repository. Symlink targets, foreign origins, sources, Git metadata, state, and trajectories are never removed. Set the reclaim limit to `0` to disable automatic cache reclamation.
 
 The autonomous runner rejects any `ORCHESTRATOR_MODEL` that is not an installed `ollama/...` model.
 
