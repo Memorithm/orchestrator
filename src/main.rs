@@ -1790,6 +1790,117 @@ fn commit_changes(workspace: &Path, message: &str) -> Result<String, String> {
     capture_in_dir(workspace, "git", &["rev-parse", "HEAD"])
 }
 
+fn git_commit_is_ancestor(
+    workspace: &Path,
+    ancestor: &str,
+    descendant: &str,
+) -> Result<bool, String> {
+    let output = Command::new("git")
+        .current_dir(workspace)
+        .args(["merge-base", "--is-ancestor", ancestor, descendant])
+        .output()
+        .map_err(|error| {
+            format!(
+                "failed to inspect Git ancestry in {}: {error}",
+                workspace.display()
+            )
+        })?;
+    if output.status.success() {
+        Ok(true)
+    } else if output.status.code() == Some(1) {
+        Ok(false)
+    } else {
+        Err(format!(
+            "git merge-base --is-ancestor {ancestor} {descendant} failed in {} with {}: {}",
+            workspace.display(),
+            output.status,
+            String::from_utf8_lossy(&output.stderr).trim()
+        ))
+    }
+}
+
+fn parse_remote_branch_head(output: &str, reference: &str) -> Result<String, String> {
+    let mut lines = output.lines().filter(|line| !line.trim().is_empty());
+    let line = lines
+        .next()
+        .ok_or_else(|| format!("remote branch {reference} has no advertised head"))?;
+    if lines.next().is_some() {
+        return Err(format!(
+            "remote branch {reference} advertised more than one matching head"
+        ));
+    }
+    let mut fields = line.split_whitespace();
+    let sha = fields
+        .next()
+        .ok_or_else(|| format!("remote branch {reference} is missing its commit id"))?;
+    let advertised_ref = fields
+        .next()
+        .ok_or_else(|| format!("remote branch {reference} is missing its ref name"))?;
+    if fields.next().is_some() || advertised_ref != reference {
+        return Err(format!(
+            "unexpected remote branch advertisement for {reference}: {line}"
+        ));
+    }
+    if sha.len() != 40 || !sha.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return Err(format!(
+            "remote branch {reference} advertised invalid commit id: {sha}"
+        ));
+    }
+    Ok(sha.to_ascii_lowercase())
+}
+
+fn remote_branch_head_sha(workspace: &Path, branch: &str) -> Result<String, String> {
+    let reference = format!("refs/heads/{branch}");
+    let output = capture_in_dir(
+        workspace,
+        "git",
+        &["ls-remote", "--heads", "origin", reference.as_str()],
+    )?;
+    parse_remote_branch_head(&output, &reference)
+}
+
+fn merge_base_into_pull_request(
+    workspace: &Path,
+    base_ref: &str,
+) -> Result<Option<String>, String> {
+    ensure_git_identity(workspace)?;
+    let message = format!("chore: sync {base_ref} before autonomous merge");
+    let status = Command::new("git")
+        .current_dir(workspace)
+        .env("GIT_AUTHOR_NAME", AUTONOMOUS_GIT_NAME)
+        .env("GIT_AUTHOR_EMAIL", AUTONOMOUS_GIT_EMAIL)
+        .env("GIT_COMMITTER_NAME", AUTONOMOUS_GIT_NAME)
+        .env("GIT_COMMITTER_EMAIL", AUTONOMOUS_GIT_EMAIL)
+        .args([
+            "-c",
+            "core.hooksPath=/dev/null",
+            "merge",
+            "--no-ff",
+            "--no-verify",
+            "-m",
+            message.as_str(),
+            base_ref,
+        ])
+        .status()
+        .map_err(|error| format!("failed to execute canonical base merge: {error}"))?;
+    if status.success() {
+        validate_autonomous_commit(workspace)?;
+        return capture_in_dir(workspace, "git", &["rev-parse", "HEAD"]).map(Some);
+    }
+
+    let abort = Command::new("git")
+        .current_dir(workspace)
+        .args(["merge", "--abort"])
+        .status()
+        .map_err(|error| format!("failed to abort conflicting base merge: {error}"))?;
+    if !abort.success() {
+        return Err(format!(
+            "canonical base merge failed with {status} and git merge --abort failed with {abort}"
+        ));
+    }
+    Ok(None)
+}
+
 fn repository_by_name<'a>(
     repositories: &'a [Repository],
     name: &str,
@@ -2357,6 +2468,76 @@ fn handle_pr_attention(
     );
     let workspace = prepare_pr_workspace(config, &item.repository, item.number)
         .classified(state::FailureClass::Repository)?;
+    let initial_local_head = capture_in_dir(&workspace, "git", &["rev-parse", "HEAD"])
+        .classified(state::FailureClass::Repository)?;
+    if initial_local_head != metadata.head_sha {
+        return Err(ActionFailure::new(
+            state::FailureClass::Publication,
+            format!(
+                "checked-out PR head changed before validation: expected {}, got {initial_local_head}",
+                metadata.head_sha
+            ),
+        ));
+    }
+
+    let base_ref = format!("origin/{default_branch}");
+    let validated_base_sha = capture_in_dir(
+        &workspace,
+        "git",
+        &["rev-parse", "--verify", base_ref.as_str()],
+    )
+    .classified(state::FailureClass::Repository)?;
+    let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")
+        .classified(state::FailureClass::Repository)?;
+    if !contains_base {
+        println!(
+            "{}#{} does not contain current {} tip {}; appending a canonical base-sync merge before any autonomous merge.",
+            item.repository, item.number, default_branch, validated_base_sha
+        );
+        match merge_base_into_pull_request(&workspace, &base_ref)
+            .classified(state::FailureClass::Repository)?
+        {
+            Some(synced_head) => {
+                validate_recovered_publication(config, &workspace, default_branch)
+                    .classified(state::FailureClass::Validation)?;
+                let before_push = pr_merge_metadata(&item.repository, item.number)
+                    .classified(state::FailureClass::Infrastructure)?;
+                if before_push != metadata {
+                    return Err(ActionFailure::new(
+                        state::FailureClass::Publication,
+                        format!(
+                            "PR metadata changed while preparing base sync: before={metadata:?} after={before_push:?}"
+                        ),
+                    ));
+                }
+                let refspec = format!("HEAD:refs/heads/{}", metadata.head_branch);
+                run_in_dir(&workspace, "git", &["push", "origin", refspec.as_str()])
+                    .classified(state::FailureClass::Publication)?;
+                let remote_head = pr_head_sha(&item.repository, item.number)
+                    .classified(state::FailureClass::Infrastructure)?;
+                if remote_head != synced_head {
+                    return Err(ActionFailure::new(
+                        state::FailureClass::Publication,
+                        format!("base-sync push expected PR head {synced_head}, got {remote_head}"),
+                    ));
+                }
+                attest_repaired_pr_head(config, &workspace, item)?;
+                println!(
+                    "Pushed canonical base-sync head {synced_head} for {}#{}; waiting for fresh CI before merge.",
+                    item.repository, item.number
+                );
+                return Ok(ActionOutcome::Progress);
+            }
+            None => {
+                println!(
+                    "{}#{} conflicts with current {}; base sync was aborted without push.",
+                    item.repository, item.number, default_branch
+                );
+                return Ok(ActionOutcome::NoProgress);
+            }
+        }
+    }
+
     validate_recovered_publication(config, &workspace, default_branch)
         .classified(state::FailureClass::Validation)?;
 
@@ -2449,9 +2630,19 @@ fn handle_pr_attention(
         ));
     }
 
+    let live_base_sha = remote_branch_head_sha(&workspace, default_branch)
+        .classified(state::FailureClass::Infrastructure)?;
+    if live_base_sha != validated_base_sha {
+        println!(
+            "{}#{} base {} advanced from validated {} to {}; deferring merge so the next cycle can synchronize and revalidate.",
+            item.repository, item.number, default_branch, validated_base_sha, live_base_sha
+        );
+        return Ok(ActionOutcome::Deferred);
+    }
+
     println!(
-        "Merging {}#{} at exact validated head {}",
-        item.repository, item.number, metadata.head_sha
+        "Merging {}#{} at exact validated head {} on unchanged base {}",
+        item.repository, item.number, metadata.head_sha, validated_base_sha
     );
     let status = Command::new("gh")
         .args(["pr", "merge"])
@@ -3196,6 +3387,68 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn base_sync_merge_is_append_only_and_canonical() {
+        let stamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let repository = env::temp_dir().join(format!(
+            "orchestrator-base-sync-{}-{stamp}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&repository).unwrap();
+
+        let git = |args: &[&str]| {
+            let status = Command::new("git")
+                .current_dir(&repository)
+                .args(args)
+                .status()
+                .unwrap();
+            assert!(status.success(), "git {} failed", args.join(" "));
+        };
+
+        git(&["init", "-q", "-b", "main"]);
+        fs::write(repository.join("base.txt"), "base\n").unwrap();
+        commit_changes(&repository, "test: canonical base").unwrap();
+        git(&["checkout", "-q", "-b", "pr"]);
+        fs::write(repository.join("pr.txt"), "pr\n").unwrap();
+        let old_pr_head = commit_changes(&repository, "test: canonical pr").unwrap();
+        git(&["checkout", "-q", "main"]);
+        fs::write(repository.join("main.txt"), "main\n").unwrap();
+        let base_head = commit_changes(&repository, "test: advance base").unwrap();
+        git(&["checkout", "-q", "pr"]);
+
+        assert!(!git_commit_is_ancestor(&repository, &base_head, "HEAD").unwrap());
+        let synced_head = merge_base_into_pull_request(&repository, "main")
+            .unwrap()
+            .expect("conflict-free base sync");
+        assert_ne!(synced_head, old_pr_head);
+        assert!(git_commit_is_ancestor(&repository, &old_pr_head, &synced_head).unwrap());
+        assert!(git_commit_is_ancestor(&repository, &base_head, &synced_head).unwrap());
+        validate_autonomous_commit(&repository).unwrap();
+
+        let _ = fs::remove_dir_all(repository);
+    }
+
+    #[test]
+    fn remote_branch_head_parser_is_exact_and_fail_closed() {
+        let sha = "0123456789abcdef0123456789abcdef01234567";
+        assert_eq!(
+            parse_remote_branch_head(&format!("{sha}\trefs/heads/main\n"), "refs/heads/main")
+                .unwrap(),
+            sha
+        );
+        assert!(parse_remote_branch_head("", "refs/heads/main").is_err());
+        assert!(
+            parse_remote_branch_head("not-a-sha\trefs/heads/main\n", "refs/heads/main").is_err()
+        );
+        assert!(
+            parse_remote_branch_head(&format!("{sha}\trefs/heads/other\n"), "refs/heads/main")
+                .is_err()
+        );
+    }
 
     #[test]
     fn clean_merge_state_is_publishable_even_without_porcelain_changes() {
