@@ -51,7 +51,7 @@ For a failing trusted PR, Orchestrator checks out the existing PR branch, launch
 
 For an issue, Orchestrator creates a dedicated branch from the repository default branch, asks the agent for one small reviewable slice, validates it, commits, pushes, and opens a draft PR. The PR deliberately does not auto-close broad research issues.
 
-For a trusted green PR, optional automatic merge is available through `ORCHESTRATOR_AUTO_MERGE=1`. The merge uses the observed PR head SHA, uses squash merge, and does not use admin bypass or force push.
+For a trusted green PR, optional automatic merge is available through `ORCHESTRATOR_AUTO_MERGE=1`. The merge uses the observed PR head SHA, revalidates canonical authorship across the PR commit range, uses rebase merge to preserve commit authorship, and does not use admin bypass or force push.
 
 ## OpenCode containment
 
