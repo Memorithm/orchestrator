@@ -4,15 +4,10 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REAL_GIT="$(command -v git)"
 TMP="$(mktemp -d "${TMPDIR:-/tmp}/orchestrator-reaping-test.XXXXXX")"
-WRAPPER_PID=""
 AGENT_PID=""
 AGENT_CHILD_PID=""
 
 cleanup() {
-  if [[ -n "$WRAPPER_PID" ]] && kill -0 "$WRAPPER_PID" 2>/dev/null; then
-    kill -TERM "$WRAPPER_PID" 2>/dev/null || true
-    wait "$WRAPPER_PID" 2>/dev/null || true
-  fi
   if [[ -n "$AGENT_PID" ]] && kill -0 "$AGENT_PID" 2>/dev/null; then
     kill -KILL -- "-$AGENT_PID" 2>/dev/null || kill -KILL "$AGENT_PID" 2>/dev/null || true
   fi
@@ -60,19 +55,6 @@ export ORCHESTRATOR_GENERAL_IDLE_SECS=120
 export ORCHESTRATOR_GENERAL_MAX_SECS=300
 export ORCHESTRATOR_BACKEND_ERROR_MAX=3
 
-wait_for_file() {
-  local path="$1"
-  local attempt
-  for attempt in $(seq 1 100); do
-    if [[ -s "$path" ]]; then
-      return 0
-    fi
-    sleep 0.1
-  done
-  printf 'timed out waiting for %s\n' "$path" >&2
-  return 1
-}
-
 wait_for_dead() {
   local pid="$1"
   local attempt
@@ -95,30 +77,26 @@ run_signal_case() {
   local status
   local prompt
 
-  : >"$agent_file"
-  : >"$child_file"
   prompt=$'Repository: Memorithm/test\nTask: ISSUE\nTitle: process reaping selftest\nMarker: REAPING_STDIN_MARKER'
+  rm -f "$agent_file" "$child_file"
 
   set +e
   printf '%s' "$prompt" | \
     FAKE_AGENT_PID_FILE="$agent_file" \
     FAKE_AGENT_CHILD_PID_FILE="$child_file" \
-    bash "$ROOT/scripts/opencode" run --auto --model ollama/qwen3.8:latest \
-      >"$log_file" 2>&1 &
-  WRAPPER_PID=$!
-  set -e
-
-  wait_for_file "$agent_file"
-  wait_for_file "$child_file"
-  AGENT_PID="$(cat "$agent_file")"
-  AGENT_CHILD_PID="$(cat "$child_file")"
-
-  kill -"$signal" "$WRAPPER_PID"
-  set +e
-  wait "$WRAPPER_PID"
+    timeout --preserve-status --signal="$signal" 2s \
+      bash "$ROOT/scripts/opencode" run --auto --model ollama/qwen3.8:latest \
+      >"$log_file" 2>&1
   status=$?
   set -e
-  WRAPPER_PID=""
+
+  if [[ ! -s "$agent_file" || ! -s "$child_file" ]]; then
+    cat "$log_file" >&2 || true
+    printf 'fake agent did not publish process identifiers before %s\n' "$signal" >&2
+    return 1
+  fi
+  AGENT_PID="$(cat "$agent_file")"
+  AGENT_CHILD_PID="$(cat "$child_file")"
 
   if [[ "$status" -ne "$expected_status" ]]; then
     cat "$log_file" >&2 || true
