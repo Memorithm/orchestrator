@@ -57,6 +57,8 @@ const TOOLS: &[Tool] = &[
 const DEFAULT_ORGANIZATION: &str = "Memorithm";
 const DEFAULT_MODEL: &str = "ollama/qwen3.8:latest";
 const DEFAULT_INTERVAL_SECS: u64 = 180;
+const AUTONOMOUS_GIT_NAME: &str = "ZEKRITI Tarek";
+const AUTONOMOUS_GIT_EMAIL: &str = "194770978+CHECKUPAUTO@users.noreply.github.com";
 
 const OPENCODE_INLINE_CONFIG: &str = r#"{
   "$schema": "https://opencode.ai/config.json",
@@ -181,6 +183,7 @@ enum WorkKind {
     Issue,
     ExternalPr,
     WaitCi,
+    NoChecks,
     UnknownCi,
 }
 
@@ -192,6 +195,7 @@ impl WorkKind {
             Self::Issue => "ISSUE",
             Self::ExternalPr => "EXTERNAL_PR",
             Self::WaitCi => "WAIT_CI",
+            Self::NoChecks => "NO_CHECKS",
             Self::UnknownCi => "UNKNOWN_CI",
         }
     }
@@ -207,7 +211,8 @@ impl WorkKind {
             Self::Issue => 2,
             Self::ExternalPr => 249,
             Self::WaitCi => 250,
-            Self::UnknownCi => 251,
+            Self::NoChecks => 251,
+            Self::UnknownCi => 252,
         }
     }
 }
@@ -966,11 +971,28 @@ fn pull_request_ci_state(pull_request: &PullRequest) -> Result<CiState, String> 
     }
 }
 
+fn ci_allows_issue_chaining(state: CiState) -> bool {
+    state == CiState::Passing
+}
+
+fn ci_allows_merge(state: CiState) -> bool {
+    state == CiState::Passing
+}
+
+fn pull_request_allows_issue_chaining(
+    pull_request: &PullRequest,
+    trusted_login: &str,
+    ci_state: CiState,
+) -> bool {
+    pull_request.author == trusted_login && ci_allows_issue_chaining(ci_state)
+}
+
 fn work_kind_for_ci(state: CiState) -> WorkKind {
     match state {
         CiState::Failed => WorkKind::FixCi,
         CiState::Pending => WorkKind::WaitCi,
-        CiState::Passing | CiState::NoChecks => WorkKind::PullRequest,
+        CiState::Passing => WorkKind::PullRequest,
+        CiState::NoChecks => WorkKind::NoChecks,
         CiState::Unknown => WorkKind::UnknownCi,
     }
 }
@@ -994,6 +1016,7 @@ fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
     let issues = discover_open_issues(organization)?;
     let mut items = Vec::new();
     let mut repositories_with_open_pr = BTreeSet::new();
+    let mut repositories_blocking_issue_work = BTreeSet::new();
 
     for pull_request in pull_requests
         .iter()
@@ -1002,6 +1025,7 @@ fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
         repositories_with_open_pr.insert(pull_request.repository.clone());
 
         if pull_request.author != trusted_login {
+            repositories_blocking_issue_work.insert(pull_request.repository.clone());
             items.push(WorkItem {
                 kind: WorkKind::ExternalPr,
                 repository: pull_request.repository.clone(),
@@ -1015,6 +1039,9 @@ fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
         }
 
         let ci_state = pull_request_ci_state(pull_request)?;
+        if !pull_request_allows_issue_chaining(pull_request, &trusted_login, ci_state) {
+            repositories_blocking_issue_work.insert(pull_request.repository.clone());
+        }
         let kind = work_kind_for_ci(ci_state);
         items.push(WorkItem {
             kind,
@@ -1033,7 +1060,7 @@ fn build_triage(organization: &str) -> Result<TriageSnapshot, String> {
 
     for issue in issues.iter().filter(|issue| {
         eligible.contains(&issue.repository)
-            && !repositories_with_open_pr.contains(&issue.repository)
+            && !repositories_blocking_issue_work.contains(&issue.repository)
     }) {
         items.push(WorkItem {
             kind: WorkKind::Issue,
@@ -1105,6 +1132,11 @@ fn print_triage(snapshot: &TriageSnapshot, organization: &str) {
         .iter()
         .filter(|item| item.kind == WorkKind::WaitCi)
         .count();
+    let no_checks = snapshot
+        .items
+        .iter()
+        .filter(|item| item.kind == WorkKind::NoChecks)
+        .count();
     let unknown = snapshot
         .items
         .iter()
@@ -1125,6 +1157,7 @@ fn print_triage(snapshot: &TriageSnapshot, organization: &str) {
         snapshot.repositories_with_open_pr
     );
     println!("Waiting on CI               : {waiting}");
+    println!("No checks                   : {no_checks}");
     println!("Unknown CI state            : {unknown}");
     println!("External/untrusted PR       : {external}");
 }
@@ -1660,25 +1693,40 @@ fn validate_workspace(config: &RunConfig, workspace: &Path) -> Result<(), String
 }
 
 fn ensure_git_identity(workspace: &Path) -> Result<(), String> {
-    if capture_in_dir(workspace, "git", &["config", "user.name"])
-        .unwrap_or_default()
-        .is_empty()
+    run_in_dir(
+        workspace,
+        "git",
+        &["config", "user.name", AUTONOMOUS_GIT_NAME],
+    )?;
+    run_in_dir(
+        workspace,
+        "git",
+        &["config", "user.email", AUTONOMOUS_GIT_EMAIL],
+    )?;
+    Ok(())
+}
+
+fn validate_autonomous_commit(workspace: &Path) -> Result<(), String> {
+    let author_name = capture_in_dir(workspace, "git", &["show", "-s", "--format=%an", "HEAD"])?;
+    let author_email = capture_in_dir(workspace, "git", &["show", "-s", "--format=%ae", "HEAD"])?;
+    let committer_name = capture_in_dir(workspace, "git", &["show", "-s", "--format=%cn", "HEAD"])?;
+    let committer_email =
+        capture_in_dir(workspace, "git", &["show", "-s", "--format=%ce", "HEAD"])?;
+    let message = capture_in_dir(workspace, "git", &["show", "-s", "--format=%B", "HEAD"])?;
+    let has_coauthor = message.lines().any(|line| {
+        line.trim_start()
+            .to_ascii_lowercase()
+            .starts_with("co-authored-by:")
+    });
+    if author_name != AUTONOMOUS_GIT_NAME
+        || author_email != AUTONOMOUS_GIT_EMAIL
+        || committer_name != AUTONOMOUS_GIT_NAME
+        || committer_email != AUTONOMOUS_GIT_EMAIL
+        || has_coauthor
     {
-        run_in_dir(
-            workspace,
-            "git",
-            &["config", "user.name", "Memorithm Orchestrator"],
-        )?;
-    }
-    if capture_in_dir(workspace, "git", &["config", "user.email"])
-        .unwrap_or_default()
-        .is_empty()
-    {
-        run_in_dir(
-            workspace,
-            "git",
-            &["config", "user.email", "orchestrator@localhost"],
-        )?;
+        return Err(format!(
+            "autonomous commit identity/message policy violated: author={author_name} <{author_email}> committer={committer_name} <{committer_email}> coauthor={has_coauthor}"
+        ));
     }
     Ok(())
 }
@@ -1686,7 +1734,26 @@ fn ensure_git_identity(workspace: &Path) -> Result<(), String> {
 fn commit_changes(workspace: &Path, message: &str) -> Result<String, String> {
     ensure_git_identity(workspace)?;
     run_in_dir(workspace, "git", &["add", "-A"])?;
-    run_in_dir(workspace, "git", &["commit", "-m", message])?;
+    let status = Command::new("git")
+        .current_dir(workspace)
+        .env("GIT_AUTHOR_NAME", AUTONOMOUS_GIT_NAME)
+        .env("GIT_AUTHOR_EMAIL", AUTONOMOUS_GIT_EMAIL)
+        .env("GIT_COMMITTER_NAME", AUTONOMOUS_GIT_NAME)
+        .env("GIT_COMMITTER_EMAIL", AUTONOMOUS_GIT_EMAIL)
+        .args([
+            "-c",
+            "core.hooksPath=/dev/null",
+            "commit",
+            "--no-verify",
+            "-m",
+            message,
+        ])
+        .status()
+        .map_err(|error| format!("failed to execute canonical git commit: {error}"))?;
+    if !status.success() {
+        return Err(format!("canonical git commit failed with {status}"));
+    }
+    validate_autonomous_commit(workspace)?;
     capture_in_dir(workspace, "git", &["rev-parse", "HEAD"])
 }
 
@@ -1708,7 +1775,15 @@ fn issue_publication_key(item: &WorkItem) -> publication::PublicationKey {
     publication::PublicationKey::new(&item.repository, item.number)
 }
 
-fn open_pr_number(repository: &str) -> Result<Option<u64>, String> {
+fn discover_open_pull_requests_for_repository(
+    repository: &str,
+) -> Result<Vec<PullRequest>, String> {
+    let jq = r#".[] | [
+        (.number | tostring),
+        (if .isDraft then "draft" else "ready" end),
+        (.author.login // "-"),
+        .title
+    ] | @tsv"#;
     let output = capture(
         "gh",
         &[
@@ -1719,22 +1794,40 @@ fn open_pr_number(repository: &str) -> Result<Option<u64>, String> {
             "--state",
             "open",
             "--limit",
-            "1",
+            "100",
             "--json",
-            "number",
+            "number,title,isDraft,author",
             "--jq",
-            ".[0].number // empty",
+            jq,
         ],
     )?;
-    if output.trim().is_empty() {
-        Ok(None)
-    } else {
-        output
-            .trim()
-            .parse::<u64>()
-            .map(Some)
-            .map_err(|error| format!("invalid PR number from gh: {output}: {error}"))
+    let mut pull_requests = output
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+        .map(|line| parse_pull_request_line(&format!("{repository}\t{line}")))
+        .collect::<Result<Vec<_>, _>>()?;
+    pull_requests.sort_by_key(|pull_request| pull_request.number);
+    Ok(pull_requests)
+}
+
+fn issue_chain_blocker(repository: &str, trusted_login: &str) -> Result<Option<String>, String> {
+    for pull_request in discover_open_pull_requests_for_repository(repository)? {
+        if pull_request.author != trusted_login {
+            return Ok(Some(format!(
+                "external/untrusted PR #{} author={} is open",
+                pull_request.number, pull_request.author
+            )));
+        }
+        let ci_state = pull_request_ci_state(&pull_request)?;
+        if !pull_request_allows_issue_chaining(&pull_request, trusted_login, ci_state) {
+            return Ok(Some(format!(
+                "trusted PR #{} CI is {}; only PASSING permits another autonomous slice",
+                pull_request.number,
+                ci_state.as_str()
+            )));
+        }
     }
+    Ok(None)
 }
 
 fn existing_pr_for_head(repository: &str, branch: &str) -> Result<Option<String>, String> {
@@ -1842,10 +1935,11 @@ fn resume_issue_publication(
     config: &RunConfig,
     repository: &Repository,
     item: &WorkItem,
+    trusted_login: &str,
     store: &publication::PublicationStore,
     key: &publication::PublicationKey,
     mut pending: publication::PendingPublication,
-) -> Result<(), String> {
+) -> Result<ActionOutcome, String> {
     let default_branch = repository
         .default_branch
         .as_deref()
@@ -1860,7 +1954,7 @@ fn resume_issue_publication(
     if let Some(existing) = existing_pr_for_head(&item.repository, &pending.branch)? {
         println!("Recovered publication already has PR {existing}; clearing transaction.");
         store.clear(key)?;
-        return Ok(());
+        return Ok(ActionOutcome::Progress);
     }
 
     let workspace = ensure_clone(config, &repository.name_with_owner)?;
@@ -1892,6 +1986,13 @@ fn resume_issue_publication(
                     pending.commit.as_str(),
                 ],
             )?;
+            if let Some(blocker) = issue_chain_blocker(&item.repository, trusted_login)? {
+                println!(
+                    "Publication remains PREPARED for {}#{}: {blocker}",
+                    item.repository, item.number
+                );
+                return Ok(ActionOutcome::Deferred);
+            }
             run_in_dir(
                 &workspace,
                 "git",
@@ -1922,7 +2023,7 @@ fn resume_issue_publication(
     validate_recovered_publication(config, &workspace, default_branch)?;
     create_issue_pull_request(&workspace, item, default_branch, &pending.branch)?;
     store.clear(key)?;
-    Ok(())
+    Ok(ActionOutcome::Progress)
 }
 
 fn execute_issue(
@@ -1940,6 +2041,8 @@ fn execute_issue(
     })?;
     let store = issue_publication_store(config);
     let key = issue_publication_key(item);
+    let trusted_login =
+        authenticated_github_login().classified(state::FailureClass::Infrastructure)?;
 
     if let Some(pending) = store
         .load(&key)
@@ -1949,20 +2052,26 @@ fn execute_issue(
             "Resuming pending publication for {}#{} from {} at {}",
             item.repository, item.number, pending.branch, pending.commit
         );
-        return resume_issue_publication(config, repository, item, &store, &key, pending)
-            .classified(state::FailureClass::Publication)
-            .map(|()| ActionOutcome::Progress);
+        return resume_issue_publication(
+            config,
+            repository,
+            item,
+            &trusted_login,
+            &store,
+            &key,
+            pending,
+        )
+        .classified(state::FailureClass::Publication);
     }
 
-    if let Some(number) =
-        open_pr_number(&item.repository).classified(state::FailureClass::Infrastructure)?
+    if let Some(blocker) = issue_chain_blocker(&item.repository, &trusted_login)
+        .classified(state::FailureClass::Infrastructure)?
     {
-        return Err(ActionFailure::new(
-            state::FailureClass::Infrastructure,
-            format!(
-                "repository gained open PR #{number} after triage; deferring issue work to avoid parallel mutation"
-            ),
-        ));
+        println!(
+            "Issue {}#{} deferred before agent execution: {blocker}",
+            item.repository, item.number
+        );
+        return Ok(ActionOutcome::Deferred);
     }
 
     let (workspace, branch) = prepare_issue_workspace(config, repository, item.number)
@@ -1993,6 +2102,16 @@ fn execute_issue(
         .save(&key, &pending)
         .classified(state::FailureClass::Publication)?;
     println!("Publication transaction prepared for {branch}");
+
+    if let Some(blocker) = issue_chain_blocker(&item.repository, &trusted_login)
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        println!(
+            "Publication remains PREPARED for {}#{}: {blocker}",
+            item.repository, item.number
+        );
+        return Ok(ActionOutcome::Deferred);
+    }
 
     run_in_dir(
         &workspace,
@@ -2150,7 +2269,7 @@ fn handle_pr_attention(
     }
 
     let ci_state = item.ci_state.unwrap_or(CiState::Unknown);
-    if !matches!(ci_state, CiState::Passing | CiState::NoChecks) {
+    if !ci_allows_merge(ci_state) {
         return Err(ActionFailure::new(
             state::FailureClass::Validation,
             format!(
@@ -2335,7 +2454,7 @@ fn work_revision(item: &WorkItem) -> Result<String, String> {
     match item.kind {
         WorkKind::Issue => Ok("issue-v1".to_owned()),
         WorkKind::FixCi | WorkKind::PullRequest => pr_head_sha(&item.repository, item.number),
-        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => {
+        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::NoChecks | WorkKind::UnknownCi => {
             Ok("non-actionable".to_owned())
         }
     }
@@ -2345,7 +2464,7 @@ fn work_item_runnable(item: &WorkItem, auto_merge: bool) -> bool {
     match item.kind {
         WorkKind::FixCi | WorkKind::Issue => true,
         WorkKind::PullRequest => auto_merge,
-        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => false,
+        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::NoChecks | WorkKind::UnknownCi => false,
     }
 }
 
@@ -2604,7 +2723,7 @@ fn execute_item(
             handle_pr_attention(config, repository, item)
         }
         WorkKind::Issue => execute_issue(config, &snapshot.repositories, item),
-        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => {
+        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::NoChecks | WorkKind::UnknownCi => {
             Ok(ActionOutcome::Deferred)
         }
     }
@@ -3155,6 +3274,109 @@ mod tests {
         assert_eq!(state.in_progress_since, 100);
         assert_eq!(state.consecutive_failures, 0);
         let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn lifecycle_only_trusted_passing_pr_allows_issue_chaining() {
+        let trusted = PullRequest {
+            repository: "Memorithm/ADA".to_owned(),
+            number: 7,
+            title: "trusted".to_owned(),
+            draft: false,
+            author: "CHECKUPAUTO".to_owned(),
+        };
+        assert!(pull_request_allows_issue_chaining(
+            &trusted,
+            "CHECKUPAUTO",
+            CiState::Passing
+        ));
+        for state in [
+            CiState::Failed,
+            CiState::Pending,
+            CiState::NoChecks,
+            CiState::Unknown,
+        ] {
+            assert!(!pull_request_allows_issue_chaining(
+                &trusted,
+                "CHECKUPAUTO",
+                state
+            ));
+        }
+
+        let external = PullRequest {
+            author: "someone-else".to_owned(),
+            ..trusted
+        };
+        assert!(!pull_request_allows_issue_chaining(
+            &external,
+            "CHECKUPAUTO",
+            CiState::Passing
+        ));
+    }
+
+    #[test]
+    fn lifecycle_merge_requires_definitive_passing_ci() {
+        assert!(ci_allows_merge(CiState::Passing));
+        for state in [
+            CiState::Failed,
+            CiState::Pending,
+            CiState::NoChecks,
+            CiState::Unknown,
+        ] {
+            assert!(!ci_allows_merge(state));
+        }
+        assert_eq!(work_kind_for_ci(CiState::NoChecks), WorkKind::NoChecks);
+    }
+
+    #[test]
+    fn autonomous_commit_overrides_existing_identity_without_coauthor() {
+        let stamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let repository = env::temp_dir().join(format!(
+            "orchestrator-canonical-identity-{}-{stamp}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&repository).unwrap();
+        let git = |args: &[&str]| {
+            let status = Command::new("git")
+                .current_dir(&repository)
+                .args(args)
+                .status()
+                .unwrap();
+            assert!(status.success(), "git {} failed", args.join(" "));
+        };
+        git(&["init", "-q", "-b", "main"]);
+        git(&["config", "user.name", "Wrong Identity"]);
+        git(&["config", "user.email", "wrong@example.invalid"]);
+        fs::write(repository.join("tracked.txt"), "canonical\n").unwrap();
+
+        commit_changes(&repository, "test: canonical autonomous commit").unwrap();
+        let author_name =
+            capture_in_dir(&repository, "git", &["show", "-s", "--format=%an", "HEAD"]).unwrap();
+        let author_email =
+            capture_in_dir(&repository, "git", &["show", "-s", "--format=%ae", "HEAD"]).unwrap();
+        let committer_name =
+            capture_in_dir(&repository, "git", &["show", "-s", "--format=%cn", "HEAD"]).unwrap();
+        let committer_email =
+            capture_in_dir(&repository, "git", &["show", "-s", "--format=%ce", "HEAD"]).unwrap();
+        let body =
+            capture_in_dir(&repository, "git", &["show", "-s", "--format=%B", "HEAD"]).unwrap();
+        assert_eq!(author_name, AUTONOMOUS_GIT_NAME);
+        assert_eq!(author_email, AUTONOMOUS_GIT_EMAIL);
+        assert_eq!(committer_name, AUTONOMOUS_GIT_NAME);
+        assert_eq!(committer_email, AUTONOMOUS_GIT_EMAIL);
+        assert!(!body.to_ascii_lowercase().contains("co-authored-by:"));
+        assert_eq!(
+            capture_in_dir(&repository, "git", &["config", "user.name"]).unwrap(),
+            AUTONOMOUS_GIT_NAME
+        );
+        assert_eq!(
+            capture_in_dir(&repository, "git", &["config", "user.email"]).unwrap(),
+            AUTONOMOUS_GIT_EMAIL
+        );
+        fs::remove_dir_all(repository).unwrap();
     }
 
     #[test]

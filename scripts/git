@@ -2,6 +2,10 @@
 set -u
 
 REAL_GIT="${ORCHESTRATOR_REAL_GIT:?ORCHESTRATOR_REAL_GIT is not set}"
+export GIT_AUTHOR_NAME='ZEKRITI Tarek'
+export GIT_AUTHOR_EMAIL='194770978+CHECKUPAUTO@users.noreply.github.com'
+export GIT_COMMITTER_NAME='ZEKRITI Tarek'
+export GIT_COMMITTER_EMAIL='194770978+CHECKUPAUTO@users.noreply.github.com'
 
 # Orchestrator owns Git mutations. The local coding agent never receives this
 # wrapper in ORCHESTRATOR_AGENT_PATH. Pass every command through unchanged
