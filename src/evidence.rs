@@ -23,18 +23,7 @@ struct FailedRun {
 
 pub(crate) fn collect_ci_evidence(repository: &str, pr_number: u64) -> Result<CiEvidence, String> {
     let number = pr_number.to_string();
-    let head_sha = capture_gh(&[
-        "pr",
-        "view",
-        number.as_str(),
-        "--repo",
-        repository,
-        "--json",
-        "headRefOid",
-        "--jq",
-        ".headRefOid",
-    ])?;
-    validate_sha(&head_sha)?;
+    let head_sha = pr_head_sha(repository, pr_number)?;
 
     let checks = capture_pr_checks(&[
         "pr",
@@ -93,10 +82,11 @@ pub(crate) fn collect_ci_evidence(repository: &str, pr_number: u64) -> Result<Ci
                 sanitize_inline(&run.name),
                 sanitize_inline(&run.url)
             ));
+            let run_id = run.id.to_string();
             match capture_gh(&[
                 "run",
                 "view",
-                run.id.to_string().as_str(),
+                run_id.as_str(),
                 "--repo",
                 repository,
                 "--log-failed",
@@ -120,10 +110,34 @@ pub(crate) fn collect_ci_evidence(repository: &str, pr_number: u64) -> Result<Ci
         }
     }
 
+    let final_head_sha = pr_head_sha(repository, pr_number)?;
+    if final_head_sha != head_sha {
+        return Err(format!(
+            "PR head changed during CI evidence collection: initial={head_sha} final={final_head_sha}"
+        ));
+    }
+
     Ok(CiEvidence {
         head_sha,
         text: truncate_chars(&evidence, MAX_EVIDENCE_CHARS),
     })
+}
+
+fn pr_head_sha(repository: &str, pr_number: u64) -> Result<String, String> {
+    let number = pr_number.to_string();
+    let head_sha = capture_gh(&[
+        "pr",
+        "view",
+        number.as_str(),
+        "--repo",
+        repository,
+        "--json",
+        "headRefOid",
+        "--jq",
+        ".headRefOid",
+    ])?;
+    validate_sha(&head_sha)?;
+    Ok(head_sha)
 }
 
 fn capture_pr_checks(args: &[&str]) -> Result<String, String> {
@@ -131,12 +145,26 @@ fn capture_pr_checks(args: &[&str]) -> Result<String, String> {
         .args(args)
         .output()
         .map_err(|error| format!("failed to execute gh: {error}"))?;
-    let stdout = String::from_utf8(output.stdout)
+    interpret_pr_checks_output(
+        output.status.success(),
+        &output.stdout,
+        &output.stderr,
+        args,
+    )
+}
+
+fn interpret_pr_checks_output(
+    status_success: bool,
+    stdout: &[u8],
+    stderr: &[u8],
+    args: &[&str],
+) -> Result<String, String> {
+    let stdout = std::str::from_utf8(stdout)
         .map_err(|error| format!("invalid UTF-8 from gh pr checks: {error}"))?;
-    if !stdout.trim().is_empty() || output.status.success() {
+    if !stdout.trim().is_empty() || status_success {
         return Ok(stdout.trim().to_owned());
     }
-    let stderr = sanitize_inline(&String::from_utf8_lossy(&output.stderr));
+    let stderr = sanitize_inline(&String::from_utf8_lossy(stderr));
     if stderr.contains("no checks reported") {
         Ok(String::new())
     } else {
@@ -251,6 +279,42 @@ mod tests {
         assert_eq!(runs[0].id, 1);
         assert_eq!(runs[0].head_sha, head);
         assert_eq!(runs[1].id, 4);
+    }
+
+    #[test]
+    fn failing_pr_checks_accept_nonzero_status_when_stdout_is_present() {
+        let output = interpret_pr_checks_output(
+            false,
+            b"fail\tFAILURE\tci",
+            b"",
+            &["pr", "checks", "9"],
+        )
+        .unwrap();
+        assert_eq!(output, "fail\tFAILURE\tci");
+    }
+
+    #[test]
+    fn no_checks_message_is_not_treated_as_collection_failure() {
+        let output = interpret_pr_checks_output(
+            false,
+            b"",
+            b"no checks reported on the 'main' branch",
+            &["pr", "checks", "9"],
+        )
+        .unwrap();
+        assert!(output.is_empty());
+    }
+
+    #[test]
+    fn unexpected_empty_pr_checks_failure_is_rejected() {
+        let error = interpret_pr_checks_output(
+            false,
+            b"",
+            b"authentication failed",
+            &["pr", "checks", "9"],
+        )
+        .unwrap_err();
+        assert!(error.contains("authentication failed"));
     }
 
     #[test]
