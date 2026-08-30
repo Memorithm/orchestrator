@@ -39,6 +39,7 @@ impl ResourcePolicy {
         {
             return Admission::Deferred {
                 snapshot,
+                pressure: PressureKind::Memory,
                 reason: format!(
                     "available memory {} MiB is below required {} MiB",
                     snapshot.available_memory_mb, self.min_available_memory_mb
@@ -49,6 +50,7 @@ impl ResourcePolicy {
         if self.min_free_disk_mb > 0 && snapshot.free_disk_mb < self.min_free_disk_mb {
             return Admission::Deferred {
                 snapshot,
+                pressure: PressureKind::Disk,
                 reason: format!(
                     "free data-root disk {} MiB is below required {} MiB",
                     snapshot.free_disk_mb, self.min_free_disk_mb
@@ -60,6 +62,7 @@ impl ResourcePolicy {
         if self.max_load_per_cpu > 0.0 && normalized_load > self.max_load_per_cpu {
             return Admission::Deferred {
                 snapshot,
+                pressure: PressureKind::Load,
                 reason: format!(
                     "1m load per CPU {:.2} exceeds configured {:.2}",
                     normalized_load, self.max_load_per_cpu
@@ -69,6 +72,13 @@ impl ResourcePolicy {
 
         Admission::Admitted(snapshot)
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum PressureKind {
+    Memory,
+    Disk,
+    Load,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -90,6 +100,7 @@ pub enum Admission {
     Admitted(HostResources),
     Deferred {
         snapshot: HostResources,
+        pressure: PressureKind,
         reason: String,
     },
 }
@@ -272,23 +283,41 @@ mod tests {
     }
 
     #[test]
-    fn low_memory_defers_without_failure() {
+    fn low_memory_is_classified_without_failure() {
         let decision = policy().evaluate(snapshot(2_048, 64_000, 1.0, 14));
-        assert!(matches!(decision, Admission::Deferred { .. }));
+        assert!(matches!(
+            decision,
+            Admission::Deferred {
+                pressure: PressureKind::Memory,
+                ..
+            }
+        ));
     }
 
     #[test]
-    fn low_disk_defers_without_failure() {
+    fn low_disk_is_classified_without_failure() {
         let decision = policy().evaluate(snapshot(32_768, 4_096, 1.0, 14));
-        assert!(matches!(decision, Admission::Deferred { .. }));
+        assert!(matches!(
+            decision,
+            Admission::Deferred {
+                pressure: PressureKind::Disk,
+                ..
+            }
+        ));
     }
 
     #[test]
-    fn high_normalized_load_defers() {
+    fn high_load_is_classified() {
         let mut policy = policy();
         policy.max_load_per_cpu = 1.5;
         let decision = policy.evaluate(snapshot(32_768, 64_000, 24.0, 8));
-        assert!(matches!(decision, Admission::Deferred { .. }));
+        assert!(matches!(
+            decision,
+            Admission::Deferred {
+                pressure: PressureKind::Load,
+                ..
+            }
+        ));
     }
 
     #[test]
