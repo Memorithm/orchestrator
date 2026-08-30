@@ -84,7 +84,12 @@ fn git_origin(workspace: &Path) -> Result<String, String> {
         .current_dir(workspace)
         .args(["remote", "get-url", "origin"])
         .output()
-        .map_err(|error| format!("failed to inspect git origin in {}: {error}", workspace.display()))?;
+        .map_err(|error| {
+            format!(
+                "failed to inspect git origin in {}: {error}",
+                workspace.display()
+            )
+        })?;
     if !output.status.success() {
         return Err(format!(
             "git remote get-url origin failed in {} with {}",
@@ -94,7 +99,12 @@ fn git_origin(workspace: &Path) -> Result<String, String> {
     }
     String::from_utf8(output.stdout)
         .map(|value| value.trim().to_owned())
-        .map_err(|error| format!("invalid UTF-8 git origin in {}: {error}", workspace.display()))
+        .map_err(|error| {
+            format!(
+                "invalid UTF-8 git origin in {}: {error}",
+                workspace.display()
+            )
+        })
 }
 
 fn reclaim_verified_target(
@@ -111,8 +121,12 @@ fn reclaim_verified_target(
         return Ok(false);
     }
 
-    fs::remove_dir_all(&target)
-        .map_err(|error| format!("failed to remove managed build cache {}: {error}", target.display()))?;
+    fs::remove_dir_all(&target).map_err(|error| {
+        format!(
+            "failed to remove managed build cache {}: {error}",
+            target.display()
+        )
+    })?;
     Ok(true)
 }
 
