@@ -171,7 +171,9 @@ mod tests {
 
     #[test]
     fn parses_one_minute_load() {
-        assert!((parse_load_one("7.25 6.00 5.00 1/100 123\n").unwrap() - 7.25).abs() < f64::EPSILON);
+        assert!(
+            (parse_load_one("7.25 6.00 5.00 1/100 123\n").unwrap() - 7.25).abs() < f64::EPSILON
+        );
     }
 
     #[test]

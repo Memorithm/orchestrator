@@ -7,7 +7,7 @@ The runner is intentionally local-first and cost-controlled:
 - GitHub discovery and mutation use the authenticated `gh` CLI.
 - Coding is delegated to OpenCode in non-interactive `run --auto` mode.
 - The default and only accepted LLM provider for autonomous runs is local Ollama.
-- Default model: `ollama/muse-glimmer:latest`.
+- Default model: `ollama/qwen3.8:latest`.
 - No OpenAI API key is required or used.
 - Codex CLI may be installed for manual fallback, but autonomous `run` does not invoke it.
 
@@ -15,6 +15,8 @@ The runner is intentionally local-first and cost-controlled:
 
 ```text
 orchestrator doctor
+orchestrator health
+orchestrator status
 orchestrator scan [organization]
 orchestrator triage [organization]
 orchestrator run [organization]
@@ -91,15 +93,19 @@ A PID lock prevents two Orchestrator loops from mutating repositories concurrent
 ## Environment
 
 ```text
-ORCHESTRATOR_MODEL=ollama/muse-glimmer:latest
+ORCHESTRATOR_MODEL=ollama/qwen3.8:latest
 ORCHESTRATOR_INTERVAL_SECS=180
 ORCHESTRATOR_AUTO_MERGE=0
 ORCHESTRATOR_FULL_VALIDATION=0
+ORCHESTRATOR_MIN_AVAILABLE_MEMORY_MB=4096
+ORCHESTRATOR_MAX_LOAD_PER_CPU=2.0
 ORCHESTRATOR_MAX_CYCLES=0
 ORCHESTRATOR_DATA_ROOT=~/.local/share/memorithm-orchestrator
 ```
 
 `ORCHESTRATOR_MAX_CYCLES=0` means unlimited cycles.
+
+Before executing a selected work item, the Linux runtime samples `MemAvailable` and the one-minute load average. By default it defers work when less than 4096 MiB is available or when load exceeds 2.0 per available CPU. A resource deferral is not a research failure and therefore does not increase the failure/quarantine count. Set either resource threshold to `0` to disable that gate.
 
 The autonomous runner rejects any `ORCHESTRATOR_MODEL` that is not an installed `ollama/...` model.
 
