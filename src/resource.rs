@@ -1,12 +1,17 @@
 use std::env;
 use std::fs;
+use std::path::Path;
+use std::process::Command;
 
 const DEFAULT_MIN_AVAILABLE_MEMORY_MB: u64 = 4_096;
+const DEFAULT_MIN_FREE_DISK_MB: u64 = 8_192;
 const DEFAULT_MAX_LOAD_PER_CPU: f64 = 2.0;
+const BYTES_PER_MIB: u128 = 1_048_576;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ResourcePolicy {
     pub min_available_memory_mb: u64,
+    pub min_free_disk_mb: u64,
     pub max_load_per_cpu: f64,
 }
 
@@ -16,6 +21,10 @@ impl ResourcePolicy {
             min_available_memory_mb: parse_env_u64(
                 "ORCHESTRATOR_MIN_AVAILABLE_MEMORY_MB",
                 DEFAULT_MIN_AVAILABLE_MEMORY_MB,
+            )?,
+            min_free_disk_mb: parse_env_u64(
+                "ORCHESTRATOR_MIN_FREE_DISK_MB",
+                DEFAULT_MIN_FREE_DISK_MB,
             )?,
             max_load_per_cpu: parse_env_f64(
                 "ORCHESTRATOR_MAX_LOAD_PER_CPU",
@@ -33,6 +42,16 @@ impl ResourcePolicy {
                 reason: format!(
                     "available memory {} MiB is below required {} MiB",
                     snapshot.available_memory_mb, self.min_available_memory_mb
+                ),
+            };
+        }
+
+        if self.min_free_disk_mb > 0 && snapshot.free_disk_mb < self.min_free_disk_mb {
+            return Admission::Deferred {
+                snapshot,
+                reason: format!(
+                    "free data-root disk {} MiB is below required {} MiB",
+                    snapshot.free_disk_mb, self.min_free_disk_mb
                 ),
             };
         }
@@ -55,6 +74,7 @@ impl ResourcePolicy {
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct HostResources {
     pub available_memory_mb: u64,
+    pub free_disk_mb: u64,
     pub load_one: f64,
     pub cpu_count: u32,
 }
@@ -74,7 +94,7 @@ pub enum Admission {
     },
 }
 
-pub fn sample_linux() -> Result<HostResources, String> {
+pub fn sample_linux(data_root: &Path) -> Result<HostResources, String> {
     let meminfo = fs::read_to_string("/proc/meminfo")
         .map_err(|error| format!("failed to read /proc/meminfo: {error}"))?;
     let loadavg = fs::read_to_string("/proc/loadavg")
@@ -86,9 +106,57 @@ pub fn sample_linux() -> Result<HostResources, String> {
 
     Ok(HostResources {
         available_memory_mb: parse_mem_available_mb(&meminfo)?,
+        free_disk_mb: sample_free_disk_mb(data_root)?,
         load_one: parse_load_one(&loadavg)?,
         cpu_count,
     })
+}
+
+fn sample_free_disk_mb(path: &Path) -> Result<u64, String> {
+    let output = Command::new("stat")
+        .args(["-f", "-c", "%a %S", "--"])
+        .arg(path)
+        .output()
+        .map_err(|error| format!("failed to execute stat for {}: {error}", path.display()))?;
+
+    if !output.status.success() {
+        return Err(format!(
+            "stat filesystem query failed for {} with {}: {}",
+            path.display(),
+            output.status,
+            String::from_utf8_lossy(&output.stderr).trim()
+        ));
+    }
+
+    let stdout = String::from_utf8(output.stdout)
+        .map_err(|error| format!("invalid UTF-8 from stat for {}: {error}", path.display()))?;
+    parse_statfs_available_mb(&stdout)
+}
+
+fn parse_statfs_available_mb(input: &str) -> Result<u64, String> {
+    let fields = input.split_whitespace().collect::<Vec<_>>();
+    if fields.len() != 2 {
+        return Err(format!(
+            "expected exactly two stat filesystem fields, got {}",
+            fields.len()
+        ));
+    }
+
+    let available_blocks = fields[0]
+        .parse::<u128>()
+        .map_err(|error| format!("invalid available filesystem blocks: {error}"))?;
+    let block_size = fields[1]
+        .parse::<u128>()
+        .map_err(|error| format!("invalid filesystem block size: {error}"))?;
+    if block_size == 0 {
+        return Err("filesystem block size must be non-zero".to_owned());
+    }
+
+    let available_bytes = available_blocks
+        .checked_mul(block_size)
+        .ok_or_else(|| "available filesystem byte count overflowed u128".to_owned())?;
+    u64::try_from(available_bytes / BYTES_PER_MIB)
+        .map_err(|_| "available filesystem MiB does not fit in u64".to_owned())
 }
 
 fn parse_env_u64(name: &str, default: u64) -> Result<u64, String> {
@@ -155,11 +223,20 @@ fn parse_load_one(input: &str) -> Result<f64, String> {
 mod tests {
     use super::*;
 
-    fn snapshot(memory_mb: u64, load_one: f64, cpu_count: u32) -> HostResources {
+    fn snapshot(memory_mb: u64, disk_mb: u64, load_one: f64, cpu_count: u32) -> HostResources {
         HostResources {
             available_memory_mb: memory_mb,
+            free_disk_mb: disk_mb,
             load_one,
             cpu_count,
+        }
+    }
+
+    fn policy() -> ResourcePolicy {
+        ResourcePolicy {
+            min_available_memory_mb: 4_096,
+            min_free_disk_mb: 8_192,
+            max_load_per_cpu: 2.0,
         }
     }
 
@@ -177,45 +254,52 @@ mod tests {
     }
 
     #[test]
+    fn parses_statfs_available_space_without_precision_loss() {
+        assert_eq!(parse_statfs_available_mb("4194304 4096\n").unwrap(), 16_384);
+    }
+
+    #[test]
+    fn rejects_malformed_statfs_output() {
+        assert!(parse_statfs_available_mb("4194304\n").is_err());
+        assert!(parse_statfs_available_mb("4194304 0\n").is_err());
+        assert!(parse_statfs_available_mb("x 4096\n").is_err());
+    }
+
+    #[test]
     fn healthy_snapshot_is_admitted() {
-        let policy = ResourcePolicy {
-            min_available_memory_mb: 4_096,
-            max_load_per_cpu: 2.0,
-        };
-        assert_eq!(
-            policy.evaluate(snapshot(32_768, 14.0, 14)),
-            Admission::Admitted(snapshot(32_768, 14.0, 14))
-        );
+        let snapshot = snapshot(32_768, 64_000, 14.0, 14);
+        assert_eq!(policy().evaluate(snapshot), Admission::Admitted(snapshot));
     }
 
     #[test]
     fn low_memory_defers_without_failure() {
-        let policy = ResourcePolicy {
-            min_available_memory_mb: 4_096,
-            max_load_per_cpu: 2.0,
-        };
-        let decision = policy.evaluate(snapshot(2_048, 1.0, 14));
+        let decision = policy().evaluate(snapshot(2_048, 64_000, 1.0, 14));
+        assert!(matches!(decision, Admission::Deferred { .. }));
+    }
+
+    #[test]
+    fn low_disk_defers_without_failure() {
+        let decision = policy().evaluate(snapshot(32_768, 4_096, 1.0, 14));
         assert!(matches!(decision, Admission::Deferred { .. }));
     }
 
     #[test]
     fn high_normalized_load_defers() {
-        let policy = ResourcePolicy {
-            min_available_memory_mb: 4_096,
-            max_load_per_cpu: 1.5,
-        };
-        let decision = policy.evaluate(snapshot(32_768, 24.0, 8));
+        let mut policy = policy();
+        policy.max_load_per_cpu = 1.5;
+        let decision = policy.evaluate(snapshot(32_768, 64_000, 24.0, 8));
         assert!(matches!(decision, Admission::Deferred { .. }));
     }
 
     #[test]
-    fn zero_thresholds_disable_both_gates() {
+    fn zero_thresholds_disable_all_gates() {
         let policy = ResourcePolicy {
             min_available_memory_mb: 0,
+            min_free_disk_mb: 0,
             max_load_per_cpu: 0.0,
         };
         assert!(matches!(
-            policy.evaluate(snapshot(1, 1_000.0, 1)),
+            policy.evaluate(snapshot(1, 1, 1_000.0, 1)),
             Admission::Admitted(_)
         ));
     }
