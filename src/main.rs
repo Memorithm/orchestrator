@@ -2290,9 +2290,9 @@ fn handle_pr_attention(
     repository: &Repository,
     item: &WorkItem,
 ) -> Result<ActionOutcome, ActionFailure> {
-    if !config.auto_merge {
+    if !config.auto_merge && !item.draft {
         println!(
-            "{}#{} is ready for attention, but ORCHESTRATOR_AUTO_MERGE is disabled.",
+            "{}#{} is already Ready; auto-merge is disabled, leaving it for manual merge.",
             item.repository, item.number
         );
         return Ok(ActionOutcome::Deferred);
@@ -2334,7 +2334,7 @@ fn handle_pr_attention(
         attested_exact_head,
     ) {
         println!(
-            "{}#{} is green but outside autonomous merge scope {} (head={}); leaving it for manual review.",
+            "{}#{} is green but outside autonomous provenance scope {} (head={}); leaving it for manual review.",
             item.repository,
             item.number,
             config.auto_merge_scope.as_str(),
@@ -2344,7 +2344,7 @@ fn handle_pr_attention(
     }
 
     println!(
-        "Revalidating exact merge candidate {}#{} head={} base={} scope={}",
+        "Revalidating exact PR candidate {}#{} head={} base={} scope={}",
         item.repository,
         item.number,
         metadata.head_sha,
@@ -2421,6 +2421,14 @@ fn handle_pr_attention(
         ));
     }
 
+    if !config.auto_merge {
+        println!(
+            "{}#{} is validated and Ready; auto-merge is disabled, leaving final merge to the operator.",
+            item.repository, item.number
+        );
+        return Ok(ActionOutcome::Progress);
+    }
+
     println!(
         "Merging {}#{} at exact validated head {}",
         item.repository, item.number, metadata.head_sha
@@ -2493,7 +2501,7 @@ fn work_revision(item: &WorkItem) -> Result<String, String> {
 fn work_item_runnable(item: &WorkItem, auto_merge: bool) -> bool {
     match item.kind {
         WorkKind::FixCi | WorkKind::Issue => true,
-        WorkKind::PullRequest => auto_merge,
+        WorkKind::PullRequest => auto_merge || item.draft,
         WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::NoChecks | WorkKind::UnknownCi => false,
     }
 }
@@ -3535,7 +3543,7 @@ mod tests {
     }
 
     #[test]
-    fn runtime_policy_skips_green_pr_when_auto_merge_is_disabled() {
+    fn runtime_policy_auto_readies_green_draft_when_merge_is_disabled() {
         let green_pr = WorkItem {
             kind: WorkKind::PullRequest,
             repository: "Memorithm/AAA".to_owned(),
@@ -3545,6 +3553,9 @@ mod tests {
             ci_state: Some(CiState::Passing),
             draft: false,
         };
+        let mut green_draft = green_pr.clone();
+        green_draft.draft = true;
+        green_draft.detail = "ci=PASSING draft".to_owned();
         let issue = WorkItem {
             kind: WorkKind::Issue,
             repository: "Memorithm/BBB".to_owned(),
@@ -3557,6 +3568,8 @@ mod tests {
 
         assert!(!work_item_runnable(&green_pr, false));
         assert!(work_item_runnable(&green_pr, true));
+        assert!(work_item_runnable(&green_draft, false));
+        assert!(work_item_runnable(&green_draft, true));
         assert!(work_item_runnable(&issue, false));
     }
 

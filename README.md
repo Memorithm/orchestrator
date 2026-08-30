@@ -37,7 +37,7 @@ Open PRs whose author does not match the currently authenticated GitHub account 
 
 ### PR lifecycle doctrine
 
-Autonomous coding is PR-only. Every coding change is either a repair pushed to an already-open trusted PR or a new issue slice published on its own branch and tracked by a PR; autonomous coding never lands directly on a repository default branch. A repository may start another issue slice while trusted PRs remain open only when **every** such PR has definitively `PASSING` CI. `FAILED` CI is repaired first. `PENDING`, `NO_CHECKS`, `UNKNOWN`, and external/untrusted PRs block the next slice. With auto-merge enabled, a trusted passing PR has higher scheduler priority than new issue work and is exact-head revalidated before merge; with auto-merge disabled, a trusted passing PR remains tracked but does not block the next reviewable slice.
+Autonomous coding is PR-only. Every coding change is either a repair pushed to an already-open trusted PR or a new issue slice published on its own branch and tracked by a PR; autonomous coding never lands directly on a repository default branch. A repository may start another issue slice while trusted PRs remain open only when **every** such PR has definitively `PASSING` CI. `FAILED` CI is repaired first. `PENDING`, `NO_CHECKS`, `UNKNOWN`, and external/untrusted PRs block the next slice. With auto-merge enabled, a trusted passing PR has higher scheduler priority than new issue work and is exact-head revalidated before merge; with auto-merge disabled, a trusted passing Orchestrator-owned draft is exact-head revalidated and marked Ready but never merged; an already-Ready green PR remains tracked and does not block the next reviewable slice.
 
 The same gate is re-checked immediately before an issue branch is pushed. If the gate closes while the local agent is coding, Orchestrator persists a `Prepared` publication transaction and defers the push until the repository is green again. Autonomous commits always use `ZEKRITI Tarek <194770978+CHECKUPAUTO@users.noreply.github.com>` for both author and committer and never add `Co-authored-by:` trailers.
 
@@ -49,7 +49,7 @@ The same gate is re-checked immediately before an issue branch is pushed. If the
 
 For a failing trusted PR, Orchestrator checks out the existing PR branch, launches the local coding worker, validates the resulting working tree, commits, and pushes without force.
 
-For an issue, Orchestrator creates a dedicated branch from the repository default branch, asks the agent for one small reviewable slice, validates it, commits, pushes, and opens a draft PR. The PR deliberately does not auto-close broad research issues.
+For an issue, Orchestrator creates a dedicated branch from the repository default branch, asks the agent for one small reviewable slice, validates it, commits, pushes, and opens a draft PR. The PR deliberately does not auto-close broad research issues. Once that draft has definitive passing CI, Orchestrator may exact-head revalidate it and mark it Ready even when auto-merge is disabled; it still never merges in that mode.
 
 For a trusted green PR, optional automatic merge is available through `ORCHESTRATOR_AUTO_MERGE=1`. The merge uses the observed PR head SHA, revalidates canonical authorship across the PR commit range, uses rebase merge to preserve commit authorship, and does not use admin bypass or force push.
 
