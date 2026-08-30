@@ -98,6 +98,7 @@ ORCHESTRATOR_INTERVAL_SECS=180
 ORCHESTRATOR_AUTO_MERGE=0
 ORCHESTRATOR_FULL_VALIDATION=0
 ORCHESTRATOR_MIN_AVAILABLE_MEMORY_MB=4096
+ORCHESTRATOR_MIN_FREE_DISK_MB=8192
 ORCHESTRATOR_MAX_LOAD_PER_CPU=2.0
 ORCHESTRATOR_MAX_CYCLES=0
 ORCHESTRATOR_DATA_ROOT=~/.local/share/memorithm-orchestrator
@@ -105,7 +106,7 @@ ORCHESTRATOR_DATA_ROOT=~/.local/share/memorithm-orchestrator
 
 `ORCHESTRATOR_MAX_CYCLES=0` means unlimited cycles.
 
-Before executing a selected work item, the Linux runtime samples `MemAvailable` and the one-minute load average. By default it defers work when less than 4096 MiB is available or when load exceeds 2.0 per available CPU. A resource deferral is not a research failure and therefore does not increase the failure/quarantine count. Set either resource threshold to `0` to disable that gate.
+Before executing a selected work item, the Linux runtime samples `MemAvailable`, free space on the filesystem containing `ORCHESTRATOR_DATA_ROOT`, and the one-minute load average. By default it defers work when less than 4096 MiB of memory is available, less than 8192 MiB of data-root disk space is free, or load exceeds 2.0 per available CPU. A resource deferral is not a research failure and therefore does not increase the failure/quarantine count. Set any resource threshold to `0` to disable that gate.
 
 The autonomous runner rejects any `ORCHESTRATOR_MODEL` that is not an installed `ollama/...` model.
 

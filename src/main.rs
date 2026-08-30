@@ -43,6 +43,10 @@ const TOOLS: &[Tool] = &[
         required: true,
     },
     Tool {
+        name: "stat",
+        required: true,
+    },
+    Tool {
         name: "codex",
         required: false,
     },
@@ -2377,12 +2381,14 @@ fn execute_item(
     println!("reference  : #{}", item.number);
     println!("title      : {}", item.title);
 
-    let resources = resource::sample_linux().classified(state::FailureClass::Infrastructure)?;
+    let resources = resource::sample_linux(&config.data_root)
+        .classified(state::FailureClass::Infrastructure)?;
     match config.resource_policy.evaluate(resources) {
         resource::Admission::Admitted(snapshot) => {
             println!(
-                "resource gate: ADMITTED memory={}MiB load1={:.2} load/cpu={:.2} cpus={}",
+                "resource gate: ADMITTED memory={}MiB disk={}MiB load1={:.2} load/cpu={:.2} cpus={}",
                 snapshot.available_memory_mb,
+                snapshot.free_disk_mb,
                 snapshot.load_one,
                 snapshot.load_per_cpu(),
                 snapshot.cpu_count
@@ -2390,8 +2396,9 @@ fn execute_item(
         }
         resource::Admission::Deferred { snapshot, reason } => {
             println!(
-                "resource gate: DEFERRED memory={}MiB load1={:.2} load/cpu={:.2} cpus={} reason={reason}",
+                "resource gate: DEFERRED memory={}MiB disk={}MiB load1={:.2} load/cpu={:.2} cpus={} reason={reason}",
                 snapshot.available_memory_mb,
+                snapshot.free_disk_mb,
                 snapshot.load_one,
                 snapshot.load_per_cpu(),
                 snapshot.cpu_count
@@ -2470,6 +2477,10 @@ fn run_loop(config: RunConfig) -> ExitCode {
     println!(
         "resource memory  : >= {} MiB available",
         config.resource_policy.min_available_memory_mb
+    );
+    println!(
+        "resource disk    : >= {} MiB free in data root",
+        config.resource_policy.min_free_disk_mb
     );
     println!(
         "resource load    : <= {:.2} per CPU",
