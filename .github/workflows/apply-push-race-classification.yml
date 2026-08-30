@@ -1,0 +1,71 @@
+name: validate push-race classification
+
+on:
+  push:
+    branches:
+      - fix/push-race-classification
+
+permissions:
+  contents: write
+
+concurrency:
+  group: validate-push-race-classification
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/push-race-classification
+          fetch-depth: 0
+      - name: Apply deterministic patch
+        run: python3 tools/apply_push_race_classification.py
+      - name: Validate shell syntax
+        run: |
+          bash -n scripts/git
+          bash -n scripts/selftest-runtime.sh
+          bash -n scripts/opencode
+          bash -n scripts/selftest-opencode-reaping.sh
+      - name: Runtime bridge selftest
+        run: bash scripts/selftest-runtime.sh
+      - name: General agent watchdog selftest
+        run: bash scripts/selftest-opencode-watchdog.sh
+      - name: Agent process reaping selftest
+        run: bash scripts/selftest-opencode-reaping.sh
+      - name: Install process sandbox dependency
+        run: |
+          if ! command -v bwrap >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y bubblewrap
+          fi
+      - name: Agent process sandbox selftest
+        run: sudo bash scripts/selftest-agent-sandbox.sh
+      - name: Rust validation
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt clippy
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+          git diff --check
+      - name: Product scope
+        run: |
+          changed="$(git diff --name-only | sort)"
+          expected="$(printf '%s\n' scripts/git scripts/selftest-runtime.sh | sort)"
+          test "$changed" = "$expected"
+      - name: Publish product commit
+        run: |
+          rm tools/apply_push_race_classification.py .github/workflows/apply-push-race-classification.yml
+          git fetch origin main
+          final_changed="$(git diff --name-only origin/main | sort)"
+          expected="$(printf '%s\n' scripts/git scripts/selftest-runtime.sh | sort)"
+          test "$final_changed" = "$expected"
+          git config user.name MEMOPERF
+          git config user.email contact@checkupauto.fr
+          git add -A
+          git commit -m "fix(runtime): narrow push-race recovery signatures"
+          git push origin HEAD:fix/push-race-classification
