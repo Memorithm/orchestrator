@@ -19,6 +19,7 @@ orchestrator health
 orchestrator status
 orchestrator scan [organization]
 orchestrator triage [organization]
+orchestrator preflight [organization]
 orchestrator run [organization]
 orchestrator run-once [organization]
 ```
@@ -33,6 +34,8 @@ orchestrator run-once [organization]
 4. pending CI and unknown CI states are non-actionable.
 
 Open PRs whose author does not match the currently authenticated GitHub account are classified `EXTERNAL_PR`: they block new issue work in that repository but are never repaired or merged automatically.
+
+`preflight` acquires the exclusive Orchestrator instance lock, validates the local tool/model/sandbox runtime, inspects persistent state and host resource admission, performs live read-only GitHub triage, and previews the runtime scheduler without recovering interrupted leases, launching an agent, or mutating a managed repository.
 
 `run` continuously repeats triage and executes one actionable unit per cycle.
 
