@@ -14,6 +14,16 @@ cat >"$BIN/ollama" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ "$*" == *"WATCHDOG_STDIN_SECRET"* ]]; then
+  printf 'prompt secret leaked into fake ollama argv\n' >&2
+  exit 91
+fi
+stdin_payload="$(cat)"
+if [[ "$stdin_payload" != *"WATCHDOG_STDIN_SECRET"* ]]; then
+  printf 'prompt secret missing from fake ollama stdin\n' >&2
+  exit 92
+fi
+
 if [[ "${FAKE_AGENT_EDIT:-0}" == "1" ]]; then
   printf 'changed\n' >> "${FAKE_AGENT_EDIT_FILE:?}"
 fi
@@ -56,10 +66,11 @@ export ORCHESTRATOR_BACKEND_ERROR_MAX=3
 
 prompt='Repository: Memorithm/test
 Task: ISSUE
-Title: watchdog selftest'
+Title: watchdog selftest
+Marker: WATCHDOG_STDIN_SECRET'
 
 set +e
-FAKE_AGENT_EDIT=0 bash "$ROOT/scripts/opencode" run --auto --model ollama/qwen3.8:latest "$prompt" >/tmp/orchestrator-watchdog-no-edit.log 2>&1
+printf '%s' "$prompt" | FAKE_AGENT_EDIT=0 bash "$ROOT/scripts/opencode" run --auto --model ollama/qwen3.8:latest >/tmp/orchestrator-watchdog-no-edit.log 2>&1
 status=$?
 set -e
 if [[ "$status" -ne 124 ]]; then
@@ -73,8 +84,8 @@ if ! "$REAL_GIT_BIN" diff --quiet -- .; then
 fi
 
 set +e
-FAKE_AGENT_EDIT=1 FAKE_AGENT_EDIT_FILE="$REPO/tracked.txt" \
-  bash "$ROOT/scripts/opencode" run --auto --model ollama/qwen3.8:latest "$prompt" >/tmp/orchestrator-watchdog-edit.log 2>&1
+printf '%s' "$prompt" | FAKE_AGENT_EDIT=1 FAKE_AGENT_EDIT_FILE="$REPO/tracked.txt" \
+  bash "$ROOT/scripts/opencode" run --auto --model ollama/qwen3.8:latest >/tmp/orchestrator-watchdog-edit.log 2>&1
 status=$?
 set -e
 if [[ "$status" -ne 0 ]]; then

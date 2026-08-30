@@ -3,7 +3,7 @@ use std::env;
 use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
-use std::process::{Command, ExitCode};
+use std::process::{Command, ExitCode, Stdio};
 use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
@@ -1433,20 +1433,37 @@ fn run_agent(config: &RunConfig, workspace: &Path, prompt: &str) -> Result<(), A
     println!("workspace: {}", workspace.display());
     println!();
 
-    let status = Command::new("opencode")
+    let mut child = Command::new("opencode")
         .current_dir(workspace)
         .env("OPENCODE_CONFIG_CONTENT", OPENCODE_INLINE_CONFIG)
         .env("OPENCODE_DISABLE_AUTOUPDATE", "1")
         .args(["run", "--auto", "--model"])
         .arg(&config.model)
-        .arg(prompt)
-        .status()
+        .stdin(Stdio::piped())
+        .spawn()
         .map_err(|error| {
             ActionFailure::new(
                 state::FailureClass::Infrastructure,
                 format!("failed to execute opencode: {error}"),
             )
         })?;
+
+    let write_error = match child.stdin.take() {
+        Some(mut stdin) => stdin.write_all(prompt.as_bytes()).err(),
+        None => Some(std::io::Error::other("opencode stdin pipe unavailable")),
+    };
+    let status = child.wait().map_err(|error| {
+        ActionFailure::new(
+            state::FailureClass::Infrastructure,
+            format!("failed to wait for opencode: {error}"),
+        )
+    })?;
+    if let Some(error) = write_error {
+        return Err(ActionFailure::new(
+            state::FailureClass::Infrastructure,
+            format!("failed to stream prompt to opencode stdin: {error}; child status {status}"),
+        ));
+    }
     if status.success() {
         Ok(())
     } else {
