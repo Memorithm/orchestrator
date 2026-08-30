@@ -19,6 +19,11 @@ struct WorkCounts {
     cooldown: usize,
     quarantine: usize,
     in_progress: usize,
+    progress: usize,
+    no_progress: usize,
+    deferred: usize,
+    failure: usize,
+    unknown_outcome: usize,
     corrupt: usize,
 }
 
@@ -49,6 +54,10 @@ pub(crate) fn inspect(data_root: &Path, now: u64) -> HealthReport {
     lines.push(format!(
         "work items       : total={} ready={} cooldown={} quarantine={} in_progress={} corrupt={}",
         work.total, work.ready, work.cooldown, work.quarantine, work.in_progress, work.corrupt
+    ));
+    lines.push(format!(
+        "last outcomes    : progress={} no_progress={} deferred={} failure={} unknown={}",
+        work.progress, work.no_progress, work.deferred, work.failure, work.unknown_outcome
     ));
 
     let (publications, publication_degraded) =
@@ -157,12 +166,12 @@ fn inspect_work_items(root: &Path, now: u64) -> (WorkCounts, bool) {
         ..WorkCounts::default()
     };
     for path in files {
-        match parse_key_value_state(&path, &["v1", "v2", "v3", "v4"]) {
+        match parse_key_value_state(&path, &["v1", "v2", "v3", "v4", "v5"]) {
             Ok(fields) => {
                 let next = numeric_field(&fields, "next_eligible_at");
                 let quarantine = numeric_field(&fields, "quarantine_until");
                 let in_progress = numeric_field(&fields, "in_progress_since");
-                match (next, quarantine, in_progress) {
+                let schedule_valid = match (next, quarantine, in_progress) {
                     (Ok(next), Ok(quarantine), Ok(in_progress)) => {
                         if in_progress != 0 {
                             counts.in_progress += 1;
@@ -173,8 +182,22 @@ fn inspect_work_items(root: &Path, now: u64) -> (WorkCounts, bool) {
                         } else {
                             counts.ready += 1;
                         }
+                        true
                     }
-                    _ => counts.corrupt += 1,
+                    _ => false,
+                };
+                if !schedule_valid {
+                    counts.corrupt += 1;
+                    continue;
+                }
+
+                match fields.get("last_outcome").map(String::as_str) {
+                    Some("success") => counts.progress += 1,
+                    Some("no_progress") => counts.no_progress += 1,
+                    Some("deferred") => counts.deferred += 1,
+                    Some("failure") => counts.failure += 1,
+                    Some("none") | None => counts.unknown_outcome += 1,
+                    Some(_) => counts.corrupt += 1,
                 }
             }
             Err(_) => counts.corrupt += 1,
@@ -343,6 +366,34 @@ mod tests {
         assert!(!report.degraded);
         assert!(report.text.contains(
             "work items       : total=4 ready=1 cooldown=1 quarantine=1 in_progress=1 corrupt=0"
+        ));
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn explicit_action_outcomes_are_reported_offline() {
+        let root = temp_root("outcomes");
+        let state_root = root.join("state/work-items/Memorithm__ADA");
+        fs::create_dir_all(&state_root).unwrap();
+        let write = |name: &str, outcome: &str| {
+            fs::write(
+                state_root.join(name),
+                format!(
+                    "v5\nrevision=issue-v1\ntotal_attempts=1\nconsecutive_failures=0\nlast_attempt_at=50\nnext_eligible_at=0\nquarantine_until=0\nin_progress_since=0\nlast_outcome={outcome}\nlast_failure_class=none\n"
+                ),
+            )
+            .unwrap();
+        };
+        write("ISSUE-1.state", "success");
+        write("ISSUE-2.state", "no_progress");
+        write("ISSUE-3.state", "deferred");
+        write("ISSUE-4.state", "failure");
+        write("ISSUE-5.state", "none");
+
+        let report = inspect(&root, 100);
+        assert!(!report.degraded);
+        assert!(report.text.contains(
+            "last outcomes    : progress=1 no_progress=1 deferred=1 failure=1 unknown=1"
         ));
         let _ = fs::remove_dir_all(root);
     }

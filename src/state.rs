@@ -2,8 +2,8 @@ use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
-const STATE_VERSION: &str = "v4";
-const LEGACY_STATE_VERSIONS: &[&str] = &["v1", "v2", "v3"];
+const STATE_VERSION: &str = "v5";
+const LEGACY_STATE_VERSIONS: &[&str] = &["v1", "v2", "v3", "v4"];
 #[cfg(test)]
 const LEGACY_REVISION: &str = "legacy";
 
@@ -44,13 +44,17 @@ impl WorkKey {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum AttemptOutcome {
     Success,
+    NoProgress,
+    Deferred,
     Failure,
 }
 
 impl AttemptOutcome {
-    const fn as_str(self) -> &'static str {
+    pub(crate) const fn as_str(self) -> &'static str {
         match self {
             Self::Success => "success",
+            Self::NoProgress => "no_progress",
+            Self::Deferred => "deferred",
             Self::Failure => "failure",
         }
     }
@@ -59,6 +63,8 @@ impl AttemptOutcome {
         match value {
             "" | "none" => Ok(None),
             "success" => Ok(Some(Self::Success)),
+            "no_progress" => Ok(Some(Self::NoProgress)),
+            "deferred" => Ok(Some(Self::Deferred)),
             "failure" => Ok(Some(Self::Failure)),
             other => Err(format!("unknown attempt outcome: {other}")),
         }
@@ -155,6 +161,12 @@ impl RetryPolicy {
         self.failure_base_cooldown_secs
             .saturating_mul(multiplier)
             .min(self.failure_max_cooldown_secs)
+    }
+
+    pub(crate) fn no_progress_cooldown(self) -> u64 {
+        self.success_cooldown_secs
+            .saturating_mul(4)
+            .max(self.transient_failure_cooldown_secs)
     }
 }
 
@@ -264,10 +276,15 @@ impl AttemptStore {
         now: u64,
     ) -> Result<AttemptState, String> {
         match outcome {
-            AttemptOutcome::Success => {
+            AttemptOutcome::Success | AttemptOutcome::NoProgress | AttemptOutcome::Deferred => {
                 let mut state = self.load_for_revision(key, revision)?;
                 state.in_progress_since = 0;
-                self.apply_success(&mut state, now);
+                match outcome {
+                    AttemptOutcome::Success => self.apply_success(&mut state, now),
+                    AttemptOutcome::NoProgress => self.apply_no_progress(&mut state, now),
+                    AttemptOutcome::Deferred => self.apply_deferred(&mut state, now),
+                    AttemptOutcome::Failure => unreachable!(),
+                }
                 self.save(key, &state)?;
                 Ok(state)
             }
@@ -299,6 +316,24 @@ impl AttemptStore {
         state.consecutive_failures = 0;
         state.quarantine_until = 0;
         state.next_eligible_at = now.saturating_add(self.policy.success_cooldown_secs);
+    }
+
+    fn apply_no_progress(&self, state: &mut AttemptState, now: u64) {
+        state.total_attempts = state.total_attempts.saturating_add(1);
+        state.last_attempt_at = now;
+        state.last_outcome = Some(AttemptOutcome::NoProgress);
+        state.last_failure_class = None;
+        state.consecutive_failures = 0;
+        state.quarantine_until = 0;
+        state.next_eligible_at = now.saturating_add(self.policy.no_progress_cooldown());
+    }
+
+    fn apply_deferred(&self, state: &mut AttemptState, now: u64) {
+        state.total_attempts = state.total_attempts.saturating_add(1);
+        state.last_attempt_at = now;
+        state.last_outcome = Some(AttemptOutcome::Deferred);
+        state.last_failure_class = None;
+        state.next_eligible_at = now.saturating_add(self.policy.transient_failure_cooldown_secs);
     }
 
     fn apply_failure(&self, state: &mut AttemptState, class: FailureClass, now: u64) {
@@ -395,7 +430,7 @@ fn parse_state(contents: &str) -> Result<AttemptState, String> {
     }
     let legacy_v1 = version == "v1";
     let legacy_revision = matches!(version, "v1" | "v2");
-    let legacy_failure_class = version != STATE_VERSION;
+    let legacy_failure_class = matches!(version, "v1" | "v2" | "v3");
 
     let mut state = AttemptState::default();
     let mut seen = std::collections::BTreeSet::new();
@@ -600,7 +635,7 @@ mod tests {
         assert_eq!(loaded.in_progress_since, 0);
         store.record(&key, AttemptOutcome::Success, 200).unwrap();
         let rewritten = fs::read_to_string(path).unwrap();
-        assert!(rewritten.starts_with("v4\nrevision=legacy\n"));
+        assert!(rewritten.starts_with("v5\nrevision=legacy\n"));
         assert!(rewritten.contains("in_progress_since=0\n"));
 
         let _ = fs::remove_dir_all(root);
@@ -656,7 +691,71 @@ mod tests {
             .record_for_revision(&key, "head-a", AttemptOutcome::Success, 200)
             .unwrap();
         let rewritten = fs::read_to_string(path).unwrap();
-        assert!(rewritten.starts_with("v4\nrevision=head-a\n"));
+        assert!(rewritten.starts_with("v5\nrevision=head-a\n"));
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn no_progress_is_distinct_and_uses_long_rotation_cooldown() {
+        let root = temporary_root("no-progress");
+        let store = AttemptStore::new(root.clone(), test_policy());
+        let key = WorkKey::new("Memorithm/ADA", "ISSUE", 7);
+
+        store
+            .record_failure_for_revision(&key, "issue-v1", FailureClass::Validation, 100)
+            .unwrap();
+        let state = store
+            .record_for_revision(&key, "issue-v1", AttemptOutcome::NoProgress, 200)
+            .unwrap();
+        assert_eq!(state.last_outcome, Some(AttemptOutcome::NoProgress));
+        assert_eq!(state.last_failure_class, None);
+        assert_eq!(state.consecutive_failures, 0);
+        assert_eq!(state.quarantine_until, 0);
+        assert_eq!(state.next_eligible_at, 320);
+        assert!(!state.is_eligible(319));
+        assert!(state.is_eligible(320));
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn deferred_uses_transient_rotation_without_counting_a_failure() {
+        let root = temporary_root("deferred");
+        let store = AttemptStore::new(root.clone(), test_policy());
+        let key = WorkKey::new("Memorithm/FLAT-ATTENTION", "PR_ATTENTION", 132);
+
+        let state = store
+            .record_for_revision(&key, "head-a", AttemptOutcome::Deferred, 100)
+            .unwrap();
+        assert_eq!(state.last_outcome, Some(AttemptOutcome::Deferred));
+        assert_eq!(state.last_failure_class, None);
+        assert_eq!(state.consecutive_failures, 0);
+        assert_eq!(state.next_eligible_at, 105);
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn v4_state_migrates_to_v5_with_existing_failure_class() {
+        let root = temporary_root("v4-outcome");
+        let key = WorkKey::new("Memorithm/scirust", "FIX_CI", 1338);
+        let path = key.state_path(&root);
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(
+            &path,
+            "v4\nrevision=head-a\ntotal_attempts=2\nconsecutive_failures=1\nlast_attempt_at=100\nnext_eligible_at=110\nquarantine_until=0\nin_progress_since=0\nlast_outcome=failure\nlast_failure_class=validation\n",
+        )
+        .unwrap();
+        let store = AttemptStore::new(root.clone(), test_policy());
+        let loaded = store.load_for_revision(&key, "head-a").unwrap();
+        assert_eq!(loaded.last_failure_class, Some(FailureClass::Validation));
+        store
+            .record_for_revision(&key, "head-a", AttemptOutcome::NoProgress, 200)
+            .unwrap();
+        let rewritten = fs::read_to_string(path).unwrap();
+        assert!(rewritten.starts_with("v5\nrevision=head-a\n"));
+        assert!(rewritten.contains("last_outcome=no_progress\n"));
 
         let _ = fs::remove_dir_all(root);
     }
@@ -705,7 +804,7 @@ mod tests {
             .record_for_revision(&key, "head-a", AttemptOutcome::Success, 200)
             .unwrap();
         let rewritten = fs::read_to_string(path).unwrap();
-        assert!(rewritten.starts_with("v4\nrevision=head-a\n"));
+        assert!(rewritten.starts_with("v5\nrevision=head-a\n"));
         assert!(rewritten.contains("last_failure_class=none\n"));
         let _ = fs::remove_dir_all(root);
     }
