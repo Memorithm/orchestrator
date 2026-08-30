@@ -107,12 +107,27 @@ print(json.dumps(permission, separators=(",", ":")))
 PY
 } )" || exit 1
 
+# The autonomous Rust parent uses one strict argv shape and transports the
+# entire task prompt over stdin. This keeps issue bodies, CI evidence, and
+# reproduced failures out of /proc/*/cmdline and avoids temporary prompt files.
+if [[ "$#" -ne 4 || "${1:-}" != "run" || "${2:-}" != "--auto" || "${3:-}" != "--model" ]]; then
+  printf 'orchestrator opencode wrapper: unsupported autonomous argv shape; prompt must arrive on stdin\n' >&2
+  exit 2
+fi
+if [[ -t 0 ]]; then
+  printf 'orchestrator opencode wrapper: refusing TTY stdin; autonomous prompt must be piped\n' >&2
+  exit 2
+fi
+agent_prompt="$(cat)"
+if [[ -z "$agent_prompt" ]]; then
+  printf 'orchestrator opencode wrapper: empty autonomous prompt on stdin\n' >&2
+  exit 2
+fi
 args=("$@")
-last_index=$((${#args[@]} - 1))
 is_ci_fix=0
-if (( last_index >= 0 )) && [[ "${args[$last_index]}" == *"Task: FIX_CI"* ]]; then
+if [[ "$agent_prompt" == *"Task: FIX_CI"* ]]; then
   is_ci_fix=1
-  args[$last_index]="${args[$last_index]}
+  agent_prompt="${agent_prompt}
 
 CI repair hard requirement:
 - A reproduced local compiler/lint/test failure supplied by Orchestrator is authoritative evidence for this repair pass.
@@ -122,7 +137,7 @@ CI repair hard requirement:
 - Preserve any deterministic repair already left in the working tree.
 - Continue until the reproduced local CI gates pass, or leave the narrowest safe partial fix with a precise blocker."
 else
-  args[$last_index]="${args[$last_index]}
+  agent_prompt="${agent_prompt}
 
 AUTONOMOUS WORK BUDGET:
 - This headless attempt has a hard budget of ${general_max_tools} tool actions and ${general_max_secs} seconds total runtime.
@@ -157,7 +172,7 @@ diff_signature() {
 
 append_local_failure() {
   local failure_log="$1"
-  args[$last_index]="${args[$last_index]}
+  agent_prompt="${agent_prompt}
 
 Orchestrator reproduced the next failing local Rust CI gate. The failure below is authoritative. Do not query GitHub or inspect Git history. Inspect only the current files directly implicated by the error, make the narrowest correction, then run the CI-matched validation commands.
 
@@ -245,6 +260,7 @@ start_agent() {
   OPENCODE_DISABLE_CLAUDE_CODE=1 \
   setsid ollama launch opencode --model "$effective_model_id" -- \
     --pure --print-logs --log-level INFO "${args[@]}" \
+    < <(printf '%s' "$agent_prompt") \
     > >(tee -a "$log_file") 2>&1 &
   AGENT_PID=$!
 }
@@ -461,7 +477,7 @@ run_ci_repair_pass() {
   printf '\n===== OPENCODE SURGICAL RETRY =====\n'
   printf 'reason: primary model produced no new edit within its enforced budget\n'
   printf 'switching model: %s -> %s\n' "$model_id" "$surgical_model_id"
-  args[$last_index]="${args[$last_index]}
+  agent_prompt="${agent_prompt}
 
 SURGICAL RETRY MODE:
 - You are the local fallback repair agent because the primary model inspected the failure without editing it.
@@ -518,7 +534,7 @@ if (( is_ci_fix == 1 )) && [[ -f Cargo.toml ]]; then
   rm -f "$post_log"
 
   append_local_failure "$residual_log"
-  args[$last_index]="${args[$last_index]}
+  agent_prompt="${agent_prompt}
 
 FOLLOW-UP REPAIR MODE:
 - Your previous edits remain in the working tree.
