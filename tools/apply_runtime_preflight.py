@@ -237,23 +237,20 @@ replace_once(
 
 replace_once(
     "README.md",
-    '''cargo run -- triage Memorithm
-cargo run -- run-once Memorithm''',
-    '''cargo run -- triage Memorithm
-cargo run -- preflight Memorithm
-cargo run -- run-once Memorithm''',
+    '''orchestrator triage [organization]
+orchestrator run [organization]''',
+    '''orchestrator triage [organization]
+orchestrator preflight [organization]
+orchestrator run [organization]''',
 )
 
-readme = Path("README.md")
-text = readme.read_text()
-needle = "`triage` is read-only and never launches the local agent."
-if needle in text and "`preflight`" not in text:
-    text = text.replace(
-        needle,
-        needle + " `preflight` additionally validates the local runtime, persistent state, resource admission and scheduler preview under the exclusive instance lock without launching an agent or mutating a managed repository.",
-        1,
-    )
-readme.write_text(text)
+replace_once(
+    "README.md",
+    '''`run` continuously repeats triage and executes one actionable unit per cycle.''',
+    '''`preflight` acquires the exclusive Orchestrator instance lock, validates the local tool/model/sandbox runtime, inspects persistent state and host resource admission, performs live read-only GitHub triage, and previews the runtime scheduler without recovering interrupted leases, launching an agent, or mutating a managed repository.
+
+`run` continuously repeats triage and executes one actionable unit per cycle.''',
+)
 
 replace_once(
     "src/main.rs",
