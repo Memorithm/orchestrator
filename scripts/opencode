@@ -278,6 +278,49 @@ stop_agent_group() {
   fi
 }
 
+wait_active_agent() {
+  local pid="${AGENT_PID:-}"
+  local status
+
+  if [[ -z "$pid" ]]; then
+    return 0
+  fi
+
+  wait "$pid"
+  status=$?
+  if [[ "${AGENT_PID:-}" == "$pid" ]]; then
+    AGENT_PID=""
+  fi
+  return "$status"
+}
+
+cleanup_active_agent() {
+  local pid="${AGENT_PID:-}"
+
+  if [[ -z "$pid" ]]; then
+    return 0
+  fi
+  if kill -0 "$pid" 2>/dev/null; then
+    stop_agent_group "$pid"
+  fi
+  wait "$pid" 2>/dev/null || true
+  if [[ "${AGENT_PID:-}" == "$pid" ]]; then
+    AGENT_PID=""
+  fi
+}
+
+handle_wrapper_signal() {
+  local status="$1"
+  trap - INT TERM HUP EXIT
+  cleanup_active_agent
+  exit "$status"
+}
+
+trap 'handle_wrapper_signal 130' INT
+trap 'handle_wrapper_signal 143' TERM
+trap 'handle_wrapper_signal 129' HUP
+trap 'cleanup_active_agent' EXIT
+
 fatal_backend_error_count() {
   local log_file="$1"
   grep -c 'No user query found in messages' "$log_file" 2>/dev/null || true
@@ -322,7 +365,7 @@ run_agent_with_first_edit_watchdog() {
   while kill -0 "$AGENT_PID" 2>/dev/null; do
     if trip_backend_circuit_if_needed "$log_file"; then
       stop_agent_group "$AGENT_PID"
-      wait "$AGENT_PID" 2>/dev/null || true
+      wait_active_agent 2>/dev/null || true
       current_signature="$(diff_signature)"
       rm -f "$log_file"
       if [[ "$current_signature" != "$baseline_signature" ]]; then
@@ -350,7 +393,7 @@ run_agent_with_first_edit_watchdog() {
       printf '\n===== FIRST-EDIT WATCHDOG =====\n'
       printf 'tool budget exhausted (%s/%s) without a new working-tree diff; stopping agent pass\n' "$tool_count" "$max_tools"
       stop_agent_group "$AGENT_PID"
-      wait "$AGENT_PID" 2>/dev/null || true
+      wait_active_agent 2>/dev/null || true
       rm -f "$log_file"
       return 124
     fi
@@ -362,7 +405,7 @@ run_agent_with_first_edit_watchdog() {
         printf 'post-edit idle budget exhausted (%ss without a new tool action or diff change); preserving edits and stopping agent pass\n' "$max_idle_seconds"
       fi
       stop_agent_group "$AGENT_PID"
-      wait "$AGENT_PID" 2>/dev/null || true
+      wait_active_agent 2>/dev/null || true
       rm -f "$log_file"
       if (( edited == 1 )); then
         printf 'agent stalled after editing; preserving edits for deterministic validation\n'
@@ -373,7 +416,7 @@ run_agent_with_first_edit_watchdog() {
     sleep 2
   done
 
-  wait "$AGENT_PID"
+  wait_active_agent
   status=$?
   if (( edited == 0 )) && [[ "$(diff_signature)" == "$baseline_signature" ]]; then
     rm -f "$log_file"
@@ -436,7 +479,7 @@ run_agent_with_general_watchdog() {
       printf '\n===== GENERAL AGENT WATCHDOG =====\n' >&2
       printf 'stopping agent: %s\n' "$stop_reason" >&2
       stop_agent_group "$AGENT_PID"
-      wait "$AGENT_PID" 2>/dev/null || true
+      wait_active_agent 2>/dev/null || true
       current_signature="$(diff_signature)"
       rm -f "$log_file"
       if [[ "$current_signature" != "$baseline_signature" ]]; then
@@ -448,7 +491,7 @@ run_agent_with_general_watchdog() {
     sleep 2
   done
 
-  wait "$AGENT_PID"
+  wait_active_agent
   status=$?
   rm -f "$log_file"
   return "$status"

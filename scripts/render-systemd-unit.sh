@@ -36,9 +36,10 @@ ExecStart=/usr/bin/env bash $ROOT/scripts/start.sh Memorithm
 Restart=always
 RestartSec=15
 
-# The Rust parent receives SIGINT first. Any descendant still alive after the
-# grace period is killed as part of this unit's cgroup, never by a global pkill.
-KillMode=mixed
+# Signal the entire service cgroup immediately. scripts/opencode traps the
+# signal and explicitly reaps its detached setsid Ollama/OpenCode group; the
+# final SIGKILL remains a bounded fallback rather than the normal stop path.
+KillMode=control-group
 KillSignal=SIGINT
 FinalKillSignal=SIGKILL
 SendSIGKILL=yes
