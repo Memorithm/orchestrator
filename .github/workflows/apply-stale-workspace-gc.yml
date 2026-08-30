@@ -22,7 +22,9 @@ jobs:
           fetch-depth: 0
 
       - name: Apply deterministic integration patch
-        run: python3 tools/apply_stale_workspace_gc.py
+        run: |
+          python3 tools/apply_stale_workspace_gc.py
+          python3 tools/fix_workspace_gc_fixture.py
 
       - name: Validate shell syntax
         run: |
@@ -106,7 +108,7 @@ jobs:
 
       - name: Commit validated product-only diff
         run: |
-          rm tools/apply_stale_workspace_gc.py .github/workflows/apply-stale-workspace-gc.yml
+          rm tools/apply_stale_workspace_gc.py tools/fix_workspace_gc_fixture.py .github/workflows/apply-stale-workspace-gc.yml
           git fetch origin main
           final_changed="$(git diff --name-only origin/main | sort)"
           expected="$(printf '%s\n' README.md scripts/install-systemd.sh scripts/start.sh src/main.rs src/workspace_gc.rs | sort)"
