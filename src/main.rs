@@ -979,6 +979,10 @@ fn ci_allows_merge(state: CiState) -> bool {
     state == CiState::Passing
 }
 
+fn merge_allowed_after_local_validation(was_draft: bool, ci_state: CiState) -> bool {
+    !was_draft && ci_allows_merge(ci_state)
+}
+
 fn pull_request_allows_issue_chaining(
     pull_request: &PullRequest,
     trusted_login: &str,
@@ -2403,6 +2407,30 @@ fn handle_pr_attention(
                 format!("gh pr ready failed for {}#{}", item.repository, item.number),
             ));
         }
+        println!(
+            "{}#{} was just marked ready; deferring merge so ready-for-review CI can settle.",
+            item.repository, item.number
+        );
+        return Ok(ActionOutcome::Deferred);
+    }
+
+    let fresh_ci_state = pull_request_ci_state(&PullRequest {
+        repository: item.repository.clone(),
+        number: item.number,
+        title: item.title.clone(),
+        draft: false,
+        author: trusted_login.clone(),
+    })
+    .classified(state::FailureClass::Infrastructure)?;
+    if !merge_allowed_after_local_validation(false, fresh_ci_state) {
+        println!(
+            "{}#{} CI changed from {} to {} after local validation; deferring merge.",
+            item.repository,
+            item.number,
+            ci_state.as_str(),
+            fresh_ci_state.as_str()
+        );
+        return Ok(ActionOutcome::Deferred);
     }
 
     let final_metadata = pr_merge_metadata(&item.repository, item.number)
@@ -3347,6 +3375,14 @@ mod tests {
     #[test]
     fn lifecycle_merge_requires_definitive_passing_ci() {
         assert!(ci_allows_merge(CiState::Passing));
+        assert!(merge_allowed_after_local_validation(
+            false,
+            CiState::Passing
+        ));
+        assert!(!merge_allowed_after_local_validation(
+            true,
+            CiState::Passing
+        ));
         for state in [
             CiState::Failed,
             CiState::Pending,
@@ -3354,6 +3390,7 @@ mod tests {
             CiState::Unknown,
         ] {
             assert!(!ci_allows_merge(state));
+            assert!(!merge_allowed_after_local_validation(false, state));
         }
         assert_eq!(work_kind_for_ci(CiState::NoChecks), WorkKind::NoChecks);
     }
