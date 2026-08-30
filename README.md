@@ -35,6 +35,12 @@ orchestrator run-once [organization]
 
 Open PRs whose author does not match the currently authenticated GitHub account are classified `EXTERNAL_PR`: they block new issue work in that repository but are never repaired or merged automatically.
 
+### PR lifecycle doctrine
+
+Autonomous coding is PR-only. Every coding change is either a repair pushed to an already-open trusted PR or a new issue slice published on its own branch and tracked by a PR; autonomous coding never lands directly on a repository default branch. A repository may start another issue slice while trusted PRs remain open only when **every** such PR has definitively `PASSING` CI. `FAILED` CI is repaired first. `PENDING`, `NO_CHECKS`, `UNKNOWN`, and external/untrusted PRs block the next slice. With auto-merge enabled, a trusted passing PR has higher scheduler priority than new issue work and is exact-head revalidated before merge; with auto-merge disabled, a trusted passing PR remains tracked but does not block the next reviewable slice.
+
+The same gate is re-checked immediately before an issue branch is pushed. If the gate closes while the local agent is coding, Orchestrator persists a `Prepared` publication transaction and defers the push until the repository is green again. Autonomous commits always use `ZEKRITI Tarek <194770978+CHECKUPAUTO@users.noreply.github.com>` for both author and committer and never add `Co-authored-by:` trailers.
+
 `preflight` acquires the exclusive Orchestrator instance lock, validates the local tool/model/sandbox runtime, inspects persistent state and host resource admission, performs live read-only GitHub triage, and previews the runtime scheduler without recovering interrupted leases, launching an agent, or mutating a managed repository.
 
 `run` continuously repeats triage and executes one actionable unit per cycle.

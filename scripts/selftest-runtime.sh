@@ -39,6 +39,30 @@ fi
 printf 'PASS agent-git read-only boundary\n'
 
 # ---------------------------------------------------------------------------
+# Parent Git bridge: every autonomous Git subprocess receives canonical identity.
+# ---------------------------------------------------------------------------
+cat >"$TMP_ROOT/fake-parent-git" <<'EOF'
+#!/usr/bin/env bash
+[[ "${GIT_AUTHOR_NAME:-}" == 'ZEKRITI Tarek' ]] || exit 61
+[[ "${GIT_AUTHOR_EMAIL:-}" == '194770978+CHECKUPAUTO@users.noreply.github.com' ]] || exit 62
+[[ "${GIT_COMMITTER_NAME:-}" == 'ZEKRITI Tarek' ]] || exit 63
+[[ "${GIT_COMMITTER_EMAIL:-}" == '194770978+CHECKUPAUTO@users.noreply.github.com' ]] || exit 64
+printf '%s\n' "$*" >>"${SELFTEST_PARENT_GIT_TRACE:?}"
+exit 0
+EOF
+chmod 700 "$TMP_ROOT/fake-parent-git"
+export SELFTEST_PARENT_GIT_TRACE="$TMP_ROOT/parent-git.trace"
+export ORCHESTRATOR_REAL_GIT="$TMP_ROOT/fake-parent-git"
+bash "$ROOT/scripts/git" status --short
+if ! grep -Fxq 'status --short' "$SELFTEST_PARENT_GIT_TRACE"; then
+  fail 'parent git bridge did not enforce canonical identity environment'
+fi
+printf 'PASS parent-git canonical identity\n'
+
+# Restore agent-boundary fake Git for any later checks.
+export ORCHESTRATOR_REAL_GIT="$TMP_ROOT/fake-git"
+
+# ---------------------------------------------------------------------------
 # Agent GitHub CLI: views/checks pass through; mutations and raw API are blocked.
 # ---------------------------------------------------------------------------
 cat >"$TMP_ROOT/fake-gh" <<'EOF'
