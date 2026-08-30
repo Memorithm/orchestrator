@@ -23,14 +23,25 @@ jobs:
           bash -n scripts/gh
           bash -n scripts/agent-git
           bash -n scripts/agent-gh
+          bash -n scripts/agent-ollama
+          bash -n scripts/agent-sandbox
           bash -n scripts/selftest-runtime.sh
           bash -n scripts/selftest-opencode-watchdog.sh
+          bash -n scripts/selftest-agent-sandbox.sh
           bash -n scripts/render-systemd-unit.sh
           bash -n scripts/install-systemd.sh
       - name: Runtime bridge selftest
         run: bash scripts/selftest-runtime.sh
       - name: General agent watchdog selftest
         run: bash scripts/selftest-opencode-watchdog.sh
+      - name: Install process sandbox dependency
+        run: |
+          if ! command -v bwrap >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y bubblewrap
+          fi
+      - name: Agent process sandbox selftest
+        run: sudo bash scripts/selftest-agent-sandbox.sh
       - name: Verify systemd sandbox
         run: |
           mkdir -p "$RUNNER_TEMP/orchestrator-data"
