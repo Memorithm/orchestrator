@@ -29,9 +29,9 @@ orchestrator run-once [organization]
 `triage` is read-only. Its deterministic priority is:
 
 1. failing PR CI;
-2. PRs with passing/no checks;
-3. open issues in repositories without an open PR;
-4. pending CI and unknown CI states are non-actionable.
+2. trusted PRs with definitively passing checks;
+3. open issues permitted by the repository PR gate;
+4. pending CI, no checks, unknown CI, and external PR states are non-actionable.
 
 Open PRs whose author does not match the currently authenticated GitHub account are classified `EXTERNAL_PR`: they block new issue work in that repository but are never repaired or merged automatically.
 
@@ -51,7 +51,7 @@ For a failing trusted PR, Orchestrator checks out the existing PR branch, launch
 
 For an issue, Orchestrator creates a dedicated branch from the repository default branch, asks the agent for one small reviewable slice, validates it, commits, pushes, and opens a draft PR. The PR deliberately does not auto-close broad research issues.
 
-For a trusted green PR, optional automatic merge is available through `ORCHESTRATOR_AUTO_MERGE=1`. The merge uses the observed PR head SHA, revalidates canonical authorship across the PR commit range, uses rebase merge to preserve commit authorship, and does not use admin bypass or force push.
+For a trusted green PR, optional automatic merge is available through `ORCHESTRATOR_AUTO_MERGE=1`. The merge uses the observed PR head SHA and revalidates canonical authorship across the PR commit range. Before any merge, the PR head must already contain the freshly fetched default-branch tip. If it does not, Orchestrator appends a canonical no-force base-sync merge commit, validates the integrated tree, pushes it normally, and waits for fresh CI. Immediately before the final rebase merge it also confirms that the remote base tip still equals the tip that was locally validated. Because the PR head already contains that exact base tip, the rebase replays the PR commits onto the same validated base instead of integrating against a newer unvalidated base. The final merge does not use admin bypass or force push.
 
 ## OpenCode containment
 
