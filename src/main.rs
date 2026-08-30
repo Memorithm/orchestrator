@@ -11,6 +11,7 @@ mod evidence;
 mod health;
 mod merge_policy;
 mod publication;
+mod resource;
 mod state;
 mod trajectory;
 
@@ -35,6 +36,10 @@ const TOOLS: &[Tool] = &[
     },
     Tool {
         name: "opencode",
+        required: true,
+    },
+    Tool {
+        name: "bwrap",
         required: true,
     },
     Tool {
@@ -236,6 +241,7 @@ struct RunConfig {
     auto_merge_scope: merge_policy::AutoMergeScope,
     full_validation: bool,
     max_cycles: u64,
+    resource_policy: resource::ResourcePolicy,
     retry_policy: state::RetryPolicy,
 }
 
@@ -417,6 +423,36 @@ fn check_ollama() -> bool {
         .unwrap_or(false)
 }
 
+fn check_bwrap_sandbox() -> bool {
+    Command::new("bwrap")
+        .args([
+            "--die-with-parent",
+            "--unshare-user",
+            "--uid",
+            "0",
+            "--gid",
+            "0",
+            "--unshare-pid",
+            "--unshare-ipc",
+            "--unshare-uts",
+            "--unshare-cgroup-try",
+            "--cap-drop",
+            "ALL",
+            "--ro-bind",
+            "/",
+            "/",
+            "--proc",
+            "/proc",
+            "--dev",
+            "/dev",
+            "--",
+            "true",
+        ])
+        .output()
+        .map(|output| output.status.success())
+        .unwrap_or(false)
+}
+
 fn is_local_ollama_model(model: &str) -> bool {
     model
         .strip_prefix("ollama/")
@@ -479,6 +515,12 @@ fn doctor() -> ExitCode {
         println!("OK       Ollama server reachable");
     } else {
         println!("FAILED   Ollama server unreachable");
+        failure = true;
+    }
+    if check_bwrap_sandbox() {
+        println!("OK       bubblewrap process sandbox usable");
+    } else {
+        println!("FAILED   bubblewrap process sandbox unavailable");
         failure = true;
     }
 
@@ -1147,6 +1189,7 @@ impl RunConfig {
             full_validation: env_flag("ORCHESTRATOR_FULL_VALIDATION", false),
             max_cycles: max_cycles_override
                 .unwrap_or_else(|| env_u64("ORCHESTRATOR_MAX_CYCLES", 0)),
+            resource_policy: resource::ResourcePolicy::from_env()?,
             retry_policy: state::RetryPolicy {
                 success_cooldown_secs: env_u64("ORCHESTRATOR_SUCCESS_COOLDOWN_SECS", 900),
                 failure_base_cooldown_secs: env_u64("ORCHESTRATOR_FAILURE_BASE_COOLDOWN_SECS", 300),
@@ -2334,6 +2377,29 @@ fn execute_item(
     println!("reference  : #{}", item.number);
     println!("title      : {}", item.title);
 
+    let resources = resource::sample_linux().classified(state::FailureClass::Infrastructure)?;
+    match config.resource_policy.evaluate(resources) {
+        resource::Admission::Admitted(snapshot) => {
+            println!(
+                "resource gate: ADMITTED memory={}MiB load1={:.2} load/cpu={:.2} cpus={}",
+                snapshot.available_memory_mb,
+                snapshot.load_one,
+                snapshot.load_per_cpu(),
+                snapshot.cpu_count
+            );
+        }
+        resource::Admission::Deferred { snapshot, reason } => {
+            println!(
+                "resource gate: DEFERRED memory={}MiB load1={:.2} load/cpu={:.2} cpus={} reason={reason}",
+                snapshot.available_memory_mb,
+                snapshot.load_one,
+                snapshot.load_per_cpu(),
+                snapshot.cpu_count
+            );
+            return Ok(ActionOutcome::Deferred);
+        }
+    }
+
     match item.kind {
         WorkKind::FixCi => execute_ci_fix(config, item),
         WorkKind::PullRequest => {
@@ -2400,6 +2466,14 @@ fn run_loop(config: RunConfig) -> ExitCode {
     println!(
         "no-progress wait : {}s",
         config.retry_policy.no_progress_cooldown()
+    );
+    println!(
+        "resource memory  : >= {} MiB available",
+        config.resource_policy.min_available_memory_mb
+    );
+    println!(
+        "resource load    : <= {:.2} per CPU",
+        config.resource_policy.max_load_per_cpu
     );
 
     let attempt_store = state::AttemptStore::new(

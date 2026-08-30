@@ -22,6 +22,8 @@ export ORCHESTRATOR_SURGICAL_MODEL="ollama/qwen3.8:latest"
 export ORCHESTRATOR_INTERVAL_SECS="${ORCHESTRATOR_INTERVAL_SECS:-180}"
 export ORCHESTRATOR_AUTO_MERGE="${ORCHESTRATOR_AUTO_MERGE:-0}"
 export ORCHESTRATOR_FULL_VALIDATION="${ORCHESTRATOR_FULL_VALIDATION:-0}"
+export ORCHESTRATOR_MIN_AVAILABLE_MEMORY_MB="${ORCHESTRATOR_MIN_AVAILABLE_MEMORY_MB:-4096}"
+export ORCHESTRATOR_MAX_LOAD_PER_CPU="${ORCHESTRATOR_MAX_LOAD_PER_CPU:-2.0}"
 
 ORGANIZATION="${1:-Memorithm}"
 
@@ -133,6 +135,8 @@ printf 'surgical_model=%s\n' "$ORCHESTRATOR_SURGICAL_MODEL"
 printf 'interval=%ss\n' "$ORCHESTRATOR_INTERVAL_SECS"
 printf 'auto_merge=%s\n' "$ORCHESTRATOR_AUTO_MERGE"
 printf 'full_validation=%s\n' "$ORCHESTRATOR_FULL_VALIDATION"
+printf 'min_available_memory_mb=%s\n' "$ORCHESTRATOR_MIN_AVAILABLE_MEMORY_MB"
+printf 'max_load_per_cpu=%s\n' "$ORCHESTRATOR_MAX_LOAD_PER_CPU"
 printf 'opencode_bridge=isolated-ollama-launch+runtime-permissions\n'
 printf 'cargo_bridge=ci-pinned-rustfmt\n'
 printf 'git_bridge=push-race-recovery\n'
