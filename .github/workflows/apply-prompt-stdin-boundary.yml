@@ -1,0 +1,81 @@
+name: integrate prompt stdin boundary
+
+on:
+  push:
+    branches: [research/prompt-stdin-boundary]
+    paths:
+      - tools/apply-prompt-stdin-boundary.py
+      - .github/workflows/apply-prompt-stdin-boundary.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: orchestrator-prompt-stdin-integration
+  cancel-in-progress: true
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply deterministic stdin-boundary patch
+        run: python3 tools/apply-prompt-stdin-boundary.py
+
+      - name: Validate shell syntax
+        run: |
+          bash -n scripts/opencode
+          bash -n scripts/selftest-opencode-watchdog.sh
+
+      - name: Rust toolchain
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt clippy
+
+      - name: Format integrated Rust
+        run: cargo fmt --all
+
+      - name: Install process sandbox dependency
+        run: |
+          if ! command -v bwrap >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y bubblewrap
+          fi
+
+      - name: Validate runtime safety and stdin privacy selftests
+        run: |
+          bash scripts/selftest-runtime.sh
+          bash scripts/selftest-opencode-watchdog.sh
+          sudo bash scripts/selftest-agent-sandbox.sh
+
+      - name: Validate Rust
+        run: |
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+          git diff --check
+
+      - name: Enforce integration scope
+        run: |
+          changed="$(git diff --name-only)"
+          printf '%s\n' "$changed"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/main\.rs|scripts/opencode|scripts/selftest-opencode-watchdog\.sh)$' || true)"
+          if [ -n "$unexpected" ]; then
+            printf 'unexpected integration paths:\n%s\n' "$unexpected" >&2
+            false
+          fi
+          printf '%s\n' "$changed" | grep -qx 'src/main.rs'
+          printf '%s\n' "$changed" | grep -qx 'scripts/opencode'
+          printf '%s\n' "$changed" | grep -qx 'scripts/selftest-opencode-watchdog.sh'
+
+      - name: Commit validated stdin boundary
+        run: |
+          git config user.name 'Memorithm Orchestrator Integration'
+          git config user.email 'orchestrator@localhost'
+          git add src/main.rs scripts/opencode scripts/selftest-opencode-watchdog.sh
+          git commit -m 'fix(security): keep agent prompts out of process argv'
+          git push origin HEAD:research/prompt-stdin-boundary
