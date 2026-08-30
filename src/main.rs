@@ -990,11 +990,17 @@ fn work_item_ci_state(item: &WorkItem) -> Result<CiState, String> {
 
 fn ci_fix_observation_allows_repair(
     expected_head: &str,
+    state_before_ci: &str,
     head_before_ci: &str,
     ci_state: CiState,
+    state_after_ci: &str,
     head_after_ci: &str,
 ) -> bool {
-    head_before_ci == expected_head && head_after_ci == expected_head && ci_state == CiState::Failed
+    state_before_ci.eq_ignore_ascii_case("OPEN")
+        && state_after_ci.eq_ignore_ascii_case("OPEN")
+        && head_before_ci == expected_head
+        && head_after_ci == expected_head
+        && ci_state == CiState::Failed
 }
 
 fn ci_fix_target_still_failed(
@@ -1002,20 +1008,29 @@ fn ci_fix_target_still_failed(
     expected_head: &str,
     stage: &str,
 ) -> Result<bool, String> {
-    let head_before_ci = pr_head_sha(&item.repository, item.number)?;
+    let before = live_pr_identity(&item.repository, item.number)?;
     let ci_state = work_item_ci_state(item)?;
-    let head_after_ci = pr_head_sha(&item.repository, item.number)?;
-    if ci_fix_observation_allows_repair(expected_head, &head_before_ci, ci_state, &head_after_ci) {
+    let after = live_pr_identity(&item.repository, item.number)?;
+    if ci_fix_observation_allows_repair(
+        expected_head,
+        &before.state,
+        &before.head_sha,
+        ci_state,
+        &after.state,
+        &after.head_sha,
+    ) {
         return Ok(true);
     }
     println!(
-        "CI repair {}#{} became stale at {stage}: expected head={} observed before={} CI={} observed after={}; deferring without publication.",
+        "CI repair {}#{} became stale at {stage}: expected head={} observed before={}@{} CI={} observed after={}@{}; deferring without publication.",
         item.repository,
         item.number,
         expected_head,
-        head_before_ci,
+        before.state,
+        before.head_sha,
         ci_state.as_str(),
-        head_after_ci
+        after.state,
+        after.head_sha
     );
     Ok(false)
 }
@@ -2605,9 +2620,33 @@ fn attest_repaired_pr_head(
     Ok(())
 }
 
-fn pr_head_sha(repository: &str, number: u64) -> Result<String, String> {
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct LivePullRequestIdentity {
+    state: String,
+    head_sha: String,
+    draft: bool,
+}
+
+fn parse_live_pr_identity_line(line: &str) -> Result<LivePullRequestIdentity, String> {
+    let fields = line.splitn(3, '\t').collect::<Vec<_>>();
+    if fields.len() != 3 || fields[0].trim().is_empty() || fields[1].trim().is_empty() {
+        return Err(format!("invalid live PR identity payload: {line}"));
+    }
+    let draft = match fields[2].trim() {
+        "true" => true,
+        "false" => false,
+        other => return Err(format!("invalid live PR draft flag: {other}")),
+    };
+    Ok(LivePullRequestIdentity {
+        state: fields[0].trim().to_owned(),
+        head_sha: fields[1].trim().to_owned(),
+        draft,
+    })
+}
+
+fn live_pr_identity(repository: &str, number: u64) -> Result<LivePullRequestIdentity, String> {
     let number = number.to_string();
-    capture(
+    let output = capture(
         "gh",
         &[
             "pr",
@@ -2616,11 +2655,28 @@ fn pr_head_sha(repository: &str, number: u64) -> Result<String, String> {
             "--repo",
             repository,
             "--json",
-            "headRefOid",
+            "state,headRefOid,isDraft",
             "--jq",
-            ".headRefOid",
+            r#"[.state, .headRefOid, (.isDraft | tostring)] | @tsv"#,
         ],
-    )
+    )?;
+    parse_live_pr_identity_line(&output)
+}
+
+fn pr_identity_is_open_at_head(identity: &LivePullRequestIdentity, expected_head: &str) -> bool {
+    identity.state.eq_ignore_ascii_case("OPEN") && identity.head_sha == expected_head
+}
+
+fn pr_identity_matches_merge_snapshot(
+    identity: &LivePullRequestIdentity,
+    expected_head: &str,
+    expected_draft: bool,
+) -> bool {
+    pr_identity_is_open_at_head(identity, expected_head) && identity.draft == expected_draft
+}
+
+fn pr_head_sha(repository: &str, number: u64) -> Result<String, String> {
+    live_pr_identity(repository, number).map(|identity| identity.head_sha)
 }
 
 fn handle_pr_attention(
@@ -2662,6 +2718,21 @@ fn handle_pr_attention(
     metadata
         .validate_static(&trusted_login, default_branch)
         .classified(state::FailureClass::Validation)?;
+    let initial_identity = live_pr_identity(&item.repository, item.number)
+        .classified(state::FailureClass::Infrastructure)?;
+    if !pr_identity_matches_merge_snapshot(&initial_identity, &metadata.head_sha, item.draft) {
+        println!(
+            "{}#{} live PR identity changed before merge validation: state={} head={} draft={} expected head={} draft={}; deferring.",
+            item.repository,
+            item.number,
+            initial_identity.state,
+            initial_identity.head_sha,
+            initial_identity.draft,
+            metadata.head_sha,
+            item.draft
+        );
+        return Ok(ActionOutcome::Deferred);
+    }
 
     let attested_exact_head = merge_attestation_store(config)
         .matches_head(&item.repository, item.number, &metadata.head_sha)
@@ -2733,6 +2804,19 @@ fn handle_pr_attention(
                         ),
                     ));
                 }
+                let before_push_identity = live_pr_identity(&item.repository, item.number)
+                    .classified(state::FailureClass::Infrastructure)?;
+                if !pr_identity_matches_merge_snapshot(
+                    &before_push_identity,
+                    &metadata.head_sha,
+                    item.draft,
+                ) {
+                    println!(
+                        "{}#{} closed or changed draft/head before base-sync push; deferring without push.",
+                        item.repository, item.number
+                    );
+                    return Ok(ActionOutcome::Deferred);
+                }
                 let refspec = format!("HEAD:refs/heads/{}", metadata.head_branch);
                 run_in_dir(&workspace, "git", &["push", "origin", refspec.as_str()])
                     .classified(state::FailureClass::Publication)?;
@@ -2785,6 +2869,20 @@ fn handle_pr_attention(
                 "PR metadata changed during local validation: before={metadata:?} after={after_validation:?}"
             ),
         ));
+    }
+
+    let post_validation_identity = live_pr_identity(&item.repository, item.number)
+        .classified(state::FailureClass::Infrastructure)?;
+    if !pr_identity_matches_merge_snapshot(
+        &post_validation_identity,
+        &metadata.head_sha,
+        item.draft,
+    ) {
+        println!(
+            "{}#{} live state/draft/head changed during validation; deferring.",
+            item.repository, item.number
+        );
+        return Ok(ActionOutcome::Deferred);
     }
 
     let number = item.number.to_string();
@@ -2851,6 +2949,16 @@ fn handle_pr_attention(
                 "PR changed after validation and before merge: validated={metadata:?} final={final_metadata:?}"
             ),
         ));
+    }
+
+    let final_identity = live_pr_identity(&item.repository, item.number)
+        .classified(state::FailureClass::Infrastructure)?;
+    if !pr_identity_matches_merge_snapshot(&final_identity, &metadata.head_sha, false) {
+        println!(
+            "{}#{} is no longer an open ready PR at validated head {}; deferring merge.",
+            item.repository, item.number, metadata.head_sha
+        );
+        return Ok(ActionOutcome::Deferred);
     }
 
     let live_base_sha = remote_branch_head_sha(&workspace, default_branch)
@@ -3855,12 +3963,14 @@ mod tests {
     }
 
     #[test]
-    fn ci_repair_requires_same_head_and_current_failure() {
+    fn ci_repair_requires_same_open_head_and_current_failure() {
         let head = "0123456789abcdef0123456789abcdef01234567";
         assert!(ci_fix_observation_allows_repair(
             head,
+            "OPEN",
             head,
             CiState::Failed,
+            "OPEN",
             head
         ));
         for state in [
@@ -3869,20 +3979,50 @@ mod tests {
             CiState::NoChecks,
             CiState::Unknown,
         ] {
-            assert!(!ci_fix_observation_allows_repair(head, head, state, head));
+            assert!(!ci_fix_observation_allows_repair(
+                head, "OPEN", head, state, "OPEN", head
+            ));
         }
         assert!(!ci_fix_observation_allows_repair(
             head,
-            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "CLOSED",
+            head,
             CiState::Failed,
+            "CLOSED",
             head
         ));
         assert!(!ci_fix_observation_allows_repair(
             head,
+            "OPEN",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            CiState::Failed,
+            "OPEN",
+            head
+        ));
+        assert!(!ci_fix_observation_allows_repair(
+            head,
+            "OPEN",
             head,
             CiState::Failed,
+            "OPEN",
             "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
         ));
+    }
+
+    #[test]
+    fn live_pr_identity_parser_and_merge_guard_are_fail_closed() {
+        let head = "0123456789abcdef0123456789abcdef01234567";
+        let ready = parse_live_pr_identity_line(&format!("OPEN\t{head}\tfalse")).unwrap();
+        assert!(pr_identity_matches_merge_snapshot(&ready, head, false));
+        assert!(!pr_identity_matches_merge_snapshot(&ready, head, true));
+
+        let draft = parse_live_pr_identity_line(&format!("OPEN\t{head}\ttrue")).unwrap();
+        assert!(pr_identity_matches_merge_snapshot(&draft, head, true));
+
+        let closed = parse_live_pr_identity_line(&format!("CLOSED\t{head}\tfalse")).unwrap();
+        assert!(!pr_identity_matches_merge_snapshot(&closed, head, false));
+        assert!(parse_live_pr_identity_line("OPEN\tmissing-draft").is_err());
+        assert!(parse_live_pr_identity_line(&format!("OPEN\t{head}\tmaybe")).is_err());
     }
 
     #[test]
