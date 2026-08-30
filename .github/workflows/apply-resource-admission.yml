@@ -81,7 +81,7 @@ jobs:
       - name: Scope guard before validation
         run: |
           changed="$(git diff --name-only | sort)"
-          expected="$(printf '%s\n' README.md scripts/install-systemd.sh scripts/start.sh src/main.rs | sort)"
+          expected="$(printf '%s\n' README.md scripts/install-systemd.sh scripts/start.sh src/main.rs src/resource.rs | sort)"
           test "$changed" = "$expected"
 
       - name: Check
