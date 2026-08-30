@@ -47,7 +47,7 @@ The same gate is re-checked immediately before an issue branch is pushed. If the
 
 ## Autonomous workflow
 
-For a failing trusted PR, Orchestrator checks out the existing PR branch, launches the local coding worker, validates the resulting working tree, commits, and pushes without force.
+For a failing trusted PR, Orchestrator checks out the existing PR branch and binds repair work to that exact remote head. It double-checks the remote head around each live CI read and requires that exact head to remain `FAILED` before agent execution, after agent execution, after validation, and immediately before push. If the head moves or CI is no longer failed, the repair is deferred without publication. Otherwise Orchestrator validates the resulting working tree, commits, and pushes without force.
 
 For an issue, Orchestrator creates a dedicated branch from the repository default branch, asks the agent for one small reviewable slice, validates it, commits, pushes, and opens a draft PR. The PR deliberately does not auto-close broad research issues.
 

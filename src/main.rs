@@ -978,6 +978,48 @@ fn pull_request_ci_state(pull_request: &PullRequest) -> Result<CiState, String> 
     }
 }
 
+fn work_item_ci_state(item: &WorkItem) -> Result<CiState, String> {
+    pull_request_ci_state(&PullRequest {
+        repository: item.repository.clone(),
+        number: item.number,
+        title: item.title.clone(),
+        draft: item.draft,
+        author: String::new(),
+    })
+}
+
+fn ci_fix_observation_allows_repair(
+    expected_head: &str,
+    head_before_ci: &str,
+    ci_state: CiState,
+    head_after_ci: &str,
+) -> bool {
+    head_before_ci == expected_head && head_after_ci == expected_head && ci_state == CiState::Failed
+}
+
+fn ci_fix_target_still_failed(
+    item: &WorkItem,
+    expected_head: &str,
+    stage: &str,
+) -> Result<bool, String> {
+    let head_before_ci = pr_head_sha(&item.repository, item.number)?;
+    let ci_state = work_item_ci_state(item)?;
+    let head_after_ci = pr_head_sha(&item.repository, item.number)?;
+    if ci_fix_observation_allows_repair(expected_head, &head_before_ci, ci_state, &head_after_ci) {
+        return Ok(true);
+    }
+    println!(
+        "CI repair {}#{} became stale at {stage}: expected head={} observed before={} CI={} observed after={}; deferring without publication.",
+        item.repository,
+        item.number,
+        expected_head,
+        head_before_ci,
+        ci_state.as_str(),
+        head_after_ci
+    );
+    Ok(false)
+}
+
 fn ci_allows_issue_chaining(state: CiState) -> bool {
     state == CiState::Passing
 }
@@ -2438,11 +2480,17 @@ fn execute_issue(
 fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<ActionOutcome, ActionFailure> {
     let workspace = prepare_pr_workspace(config, &item.repository, item.number)
         .classified(state::FailureClass::Repository)?;
+    let local_head = capture_in_dir(&workspace, "git", &["rev-parse", "HEAD"])
+        .classified(state::FailureClass::Repository)?;
+    if !ci_fix_target_still_failed(item, &local_head, "before evidence collection")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
+
     let body = github_body(item).classified(state::FailureClass::Infrastructure)?;
     let ci_evidence = evidence::collect_ci_evidence(&item.repository, item.number)
         .classified(state::FailureClass::Infrastructure)?;
-    let local_head = capture_in_dir(&workspace, "git", &["rev-parse", "HEAD"])
-        .classified(state::FailureClass::Repository)?;
     if local_head != ci_evidence.head_sha {
         return Err(ActionFailure::new(
             state::FailureClass::Infrastructure,
@@ -2452,8 +2500,13 @@ fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<ActionOutcome, 
             ),
         ));
     }
+    if !ci_fix_target_still_failed(item, &local_head, "before agent execution")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     println!(
-        "Parent CI evidence collected for exact head {} ({} chars)",
+        "Parent CI evidence collected for exact failing head {} ({} chars)",
         ci_evidence.head_sha,
         ci_evidence.text.chars().count()
     );
@@ -2462,6 +2515,11 @@ fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<ActionOutcome, 
         &workspace,
         &agent_prompt(item, &body, Some(&ci_evidence.text)),
     )?;
+    if !ci_fix_target_still_failed(item, &local_head, "after agent execution")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
 
     if !has_changes(&workspace).classified(state::FailureClass::Repository)? {
         println!("Agent produced no working-tree changes; recording NO_PROGRESS.");
@@ -2470,10 +2528,20 @@ fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<ActionOutcome, 
 
     reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
     validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
+    if !ci_fix_target_still_failed(item, &local_head, "after local validation")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     let message = format!("fix: repair CI for PR #{}", item.number);
     let commit_sha =
         commit_changes(&workspace, &message).classified(state::FailureClass::Repository)?;
     println!("Created commit {commit_sha}");
+    if !ci_fix_target_still_failed(item, &local_head, "immediately before push")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     run_in_dir(&workspace, "git", &["push", "origin", "HEAD"])
         .classified(state::FailureClass::Publication)?;
     attest_repaired_pr_head(config, &workspace, item)?;
@@ -3783,6 +3851,37 @@ mod tests {
             &external,
             "CHECKUPAUTO",
             CiState::Passing
+        ));
+    }
+
+    #[test]
+    fn ci_repair_requires_same_head_and_current_failure() {
+        let head = "0123456789abcdef0123456789abcdef01234567";
+        assert!(ci_fix_observation_allows_repair(
+            head,
+            head,
+            CiState::Failed,
+            head
+        ));
+        for state in [
+            CiState::Pending,
+            CiState::Passing,
+            CiState::NoChecks,
+            CiState::Unknown,
+        ] {
+            assert!(!ci_fix_observation_allows_repair(head, head, state, head));
+        }
+        assert!(!ci_fix_observation_allows_repair(
+            head,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            CiState::Failed,
+            head
+        ));
+        assert!(!ci_fix_observation_allows_repair(
+            head,
+            head,
+            CiState::Failed,
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
         ));
     }
 
