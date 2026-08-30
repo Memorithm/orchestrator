@@ -1,0 +1,61 @@
+name: validate preflight sandbox probe
+
+on:
+  push:
+    branches:
+      - fix/preflight-bwrap-probe
+
+permissions:
+  contents: write
+
+concurrency:
+  group: validate-preflight-bwrap-probe
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/preflight-bwrap-probe
+          fetch-depth: 0
+      - name: Apply fix
+        run: python3 tools/apply_preflight_bwrap_probe.py
+      - name: Install bubblewrap
+        run: |
+          if ! command -v bwrap >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y bubblewrap
+          fi
+      - name: Existing runtime selftests
+        run: |
+          bash scripts/selftest-runtime.sh
+          bash scripts/selftest-opencode-watchdog.sh
+          bash scripts/selftest-opencode-reaping.sh
+          sudo bash scripts/selftest-agent-sandbox.sh
+      - name: Rust validation
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt clippy
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+          git diff --check
+      - name: Product scope
+        run: |
+          changed="$(git diff --name-only | sort)"
+          test "$changed" = "src/main.rs"
+      - name: Publish product commit
+        run: |
+          rm tools/apply_preflight_bwrap_probe.py .github/workflows/apply-preflight-bwrap-probe.yml
+          git fetch origin main
+          final_changed="$(git diff --name-only origin/main | sort)"
+          test "$final_changed" = "src/main.rs"
+          git config user.name MEMOPERF
+          git config user.email contact@checkupauto.fr
+          git add -A
+          git commit -m "fix(runtime): require usable bubblewrap in preflight"
+          git push origin HEAD:fix/preflight-bwrap-probe
