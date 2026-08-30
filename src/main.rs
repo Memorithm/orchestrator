@@ -2315,6 +2315,9 @@ fn runtime_preflight(config: &RunConfig) -> Result<(), String> {
     if !check_ollama() {
         return Err("Ollama is not reachable".to_owned());
     }
+    if !check_bwrap_sandbox() {
+        return Err("bubblewrap process sandbox is installed but unusable".to_owned());
+    }
     if !is_local_ollama_model(&config.model) || !check_model_available(&config.model) {
         return Err(format!(
             "runner policy requires an installed local Ollama model; unavailable: {}",
