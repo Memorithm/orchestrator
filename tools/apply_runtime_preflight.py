@@ -202,7 +202,7 @@ preflight_fn = '''fn preflight(config: RunConfig) -> ExitCode {
         println!("No runtime-eligible actionable work at this instant.");
     }
     println!();
-    println!("PRECHECK RESULT: PASS");
+    println!("PREFLIGHT RESULT: PASS");
     println!("No agent was launched and no managed repository was mutated.");
     ExitCode::SUCCESS
 }
@@ -254,3 +254,92 @@ if needle in text and "`preflight`" not in text:
         1,
     )
 readme.write_text(text)
+
+replace_once(
+    "src/main.rs",
+    '''    #[test]
+    fn required_runtime_contains_local_agent_stack() {''',
+    '''    #[test]
+    fn preflight_selector_uses_scheduler_order_without_writes() {
+        let root = env::temp_dir().join(format!(
+            "orchestrator-preflight-selection-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let store = state::AttemptStore::new(root.join("work-items"), state::RetryPolicy::default());
+        let snapshot = TriageSnapshot {
+            repositories: Vec::new(),
+            items: vec![
+                WorkItem {
+                    kind: WorkKind::Issue,
+                    repository: "Memorithm/Beta".to_owned(),
+                    number: 2,
+                    title: "beta".to_owned(),
+                    detail: "open issue".to_owned(),
+                    ci_state: None,
+                    draft: false,
+                },
+                WorkItem {
+                    kind: WorkKind::Issue,
+                    repository: "Memorithm/Alpha".to_owned(),
+                    number: 9,
+                    title: "alpha".to_owned(),
+                    detail: "open issue".to_owned(),
+                    ci_state: None,
+                    draft: false,
+                },
+            ],
+            eligible_count: 2,
+            repositories_with_open_pr: 0,
+        };
+
+        let selected = selected_for_preflight_with_state(&snapshot, false, &store, 100)
+            .unwrap()
+            .unwrap();
+        assert_eq!(selected.repository, "Memorithm/Alpha");
+        assert!(!root.exists(), "read-only preview unexpectedly created state");
+    }
+
+    #[test]
+    fn preflight_selector_does_not_recover_interrupted_attempt() {
+        let root = env::temp_dir().join(format!(
+            "orchestrator-preflight-interrupted-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let store = state::AttemptStore::new(root.join("work-items"), state::RetryPolicy::default());
+        let item = WorkItem {
+            kind: WorkKind::Issue,
+            repository: "Memorithm/Alpha".to_owned(),
+            number: 1,
+            title: "alpha".to_owned(),
+            detail: "open issue".to_owned(),
+            ci_state: None,
+            draft: false,
+        };
+        let key = work_key(&item);
+        store.begin_for_revision(&key, "issue-v1", 100).unwrap();
+        let snapshot = TriageSnapshot {
+            repositories: Vec::new(),
+            items: vec![item],
+            eligible_count: 1,
+            repositories_with_open_pr: 0,
+        };
+
+        let selected = selected_for_preflight_with_state(&snapshot, false, &store, 200).unwrap();
+        assert!(selected.is_none());
+        let state = store.load_for_revision(&key, "issue-v1").unwrap();
+        assert_eq!(state.in_progress_since, 100);
+        assert_eq!(state.consecutive_failures, 0);
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn required_runtime_contains_local_agent_stack() {''',
+)
