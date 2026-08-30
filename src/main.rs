@@ -1509,6 +1509,61 @@ fn github_body(item: &WorkItem) -> Result<String, String> {
     )
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct LiveIssueRevision {
+    state: String,
+    source_revision: String,
+}
+
+fn parse_live_issue_revision_line(line: &str) -> Result<LiveIssueRevision, String> {
+    let fields = line.splitn(2, '\t').collect::<Vec<_>>();
+    if fields.len() != 2 || fields[0].trim().is_empty() || fields[1].trim().is_empty() {
+        return Err(format!("invalid live issue revision payload: {line}"));
+    }
+    Ok(LiveIssueRevision {
+        state: fields[0].trim().to_owned(),
+        source_revision: format!("issue-updated:{}", fields[1].trim()),
+    })
+}
+
+fn live_issue_revision(item: &WorkItem) -> Result<LiveIssueRevision, String> {
+    if item.kind != WorkKind::Issue {
+        return Err("live issue revision requested for non-issue work item".to_owned());
+    }
+    let number = item.number.to_string();
+    let output = capture(
+        "gh",
+        &[
+            "issue",
+            "view",
+            number.as_str(),
+            "--repo",
+            item.repository.as_str(),
+            "--json",
+            "state,updatedAt",
+            "--jq",
+            r#"[.state, .updatedAt] | @tsv"#,
+        ],
+    )?;
+    parse_live_issue_revision_line(&output)
+}
+
+fn issue_revision_is_current(item: &WorkItem, stage: &str) -> Result<bool, String> {
+    let expected = item
+        .source_revision
+        .as_deref()
+        .ok_or_else(|| "issue work item is missing its selected source revision".to_owned())?;
+    let live = live_issue_revision(item)?;
+    if !live.state.eq_ignore_ascii_case("OPEN") || live.source_revision != expected {
+        println!(
+            "Issue {}#{} changed at {stage}: selected revision={} live state={} live revision={}; deferring stale work.",
+            item.repository, item.number, expected, live.state, live.source_revision
+        );
+        return Ok(false);
+    }
+    Ok(true)
+}
+
 fn truncate_chars(value: &str, maximum: usize) -> String {
     let mut chars = value.chars();
     let prefix = chars.by_ref().take(maximum).collect::<String>();
@@ -2112,6 +2167,35 @@ fn resume_issue_publication(
         return Ok(ActionOutcome::Progress);
     }
 
+    let selected_revision = item
+        .source_revision
+        .as_deref()
+        .ok_or_else(|| "issue work item is missing its selected source revision".to_owned())?;
+    if pending.source_revision.as_deref() != Some(selected_revision) {
+        if pending.phase == publication::PublicationPhase::Prepared {
+            println!(
+                "Discarding stale PREPARED publication {} for {}#{}: transaction revision={:?}, selected revision={selected_revision}.",
+                pending.branch, item.repository, item.number, pending.source_revision
+            );
+            store.clear(key)?;
+            return Ok(ActionOutcome::Deferred);
+        }
+        return Err(format!(
+            "refusing to resume PUSHED publication {} for {}#{}: transaction revision={:?}, selected revision={selected_revision}; manual review is required",
+            pending.branch, item.repository, item.number, pending.source_revision
+        ));
+    }
+    if !issue_revision_is_current(item, "publication resume")? {
+        if pending.phase == publication::PublicationPhase::Prepared {
+            store.clear(key)?;
+            return Ok(ActionOutcome::Deferred);
+        }
+        return Err(format!(
+            "refusing to resume PUSHED publication {} because the issue changed after the branch was pushed; manual review is required",
+            pending.branch
+        ));
+    }
+
     let workspace = ensure_clone(config, &repository.name_with_owner)?;
     clean_and_fetch(&workspace)?;
     let local_ref = format!("refs/heads/{}", pending.branch);
@@ -2148,6 +2232,10 @@ fn resume_issue_publication(
                 );
                 return Ok(ActionOutcome::Deferred);
             }
+            if !issue_revision_is_current(item, "before resumed publication push")? {
+                store.clear(key)?;
+                return Ok(ActionOutcome::Deferred);
+            }
             run_in_dir(
                 &workspace,
                 "git",
@@ -2176,6 +2264,12 @@ fn resume_issue_publication(
         ],
     )?;
     validate_recovered_publication(config, &workspace, default_branch)?;
+    if !issue_revision_is_current(item, "before resumed PR creation")? {
+        return Err(format!(
+            "refusing PR creation for already-PUSHED publication {} because the issue changed; manual review is required",
+            pending.branch
+        ));
+    }
     create_issue_pull_request(&workspace, item, default_branch, &pending.branch)?;
     store.clear(key)?;
     Ok(ActionOutcome::Progress)
@@ -2219,6 +2313,11 @@ fn execute_issue(
         .classified(state::FailureClass::Publication);
     }
 
+    if !issue_revision_is_current(item, "before agent setup")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     if let Some(blocker) = issue_chain_blocker(&item.repository, &trusted_login)
         .classified(state::FailureClass::Infrastructure)?
     {
@@ -2231,8 +2330,23 @@ fn execute_issue(
 
     let (workspace, branch) = prepare_issue_workspace(config, repository, item.number)
         .classified(state::FailureClass::Repository)?;
+    if !issue_revision_is_current(item, "before issue body read")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     let body = github_body(item).classified(state::FailureClass::Infrastructure)?;
+    if !issue_revision_is_current(item, "after issue body read")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     run_agent(config, &workspace, &agent_prompt(item, &body, None))?;
+    if !issue_revision_is_current(item, "after agent execution")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
 
     if !has_changes(&workspace).classified(state::FailureClass::Repository)? {
         println!("Agent produced no working-tree changes; recording NO_PROGRESS.");
@@ -2241,15 +2355,27 @@ fn execute_issue(
 
     reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
     validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
+    if !issue_revision_is_current(item, "after local validation")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     let message = format!("feat: progress issue #{}", item.number);
     let commit_sha =
         commit_changes(&workspace, &message).classified(state::FailureClass::Repository)?;
     println!("Created commit {commit_sha}");
 
+    let selected_revision = item.source_revision.clone().ok_or_else(|| {
+        ActionFailure::new(
+            state::FailureClass::Infrastructure,
+            "issue work item is missing its selected source revision",
+        )
+    })?;
     let mut pending = publication::PendingPublication::new(
         branch.clone(),
         commit_sha,
         default_branch.to_owned(),
+        selected_revision,
         publication::PublicationPhase::Prepared,
     )
     .classified(state::FailureClass::Publication)?;
@@ -2265,6 +2391,14 @@ fn execute_issue(
             "Publication remains PREPARED for {}#{}: {blocker}",
             item.repository, item.number
         );
+        return Ok(ActionOutcome::Deferred);
+    }
+    if !issue_revision_is_current(item, "before publication push")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        store
+            .clear(&key)
+            .classified(state::FailureClass::Publication)?;
         return Ok(ActionOutcome::Deferred);
     }
 
@@ -2283,6 +2417,17 @@ fn execute_issue(
         pending.commit
     );
 
+    if !issue_revision_is_current(item, "before PR creation after push")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Err(ActionFailure::new(
+            state::FailureClass::Publication,
+            format!(
+                "issue changed after branch {} was pushed; retaining PUSHED transaction and refusing stale PR creation",
+                branch
+            ),
+        ));
+    }
     create_issue_pull_request(&workspace, item, default_branch, &branch)
         .classified(state::FailureClass::Publication)?;
     store
@@ -3899,6 +4044,15 @@ mod tests {
             draft: false,
         };
         assert!(work_revision(&item).is_err());
+    }
+
+    #[test]
+    fn live_issue_revision_parser_binds_updated_at() {
+        let live = parse_live_issue_revision_line("OPEN\t2026-08-30T18:05:00Z").unwrap();
+        assert_eq!(live.state, "OPEN");
+        assert_eq!(live.source_revision, "issue-updated:2026-08-30T18:05:00Z");
+        assert!(parse_live_issue_revision_line("OPEN\t").is_err());
+        assert!(parse_live_issue_revision_line("OPEN").is_err());
     }
 
     #[test]
