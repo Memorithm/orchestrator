@@ -27,6 +27,7 @@ jobs:
           bash -n scripts/agent-sandbox
           bash -n scripts/selftest-runtime.sh
           bash -n scripts/selftest-opencode-watchdog.sh
+          bash -n scripts/selftest-opencode-reaping.sh
           bash -n scripts/selftest-agent-sandbox.sh
           bash -n scripts/render-systemd-unit.sh
           bash -n scripts/install-systemd.sh
@@ -34,6 +35,8 @@ jobs:
         run: bash scripts/selftest-runtime.sh
       - name: General agent watchdog selftest
         run: bash scripts/selftest-opencode-watchdog.sh
+      - name: Agent process reaping selftest
+        run: bash scripts/selftest-opencode-reaping.sh
       - name: Install process sandbox dependency
         run: |
           if ! command -v bwrap >/dev/null 2>&1; then
