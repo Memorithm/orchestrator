@@ -99,7 +99,7 @@ jobs:
       - name: Product scope guard
         run: |
           changed="$(git diff --name-only origin/main | sort)"
-          expected="$(printf '%s\n' .github/workflows/ci.yml scripts/opencode scripts/render-systemd-unit.sh scripts/selftest-opencode-reaping.sh | sort)"
+          expected="$(printf '%s\n' scripts/opencode scripts/render-systemd-unit.sh scripts/selftest-opencode-reaping.sh | sort)"
           product_changed="$(printf '%s\n' "$changed" | grep -v '^\.github/workflows/apply-agent-process-reaping.yml$' | grep -v '^tools/apply_agent_process_reaping.py$' || true)"
           test "$product_changed" = "$expected"
 
@@ -108,7 +108,7 @@ jobs:
           rm tools/apply_agent_process_reaping.py .github/workflows/apply-agent-process-reaping.yml
           git fetch origin main
           final_changed="$(git diff --name-only origin/main | sort)"
-          expected="$(printf '%s\n' .github/workflows/ci.yml scripts/opencode scripts/render-systemd-unit.sh scripts/selftest-opencode-reaping.sh | sort)"
+          expected="$(printf '%s\n' scripts/opencode scripts/render-systemd-unit.sh scripts/selftest-opencode-reaping.sh | sort)"
           test "$final_changed" = "$expected"
           git config user.name MEMOPERF
           git config user.email contact@checkupauto.fr
