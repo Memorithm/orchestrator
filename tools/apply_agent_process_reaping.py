@@ -1,14 +1,6 @@
 from pathlib import Path
 
 
-def replace_once(path: str, old: str, new: str) -> None:
-    file = Path(path)
-    text = file.read_text()
-    if text.count(old) != 1:
-        raise SystemExit(f"expected exactly one match in {path}: {old!r}")
-    file.write_text(text.replace(old, new, 1))
-
-
 path = Path("scripts/opencode")
 text = path.read_text()
 anchor = '''stop_agent_group() {
@@ -87,35 +79,17 @@ text = text.replace(old_normal, '''  wait_active_agent
   status=$?''')
 path.write_text(text)
 
-replace_once(
-    "scripts/render-systemd-unit.sh",
-    '''# The Rust parent receives SIGINT first. Any descendant still alive after the
+unit = Path("scripts/render-systemd-unit.sh")
+text = unit.read_text()
+old = '''# The Rust parent receives SIGINT first. Any descendant still alive after the
 # grace period is killed as part of this unit's cgroup, never by a global pkill.
 KillMode=mixed
-KillSignal=SIGINT''',
-    '''# Signal the entire service cgroup immediately. scripts/opencode traps the
+KillSignal=SIGINT'''
+new = '''# Signal the entire service cgroup immediately. scripts/opencode traps the
 # signal and explicitly reaps its detached setsid Ollama/OpenCode group; the
 # final SIGKILL remains a bounded fallback rather than the normal stop path.
 KillMode=control-group
-KillSignal=SIGINT''',
-)
-
-replace_once(
-    ".github/workflows/ci.yml",
-    '''          bash -n scripts/selftest-opencode-watchdog.sh
-          bash -n scripts/selftest-agent-sandbox.sh''',
-    '''          bash -n scripts/selftest-opencode-watchdog.sh
-          bash -n scripts/selftest-opencode-reaping.sh
-          bash -n scripts/selftest-agent-sandbox.sh''',
-)
-replace_once(
-    ".github/workflows/ci.yml",
-    '''      - name: General agent watchdog selftest
-        run: bash scripts/selftest-opencode-watchdog.sh
-      - name: Install process sandbox dependency''',
-    '''      - name: General agent watchdog selftest
-        run: bash scripts/selftest-opencode-watchdog.sh
-      - name: Agent process reaping selftest
-        run: bash scripts/selftest-opencode-reaping.sh
-      - name: Install process sandbox dependency''',
-)
+KillSignal=SIGINT'''
+if text.count(old) != 1:
+    raise SystemExit("systemd kill-mode anchor changed")
+unit.write_text(text.replace(old, new, 1))
