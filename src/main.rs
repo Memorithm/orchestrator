@@ -238,6 +238,31 @@ struct RunConfig {
     retry_policy: state::RetryPolicy,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ActionOutcome {
+    Progress,
+    NoProgress,
+    Deferred,
+}
+
+impl ActionOutcome {
+    const fn as_str(self) -> &'static str {
+        match self {
+            Self::Progress => "progress",
+            Self::NoProgress => "no_progress",
+            Self::Deferred => "deferred",
+        }
+    }
+
+    const fn state_outcome(self) -> state::AttemptOutcome {
+        match self {
+            Self::Progress => state::AttemptOutcome::Success,
+            Self::NoProgress => state::AttemptOutcome::NoProgress,
+            Self::Deferred => state::AttemptOutcome::Deferred,
+        }
+    }
+}
+
 #[derive(Debug)]
 struct ActionFailure {
     class: state::FailureClass,
@@ -1775,7 +1800,7 @@ fn execute_issue(
     config: &RunConfig,
     repositories: &[Repository],
     item: &WorkItem,
-) -> Result<(), ActionFailure> {
+) -> Result<ActionOutcome, ActionFailure> {
     let repository = repository_by_name(repositories, &item.repository)
         .classified(state::FailureClass::Repository)?;
     let default_branch = repository.default_branch.as_deref().ok_or_else(|| {
@@ -1796,7 +1821,8 @@ fn execute_issue(
             item.repository, item.number, pending.branch, pending.commit
         );
         return resume_issue_publication(config, repository, item, &store, &key, pending)
-            .classified(state::FailureClass::Publication);
+            .classified(state::FailureClass::Publication)
+            .map(|()| ActionOutcome::Progress);
     }
 
     if let Some(number) =
@@ -1816,8 +1842,8 @@ fn execute_issue(
     run_agent(config, &workspace, &agent_prompt(item, &body))?;
 
     if !has_changes(&workspace).classified(state::FailureClass::Repository)? {
-        println!("Agent produced no working-tree changes; nothing will be pushed.");
-        return Ok(());
+        println!("Agent produced no working-tree changes; recording NO_PROGRESS.");
+        return Ok(ActionOutcome::NoProgress);
     }
 
     reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
@@ -1859,18 +1885,17 @@ fn execute_issue(
     store
         .clear(&key)
         .classified(state::FailureClass::Publication)?;
-    Ok(())
+    Ok(ActionOutcome::Progress)
 }
-
-fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<(), ActionFailure> {
+fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<ActionOutcome, ActionFailure> {
     let workspace = prepare_pr_workspace(config, &item.repository, item.number)
         .classified(state::FailureClass::Repository)?;
     let body = github_body(item).classified(state::FailureClass::Infrastructure)?;
     run_agent(config, &workspace, &agent_prompt(item, &body))?;
 
     if !has_changes(&workspace).classified(state::FailureClass::Repository)? {
-        println!("Agent produced no working-tree changes; CI may already have moved on.");
-        return Ok(());
+        println!("Agent produced no working-tree changes; recording NO_PROGRESS.");
+        return Ok(ActionOutcome::NoProgress);
     }
 
     reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
@@ -1881,7 +1906,8 @@ fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<(), ActionFailu
     println!("Created commit {commit_sha}");
     run_in_dir(&workspace, "git", &["push", "origin", "HEAD"])
         .classified(state::FailureClass::Publication)?;
-    attest_repaired_pr_head(config, &workspace, item)
+    attest_repaired_pr_head(config, &workspace, item)?;
+    Ok(ActionOutcome::Progress)
 }
 
 fn merge_attestation_store(config: &RunConfig) -> merge_policy::AttestationStore {
@@ -1963,13 +1989,13 @@ fn handle_pr_attention(
     config: &RunConfig,
     repository: &Repository,
     item: &WorkItem,
-) -> Result<(), ActionFailure> {
+) -> Result<ActionOutcome, ActionFailure> {
     if !config.auto_merge {
         println!(
             "{}#{} is ready for attention, but ORCHESTRATOR_AUTO_MERGE is disabled.",
             item.repository, item.number
         );
-        return Ok(());
+        return Ok(ActionOutcome::Deferred);
     }
 
     let ci_state = item.ci_state.unwrap_or(CiState::Unknown);
@@ -2014,7 +2040,7 @@ fn handle_pr_attention(
             config.auto_merge_scope.as_str(),
             metadata.head_sha
         );
-        return Ok(());
+        return Ok(ActionOutcome::Deferred);
     }
 
     println!(
@@ -2114,7 +2140,7 @@ fn handle_pr_attention(
             )
         })?;
     if status.success() {
-        Ok(())
+        Ok(ActionOutcome::Progress)
     } else {
         Err(ActionFailure::new(
             state::FailureClass::Publication,
@@ -2227,7 +2253,7 @@ fn execute_item(
     config: &RunConfig,
     snapshot: &TriageSnapshot,
     item: &WorkItem,
-) -> Result<(), ActionFailure> {
+) -> Result<ActionOutcome, ActionFailure> {
     println!();
     println!("===== SELECTED WORK =====");
     println!("kind       : {}", item.kind.as_str());
@@ -2243,7 +2269,9 @@ fn execute_item(
             handle_pr_attention(config, repository, item)
         }
         WorkKind::Issue => execute_issue(config, &snapshot.repositories, item),
-        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => Ok(()),
+        WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::UnknownCi => {
+            Ok(ActionOutcome::Deferred)
+        }
     }
 }
 
@@ -2293,8 +2321,12 @@ fn run_loop(config: RunConfig) -> ExitCode {
         config.retry_policy.quarantine_after_failures, config.retry_policy.quarantine_secs
     );
     println!(
-        "transient retry  : {}s (infrastructure/publication)",
+        "transient retry  : {}s (infrastructure/publication/deferred)",
         config.retry_policy.transient_failure_cooldown_secs
+    );
+    println!(
+        "no-progress wait : {}s",
+        config.retry_policy.no_progress_cooldown()
     );
 
     let attempt_store = state::AttemptStore::new(
@@ -2355,11 +2387,11 @@ fn run_loop(config: RunConfig) -> ExitCode {
                         }
 
                         match execute_item(&config, &snapshot, item) {
-                            Ok(()) => {
+                            Ok(action_outcome) => {
                                 let finished_at = unix_timestamp();
                                 if let Err(journal_error) = journal.record(
                                     trajectory::EventPhase::AttemptFinished,
-                                    "success",
+                                    action_outcome.as_str(),
                                     "execution completed",
                                     finished_at,
                                 ) {
@@ -2369,18 +2401,20 @@ fn run_loop(config: RunConfig) -> ExitCode {
                                 match attempt_store.record_for_revision(
                                     &key,
                                     &revision,
-                                    state::AttemptOutcome::Success,
+                                    action_outcome.state_outcome(),
                                     finished_at,
                                 ) {
                                     Ok(attempt_state) => println!(
-                                        "Scheduler recorded success; {}#{} next eligible at unix={}",
+                                        "Scheduler recorded {}; {}#{} next eligible at unix={}",
+                                        action_outcome.as_str(),
                                         item.repository,
                                         item.number,
                                         attempt_state.eligible_at()
                                     ),
                                     Err(state_error) => {
                                         eprintln!(
-                                            "scheduler state write failed after success: {state_error}"
+                                            "scheduler state write failed after {}: {state_error}",
+                                            action_outcome.as_str()
                                         );
                                         return ExitCode::FAILURE;
                                     }
