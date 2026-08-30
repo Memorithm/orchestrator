@@ -22,8 +22,45 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Normalize intentional duplicate deferrals in one-shot helper
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path("tools/apply-action-outcomes.py")
+          source = path.read_text()
+          old = '''    section = replace_once(
+                  section,
+                  ''' + "'''        return Ok(());\n'''" + ''',
+                  ''' + "'''        return Ok(ActionOutcome::Deferred);\n'''" + ''',
+                  "auto merge disabled deferred",
+              )
+              section = replace_once(
+                  section,
+                  ''' + "'''        return Ok(());\n'''" + ''',
+                  ''' + "'''        return Ok(ActionOutcome::Deferred);\n'''" + ''',
+                  "outside merge scope deferred",
+              )
+          '''
+          new = '''    deferred_anchor = "        return Ok(());\\n"
+              if section.count(deferred_anchor) != 2:
+                  raise SystemExit(
+                      f"pr attention deferred anchors: expected exactly 2, found {section.count(deferred_anchor)}"
+                  )
+              section = section.replace(
+                  deferred_anchor,
+                  "        return Ok(ActionOutcome::Deferred);\\n",
+                  2,
+              )
+          '''
+          if source.count(old) != 1:
+              raise SystemExit(f"one-shot helper correction anchor count={source.count(old)}")
+          path.write_text(source.replace(old, new, 1))
+          PY
+
       - name: Apply deterministic action-outcome patch
-        run: python3 tools/apply-action-outcomes.py
+        run: |
+          python3 tools/apply-action-outcomes.py
+          git checkout -- tools/apply-action-outcomes.py
 
       - name: Rust toolchain
         run: |
