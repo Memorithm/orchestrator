@@ -14,7 +14,7 @@ RUNTIME_DATA="/root/.local/share/memorithm-orchestrator"
 RUNTIME_HOME="$RUNTIME_DATA/runtime-home"
 CARGO_HOME_PATH="$RUNTIME_DATA/cargo-home"
 
-for command_name in git gh ollama opencode cargo rustc systemctl; do
+for command_name in git gh ollama opencode cargo rustc bwrap systemctl; do
   if ! command -v "$command_name" >/dev/null 2>&1; then
     printf 'ERROR: required command not found: %s\n' "$command_name" >&2
     exit 1

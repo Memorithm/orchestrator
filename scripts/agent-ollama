@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SANDBOX="${ORCHESTRATOR_AGENT_SANDBOX:?ORCHESTRATOR_AGENT_SANDBOX is not set}"
+REAL_OLLAMA="${ORCHESTRATOR_REAL_OLLAMA:?ORCHESTRATOR_REAL_OLLAMA is not set}"
+
+exec "$SANDBOX" -- "$REAL_OLLAMA" "$@"
