@@ -1,0 +1,196 @@
+schema_version: 1
+kind: memorithm_orchestrator_ecosystem_agent_roadmap
+status: active
+last_updated: "2026-08-31"
+repository: Memorithm/orchestrator
+intended_consumer: autonomous_coding_agent
+merge_policy: never_merge_this_file_to_default_branch_unless_user_explicitly_requests
+
+mission:
+  primary: >-
+    Evolve Memorithm Orchestrator as the autonomous GitHub development control
+    plane for the organization: discover repositories, respect repository policy,
+    triage CI/issues/PRs, delegate coding into isolated workspaces, validate,
+    publish reviewable PRs, repair failing trusted PRs, and merge only after
+    exact-head required CI is definitively green.
+  ecosystem_goal: >-
+    Make every repository's off-main agent roadmap and default-branch bootstrap a
+    first-class scheduling input. Orchestrator owns GitHub development lifecycle;
+    SoulSystem may own a canonical coding-agent backend, CCOS may own context
+    memory, and SciRust Hub remains the runtime/product control plane rather than
+    a duplicate GitHub development orchestrator.
+
+verified_current_facts:
+  - autonomous_coding_is_PR_only_and_never_commits_directly_to_default_branches
+  - failing_trusted_PR_CI_has_priority_over_new_issue_work
+  - pending_no_checks_unknown_and_external_PR_states_are_non_actionable_or_blocking_under_documented_rules
+  - optional_auto_merge_revalidates_exact_head_and_base_before_merge_without_admin_bypass_or_force_push
+  - OpenCode_currently_runs_under_a_restrictive_inline_policy_and_only_local_Ollama_is_accepted_for_autonomous_runs
+  - Orchestrator_itself_owns_commit_push_PR_creation_and_optional_merge_mutations
+  - resource_admission_and_managed_workspace_cleanup_are_bounded_and_fail_conservatively
+  - current_validation_always_runs_git_diff_check_and_basic_Rust_workspace_checks_when_a_root_Cargo_manifest_exists
+
+invariants:
+  - no_autonomous_direct_default_branch_coding
+  - no_merge_with_failed_pending_missing_unknown_or_stale_required_CI
+  - merge_decisions_are_bound_to_exact_PR_head_and_validated_base_tip
+  - no_force_push_or_admin_bypass_for_autonomous_work
+  - external_or_untrusted_PRs_are_not_repaired_or_merged_automatically
+  - agent_backend_cannot_commit_push_rewrite_history_or_mutate_GitHub_state_directly
+  - repository_specific_bootstrap_policy_must_dominate_generic_scheduler_defaults
+  - scientific_human_only_or_financial_fail_closed_rules_must_never_be_bypassed_by_generic_automation
+  - stale_issue_PR_repository_or_publication_transactions_fail_closed
+  - required_CI_must_be_green_on_exact_PR_head_before_merge
+
+ownership:
+  role: organization_GitHub_development_control_plane
+  owns:
+    - repository_scan_triage_and_development_eligibility
+    - issue_and_PR_scheduler_priority
+    - isolated_managed_clones_and_publication_transactions
+    - Git_commit_push_PR_creation_and_optional_merge_mutations
+    - exact_head_CI_and_base_sync_merge_gates
+    - agent_backend_policy_boundary_for_development_tasks
+  does_not_own:
+    - SoulSystem_inner_coding_agent_reasoning_tool_or_session_semantics
+    - CCOS_causal_context_memory_and_replay_semantics
+    - SciRust_Hub_runtime_component_registry_or_product_workflow_orchestration
+    - repository_specific_scientific_runtime_financial_or_security_semantics
+    - SciRust_Verify_general_evidence_dossier_verdict_semantics
+
+repository_policy_contract:
+  target: mandatory
+  required_inputs:
+    - repository_default_branch_and_exact_base_SHA
+    - root_AGENTS_md_when_present
+    - any_mandatory_off_main_roadmap_referenced_by_AGENTS_md
+    - repository_specific_validation_and_merge_gates
+    - human_only_or_forbidden_autonomous_actions
+  behavior:
+    - fetch_policy_before_issue_or_PR_agent_execution
+    - persist_policy_identity_with_work_item_state
+    - re_read_policy_before_publication_and_merge_if_repository_head_or_policy_changed
+    - fail_closed_when_mandatory_policy_cannot_be_loaded
+    - never_infer_permission_from_absence_of_a_generic_block_when_repository_policy_requires_explicit_authorization
+
+ecosystem_interfaces:
+  Memorithm/SoulSystem:
+    relationship: canonical_or_optional_coding_agent_backend
+    status: planned_versioned_backend
+    contract:
+      - Orchestrator_owns_repository_work_item_publication_and_CI_lifecycle
+      - SoulSystem_owns_inner_coding_session_worktree_tools_and_acceptance_check_execution
+      - backend_result_is_evidence_not_permission_to_push_or_merge
+  Memorithm/CCOS-Core:
+    relationship: optional_context_memory_and_postmortem_backend
+    status: planned
+    contract:
+      - CCOS_context_is_bound_to_exact_repository_worktree_and_work_item_identity
+      - Orchestrator_remains_authoritative_for_GitHub_state
+  Memorithm/SciRust-Verify:
+    relationship: development_evidence_sealing_partner
+    status: planned
+    contract:
+      - seal_task_policy_diff_validation_CI_and_publication_evidence_without_replacing_Orchestrator_scheduler_state
+  Memorithm/scirust-hub:
+    relationship: separate_runtime_product_control_plane
+    status: explicit_non_overlap
+    rule: Orchestrator_manages_GitHub_development_Hub_manages_runtime_components_workflows_and_artifacts
+  Memorithm/ElasticXxx:
+    relationship: future_host_resource_admission_partner
+    status: planned_not_assumed
+    rule: Elastic_may_optimize_local_compute_memory_concurrency_but_cannot_override_repository_or_CI_gates
+
+roadmap:
+  - id: ORCH0
+    name: Repository policy bootstrap ingestion
+    status: active_priority
+    goals:
+      - detect_and_read_root_AGENTS_md
+      - parse_or_resolve_mandatory_off_main_roadmap_pointer
+      - store_exact_policy_document_hashes_and_base_SHA_with_work_item
+      - enforce_fail_closed_when_policy_is_missing_or_unreadable
+      - support_master_main_and_nonstandard_default_branches_without_unsafe_assumptions
+  - id: ORCH1
+    name: Policy-aware task eligibility
+    status: active_priority
+    goals:
+      - block_human_only_confirmatory_scientific_runs
+      - block_financial_custody_or_other_forbidden_autonomous_actions_declared_by_repo
+      - honor_repository_specific_PR_merge_and_evidence_rules
+      - surface_clear_defer_reason_in_status_and_trajectory
+  - id: ORCH2
+    name: Repository-specific validation plans
+    status: active
+    goals:
+      - derive_required_validation_from_versioned_repository_policy_not_only_root_Cargo_detection
+      - distinguish_portable_CI_hardware_required_and_human_only_gates
+      - never_mark_a_hardware_requirement_passed_from_compile_only_evidence
+      - record_commands_results_timeouts_and_environment_scope
+  - id: ORCH3
+    name: Coding backend abstraction
+    status: active
+    goals:
+      - preserve_current_OpenCode_Ollama_backend_as_one_implementation
+      - define_backend_neutral_task_context_event_result_protocol
+      - add_SoulSystem_coding_harness_backend_after_contract_stabilizes
+      - permit_future_lambda_agent_backend_without_transferring_Git_or_GitHub_mutation_authority
+      - backend_failure_or_provider_difference_must_not_change_publication_gates
+  - id: ORCH4
+    name: Durable coding evidence and resume
+    status: active
+    goals:
+      - persist_agent_events_diff_checks_policy_identity_and_exact_heads
+      - recover_interrupted_agent_or_validation_stage_without_double_publication
+      - integrate_optional_CCOS_context_replay
+      - integrate_SciRust_Verify_evidence_envelope
+  - id: ORCH5
+    name: Multi-repository dependency-aware scheduling
+    status: planned_after_ORCH0
+    goals:
+      - read_declared_ecosystem_contract_dependencies_from_roadmaps
+      - avoid_modifying_both_sides_of_an_unpublished_contract_as_if_it_already_exists
+      - sequence_provider_contract_before_consumer_when_needed
+      - prevent_dependency_cycles_and_cross_repo_branch_races
+  - id: ORCH6
+    name: CI capability and hardware scheduling
+    status: planned
+    goals:
+      - distinguish_hosted_self_hosted_GPU_ARM_and_manual_gate_requirements
+      - defer_without_failure_when_required_runner_is_unavailable
+      - revalidate_exact_head_when_runner_returns
+      - no_merge_until_all_required_gates_are_real_successes
+  - id: ORCH7
+    name: Safe autonomous merge productization
+    status: active
+    goals:
+      - exact_head_and_base_revalidation
+      - canonical_commit_author_identity
+      - no_force_no_admin_bypass
+      - repository_policy_opt_in_for_automatic_merge
+      - immutable_audit_record_of_merge_basis_and_CI
+  - id: ORCH8
+    name: Organization-wide lambda-agent operation
+    status: long_term
+    goals:
+      - backend_pool_with_resource_and_repository_capability_matching
+      - bounded_parallelism_across_independent_repositories
+      - one_mutation_lease_per_repository_publication_surface
+      - dashboard_of_policy_state_PR_CI_quarantine_and_agent_evidence
+      - compatibility_matrix_for_all_bootstrapped_Memorithm_repositories
+
+agent_operating_protocol:
+  must_read_this_file:
+    - at_start_of_every_agent_session_on_this_repository
+    - before_scheduler_agent_backend_publication_or_merge_policy_changes
+    - before_integrating_SoulSystem_CCOS_Verify_or_ElasticXxx
+    - before_PR_or_merge_decisions
+  must_update_this_file:
+    - when_repository_policy_ingestion_semantics_change
+    - when_a_coding_backend_is_added_removed_or_reclassified
+    - when_cross_repository_dependency_scheduling_changes
+    - when_a_roadmap_phase_changes_status
+  fail_closed: >-
+    If this roadmap cannot be read, do not make major scheduler, coding-backend,
+    publication, cross-repository policy, or merge decisions. Read-only diagnosis
+    is allowed.
