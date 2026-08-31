@@ -643,6 +643,65 @@ fn discover_repositories(organization: &str) -> Result<Vec<Repository>, String> 
     Ok(repositories)
 }
 
+fn live_repository(repository: &str) -> Result<Repository, String> {
+    let jq = r#"[.nameWithOwner,
+        (.defaultBranchRef.name // "-"),
+        .visibility,
+        (if .isArchived then "archived" else "active" end),
+        (if .isFork then "fork" else "source" end),
+        (if .isEmpty then "empty" else "non-empty" end)
+    ] | @tsv"#;
+
+    let output = capture(
+        "gh",
+        &[
+            "repo",
+            "view",
+            repository,
+            "--json",
+            "nameWithOwner,defaultBranchRef,visibility,isArchived,isFork,isEmpty",
+            "--jq",
+            jq,
+        ],
+    )?;
+    parse_repository_line(&output)
+}
+
+fn repository_identity_allows_issue_work(selected: &Repository, live: &Repository) -> bool {
+    matches!(selected.default_branch.as_deref(), Some("main" | "master"))
+        && selected
+            .name_with_owner
+            .eq_ignore_ascii_case(&live.name_with_owner)
+        && selected.default_branch == live.default_branch
+        && !selected.archived
+        && !selected.fork
+        && !selected.empty
+        && !live.archived
+        && !live.fork
+        && !live.empty
+}
+
+fn issue_repository_is_current(selected: &Repository, stage: &str) -> Result<bool, String> {
+    let live = live_repository(&selected.name_with_owner)?;
+    if !repository_identity_allows_issue_work(selected, &live) {
+        println!(
+            "Repository {} changed at {stage}: selected default={:?} archived={} fork={} empty={}; live name={} default={:?} archived={} fork={} empty={}; deferring stale issue work.",
+            selected.name_with_owner,
+            selected.default_branch.as_deref(),
+            selected.archived,
+            selected.fork,
+            selected.empty,
+            live.name_with_owner,
+            live.default_branch.as_deref(),
+            live.archived,
+            live.fork,
+            live.empty
+        );
+        return Ok(false);
+    }
+    Ok(true)
+}
+
 fn classify_repository(repository: &Repository, organization: &str) -> Pilotability {
     let orchestrator_name = format!("{organization}/orchestrator");
     if repository
@@ -2211,10 +2270,33 @@ fn resume_issue_publication(
         .default_branch
         .as_deref()
         .ok_or_else(|| format!("{} has no default branch", repository.name_with_owner))?;
-    if pending.base_branch != default_branch {
+    if !issue_repository_is_current(repository, "publication resume")? {
+        if pending.phase == publication::PublicationPhase::Prepared {
+            println!(
+                "Discarding PREPARED publication {} for {}#{} because repository eligibility changed before remote mutation.",
+                pending.branch, item.repository, item.number
+            );
+            store.clear(key)?;
+            return Ok(ActionOutcome::Deferred);
+        }
         return Err(format!(
-            "pending publication base {} no longer matches repository default {default_branch}",
-            pending.base_branch
+            "refusing to resume PUSHED publication {} for {}#{} because repository eligibility changed; manual review is required",
+            pending.branch, item.repository, item.number
+        ));
+    }
+
+    if pending.base_branch != default_branch {
+        if pending.phase == publication::PublicationPhase::Prepared {
+            println!(
+                "Discarding PREPARED publication {} because base {} no longer matches repository default {default_branch}.",
+                pending.branch, pending.base_branch
+            );
+            store.clear(key)?;
+            return Ok(ActionOutcome::Deferred);
+        }
+        return Err(format!(
+            "refusing to resume PUSHED publication {}: base {} no longer matches repository default {default_branch}; manual review is required",
+            pending.branch, pending.base_branch
         ));
     }
 
@@ -2293,6 +2375,10 @@ fn resume_issue_publication(
                 store.clear(key)?;
                 return Ok(ActionOutcome::Deferred);
             }
+            if !issue_repository_is_current(repository, "before resumed publication push")? {
+                store.clear(key)?;
+                return Ok(ActionOutcome::Deferred);
+            }
             run_in_dir(
                 &workspace,
                 "git",
@@ -2324,6 +2410,12 @@ fn resume_issue_publication(
     if !issue_revision_is_current(item, "before resumed PR creation")? {
         return Err(format!(
             "refusing PR creation for already-PUSHED publication {} because the issue changed; manual review is required",
+            pending.branch
+        ));
+    }
+    if !issue_repository_is_current(repository, "before resumed PR creation")? {
+        return Err(format!(
+            "refusing PR creation for already-PUSHED publication {} because repository eligibility changed; manual review is required",
             pending.branch
         ));
     }
@@ -2370,6 +2462,11 @@ fn execute_issue(
         .classified(state::FailureClass::Publication);
     }
 
+    if !issue_repository_is_current(repository, "before agent setup")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     if !issue_revision_is_current(item, "before agent setup")
         .classified(state::FailureClass::Infrastructure)?
     {
@@ -2398,7 +2495,17 @@ fn execute_issue(
     {
         return Ok(ActionOutcome::Deferred);
     }
+    if !issue_repository_is_current(repository, "before agent execution")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     run_agent(config, &workspace, &agent_prompt(item, &body, None))?;
+    if !issue_repository_is_current(repository, "after agent execution")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     if !issue_revision_is_current(item, "after agent execution")
         .classified(state::FailureClass::Infrastructure)?
     {
@@ -2412,6 +2519,11 @@ fn execute_issue(
 
     reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
     validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
+    if !issue_repository_is_current(repository, "after local validation")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Ok(ActionOutcome::Deferred);
+    }
     if !issue_revision_is_current(item, "after local validation")
         .classified(state::FailureClass::Infrastructure)?
     {
@@ -2458,6 +2570,14 @@ fn execute_issue(
             .classified(state::FailureClass::Publication)?;
         return Ok(ActionOutcome::Deferred);
     }
+    if !issue_repository_is_current(repository, "before publication push")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        store
+            .clear(&key)
+            .classified(state::FailureClass::Publication)?;
+        return Ok(ActionOutcome::Deferred);
+    }
 
     run_in_dir(
         &workspace,
@@ -2481,6 +2601,17 @@ fn execute_issue(
             state::FailureClass::Publication,
             format!(
                 "issue changed after branch {} was pushed; retaining PUSHED transaction and refusing stale PR creation",
+                branch
+            ),
+        ));
+    }
+    if !issue_repository_is_current(repository, "before PR creation after push")
+        .classified(state::FailureClass::Infrastructure)?
+    {
+        return Err(ActionFailure::new(
+            state::FailureClass::Publication,
+            format!(
+                "repository eligibility changed after branch {} was pushed; retaining PUSHED transaction and refusing stale PR creation",
                 branch
             ),
         ));
@@ -4186,6 +4317,55 @@ mod tests {
             classify_repository(&special, "Memorithm"),
             Pilotability::ReviewSpecialBranch
         );
+    }
+
+    #[test]
+    fn issue_repository_identity_guard_rejects_eligibility_transitions() {
+        let selected =
+            parse_repository_line("Memorithm/ADA\tmain\tPUBLIC\tactive\tsource\tnon-empty")
+                .unwrap();
+
+        assert!(repository_identity_allows_issue_work(&selected, &selected));
+
+        let archived =
+            parse_repository_line("Memorithm/ADA\tmain\tPUBLIC\tarchived\tsource\tnon-empty")
+                .unwrap();
+        assert!(!repository_identity_allows_issue_work(&selected, &archived));
+
+        let fork =
+            parse_repository_line("Memorithm/ADA\tmain\tPUBLIC\tactive\tfork\tnon-empty").unwrap();
+        assert!(!repository_identity_allows_issue_work(&selected, &fork));
+
+        let empty =
+            parse_repository_line("Memorithm/ADA\tmain\tPUBLIC\tactive\tsource\tempty").unwrap();
+        assert!(!repository_identity_allows_issue_work(&selected, &empty));
+
+        let renamed =
+            parse_repository_line("Memorithm/ADA-renamed\tmain\tPUBLIC\tactive\tsource\tnon-empty")
+                .unwrap();
+        assert!(!repository_identity_allows_issue_work(&selected, &renamed));
+
+        let default_changed =
+            parse_repository_line("Memorithm/ADA\tmaster\tPUBLIC\tactive\tsource\tnon-empty")
+                .unwrap();
+        assert!(!repository_identity_allows_issue_work(
+            &selected,
+            &default_changed
+        ));
+
+        let visibility_only =
+            parse_repository_line("Memorithm/ADA\tmain\tPRIVATE\tactive\tsource\tnon-empty")
+                .unwrap();
+        assert!(repository_identity_allows_issue_work(
+            &selected,
+            &visibility_only
+        ));
+
+        let special = parse_repository_line(
+            "Memorithm/ADA\tresearch/main\tPUBLIC\tactive\tsource\tnon-empty",
+        )
+        .unwrap();
+        assert!(!repository_identity_allows_issue_work(&special, &special));
     }
 
     #[test]
