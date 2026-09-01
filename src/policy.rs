@@ -194,6 +194,48 @@ struct MergePolicyRule {
     source_blob: String,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) enum MergeEvidenceEligibility {
+    Inherit,
+    PortableCi,
+    Deferred(PolicyDenial),
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum MergeEvidenceClass {
+    PortableCi,
+    HardwareRequired,
+    HumanRequired,
+}
+
+impl MergeEvidenceClass {
+    fn parse(value: &str) -> Result<Self, String> {
+        match value {
+            "portable_ci" => Ok(Self::PortableCi),
+            "hardware_required" => Ok(Self::HardwareRequired),
+            "human_required" => Ok(Self::HumanRequired),
+            other => Err(format!("unknown merge evidence class: {other}")),
+        }
+    }
+
+    const fn as_str(self) -> &'static str {
+        match self {
+            Self::PortableCi => "portable_ci",
+            Self::HardwareRequired => "hardware_required",
+            Self::HumanRequired => "human_required",
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct MergeEvidenceRule {
+    required: MergeEvidenceClass,
+    source_ref: String,
+    source_path: String,
+    source_commit: String,
+    source_blob: String,
+}
+
 impl PolicySnapshot {
     pub(crate) fn identity_record(&self) -> String {
         let mut record = format!(
@@ -351,6 +393,35 @@ impl PolicySnapshot {
         }))
     }
 
+    pub(crate) fn merge_evidence_eligibility(&self) -> Result<MergeEvidenceEligibility, String> {
+        let mut selected: Option<MergeEvidenceRule> = None;
+        for document in &self.documents {
+            let Some(rule) = parse_merge_evidence_policy(document)? else {
+                continue;
+            };
+            if selected.replace(rule).is_some() {
+                return Err(
+                    "duplicate merge evidence policy across mandatory policy documents".to_owned(),
+                );
+            }
+        }
+        let Some(rule) = selected else {
+            return Ok(MergeEvidenceEligibility::Inherit);
+        };
+        if rule.required == MergeEvidenceClass::PortableCi {
+            return Ok(MergeEvidenceEligibility::PortableCi);
+        }
+        Ok(MergeEvidenceEligibility::Deferred(PolicyDenial {
+            item_id: format!("evidence:{}", rule.required.as_str()),
+            field: "merge_evidence_policy",
+            value: rule.required.as_str().to_owned(),
+            source_ref: rule.source_ref,
+            source_path: rule.source_path,
+            source_commit: rule.source_commit,
+            source_blob: rule.source_blob,
+        }))
+    }
+
     pub(crate) fn base_branch(&self) -> &str {
         &self.base_branch
     }
@@ -479,6 +550,120 @@ fn parse_autonomous_action_rules(
         ));
     }
     Ok(rules.into_values().collect())
+}
+
+fn parse_merge_evidence_policy(
+    document: &PolicyDocument,
+) -> Result<Option<MergeEvidenceRule>, String> {
+    let mut in_policy = false;
+    let mut saw_section = false;
+    let mut schema_version = None;
+    let mut required = None;
+
+    for raw_line in document.content.lines() {
+        let raw_line = raw_line.trim_end_matches('\r');
+        let trimmed = raw_line.trim();
+        if trimmed.is_empty() || trimmed.starts_with('#') {
+            continue;
+        }
+        if !in_policy {
+            if raw_line == "merge_evidence_policy:" {
+                if saw_section {
+                    return Err(format!(
+                        "duplicate merge_evidence_policy section in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+                in_policy = true;
+                saw_section = true;
+            }
+            continue;
+        }
+        if raw_line.starts_with('\t') {
+            return Err(format!(
+                "tab indentation is not allowed in merge evidence policy origin/{}:{}",
+                document.ref_name, document.path
+            ));
+        }
+        let indent = raw_line.len() - raw_line.trim_start_matches(' ').len();
+        if indent == 0 {
+            in_policy = false;
+            if raw_line == "merge_evidence_policy:" {
+                return Err(format!(
+                    "duplicate merge_evidence_policy section in origin/{}:{}",
+                    document.ref_name, document.path
+                ));
+            }
+            continue;
+        }
+        if indent != 2 {
+            return Err(format!(
+                "merge_evidence_policy only accepts scalar fields at indentation 2 in origin/{}:{}",
+                document.ref_name, document.path
+            ));
+        }
+        let (key, raw_value) = trimmed.split_once(':').ok_or_else(|| {
+            format!(
+                "malformed merge evidence policy field in origin/{}:{}",
+                document.ref_name, document.path
+            )
+        })?;
+        let value = parse_policy_scalar(raw_value.trim(), key)?;
+        match key {
+            "schema_version" => {
+                if schema_version.replace(value.clone()).is_some() {
+                    return Err(format!(
+                        "duplicate merge evidence schema_version in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+                if value != "1" {
+                    return Err(format!(
+                        "unsupported merge evidence policy schema_version {value} in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+            }
+            "required" => {
+                let parsed = MergeEvidenceClass::parse(&value)?;
+                if required.replace(parsed).is_some() {
+                    return Err(format!(
+                        "duplicate merge evidence requirement in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+            }
+            other => {
+                return Err(format!(
+                    "unknown merge evidence policy field {other} in origin/{}:{}",
+                    document.ref_name, document.path
+                ));
+            }
+        }
+    }
+
+    if !saw_section {
+        return Ok(None);
+    }
+    if schema_version.as_deref() != Some("1") {
+        return Err(format!(
+            "merge_evidence_policy requires schema_version: 1 in origin/{}:{}",
+            document.ref_name, document.path
+        ));
+    }
+    let required = required.ok_or_else(|| {
+        format!(
+            "merge_evidence_policy requires required in origin/{}:{}",
+            document.ref_name, document.path
+        )
+    })?;
+    Ok(Some(MergeEvidenceRule {
+        required,
+        source_ref: document.ref_name.clone(),
+        source_path: document.path.clone(),
+        source_commit: document.commit_sha.clone(),
+        source_blob: document.blob_sha.clone(),
+    }))
 }
 
 fn parse_merge_policy(document: &PolicyDocument) -> Result<Option<MergePolicyRule>, String> {
@@ -1585,6 +1770,70 @@ roadmap:
                 )
                 .is_err()
         );
+    }
+
+    #[test]
+    fn merge_evidence_policy_distinguishes_portable_hardware_and_human() {
+        let portable = snapshot_with_policy_documents(&[r#"merge_evidence_policy:
+  schema_version: 1
+  required: portable_ci
+"#]);
+        assert_eq!(
+            portable.merge_evidence_eligibility().unwrap(),
+            MergeEvidenceEligibility::PortableCi
+        );
+        assert_eq!(
+            snapshot_with_policy_documents(&[])
+                .merge_evidence_eligibility()
+                .unwrap(),
+            MergeEvidenceEligibility::Inherit
+        );
+
+        for required in ["hardware_required", "human_required"] {
+            let content =
+                format!("merge_evidence_policy:\n  schema_version: 1\n  required: {required}\n");
+            let snapshot = snapshot_with_policy_documents(&[&content]);
+            let MergeEvidenceEligibility::Deferred(denial) =
+                snapshot.merge_evidence_eligibility().unwrap()
+            else {
+                panic!("expected {required} to defer merge");
+            };
+            assert_eq!(denial.value, required);
+            let reason = denial.merge_reason("Memorithm/Test", &snapshot);
+            assert!(reason.contains(required));
+            assert!(reason.contains("source=origin/agent/policy-0:.agent/POLICY-0.yaml"));
+        }
+    }
+
+    #[test]
+    fn merge_evidence_policy_is_strict_and_not_inferred_from_prose() {
+        let prose = snapshot_with_policy_documents(&[r#"notes: >-
+  merge_evidence_policy hardware_required
+  physical GPU evidence is required in prose only
+"#]);
+        assert_eq!(
+            prose.merge_evidence_eligibility().unwrap(),
+            MergeEvidenceEligibility::Inherit
+        );
+
+        let duplicate = snapshot_with_policy_documents(&[
+            "merge_evidence_policy:\n  schema_version: 1\n  required: portable_ci\n",
+            "merge_evidence_policy:\n  schema_version: 1\n  required: hardware_required\n",
+        ]);
+        assert!(duplicate.merge_evidence_eligibility().is_err());
+
+        for content in [
+            "merge_evidence_policy:\n  schema_version: 2\n  required: portable_ci\n",
+            "merge_evidence_policy:\n  schema_version: 1\n  required: self_reported_gpu\n",
+            "merge_evidence_policy:\n  schema_version: 1\n  unknown: hardware_required\n",
+            "merge_evidence_policy:\n  schema_version: 1\n  required: portable_ci\n  required: human_required\n",
+        ] {
+            assert!(
+                snapshot_with_policy_documents(&[content])
+                    .merge_evidence_eligibility()
+                    .is_err()
+            );
+        }
     }
 
     #[test]
