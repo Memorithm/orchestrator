@@ -1,0 +1,38 @@
+name: Temporary ORCH1a staging validation
+
+on:
+  push:
+    branches:
+      - staging/orch1a-task-eligibility
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply asserted source transform
+        run: python3 scripts/orch1a-staging-patch.py
+
+      - name: Format and validate
+        run: |
+          cargo fmt --all
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Commit validated source
+        run: |
+          git config user.name 'ZEKRITI Tarek'
+          git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+          git add src/main.rs src/policy.rs
+          git diff --cached --check
+          git commit -m 'feat(policy): block explicit human-only roadmap tasks'
+          git push origin HEAD:staging/orch1a-task-eligibility
