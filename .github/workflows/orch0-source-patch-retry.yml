@@ -1,0 +1,51 @@
+name: Temporary ORCH0 formatted patch
+
+on:
+  push:
+    branches:
+      - feat/orch0-policy-bootstrap-v1
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reuse exact asserted transformations
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import textwrap
+
+          workflow = Path('.github/workflows/orch0-source-patch.yml').read_text()
+          marker = "          python3 - <<'PY'\n"
+          start = workflow.index(marker) + len(marker)
+          end = workflow.index("\n          PY\n", start)
+          script = textwrap.dedent(workflow[start:end])
+          exec(compile(script, 'orch0-source-transform.py', 'exec'))
+          PY
+
+      - name: Format and validate generated source
+        run: |
+          cargo fmt --all
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Commit validated source patch
+        shell: bash
+        run: |
+          git config user.name 'ZEKRITI Tarek'
+          git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+          git add src/main.rs src/publication.rs src/policy.rs
+          git diff --cached --check
+          git commit -m 'feat(policy): enforce policy snapshots across work lifecycle'
+          git push origin HEAD:feat/orch0-policy-bootstrap-v1
