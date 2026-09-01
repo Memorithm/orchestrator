@@ -1,7 +1,7 @@
 schema_version: 1
 kind: memorithm_orchestrator_ecosystem_agent_roadmap
 status: active
-last_updated: "2026-08-31"
+last_updated: "2026-09-02"
 repository: Memorithm/orchestrator
 intended_consumer: autonomous_coding_agent
 merge_policy: never_merge_this_file_to_default_branch_unless_user_explicitly_requests
@@ -29,6 +29,10 @@ verified_current_facts:
   - Orchestrator_itself_owns_commit_push_PR_creation_and_optional_merge_mutations
   - resource_admission_and_managed_workspace_cleanup_are_bounded_and_fail_conservatively
   - current_validation_always_runs_git_diff_check_and_basic_Rust_workspace_checks_when_a_root_Cargo_manifest_exists
+  - ORCH0_PR_35_merged_at_main_35ee35f1_with_exact_base_and_exact_head_green_CI
+  - actionable_issue_CI_repair_publication_recovery_and_merge_paths_now_bind_to_parent_resolved_repository_policy_snapshots
+  - publication_state_v3_binds_resumable_publication_to_policy_identity_and_legacy_unbound_resume_fails_closed
+  - policy_ingestion_supports_repository_metadata_derived_nonstandard_default_branches
 
 invariants:
   - no_autonomous_direct_default_branch_coding
@@ -104,7 +108,15 @@ ecosystem_interfaces:
 roadmap:
   - id: ORCH0
     name: Repository policy bootstrap ingestion
-    status: active_priority
+    status: complete
+    completion_evidence:
+      - issue_34_defined_fail_closed_ingestion_scope
+      - PR_35_merged_to_main_as_35ee35f1c73f0e0a160eca4da912ce28998d135f
+      - exact_head_ci_and_contributor_attribution_completed_success_before_merge
+      - bounded_AGENTS_and_off_main_policy_ingestion_with_exact_commit_and_blob_identity
+      - policy_identity_bound_to_prompt_publication_recovery_CI_repair_and_merge_revalidation
+      - repeated_same_second_policy_evidence_is_append_only
+      - master_main_and_nonstandard_default_branch_tests
     goals:
       - detect_and_read_root_AGENTS_md
       - parse_or_resolve_mandatory_off_main_roadmap_pointer
