@@ -1,0 +1,105 @@
+name: Temporary ORCH1c-a patch
+
+on:
+  push:
+    branches:
+      - feat/orch1c-auto-merge-policy-staging
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply exact ORCH1c-a transformation
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          def replace_once(data, old, new, label):
+              count = data.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected one match, found {count}')
+              return data.replace(old, new, 1)
+
+          policy_path = Path('src/policy.rs')
+          policy = policy_path.read_text()
+
+          policy = replace_once(policy,
+          '''impl PolicyDenial {\n    pub(crate) fn reason(&self, repository: &str, snapshot: &PolicySnapshot) -> String {\n        format!(\n            "repository={repository} policy item={} denies autonomous initiation via {}={} source=origin/{}:{} commit={} blob={} policy_identity={}",\n            self.item_id,\n            self.field,\n            self.value,\n            self.source_ref,\n            self.source_path,\n            self.source_commit,\n            self.source_blob,\n            snapshot.identity_token()\n        )\n    }\n}\n''',
+          '''impl PolicyDenial {\n    pub(crate) fn reason(&self, repository: &str, snapshot: &PolicySnapshot) -> String {\n        format!(\n            "repository={repository} policy item={} denies autonomous initiation via {}={} source=origin/{}:{} commit={} blob={} policy_identity={}",\n            self.item_id,\n            self.field,\n            self.value,\n            self.source_ref,\n            self.source_path,\n            self.source_commit,\n            self.source_blob,\n            snapshot.identity_token()\n        )\n    }\n\n    pub(crate) fn merge_reason(&self, repository: &str, snapshot: &PolicySnapshot) -> String {\n        format!(\n            "repository={repository} policy item={} denies autonomous merge via {}={} source=origin/{}:{} commit={} blob={} policy_identity={}",\n            self.item_id,\n            self.field,\n            self.value,\n            self.source_ref,\n            self.source_path,\n            self.source_commit,\n            self.source_blob,\n            snapshot.identity_token()\n        )\n    }\n}\n''', 'PolicyDenial impl')
+
+          marker = '''#[derive(Debug, Clone, PartialEq, Eq)]\nstruct AutonomousActionRule {\n    category: AutonomousActionCategory,\n    decision: AutonomousActionDecision,\n    source_ref: String,\n    source_path: String,\n    source_commit: String,\n    source_blob: String,\n}\n'''
+          addition = marker + '''\n#[derive(Debug, Clone, PartialEq, Eq)]\npub(crate) enum MergeEligibility {\n    Inherit,\n    Allowed,\n    Deferred(PolicyDenial),\n}\n\n#[derive(Debug, Clone, Copy, PartialEq, Eq)]\nenum MergeDecision {\n    Allow,\n    Deny,\n}\n\nimpl MergeDecision {\n    fn parse(value: &str) -> Result<Self, String> {\n        match value {\n            "allow" => Ok(Self::Allow),\n            "deny" => Ok(Self::Deny),\n            other => Err(format!("invalid autonomous merge decision: {other}")),\n        }\n    }\n\n    const fn as_str(self) -> &'static str {\n        match self {\n            Self::Allow => "allow",\n            Self::Deny => "deny",\n        }\n    }\n}\n\n#[derive(Debug, Clone, PartialEq, Eq)]\nstruct MergePolicyRule {\n    decision: MergeDecision,\n    source_ref: String,\n    source_path: String,\n    source_commit: String,\n    source_blob: String,\n}\n'''
+          policy = replace_once(policy, marker, addition, 'merge policy types')
+
+          method_marker = '''    pub(crate) fn base_branch(&self) -> &str {\n        &self.base_branch\n    }\n'''
+          merge_method = '''    pub(crate) fn merge_eligibility(&self) -> Result<MergeEligibility, String> {\n        let mut selected: Option<MergePolicyRule> = None;\n        for document in &self.documents {\n            let Some(rule) = parse_merge_policy(document)? else {\n                continue;\n            };\n            if selected.replace(rule).is_some() {\n                return Err(\n                    "duplicate autonomous merge policy across mandatory policy documents".to_owned(),\n                );\n            }\n        }\n        let Some(rule) = selected else {\n            return Ok(MergeEligibility::Inherit);\n        };\n        if rule.decision == MergeDecision::Allow {\n            return Ok(MergeEligibility::Allowed);\n        }\n        Ok(MergeEligibility::Deferred(PolicyDenial {\n            item_id: "global:auto_merge".to_owned(),\n            field: "autonomous_merge_policy",\n            value: rule.decision.as_str().to_owned(),\n            source_ref: rule.source_ref,\n            source_path: rule.source_path,\n            source_commit: rule.source_commit,\n            source_blob: rule.source_blob,\n        }))\n    }\n\n'''
+          policy = replace_once(policy, method_marker, merge_method + method_marker, 'merge eligibility method')
+
+          parse_marker = '''fn parse_roadmap_task_rules(document: &PolicyDocument) -> Result<Vec<RoadmapTaskRule>, String> {\n'''
+          parser = '''fn parse_merge_policy(document: &PolicyDocument) -> Result<Option<MergePolicyRule>, String> {\n    let mut in_policy = false;\n    let mut saw_section = false;\n    let mut schema_version = None;\n    let mut decision = None;\n\n    for raw_line in document.content.lines() {\n        let raw_line = raw_line.trim_end_matches('\\r');\n        let trimmed = raw_line.trim();\n        if trimmed.is_empty() || trimmed.starts_with('#') {\n            continue;\n        }\n        if !in_policy {\n            if raw_line == "autonomous_merge_policy:" {\n                if saw_section {\n                    return Err(format!(\n                        "duplicate autonomous_merge_policy section in origin/{}:{}",\n                        document.ref_name, document.path\n                    ));\n                }\n                in_policy = true;\n                saw_section = true;\n            }\n            continue;\n        }\n        if raw_line.starts_with('\\t') {\n            return Err(format!(\n                "tab indentation is not allowed in autonomous merge policy origin/{}:{}",\n                document.ref_name, document.path\n            ));\n        }\n        let indent = raw_line.len() - raw_line.trim_start_matches(' ').len();\n        if indent == 0 {\n            in_policy = false;\n            if raw_line == "autonomous_merge_policy:" {\n                return Err(format!(\n                    "duplicate autonomous_merge_policy section in origin/{}:{}",\n                    document.ref_name, document.path\n                ));\n            }\n            continue;\n        }\n        if indent != 2 {\n            return Err(format!(\n                "autonomous_merge_policy only accepts scalar fields at indentation 2 in origin/{}:{}",\n                document.ref_name, document.path\n            ));\n        }\n        let (key, raw_value) = trimmed.split_once(':').ok_or_else(|| {\n            format!(\n                "malformed autonomous merge policy field in origin/{}:{}",\n                document.ref_name, document.path\n            )\n        })?;\n        let value = parse_policy_scalar(raw_value.trim(), key)?;\n        match key {\n            "schema_version" => {\n                if schema_version.replace(value.clone()).is_some() {\n                    return Err(format!(\n                        "duplicate autonomous merge schema_version in origin/{}:{}",\n                        document.ref_name, document.path\n                    ));\n                }\n                if value != "1" {\n                    return Err(format!(\n                        "unsupported autonomous merge policy schema_version {value} in origin/{}:{}",\n                        document.ref_name, document.path\n                    ));\n                }\n            }\n            "decision" => {\n                let parsed = MergeDecision::parse(&value)?;\n                if decision.replace(parsed).is_some() {\n                    return Err(format!(\n                        "duplicate autonomous merge decision in origin/{}:{}",\n                        document.ref_name, document.path\n                    ));\n                }\n            }\n            other => {\n                return Err(format!(\n                    "unknown autonomous merge policy field {other} in origin/{}:{}",\n                    document.ref_name, document.path\n                ));\n            }\n        }\n    }\n\n    if !saw_section {\n        return Ok(None);\n    }\n    if schema_version.as_deref() != Some("1") {\n        return Err(format!(\n            "autonomous_merge_policy requires schema_version: 1 in origin/{}:{}",\n            document.ref_name, document.path\n        ));\n    }\n    let decision = decision.ok_or_else(|| {\n        format!(\n            "autonomous_merge_policy requires decision in origin/{}:{}",\n            document.ref_name, document.path\n        )\n    })?;\n    Ok(Some(MergePolicyRule {\n        decision,\n        source_ref: document.ref_name.clone(),\n        source_path: document.path.clone(),\n        source_commit: document.commit_sha.clone(),\n        source_blob: document.blob_sha.clone(),\n    }))\n}\n\n'''
+          policy = replace_once(policy, parse_marker, parser + parse_marker, 'merge parser')
+
+          test_marker = '''    #[test]\n    fn free_text_is_not_promoted_into_task_policy() {\n'''
+          tests = '''    #[test]\n    fn merge_policy_is_explicit_versioned_and_source_bound() {\n        let denied = snapshot_with_policy_documents(&[r#"autonomous_merge_policy:\n  schema_version: 1\n  decision: deny\n"#]);\n        let MergeEligibility::Deferred(denial) = denied.merge_eligibility().unwrap() else {\n            panic!("expected explicit merge deny");\n        };\n        assert_eq!(denial.item_id, "global:auto_merge");\n        assert_eq!(denial.field, "autonomous_merge_policy");\n        let reason = denial.merge_reason("Memorithm/Test", &denied);\n        assert!(reason.contains("source=origin/agent/policy-0:.agent/POLICY-0.yaml"));\n        assert!(reason.contains("policy_identity="));\n\n        let allowed = snapshot_with_policy_documents(&[r#"autonomous_merge_policy:\n  schema_version: 1\n  decision: allow\n"#]);\n        assert_eq!(allowed.merge_eligibility().unwrap(), MergeEligibility::Allowed);\n        assert_eq!(\n            snapshot_with_policy_documents(&[]).merge_eligibility().unwrap(),\n            MergeEligibility::Inherit\n        );\n    }\n\n    #[test]\n    fn merge_policy_rejects_ambiguous_or_unknown_structure() {\n        let duplicate = snapshot_with_policy_documents(&[\n            "autonomous_merge_policy:\\n  schema_version: 1\\n  decision: deny\\n",\n            "autonomous_merge_policy:\\n  schema_version: 1\\n  decision: allow\\n",\n        ]);\n        assert!(duplicate.merge_eligibility().is_err());\n\n        for content in [\n            "autonomous_merge_policy:\\n  schema_version: 2\\n  decision: deny\\n",\n            "autonomous_merge_policy:\\n  schema_version: 1\\n  decision: maybe\\n",\n            "autonomous_merge_policy:\\n  schema_version: 1\\n  unknown: deny\\n",\n            "autonomous_merge_policy:\\n  schema_version: 1\\n  decision: deny\\n  decision: allow\\n",\n        ] {\n            assert!(snapshot_with_policy_documents(&[content])\n                .merge_eligibility()\n                .is_err());\n        }\n    }\n\n    #[test]\n    fn merge_policy_is_not_inferred_from_free_text() {\n        let snapshot = snapshot_with_policy_documents(&[r#"notes: >-\n  autonomous_merge_policy: decision deny\n  do not auto merge financial work\n"#]);\n        assert_eq!(snapshot.merge_eligibility().unwrap(), MergeEligibility::Inherit);\n    }\n\n'''
+          policy = replace_once(policy, test_marker, tests + test_marker, 'merge policy tests')
+          policy_path.write_text(policy)
+
+          main_path = Path('src/main.rs')
+          main = main_path.read_text()
+          start = main.index('fn handle_pr_attention(')
+          end = main.index('\nfn runtime_preflight', start)
+          fn = main[start:end]
+          old_sig = ') -> Result<ActionOutcome, ActionFailure> {'
+          if fn.count(old_sig) != 1:
+              raise SystemExit(f'handle signature count={fn.count(old_sig)}')
+          fn = fn.replace(old_sig, ') -> Result<ActionExecution, ActionFailure> {', 1)
+
+          # Existing outcomes keep their semantics while now carrying trajectory detail capability.
+          fn = re.sub(
+              r'return Ok\(ActionOutcome::(Deferred|Progress|NoProgress)\);',
+              r'return Ok(ActionExecution::completed(ActionOutcome::\1));',
+              fn,
+          )
+          fn = fn.replace(
+              '        Ok(ActionOutcome::Progress)\n',
+              '        Ok(ActionExecution::completed(ActionOutcome::Progress))\n',
+          )
+
+          gate_marker = '''    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before merge validation")? {\n        return Ok(ActionExecution::completed(ActionOutcome::Deferred));\n    }\n    let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")\n'''
+          gate = '''    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before merge validation")? {\n        return Ok(ActionExecution::completed(ActionOutcome::Deferred));\n    }\n    match policy_snapshot\n        .merge_eligibility()\n        .classified(state::FailureClass::Validation)?\n    {\n        policy::MergeEligibility::Inherit | policy::MergeEligibility::Allowed => {}\n        policy::MergeEligibility::Deferred(denial) => {\n            let reason = denial.merge_reason(&item.repository, &policy_snapshot);\n            println!("Autonomous merge deferred by repository policy: {reason}");\n            return Ok(ActionExecution::deferred(reason));\n        }\n    }\n    let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")\n'''
+          if fn.count(gate_marker) != 1:
+              raise SystemExit(f'merge gate marker count={fn.count(gate_marker)}')
+          fn = fn.replace(gate_marker, gate, 1)
+          main = main[:start] + fn + main[end:]
+
+          mapping = '''            handle_pr_attention(config, repository, item).map(ActionExecution::completed)\n'''
+          if main.count(mapping) != 1:
+              raise SystemExit(f'execute_item mapping count={main.count(mapping)}')
+          main = main.replace(mapping, '''            handle_pr_attention(config, repository, item)\n''', 1)
+          main_path.write_text(main)
+          PY
+      - name: Validate exact generated source
+        run: |
+          cargo fmt --all
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+      - name: Commit validated source
+        shell: bash
+        run: |
+          git config user.name 'ZEKRITI Tarek'
+          git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+          git add src/main.rs src/policy.rs
+          git diff --cached --check
+          git commit -m 'feat(policy): enforce repository auto-merge policy'
+          git push origin HEAD:feat/orch1c-auto-merge-policy-staging
