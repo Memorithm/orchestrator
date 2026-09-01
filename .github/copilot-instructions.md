@@ -3,7 +3,7 @@
 Before repository changes, fetch and read the persistent off-main roadmap:
 
 ```bash
-git fetch origin agent/ecosystem-roadmap && \
+git fetch origin agent/ecosystem-roadmap:refs/remotes/origin/agent/ecosystem-roadmap && \
 git show origin/agent/ecosystem-roadmap:.agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.yaml
 ```
 
