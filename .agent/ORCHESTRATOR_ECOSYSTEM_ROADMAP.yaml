@@ -44,6 +44,13 @@ verified_current_facts:
   - global_action_denies_require_an_explicit_task_action_category_and_never_infer_from_free_text
   - task_scoped_ORCH1a_denies_take_precedence_over_repository_global_allows
   - read_only_scan_status_and_diagnosis_remain_available_when_a_mutating_action_category_is_denied
+  - ORCH1c_a_PR_42_merged_at_main_b9f0919dab8589464d3bada43b6f7a83e13e6c0e_with_exact_head_94fb9bb9ebbe8935503da30c12a235531a96e49d_green_CI
+  - autonomous_merge_policy_schema_1_supports_explicit_allow_or_deny_without_overriding_global_off_trust_CI_head_or_base_gates
+  - repository_merge_deny_is_recorded_as_non_failure_defer_before_base_sync_ready_or_merge_mutations
+  - ORCH1c_b_PR_44_merged_at_main_0d2dcd23aebb845d5b670c961186ae3c62ebdc43_with_exact_head_5f3650f6e4ed466629b37fad25ae250aa5081458_green_CI
+  - merge_evidence_policy_schema_1_distinguishes_portable_ci_hardware_required_and_human_required
+  - hardware_required_and_human_required_defer_before_any_PR_mutation_until_authoritative_evidence_protocol_exists
+  - compile_success_runner_labels_emulation_lavapipe_and_self_reported_benchmark_text_are_not_hardware_evidence
 
 invariants:
   - no_autonomous_direct_default_branch_coding
@@ -56,6 +63,7 @@ invariants:
   - scientific_human_only_or_financial_fail_closed_rules_must_never_be_bypassed_by_generic_automation
   - stale_issue_PR_repository_or_publication_transactions_fail_closed
   - required_CI_must_be_green_on_exact_PR_head_before_merge
+  - hardware_or_human_evidence_requirement_cannot_be_satisfied_by_portable_compile_only_evidence
 
 ownership:
   role: organization_GitHub_development_control_plane
@@ -135,8 +143,8 @@ roadmap:
       - enforce_fail_closed_when_policy_is_missing_or_unreadable
       - support_master_main_and_nonstandard_default_branches_without_unsafe_assumptions
   - id: ORCH1
-    name: Policy-aware task eligibility
-    status: active_priority
+    name: Policy-aware task and merge eligibility
+    status: complete
     completed_slices:
       - id: ORCH1a
         name: Explicit task-scoped human-only and forbidden roadmap eligibility
@@ -165,13 +173,26 @@ roadmap:
           - task_scoped_ORCH1a_denial_precedes_global_allow
           - free_text_is_not_promoted_to_machine_authorization
           - existing_deferred_trajectory_reason_records_exact_policy_source_identity
-    remaining_slices:
-      - id: ORCH1c
-        name: Repository-specific merge and evidence eligibility
-        status: planned_next
-        goals:
-          - honor_explicit_repository_auto_merge_opt_in_or_opt_out
-          - honor_hardware_human_or_evidence_gates_without_treating_compile_only_as_success
+      - id: ORCH1c_a
+        name: Explicit repository auto-merge eligibility
+        status: complete
+        completion_evidence:
+          - issue_41_defined_repository_auto_merge_policy_scope
+          - PR_42_merged_to_main_as_b9f0919dab8589464d3bada43b6f7a83e13e6c0e
+          - exact_head_94fb9bb9ebbe8935503da30c12a235531a96e49d_ci_and_contributor_attribution_completed_success_before_merge
+          - autonomous_merge_policy_schema_1_allow_deny_and_inherit_semantics
+          - repository_deny_executes_before_remote_PR_mutation
+          - repository_allow_does_not_override_global_off_or_existing_merge_safety_gates
+      - id: ORCH1c_b
+        name: Repository merge evidence class gates
+        status: complete
+        completion_evidence:
+          - issue_43_defined_merge_evidence_class_scope
+          - PR_44_merged_to_main_as_0d2dcd23aebb845d5b670c961186ae3c62ebdc43
+          - exact_head_5f3650f6e4ed466629b37fad25ae250aa5081458_ci_and_contributor_attribution_completed_success_before_merge
+          - merge_evidence_policy_schema_1_portable_ci_hardware_required_human_required
+          - hardware_and_human_requirements_defer_before_remote_PR_mutation
+          - hosted_compile_or_emulation_is_never_promoted_to_hardware_evidence
     goals:
       - block_human_only_confirmatory_scientific_runs
       - block_financial_custody_or_other_forbidden_autonomous_actions_declared_by_repo
@@ -179,12 +200,14 @@ roadmap:
       - surface_clear_defer_reason_in_status_and_trajectory
   - id: ORCH2
     name: Repository-specific validation plans
-    status: active
+    status: active_priority
+    next_slice: ORCH2a_versioned_portable_validation_plan
     goals:
       - derive_required_validation_from_versioned_repository_policy_not_only_root_Cargo_detection
       - distinguish_portable_CI_hardware_required_and_human_only_gates
       - never_mark_a_hardware_requirement_passed_from_compile_only_evidence
       - record_commands_results_timeouts_and_environment_scope
+      - bind_validation_result_to_policy_identity_base_SHA_and_exact_worktree_head
   - id: ORCH3
     name: Coding backend abstraction
     status: active
