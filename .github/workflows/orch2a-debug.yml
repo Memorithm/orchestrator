@@ -1,0 +1,48 @@
+name: Temporary ORCH2a transform diagnostics
+
+on:
+  push:
+    branches:
+      - feat/orch2a-validation-plan-staging
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Count transform anchors without keeping source edits
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import textwrap
+
+          workflow = Path('.github/workflows/orch2a-patch.yml').read_text()
+          marker = "          python3 - <<'PY'\n"
+          start = workflow.index(marker) + len(marker)
+          end = workflow.index("\n          PY\n", start)
+          script = textwrap.dedent(workflow[start:end])
+          old = '''def replace_once(data, old, new, label):\n    count = data.count(old)\n    if count != 1:\n        raise SystemExit(f'{label}: expected one match, found {count}')\n    return data.replace(old, new, 1)\n'''
+          new = '''COUNTS = []\ndef replace_once(data, old, new, label):\n    count = data.count(old)\n    COUNTS.append((label, count))\n    if count != 1:\n        return data\n    return data.replace(old, new, 1)\n'''
+          if old not in script:
+              raise SystemExit('replace_once definition not found in extracted script')
+          script = script.replace(old, new, 1)
+          namespace = {}
+          exec(compile(script, 'orch2a-transform-diagnostic.py', 'exec'), namespace)
+          lines = [f'{label}\t{count}' for label, count in namespace['COUNTS']]
+          Path('orch2a-transform-counts.txt').write_text('\n'.join(lines) + '\n')
+          PY
+          git restore src/main.rs src/policy.rs
+      - name: Commit diagnostic only
+        run: |
+          git config user.name 'ZEKRITI Tarek'
+          git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+          git add orch2a-transform-counts.txt
+          git commit -m 'chore: record ORCH2a transform counts'
+          git push origin HEAD:feat/orch2a-validation-plan-staging
