@@ -3153,6 +3153,18 @@ fn handle_pr_attention(
             return Ok(ActionExecution::deferred(reason));
         }
     }
+    match policy_snapshot
+        .merge_evidence_eligibility()
+        .classified(state::FailureClass::Validation)?
+    {
+        policy::MergeEvidenceEligibility::Inherit
+        | policy::MergeEvidenceEligibility::PortableCi => {}
+        policy::MergeEvidenceEligibility::Deferred(denial) => {
+            let reason = denial.merge_reason(&item.repository, &policy_snapshot);
+            println!("Autonomous merge deferred by repository evidence policy: {reason}");
+            return Ok(ActionExecution::deferred(reason));
+        }
+    }
     let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")
         .classified(state::FailureClass::Repository)?;
     if !contains_base {
