@@ -1,0 +1,160 @@
+name: Temporary ORCH0 policy hardening v2
+
+on:
+  push:
+    branches:
+      - feat/orch0-policy-bootstrap-v1
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply exact function-level hardening
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('src/policy.rs')
+          data = path.read_text()
+
+          start_marker = 'pub(crate) fn persist_identity(\n'
+          end_marker = '\nfn short_object_id(value: &str) -> &str {\n'
+          start = data.index(start_marker)
+          end = data.index(end_marker, start)
+          replacement = '''pub(crate) fn persist_identity(
+    data_root: &Path,
+    repository: &str,
+    kind: &str,
+    number: u64,
+    timestamp: u64,
+    snapshot: &PolicySnapshot,
+) -> Result<PathBuf, String> {
+    validate_repository_name(repository)?;
+    let directory = data_root
+        .join("state/policy-snapshots")
+        .join(repository.replace('/', "__"))
+        .join(format!("{}-{number}", safe_component(kind)));
+    fs::create_dir_all(&directory).map_err(|error| {
+        format!(
+            "failed to create policy evidence directory {}: {error}",
+            directory.display()
+        )
+    })?;
+
+    for sequence in 0..1_024_u16 {
+        let suffix = if sequence == 0 {
+            String::new()
+        } else {
+            format!("-{sequence}")
+        };
+        let path = directory.join(format!(
+            "{timestamp}-{}-{}{}.txt",
+            std::process::id(),
+            short_object_id(snapshot.base_sha()),
+            suffix
+        ));
+        let mut file = match OpenOptions::new()
+            .create_new(true)
+            .write(true)
+            .open(&path)
+        {
+            Ok(file) => file,
+            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
+            Err(error) => {
+                return Err(format!(
+                    "failed to create policy evidence {}: {error}",
+                    path.display()
+                ));
+            }
+        };
+        file.write_all(snapshot.identity_record().as_bytes())
+            .and_then(|_| file.write_all(b"\n"))
+            .map_err(|error| {
+                format!(
+                    "failed to write policy evidence {}: {error}",
+                    path.display()
+                )
+            })?;
+        file.sync_all().map_err(|error| {
+            format!(
+                "failed to sync policy evidence {}: {error}",
+                path.display()
+            )
+        })?;
+        return Ok(path);
+    }
+
+    Err("policy evidence sequence exhausted for one timestamp".to_owned())
+}
+'''
+          data = data[:start] + replacement + data[end:]
+
+          old_test_start = '    #[test]\n    fn identity_evidence_is_append_only_per_attempt() {\n'
+          old_test_pos = data.index(old_test_start)
+          old_test_end = data.index('\n    }\n', old_test_pos) + len('\n    }\n')
+          old_test = data[old_test_pos:old_test_end]
+          new_test = '''    #[test]
+    fn base_branch_validation_accepts_master_and_nonstandard_defaults() {
+        for branch in ["master", "release/stable"] {
+            let root = temporary_root(&branch.replace('/', "-"));
+            fs::create_dir_all(&root).unwrap();
+            git(&root, &["init", "-q", "-b", branch]);
+            fs::write(root.join("README.md"), "test\n").unwrap();
+            let base_sha = commit(&root, "base");
+            let snapshot = load_snapshot(&root, "Memorithm/Test", branch, &base_sha).unwrap();
+            assert_eq!(snapshot.base_branch(), branch);
+            assert_eq!(snapshot.base_sha(), base_sha);
+            let _ = fs::remove_dir_all(root);
+        }
+    }
+
+    #[test]
+    fn identity_evidence_is_append_only_per_attempt() {
+        let root = temporary_root("persist");
+        fs::create_dir_all(&root).unwrap();
+        git(&root, &["init", "-q", "-b", "main"]);
+        fs::write(root.join("README.md"), "test\n").unwrap();
+        let base_sha = commit(&root, "base");
+        let snapshot = load_snapshot(&root, "Memorithm/Test", "main", &base_sha).unwrap();
+        let first =
+            persist_identity(&root, "Memorithm/Test", "ISSUE", 7, 100, &snapshot).unwrap();
+        let second =
+            persist_identity(&root, "Memorithm/Test", "ISSUE", 7, 100, &snapshot).unwrap();
+        assert_ne!(first, second);
+        for evidence in [first, second] {
+            let contents = fs::read_to_string(&evidence).unwrap();
+            assert!(contents.contains(&format!("base-sha={base_sha}")));
+        }
+        let _ = fs::remove_dir_all(root);
+    }
+'''
+          data = data[:old_test_pos] + new_test + data[old_test_end:]
+          path.write_text(data)
+          PY
+
+      - name: Validate hardening
+        run: |
+          cargo fmt --all
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Commit validated hardening
+        shell: bash
+        run: |
+          git config user.name 'ZEKRITI Tarek'
+          git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+          git add src/policy.rs
+          git diff --cached --check
+          git commit -m 'test(policy): harden repeated evidence and default branches'
+          git push origin HEAD:feat/orch0-policy-bootstrap-v1
