@@ -22,8 +22,9 @@ jobs:
       - name: Validate commit attribution
         shell: bash
         env:
-          CANONICAL_AUTHOR_NAME: ZEKRITI Tarek
-          CANONICAL_AUTHOR_EMAIL: 194770978+CHECKUPAUTO@users.noreply.github.com
+          CANONICAL_AUTHOR_IDENTITIES: |
+            ZEKRITI Tarek <194770978+CHECKUPAUTO@users.noreply.github.com>
+            MEMOPERF <contact@checkupauto.fr>
         run: |
           set -euo pipefail
 
