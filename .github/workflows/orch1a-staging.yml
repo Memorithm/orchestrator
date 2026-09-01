@@ -18,7 +18,9 @@ jobs:
           fetch-depth: 0
 
       - name: Apply asserted source transform
-        run: python3 scripts/orch1a-staging-patch.py
+        run: |
+          python3 scripts/orch1a-staging-patch.py
+          python3 scripts/orch1a-staging-fix.py
 
       - name: Format and validate
         run: |
