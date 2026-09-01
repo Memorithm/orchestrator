@@ -288,6 +288,28 @@ impl ActionOutcome {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct ActionExecution {
+    outcome: ActionOutcome,
+    detail: String,
+}
+
+impl ActionExecution {
+    fn completed(outcome: ActionOutcome) -> Self {
+        Self {
+            outcome,
+            detail: "execution completed".to_owned(),
+        }
+    }
+
+    fn deferred(reason: impl Into<String>) -> Self {
+        Self {
+            outcome: ActionOutcome::Deferred,
+            detail: reason.into(),
+        }
+    }
+}
+
 #[derive(Debug)]
 struct ActionFailure {
     class: state::FailureClass,
@@ -2535,7 +2557,7 @@ fn execute_issue(
     config: &RunConfig,
     repositories: &[Repository],
     item: &WorkItem,
-) -> Result<ActionOutcome, ActionFailure> {
+) -> Result<ActionExecution, ActionFailure> {
     let repository = repository_by_name(repositories, &item.repository)
         .classified(state::FailureClass::Repository)?;
     let default_branch = repository.default_branch.as_deref().ok_or_else(|| {
@@ -2566,18 +2588,19 @@ fn execute_issue(
             &key,
             pending,
         )
-        .classified(state::FailureClass::Publication);
+        .classified(state::FailureClass::Publication)
+        .map(ActionExecution::completed);
     }
 
     if !issue_repository_is_current(repository, "before agent setup")
         .classified(state::FailureClass::Infrastructure)?
     {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !issue_revision_is_current(item, "before agent setup")
         .classified(state::FailureClass::Infrastructure)?
     {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if let Some(blocker) = issue_chain_blocker(&item.repository, &trusted_login)
         .classified(state::FailureClass::Infrastructure)?
@@ -2586,7 +2609,7 @@ fn execute_issue(
             "Issue {}#{} deferred before agent execution: {blocker}",
             item.repository, item.number
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     let (workspace, branch) = prepare_issue_workspace(config, repository, item.number)
@@ -2601,23 +2624,34 @@ fn execute_issue(
     let policy_snapshot =
         load_policy_snapshot_for_item(config, &workspace, item, default_branch, &policy_base_sha)?;
     if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before issue body read")? {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !issue_revision_is_current(item, "before issue body read")
         .classified(state::FailureClass::Infrastructure)?
     {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     let body = github_body(item).classified(state::FailureClass::Infrastructure)?;
     if !issue_revision_is_current(item, "after issue body read")
         .classified(state::FailureClass::Infrastructure)?
     {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
+    }
+    match policy_snapshot
+        .task_eligibility(&item.title, &body)
+        .classified(state::FailureClass::Validation)?
+    {
+        policy::TaskEligibility::Allowed => {}
+        policy::TaskEligibility::Deferred(denial) => {
+            let reason = denial.reason(&item.repository, &policy_snapshot);
+            println!("policy gate: DEFERRED {reason}");
+            return Ok(ActionExecution::deferred(reason));
+        }
     }
     if !issue_repository_is_current(repository, "before agent execution")
         .classified(state::FailureClass::Infrastructure)?
     {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     run_agent(
         config,
@@ -2627,20 +2661,20 @@ fn execute_issue(
     if !issue_repository_is_current(repository, "after agent execution")
         .classified(state::FailureClass::Infrastructure)?
     {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !issue_revision_is_current(item, "after agent execution")
         .classified(state::FailureClass::Infrastructure)?
     {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !policy_snapshot_is_current(&workspace, &policy_snapshot, "after agent execution")? {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     if !has_changes(&workspace).classified(state::FailureClass::Repository)? {
         println!("Agent produced no working-tree changes; recording NO_PROGRESS.");
-        return Ok(ActionOutcome::NoProgress);
+        return Ok(ActionExecution::completed(ActionOutcome::NoProgress));
     }
 
     reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
@@ -2648,15 +2682,15 @@ fn execute_issue(
     if !issue_repository_is_current(repository, "after local validation")
         .classified(state::FailureClass::Infrastructure)?
     {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !issue_revision_is_current(item, "after local validation")
         .classified(state::FailureClass::Infrastructure)?
     {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !policy_snapshot_is_current(&workspace, &policy_snapshot, "after local validation")? {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     let message = format!("feat: progress issue #{}", item.number);
     let commit_sha =
@@ -2690,7 +2724,7 @@ fn execute_issue(
             "Publication remains PREPARED for {}#{}: {blocker}",
             item.repository, item.number
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !issue_revision_is_current(item, "before publication push")
         .classified(state::FailureClass::Infrastructure)?
@@ -2698,7 +2732,7 @@ fn execute_issue(
         store
             .clear(&key)
             .classified(state::FailureClass::Publication)?;
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !issue_repository_is_current(repository, "before publication push")
         .classified(state::FailureClass::Infrastructure)?
@@ -2706,13 +2740,13 @@ fn execute_issue(
         store
             .clear(&key)
             .classified(state::FailureClass::Publication)?;
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before publication push")? {
         store
             .clear(&key)
             .classified(state::FailureClass::Publication)?;
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     run_in_dir(
@@ -2770,7 +2804,7 @@ fn execute_issue(
     store
         .clear(&key)
         .classified(state::FailureClass::Publication)?;
-    Ok(ActionOutcome::Progress)
+    Ok(ActionExecution::completed(ActionOutcome::Progress))
 }
 fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<ActionOutcome, ActionFailure> {
     let workspace = prepare_pr_workspace(config, &item.repository, item.number)
@@ -3608,7 +3642,7 @@ fn execute_item(
     config: &RunConfig,
     snapshot: &TriageSnapshot,
     item: &WorkItem,
-) -> Result<ActionOutcome, ActionFailure> {
+) -> Result<ActionExecution, ActionFailure> {
     println!();
     println!("===== SELECTED WORK =====");
     println!("kind       : {}", item.kind.as_str());
@@ -3639,20 +3673,22 @@ fn execute_item(
                 snapshot.load_per_cpu(),
                 snapshot.cpu_count
             );
-            return Ok(ActionOutcome::Deferred);
+            return Ok(ActionExecution::deferred(format!(
+                "resource gate: {reason}"
+            )));
         }
     }
 
     match item.kind {
-        WorkKind::FixCi => execute_ci_fix(config, item),
+        WorkKind::FixCi => execute_ci_fix(config, item).map(ActionExecution::completed),
         WorkKind::PullRequest => {
             let repository = repository_by_name(&snapshot.repositories, &item.repository)
                 .classified(state::FailureClass::Repository)?;
-            handle_pr_attention(config, repository, item)
+            handle_pr_attention(config, repository, item).map(ActionExecution::completed)
         }
         WorkKind::Issue => execute_issue(config, &snapshot.repositories, item),
         WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::NoChecks | WorkKind::UnknownCi => {
-            Ok(ActionOutcome::Deferred)
+            Ok(ActionExecution::deferred("work kind is not actionable"))
         }
     }
 }
@@ -3910,12 +3946,12 @@ fn run_loop(config: RunConfig) -> ExitCode {
                         }
 
                         match execute_item(&config, &snapshot, item) {
-                            Ok(action_outcome) => {
+                            Ok(action_execution) => {
                                 let finished_at = unix_timestamp();
                                 if let Err(journal_error) = journal.record(
                                     trajectory::EventPhase::AttemptFinished,
-                                    action_outcome.as_str(),
-                                    "execution completed",
+                                    action_execution.outcome.as_str(),
+                                    &action_execution.detail,
                                     finished_at,
                                 ) {
                                     eprintln!("trajectory finalization failed: {journal_error}");
@@ -3924,20 +3960,21 @@ fn run_loop(config: RunConfig) -> ExitCode {
                                 match attempt_store.record_for_revision(
                                     &key,
                                     &revision,
-                                    action_outcome.state_outcome(),
+                                    action_execution.outcome.state_outcome(),
                                     finished_at,
                                 ) {
                                     Ok(attempt_state) => println!(
-                                        "Scheduler recorded {}; {}#{} next eligible at unix={}",
-                                        action_outcome.as_str(),
+                                        "Scheduler recorded {}; {}#{} next eligible at unix={} detail={}",
+                                        action_execution.outcome.as_str(),
                                         item.repository,
                                         item.number,
-                                        attempt_state.eligible_at()
+                                        attempt_state.eligible_at(),
+                                        action_execution.detail
                                     ),
                                     Err(state_error) => {
                                         eprintln!(
                                             "scheduler state write failed after {}: {state_error}",
-                                            action_outcome.as_str()
+                                            action_execution.outcome.as_str()
                                         );
                                         return ExitCode::FAILURE;
                                     }
