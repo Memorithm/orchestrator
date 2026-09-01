@@ -236,6 +236,29 @@ struct MergeEvidenceRule {
     source_blob: String,
 }
 
+const MAX_VALIDATION_STEPS: usize = 24;
+const MAX_VALIDATION_ARGV: usize = 32;
+const MAX_VALIDATION_ARG_CHARS: usize = 512;
+const MAX_VALIDATION_CWD_CHARS: usize = 256;
+const MAX_VALIDATION_TIMEOUT_SECS: u64 = 3_600;
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct PortableValidationStep {
+    pub(crate) id: String,
+    pub(crate) argv: Vec<String>,
+    pub(crate) cwd: String,
+    pub(crate) timeout_seconds: u64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct PortableValidationPlan {
+    pub(crate) steps: Vec<PortableValidationStep>,
+    pub(crate) source_ref: String,
+    pub(crate) source_path: String,
+    pub(crate) source_commit: String,
+    pub(crate) source_blob: String,
+}
+
 impl PolicySnapshot {
     pub(crate) fn identity_record(&self) -> String {
         let mut record = format!(
@@ -422,6 +445,23 @@ impl PolicySnapshot {
         }))
     }
 
+    pub(crate) fn portable_validation_plan(
+        &self,
+    ) -> Result<Option<PortableValidationPlan>, String> {
+        let mut selected = None;
+        for document in &self.documents {
+            let Some(plan) = parse_validation_plan(document)? else {
+                continue;
+            };
+            if selected.replace(plan).is_some() {
+                return Err(
+                    "duplicate validation_plan across mandatory policy documents".to_owned(),
+                );
+            }
+        }
+        Ok(selected)
+    }
+
     pub(crate) fn base_branch(&self) -> &str {
         &self.base_branch
     }
@@ -550,6 +590,314 @@ fn parse_autonomous_action_rules(
         ));
     }
     Ok(rules.into_values().collect())
+}
+
+fn parse_validation_argv(raw: &str) -> Result<Vec<String>, String> {
+    let raw = raw.trim();
+    if !raw.starts_with('[') || !raw.ends_with(']') {
+        return Err("validation argv must use a bracketed scalar list".to_owned());
+    }
+    let inner = &raw[1..raw.len() - 1];
+    if inner.trim().is_empty() {
+        return Err("validation argv must not be empty".to_owned());
+    }
+    let mut argv = Vec::new();
+    for raw_arg in inner.split(',') {
+        if argv.len() >= MAX_VALIDATION_ARGV {
+            return Err(format!(
+                "validation argv exceeds {MAX_VALIDATION_ARGV} elements"
+            ));
+        }
+        let arg = parse_policy_scalar(raw_arg.trim(), "validation argv")?;
+        if arg.is_empty()
+            || arg.chars().count() > MAX_VALIDATION_ARG_CHARS
+            || arg.chars().any(char::is_control)
+        {
+            return Err("invalid validation argv element".to_owned());
+        }
+        argv.push(arg);
+    }
+    let executable = argv.first().expect("non-empty checked above");
+    if executable.contains('/')
+        || executable.contains('\\')
+        || !executable.chars().all(|character| {
+            character.is_ascii_alphanumeric() || matches!(character, '-' | '_' | '.' | '+')
+        })
+    {
+        return Err(format!("unsafe validation executable: {executable:?}"));
+    }
+    if matches!(
+        executable.as_str(),
+        "git"
+            | "gh"
+            | "ssh"
+            | "scp"
+            | "curl"
+            | "wget"
+            | "bash"
+            | "sh"
+            | "zsh"
+            | "fish"
+            | "sudo"
+            | "su"
+            | "env"
+            | "xargs"
+            | "ollama"
+            | "opencode"
+    ) {
+        return Err(format!(
+            "validation executable is forbidden in portable plan v1: {executable}"
+        ));
+    }
+    Ok(argv)
+}
+
+fn validate_validation_cwd(value: &str) -> Result<String, String> {
+    let value = value.trim();
+    if value == "." {
+        return Ok(value.to_owned());
+    }
+    if value.is_empty()
+        || value.chars().count() > MAX_VALIDATION_CWD_CHARS
+        || value.starts_with('/')
+        || value.ends_with('/')
+        || value.contains('\\')
+        || value.contains(':')
+        || value.chars().any(char::is_control)
+    {
+        return Err(format!("unsafe validation cwd: {value:?}"));
+    }
+    for component in value.split('/') {
+        if component.is_empty() || matches!(component, "." | "..") {
+            return Err(format!("unsafe validation cwd: {value:?}"));
+        }
+    }
+    Ok(value.to_owned())
+}
+
+fn parse_validation_plan(
+    document: &PolicyDocument,
+) -> Result<Option<PortableValidationPlan>, String> {
+    #[derive(Default)]
+    struct PendingStep {
+        id: Option<String>,
+        argv: Option<Vec<String>>,
+        cwd: Option<String>,
+        timeout_seconds: Option<u64>,
+    }
+
+    fn finish_step(
+        pending: &mut Option<PendingStep>,
+        seen_ids: &mut BTreeSet<String>,
+        steps: &mut Vec<PortableValidationStep>,
+        document: &PolicyDocument,
+    ) -> Result<(), String> {
+        let Some(step) = pending.take() else {
+            return Ok(());
+        };
+        if steps.len() >= MAX_VALIDATION_STEPS {
+            return Err(format!(
+                "validation plan exceeds {MAX_VALIDATION_STEPS} steps in origin/{}:{}",
+                document.ref_name, document.path
+            ));
+        }
+        let id = step
+            .id
+            .ok_or_else(|| "validation step is missing id".to_owned())?;
+        let argv = step
+            .argv
+            .ok_or_else(|| format!("validation step {id} is missing argv"))?;
+        let cwd = step.cwd.unwrap_or_else(|| ".".to_owned());
+        let timeout_seconds = step.timeout_seconds.unwrap_or(300);
+        if !seen_ids.insert(id.clone()) {
+            return Err(format!("duplicate validation step id: {id}"));
+        }
+        steps.push(PortableValidationStep {
+            id,
+            argv,
+            cwd,
+            timeout_seconds,
+        });
+        Ok(())
+    }
+
+    let mut in_plan = false;
+    let mut in_steps = false;
+    let mut saw_section = false;
+    let mut schema_version = None;
+    let mut class = None;
+    let mut pending_step: Option<PendingStep> = None;
+    let mut seen_ids = BTreeSet::new();
+    let mut steps = Vec::new();
+
+    for raw_line in document.content.lines() {
+        let raw_line = raw_line.trim_end_matches('\r');
+        let trimmed = raw_line.trim();
+        if trimmed.is_empty() || trimmed.starts_with('#') {
+            continue;
+        }
+        if !in_plan {
+            if raw_line == "validation_plan:" {
+                if saw_section {
+                    return Err(format!(
+                        "duplicate validation_plan section in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+                in_plan = true;
+                saw_section = true;
+            }
+            continue;
+        }
+        if raw_line.starts_with('\t') {
+            return Err(format!(
+                "tab indentation is not allowed in validation_plan origin/{}:{}",
+                document.ref_name, document.path
+            ));
+        }
+        let indent = raw_line.len() - raw_line.trim_start_matches(' ').len();
+        if indent == 0 {
+            finish_step(&mut pending_step, &mut seen_ids, &mut steps, document)?;
+            in_plan = false;
+            in_steps = false;
+            if raw_line == "validation_plan:" {
+                return Err(format!(
+                    "duplicate validation_plan section in origin/{}:{}",
+                    document.ref_name, document.path
+                ));
+            }
+            continue;
+        }
+        if indent == 2 {
+            finish_step(&mut pending_step, &mut seen_ids, &mut steps, document)?;
+            in_steps = false;
+            let (key, raw_value) = trimmed.split_once(':').ok_or_else(|| {
+                format!(
+                    "malformed validation_plan field in origin/{}:{}",
+                    document.ref_name, document.path
+                )
+            })?;
+            match key {
+                "schema_version" => {
+                    let value = parse_policy_scalar(raw_value.trim(), key)?;
+                    if schema_version.replace(value.clone()).is_some() {
+                        return Err("duplicate validation_plan schema_version".to_owned());
+                    }
+                    if value != "1" {
+                        return Err(format!(
+                            "unsupported validation_plan schema_version {value}"
+                        ));
+                    }
+                }
+                "class" => {
+                    let value = parse_policy_scalar(raw_value.trim(), key)?;
+                    if class.replace(value.clone()).is_some() {
+                        return Err("duplicate validation_plan class".to_owned());
+                    }
+                    if value != "portable" {
+                        return Err(format!("unsupported validation_plan class: {value}"));
+                    }
+                }
+                "steps" if raw_value.trim().is_empty() => in_steps = true,
+                other => {
+                    return Err(format!("unknown validation_plan field: {other}"));
+                }
+            }
+            continue;
+        }
+        if indent == 4 && trimmed.starts_with("- ") {
+            if !in_steps {
+                return Err("validation step declared outside steps".to_owned());
+            }
+            finish_step(&mut pending_step, &mut seen_ids, &mut steps, document)?;
+            let rest = trimmed.trim_start_matches("- ");
+            let (key, raw_value) = rest
+                .split_once(':')
+                .ok_or_else(|| "malformed validation step declaration".to_owned())?;
+            if key != "id" {
+                return Err("validation step must begin with id".to_owned());
+            }
+            let id = parse_policy_scalar(raw_value.trim(), "validation step id")?;
+            if id.is_empty()
+                || id.len() > 64
+                || !id.chars().all(|character| {
+                    character.is_ascii_alphanumeric() || matches!(character, '-' | '_' | '.')
+                })
+            {
+                return Err(format!("invalid validation step id: {id:?}"));
+            }
+            pending_step = Some(PendingStep {
+                id: Some(id),
+                ..PendingStep::default()
+            });
+            continue;
+        }
+        if indent == 6 && in_steps {
+            let step = pending_step
+                .as_mut()
+                .ok_or_else(|| "validation step field appears before id".to_owned())?;
+            let (key, raw_value) = trimmed
+                .split_once(':')
+                .ok_or_else(|| "malformed validation step field".to_owned())?;
+            match key {
+                "argv" => {
+                    if step.argv.is_some() {
+                        return Err("duplicate validation step argv".to_owned());
+                    }
+                    step.argv = Some(parse_validation_argv(raw_value.trim())?);
+                }
+                "cwd" => {
+                    if step.cwd.is_some() {
+                        return Err("duplicate validation step cwd".to_owned());
+                    }
+                    let value = parse_policy_scalar(raw_value.trim(), key)?;
+                    step.cwd = Some(validate_validation_cwd(&value)?);
+                }
+                "timeout_seconds" => {
+                    if step.timeout_seconds.is_some() {
+                        return Err("duplicate validation step timeout_seconds".to_owned());
+                    }
+                    let value = parse_policy_scalar(raw_value.trim(), key)?;
+                    let timeout = value
+                        .parse::<u64>()
+                        .map_err(|_| format!("invalid validation timeout_seconds: {value}"))?;
+                    if timeout == 0 || timeout > MAX_VALIDATION_TIMEOUT_SECS {
+                        return Err(format!(
+                            "validation timeout_seconds must be within 1..={MAX_VALIDATION_TIMEOUT_SECS}"
+                        ));
+                    }
+                    step.timeout_seconds = Some(timeout);
+                }
+                other => return Err(format!("unknown validation step field: {other}")),
+            }
+            continue;
+        }
+        return Err(format!(
+            "unsupported validation_plan indentation or structure in origin/{}:{}",
+            document.ref_name, document.path
+        ));
+    }
+
+    if !saw_section {
+        return Ok(None);
+    }
+    finish_step(&mut pending_step, &mut seen_ids, &mut steps, document)?;
+    if schema_version.as_deref() != Some("1") {
+        return Err("validation_plan requires schema_version: 1".to_owned());
+    }
+    if class.as_deref() != Some("portable") {
+        return Err("validation_plan requires class: portable".to_owned());
+    }
+    if steps.is_empty() {
+        return Err("validation_plan requires at least one step".to_owned());
+    }
+    Ok(Some(PortableValidationPlan {
+        steps,
+        source_ref: document.ref_name.clone(),
+        source_path: document.path.clone(),
+        source_commit: document.commit_sha.clone(),
+        source_blob: document.blob_sha.clone(),
+    }))
 }
 
 fn parse_merge_evidence_policy(
@@ -1426,6 +1774,21 @@ fn git_capture_raw(workspace: &Path, args: &[&str]) -> Result<String, String> {
 }
 
 #[cfg(test)]
+pub(crate) fn test_snapshot_for_validation(
+    repository: &str,
+    base_branch: &str,
+    base_sha: &str,
+) -> PolicySnapshot {
+    PolicySnapshot {
+        repository: repository.to_owned(),
+        base_branch: base_branch.to_owned(),
+        base_sha: base_sha.to_owned(),
+        bootstrap: None,
+        documents: Vec::new(),
+    }
+}
+
+#[cfg(test)]
 mod tests {
     use super::*;
     use std::time::{SystemTime, UNIX_EPOCH};
@@ -1770,6 +2133,65 @@ roadmap:
                 )
                 .is_err()
         );
+    }
+
+    #[test]
+    fn portable_validation_plan_is_structured_and_bounded() {
+        let snapshot = snapshot_with_policy_documents(&[r#"validation_plan:
+  schema_version: 1
+  class: portable
+  steps:
+    - id: fmt
+      argv: [cargo, fmt, --all, --, --check]
+      cwd: .
+      timeout_seconds: 120
+    - id: tests
+      argv: [cargo, test, --workspace]
+      cwd: crates/core
+      timeout_seconds: 300
+"#]);
+        let plan = snapshot
+            .portable_validation_plan()
+            .unwrap()
+            .expect("portable plan");
+        assert_eq!(plan.steps.len(), 2);
+        assert_eq!(plan.steps[0].id, "fmt");
+        assert_eq!(plan.steps[0].argv[0], "cargo");
+        assert_eq!(plan.steps[1].cwd, "crates/core");
+        assert_eq!(plan.steps[1].timeout_seconds, 300);
+        assert_eq!(plan.source_ref, "agent/policy-0");
+    }
+
+    #[test]
+    fn validation_plan_rejects_shell_unsafe_or_ambiguous_structure() {
+        for content in [
+            "validation_plan:\n  schema_version: 2\n  class: portable\n  steps:\n    - id: x\n      argv: [cargo, check]\n",
+            "validation_plan:\n  schema_version: 1\n  class: hardware\n  steps:\n    - id: x\n      argv: [cargo, check]\n",
+            "validation_plan:\n  schema_version: 1\n  class: portable\n  steps:\n    - id: x\n      argv: [bash, -c, echo bad]\n",
+            "validation_plan:\n  schema_version: 1\n  class: portable\n  steps:\n    - id: x\n      argv: [../tool]\n",
+            "validation_plan:\n  schema_version: 1\n  class: portable\n  steps:\n    - id: x\n      argv: [cargo, check]\n      cwd: ../outside\n",
+            "validation_plan:\n  schema_version: 1\n  class: portable\n  steps:\n    - id: x\n      argv: [cargo, check]\n    - id: x\n      argv: [cargo, test]\n",
+            "validation_plan:\n  schema_version: 1\n  class: portable\n  unknown: value\n  steps:\n    - id: x\n      argv: [cargo, check]\n",
+        ] {
+            assert!(
+                snapshot_with_policy_documents(&[content])
+                    .portable_validation_plan()
+                    .is_err()
+            );
+        }
+        let duplicate = snapshot_with_policy_documents(&[
+            "validation_plan:\n  schema_version: 1\n  class: portable\n  steps:\n    - id: x\n      argv: [cargo, check]\n",
+            "validation_plan:\n  schema_version: 1\n  class: portable\n  steps:\n    - id: y\n      argv: [cargo, test]\n",
+        ]);
+        assert!(duplicate.portable_validation_plan().is_err());
+    }
+
+    #[test]
+    fn validation_plan_is_not_inferred_from_free_text() {
+        let snapshot = snapshot_with_policy_documents(&[r#"notes: >-
+  validation_plan: cargo test --workspace
+"#]);
+        assert!(snapshot.portable_validation_plan().unwrap().is_none());
     }
 
     #[test]
