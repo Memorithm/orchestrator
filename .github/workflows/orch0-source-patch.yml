@@ -1,0 +1,263 @@
+name: Temporary ORCH0 source patch
+
+on:
+  push:
+    branches:
+      - feat/orch0-policy-bootstrap-v1
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply exact source transformations
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p = Path(path)
+              data = p.read_text()
+              count = data.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected exactly one match, found {count}: {old[:120]!r}")
+              p.write_text(data.replace(old, new, 1))
+
+          # policy.rs: persist an exact, line-safe identity in publication state.
+          replace_once(
+              "src/policy.rs",
+              '''    pub(crate) fn prompt_context(&self) -> String {\n''',
+              '''    pub(crate) fn identity_token(&self) -> String {\n        use std::fmt::Write as _;\n\n        let record = self.identity_record();\n        let mut encoded = String::with_capacity(record.len().saturating_mul(2));\n        for byte in record.as_bytes() {\n            let _ = write!(encoded, "{byte:02x}");\n        }\n        encoded\n    }\n\n    pub(crate) fn prompt_context(&self) -> String {\n''',
+          )
+
+          # publication.rs: v3 binds every resumable publication to its policy identity.
+          replace_once(
+              "src/publication.rs",
+              '''const PUBLICATION_VERSION: &str = "v2";\nconst LEGACY_PUBLICATION_VERSION: &str = "v1";\n''',
+              '''const PUBLICATION_VERSION: &str = "v3";\nconst LEGACY_PUBLICATION_VERSION_V2: &str = "v2";\nconst LEGACY_PUBLICATION_VERSION_V1: &str = "v1";\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''    pub(crate) source_revision: Option<String>,\n    pub(crate) phase: PublicationPhase,\n''',
+              '''    pub(crate) source_revision: Option<String>,\n    pub(crate) policy_identity: Option<String>,\n    pub(crate) phase: PublicationPhase,\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''        source_revision: String,\n        phase: PublicationPhase,\n    ) -> Result<Self, String> {\n        validate_ref_component("branch", &branch)?;\n        validate_ref_component("base branch", &base_branch)?;\n        validate_commit(&commit)?;\n        validate_source_revision(&source_revision)?;\n        Ok(Self {\n            branch,\n            commit,\n            base_branch,\n            source_revision: Some(source_revision),\n            phase,\n        })\n    }\n\n    fn legacy(\n        branch: String,\n        commit: String,\n        base_branch: String,\n        phase: PublicationPhase,\n    ) -> Result<Self, String> {\n        validate_ref_component("branch", &branch)?;\n        validate_ref_component("base branch", &base_branch)?;\n        validate_commit(&commit)?;\n        Ok(Self {\n            branch,\n            commit,\n            base_branch,\n            source_revision: None,\n            phase,\n        })\n    }\n''',
+              '''        source_revision: String,\n        policy_identity: String,\n        phase: PublicationPhase,\n    ) -> Result<Self, String> {\n        validate_ref_component("branch", &branch)?;\n        validate_ref_component("base branch", &base_branch)?;\n        validate_commit(&commit)?;\n        validate_source_revision(&source_revision)?;\n        validate_policy_identity(&policy_identity)?;\n        Ok(Self {\n            branch,\n            commit,\n            base_branch,\n            source_revision: Some(source_revision),\n            policy_identity: Some(policy_identity),\n            phase,\n        })\n    }\n\n    fn legacy_v2(\n        branch: String,\n        commit: String,\n        base_branch: String,\n        source_revision: String,\n        phase: PublicationPhase,\n    ) -> Result<Self, String> {\n        validate_ref_component("branch", &branch)?;\n        validate_ref_component("base branch", &base_branch)?;\n        validate_commit(&commit)?;\n        validate_source_revision(&source_revision)?;\n        Ok(Self {\n            branch,\n            commit,\n            base_branch,\n            source_revision: Some(source_revision),\n            policy_identity: None,\n            phase,\n        })\n    }\n\n    fn legacy_v1(\n        branch: String,\n        commit: String,\n        base_branch: String,\n        phase: PublicationPhase,\n    ) -> Result<Self, String> {\n        validate_ref_component("branch", &branch)?;\n        validate_ref_component("base branch", &base_branch)?;\n        validate_commit(&commit)?;\n        Ok(Self {\n            branch,\n            commit,\n            base_branch,\n            source_revision: None,\n            policy_identity: None,\n            phase,\n        })\n    }\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''        validate_source_revision(source_revision)?;\n\n        let path = key.path(&self.root);\n''',
+              '''        validate_source_revision(source_revision)?;\n        let policy_identity = publication.policy_identity.as_deref().ok_or_else(|| {\n            "refusing to persist publication without a policy identity".to_owned()\n        })?;\n        validate_policy_identity(policy_identity)?;\n\n        let path = key.path(&self.root);\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''        file.write_all(serialize_publication(publication, source_revision).as_bytes())\n''',
+              '''        file.write_all(\n            serialize_publication(publication, source_revision, policy_identity).as_bytes(),\n        )\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''fn serialize_publication(publication: &PendingPublication, source_revision: &str) -> String {\n    format!(\n        "{PUBLICATION_VERSION}\\nbranch={}\\ncommit={}\\nbase_branch={}\\nsource_revision={}\\nphase={}\\n",\n        publication.branch,\n        publication.commit,\n        publication.base_branch,\n        source_revision,\n        publication.phase.as_str()\n    )\n}\n''',
+              '''fn validate_policy_identity(identity: &str) -> Result<(), String> {\n    if identity.is_empty()\n        || identity.len() > 65_536\n        || !identity.bytes().all(|byte| byte.is_ascii_hexdigit())\n    {\n        return Err("invalid publication policy identity".to_owned());\n    }\n    Ok(())\n}\n\nfn serialize_publication(\n    publication: &PendingPublication,\n    source_revision: &str,\n    policy_identity: &str,\n) -> String {\n    format!(\n        "{PUBLICATION_VERSION}\\nbranch={}\\ncommit={}\\nbase_branch={}\\nsource_revision={}\\npolicy_identity={}\\nphase={}\\n",\n        publication.branch,\n        publication.commit,\n        publication.base_branch,\n        source_revision,\n        policy_identity,\n        publication.phase.as_str()\n    )\n}\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''    if version != PUBLICATION_VERSION && version != LEGACY_PUBLICATION_VERSION {\n        return Err(format!("unsupported publication state version: {version}"));\n    }\n    let legacy = version == LEGACY_PUBLICATION_VERSION;\n\n    let mut branch = None;\n    let mut commit = None;\n    let mut base_branch = None;\n    let mut source_revision = None;\n    let mut phase = None;\n''',
+              '''    if version != PUBLICATION_VERSION\n        && version != LEGACY_PUBLICATION_VERSION_V2\n        && version != LEGACY_PUBLICATION_VERSION_V1\n    {\n        return Err(format!("unsupported publication state version: {version}"));\n    }\n    let legacy_v1 = version == LEGACY_PUBLICATION_VERSION_V1;\n    let legacy_v2 = version == LEGACY_PUBLICATION_VERSION_V2;\n\n    let mut branch = None;\n    let mut commit = None;\n    let mut base_branch = None;\n    let mut source_revision = None;\n    let mut policy_identity = None;\n    let mut phase = None;\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''            "source_revision" if !legacy => source_revision = Some(value.to_owned()),\n            "phase" => phase = Some(PublicationPhase::parse(value)?),\n''',
+              '''            "source_revision" if !legacy_v1 => source_revision = Some(value.to_owned()),\n            "policy_identity" if !legacy_v1 && !legacy_v2 => {\n                policy_identity = Some(value.to_owned())\n            }\n            "phase" => phase = Some(PublicationPhase::parse(value)?),\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''    if legacy {\n        PendingPublication::legacy(branch, commit, base_branch, phase)\n    } else {\n        PendingPublication::new(\n            branch,\n            commit,\n            base_branch,\n            source_revision.ok_or_else(|| "missing source_revision".to_owned())?,\n            phase,\n        )\n    }\n''',
+              '''    if legacy_v1 {\n        PendingPublication::legacy_v1(branch, commit, base_branch, phase)\n    } else if legacy_v2 {\n        PendingPublication::legacy_v2(\n            branch,\n            commit,\n            base_branch,\n            source_revision.ok_or_else(|| "missing source_revision".to_owned())?,\n            phase,\n        )\n    } else {\n        PendingPublication::new(\n            branch,\n            commit,\n            base_branch,\n            source_revision.ok_or_else(|| "missing source_revision".to_owned())?,\n            policy_identity.ok_or_else(|| "missing policy_identity".to_owned())?,\n            phase,\n        )\n    }\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''            "issue-updated:2026-08-30T18:00:00Z".to_owned(),\n            phase,\n''',
+              '''            "issue-updated:2026-08-30T18:00:00Z".to_owned(),\n            "706f6c6963792d7631".to_owned(),\n            phase,\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''        assert_eq!(legacy.source_revision, None);\n\n        let root = temporary_root("legacy-unbound");\n''',
+              '''        assert_eq!(legacy.source_revision, None);\n        assert_eq!(legacy.policy_identity, None);\n\n        let root = temporary_root("legacy-unbound");\n''',
+          )
+          replace_once(
+              "src/publication.rs",
+              '''                "issue-updated:2026-08-30T18:00:00Z".to_owned(),\n                PublicationPhase::Prepared,\n''',
+              '''                "issue-updated:2026-08-30T18:00:00Z".to_owned(),\n                "706f6c6963792d7631".to_owned(),\n                PublicationPhase::Prepared,\n''',
+          )
+
+          # main.rs: compile policy module and accept actual repository default branches.
+          replace_once(
+              "src/main.rs",
+              '''mod merge_policy;\nmod publication;\n''',
+              '''mod merge_policy;\nmod policy;\nmod publication;\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    matches!(selected.default_branch.as_deref(), Some("main" | "master"))\n        && selected\n''',
+              '''    selected.default_branch.is_some()\n        && selected\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    match repository.default_branch.as_deref() {\n        Some("main" | "master") => Pilotability::Eligible,\n        Some(_) | None => Pilotability::ReviewSpecialBranch,\n    }\n''',
+              '''    match repository.default_branch.as_deref() {\n        Some(_) => Pilotability::Eligible,\n        None => Pilotability::ReviewSpecialBranch,\n    }\n''',
+          )
+
+          # Load, persist and revalidate policy snapshots through one narrow helper layer.
+          replace_once(
+              "src/main.rs",
+              '''fn agent_prompt(item: &WorkItem, body: &str, ci_evidence: Option<&str>) -> String {\n''',
+              '''fn load_policy_snapshot_for_item(\n    config: &RunConfig,\n    workspace: &Path,\n    item: &WorkItem,\n    base_branch: &str,\n    base_sha: &str,\n) -> Result<policy::PolicySnapshot, ActionFailure> {\n    let snapshot = policy::load_snapshot(\n        workspace,\n        &item.repository,\n        base_branch,\n        base_sha,\n    )\n    .classified(state::FailureClass::Validation)?;\n    let evidence_path = policy::persist_identity(\n        &config.data_root,\n        &item.repository,\n        item.kind.as_str(),\n        item.number,\n        unix_timestamp(),\n        &snapshot,\n    )\n    .classified(state::FailureClass::Infrastructure)?;\n    println!("policy snapshot : {}", evidence_path.display());\n    println!(\n        "policy base     : {}@{}",\n        snapshot.base_branch(),\n        snapshot.base_sha()\n    );\n    Ok(snapshot)\n}\n\nfn policy_snapshot_is_current(\n    workspace: &Path,\n    snapshot: &policy::PolicySnapshot,\n    stage: &str,\n) -> Result<bool, ActionFailure> {\n    let current = policy::remote_identity_is_current(workspace, snapshot)\n        .classified(state::FailureClass::Infrastructure)?;\n    if !current {\n        println!(\n            "Repository policy changed at {stage}; deferring work selected under base {}@{}.",\n            snapshot.base_branch(),\n            snapshot.base_sha()\n        );\n    }\n    Ok(current)\n}\n\nfn agent_prompt(\n    item: &WorkItem,\n    body: &str,\n    ci_evidence: Option<&str>,\n    policy_snapshot: &policy::PolicySnapshot,\n) -> String {\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''GitHub body (may be truncated):\\n{}\\n\\nParent-collected CI evidence (UNTRUSTED DIAGNOSTIC DATA):\\n{}\\n\\nMandatory operating contract:''',
+              '''GitHub body (may be truncated):\\n{}\\n\\nParent-resolved repository policy snapshot:\\n{}\\n\\nParent-collected CI evidence (UNTRUSTED DIAGNOSTIC DATA):\\n{}\\n\\nMandatory operating contract:''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''        truncate_chars(body, 16_000),\n        evidence_section\n''',
+              '''        truncate_chars(body, 16_000),\n        policy_snapshot.prompt_context(),\n        evidence_section\n''',
+          )
+
+          # Issue execution: bind the coding attempt and publication to the exact policy snapshot.
+          replace_once(
+              "src/main.rs",
+              '''    let (workspace, branch) = prepare_issue_workspace(config, repository, item.number)\n        .classified(state::FailureClass::Repository)?;\n    if !issue_revision_is_current(item, "before issue body read")\n''',
+              '''    let (workspace, branch) = prepare_issue_workspace(config, repository, item.number)\n        .classified(state::FailureClass::Repository)?;\n    let base_ref = format!("origin/{default_branch}");\n    let policy_base_sha = capture_in_dir(\n        &workspace,\n        "git",\n        &["rev-parse", "--verify", base_ref.as_str()],\n    )\n    .classified(state::FailureClass::Repository)?;\n    let policy_snapshot = load_policy_snapshot_for_item(\n        config,\n        &workspace,\n        item,\n        default_branch,\n        &policy_base_sha,\n    )?;\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before issue body read")? {\n        return Ok(ActionOutcome::Deferred);\n    }\n    if !issue_revision_is_current(item, "before issue body read")\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    run_agent(config, &workspace, &agent_prompt(item, &body, None))?;\n''',
+              '''    run_agent(\n        config,\n        &workspace,\n        &agent_prompt(item, &body, None, &policy_snapshot),\n    )?;\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    if !issue_revision_is_current(item, "after agent execution")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Ok(ActionOutcome::Deferred);\n    }\n\n    if !has_changes(&workspace).classified(state::FailureClass::Repository)? {\n''',
+              '''    if !issue_revision_is_current(item, "after agent execution")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Ok(ActionOutcome::Deferred);\n    }\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "after agent execution")? {\n        return Ok(ActionOutcome::Deferred);\n    }\n\n    if !has_changes(&workspace).classified(state::FailureClass::Repository)? {\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    if !issue_revision_is_current(item, "after local validation")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Ok(ActionOutcome::Deferred);\n    }\n    let message = format!("feat: progress issue #{}", item.number);\n''',
+              '''    if !issue_revision_is_current(item, "after local validation")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Ok(ActionOutcome::Deferred);\n    }\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "after local validation")? {\n        return Ok(ActionOutcome::Deferred);\n    }\n    let message = format!("feat: progress issue #{}", item.number);\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''        default_branch.to_owned(),\n        selected_revision,\n        publication::PublicationPhase::Prepared,\n''',
+              '''        default_branch.to_owned(),\n        selected_revision,\n        policy_snapshot.identity_token(),\n        publication::PublicationPhase::Prepared,\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    if !issue_repository_is_current(repository, "before publication push")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        store\n            .clear(&key)\n            .classified(state::FailureClass::Publication)?;\n        return Ok(ActionOutcome::Deferred);\n    }\n\n    run_in_dir(\n''',
+              '''    if !issue_repository_is_current(repository, "before publication push")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        store\n            .clear(&key)\n            .classified(state::FailureClass::Publication)?;\n        return Ok(ActionOutcome::Deferred);\n    }\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before publication push")? {\n        store\n            .clear(&key)\n            .classified(state::FailureClass::Publication)?;\n        return Ok(ActionOutcome::Deferred);\n    }\n\n    run_in_dir(\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    if !issue_repository_is_current(repository, "before PR creation after push")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Err(ActionFailure::new(\n            state::FailureClass::Publication,\n            format!(\n                "repository eligibility changed after branch {} was pushed; retaining PUSHED transaction and refusing stale PR creation",\n                branch\n            ),\n        ));\n    }\n    create_issue_pull_request(&workspace, item, default_branch, &branch)\n''',
+              '''    if !issue_repository_is_current(repository, "before PR creation after push")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Err(ActionFailure::new(\n            state::FailureClass::Publication,\n            format!(\n                "repository eligibility changed after branch {} was pushed; retaining PUSHED transaction and refusing stale PR creation",\n                branch\n            ),\n        ));\n    }\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before PR creation after push")? {\n        return Err(ActionFailure::new(\n            state::FailureClass::Publication,\n            format!(\n                "repository policy changed after branch {} was pushed; retaining PUSHED transaction and refusing stale PR creation",\n                branch\n            ),\n        ));\n    }\n    create_issue_pull_request(&workspace, item, default_branch, &branch)\n''',
+          )
+
+          # CI repair: resolve policy from the exact PR base and revalidate before mutation.
+          replace_once(
+              "src/main.rs",
+              '''    let local_head = capture_in_dir(&workspace, "git", &["rev-parse", "HEAD"])\n        .classified(state::FailureClass::Repository)?;\n    if !ci_fix_target_still_failed(item, &local_head, "before evidence collection")\n''',
+              '''    let local_head = capture_in_dir(&workspace, "git", &["rev-parse", "HEAD"])\n        .classified(state::FailureClass::Repository)?;\n    let metadata = pr_merge_metadata(&item.repository, item.number)\n        .classified(state::FailureClass::Infrastructure)?;\n    let base_ref = format!("origin/{}", metadata.base_branch);\n    let policy_base_sha = capture_in_dir(\n        &workspace,\n        "git",\n        &["rev-parse", "--verify", base_ref.as_str()],\n    )\n    .classified(state::FailureClass::Repository)?;\n    let policy_snapshot = load_policy_snapshot_for_item(\n        config,\n        &workspace,\n        item,\n        &metadata.base_branch,\n        &policy_base_sha,\n    )?;\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before CI evidence collection")? {\n        return Ok(ActionOutcome::Deferred);\n    }\n    if !ci_fix_target_still_failed(item, &local_head, "before evidence collection")\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''        &agent_prompt(item, &body, Some(&ci_evidence.text)),\n''',
+              '''        &agent_prompt(item, &body, Some(&ci_evidence.text), &policy_snapshot),\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    if !ci_fix_target_still_failed(item, &local_head, "after agent execution")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Ok(ActionOutcome::Deferred);\n    }\n\n    if !has_changes(&workspace).classified(state::FailureClass::Repository)? {\n''',
+              '''    if !ci_fix_target_still_failed(item, &local_head, "after agent execution")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Ok(ActionOutcome::Deferred);\n    }\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "after CI repair agent execution")? {\n        return Ok(ActionOutcome::Deferred);\n    }\n\n    if !has_changes(&workspace).classified(state::FailureClass::Repository)? {\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    if !ci_fix_target_still_failed(item, &local_head, "immediately before push")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Ok(ActionOutcome::Deferred);\n    }\n    run_in_dir(&workspace, "git", &["push", "origin", "HEAD"])\n''',
+              '''    if !ci_fix_target_still_failed(item, &local_head, "immediately before push")\n        .classified(state::FailureClass::Infrastructure)?\n    {\n        return Ok(ActionOutcome::Deferred);\n    }\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "immediately before CI repair push")? {\n        return Ok(ActionOutcome::Deferred);\n    }\n    run_in_dir(&workspace, "git", &["push", "origin", "HEAD"])\n''',
+          )
+
+          # Merge path: policy branch changes are as stale as base/head changes.
+          replace_once(
+              "src/main.rs",
+              '''    let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")\n        .classified(state::FailureClass::Repository)?;\n''',
+              '''    let policy_snapshot = load_policy_snapshot_for_item(\n        config,\n        &workspace,\n        item,\n        default_branch,\n        &validated_base_sha,\n    )?;\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before merge validation")? {\n        return Ok(ActionOutcome::Deferred);\n    }\n    let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")\n        .classified(state::FailureClass::Repository)?;\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''                let refspec = format!("HEAD:refs/heads/{}", metadata.head_branch);\n                run_in_dir(&workspace, "git", &["push", "origin", refspec.as_str()])\n''',
+              '''                if !policy_snapshot_is_current(\n                    &workspace,\n                    &policy_snapshot,\n                    "before base-sync push",\n                )? {\n                    return Ok(ActionOutcome::Deferred);\n                }\n                let refspec = format!("HEAD:refs/heads/{}", metadata.head_branch);\n                run_in_dir(&workspace, "git", &["push", "origin", refspec.as_str()])\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    let number = item.number.to_string();\n    if item.draft {\n''',
+              '''    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before ready-or-merge mutation")? {\n        return Ok(ActionOutcome::Deferred);\n    }\n\n    let number = item.number.to_string();\n    if item.draft {\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    if live_base_sha != validated_base_sha {\n        println!(\n            "{}#{} base {} advanced from validated {} to {}; deferring merge so the next cycle can synchronize and revalidate.",\n            item.repository, item.number, default_branch, validated_base_sha, live_base_sha\n        );\n        return Ok(ActionOutcome::Deferred);\n    }\n\n    println!(\n        "Merging {}#{} at exact validated head {} on unchanged base {}",\n''',
+              '''    if live_base_sha != validated_base_sha {\n        println!(\n            "{}#{} base {} advanced from validated {} to {}; deferring merge so the next cycle can synchronize and revalidate.",\n            item.repository, item.number, default_branch, validated_base_sha, live_base_sha\n        );\n        return Ok(ActionOutcome::Deferred);\n    }\n    if !policy_snapshot_is_current(&workspace, &policy_snapshot, "immediately before merge")? {\n        return Ok(ActionOutcome::Deferred);\n    }\n\n    println!(\n        "Merging {}#{} at exact validated head {} on unchanged base {}",\n''',
+          )
+
+          # Restart-safe publication recovery: legacy/unbound or stale policy state fails closed.
+          replace_once(
+              "src/main.rs",
+              '''    let workspace = ensure_clone(config, &repository.name_with_owner)?;\n    clean_and_fetch(&workspace)?;\n    let local_ref = format!("refs/heads/{}", pending.branch);\n''',
+              '''    let workspace = ensure_clone(config, &repository.name_with_owner)?;\n    clean_and_fetch(&workspace)?;\n    let base_ref = format!("origin/{default_branch}");\n    let live_policy_base_sha = capture_in_dir(\n        &workspace,\n        "git",\n        &["rev-parse", "--verify", base_ref.as_str()],\n    )?;\n    let policy_snapshot = policy::load_snapshot(\n        &workspace,\n        &item.repository,\n        default_branch,\n        &live_policy_base_sha,\n    )?;\n    let policy_evidence = policy::persist_identity(\n        &config.data_root,\n        &item.repository,\n        item.kind.as_str(),\n        item.number,\n        unix_timestamp(),\n        &policy_snapshot,\n    )?;\n    println!("policy snapshot : {}", policy_evidence.display());\n    let live_policy_identity = policy_snapshot.identity_token();\n    if pending.policy_identity.as_deref() != Some(live_policy_identity.as_str()) {\n        if pending.phase == publication::PublicationPhase::Prepared {\n            println!(\n                "Discarding PREPARED publication {} because its policy identity is absent or stale.",\n                pending.branch\n            );\n            store.clear(key)?;\n            return Ok(ActionOutcome::Deferred);\n        }\n        return Err(format!(\n            "refusing to resume PUSHED publication {} because its policy identity is absent or stale; manual review is required",\n            pending.branch\n        ));\n    }\n    if !policy::remote_identity_is_current(&workspace, &policy_snapshot)? {\n        if pending.phase == publication::PublicationPhase::Prepared {\n            store.clear(key)?;\n            return Ok(ActionOutcome::Deferred);\n        }\n        return Err(format!(\n            "refusing to resume PUSHED publication {} because repository policy changed during recovery; manual review is required",\n            pending.branch\n        ));\n    }\n    let local_ref = format!("refs/heads/{}", pending.branch);\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''            if !issue_repository_is_current(repository, "before resumed publication push")? {\n                store.clear(key)?;\n                return Ok(ActionOutcome::Deferred);\n            }\n            run_in_dir(\n''',
+              '''            if !issue_repository_is_current(repository, "before resumed publication push")? {\n                store.clear(key)?;\n                return Ok(ActionOutcome::Deferred);\n            }\n            if !policy::remote_identity_is_current(&workspace, &policy_snapshot)? {\n                store.clear(key)?;\n                return Ok(ActionOutcome::Deferred);\n            }\n            run_in_dir(\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''    if !issue_repository_is_current(repository, "before resumed PR creation")? {\n        return Err(format!(\n            "refusing PR creation for already-PUSHED publication {} because repository eligibility changed; manual review is required",\n            pending.branch\n        ));\n    }\n    create_issue_pull_request(&workspace, item, default_branch, &pending.branch)?;\n''',
+              '''    if !issue_repository_is_current(repository, "before resumed PR creation")? {\n        return Err(format!(\n            "refusing PR creation for already-PUSHED publication {} because repository eligibility changed; manual review is required",\n            pending.branch\n        ));\n    }\n    if !policy::remote_identity_is_current(&workspace, &policy_snapshot)? {\n        return Err(format!(\n            "refusing PR creation for already-PUSHED publication {} because repository policy changed; manual review is required",\n            pending.branch\n        ));\n    }\n    create_issue_pull_request(&workspace, item, default_branch, &pending.branch)?;\n''',
+          )
+
+          # Tests reflect metadata-derived nonstandard default branch eligibility.
+          replace_once(
+              "src/main.rs",
+              '''            classify_repository(&special, "Memorithm"),\n            Pilotability::ReviewSpecialBranch\n''',
+              '''            classify_repository(&special, "Memorithm"),\n            Pilotability::Eligible\n''',
+          )
+          replace_once(
+              "src/main.rs",
+              '''        assert!(!repository_identity_allows_issue_work(&special, &special));\n''',
+              '''        assert!(repository_identity_allows_issue_work(&special, &special));\n''',
+          )
+          PY
+
+      - name: Validate generated source
+        run: |
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Commit validated source patch
+        shell: bash
+        run: |
+          git config user.name 'ZEKRITI Tarek'
+          git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+          git add src/main.rs src/publication.rs src/policy.rs
+          git diff --cached --check
+          git commit -m 'feat(policy): enforce policy snapshots across work lifecycle'
+          git push origin HEAD:feat/orch0-policy-bootstrap-v1
