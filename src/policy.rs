@@ -237,32 +237,44 @@ pub(crate) fn persist_identity(
             directory.display()
         )
     })?;
-    let path = directory.join(format!(
-        "{timestamp}-{}-{}.txt",
-        std::process::id(),
-        short_object_id(snapshot.base_sha())
-    ));
-    let mut file = OpenOptions::new()
-        .create_new(true)
-        .write(true)
-        .open(&path)
-        .map_err(|error| {
-            format!(
-                "failed to create policy evidence {}: {error}",
-                path.display()
-            )
+
+    for sequence in 0..1_024_u16 {
+        let suffix = if sequence == 0 {
+            String::new()
+        } else {
+            format!("-{sequence}")
+        };
+        let path = directory.join(format!(
+            "{timestamp}-{}-{}{}.txt",
+            std::process::id(),
+            short_object_id(snapshot.base_sha()),
+            suffix
+        ));
+        let mut file = match OpenOptions::new().create_new(true).write(true).open(&path) {
+            Ok(file) => file,
+            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
+            Err(error) => {
+                return Err(format!(
+                    "failed to create policy evidence {}: {error}",
+                    path.display()
+                ));
+            }
+        };
+        file.write_all(snapshot.identity_record().as_bytes())
+            .and_then(|_| file.write_all(b"\n"))
+            .map_err(|error| {
+                format!(
+                    "failed to write policy evidence {}: {error}",
+                    path.display()
+                )
+            })?;
+        file.sync_all().map_err(|error| {
+            format!("failed to sync policy evidence {}: {error}", path.display())
         })?;
-    file.write_all(snapshot.identity_record().as_bytes())
-        .and_then(|_| file.write_all(b"\n"))
-        .map_err(|error| {
-            format!(
-                "failed to write policy evidence {}: {error}",
-                path.display()
-            )
-        })?;
-    file.sync_all()
-        .map_err(|error| format!("failed to sync policy evidence {}: {error}", path.display()))?;
-    Ok(path)
+        return Ok(path);
+    }
+
+    Err("policy evidence sequence exhausted for one timestamp".to_owned())
 }
 
 fn short_object_id(value: &str) -> &str {
@@ -642,6 +654,21 @@ mod tests {
     }
 
     #[test]
+    fn base_branch_validation_accepts_master_and_nonstandard_defaults() {
+        for branch in ["master", "release/stable"] {
+            let root = temporary_root(&branch.replace('/', "-"));
+            fs::create_dir_all(&root).unwrap();
+            git(&root, &["init", "-q", "-b", branch]);
+            fs::write(root.join("README.md"), "test\n").unwrap();
+            let base_sha = commit(&root, "base");
+            let snapshot = load_snapshot(&root, "Memorithm/Test", branch, &base_sha).unwrap();
+            assert_eq!(snapshot.base_branch(), branch);
+            assert_eq!(snapshot.base_sha(), base_sha);
+            let _ = fs::remove_dir_all(root);
+        }
+    }
+
+    #[test]
     fn identity_evidence_is_append_only_per_attempt() {
         let root = temporary_root("persist");
         fs::create_dir_all(&root).unwrap();
@@ -649,11 +676,13 @@ mod tests {
         fs::write(root.join("README.md"), "test\n").unwrap();
         let base_sha = commit(&root, "base");
         let snapshot = load_snapshot(&root, "Memorithm/Test", "main", &base_sha).unwrap();
-        let evidence =
-            persist_identity(&root, "Memorithm/Test", "ISSUE", 7, 100, &snapshot).unwrap();
-        let contents = fs::read_to_string(&evidence).unwrap();
-        assert!(contents.contains(&format!("base-sha={base_sha}")));
-        assert!(persist_identity(&root, "Memorithm/Test", "ISSUE", 7, 100, &snapshot).is_err());
+        let first = persist_identity(&root, "Memorithm/Test", "ISSUE", 7, 100, &snapshot).unwrap();
+        let second = persist_identity(&root, "Memorithm/Test", "ISSUE", 7, 100, &snapshot).unwrap();
+        assert_ne!(first, second);
+        for evidence in [first, second] {
+            let contents = fs::read_to_string(&evidence).unwrap();
+            assert!(contents.contains(&format!("base-sha={base_sha}")));
+        }
         let _ = fs::remove_dir_all(root);
     }
 }
