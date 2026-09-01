@@ -1,7 +1,7 @@
 FMT=0
 FMT_CHECK=0
     Checking orchestrator v0.1.0 (/home/runner/work/orchestrator/orchestrator)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.20s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.35s
 CHECK=0
    Compiling orchestrator v0.1.0 (/home/runner/work/orchestrator/orchestrator)
 error[E0599]: no variant, associated function, or constant named `LifecycleOnly` found for enum `merge_policy::AutoMergeScope` in the current scope
@@ -70,6 +70,9 @@ note: if you're trying to build a new `resource::ResourcePolicy`, consider using
      = note: the following trait defines an item `default`, perhaps you need to implement it:
              candidate #1: `std::default::Default`
 
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `orchestrator` (bin "orchestrator" test) due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...
 error: this function has too many arguments (10/7)
     --> src/main.rs:1949:1
      |
@@ -87,7 +90,4 @@ error: this function has too many arguments (10/7)
      = help: to override `-D warnings` add `#[allow(clippy::too_many_arguments)]`
 
 error: could not compile `orchestrator` (bin "orchestrator") due to 1 previous error
-warning: build failed, waiting for other jobs to finish...
-For more information about this error, try `rustc --explain E0599`.
-error: could not compile `orchestrator` (bin "orchestrator" test) due to 2 previous errors
 CLIPPY=101
