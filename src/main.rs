@@ -3034,13 +3034,13 @@ fn handle_pr_attention(
     config: &RunConfig,
     repository: &Repository,
     item: &WorkItem,
-) -> Result<ActionOutcome, ActionFailure> {
+) -> Result<ActionExecution, ActionFailure> {
     if !config.auto_merge {
         println!(
             "{}#{} is ready for attention, but ORCHESTRATOR_AUTO_MERGE is disabled.",
             item.repository, item.number
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     let ci_state = item.ci_state.unwrap_or(CiState::Unknown);
@@ -3082,7 +3082,7 @@ fn handle_pr_attention(
             metadata.head_sha,
             item.draft
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     let attested_exact_head = merge_attestation_store(config)
@@ -3100,7 +3100,7 @@ fn handle_pr_attention(
             config.auto_merge_scope.as_str(),
             metadata.head_sha
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     println!(
@@ -3140,7 +3140,18 @@ fn handle_pr_attention(
         &validated_base_sha,
     )?;
     if !policy_snapshot_is_current(&workspace, &policy_snapshot, "before merge validation")? {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
+    }
+    match policy_snapshot
+        .merge_eligibility()
+        .classified(state::FailureClass::Validation)?
+    {
+        policy::MergeEligibility::Inherit | policy::MergeEligibility::Allowed => {}
+        policy::MergeEligibility::Deferred(denial) => {
+            let reason = denial.merge_reason(&item.repository, &policy_snapshot);
+            println!("Autonomous merge deferred by repository policy: {reason}");
+            return Ok(ActionExecution::deferred(reason));
+        }
     }
     let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")
         .classified(state::FailureClass::Repository)?;
@@ -3176,14 +3187,14 @@ fn handle_pr_attention(
                         "{}#{} closed or changed draft/head before base-sync push; deferring without push.",
                         item.repository, item.number
                     );
-                    return Ok(ActionOutcome::Deferred);
+                    return Ok(ActionExecution::completed(ActionOutcome::Deferred));
                 }
                 if !policy_snapshot_is_current(
                     &workspace,
                     &policy_snapshot,
                     "before base-sync push",
                 )? {
-                    return Ok(ActionOutcome::Deferred);
+                    return Ok(ActionExecution::completed(ActionOutcome::Deferred));
                 }
                 let refspec = format!("HEAD:refs/heads/{}", metadata.head_branch);
                 run_in_dir(&workspace, "git", &["push", "origin", refspec.as_str()])
@@ -3201,14 +3212,14 @@ fn handle_pr_attention(
                     "Pushed canonical base-sync head {synced_head} for {}#{}; waiting for fresh CI before merge.",
                     item.repository, item.number
                 );
-                return Ok(ActionOutcome::Progress);
+                return Ok(ActionExecution::completed(ActionOutcome::Progress));
             }
             None => {
                 println!(
                     "{}#{} conflicts with current {}; base sync was aborted without push.",
                     item.repository, item.number, default_branch
                 );
-                return Ok(ActionOutcome::NoProgress);
+                return Ok(ActionExecution::completed(ActionOutcome::NoProgress));
             }
         }
     }
@@ -3250,7 +3261,7 @@ fn handle_pr_attention(
             "{}#{} live state/draft/head changed during validation; deferring.",
             item.repository, item.number
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     if !policy_snapshot_is_current(
@@ -3258,7 +3269,7 @@ fn handle_pr_attention(
         &policy_snapshot,
         "before ready-or-merge mutation",
     )? {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     let number = item.number.to_string();
@@ -3289,7 +3300,7 @@ fn handle_pr_attention(
             "{}#{} was just marked ready; deferring merge so ready-for-review CI can settle.",
             item.repository, item.number
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     let fresh_ci_state = pull_request_ci_state(&PullRequest {
@@ -3308,7 +3319,7 @@ fn handle_pr_attention(
             ci_state.as_str(),
             fresh_ci_state.as_str()
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     let final_metadata = pr_merge_metadata(&item.repository, item.number)
@@ -3334,7 +3345,7 @@ fn handle_pr_attention(
             "{}#{} is no longer an open ready PR at validated head {}; deferring merge.",
             item.repository, item.number, metadata.head_sha
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     let live_base_sha = remote_branch_head_sha(&workspace, default_branch)
@@ -3344,10 +3355,10 @@ fn handle_pr_attention(
             "{}#{} base {} advanced from validated {} to {}; deferring merge so the next cycle can synchronize and revalidate.",
             item.repository, item.number, default_branch, validated_base_sha, live_base_sha
         );
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
     if !policy_snapshot_is_current(&workspace, &policy_snapshot, "immediately before merge")? {
-        return Ok(ActionOutcome::Deferred);
+        return Ok(ActionExecution::completed(ActionOutcome::Deferred));
     }
 
     println!(
@@ -3369,7 +3380,7 @@ fn handle_pr_attention(
             )
         })?;
     if status.success() {
-        Ok(ActionOutcome::Progress)
+        Ok(ActionExecution::completed(ActionOutcome::Progress))
     } else {
         Err(ActionFailure::new(
             state::FailureClass::Publication,
@@ -3684,7 +3695,7 @@ fn execute_item(
         WorkKind::PullRequest => {
             let repository = repository_by_name(&snapshot.repositories, &item.repository)
                 .classified(state::FailureClass::Repository)?;
-            handle_pr_attention(config, repository, item).map(ActionExecution::completed)
+            handle_pr_attention(config, repository, item)
         }
         WorkKind::Issue => execute_issue(config, &snapshot.repositories, item),
         WorkKind::ExternalPr | WorkKind::WaitCi | WorkKind::NoChecks | WorkKind::UnknownCi => {

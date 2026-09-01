@@ -65,6 +65,20 @@ impl PolicyDenial {
             snapshot.identity_token()
         )
     }
+
+    pub(crate) fn merge_reason(&self, repository: &str, snapshot: &PolicySnapshot) -> String {
+        format!(
+            "repository={repository} policy item={} denies autonomous merge via {}={} source=origin/{}:{} commit={} blob={} policy_identity={}",
+            self.item_id,
+            self.field,
+            self.value,
+            self.source_ref,
+            self.source_path,
+            self.source_commit,
+            self.source_blob,
+            snapshot.identity_token()
+        )
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -135,6 +149,45 @@ impl AutonomousActionDecision {
 struct AutonomousActionRule {
     category: AutonomousActionCategory,
     decision: AutonomousActionDecision,
+    source_ref: String,
+    source_path: String,
+    source_commit: String,
+    source_blob: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) enum MergeEligibility {
+    Inherit,
+    Allowed,
+    Deferred(PolicyDenial),
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum MergeDecision {
+    Allow,
+    Deny,
+}
+
+impl MergeDecision {
+    fn parse(value: &str) -> Result<Self, String> {
+        match value {
+            "allow" => Ok(Self::Allow),
+            "deny" => Ok(Self::Deny),
+            other => Err(format!("invalid autonomous merge decision: {other}")),
+        }
+    }
+
+    const fn as_str(self) -> &'static str {
+        match self {
+            Self::Allow => "allow",
+            Self::Deny => "deny",
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct MergePolicyRule {
+    decision: MergeDecision,
     source_ref: String,
     source_path: String,
     source_commit: String,
@@ -268,6 +321,36 @@ impl PolicySnapshot {
         }))
     }
 
+    pub(crate) fn merge_eligibility(&self) -> Result<MergeEligibility, String> {
+        let mut selected: Option<MergePolicyRule> = None;
+        for document in &self.documents {
+            let Some(rule) = parse_merge_policy(document)? else {
+                continue;
+            };
+            if selected.replace(rule).is_some() {
+                return Err(
+                    "duplicate autonomous merge policy across mandatory policy documents"
+                        .to_owned(),
+                );
+            }
+        }
+        let Some(rule) = selected else {
+            return Ok(MergeEligibility::Inherit);
+        };
+        if rule.decision == MergeDecision::Allow {
+            return Ok(MergeEligibility::Allowed);
+        }
+        Ok(MergeEligibility::Deferred(PolicyDenial {
+            item_id: "global:auto_merge".to_owned(),
+            field: "autonomous_merge_policy",
+            value: rule.decision.as_str().to_owned(),
+            source_ref: rule.source_ref,
+            source_path: rule.source_path,
+            source_commit: rule.source_commit,
+            source_blob: rule.source_blob,
+        }))
+    }
+
     pub(crate) fn base_branch(&self) -> &str {
         &self.base_branch
     }
@@ -396,6 +479,118 @@ fn parse_autonomous_action_rules(
         ));
     }
     Ok(rules.into_values().collect())
+}
+
+fn parse_merge_policy(document: &PolicyDocument) -> Result<Option<MergePolicyRule>, String> {
+    let mut in_policy = false;
+    let mut saw_section = false;
+    let mut schema_version = None;
+    let mut decision = None;
+
+    for raw_line in document.content.lines() {
+        let raw_line = raw_line.trim_end_matches('\r');
+        let trimmed = raw_line.trim();
+        if trimmed.is_empty() || trimmed.starts_with('#') {
+            continue;
+        }
+        if !in_policy {
+            if raw_line == "autonomous_merge_policy:" {
+                if saw_section {
+                    return Err(format!(
+                        "duplicate autonomous_merge_policy section in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+                in_policy = true;
+                saw_section = true;
+            }
+            continue;
+        }
+        if raw_line.starts_with('\t') {
+            return Err(format!(
+                "tab indentation is not allowed in autonomous merge policy origin/{}:{}",
+                document.ref_name, document.path
+            ));
+        }
+        let indent = raw_line.len() - raw_line.trim_start_matches(' ').len();
+        if indent == 0 {
+            in_policy = false;
+            if raw_line == "autonomous_merge_policy:" {
+                return Err(format!(
+                    "duplicate autonomous_merge_policy section in origin/{}:{}",
+                    document.ref_name, document.path
+                ));
+            }
+            continue;
+        }
+        if indent != 2 {
+            return Err(format!(
+                "autonomous_merge_policy only accepts scalar fields at indentation 2 in origin/{}:{}",
+                document.ref_name, document.path
+            ));
+        }
+        let (key, raw_value) = trimmed.split_once(':').ok_or_else(|| {
+            format!(
+                "malformed autonomous merge policy field in origin/{}:{}",
+                document.ref_name, document.path
+            )
+        })?;
+        let value = parse_policy_scalar(raw_value.trim(), key)?;
+        match key {
+            "schema_version" => {
+                if schema_version.replace(value.clone()).is_some() {
+                    return Err(format!(
+                        "duplicate autonomous merge schema_version in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+                if value != "1" {
+                    return Err(format!(
+                        "unsupported autonomous merge policy schema_version {value} in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+            }
+            "decision" => {
+                let parsed = MergeDecision::parse(&value)?;
+                if decision.replace(parsed).is_some() {
+                    return Err(format!(
+                        "duplicate autonomous merge decision in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+            }
+            other => {
+                return Err(format!(
+                    "unknown autonomous merge policy field {other} in origin/{}:{}",
+                    document.ref_name, document.path
+                ));
+            }
+        }
+    }
+
+    if !saw_section {
+        return Ok(None);
+    }
+    if schema_version.as_deref() != Some("1") {
+        return Err(format!(
+            "autonomous_merge_policy requires schema_version: 1 in origin/{}:{}",
+            document.ref_name, document.path
+        ));
+    }
+    let decision = decision.ok_or_else(|| {
+        format!(
+            "autonomous_merge_policy requires decision in origin/{}:{}",
+            document.ref_name, document.path
+        )
+    })?;
+    Ok(Some(MergePolicyRule {
+        decision,
+        source_ref: document.ref_name.clone(),
+        source_path: document.path.clone(),
+        source_commit: document.commit_sha.clone(),
+        source_blob: document.blob_sha.clone(),
+    }))
 }
 
 fn parse_roadmap_task_rules(document: &PolicyDocument) -> Result<Vec<RoadmapTaskRule>, String> {
@@ -1389,6 +1584,71 @@ roadmap:
                     "Action category: financial_execution\nAutonomous action: custody_mutation",
                 )
                 .is_err()
+        );
+    }
+
+    #[test]
+    fn merge_policy_is_explicit_versioned_and_source_bound() {
+        let denied = snapshot_with_policy_documents(&[r#"autonomous_merge_policy:
+  schema_version: 1
+  decision: deny
+"#]);
+        let MergeEligibility::Deferred(denial) = denied.merge_eligibility().unwrap() else {
+            panic!("expected explicit merge deny");
+        };
+        assert_eq!(denial.item_id, "global:auto_merge");
+        assert_eq!(denial.field, "autonomous_merge_policy");
+        let reason = denial.merge_reason("Memorithm/Test", &denied);
+        assert!(reason.contains("source=origin/agent/policy-0:.agent/POLICY-0.yaml"));
+        assert!(reason.contains("policy_identity="));
+
+        let allowed = snapshot_with_policy_documents(&[r#"autonomous_merge_policy:
+  schema_version: 1
+  decision: allow
+"#]);
+        assert_eq!(
+            allowed.merge_eligibility().unwrap(),
+            MergeEligibility::Allowed
+        );
+        assert_eq!(
+            snapshot_with_policy_documents(&[])
+                .merge_eligibility()
+                .unwrap(),
+            MergeEligibility::Inherit
+        );
+    }
+
+    #[test]
+    fn merge_policy_rejects_ambiguous_or_unknown_structure() {
+        let duplicate = snapshot_with_policy_documents(&[
+            "autonomous_merge_policy:\n  schema_version: 1\n  decision: deny\n",
+            "autonomous_merge_policy:\n  schema_version: 1\n  decision: allow\n",
+        ]);
+        assert!(duplicate.merge_eligibility().is_err());
+
+        for content in [
+            "autonomous_merge_policy:\n  schema_version: 2\n  decision: deny\n",
+            "autonomous_merge_policy:\n  schema_version: 1\n  decision: maybe\n",
+            "autonomous_merge_policy:\n  schema_version: 1\n  unknown: deny\n",
+            "autonomous_merge_policy:\n  schema_version: 1\n  decision: deny\n  decision: allow\n",
+        ] {
+            assert!(
+                snapshot_with_policy_documents(&[content])
+                    .merge_eligibility()
+                    .is_err()
+            );
+        }
+    }
+
+    #[test]
+    fn merge_policy_is_not_inferred_from_free_text() {
+        let snapshot = snapshot_with_policy_documents(&[r#"notes: >-
+  autonomous_merge_policy: decision deny
+  do not auto merge financial work
+"#]);
+        assert_eq!(
+            snapshot.merge_eligibility().unwrap(),
+            MergeEligibility::Inherit
         );
     }
 
