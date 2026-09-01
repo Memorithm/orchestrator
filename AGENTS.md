@@ -3,7 +3,7 @@
 Before autonomous coding, scheduler changes, coding-backend changes, publication/merge policy changes, ecosystem integration, PR creation, or merge decisions, read:
 
 ```bash
-git fetch origin agent/ecosystem-roadmap && \
+git fetch origin agent/ecosystem-roadmap:refs/remotes/origin/agent/ecosystem-roadmap && \
 git show origin/agent/ecosystem-roadmap:.agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.yaml
 ```
 
@@ -23,6 +23,6 @@ A coding backend must never gain Git commit, push, PR, issue, workflow, release,
 
 No PR may be merged unless all required CI for the exact head is definitively green and the validated base/head identities are still current. No force push or admin bypass.
 
-Reread the roadmap at every session start, before scheduler/backend/publication changes, before ecosystem integrations, and before relevant PR/merge decisions.
+Reread the roadmap at every session start, before scheduler/backend/publication/merge policy changes, before ecosystem integrations, and before relevant PR/merge decisions.
 
 Do not merge the roadmap itself into `main` unless the user explicitly requests it.
