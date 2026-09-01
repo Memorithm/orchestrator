@@ -5,7 +5,7 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode, Stdio};
 use std::thread;
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 mod evidence;
 mod health;
@@ -1924,10 +1924,292 @@ fn reject_sensitive_committed_paths(workspace: &Path, base_ref: &str) -> Result<
     Ok(())
 }
 
-fn validate_workspace(config: &RunConfig, workspace: &Path) -> Result<(), String> {
+fn validation_safe_component(value: &str) -> String {
+    value
+        .chars()
+        .map(|character| {
+            if character.is_ascii_alphanumeric() || matches!(character, '-' | '_') {
+                character
+            } else {
+                '_'
+            }
+        })
+        .collect()
+}
+
+fn hex_bytes(value: &str) -> String {
+    use std::fmt::Write as _;
+    let mut encoded = String::with_capacity(value.len().saturating_mul(2));
+    for byte in value.as_bytes() {
+        let _ = write!(encoded, "{byte:02x}");
+    }
+    encoded
+}
+
+struct ValidationStepResult<'a> {
+    worktree_head: &'a str,
+    started_at: u64,
+    finished_at: u64,
+    exit_code: Option<i32>,
+    timed_out: bool,
+}
+
+fn persist_validation_step_evidence(
+    config: &RunConfig,
+    item: &WorkItem,
+    snapshot: &policy::PolicySnapshot,
+    plan: &policy::PortableValidationPlan,
+    step: &policy::PortableValidationStep,
+    result: &ValidationStepResult<'_>,
+) -> Result<PathBuf, String> {
+    let ValidationStepResult {
+        worktree_head,
+        started_at,
+        finished_at,
+        exit_code,
+        timed_out,
+    } = result;
+    let directory = config
+        .data_root
+        .join("state/validation-evidence")
+        .join(item.repository.replace('/', "__"))
+        .join(format!("{}-{}", item.kind.as_str(), item.number));
+    fs::create_dir_all(&directory).map_err(|error| {
+        format!(
+            "failed to create validation evidence directory {}: {error}",
+            directory.display()
+        )
+    })?;
+    let argv_hex = step
+        .argv
+        .iter()
+        .map(|arg| hex_bytes(arg))
+        .collect::<Vec<_>>()
+        .join(",");
+    let record = format!(
+        "validation-schema=1\nclass=portable\nrepository={}\nwork-kind={}\nwork-number={}\nstep-id={}\nargv-hex={}\ncwd={}\ntimeout-seconds={}\nstarted-at={}\nfinished-at={}\nexit-code={}\ntimed-out={}\npolicy-identity={}\nbase-sha={}\nworktree-head={}\nsource-ref=origin/{}\nsource-path={}\nsource-commit={}\nsource-blob={}\n",
+        item.repository,
+        item.kind.as_str(),
+        item.number,
+        step.id,
+        argv_hex,
+        step.cwd,
+        step.timeout_seconds,
+        started_at,
+        finished_at,
+        exit_code.map_or_else(|| "none".to_owned(), |code| code.to_string()),
+        timed_out,
+        snapshot.identity_token(),
+        snapshot.base_sha(),
+        worktree_head,
+        plan.source_ref,
+        plan.source_path,
+        plan.source_commit,
+        plan.source_blob
+    );
+    for sequence in 0..1_024_u16 {
+        let path = directory.join(format!(
+            "{}-{}-{}-{}.txt",
+            started_at,
+            std::process::id(),
+            validation_safe_component(&step.id),
+            sequence
+        ));
+        let mut file = match OpenOptions::new().create_new(true).write(true).open(&path) {
+            Ok(file) => file,
+            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
+            Err(error) => {
+                return Err(format!(
+                    "failed to create validation evidence {}: {error}",
+                    path.display()
+                ));
+            }
+        };
+        file.write_all(record.as_bytes()).map_err(|error| {
+            format!(
+                "failed to write validation evidence {}: {error}",
+                path.display()
+            )
+        })?;
+        file.sync_all().map_err(|error| {
+            format!(
+                "failed to sync validation evidence {}: {error}",
+                path.display()
+            )
+        })?;
+        return Ok(path);
+    }
+    Err("validation evidence sequence exhausted for one step".to_owned())
+}
+
+fn resolve_validation_cwd(workspace: &Path, relative: &str) -> Result<PathBuf, String> {
+    let workspace = workspace.canonicalize().map_err(|error| {
+        format!(
+            "failed to canonicalize workspace {}: {error}",
+            workspace.display()
+        )
+    })?;
+    let candidate = if relative == "." {
+        workspace.clone()
+    } else {
+        workspace.join(relative)
+    };
+    let candidate = candidate.canonicalize().map_err(|error| {
+        format!(
+            "failed to canonicalize validation cwd {}: {error}",
+            candidate.display()
+        )
+    })?;
+    if !candidate.starts_with(&workspace) {
+        return Err(format!(
+            "validation cwd escapes managed workspace: {}",
+            candidate.display()
+        ));
+    }
+    if !candidate.is_dir() {
+        return Err(format!(
+            "validation cwd is not a directory: {}",
+            candidate.display()
+        ));
+    }
+    Ok(candidate)
+}
+
+fn run_portable_validation_step(
+    config: &RunConfig,
+    workspace: &Path,
+    item: &WorkItem,
+    snapshot: &policy::PolicySnapshot,
+    plan: &policy::PortableValidationPlan,
+    step: &policy::PortableValidationStep,
+    worktree_head: &str,
+) -> Result<(), String> {
+    let cwd = resolve_validation_cwd(workspace, &step.cwd)?;
+    let workspace_root = workspace.canonicalize().map_err(|error| {
+        format!(
+            "failed to canonicalize workspace {}: {error}",
+            workspace.display()
+        )
+    })?;
+    let executable = step
+        .argv
+        .first()
+        .ok_or_else(|| format!("validation step {} has empty argv", step.id))?;
+    let mut command = Command::new("bwrap");
+    command
+        .args([
+            "--die-with-parent",
+            "--unshare-user",
+            "--uid",
+            "0",
+            "--gid",
+            "0",
+            "--unshare-pid",
+            "--unshare-ipc",
+            "--unshare-uts",
+            "--unshare-cgroup-try",
+            "--unshare-net",
+            "--cap-drop",
+            "ALL",
+            "--ro-bind",
+            "/",
+            "/",
+            "--bind",
+        ])
+        .arg(&workspace_root)
+        .arg(&workspace_root)
+        .args(["--proc", "/proc", "--dev", "/dev", "--chdir"])
+        .arg(&cwd)
+        .arg("--")
+        .arg(executable)
+        .args(step.argv.iter().skip(1))
+        .env_remove("GH_TOKEN")
+        .env_remove("GITHUB_TOKEN")
+        .env_remove("GITHUB_PAT")
+        .env_remove("OPENAI_API_KEY")
+        .env_remove("OLLAMA_HOST")
+        .env_remove("OPENCODE_CONFIG_CONTENT")
+        .env_remove("SSH_AUTH_SOCK");
+    println!("$ [portable:{}] {}", step.id, step.argv.join(" "));
+    let started_at = unix_timestamp();
+    let started = Instant::now();
+    let mut child = command
+        .spawn()
+        .map_err(|error| format!("failed to spawn portable validation {}: {error}", step.id))?;
+    let timeout = Duration::from_secs(step.timeout_seconds);
+    let (status, timed_out) = loop {
+        match child
+            .try_wait()
+            .map_err(|error| format!("failed to poll validation {}: {error}", step.id))?
+        {
+            Some(status) => break (status, false),
+            None if started.elapsed() >= timeout => {
+                child.kill().map_err(|error| {
+                    format!("failed to kill timed-out validation {}: {error}", step.id)
+                })?;
+                let status = child.wait().map_err(|error| {
+                    format!("failed to reap timed-out validation {}: {error}", step.id)
+                })?;
+                break (status, true);
+            }
+            None => thread::sleep(Duration::from_millis(50)),
+        }
+    };
+    let finished_at = unix_timestamp();
+    let evidence = persist_validation_step_evidence(
+        config,
+        item,
+        snapshot,
+        plan,
+        step,
+        &ValidationStepResult {
+            worktree_head,
+            started_at,
+            finished_at,
+            exit_code: status.code(),
+            timed_out,
+        },
+    )?;
+    println!("validation evidence: {}", evidence.display());
+    if timed_out {
+        return Err(format!(
+            "portable validation step {} timed out after {} seconds",
+            step.id, step.timeout_seconds
+        ));
+    }
+    if !status.success() {
+        return Err(format!(
+            "portable validation step {} failed with {status}",
+            step.id
+        ));
+    }
+    Ok(())
+}
+
+fn validate_workspace(
+    config: &RunConfig,
+    workspace: &Path,
+    item: &WorkItem,
+    snapshot: &policy::PolicySnapshot,
+) -> Result<(), String> {
     println!();
     println!("===== ORCHESTRATOR VALIDATION =====");
     run_in_dir(workspace, "git", &["diff", "--check"])?;
+    if let Some(plan) = snapshot.portable_validation_plan()? {
+        let worktree_head = capture_in_dir(workspace, "git", &["rev-parse", "HEAD"])?;
+        for step in &plan.steps {
+            run_portable_validation_step(
+                config,
+                workspace,
+                item,
+                snapshot,
+                &plan,
+                step,
+                &worktree_head,
+            )?;
+        }
+        return Ok(());
+    }
     if workspace.join("Cargo.toml").is_file() {
         run_in_dir(workspace, "cargo", &["fmt", "--all", "--", "--check"])?;
         run_in_dir(workspace, "cargo", &["check", "--workspace"])?;
@@ -2321,13 +2603,15 @@ fn validate_recovered_publication(
     config: &RunConfig,
     workspace: &Path,
     base_branch: &str,
+    item: &WorkItem,
+    snapshot: &policy::PolicySnapshot,
 ) -> Result<(), String> {
     let base_ref = format!("origin/{base_branch}");
     let range = format!("{base_ref}...HEAD");
     run_in_dir(workspace, "git", &["diff", "--check", range.as_str()])?;
     validate_canonical_author_range(workspace, &base_ref)?;
     reject_sensitive_committed_paths(workspace, &base_ref)?;
-    validate_workspace(config, workspace)
+    validate_workspace(config, workspace, item, snapshot)
 }
 
 fn resume_issue_publication(
@@ -2529,7 +2813,7 @@ fn resume_issue_publication(
             remote_branch.as_str(),
         ],
     )?;
-    validate_recovered_publication(config, &workspace, default_branch)?;
+    validate_recovered_publication(config, &workspace, default_branch, item, &policy_snapshot)?;
     if !issue_revision_is_current(item, "before resumed PR creation")? {
         return Err(format!(
             "refusing PR creation for already-PUSHED publication {} because the issue changed; manual review is required",
@@ -2678,7 +2962,8 @@ fn execute_issue(
     }
 
     reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
-    validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
+    validate_workspace(config, &workspace, item, &policy_snapshot)
+        .classified(state::FailureClass::Validation)?;
     if !issue_repository_is_current(repository, "after local validation")
         .classified(state::FailureClass::Infrastructure)?
     {
@@ -2886,7 +3171,8 @@ fn execute_ci_fix(config: &RunConfig, item: &WorkItem) -> Result<ActionOutcome, 
     }
 
     reject_sensitive_paths(&workspace).classified(state::FailureClass::Validation)?;
-    validate_workspace(config, &workspace).classified(state::FailureClass::Validation)?;
+    validate_workspace(config, &workspace, item, &policy_snapshot)
+        .classified(state::FailureClass::Validation)?;
     if !ci_fix_target_still_failed(item, &local_head, "after local validation")
         .classified(state::FailureClass::Infrastructure)?
     {
@@ -3176,8 +3462,14 @@ fn handle_pr_attention(
             .classified(state::FailureClass::Repository)?
         {
             Some(synced_head) => {
-                validate_recovered_publication(config, &workspace, default_branch)
-                    .classified(state::FailureClass::Validation)?;
+                validate_recovered_publication(
+                    config,
+                    &workspace,
+                    default_branch,
+                    item,
+                    &policy_snapshot,
+                )
+                .classified(state::FailureClass::Validation)?;
                 let before_push = pr_merge_metadata(&item.repository, item.number)
                     .classified(state::FailureClass::Infrastructure)?;
                 if before_push != metadata {
@@ -3236,7 +3528,7 @@ fn handle_pr_attention(
         }
     }
 
-    validate_recovered_publication(config, &workspace, default_branch)
+    validate_recovered_publication(config, &workspace, default_branch, item, &policy_snapshot)
         .classified(state::FailureClass::Validation)?;
 
     let local_head = capture_in_dir(&workspace, "git", &["rev-parse", "HEAD"])
@@ -4126,6 +4418,128 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn validation_cwd_rejects_symlink_escape() {
+        let stamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let workspace = env::temp_dir().join(format!(
+            "orchestrator-validation-cwd-{}-{stamp}",
+            std::process::id()
+        ));
+        let outside = env::temp_dir().join(format!(
+            "orchestrator-validation-outside-{}-{stamp}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&workspace).unwrap();
+        fs::create_dir_all(&outside).unwrap();
+        #[cfg(unix)]
+        std::os::unix::fs::symlink(&outside, workspace.join("escape")).unwrap();
+        #[cfg(unix)]
+        assert!(resolve_validation_cwd(&workspace, "escape").is_err());
+        let _ = fs::remove_dir_all(workspace);
+        let _ = fs::remove_dir_all(outside);
+    }
+
+    #[test]
+    fn validation_evidence_is_append_only_and_identity_bound() {
+        let root = env::temp_dir().join(format!(
+            "orchestrator-validation-evidence-{}-{}",
+            std::process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        let config = RunConfig {
+            organization: "Memorithm".to_owned(),
+            model: DEFAULT_MODEL.to_owned(),
+            interval: Duration::from_secs(1),
+            data_root: root.clone(),
+            auto_merge: false,
+            auto_merge_scope: merge_policy::AutoMergeScope::OrchestratorValidated,
+            full_validation: false,
+            max_cycles: 1,
+            resource_policy: resource::ResourcePolicy {
+                min_available_memory_mb: 0,
+                min_free_disk_mb: 0,
+                max_load_per_cpu: 0.0,
+            },
+            low_disk_reclaim_max_targets: 1,
+            low_disk_reclaim_max_workspaces: 1,
+            workspace_min_idle_secs: 1,
+            trajectory_max_per_item: 1,
+            retry_policy: state::RetryPolicy::default(),
+        };
+        let item = WorkItem {
+            kind: WorkKind::Issue,
+            repository: "Memorithm/Test".to_owned(),
+            number: 45,
+            title: "test".to_owned(),
+            detail: "test".to_owned(),
+            source_revision: Some("issue-v1".to_owned()),
+            ci_state: None,
+            draft: false,
+        };
+        let snapshot = policy::test_snapshot_for_validation(
+            "Memorithm/Test",
+            "main",
+            "0123456789abcdef0123456789abcdef01234567",
+        );
+        let plan = policy::PortableValidationPlan {
+            steps: Vec::new(),
+            source_ref: "agent/policy".to_owned(),
+            source_path: ".agent/POLICY.yaml".to_owned(),
+            source_commit: "1111111111111111111111111111111111111111".to_owned(),
+            source_blob: "2222222222222222222222222222222222222222".to_owned(),
+        };
+        let step = policy::PortableValidationStep {
+            id: "check".to_owned(),
+            argv: vec!["cargo".to_owned(), "check".to_owned()],
+            cwd: ".".to_owned(),
+            timeout_seconds: 60,
+        };
+        let first = persist_validation_step_evidence(
+            &config,
+            &item,
+            &snapshot,
+            &plan,
+            &step,
+            &ValidationStepResult {
+                worktree_head: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                started_at: 100,
+                finished_at: 101,
+                exit_code: Some(0),
+                timed_out: false,
+            },
+        )
+        .unwrap();
+        let second = persist_validation_step_evidence(
+            &config,
+            &item,
+            &snapshot,
+            &plan,
+            &step,
+            &ValidationStepResult {
+                worktree_head: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                started_at: 100,
+                finished_at: 101,
+                exit_code: Some(0),
+                timed_out: false,
+            },
+        )
+        .unwrap();
+        assert_ne!(first, second);
+        let contents = fs::read_to_string(first).unwrap();
+        assert!(contents.contains("class=portable"));
+        assert!(contents.contains("base-sha=0123456789abcdef0123456789abcdef01234567"));
+        assert!(contents.contains("worktree-head=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+        assert!(contents.contains("policy-identity="));
+        let _ = fs::remove_dir_all(root);
+    }
 
     #[test]
     fn base_sync_merge_is_append_only_and_canonical() {
