@@ -38,6 +38,12 @@ verified_current_facts:
   - policy_denial_is_a_non_failure_scheduler_deferral_and_the_exact_reason_is_recorded_in_trajectory_detail
   - contextual_mentions_of_forbidden_items_do_not_override_an_explicitly_allowed_current_target
   - free_form_scientific_financial_or_custody_prose_is_not_interpreted_as_machine_authorization
+  - ORCH1b_PR_40_merged_at_main_140f627861b415784f4676584c594d38383fc2a6_with_exact_head_green_CI
+  - repository_global_autonomous_action_policy_is_versioned_explicit_and_machine_readable
+  - global_action_policy_supports_financial_execution_custody_mutation_credential_mutation_and_external_side_effect_categories
+  - global_action_denies_require_an_explicit_task_action_category_and_never_infer_from_free_text
+  - task_scoped_ORCH1a_denies_take_precedence_over_repository_global_allows
+  - read_only_scan_status_and_diagnosis_remain_available_when_a_mutating_action_category_is_denied
 
 invariants:
   - no_autonomous_direct_default_branch_coding
@@ -145,17 +151,24 @@ roadmap:
           - TDI7_2_human_only_forbidden_item_is_blocked_before_agent_execution
           - scheduler_and_trajectory_record_non_failure_defer_reason
           - free_text_policy_prose_is_not_promoted_into_machine_authorization
-    remaining_slices:
       - id: ORCH1b
         name: Explicit repository-global autonomous action policy
-        status: planned_next
-        goals:
-          - define_or_consume_machine_readable_global_denies_for_financial_custody_and_other_high_risk_repository_actions
-          - never_infer_allow_or_deny_from_free_text_when_machine_policy_is_absent
-          - preserve_read_only_diagnosis_when_mutation_or_execution_is_denied
+        status: complete
+        completion_evidence:
+          - issue_39_defined_repository_global_action_policy_scope
+          - PR_40_merged_to_main_as_140f627861b415784f4676584c594d38383fc2a6
+          - exact_head_098996bfd6236dd5565d0cd9d6422f83d6208dcf_ci_and_contributor_attribution_completed_success_before_merge
+          - versioned_autonomous_action_policy_schema_1
+          - explicit_financial_execution_custody_mutation_credential_mutation_and_external_side_effect_categories
+          - explicit_task_action_category_required_before_global_policy_applies
+          - unknown_duplicate_or_conflicting_structured_policy_fails_closed
+          - task_scoped_ORCH1a_denial_precedes_global_allow
+          - free_text_is_not_promoted_to_machine_authorization
+          - existing_deferred_trajectory_reason_records_exact_policy_source_identity
+    remaining_slices:
       - id: ORCH1c
         name: Repository-specific merge and evidence eligibility
-        status: planned
+        status: planned_next
         goals:
           - honor_explicit_repository_auto_merge_opt_in_or_opt_out
           - honor_hardware_human_or_evidence_gates_without_treating_compile_only_as_success
