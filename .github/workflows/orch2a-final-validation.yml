@@ -3,7 +3,7 @@ name: Temporary ORCH2a final validation
 on:
   push:
     branches:
-      - feat/orch2a-validation-plan-staging
+      - feat/orch2a-validation-plan-isolated
 
 permissions:
   contents: write
@@ -82,4 +82,4 @@ jobs:
           git add src/main.rs src/policy.rs
           git diff --cached --check
           git commit -m 'feat(validation): execute portable repository plans'
-          git push origin HEAD:feat/orch2a-validation-plan-staging
+          git push origin HEAD:feat/orch2a-validation-plan-isolated
