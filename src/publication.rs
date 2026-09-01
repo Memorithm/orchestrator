@@ -2,8 +2,9 @@ use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
-const PUBLICATION_VERSION: &str = "v2";
-const LEGACY_PUBLICATION_VERSION: &str = "v1";
+const PUBLICATION_VERSION: &str = "v3";
+const LEGACY_PUBLICATION_VERSION_V2: &str = "v2";
+const LEGACY_PUBLICATION_VERSION_V1: &str = "v1";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum PublicationPhase {
@@ -34,11 +35,35 @@ pub(crate) struct PendingPublication {
     pub(crate) commit: String,
     pub(crate) base_branch: String,
     pub(crate) source_revision: Option<String>,
+    pub(crate) policy_identity: Option<String>,
     pub(crate) phase: PublicationPhase,
 }
 
 impl PendingPublication {
     pub(crate) fn new(
+        branch: String,
+        commit: String,
+        base_branch: String,
+        source_revision: String,
+        policy_identity: String,
+        phase: PublicationPhase,
+    ) -> Result<Self, String> {
+        validate_ref_component("branch", &branch)?;
+        validate_ref_component("base branch", &base_branch)?;
+        validate_commit(&commit)?;
+        validate_source_revision(&source_revision)?;
+        validate_policy_identity(&policy_identity)?;
+        Ok(Self {
+            branch,
+            commit,
+            base_branch,
+            source_revision: Some(source_revision),
+            policy_identity: Some(policy_identity),
+            phase,
+        })
+    }
+
+    fn legacy_v2(
         branch: String,
         commit: String,
         base_branch: String,
@@ -54,11 +79,12 @@ impl PendingPublication {
             commit,
             base_branch,
             source_revision: Some(source_revision),
+            policy_identity: None,
             phase,
         })
     }
 
-    fn legacy(
+    fn legacy_v1(
         branch: String,
         commit: String,
         base_branch: String,
@@ -72,6 +98,7 @@ impl PendingPublication {
             commit,
             base_branch,
             source_revision: None,
+            policy_identity: None,
             phase,
         })
     }
@@ -135,6 +162,10 @@ impl PublicationStore {
             "refusing to persist legacy publication without a source revision".to_owned()
         })?;
         validate_source_revision(source_revision)?;
+        let policy_identity = publication.policy_identity.as_deref().ok_or_else(|| {
+            "refusing to persist publication without a policy identity".to_owned()
+        })?;
+        validate_policy_identity(policy_identity)?;
 
         let path = key.path(&self.root);
         let parent = path
@@ -150,8 +181,10 @@ impl PublicationStore {
             .write(true)
             .open(&temporary)
             .map_err(|error| format!("failed to open {}: {error}", temporary.display()))?;
-        file.write_all(serialize_publication(publication, source_revision).as_bytes())
-            .map_err(|error| format!("failed to write {}: {error}", temporary.display()))?;
+        file.write_all(
+            serialize_publication(publication, source_revision, policy_identity).as_bytes(),
+        )
+        .map_err(|error| format!("failed to write {}: {error}", temporary.display()))?;
         file.sync_all()
             .map_err(|error| format!("failed to sync {}: {error}", temporary.display()))?;
         fs::rename(&temporary, &path).map_err(|error| {
@@ -205,13 +238,28 @@ fn validate_source_revision(revision: &str) -> Result<(), String> {
     Ok(())
 }
 
-fn serialize_publication(publication: &PendingPublication, source_revision: &str) -> String {
+fn validate_policy_identity(identity: &str) -> Result<(), String> {
+    if identity.is_empty()
+        || identity.len() > 65_536
+        || !identity.bytes().all(|byte| byte.is_ascii_hexdigit())
+    {
+        return Err("invalid publication policy identity".to_owned());
+    }
+    Ok(())
+}
+
+fn serialize_publication(
+    publication: &PendingPublication,
+    source_revision: &str,
+    policy_identity: &str,
+) -> String {
     format!(
-        "{PUBLICATION_VERSION}\nbranch={}\ncommit={}\nbase_branch={}\nsource_revision={}\nphase={}\n",
+        "{PUBLICATION_VERSION}\nbranch={}\ncommit={}\nbase_branch={}\nsource_revision={}\npolicy_identity={}\nphase={}\n",
         publication.branch,
         publication.commit,
         publication.base_branch,
         source_revision,
+        policy_identity,
         publication.phase.as_str()
     )
 }
@@ -219,15 +267,20 @@ fn serialize_publication(publication: &PendingPublication, source_revision: &str
 fn parse_publication(contents: &str) -> Result<PendingPublication, String> {
     let mut lines = contents.lines();
     let version = lines.next().unwrap_or_default();
-    if version != PUBLICATION_VERSION && version != LEGACY_PUBLICATION_VERSION {
+    if version != PUBLICATION_VERSION
+        && version != LEGACY_PUBLICATION_VERSION_V2
+        && version != LEGACY_PUBLICATION_VERSION_V1
+    {
         return Err(format!("unsupported publication state version: {version}"));
     }
-    let legacy = version == LEGACY_PUBLICATION_VERSION;
+    let legacy_v1 = version == LEGACY_PUBLICATION_VERSION_V1;
+    let legacy_v2 = version == LEGACY_PUBLICATION_VERSION_V2;
 
     let mut branch = None;
     let mut commit = None;
     let mut base_branch = None;
     let mut source_revision = None;
+    let mut policy_identity = None;
     let mut phase = None;
     let mut seen = std::collections::BTreeSet::new();
 
@@ -245,7 +298,10 @@ fn parse_publication(contents: &str) -> Result<PendingPublication, String> {
             "branch" => branch = Some(value.to_owned()),
             "commit" => commit = Some(value.to_owned()),
             "base_branch" => base_branch = Some(value.to_owned()),
-            "source_revision" if !legacy => source_revision = Some(value.to_owned()),
+            "source_revision" if !legacy_v1 => source_revision = Some(value.to_owned()),
+            "policy_identity" if !legacy_v1 && !legacy_v2 => {
+                policy_identity = Some(value.to_owned())
+            }
             "phase" => phase = Some(PublicationPhase::parse(value)?),
             other => return Err(format!("unknown publication field: {other}")),
         }
@@ -255,14 +311,23 @@ fn parse_publication(contents: &str) -> Result<PendingPublication, String> {
     let commit = commit.ok_or_else(|| "missing commit".to_owned())?;
     let base_branch = base_branch.ok_or_else(|| "missing base_branch".to_owned())?;
     let phase = phase.ok_or_else(|| "missing phase".to_owned())?;
-    if legacy {
-        PendingPublication::legacy(branch, commit, base_branch, phase)
+    if legacy_v1 {
+        PendingPublication::legacy_v1(branch, commit, base_branch, phase)
+    } else if legacy_v2 {
+        PendingPublication::legacy_v2(
+            branch,
+            commit,
+            base_branch,
+            source_revision.ok_or_else(|| "missing source_revision".to_owned())?,
+            phase,
+        )
     } else {
         PendingPublication::new(
             branch,
             commit,
             base_branch,
             source_revision.ok_or_else(|| "missing source_revision".to_owned())?,
+            policy_identity.ok_or_else(|| "missing policy_identity".to_owned())?,
             phase,
         )
     }
@@ -290,6 +355,7 @@ mod tests {
             "0123456789abcdef0123456789abcdef01234567".to_owned(),
             "main".to_owned(),
             "issue-updated:2026-08-30T18:00:00Z".to_owned(),
+            "706f6c6963792d7631".to_owned(),
             phase,
         )
         .unwrap()
@@ -349,6 +415,7 @@ mod tests {
         )
         .unwrap();
         assert_eq!(legacy.source_revision, None);
+        assert_eq!(legacy.policy_identity, None);
 
         let root = temporary_root("legacy-unbound");
         let store = PublicationStore::new(root.clone());
@@ -372,6 +439,7 @@ mod tests {
                 "not-a-commit".to_owned(),
                 "main".to_owned(),
                 "issue-updated:2026-08-30T18:00:00Z".to_owned(),
+                "706f6c6963792d7631".to_owned(),
                 PublicationPhase::Prepared,
             )
             .is_err()
