@@ -58,6 +58,17 @@ impl PolicySnapshot {
         record
     }
 
+    pub(crate) fn identity_token(&self) -> String {
+        use std::fmt::Write as _;
+
+        let record = self.identity_record();
+        let mut encoded = String::with_capacity(record.len().saturating_mul(2));
+        for byte in record.as_bytes() {
+            let _ = write!(encoded, "{byte:02x}");
+        }
+        encoded
+    }
+
     pub(crate) fn prompt_context(&self) -> String {
         let mut context = String::new();
         context.push_str("PARENT-RESOLVED REPOSITORY POLICY SNAPSHOT\n");
@@ -235,10 +246,20 @@ pub(crate) fn persist_identity(
         .create_new(true)
         .write(true)
         .open(&path)
-        .map_err(|error| format!("failed to create policy evidence {}: {error}", path.display()))?;
+        .map_err(|error| {
+            format!(
+                "failed to create policy evidence {}: {error}",
+                path.display()
+            )
+        })?;
     file.write_all(snapshot.identity_record().as_bytes())
         .and_then(|_| file.write_all(b"\n"))
-        .map_err(|error| format!("failed to write policy evidence {}: {error}", path.display()))?;
+        .map_err(|error| {
+            format!(
+                "failed to write policy evidence {}: {error}",
+                path.display()
+            )
+        })?;
     file.sync_all()
         .map_err(|error| format!("failed to sync policy evidence {}: {error}", path.display()))?;
     Ok(path)
@@ -296,10 +317,9 @@ fn validate_repository_name(repository: &str) -> Result<(), String> {
     if owner.is_empty()
         || name.is_empty()
         || name.contains('/')
-        || !owner
-            .chars()
-            .chain(name.chars())
-            .all(|character| character.is_ascii_alphanumeric() || matches!(character, '-' | '_' | '.'))
+        || !owner.chars().chain(name.chars()).all(|character| {
+            character.is_ascii_alphanumeric() || matches!(character, '-' | '_' | '.')
+        })
     {
         return Err(format!("invalid repository identity: {repository:?}"));
     }
@@ -566,7 +586,10 @@ mod tests {
         fs::create_dir_all(&root).unwrap();
         git(&root, &["init", "-q", "--bare", origin.to_str().unwrap()]);
         git(&root, &["init", "-q", "-b", "main", work.to_str().unwrap()]);
-        git(&work, &["remote", "add", "origin", origin.to_str().unwrap()]);
+        git(
+            &work,
+            &["remote", "add", "origin", origin.to_str().unwrap()],
+        );
 
         fs::write(work.join("base.txt"), "base\n").unwrap();
         commit(&work, "base");
@@ -626,7 +649,8 @@ mod tests {
         fs::write(root.join("README.md"), "test\n").unwrap();
         let base_sha = commit(&root, "base");
         let snapshot = load_snapshot(&root, "Memorithm/Test", "main", &base_sha).unwrap();
-        let evidence = persist_identity(&root, "Memorithm/Test", "ISSUE", 7, 100, &snapshot).unwrap();
+        let evidence =
+            persist_identity(&root, "Memorithm/Test", "ISSUE", 7, 100, &snapshot).unwrap();
         let contents = fs::read_to_string(&evidence).unwrap();
         assert!(contents.contains(&format!("base-sha={base_sha}")));
         assert!(persist_identity(&root, "Memorithm/Test", "ISSUE", 7, 100, &snapshot).is_err());
