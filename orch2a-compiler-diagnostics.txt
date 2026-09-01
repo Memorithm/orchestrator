@@ -1,0 +1,93 @@
+FMT=0
+FMT_CHECK=0
+    Checking orchestrator v0.1.0 (/home/runner/work/orchestrator/orchestrator)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.20s
+CHECK=0
+   Compiling orchestrator v0.1.0 (/home/runner/work/orchestrator/orchestrator)
+error[E0599]: no variant, associated function, or constant named `LifecycleOnly` found for enum `merge_policy::AutoMergeScope` in the current scope
+    --> src/main.rs:4450:61
+     |
+4450 |             auto_merge_scope: merge_policy::AutoMergeScope::LifecycleOnly,
+     |                                                             ^^^^^^^^^^^^^ variant, associated function, or constant not found in `merge_policy::AutoMergeScope`
+     |
+    ::: src/merge_policy.rs:4:1
+     |
+   4 | pub(crate) enum AutoMergeScope {
+     | ------------------------------ variant, associated function, or constant `LifecycleOnly` not found for this enum
+
+error[E0599]: no associated function or constant named `default` found for struct `resource::ResourcePolicy` in the current scope
+    --> src/main.rs:4453:56
+     |
+4453 |             resource_policy: resource::ResourcePolicy::default(),
+     |                                                        ^^^^^^^ associated function or constant not found in `resource::ResourcePolicy`
+     |
+    ::: src/resource.rs:12:1
+     |
+  12 | pub struct ResourcePolicy {
+     | ------------------------- associated function or constant `default` not found for this struct
+     |
+note: if you're trying to build a new `resource::ResourcePolicy`, consider using `resource::ResourcePolicy::from_env` which returns `Result<resource::ResourcePolicy, String>`
+    --> src/resource.rs:19:5
+     |
+  19 |     pub fn from_env() -> Result<Self, String> {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `default`, perhaps you need to implement it:
+             candidate #1: `Default`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `orchestrator` (bin "orchestrator" test) due to 2 previous errors
+TEST=101
+    Checking orchestrator v0.1.0 (/home/runner/work/orchestrator/orchestrator)
+error[E0599]: no variant, associated function, or constant named `LifecycleOnly` found for enum `merge_policy::AutoMergeScope` in the current scope
+    --> src/main.rs:4450:61
+     |
+4450 |             auto_merge_scope: merge_policy::AutoMergeScope::LifecycleOnly,
+     |                                                             ^^^^^^^^^^^^^ variant, associated function, or constant not found in `merge_policy::AutoMergeScope`
+     |
+    ::: src/merge_policy.rs:4:1
+     |
+   4 | pub(crate) enum AutoMergeScope {
+     | ------------------------------ variant, associated function, or constant `LifecycleOnly` not found for this enum
+
+error[E0599]: no associated function or constant named `default` found for struct `resource::ResourcePolicy` in the current scope
+    --> src/main.rs:4453:56
+     |
+4453 |             resource_policy: resource::ResourcePolicy::default(),
+     |                                                        ^^^^^^^ associated function or constant not found in `resource::ResourcePolicy`
+     |
+    ::: src/resource.rs:12:1
+     |
+  12 | pub struct ResourcePolicy {
+     | ------------------------- associated function or constant `default` not found for this struct
+     |
+note: if you're trying to build a new `resource::ResourcePolicy`, consider using `resource::ResourcePolicy::from_env` which returns `std::result::Result<resource::ResourcePolicy, std::string::String>`
+    --> src/resource.rs:19:5
+     |
+  19 |     pub fn from_env() -> Result<Self, String> {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `default`, perhaps you need to implement it:
+             candidate #1: `std::default::Default`
+
+error: this function has too many arguments (10/7)
+    --> src/main.rs:1949:1
+     |
+1949 | / fn persist_validation_step_evidence(
+1950 | |     config: &RunConfig,
+1951 | |     item: &WorkItem,
+1952 | |     snapshot: &policy::PolicySnapshot,
+...    |
+1959 | |     timed_out: bool,
+1960 | | ) -> Result<PathBuf, String> {
+     | |____________________________^
+     |
+     = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#too_many_arguments
+     = note: `-D clippy::too-many-arguments` implied by `-D warnings`
+     = help: to override `-D warnings` add `#[allow(clippy::too_many_arguments)]`
+
+error: could not compile `orchestrator` (bin "orchestrator") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `orchestrator` (bin "orchestrator" test) due to 2 previous errors
+CLIPPY=101
