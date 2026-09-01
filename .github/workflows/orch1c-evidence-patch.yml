@@ -1,0 +1,73 @@
+name: Temporary ORCH1c-b patch
+
+on:
+  push:
+    branches:
+      - feat/orch1c-evidence-gates-staging
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply exact ORCH1c-b transformation
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def replace_once(data, old, new, label):
+              count = data.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected one match, found {count}')
+              return data.replace(old, new, 1)
+
+          policy_path = Path('src/policy.rs')
+          policy = policy_path.read_text()
+
+          marker = '''#[derive(Debug, Clone, PartialEq, Eq)]\nstruct MergePolicyRule {\n    decision: MergeDecision,\n    source_ref: String,\n    source_path: String,\n    source_commit: String,\n    source_blob: String,\n}\n'''
+          addition = marker + '''\n#[derive(Debug, Clone, PartialEq, Eq)]\npub(crate) enum MergeEvidenceEligibility {\n    Inherit,\n    PortableCi,\n    Deferred(PolicyDenial),\n}\n\n#[derive(Debug, Clone, Copy, PartialEq, Eq)]\nenum MergeEvidenceClass {\n    PortableCi,\n    HardwareRequired,\n    HumanRequired,\n}\n\nimpl MergeEvidenceClass {\n    fn parse(value: &str) -> Result<Self, String> {\n        match value {\n            "portable_ci" => Ok(Self::PortableCi),\n            "hardware_required" => Ok(Self::HardwareRequired),\n            "human_required" => Ok(Self::HumanRequired),\n            other => Err(format!("unknown merge evidence class: {other}")),\n        }\n    }\n\n    const fn as_str(self) -> &'static str {\n        match self {\n            Self::PortableCi => "portable_ci",\n            Self::HardwareRequired => "hardware_required",\n            Self::HumanRequired => "human_required",\n        }\n    }\n}\n\n#[derive(Debug, Clone, PartialEq, Eq)]\nstruct MergeEvidenceRule {\n    required: MergeEvidenceClass,\n    source_ref: String,\n    source_path: String,\n    source_commit: String,\n    source_blob: String,\n}\n'''
+          policy = replace_once(policy, marker, addition, 'evidence policy types')
+
+          method_marker = '''    pub(crate) fn base_branch(&self) -> &str {\n        &self.base_branch\n    }\n'''
+          method = '''    pub(crate) fn merge_evidence_eligibility(\n        &self,\n    ) -> Result<MergeEvidenceEligibility, String> {\n        let mut selected: Option<MergeEvidenceRule> = None;\n        for document in &self.documents {\n            let Some(rule) = parse_merge_evidence_policy(document)? else {\n                continue;\n            };\n            if selected.replace(rule).is_some() {\n                return Err(\n                    "duplicate merge evidence policy across mandatory policy documents".to_owned(),\n                );\n            }\n        }\n        let Some(rule) = selected else {\n            return Ok(MergeEvidenceEligibility::Inherit);\n        };\n        if rule.required == MergeEvidenceClass::PortableCi {\n            return Ok(MergeEvidenceEligibility::PortableCi);\n        }\n        Ok(MergeEvidenceEligibility::Deferred(PolicyDenial {\n            item_id: format!("evidence:{}", rule.required.as_str()),\n            field: "merge_evidence_policy",\n            value: rule.required.as_str().to_owned(),\n            source_ref: rule.source_ref,\n            source_path: rule.source_path,\n            source_commit: rule.source_commit,\n            source_blob: rule.source_blob,\n        }))\n    }\n\n'''
+          policy = replace_once(policy, method_marker, method + method_marker, 'evidence eligibility method')
+
+          parser_marker = '''fn parse_merge_policy(document: &PolicyDocument) -> Result<Option<MergePolicyRule>, String> {\n'''
+          parser = '''fn parse_merge_evidence_policy(\n    document: &PolicyDocument,\n) -> Result<Option<MergeEvidenceRule>, String> {\n    let mut in_policy = false;\n    let mut saw_section = false;\n    let mut schema_version = None;\n    let mut required = None;\n\n    for raw_line in document.content.lines() {\n        let raw_line = raw_line.trim_end_matches('\\r');\n        let trimmed = raw_line.trim();\n        if trimmed.is_empty() || trimmed.starts_with('#') {\n            continue;\n        }\n        if !in_policy {\n            if raw_line == "merge_evidence_policy:" {\n                if saw_section {\n                    return Err(format!(\n                        "duplicate merge_evidence_policy section in origin/{}:{}",\n                        document.ref_name, document.path\n                    ));\n                }\n                in_policy = true;\n                saw_section = true;\n            }\n            continue;\n        }\n        if raw_line.starts_with('\\t') {\n            return Err(format!(\n                "tab indentation is not allowed in merge evidence policy origin/{}:{}",\n                document.ref_name, document.path\n            ));\n        }\n        let indent = raw_line.len() - raw_line.trim_start_matches(' ').len();\n        if indent == 0 {\n            in_policy = false;\n            if raw_line == "merge_evidence_policy:" {\n                return Err(format!(\n                    "duplicate merge_evidence_policy section in origin/{}:{}",\n                    document.ref_name, document.path\n                ));\n            }\n            continue;\n        }\n        if indent != 2 {\n            return Err(format!(\n                "merge_evidence_policy only accepts scalar fields at indentation 2 in origin/{}:{}",\n                document.ref_name, document.path\n            ));\n        }\n        let (key, raw_value) = trimmed.split_once(':').ok_or_else(|| {\n            format!(\n                "malformed merge evidence policy field in origin/{}:{}",\n                document.ref_name, document.path\n            )\n        })?;\n        let value = parse_policy_scalar(raw_value.trim(), key)?;\n        match key {\n            "schema_version" => {\n                if schema_version.replace(value.clone()).is_some() {\n                    return Err(format!(\n                        "duplicate merge evidence schema_version in origin/{}:{}",\n                        document.ref_name, document.path\n                    ));\n                }\n                if value != "1" {\n                    return Err(format!(\n                        "unsupported merge evidence policy schema_version {value} in origin/{}:{}",\n                        document.ref_name, document.path\n                    ));\n                }\n            }\n            "required" => {\n                let parsed = MergeEvidenceClass::parse(&value)?;\n                if required.replace(parsed).is_some() {\n                    return Err(format!(\n                        "duplicate merge evidence requirement in origin/{}:{}",\n                        document.ref_name, document.path\n                    ));\n                }\n            }\n            other => {\n                return Err(format!(\n                    "unknown merge evidence policy field {other} in origin/{}:{}",\n                    document.ref_name, document.path\n                ));\n            }\n        }\n    }\n\n    if !saw_section {\n        return Ok(None);\n    }\n    if schema_version.as_deref() != Some("1") {\n        return Err(format!(\n            "merge_evidence_policy requires schema_version: 1 in origin/{}:{}",\n            document.ref_name, document.path\n        ));\n    }\n    let required = required.ok_or_else(|| {\n        format!(\n            "merge_evidence_policy requires required in origin/{}:{}",\n            document.ref_name, document.path\n        )\n    })?;\n    Ok(Some(MergeEvidenceRule {\n        required,\n        source_ref: document.ref_name.clone(),\n        source_path: document.path.clone(),\n        source_commit: document.commit_sha.clone(),\n        source_blob: document.blob_sha.clone(),\n    }))\n}\n\n'''
+          policy = replace_once(policy, parser_marker, parser + parser_marker, 'evidence parser')
+
+          test_marker = '''    #[test]\n    fn merge_policy_is_explicit_versioned_and_source_bound() {\n'''
+          tests = '''    #[test]\n    fn merge_evidence_policy_distinguishes_portable_hardware_and_human() {\n        let portable = snapshot_with_policy_documents(&[r#"merge_evidence_policy:\n  schema_version: 1\n  required: portable_ci\n"#]);\n        assert_eq!(\n            portable.merge_evidence_eligibility().unwrap(),\n            MergeEvidenceEligibility::PortableCi\n        );\n        assert_eq!(\n            snapshot_with_policy_documents(&[])\n                .merge_evidence_eligibility()\n                .unwrap(),\n            MergeEvidenceEligibility::Inherit\n        );\n\n        for required in ["hardware_required", "human_required"] {\n            let content = format!(\n                "merge_evidence_policy:\\n  schema_version: 1\\n  required: {required}\\n"\n            );\n            let snapshot = snapshot_with_policy_documents(&[&content]);\n            let MergeEvidenceEligibility::Deferred(denial) =\n                snapshot.merge_evidence_eligibility().unwrap()\n            else {\n                panic!("expected {required} to defer merge");\n            };\n            assert_eq!(denial.value, required);\n            let reason = denial.merge_reason("Memorithm/Test", &snapshot);\n            assert!(reason.contains(required));\n            assert!(reason.contains("source=origin/agent/policy-0:.agent/POLICY-0.yaml"));\n        }\n    }\n\n    #[test]\n    fn merge_evidence_policy_is_strict_and_not_inferred_from_prose() {\n        let prose = snapshot_with_policy_documents(&[r#"notes: >-\n  merge_evidence_policy hardware_required\n  physical GPU evidence is required in prose only\n"#]);\n        assert_eq!(\n            prose.merge_evidence_eligibility().unwrap(),\n            MergeEvidenceEligibility::Inherit\n        );\n\n        let duplicate = snapshot_with_policy_documents(&[\n            "merge_evidence_policy:\\n  schema_version: 1\\n  required: portable_ci\\n",\n            "merge_evidence_policy:\\n  schema_version: 1\\n  required: hardware_required\\n",\n        ]);\n        assert!(duplicate.merge_evidence_eligibility().is_err());\n\n        for content in [\n            "merge_evidence_policy:\\n  schema_version: 2\\n  required: portable_ci\\n",\n            "merge_evidence_policy:\\n  schema_version: 1\\n  required: self_reported_gpu\\n",\n            "merge_evidence_policy:\\n  schema_version: 1\\n  unknown: hardware_required\\n",\n            "merge_evidence_policy:\\n  schema_version: 1\\n  required: portable_ci\\n  required: human_required\\n",\n        ] {\n            assert!(snapshot_with_policy_documents(&[content])\n                .merge_evidence_eligibility()\n                .is_err());\n        }\n    }\n\n'''
+          policy = replace_once(policy, test_marker, tests + test_marker, 'evidence policy tests')
+          policy_path.write_text(policy)
+
+          main_path = Path('src/main.rs')
+          main = main_path.read_text()
+          gate_marker = '''    match policy_snapshot\n        .merge_eligibility()\n        .classified(state::FailureClass::Validation)?\n    {\n        policy::MergeEligibility::Inherit | policy::MergeEligibility::Allowed => {}\n        policy::MergeEligibility::Deferred(denial) => {\n            let reason = denial.merge_reason(&item.repository, &policy_snapshot);\n            println!("Autonomous merge deferred by repository policy: {reason}");\n            return Ok(ActionExecution::deferred(reason));\n        }\n    }\n    let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")\n'''
+          gate = '''    match policy_snapshot\n        .merge_eligibility()\n        .classified(state::FailureClass::Validation)?\n    {\n        policy::MergeEligibility::Inherit | policy::MergeEligibility::Allowed => {}\n        policy::MergeEligibility::Deferred(denial) => {\n            let reason = denial.merge_reason(&item.repository, &policy_snapshot);\n            println!("Autonomous merge deferred by repository policy: {reason}");\n            return Ok(ActionExecution::deferred(reason));\n        }\n    }\n    match policy_snapshot\n        .merge_evidence_eligibility()\n        .classified(state::FailureClass::Validation)?\n    {\n        policy::MergeEvidenceEligibility::Inherit\n        | policy::MergeEvidenceEligibility::PortableCi => {}\n        policy::MergeEvidenceEligibility::Deferred(denial) => {\n            let reason = denial.merge_reason(&item.repository, &policy_snapshot);\n            println!("Autonomous merge deferred by repository evidence policy: {reason}");\n            return Ok(ActionExecution::deferred(reason));\n        }\n    }\n    let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")\n'''
+          main = replace_once(main, gate_marker, gate, 'main evidence gate')
+          main_path.write_text(main)
+          PY
+      - name: Validate exact generated source
+        run: |
+          cargo fmt --all
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+          cargo clippy --workspace --all-targets -- -D warnings
+      - name: Commit validated source
+        shell: bash
+        run: |
+          git config user.name 'ZEKRITI Tarek'
+          git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+          git add src/main.rs src/policy.rs
+          git diff --cached --check
+          git commit -m 'feat(policy): enforce merge evidence class gates'
+          git push origin HEAD:feat/orch1c-evidence-gates-staging
