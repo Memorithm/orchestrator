@@ -13,8 +13,7 @@ case "$event_name" in
     ;;
 esac
 
-canonical_name="${CANONICAL_AUTHOR_NAME:-ZEKRITI Tarek}"
-canonical_email="${CANONICAL_AUTHOR_EMAIL:-194770978+CHECKUPAUTO@users.noreply.github.com}"
+canonical_identities="${CANONICAL_AUTHOR_IDENTITIES:-ZEKRITI Tarek <194770978+CHECKUPAUTO@users.noreply.github.com>}"
 
 if [[ "$base" =~ ^0+$ ]]; then
   range="$head"
@@ -35,7 +34,19 @@ is_github_synthetic_merge() {
 
   [[ "$committer_name" == "GitHub" ]] || return 1
   [[ "$committer_email" == "noreply@github.com" ]] || return 1
-  [[ "$subject" =~ ^Merge\ pull\ request\ \#[0-9]+\ from\  ]] || return 1
+  [[ "$subject" =~ ^Merge\ pull\ request\ \#[0-9]+\ from\  ]]
+}
+
+is_authorized_identity() {
+  local identity="$1 <$2>"
+  local allowed
+
+  while IFS= read -r allowed; do
+    [[ -n "$allowed" ]] || continue
+    [[ "$identity" == "$allowed" ]] && return 0
+  done <<< "$canonical_identities"
+
+  return 1
 }
 
 failed=0
@@ -50,7 +61,7 @@ while read -r sha; do
   author_name="$(git show -s --format='%an' "$sha")"
   author_email="$(git show -s --format='%ae' "$sha")"
 
-  if [[ "$author_name" != "$canonical_name" || "$author_email" != "$canonical_email" ]]; then
+  if ! is_authorized_identity "$author_name" "$author_email"; then
     printf 'ERROR: commit %s has unauthorized author: %s <%s>\n' "$sha" "$author_name" "$author_email" >&2
     failed=1
   fi
