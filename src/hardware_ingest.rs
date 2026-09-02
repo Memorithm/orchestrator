@@ -79,7 +79,9 @@ struct IngestRecord {
     run_id: u64,
     artifact_name: String,
     artifact_size_bytes: u64,
+    candidate_digest: String,
     discovered_at: u64,
+    downloaded_at: u64,
     finished_at: u64,
     phase: IngestPhase,
 }
@@ -140,7 +142,9 @@ fn discover_and_ingest_with_program(
         run_id: candidate.run_id,
         artifact_name: candidate.name.clone(),
         artifact_size_bytes: candidate.size_bytes,
+        candidate_digest: "none".to_owned(),
         discovered_at,
+        downloaded_at: 0,
         finished_at: discovered_at,
         phase: IngestPhase::Deferred,
     };
@@ -217,6 +221,11 @@ fn discover_and_ingest_with_program(
         }
     };
 
+    let downloaded_at = unix_timestamp()?;
+    let mut candidate_record = expected.clone();
+    candidate_record.candidate_digest = candidate_digest(&candidate_path)?;
+    candidate_record.downloaded_at = downloaded_at;
+
     let promoted = match hardware_evidence::promote_candidate_with_program(
         request,
         &candidate_path,
@@ -224,7 +233,7 @@ fn discover_and_ingest_with_program(
     ) {
         Ok(status) => status,
         Err(error) => {
-            let mut record = expected.clone();
+            let mut record = candidate_record.clone();
             record.finished_at = unix_timestamp()?;
             record.phase = IngestPhase::Rejected;
             atomic_replace(&state_path, &serialize_record(&record))?;
@@ -235,7 +244,7 @@ fn discover_and_ingest_with_program(
 
     let outcome = match promoted {
         HardwareEvidenceStatus::Satisfied { evidence_path, .. } => {
-            let mut record = expected;
+            let mut record = candidate_record.clone();
             record.finished_at = unix_timestamp()?;
             record.phase = IngestPhase::VerifiedImported;
             atomic_replace(&state_path, &serialize_record(&record))?;
@@ -246,7 +255,7 @@ fn discover_and_ingest_with_program(
             }
         }
         HardwareEvidenceStatus::Deferred(deferred) => {
-            let mut record = expected;
+            let mut record = candidate_record;
             record.finished_at = unix_timestamp()?;
             record.phase = match deferred.reason {
                 HardwareEvidenceDeferReason::AttestationNotVerified => IngestPhase::Rejected,
@@ -604,7 +613,7 @@ fn atomic_replace(path: &Path, contents: &str) -> Result<(), String> {
 
 fn serialize_record(record: &IngestRecord) -> String {
     format!(
-        "{STATE_VERSION}\nrepository={}\npr_number={}\nhead_sha={}\nbase_sha={}\npolicy_identity={}\nrequirement_id={}\ndispatch_token={}\ndispatch_repository={}\ndispatch_workflow={}\ndispatch_ref={}\nartifact_id={}\nrun_id={}\nartifact_name={}\nartifact_size_bytes={}\ndiscovered_at={}\nfinished_at={}\nstatus={}\n",
+        "{STATE_VERSION}\nrepository={}\npr_number={}\nhead_sha={}\nbase_sha={}\npolicy_identity={}\nrequirement_id={}\ndispatch_token={}\ndispatch_repository={}\ndispatch_workflow={}\ndispatch_ref={}\nartifact_id={}\nrun_id={}\nartifact_name={}\nartifact_size_bytes={}\ncandidate_digest={}\ndiscovered_at={}\ndownloaded_at={}\nfinished_at={}\nstatus={}\n",
         record.repository,
         record.pr_number,
         record.head_sha,
@@ -619,7 +628,9 @@ fn serialize_record(record: &IngestRecord) -> String {
         record.run_id,
         record.artifact_name,
         record.artifact_size_bytes,
+        record.candidate_digest,
         record.discovered_at,
+        record.downloaded_at,
         record.finished_at,
         record.phase.as_str(),
     )
@@ -642,16 +653,23 @@ fn parse_record(contents: &str) -> Result<IngestRecord, String> {
         "run_id",
         "artifact_name",
         "artifact_size_bytes",
+        "candidate_digest",
         "discovered_at",
+        "downloaded_at",
         "finished_at",
         "status",
     ];
     reject_unknown_or_missing(&fields, ALLOWED)?;
     let discovered_at = parse_nonzero_u64("discovered_at", required(&fields, "discovered_at")?)?;
+    let downloaded_at = parse_u64("downloaded_at", required(&fields, "downloaded_at")?)?;
     let finished_at = parse_nonzero_u64("finished_at", required(&fields, "finished_at")?)?;
-    if finished_at < discovered_at {
-        return Err("hardware ingest state finished_at precedes discovered_at".to_owned());
+    if finished_at < discovered_at
+        || (downloaded_at != 0 && (downloaded_at < discovered_at || downloaded_at > finished_at))
+    {
+        return Err("hardware ingest state timestamps are not ordered".to_owned());
     }
+    let candidate_digest = required(&fields, "candidate_digest")?.to_owned();
+    validate_candidate_digest(&candidate_digest)?;
     Ok(IngestRecord {
         repository: required(&fields, "repository")?.to_owned(),
         pr_number: parse_nonzero_u64("pr_number", required(&fields, "pr_number")?)?,
@@ -670,7 +688,9 @@ fn parse_record(contents: &str) -> Result<IngestRecord, String> {
             "artifact_size_bytes",
             required(&fields, "artifact_size_bytes")?,
         )?,
+        candidate_digest,
         discovered_at,
+        downloaded_at,
         finished_at,
         phase: IngestPhase::parse(required(&fields, "status")?)?,
     })
@@ -771,6 +791,38 @@ fn validate_git_digest(label: &str, value: &str) -> Result<(), String> {
         return Err(format!("invalid hardware ingest {label}"));
     }
     Ok(())
+}
+
+fn candidate_digest(path: &Path) -> Result<String, String> {
+    let output = Command::new("git")
+        .arg("hash-object")
+        .arg(path)
+        .output()
+        .map_err(|error| format!("failed to hash hardware evidence candidate: {error}"))?;
+    if !output.status.success() {
+        return Err(format!(
+            "hardware evidence candidate hash failed: {}",
+            bounded_diagnostic(&String::from_utf8_lossy(&output.stderr))
+        ));
+    }
+    let digest = String::from_utf8(output.stdout)
+        .map_err(|error| format!("hardware evidence candidate hash is not UTF-8: {error}"))?;
+    let digest = digest.trim().to_owned();
+    validate_git_digest("candidate digest", &digest)?;
+    Ok(digest)
+}
+
+fn validate_candidate_digest(value: &str) -> Result<(), String> {
+    if value == "none" {
+        return Ok(());
+    }
+    validate_git_digest("candidate digest", value)
+}
+
+fn parse_u64(label: &str, value: &str) -> Result<u64, String> {
+    value
+        .parse::<u64>()
+        .map_err(|error| format!("invalid hardware ingest {label} {value:?}: {error}"))
 }
 
 fn parse_nonzero_u64(label: &str, value: &str) -> Result<u64, String> {
@@ -989,6 +1041,28 @@ esac
             actions.lines().collect::<Vec<_>>(),
             ["api", "run", "attestation", "attestation"]
         );
+        let state_path = root
+            .join("state/hardware-ingest")
+            .join(hex_component("Memorithm/Test"))
+            .join("pr-53")
+            .join("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+            .join("jetson-thor-real-device")
+            .join(&token)
+            .join("artifact-7.state");
+        let state = fs::read_to_string(state_path).unwrap();
+        let digest = state
+            .lines()
+            .find_map(|line| line.strip_prefix("candidate_digest="))
+            .unwrap();
+        assert_ne!(digest, "none");
+        assert!(matches!(digest.len(), 40 | 64));
+        let downloaded_at = state
+            .lines()
+            .find_map(|line| line.strip_prefix("downloaded_at="))
+            .unwrap()
+            .parse::<u64>()
+            .unwrap();
+        assert!(downloaded_at > 0);
         fs::remove_dir_all(root).unwrap();
     }
 

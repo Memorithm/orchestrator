@@ -102,8 +102,9 @@ pub(crate) fn promote_candidate_with_program(
     verifier: &OsStr,
 ) -> Result<HardwareEvidenceStatus, String> {
     validate_request(request)?;
+    let ingest_root = request.data_root.join("state/hardware-ingest");
     let candidate_status =
-        verify_path_with_program(request, request.data_root, candidate_path, verifier)?;
+        verify_path_with_program(request, &ingest_root, candidate_path, verifier)?;
     let HardwareEvidenceStatus::Satisfied { .. } = candidate_status else {
         return Ok(candidate_status);
     };
@@ -924,6 +925,35 @@ mod tests {
         ));
         fs::remove_dir_all(root).unwrap();
     }
+    #[cfg(unix)]
+    #[test]
+    fn candidate_outside_hardware_ingest_root_fails_closed() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let root = temp_root("candidate-outside-ingest");
+        write_trust(&root);
+        fs::create_dir_all(root.join("state/hardware-ingest")).unwrap();
+        let outside_dir = root.join("state/other");
+        fs::create_dir_all(&outside_dir).unwrap();
+        let outside = outside_dir.join("hardware.evidence");
+        fs::write(
+            &outside,
+            "v1\nrepository=Memorithm/Test\npr_number=49\nhead_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nbase_sha=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\npolicy_identity=abcd1234\nrequirement_id=jetson-thor-real-device\nresult=passed\nhardware_class=jetson-thor\ndevice_fingerprint=dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\nstarted_at=100\nfinished_at=101\n",
+        )
+        .unwrap();
+        let verifier = root.join("must-not-run");
+        fs::write(&verifier, "#!/bin/sh\nexit 99\n").unwrap();
+        let mut permissions = fs::metadata(&verifier).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&verifier, permissions).unwrap();
+
+        let error = promote_candidate_with_program(&request(&root), &outside, verifier.as_os_str())
+            .unwrap_err();
+        assert!(error.contains("escapes managed root"));
+        assert!(!evidence_path(&root).exists());
+        fs::remove_dir_all(root).unwrap();
+    }
+
     #[cfg(unix)]
     #[test]
     fn verified_candidate_is_promoted_without_clobber_and_reverified() {
