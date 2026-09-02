@@ -74,7 +74,7 @@ mount_args=(
   --tmpfs /tmp
   --dir "$internal_root"
   --dir "$internal_home"
-  --bind "$WORKSPACE" "$internal_workspace"
+  --ro-bind "$WORKSPACE" "$internal_workspace"
   --tmpfs "$internal_workspace/.git"
   --dir "$internal_cargo_home"
 )
@@ -175,6 +175,7 @@ env_args=(
   --setenv PATH "$safe_path"
   --setenv CARGO_HOME "$internal_cargo_home"
   --setenv CARGO_NET_OFFLINE true
+  --setenv CARGO_TARGET_DIR /tmp/cargo-target
   --setenv LANG "${LANG:-C.UTF-8}"
   --setenv LC_ALL "${LC_ALL:-C.UTF-8}"
 )

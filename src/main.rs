@@ -1948,6 +1948,7 @@ fn hex_bytes(value: &str) -> String {
 
 struct ValidationStepResult<'a> {
     worktree_head: &'a str,
+    worktree_tree: &'a str,
     started_at: u64,
     finished_at: u64,
     exit_code: Option<i32>,
@@ -1964,6 +1965,7 @@ fn persist_validation_step_evidence(
 ) -> Result<PathBuf, String> {
     let ValidationStepResult {
         worktree_head,
+        worktree_tree,
         started_at,
         finished_at,
         exit_code,
@@ -1987,7 +1989,7 @@ fn persist_validation_step_evidence(
         .collect::<Vec<_>>()
         .join(",");
     let record = format!(
-        "validation-schema=1\nclass=portable\nrepository={}\nwork-kind={}\nwork-number={}\nstep-id={}\nargv-hex={}\ncwd={}\ntimeout-seconds={}\nstarted-at={}\nfinished-at={}\nexit-code={}\ntimed-out={}\npolicy-identity={}\nbase-sha={}\nworktree-head={}\nsource-ref=origin/{}\nsource-path={}\nsource-commit={}\nsource-blob={}\n",
+        "validation-schema=1\nclass=portable\nrepository={}\nwork-kind={}\nwork-number={}\nstep-id={}\nargv-hex={}\ncwd={}\ntimeout-seconds={}\nstarted-at={}\nfinished-at={}\nexit-code={}\ntimed-out={}\npolicy-identity={}\nbase-sha={}\nworktree-head={}\nworktree-tree={}\nsource-ref=origin/{}\nsource-path={}\nsource-commit={}\nsource-blob={}\n",
         item.repository,
         item.kind.as_str(),
         item.number,
@@ -2002,6 +2004,7 @@ fn persist_validation_step_evidence(
         snapshot.identity_token(),
         snapshot.base_sha(),
         worktree_head,
+        worktree_tree,
         plan.source_ref,
         plan.source_path,
         plan.source_commit,
@@ -2075,6 +2078,70 @@ fn resolve_validation_cwd(workspace: &Path, relative: &str) -> Result<PathBuf, S
     Ok(candidate)
 }
 
+fn validation_worktree_tree(config: &RunConfig, workspace: &Path) -> Result<String, String> {
+    let directory = config.data_root.join("state/validation-index");
+    fs::create_dir_all(&directory).map_err(|error| {
+        format!(
+            "failed to create validation index directory {}: {error}",
+            directory.display()
+        )
+    })?;
+    let stamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_err(|error| format!("system clock is before UNIX epoch: {error}"))?
+        .as_nanos();
+    let index = directory.join(format!("{}-{stamp}.index", std::process::id()));
+
+    let result = (|| {
+        let run = |args: &[&str]| -> Result<(), String> {
+            let status = Command::new("git")
+                .current_dir(workspace)
+                .env("GIT_INDEX_FILE", &index)
+                .env("GIT_CONFIG_NOSYSTEM", "1")
+                .env("GIT_CONFIG_GLOBAL", "/dev/null")
+                .args(args)
+                .status()
+                .map_err(|error| {
+                    format!("failed to fingerprint validation worktree with git: {error}")
+                })?;
+            if status.success() {
+                Ok(())
+            } else {
+                Err(format!(
+                    "git {} failed while fingerprinting validation worktree with {status}",
+                    args.join(" ")
+                ))
+            }
+        };
+
+        run(&["read-tree", "HEAD"])?;
+        run(&["add", "-A", "--", "."])?;
+        let output = Command::new("git")
+            .current_dir(workspace)
+            .env("GIT_INDEX_FILE", &index)
+            .env("GIT_CONFIG_NOSYSTEM", "1")
+            .env("GIT_CONFIG_GLOBAL", "/dev/null")
+            .args(["write-tree"])
+            .output()
+            .map_err(|error| format!("failed to hash validation worktree tree: {error}"))?;
+        if !output.status.success() {
+            return Err(format!(
+                "git write-tree failed while fingerprinting validation worktree: {}",
+                String::from_utf8_lossy(&output.stderr).trim()
+            ));
+        }
+        let tree = String::from_utf8(output.stdout)
+            .map_err(|error| format!("invalid UTF-8 from git write-tree: {error}"))?;
+        let tree = tree.trim();
+        if !matches!(tree.len(), 40 | 64) || !tree.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+            return Err(format!("invalid validation worktree tree id: {tree:?}"));
+        }
+        Ok(tree.to_owned())
+    })();
+    let _ = fs::remove_file(index);
+    result
+}
+
 fn validation_sandbox_path() -> Result<PathBuf, String> {
     let path = env::var_os("ORCHESTRATOR_VALIDATION_SANDBOX")
         .map(PathBuf::from)
@@ -2101,6 +2168,11 @@ fn validation_sandbox_path() -> Result<PathBuf, String> {
     Ok(canonical)
 }
 
+struct ValidationWorktreeIdentity<'a> {
+    head: &'a str,
+    tree: &'a str,
+}
+
 fn run_portable_validation_plan(
     config: &RunConfig,
     workspace: &Path,
@@ -2109,8 +2181,13 @@ fn run_portable_validation_plan(
     plan: &policy::PortableValidationPlan,
     worktree_head: &str,
 ) -> Result<(), String> {
+    let worktree_tree = validation_worktree_tree(config, workspace)?;
+    let identity = ValidationWorktreeIdentity {
+        head: worktree_head,
+        tree: &worktree_tree,
+    };
     for step in &plan.steps {
-        run_portable_validation_step(config, workspace, item, snapshot, plan, step, worktree_head)?;
+        run_portable_validation_step(config, workspace, item, snapshot, plan, step, &identity)?;
     }
     Ok(())
 }
@@ -2122,7 +2199,7 @@ fn run_portable_validation_step(
     snapshot: &policy::PolicySnapshot,
     plan: &policy::PortableValidationPlan,
     step: &policy::PortableValidationStep,
-    worktree_head: &str,
+    identity: &ValidationWorktreeIdentity<'_>,
 ) -> Result<(), String> {
     let _cwd = resolve_validation_cwd(workspace, &step.cwd)?;
     let workspace_root = workspace.canonicalize().map_err(|error| {
@@ -2178,7 +2255,8 @@ fn run_portable_validation_step(
         plan,
         step,
         &ValidationStepResult {
-            worktree_head,
+            worktree_head: identity.head,
+            worktree_tree: identity.tree,
             started_at,
             finished_at,
             exit_code: status.code(),
@@ -4462,6 +4540,8 @@ mod tests {
         let workspace = data_root.join("workspaces/Memorithm__Test");
         fs::create_dir_all(&workspace).unwrap();
         run_in_dir(&workspace, "git", &["init", "-q", "-b", "main"]).unwrap();
+        fs::write(workspace.join(".gitignore"), "target/\n").unwrap();
+        commit_changes(&workspace, "test: validation baseline").unwrap();
         workspace
     }
 
@@ -4519,9 +4599,18 @@ mod tests {
             "0123456789abcdef0123456789abcdef01234567",
         );
         let plan = orch2_validation_test_plan(vec![
-            orch2_step("mkdir", &["mkdir", "ordered"], 5),
-            orch2_step("dependent", &["touch", "ordered/second"], 5),
-            orch2_step("literal", &["touch", "literal;touch injected"], 5),
+            orch2_step("first", &["true"], 5),
+            orch2_step("second", &["true"], 5),
+            orch2_step(
+                "literal",
+                &[
+                    "test",
+                    "literal;touch injected",
+                    "=",
+                    "literal;touch injected",
+                ],
+                5,
+            ),
         ]);
         run_portable_validation_plan(
             &config,
@@ -4532,8 +4621,6 @@ mod tests {
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         )
         .unwrap();
-        assert!(workspace.join("ordered/second").is_file());
-        assert!(workspace.join("literal;touch injected").is_file());
         assert!(!workspace.join("literal").exists());
         assert!(!workspace.join("injected").exists());
         let _ = fs::remove_dir_all(root);
@@ -4555,7 +4642,7 @@ mod tests {
             "0123456789abcdef0123456789abcdef01234567",
         );
         let plan = orch2_validation_test_plan(vec![
-            orch2_step("first", &["touch", "first"], 5),
+            orch2_step("first", &["true"], 5),
             orch2_step("fail", &["false"], 5),
             orch2_step("third", &["touch", "third"], 5),
         ]);
@@ -4569,7 +4656,6 @@ mod tests {
         )
         .unwrap_err();
         assert!(error.contains("fail"));
-        assert!(workspace.join("first").is_file());
         assert!(!workspace.join("third").exists());
         let _ = fs::remove_dir_all(root);
     }
@@ -4732,6 +4818,7 @@ mod tests {
         )
         .unwrap();
         fs::write(workspace.join("src/lib.rs"), "pub fn smoke() {}\n").unwrap();
+        run_in_dir(&workspace, "cargo", &["generate-lockfile", "--offline"]).unwrap();
         let config = orch2_validation_test_config(&data_root);
         let item = orch2_validation_test_item();
         let snapshot = policy::test_snapshot_for_validation(
@@ -4753,7 +4840,70 @@ mod tests {
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         )
         .unwrap();
-        assert!(workspace.join("target").is_dir());
+        assert!(!workspace.join("target").exists());
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn portable_validation_rejects_worktree_mutation() {
+        if !root_validation_sandbox_test_enabled() {
+            return;
+        }
+        let root = orch2_validation_test_root("readonly-worktree");
+        let data_root = root.join("data");
+        let workspace = orch2_validation_test_workspace(&data_root);
+        let config = orch2_validation_test_config(&data_root);
+        let item = orch2_validation_test_item();
+        let snapshot = policy::test_snapshot_for_validation(
+            "Memorithm/Test",
+            "main",
+            "0123456789abcdef0123456789abcdef01234567",
+        );
+        let plan = orch2_validation_test_plan(vec![orch2_step(
+            "worktree-mutation",
+            &["touch", "must-not-persist"],
+            5,
+        )]);
+        assert!(
+            run_portable_validation_plan(
+                &config,
+                &workspace,
+                &item,
+                &snapshot,
+                &plan,
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            )
+            .is_err()
+        );
+        assert!(!workspace.join("must-not-persist").exists());
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn validation_worktree_tree_binds_dirty_and_untracked_content() {
+        let root = orch2_validation_test_root("tree-binding");
+        let data_root = root.join("data");
+        let workspace = orch2_validation_test_workspace(&data_root);
+        let config = orch2_validation_test_config(&data_root);
+        fs::write(workspace.join("candidate.txt"), "first\n").unwrap();
+        let first = validation_worktree_tree(&config, &workspace).unwrap();
+        fs::write(workspace.join("candidate.txt"), "second\n").unwrap();
+        let second = validation_worktree_tree(&config, &workspace).unwrap();
+        fs::write(workspace.join("untracked.txt"), "extra\n").unwrap();
+        let third = validation_worktree_tree(&config, &workspace).unwrap();
+        assert_ne!(first, second);
+        assert_ne!(second, third);
+        assert!(
+            !data_root
+                .join("state/validation-index")
+                .read_dir()
+                .unwrap()
+                .any(|entry| {
+                    entry.ok().is_some_and(|entry| {
+                        entry.path().extension().is_some_and(|ext| ext == "index")
+                    })
+                })
+        );
         let _ = fs::remove_dir_all(root);
     }
 
@@ -4867,6 +5017,7 @@ mod tests {
             &step,
             &ValidationStepResult {
                 worktree_head: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                worktree_tree: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
                 started_at: 100,
                 finished_at: 101,
                 exit_code: Some(0),
@@ -4882,6 +5033,7 @@ mod tests {
             &step,
             &ValidationStepResult {
                 worktree_head: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                worktree_tree: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
                 started_at: 100,
                 finished_at: 101,
                 exit_code: Some(0),
@@ -4894,6 +5046,7 @@ mod tests {
         assert!(contents.contains("class=portable"));
         assert!(contents.contains("base-sha=0123456789abcdef0123456789abcdef01234567"));
         assert!(contents.contains("worktree-head=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+        assert!(contents.contains("worktree-tree=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
         assert!(contents.contains("policy-identity="));
         let _ = fs::remove_dir_all(root);
     }

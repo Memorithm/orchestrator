@@ -592,6 +592,29 @@ fn parse_autonomous_action_rules(
     Ok(rules.into_values().collect())
 }
 
+fn split_validation_argv_items(inner: &str) -> Result<Vec<&str>, String> {
+    let mut items = Vec::new();
+    let mut quote = None;
+    let mut start = 0;
+    for (index, character) in inner.char_indices() {
+        match quote {
+            Some(expected) if character == expected => quote = None,
+            Some(_) => {}
+            None if matches!(character, '\'' | '"') => quote = Some(character),
+            None if character == ',' => {
+                items.push(&inner[start..index]);
+                start = index + character.len_utf8();
+            }
+            None => {}
+        }
+    }
+    if quote.is_some() {
+        return Err("validation argv contains an unterminated quoted scalar".to_owned());
+    }
+    items.push(&inner[start..]);
+    Ok(items)
+}
+
 fn parse_validation_argv(raw: &str) -> Result<Vec<String>, String> {
     let raw = raw.trim();
     if !raw.starts_with('[') || !raw.ends_with(']') {
@@ -602,7 +625,7 @@ fn parse_validation_argv(raw: &str) -> Result<Vec<String>, String> {
         return Err("validation argv must not be empty".to_owned());
     }
     let mut argv = Vec::new();
-    for raw_arg in inner.split(',') {
+    for raw_arg in split_validation_argv_items(inner)? {
         if argv.len() >= MAX_VALIDATION_ARGV {
             return Err(format!(
                 "validation argv exceeds {MAX_VALIDATION_ARGV} elements"
@@ -2176,6 +2199,22 @@ roadmap:
             .unwrap()
             .expect("portable plan");
         assert_eq!(plan.steps[0].argv, ["touch", "literal;touch injected"]);
+
+        let quoted = snapshot_with_policy_documents(&[r#"validation_plan:
+  schema_version: 1
+  class: portable
+  steps:
+    - id: features
+      argv: [cargo, test, --features, "foo,bar"]
+"#]);
+        let quoted_plan = quoted
+            .portable_validation_plan()
+            .unwrap()
+            .expect("quoted portable plan");
+        assert_eq!(
+            quoted_plan.steps[0].argv,
+            ["cargo", "test", "--features", "foo,bar"]
+        );
     }
 
     #[test]
