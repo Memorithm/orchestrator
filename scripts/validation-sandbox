@@ -54,6 +54,7 @@ if [[ -z "$HOST_HOME" ]]; then
   HOST_HOME="${HOME:-/root}"
 fi
 RUNTIME_HOME="${ORCHESTRATOR_RUNTIME_HOME:-${HOME:-$HOST_HOME}}"
+SOURCE_ROOT="${ORCHESTRATOR_SOURCE_ROOT:-}"
 CARGO_HOME_HOST="${CARGO_HOME:-$DATA_ROOT/cargo-home}"
 RUSTUP_HOME_HOST="${RUSTUP_HOME:-$HOST_HOME/.rustup}"
 REAL_CARGO="${ORCHESTRATOR_REAL_CARGO:-$(command -v cargo || true)}"
@@ -61,8 +62,6 @@ REAL_CARGO="${ORCHESTRATOR_REAL_CARGO:-$(command -v cargo || true)}"
 internal_root=/tmp/orchestrator
 internal_workspace="$internal_root/workspace"
 internal_cargo_home="$internal_root/cargo-home"
-internal_rustup="$internal_root/rustup"
-internal_cargo_bin="$internal_root/cargo-bin"
 internal_home="$internal_root/home"
 internal_cwd="$internal_workspace"
 if [[ "$RELATIVE_CWD" != "." ]]; then
@@ -77,31 +76,21 @@ mount_args=(
   --dir "$internal_root"
   --dir "$internal_home"
   --bind "$WORKSPACE" "$internal_workspace"
-  --ro-bind "$WORKSPACE/.git" "$internal_workspace/.git"
+  --tmpfs "$internal_workspace/.git"
   --dir "$internal_cargo_home"
 )
 
 safe_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 if [[ -n "$REAL_CARGO" && -x "$REAL_CARGO" ]]; then
-  CARGO_BIN_HOST="$(dirname "$(realpath "$REAL_CARGO")")"
-  # If cargo is a rustup shim, realpath may point into the toolchain. Prefer the
-  # directory exposed on PATH so cargo/rustc/rustfmt shims stay together.
   CARGO_PATH_ENTRY="$(dirname "$REAL_CARGO")"
   if [[ -d "$CARGO_PATH_ENTRY" ]]; then
-    mount_args+=(--ro-bind "$CARGO_PATH_ENTRY" "$internal_cargo_bin")
-    safe_path="$internal_cargo_bin:$safe_path"
-  elif [[ -d "$CARGO_BIN_HOST" ]]; then
-    mount_args+=(--ro-bind "$CARGO_BIN_HOST" "$internal_cargo_bin")
-    safe_path="$internal_cargo_bin:$safe_path"
+    safe_path="$CARGO_PATH_ENTRY:$safe_path"
   fi
 fi
-if [[ -d "$RUSTUP_HOME_HOST" ]]; then
-  mount_args+=(--ro-bind "$RUSTUP_HOME_HOST" "$internal_rustup")
-fi
 
-# Expose only dependency caches, never Cargo credentials/config. Caches are
-# read-only and Cargo is forced offline; validation may write only its workspace
-# target/output and private tmpfs state.
+# Expose only Cargo dependency caches through the private CARGO_HOME. Cargo
+# credentials and configuration never enter this namespace. All caches are
+# read-only and Cargo is forced offline.
 if [[ -d "$CARGO_HOME_HOST/registry" ]]; then
   mount_args+=(--dir "$internal_cargo_home/registry")
   for part in index cache src; do
@@ -127,16 +116,56 @@ add_tmpfs_mask() {
 }
 add_file_mask() {
   local path="$1"
-  [[ -f "$path" ]] || return 0
+  [[ -n "$path" && -f "$path" ]] || return 0
   mask_args+=(--ro-bind /dev/null "$path")
 }
+mask_home_credentials() {
+  local home="$1"
+  [[ -n "$home" && -d "$home" ]] || return 0
+  for path in \
+    "$home/.ssh" \
+    "$home/.gnupg" \
+    "$home/.aws" \
+    "$home/.azure" \
+    "$home/.kube" \
+    "$home/.docker" \
+    "$home/.codex" \
+    "$home/.claude" \
+    "$home/.huggingface" \
+    "$home/.password-store" \
+    "$home/.config/gh" \
+    "$home/.config/gcloud" \
+    "$home/.config/openai" \
+    "$home/.config/claude" \
+    "$home/.config/github-copilot" \
+    "$home/.local/share/keyrings" \
+    "$home/.cache/huggingface"; do
+    add_tmpfs_mask "$path"
+  done
+  for path in \
+    "$home/.git-credentials" \
+    "$home/.netrc" \
+    "$home/.npmrc" \
+    "$home/.pypirc" \
+    "$home/.cargo/credentials" \
+    "$home/.cargo/credentials.toml" \
+    "$home/.config/pip/pip.conf" \
+    "$home/.config/pypoetry/auth.toml"; do
+    add_file_mask "$path"
+  done
+}
 
-add_tmpfs_mask "$HOST_HOME"
-case "$RUNTIME_HOME" in
-  "$HOST_HOME"|"$HOST_HOME"/*) ;;
-  *) add_tmpfs_mask "$RUNTIME_HOME" ;;
-esac
-for path in /home /root /run /var/lib /var/log /mnt /media /srv; do
+mask_home_credentials "$HOST_HOME"
+if [[ "$RUNTIME_HOME" != "$HOST_HOME" ]]; then
+  mask_home_credentials "$RUNTIME_HOME"
+fi
+if [[ -n "$SOURCE_ROOT" && -d "$SOURCE_ROOT" ]]; then
+  SOURCE_ROOT="$(realpath -m "$SOURCE_ROOT")"
+  if [[ "$SOURCE_ROOT" != "$WORKSPACE" ]]; then
+    add_tmpfs_mask "$SOURCE_ROOT"
+  fi
+fi
+for path in /run /var/lib /var/log /mnt /media /srv; do
   add_tmpfs_mask "$path"
 done
 for path in /etc/ssh /etc/wpa_supplicant /etc/NetworkManager/system-connections; do
@@ -157,7 +186,7 @@ env_args=(
   --setenv LC_ALL "${LC_ALL:-C.UTF-8}"
 )
 if [[ -d "$RUSTUP_HOME_HOST" ]]; then
-  env_args+=(--setenv RUSTUP_HOME "$internal_rustup")
+  env_args+=(--setenv RUSTUP_HOME "$RUSTUP_HOME_HOST")
 fi
 for name in CUDA_HOME CUDA_PATH LD_LIBRARY_PATH LIBRARY_PATH CPATH PKG_CONFIG_PATH CMAKE_PREFIX_PATH RUSTFLAGS RUSTDOCFLAGS RUST_BACKTRACE CC CXX AR VULKAN_SDK; do
   if [[ -n "${!name:-}" ]]; then
