@@ -14,7 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Apply ORCH6b transformation
-        run: python3 tools/orch6b-patch.py
+        run: |
+          python3 tools/orch6b-patch.py
+          python3 tools/orch6b-fix1.py
       - name: Validate shell scripts
         run: |
           bash -n scripts/start.sh
