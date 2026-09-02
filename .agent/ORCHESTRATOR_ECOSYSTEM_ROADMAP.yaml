@@ -66,6 +66,10 @@ verified_current_facts:
   - merge_evidence_policy_schema_2_is_reserved_for_hardware_required_with_explicit_requirement_id
   - missing_hardware_trust_evidence_or_verifier_defers_without_success_while_malformed_or_mismatched_state_fails_closed
   - human_required_remains_non_automatable_and_check_names_runner_labels_emulation_compile_success_and_prose_are_not_hardware_evidence
+  - ORCH6b_PR_52_merged_at_main_c73ee0628419fb693e6d2169f9778ad7004e2ef8_with_exact_head_72612269b3de6054093cd366cdd41681fcfda12c_green_CI
+  - hardware_missing_evidence_defer_is_typed_and_only_missing_evidence_is_dispatch_eligible
+  - hardware_dispatch_uses_Orchestrator_owned_strict_configuration_direct_shell_free_argv_and_exact_binding_token
+  - exact_successful_hardware_dispatch_is_idempotent_and_never_counts_as_hardware_evidence
 
 invariants:
   - no_autonomous_direct_default_branch_coding
@@ -281,7 +285,7 @@ roadmap:
   - id: ORCH6
     name: CI capability and hardware scheduling
     status: active_priority
-    next_slice: ORCH6b_capability_aware_hardware_evidence_discovery_and_dispatch
+    next_slice: ORCH6c_authoritative_remote_evidence_discovery_and_ingestion
     completed_slices:
       - id: ORCH6a
         name: Authoritative hardware evidence contract with pinned attestations
@@ -298,6 +302,21 @@ roadmap:
           - missing_trust_evidence_or_verifier_defers_without_success_and_malformed_or_identity_mismatched_state_fails_closed
           - hardware_gate_revalidated_before_remote_mutations_and_immediately_before_final_merge
           - no_review_threads_open_at_merge_and_no_staging_artifacts_in_product_branch
+      - id: ORCH6b
+        name: Trusted capability dispatch for missing hardware evidence
+        status: complete
+        completion_evidence:
+          - issue_51_defined_trusted_idempotent_hardware_dispatch_scope
+          - PR_52_merged_to_main_as_c73ee0628419fb693e6d2169f9778ad7004e2ef8
+          - exact_head_72612269b3de6054093cd366cdd41681fcfda12c_ci_176_and_contributor_attribution_43_completed_success_before_merge
+          - workspace_Rust_tests_158_of_158_and_root_portable_validation_sandbox_integration_completed_success
+          - typed_missing_trust_missing_evidence_verifier_unavailable_and_attestation_not_verified_reasons
+          - only_missing_evidence_can_dispatch_and_dispatch_success_still_returns_deferred
+          - Orchestrator_owned_dispatch_repository_workflow_ref_configuration_is_strict_and_non_repository_controlled
+          - deterministic_exact_repository_PR_head_base_policy_requirement_binding_token
+          - durable_dispatching_and_dispatched_state_prevents_duplicate_exact_remote_dispatch
+          - state_directory_components_are_created_fail_closed_without_following_symlink_escapes
+          - no_review_threads_or_reviews_blocked_merge_and_no_staging_artifacts_entered_product_branch
     goals:
       - distinguish_hosted_self_hosted_GPU_ARM_and_manual_gate_requirements
       - define_authoritative_hardware_evidence_provenance_that_cannot_be_satisfied_by_check_names_labels_or_repository_prose
