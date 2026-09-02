@@ -23,6 +23,7 @@ jobs:
         run: |
           python3 .github/orch2b-patch.py
           python3 .github/orch2b-patch-v2.py
+          python3 .github/orch2b-patch-v3.py
       - name: Rust toolchain
         run: |
           rustup update stable
