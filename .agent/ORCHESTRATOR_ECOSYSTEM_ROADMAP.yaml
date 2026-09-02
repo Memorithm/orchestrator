@@ -56,6 +56,11 @@ verified_current_facts:
   - portable_validation_executes_in_a_network_isolated_read_only_worktree_with_real_git_metadata_and_host_credentials_hidden
   - portable_validation_step_evidence_is_append_only_and_bound_to_policy_base_pre_edit_HEAD_and_exact_dirty_untracked_worktree_tree
   - portable_validation_does_not_satisfy_hardware_required_or_human_required_merge_evidence
+  - ORCH2b_PR_48_merged_at_main_2d3f49baf3b4565c819a9a6b48b2dc9237b62164_with_exact_head_697eb6fdea209e2b9d7f44ffce0459bdd5302d8c_green_CI
+  - portable_validation_plan_attempt_state_is_versioned_atomic_and_fail_closed
+  - terminal_portable_plan_results_distinguish_passed_failed_timed_out_and_interrupted_attempts
+  - exact_pass_reuse_requires_repository_work_item_plan_policy_base_HEAD_and_worktree_tree_identity_match
+  - publication_recovery_can_reuse_only_an_exact_complete_pass_without_bypassing_other_publication_or_merge_gates
 
 invariants:
   - no_autonomous_direct_default_branch_coding
@@ -70,6 +75,7 @@ invariants:
   - required_CI_must_be_green_on_exact_PR_head_before_merge
   - hardware_or_human_evidence_requirement_cannot_be_satisfied_by_portable_compile_only_evidence
   - partial_or_interrupted_validation_step_evidence_must_never_be_interpreted_as_a_complete_plan_success
+  - hardware_evidence_must_not_be_inferred_from_check_names_runner_labels_emulation_or_repository_controlled_prose
 
 ownership:
   role: organization_GitHub_development_control_plane
@@ -206,8 +212,7 @@ roadmap:
       - surface_clear_defer_reason_in_status_and_trajectory
   - id: ORCH2
     name: Repository-specific validation plans
-    status: active_priority
-    next_slice: ORCH2b_durable_validation_plan_result_and_recovery
+    status: complete
     completed_slices:
       - id: ORCH2a
         name: Versioned portable repository validation plan
@@ -223,6 +228,19 @@ roadmap:
           - exact_dirty_and_untracked_worktree_tree_fingerprint_recorded_with_each_step
           - portable_sandbox_root_integration_9_of_9_and_workspace_Rust_tests_136_of_136
           - all_five_review_threads_resolved_only_after_fixes_were_on_exact_PR_head
+      - id: ORCH2b
+        name: Durable terminal portable validation result and recovery reuse
+        status: complete
+        completion_evidence:
+          - issue_47_defined_terminal_plan_attempt_and_recovery_scope
+          - PR_48_merged_to_main_as_2d3f49baf3b4565c819a9a6b48b2dc9237b62164
+          - exact_head_697eb6fdea209e2b9d7f44ffce0459bdd5302d8c_ci_172_and_contributor_attribution_39_completed_success_before_merge
+          - workspace_Rust_tests_143_of_143_and_root_portable_validation_tests_10_of_10
+          - atomic_in_progress_state_append_only_history_and_terminal_passed_failed_timed_out_results
+          - interrupted_or_corrupt_attempt_state_is_never_reusable_as_success
+          - deterministic_ordered_plan_and_exact_policy_base_HEAD_tree_work_item_binding
+          - recovery_only_exact_pass_reuse_without_new_step_execution_or_step_evidence
+          - no_review_threads_open_at_merge_and_no_staging_artifacts_in_product_branch
     goals:
       - derive_required_validation_from_versioned_repository_policy_not_only_root_Cargo_detection
       - distinguish_portable_CI_hardware_required_and_human_only_gates
@@ -257,11 +275,13 @@ roadmap:
       - prevent_dependency_cycles_and_cross_repo_branch_races
   - id: ORCH6
     name: CI capability and hardware scheduling
-    status: planned
+    status: active_priority
+    next_slice: ORCH6a_authoritative_hardware_evidence_contract
     goals:
       - distinguish_hosted_self_hosted_GPU_ARM_and_manual_gate_requirements
-      - defer_without_failure_when_required_runner_is_unavailable
-      - revalidate_exact_head_when_runner_returns
+      - define_authoritative_hardware_evidence_provenance_that_cannot_be_satisfied_by_check_names_labels_or_repository_prose
+      - defer_without_failure_when_required_runner_or_authoritative_evidence_is_unavailable
+      - revalidate_exact_head_when_runner_or_evidence_returns
       - no_merge_until_all_required_gates_are_real_successes
   - id: ORCH7
     name: Safe autonomous merge productization
