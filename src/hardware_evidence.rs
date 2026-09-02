@@ -25,6 +25,31 @@ pub(crate) struct HardwareEvidenceRequest<'a> {
     pub(crate) requirement_id: &'a str,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum HardwareEvidenceDeferReason {
+    MissingTrust,
+    MissingEvidence,
+    VerifierUnavailable,
+    AttestationNotVerified,
+}
+
+impl HardwareEvidenceDeferReason {
+    pub(crate) const fn as_str(self) -> &'static str {
+        match self {
+            Self::MissingTrust => "missing_trust",
+            Self::MissingEvidence => "missing_evidence",
+            Self::VerifierUnavailable => "verifier_unavailable",
+            Self::AttestationNotVerified => "attestation_not_verified",
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct HardwareEvidenceDeferred {
+    pub(crate) reason: HardwareEvidenceDeferReason,
+    pub(crate) detail: String,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) enum HardwareEvidenceStatus {
     Satisfied {
@@ -32,7 +57,7 @@ pub(crate) enum HardwareEvidenceStatus {
         hardware_class: String,
         device_fingerprint: String,
     },
-    Deferred(String),
+    Deferred(HardwareEvidenceDeferred),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -70,10 +95,13 @@ fn verify_with_program(
     let trust_contents = match read_regular_bounded(&trust_root, &trust_path, MAX_TRUST_BYTES)? {
         Some(contents) => contents,
         None => {
-            return Ok(HardwareEvidenceStatus::Deferred(format!(
-                "hardware evidence requirement {} has no local trust root",
-                request.requirement_id
-            )));
+            return Ok(HardwareEvidenceStatus::Deferred(HardwareEvidenceDeferred {
+                reason: HardwareEvidenceDeferReason::MissingTrust,
+                detail: format!(
+                    "hardware evidence requirement {} has no local trust root",
+                    request.requirement_id
+                ),
+            }));
         }
     };
     let trust = parse_trust(&trust_contents)?;
@@ -88,10 +116,16 @@ fn verify_with_program(
         match read_regular_bounded(&evidence_root, &evidence_path, MAX_EVIDENCE_BYTES)? {
             Some(contents) => contents,
             None => {
-                return Ok(HardwareEvidenceStatus::Deferred(format!(
-                    "hardware evidence requirement {} has no evidence for {}#{} head={}",
-                    request.requirement_id, request.repository, request.pr_number, request.head_sha
-                )));
+                return Ok(HardwareEvidenceStatus::Deferred(HardwareEvidenceDeferred {
+                    reason: HardwareEvidenceDeferReason::MissingEvidence,
+                    detail: format!(
+                        "hardware evidence requirement {} has no evidence for {}#{} head={}",
+                        request.requirement_id,
+                        request.repository,
+                        request.pr_number,
+                        request.head_sha
+                    ),
+                }));
             }
         };
     let manifest = parse_manifest(&evidence_contents)?;
@@ -115,21 +149,27 @@ fn verify_with_program(
     {
         Ok(output) => output,
         Err(error) => {
-            return Ok(HardwareEvidenceStatus::Deferred(format!(
-                "hardware evidence verifier unavailable for requirement {}: {}",
-                request.requirement_id,
-                bounded_diagnostic(&error.to_string())
-            )));
+            return Ok(HardwareEvidenceStatus::Deferred(HardwareEvidenceDeferred {
+                reason: HardwareEvidenceDeferReason::VerifierUnavailable,
+                detail: format!(
+                    "hardware evidence verifier unavailable for requirement {}: {}",
+                    request.requirement_id,
+                    bounded_diagnostic(&error.to_string())
+                ),
+            }));
         }
     };
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Ok(HardwareEvidenceStatus::Deferred(format!(
-            "hardware evidence attestation did not verify for requirement {}: {}",
-            request.requirement_id,
-            bounded_diagnostic(&stderr)
-        )));
+        return Ok(HardwareEvidenceStatus::Deferred(HardwareEvidenceDeferred {
+            reason: HardwareEvidenceDeferReason::AttestationNotVerified,
+            detail: format!(
+                "hardware evidence attestation did not verify for requirement {}: {}",
+                request.requirement_id,
+                bounded_diagnostic(&stderr)
+            ),
+        }));
     }
 
     Ok(HardwareEvidenceStatus::Satisfied {
@@ -611,16 +651,24 @@ mod tests {
         let req = request(&root);
         let status =
             verify_with_program(&req, OsStr::new("definitely-not-a-real-verifier")).unwrap();
-        assert!(
-            matches!(status, HardwareEvidenceStatus::Deferred(reason) if reason.contains("no local trust root"))
-        );
+        assert!(matches!(
+            status,
+            HardwareEvidenceStatus::Deferred(HardwareEvidenceDeferred {
+                reason: HardwareEvidenceDeferReason::MissingTrust,
+                detail,
+            }) if detail.contains("no local trust root")
+        ));
 
         write_trust(&root);
         let status =
             verify_with_program(&req, OsStr::new("definitely-not-a-real-verifier")).unwrap();
-        assert!(
-            matches!(status, HardwareEvidenceStatus::Deferred(reason) if reason.contains("has no evidence"))
-        );
+        assert!(matches!(
+            status,
+            HardwareEvidenceStatus::Deferred(HardwareEvidenceDeferred {
+                reason: HardwareEvidenceDeferReason::MissingEvidence,
+                detail,
+            }) if detail.contains("has no evidence")
+        ));
         fs::remove_dir_all(root).unwrap();
     }
 
@@ -699,6 +747,25 @@ mod tests {
         fs::remove_dir_all(root).unwrap();
     }
 
+    #[test]
+    fn typed_verifier_unavailable_reason_is_not_missing_evidence() {
+        let root = temp_root("verifier-unavailable");
+        write_trust(&root);
+        write_evidence(&root);
+        let status = verify_with_program(
+            &request(&root),
+            OsStr::new("definitely-not-a-real-verifier"),
+        )
+        .unwrap();
+        assert!(matches!(
+            status,
+            HardwareEvidenceStatus::Deferred(HardwareEvidenceDeferred {
+                reason: HardwareEvidenceDeferReason::VerifierUnavailable,
+                ..
+            })
+        ));
+        fs::remove_dir_all(root).unwrap();
+    }
     #[cfg(unix)]
     #[test]
     fn failed_cryptographic_verifier_never_satisfies_evidence() {
@@ -718,9 +785,13 @@ mod tests {
         fs::set_permissions(&verifier, permissions).unwrap();
 
         let status = verify_with_program(&request(&root), verifier.as_os_str()).unwrap();
-        assert!(
-            matches!(status, HardwareEvidenceStatus::Deferred(reason) if reason.contains("did not verify"))
-        );
+        assert!(matches!(
+            status,
+            HardwareEvidenceStatus::Deferred(HardwareEvidenceDeferred {
+                reason: HardwareEvidenceDeferReason::AttestationNotVerified,
+                detail,
+            }) if detail.contains("did not verify")
+        ));
         fs::remove_dir_all(root).unwrap();
     }
 }

@@ -2,8 +2,8 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::ffi::OsStr;
 use std::fs::{self, OpenOptions};
 use std::io::Write;
-use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::path::Path;
+use std::process::{Command, Stdio};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::hardware_evidence::HardwareEvidenceRequest;
@@ -71,15 +71,62 @@ struct DispatchRecord {
     phase: DispatchPhase,
 }
 
+pub(crate) fn binding_token(request: &HardwareEvidenceRequest<'_>) -> Result<String, String> {
+    binding_token_with_program(request, OsStr::new("git"))
+}
+
+fn binding_token_with_program(
+    request: &HardwareEvidenceRequest<'_>,
+    program: &OsStr,
+) -> Result<String, String> {
+    validate_request(request)?;
+    let payload = format!(
+        "hardware-dispatch-binding-v1\nrepository-hex={}\npr-number={}\nhead-sha={}\nbase-sha={}\npolicy-identity={}\nrequirement-id={}\n",
+        hex_component(request.repository),
+        request.pr_number,
+        request.head_sha,
+        request.base_sha,
+        request.policy_identity,
+        request.requirement_id,
+    );
+    let mut child = Command::new(program)
+        .args(["hash-object", "--stdin"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|error| format!("failed to start hardware dispatch binding hasher: {error}"))?;
+    child
+        .stdin
+        .take()
+        .ok_or_else(|| "failed to open hardware dispatch binding hasher stdin".to_owned())?
+        .write_all(payload.as_bytes())
+        .map_err(|error| format!("failed to write hardware dispatch binding payload: {error}"))?;
+    let output = child
+        .wait_with_output()
+        .map_err(|error| format!("failed to wait for hardware dispatch binding hasher: {error}"))?;
+    if !output.status.success() {
+        return Err(format!(
+            "hardware dispatch binding hasher failed: {}",
+            bounded_diagnostic(&String::from_utf8_lossy(&output.stderr))
+        ));
+    }
+    let token = String::from_utf8(output.stdout)
+        .map_err(|error| format!("hardware dispatch binding hash is not UTF-8: {error}"))?;
+    let token = token.trim().to_owned();
+    validate_git_digest("dispatch token", &token)?;
+    Ok(token)
+}
+
 pub(crate) fn ensure_dispatched(
     request: &HardwareEvidenceRequest<'_>,
-    dispatch_token: &str,
 ) -> Result<HardwareDispatchOutcome, String> {
+    let dispatch_token = binding_token(request)?;
     let now = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .map_err(|error| format!("system clock is before UNIX epoch: {error}"))?
         .as_secs();
-    ensure_dispatched_with_program(request, dispatch_token, now, OsStr::new("gh"))
+    ensure_dispatched_with_program(request, &dispatch_token, now, OsStr::new("gh"))
 }
 
 fn ensure_dispatched_with_program(
@@ -218,11 +265,24 @@ fn claim_dispatch(path: &Path, contents: &str) -> Result<(), String> {
         .write(true)
         .create_new(true)
         .open(path)
-        .map_err(|error| format!("failed to claim hardware dispatch {}: {error}", path.display()))?;
-    file.write_all(contents.as_bytes())
-        .map_err(|error| format!("failed to write hardware dispatch claim {}: {error}", path.display()))?;
-    file.sync_all()
-        .map_err(|error| format!("failed to sync hardware dispatch claim {}: {error}", path.display()))
+        .map_err(|error| {
+            format!(
+                "failed to claim hardware dispatch {}: {error}",
+                path.display()
+            )
+        })?;
+    file.write_all(contents.as_bytes()).map_err(|error| {
+        format!(
+            "failed to write hardware dispatch claim {}: {error}",
+            path.display()
+        )
+    })?;
+    file.sync_all().map_err(|error| {
+        format!(
+            "failed to sync hardware dispatch claim {}: {error}",
+            path.display()
+        )
+    })
 }
 
 fn remove_claim(path: &Path) -> Result<(), String> {
@@ -284,35 +344,85 @@ fn atomic_replace(path: &Path, contents: &str) -> Result<(), String> {
     result
 }
 
-fn ensure_managed_directory(data_root: &Path, state_root: &Path, directory: &Path) -> Result<(), String> {
-    fs::create_dir_all(directory).map_err(|error| {
+fn ensure_managed_directory(
+    data_root: &Path,
+    state_root: &Path,
+    directory: &Path,
+) -> Result<(), String> {
+    let canonical_data = fs::canonicalize(data_root).map_err(|error| {
         format!(
-            "failed to create hardware dispatch directory {}: {error}",
+            "failed to canonicalize orchestrator data root {}: {error}",
+            data_root.display()
+        )
+    })?;
+    if !state_root.starts_with(data_root) || !directory.starts_with(state_root) {
+        return Err(format!(
+            "hardware dispatch state path is outside orchestrator data root: {}",
+            directory.display()
+        ));
+    }
+
+    let relative = directory.strip_prefix(data_root).map_err(|_| {
+        format!(
+            "hardware dispatch directory is outside orchestrator data root: {}",
             directory.display()
         )
     })?;
-    let canonical_data = fs::canonicalize(data_root).map_err(|error| {
-        format!("failed to canonicalize orchestrator data root {}: {error}", data_root.display())
+    let mut current = data_root.to_path_buf();
+    for component in relative.components() {
+        use std::path::Component;
+        let Component::Normal(component) = component else {
+            return Err("hardware dispatch directory contains a non-normal component".to_owned());
+        };
+        current.push(component);
+        match fs::symlink_metadata(&current) {
+            Ok(metadata) => {
+                if metadata.file_type().is_symlink() || !metadata.is_dir() {
+                    return Err(format!(
+                        "hardware dispatch directory component must be a non-symlink directory: {}",
+                        current.display()
+                    ));
+                }
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                fs::create_dir(&current).map_err(|error| {
+                    format!(
+                        "failed to create hardware dispatch directory component {}: {error}",
+                        current.display()
+                    )
+                })?;
+            }
+            Err(error) => {
+                return Err(format!(
+                    "failed to inspect hardware dispatch directory component {}: {error}",
+                    current.display()
+                ));
+            }
+        }
+        let canonical_current = fs::canonicalize(&current).map_err(|error| {
+            format!(
+                "failed to canonicalize hardware dispatch directory component {}: {error}",
+                current.display()
+            )
+        })?;
+        if !canonical_current.starts_with(&canonical_data) {
+            return Err(format!(
+                "hardware dispatch directory component escapes orchestrator data root: {}",
+                current.display()
+            ));
+        }
+    }
+
+    let state_metadata = fs::symlink_metadata(state_root).map_err(|error| {
+        format!(
+            "failed to inspect hardware dispatch state root {}: {error}",
+            state_root.display()
+        )
     })?;
-    let root_meta = fs::symlink_metadata(state_root).map_err(|error| {
-        format!("failed to inspect hardware dispatch state root {}: {error}", state_root.display())
-    })?;
-    if root_meta.file_type().is_symlink() || !root_meta.is_dir() {
+    if state_metadata.file_type().is_symlink() || !state_metadata.is_dir() {
         return Err(format!(
             "hardware dispatch state root must be a non-symlink directory: {}",
             state_root.display()
-        ));
-    }
-    let canonical_root = fs::canonicalize(state_root).map_err(|error| {
-        format!("failed to canonicalize hardware dispatch state root {}: {error}", state_root.display())
-    })?;
-    let canonical_directory = fs::canonicalize(directory).map_err(|error| {
-        format!("failed to canonicalize hardware dispatch directory {}: {error}", directory.display())
-    })?;
-    if !canonical_root.starts_with(&canonical_data) || !canonical_directory.starts_with(&canonical_root) {
-        return Err(format!(
-            "hardware dispatch state directory escapes orchestrator data root: {}",
-            directory.display()
         ));
     }
     Ok(())
@@ -328,33 +438,61 @@ fn read_regular_bounded(
     let metadata = match fs::symlink_metadata(path) {
         Ok(metadata) => metadata,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
-        Err(error) => return Err(format!("failed to inspect {label} {}: {error}", path.display())),
+        Err(error) => {
+            return Err(format!(
+                "failed to inspect {label} {}: {error}",
+                path.display()
+            ));
+        }
     };
     if metadata.file_type().is_symlink() || !metadata.is_file() {
-        return Err(format!("{label} must be a regular non-symlink file: {}", path.display()));
+        return Err(format!(
+            "{label} must be a regular non-symlink file: {}",
+            path.display()
+        ));
     }
     if metadata.len() > max_bytes {
-        return Err(format!("{label} exceeds {max_bytes} byte bound: {}", path.display()));
+        return Err(format!(
+            "{label} exceeds {max_bytes} byte bound: {}",
+            path.display()
+        ));
     }
     let root_metadata = fs::symlink_metadata(root)
         .map_err(|error| format!("failed to inspect {label} root {}: {error}", root.display()))?;
     if root_metadata.file_type().is_symlink() || !root_metadata.is_dir() {
-        return Err(format!("{label} root must be a non-symlink directory: {}", root.display()));
+        return Err(format!(
+            "{label} root must be a non-symlink directory: {}",
+            root.display()
+        ));
     }
     let canonical_data = fs::canonicalize(data_root).map_err(|error| {
-        format!("failed to canonicalize orchestrator data root {}: {error}", data_root.display())
+        format!(
+            "failed to canonicalize orchestrator data root {}: {error}",
+            data_root.display()
+        )
     })?;
-    let canonical_root = fs::canonicalize(root)
-        .map_err(|error| format!("failed to canonicalize {label} root {}: {error}", root.display()))?;
+    let canonical_root = fs::canonicalize(root).map_err(|error| {
+        format!(
+            "failed to canonicalize {label} root {}: {error}",
+            root.display()
+        )
+    })?;
     let canonical_path = fs::canonicalize(path)
         .map_err(|error| format!("failed to canonicalize {label} {}: {error}", path.display()))?;
-    if !canonical_root.starts_with(&canonical_data) || !canonical_path.starts_with(&canonical_root) {
-        return Err(format!("{label} escapes orchestrator-owned root: {}", path.display()));
+    if !canonical_root.starts_with(&canonical_data) || !canonical_path.starts_with(&canonical_root)
+    {
+        return Err(format!(
+            "{label} escapes orchestrator-owned root: {}",
+            path.display()
+        ));
     }
     let contents = fs::read_to_string(path)
         .map_err(|error| format!("failed to read {label} {}: {error}", path.display()))?;
     if contents.len() as u64 > max_bytes {
-        return Err(format!("{label} exceeds {max_bytes} byte bound after read: {}", path.display()));
+        return Err(format!(
+            "{label} exceeds {max_bytes} byte bound after read: {}",
+            path.display()
+        ));
     }
     Ok(Some(contents))
 }
@@ -459,14 +597,21 @@ fn validate_record(record: &DispatchRecord) -> Result<(), String> {
     }
     validate_git_digest("head SHA", &record.head_sha)?;
     validate_git_digest("base SHA", &record.base_sha)?;
-    validate_hex("policy identity", &record.policy_identity, MAX_POLICY_IDENTITY_CHARS)?;
+    validate_hex(
+        "policy identity",
+        &record.policy_identity,
+        MAX_POLICY_IDENTITY_CHARS,
+    )?;
     validate_requirement_id(&record.requirement_id)?;
     validate_workflow(&record.workflow)?;
     validate_ref(&record.ref_name)?;
     validate_git_digest("dispatch token", &record.dispatch_token)
 }
 
-fn validate_record_binding(expected: &DispatchRecord, actual: &DispatchRecord) -> Result<(), String> {
+fn validate_record_binding(
+    expected: &DispatchRecord,
+    actual: &DispatchRecord,
+) -> Result<(), String> {
     if expected.repository != actual.repository
         || expected.pr_number != actual.pr_number
         || expected.head_sha != actual.head_sha
@@ -478,7 +623,9 @@ fn validate_record_binding(expected: &DispatchRecord, actual: &DispatchRecord) -
         || expected.ref_name != actual.ref_name
         || expected.dispatch_token != actual.dispatch_token
     {
-        return Err("hardware dispatch state does not match exact current binding/configuration".to_owned());
+        return Err(
+            "hardware dispatch state does not match exact current binding/configuration".to_owned(),
+        );
     }
     Ok(())
 }
@@ -518,10 +665,7 @@ fn reject_unknown_or_missing(
     allowed: &[&str],
     label: &str,
 ) -> Result<(), String> {
-    if let Some(unknown) = fields
-        .keys()
-        .find(|name| !allowed.contains(&name.as_str()))
-    {
+    if let Some(unknown) = fields.keys().find(|name| !allowed.contains(&name.as_str())) {
         return Err(format!("unknown {label} field: {unknown}"));
     }
     for required in allowed {
@@ -553,14 +697,20 @@ fn validate_request(request: &HardwareEvidenceRequest<'_>) -> Result<(), String>
     }
     validate_git_digest("head SHA", request.head_sha)?;
     validate_git_digest("base SHA", request.base_sha)?;
-    validate_hex("policy identity", request.policy_identity, MAX_POLICY_IDENTITY_CHARS)?;
+    validate_hex(
+        "policy identity",
+        request.policy_identity,
+        MAX_POLICY_IDENTITY_CHARS,
+    )?;
     validate_requirement_id(request.requirement_id)
 }
 
 fn validate_repository(value: &str) -> Result<(), String> {
     if value.is_empty()
         || value.len() > MAX_REPOSITORY_CHARS
-        || value.bytes().any(|byte| matches!(byte, b'\n' | b'\r' | 0 | b'\\'))
+        || value
+            .bytes()
+            .any(|byte| matches!(byte, b'\n' | b'\r' | 0 | b'\\'))
     {
         return Err("invalid hardware dispatch repository".to_owned());
     }
@@ -612,16 +762,15 @@ fn validate_ref(value: &str) -> Result<(), String> {
         || value.contains("..")
         || value.contains("@{")
         || value.ends_with(".lock")
-        || !value.bytes().all(|byte| {
-            byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b'/')
-        })
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b'/'))
     {
         return Err("invalid hardware dispatch ref".to_owned());
     }
-    if value
-        .split('/')
-        .any(|segment| segment.is_empty() || matches!(segment, "." | "..") || segment.ends_with(".lock"))
-    {
+    if value.split('/').any(|segment| {
+        segment.is_empty() || matches!(segment, "." | "..") || segment.ends_with(".lock")
+    }) {
         return Err("invalid hardware dispatch ref segment".to_owned());
     }
     Ok(())
@@ -632,7 +781,9 @@ fn validate_requirement_id(value: &str) -> Result<(), String> {
         return Err("invalid hardware dispatch requirement_id".to_owned());
     }
     let mut bytes = value.bytes();
-    if !bytes.next().is_some_and(|byte| byte.is_ascii_alphanumeric())
+    if !bytes
+        .next()
+        .is_some_and(|byte| byte.is_ascii_alphanumeric())
         || !bytes.all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
     {
         return Err("invalid hardware dispatch requirement_id".to_owned());
@@ -691,6 +842,7 @@ mod tests {
     use super::*;
     use std::env;
     use std::fs;
+    use std::path::PathBuf;
     use std::time::{SystemTime, UNIX_EPOCH};
 
     fn temp_root(label: &str) -> PathBuf {
@@ -738,7 +890,9 @@ mod tests {
             OsStr::new("definitely-not-a-dispatcher"),
         )
         .unwrap();
-        assert!(matches!(outcome, HardwareDispatchOutcome::Deferred(reason) if reason.contains("no local dispatch configuration")));
+        assert!(
+            matches!(outcome, HardwareDispatchOutcome::Deferred(reason) if reason.contains("no local dispatch configuration"))
+        );
         fs::remove_dir_all(root).unwrap();
     }
 
@@ -785,7 +939,8 @@ mod tests {
         fs::set_permissions(&fake, permissions).unwrap();
         let token = "cccccccccccccccccccccccccccccccccccccccc";
 
-        let first = ensure_dispatched_with_program(&request(&root), token, 100, fake.as_os_str()).unwrap();
+        let first =
+            ensure_dispatched_with_program(&request(&root), token, 100, fake.as_os_str()).unwrap();
         assert_eq!(
             first,
             HardwareDispatchOutcome::Dispatched {
@@ -809,11 +964,15 @@ mod tests {
             "requirement_id=jetson-thor-real-device",
             "dispatch_token=cccccccccccccccccccccccccccccccccccccccc",
         ] {
-            assert!(arguments.lines().any(|line| line == expected), "missing {expected:?} in {arguments:?}");
+            assert!(
+                arguments.lines().any(|line| line == expected),
+                "missing {expected:?} in {arguments:?}"
+            );
         }
 
         fs::write(&log, "not-dispatched-again\n").unwrap();
-        let second = ensure_dispatched_with_program(&request(&root), token, 101, fake.as_os_str()).unwrap();
+        let second =
+            ensure_dispatched_with_program(&request(&root), token, 101, fake.as_os_str()).unwrap();
         assert_eq!(
             second,
             HardwareDispatchOutcome::AlreadyDispatched {
@@ -837,15 +996,20 @@ mod tests {
         permissions.set_mode(0o755);
         fs::set_permissions(&fake, permissions).unwrap();
         let token = "cccccccccccccccccccccccccccccccccccccccc";
-        let outcome = ensure_dispatched_with_program(&request(&root), token, 100, fake.as_os_str()).unwrap();
-        assert!(matches!(outcome, HardwareDispatchOutcome::Deferred(reason) if reason.contains("dispatch failed")));
+        let outcome =
+            ensure_dispatched_with_program(&request(&root), token, 100, fake.as_os_str()).unwrap();
+        assert!(
+            matches!(outcome, HardwareDispatchOutcome::Deferred(reason) if reason.contains("dispatch failed"))
+        );
 
         let success = root.join("fake-gh-success");
         fs::write(&success, "#!/bin/sh\nexit 0\n").unwrap();
         let mut permissions = fs::metadata(&success).unwrap().permissions();
         permissions.set_mode(0o755);
         fs::set_permissions(&success, permissions).unwrap();
-        let retry = ensure_dispatched_with_program(&request(&root), token, 101, success.as_os_str()).unwrap();
+        let retry =
+            ensure_dispatched_with_program(&request(&root), token, 101, success.as_os_str())
+                .unwrap();
         assert!(matches!(retry, HardwareDispatchOutcome::Dispatched { .. }));
         fs::remove_dir_all(root).unwrap();
     }
@@ -860,8 +1024,10 @@ mod tests {
         let token = "cccccccccccccccccccccccccccccccccccccccc";
         let req = request(&root);
         let config = parse_config(
-            &fs::read_to_string(root.join("config/hardware-dispatch/jetson-thor-real-device.state"))
-                .unwrap(),
+            &fs::read_to_string(
+                root.join("config/hardware-dispatch/jetson-thor-real-device.state"),
+            )
+            .unwrap(),
         )
         .unwrap();
         let record = DispatchRecord {
@@ -899,9 +1065,64 @@ mod tests {
         permissions.set_mode(0o755);
         fs::set_permissions(&fake, permissions).unwrap();
         let outcome = ensure_dispatched_with_program(&req, token, 101, fake.as_os_str()).unwrap();
-        assert!(matches!(outcome, HardwareDispatchOutcome::Deferred(reason) if reason.contains("in-progress transaction")));
+        assert!(
+            matches!(outcome, HardwareDispatchOutcome::Deferred(reason) if reason.contains("in-progress transaction"))
+        );
         assert!(!marker.exists());
         fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn binding_token_changes_with_exact_candidate_identity() {
+        let root = temp_root("binding-token");
+        let first = binding_token(&request(&root)).unwrap();
+        let changed = HardwareEvidenceRequest {
+            data_root: &root,
+            repository: "Memorithm/Test",
+            pr_number: 51,
+            head_sha: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            base_sha: "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            policy_identity: "abcd1234",
+            requirement_id: "jetson-thor-real-device",
+        };
+        let second = binding_token(&changed).unwrap();
+        assert_ne!(first, second);
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn symlinked_state_component_fails_closed_before_dispatch() {
+        use std::os::unix::fs::{PermissionsExt, symlink};
+
+        let root = temp_root("symlink-state");
+        write_config(&root);
+        let outside = temp_root("symlink-outside");
+        let state_root = root.join("state/hardware-dispatch");
+        fs::create_dir_all(&state_root).unwrap();
+        symlink(&outside, state_root.join(hex_component("Memorithm/Test"))).unwrap();
+
+        let marker = root.join("must-not-run");
+        let fake = root.join("fake-gh");
+        fs::write(
+            &fake,
+            format!("#!/bin/sh\ntouch '{}'\nexit 0\n", marker.display()),
+        )
+        .unwrap();
+        let mut permissions = fs::metadata(&fake).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&fake, permissions).unwrap();
+        let error = ensure_dispatched_with_program(
+            &request(&root),
+            "cccccccccccccccccccccccccccccccccccccccc",
+            100,
+            fake.as_os_str(),
+        )
+        .unwrap_err();
+        assert!(error.contains("non-symlink directory"));
+        assert!(!marker.exists());
+        fs::remove_dir_all(root).unwrap();
+        fs::remove_dir_all(outside).unwrap();
     }
 
     #[test]
@@ -911,8 +1132,10 @@ mod tests {
         let token = "cccccccccccccccccccccccccccccccccccccccc";
         let req = request(&root);
         let config = parse_config(
-            &fs::read_to_string(root.join("config/hardware-dispatch/jetson-thor-real-device.state"))
-                .unwrap(),
+            &fs::read_to_string(
+                root.join("config/hardware-dispatch/jetson-thor-real-device.state"),
+            )
+            .unwrap(),
         )
         .unwrap();
         let record = DispatchRecord {
@@ -943,7 +1166,8 @@ mod tests {
             "v1\nmode=github_workflow\nrepository=Memorithm/hardware-ci\nworkflow=different.yml\nref=main\n",
         )
         .unwrap();
-        let error = ensure_dispatched_with_program(&req, token, 101, OsStr::new("unused")).unwrap_err();
+        let error =
+            ensure_dispatched_with_program(&req, token, 101, OsStr::new("unused")).unwrap_err();
         assert!(error.contains("does not match exact current binding/configuration"));
         fs::remove_dir_all(root).unwrap();
     }
