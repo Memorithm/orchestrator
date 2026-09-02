@@ -1,0 +1,111 @@
+name: Temporary ORCH6c staging validation
+
+on:
+  push:
+    branches: [feat/orch6c-hardware-ingest-staging]
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply ORCH6c transformation
+        run: |
+          python3 tools/orch6c-patch.py
+          python3 tools/orch6c-preflight.py
+      - name: Validate shell scripts
+        run: |
+          bash -n scripts/start.sh
+          bash -n scripts/opencode
+          bash -n scripts/opencode-env
+          bash -n scripts/cargo
+          bash -n scripts/git
+          bash -n scripts/gh
+          bash -n scripts/agent-git
+          bash -n scripts/agent-gh
+          bash -n scripts/agent-ollama
+          bash -n scripts/agent-sandbox
+          bash -n scripts/validation-sandbox
+          bash -n scripts/selftest-runtime.sh
+          bash -n scripts/selftest-opencode-watchdog.sh
+          bash -n scripts/selftest-opencode-reaping.sh
+          bash -n scripts/selftest-agent-sandbox.sh
+          bash -n scripts/render-systemd-unit.sh
+          bash -n scripts/install-systemd.sh
+      - name: Runtime bridge selftest
+        run: bash scripts/selftest-runtime.sh
+      - name: General agent watchdog selftest
+        run: bash scripts/selftest-opencode-watchdog.sh
+      - name: Agent process reaping selftest
+        run: bash scripts/selftest-opencode-reaping.sh
+      - name: Install process sandbox dependency
+        run: |
+          if ! command -v bwrap >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y bubblewrap
+          fi
+      - name: Agent process sandbox selftest
+        run: sudo bash scripts/selftest-agent-sandbox.sh
+      - name: Verify systemd sandbox
+        run: |
+          mkdir -p "$RUNNER_TEMP/orchestrator-data"
+          touch "$RUNNER_TEMP/orchestrator.env"
+          bash scripts/render-systemd-unit.sh \
+            "$GITHUB_WORKSPACE" \
+            "$RUNNER_TEMP/orchestrator-data" \
+            "$RUNNER_TEMP/orchestrator.env" \
+            > "$RUNNER_TEMP/memorithm-orchestrator.service"
+          systemd-analyze verify "$RUNNER_TEMP/memorithm-orchestrator.service"
+      - name: Rust toolchain
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt clippy
+      - name: Format generated product
+        run: cargo fmt --all
+      - name: Format check
+        run: cargo fmt --all -- --check
+      - name: Check
+        run: cargo check --workspace
+      - name: Test
+        run: cargo test --workspace
+      - name: Portable validation sandbox integration
+        run: |
+          cleanup_validation_secret() {
+            sudo rm -f /root/.ssh/orchestrator-validation-ci-secret
+          }
+          trap cleanup_validation_secret EXIT
+          sudo mkdir -p /root/.ssh
+          sudo touch /root/.ssh/orchestrator-validation-ci-secret
+          runner_cargo_home="${CARGO_HOME:-$HOME/.cargo}"
+          runner_rustup_home="${RUSTUP_HOME:-$HOME/.rustup}"
+          sudo chmod o+x "$HOME"
+          sudo chmod a+rx "$runner_cargo_home"
+          if [[ -d "$runner_cargo_home/bin" ]]; then sudo chmod -R a+rX "$runner_cargo_home/bin"; fi
+          if [[ -d "$runner_cargo_home/registry" ]]; then sudo chmod -R a+rX "$runner_cargo_home/registry"; fi
+          if [[ -d "$runner_cargo_home/git" ]]; then sudo chmod -R a+rX "$runner_cargo_home/git"; fi
+          sudo chmod -R a+rX "$runner_rustup_home"
+          sudo env \
+            PATH="$PATH" \
+            HOME="/root" \
+            CARGO_HOME="$runner_cargo_home" \
+            RUSTUP_HOME="$runner_rustup_home" \
+            CARGO_TARGET_DIR="$RUNNER_TEMP/orch6c-root-target" \
+            GITHUB_TOKEN="must-not-cross-validation-sandbox" \
+            ORCHESTRATOR_VALIDATION_SANDBOX="$GITHUB_WORKSPACE/scripts/validation-sandbox" \
+            ORCHESTRATOR_REAL_BWRAP="$(command -v bwrap)" \
+            cargo test --workspace portable_validation_ -- --nocapture
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Commit validated product only
+        run: |
+          git config user.name "ZEKRITI Tarek"
+          git config user.email "194770978+CHECKUPAUTO@users.noreply.github.com"
+          git add src/main.rs src/hardware_dispatch.rs src/hardware_evidence.rs src/hardware_ingest.rs
+          git diff --cached --quiet && { echo "no product changes generated"; exit 1; }
+          git commit -m "feat(hardware): ingest attested remote evidence"
+          git push origin HEAD:feat/orch6c-hardware-ingest-staging
