@@ -8,6 +8,7 @@ use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 mod evidence;
+mod hardware_dispatch;
 mod hardware_evidence;
 mod health;
 mod merge_policy;
@@ -3683,14 +3684,41 @@ fn enforce_merge_evidence_gate(
                     );
                     Ok(None)
                 }
-                hardware_evidence::HardwareEvidenceStatus::Deferred(reason) => {
+                hardware_evidence::HardwareEvidenceStatus::Deferred(deferred) => {
+                    let mut dispatch_detail = String::new();
+                    if deferred.reason
+                        == hardware_evidence::HardwareEvidenceDeferReason::MissingEvidence
+                    {
+                        match hardware_dispatch::ensure_dispatched(&request)
+                            .classified(state::FailureClass::Validation)?
+                        {
+                            hardware_dispatch::HardwareDispatchOutcome::Dispatched { token } => {
+                                dispatch_detail = format!(
+                                    "; hardware evidence workflow dispatched for exact binding token={token}; dispatch is not evidence"
+                                );
+                            }
+                            hardware_dispatch::HardwareDispatchOutcome::AlreadyDispatched {
+                                token,
+                            } => {
+                                dispatch_detail = format!(
+                                    "; exact hardware evidence workflow was already dispatched token={token}; waiting for authoritative evidence"
+                                );
+                            }
+                            hardware_dispatch::HardwareDispatchOutcome::Deferred(reason) => {
+                                dispatch_detail = format!("; dispatch deferred: {reason}");
+                            }
+                        }
+                    }
                     let detail = format!(
-                        "hardware evidence deferred for {}#{} requirement={} head={} base={}: {reason}",
+                        "hardware evidence deferred for {}#{} requirement={} head={} base={} reason={}: {}{}",
                         item.repository,
                         item.number,
                         requirement.requirement_id(),
                         head_sha,
-                        base_sha
+                        base_sha,
+                        deferred.reason.as_str(),
+                        deferred.detail,
+                        dispatch_detail
                     );
                     println!("{detail}");
                     Ok(Some(ActionExecution::deferred(detail)))
