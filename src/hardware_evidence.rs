@@ -51,8 +51,6 @@ struct HardwareManifest {
     requirement_id: String,
     hardware_class: String,
     device_fingerprint: String,
-    started_at: u64,
-    finished_at: u64,
 }
 
 pub(crate) fn verify(
@@ -92,10 +90,7 @@ fn verify_with_program(
             None => {
                 return Ok(HardwareEvidenceStatus::Deferred(format!(
                     "hardware evidence requirement {} has no evidence for {}#{} head={}",
-                    request.requirement_id,
-                    request.repository,
-                    request.pr_number,
-                    request.head_sha
+                    request.requirement_id, request.repository, request.pr_number, request.head_sha
                 )));
             }
         };
@@ -114,6 +109,8 @@ fn verify_with_program(
         .arg(&trust.signer_digest)
         .arg("--source-digest")
         .arg(request.head_sha)
+        .arg("--predicate-type")
+        .arg("https://slsa.dev/provenance/v1")
         .output()
     {
         Ok(output) => output,
@@ -211,7 +208,7 @@ fn read_regular_bounded(
             path.display()
         )
     })?;
-    if contents.as_bytes().len() as u64 > max_bytes {
+    if contents.len() as u64 > max_bytes {
         return Err(format!(
             "hardware evidence state exceeds {} byte bound after read: {}",
             max_bytes,
@@ -256,13 +253,10 @@ fn parse_manifest(contents: &str) -> Result<HardwareManifest, String> {
         "started_at",
         "finished_at",
     ];
-    if fields.len() != ALLOWED.len() {
-        if let Some(unknown) = fields
-            .keys()
-            .find(|name| !ALLOWED.contains(&name.as_str()))
-        {
-            return Err(format!("unknown hardware evidence field: {unknown}"));
-        }
+    if fields.len() != ALLOWED.len()
+        && let Some(unknown) = fields.keys().find(|name| !ALLOWED.contains(&name.as_str()))
+    {
+        return Err(format!("unknown hardware evidence field: {unknown}"));
     }
     for field in ALLOWED {
         if !fields.contains_key(*field) {
@@ -279,14 +273,14 @@ fn parse_manifest(contents: &str) -> Result<HardwareManifest, String> {
     let base_sha = required_field(&fields, "base_sha", "hardware evidence")?.to_owned();
     let policy_identity =
         required_field(&fields, "policy_identity", "hardware evidence")?.to_owned();
-    let requirement_id =
-        required_field(&fields, "requirement_id", "hardware evidence")?.to_owned();
+    let requirement_id = required_field(&fields, "requirement_id", "hardware evidence")?.to_owned();
     let result = required_field(&fields, "result", "hardware evidence")?;
     if result != "passed" {
-        return Err(format!("hardware evidence result must be passed, got {result}"));
+        return Err(format!(
+            "hardware evidence result must be passed, got {result}"
+        ));
     }
-    let hardware_class =
-        required_field(&fields, "hardware_class", "hardware evidence")?.to_owned();
+    let hardware_class = required_field(&fields, "hardware_class", "hardware evidence")?.to_owned();
     let device_fingerprint =
         required_field(&fields, "device_fingerprint", "hardware evidence")?.to_owned();
     let started_at = parse_u64(
@@ -327,8 +321,6 @@ fn parse_manifest(contents: &str) -> Result<HardwareManifest, String> {
         requirement_id,
         hardware_class,
         device_fingerprint,
-        started_at,
-        finished_at,
     })
 }
 
@@ -337,7 +329,11 @@ fn validate_manifest_binding(
     manifest: &HardwareManifest,
 ) -> Result<(), String> {
     let checks = [
-        ("repository", manifest.repository.as_str(), request.repository),
+        (
+            "repository",
+            manifest.repository.as_str(),
+            request.repository,
+        ),
         ("head_sha", manifest.head_sha.as_str(), request.head_sha),
         ("base_sha", manifest.base_sha.as_str(), request.base_sha),
         (
@@ -417,7 +413,9 @@ fn parse_u64(label: &str, value: &str) -> Result<u64, String> {
 fn validate_repository(value: &str) -> Result<(), String> {
     if value.is_empty()
         || value.len() > MAX_REPOSITORY_CHARS
-        || value.bytes().any(|byte| matches!(byte, b'\n' | b'\r' | 0 | b'\\'))
+        || value
+            .bytes()
+            .any(|byte| matches!(byte, b'\n' | b'\r' | 0 | b'\\'))
     {
         return Err("invalid hardware evidence repository".to_owned());
     }
@@ -449,7 +447,9 @@ fn validate_requirement_id(value: &str) -> Result<(), String> {
         return Err("invalid hardware evidence requirement_id".to_owned());
     }
     let mut bytes = value.bytes();
-    if !bytes.next().is_some_and(|byte| byte.is_ascii_alphanumeric())
+    if !bytes
+        .next()
+        .is_some_and(|byte| byte.is_ascii_alphanumeric())
         || !bytes.all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
     {
         return Err("invalid hardware evidence requirement_id".to_owned());
@@ -472,7 +472,9 @@ fn validate_path_token(label: &str, value: &str, max_chars: usize) -> Result<(),
 fn validate_signer_workflow(value: &str) -> Result<(), String> {
     if value.is_empty()
         || value.len() > MAX_SIGNER_WORKFLOW_CHARS
-        || value.bytes().any(|byte| matches!(byte, b'\n' | b'\r' | 0 | b'\\' | b'@'))
+        || value
+            .bytes()
+            .any(|byte| matches!(byte, b'\n' | b'\r' | 0 | b'\\' | b'@'))
     {
         return Err("invalid hardware trust signer_workflow".to_owned());
     }
@@ -607,12 +609,18 @@ mod tests {
     fn missing_trust_or_evidence_defers_without_verification() {
         let root = temp_root("missing");
         let req = request(&root);
-        let status = verify_with_program(&req, OsStr::new("definitely-not-a-real-verifier")).unwrap();
-        assert!(matches!(status, HardwareEvidenceStatus::Deferred(reason) if reason.contains("no local trust root")));
+        let status =
+            verify_with_program(&req, OsStr::new("definitely-not-a-real-verifier")).unwrap();
+        assert!(
+            matches!(status, HardwareEvidenceStatus::Deferred(reason) if reason.contains("no local trust root"))
+        );
 
         write_trust(&root);
-        let status = verify_with_program(&req, OsStr::new("definitely-not-a-real-verifier")).unwrap();
-        assert!(matches!(status, HardwareEvidenceStatus::Deferred(reason) if reason.contains("has no evidence")));
+        let status =
+            verify_with_program(&req, OsStr::new("definitely-not-a-real-verifier")).unwrap();
+        assert!(
+            matches!(status, HardwareEvidenceStatus::Deferred(reason) if reason.contains("has no evidence"))
+        );
         fs::remove_dir_all(root).unwrap();
     }
 
@@ -642,7 +650,10 @@ mod tests {
         let base = "v1\nrepository=Memorithm/Test\npr_number=49\nhead_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nbase_sha=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\npolicy_identity=abcd1234\nrequirement_id=jetson-thor-real-device\nresult=passed\nhardware_class=jetson-thor\ndevice_fingerprint=dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\nstarted_at=100\nfinished_at=101\n";
         assert!(parse_manifest(base).is_ok());
         assert!(parse_manifest(&format!("{base}unknown=value\n")).is_err());
-        assert!(parse_manifest(&base.replace("pr_number=49\n", "pr_number=49\npr_number=49\n")).is_err());
+        assert!(
+            parse_manifest(&base.replace("pr_number=49\n", "pr_number=49\npr_number=49\n"))
+                .is_err()
+        );
         assert!(parse_manifest(&base.replace("result=passed", "result=failed")).is_err());
         assert!(parse_manifest(&base.replace("finished_at=101", "finished_at=99")).is_err());
     }
@@ -697,13 +708,19 @@ mod tests {
         write_trust(&root);
         write_evidence(&root);
         let verifier = root.join("fake-gh-fail");
-        fs::write(&verifier, "#!/bin/sh\necho invalid-attestation >&2\nexit 1\n").unwrap();
+        fs::write(
+            &verifier,
+            "#!/bin/sh\necho invalid-attestation >&2\nexit 1\n",
+        )
+        .unwrap();
         let mut permissions = fs::metadata(&verifier).unwrap().permissions();
         permissions.set_mode(0o755);
         fs::set_permissions(&verifier, permissions).unwrap();
 
         let status = verify_with_program(&request(&root), verifier.as_os_str()).unwrap();
-        assert!(matches!(status, HardwareEvidenceStatus::Deferred(reason) if reason.contains("did not verify")));
+        assert!(
+            matches!(status, HardwareEvidenceStatus::Deferred(reason) if reason.contains("did not verify"))
+        );
         fs::remove_dir_all(root).unwrap();
     }
 }

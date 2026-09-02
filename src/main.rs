@@ -8,6 +8,7 @@ use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 mod evidence;
+mod hardware_evidence;
 mod health;
 mod merge_policy;
 mod policy;
@@ -3641,6 +3642,69 @@ fn pr_head_sha(repository: &str, number: u64) -> Result<String, String> {
     live_pr_identity(repository, number).map(|identity| identity.head_sha)
 }
 
+fn enforce_merge_evidence_gate(
+    config: &RunConfig,
+    item: &WorkItem,
+    policy_snapshot: &policy::PolicySnapshot,
+    head_sha: &str,
+    base_sha: &str,
+) -> Result<Option<ActionExecution>, ActionFailure> {
+    match policy_snapshot
+        .merge_evidence_eligibility()
+        .classified(state::FailureClass::Validation)?
+    {
+        policy::MergeEvidenceEligibility::Inherit
+        | policy::MergeEvidenceEligibility::PortableCi => Ok(None),
+        policy::MergeEvidenceEligibility::HardwareRequired(requirement) => {
+            let policy_identity = policy_snapshot.identity_token();
+            let request = hardware_evidence::HardwareEvidenceRequest {
+                data_root: &config.data_root,
+                repository: &item.repository,
+                pr_number: item.number,
+                head_sha,
+                base_sha,
+                policy_identity: &policy_identity,
+                requirement_id: requirement.requirement_id(),
+            };
+            match hardware_evidence::verify(&request).classified(state::FailureClass::Validation)? {
+                hardware_evidence::HardwareEvidenceStatus::Satisfied {
+                    evidence_path,
+                    hardware_class,
+                    device_fingerprint,
+                } => {
+                    println!(
+                        "Authoritative hardware evidence verified for {}#{} requirement={} class={} device={} artifact={}",
+                        item.repository,
+                        item.number,
+                        requirement.requirement_id(),
+                        hardware_class,
+                        device_fingerprint,
+                        evidence_path.display()
+                    );
+                    Ok(None)
+                }
+                hardware_evidence::HardwareEvidenceStatus::Deferred(reason) => {
+                    let detail = format!(
+                        "hardware evidence deferred for {}#{} requirement={} head={} base={}: {reason}",
+                        item.repository,
+                        item.number,
+                        requirement.requirement_id(),
+                        head_sha,
+                        base_sha
+                    );
+                    println!("{detail}");
+                    Ok(Some(ActionExecution::deferred(detail)))
+                }
+            }
+        }
+        policy::MergeEvidenceEligibility::Deferred(denial) => {
+            let reason = denial.merge_reason(&item.repository, policy_snapshot);
+            println!("Autonomous merge deferred by repository evidence policy: {reason}");
+            Ok(Some(ActionExecution::deferred(reason)))
+        }
+    }
+}
+
 fn handle_pr_attention(
     config: &RunConfig,
     repository: &Repository,
@@ -3764,17 +3828,14 @@ fn handle_pr_attention(
             return Ok(ActionExecution::deferred(reason));
         }
     }
-    match policy_snapshot
-        .merge_evidence_eligibility()
-        .classified(state::FailureClass::Validation)?
-    {
-        policy::MergeEvidenceEligibility::Inherit
-        | policy::MergeEvidenceEligibility::PortableCi => {}
-        policy::MergeEvidenceEligibility::Deferred(denial) => {
-            let reason = denial.merge_reason(&item.repository, &policy_snapshot);
-            println!("Autonomous merge deferred by repository evidence policy: {reason}");
-            return Ok(ActionExecution::deferred(reason));
-        }
+    if let Some(deferred) = enforce_merge_evidence_gate(
+        config,
+        item,
+        &policy_snapshot,
+        &metadata.head_sha,
+        &validated_base_sha,
+    )? {
+        return Ok(deferred);
     }
     let contains_base = git_commit_is_ancestor(&workspace, &validated_base_sha, "HEAD")
         .classified(state::FailureClass::Repository)?;
@@ -3824,6 +3885,15 @@ fn handle_pr_attention(
                     "before base-sync push",
                 )? {
                     return Ok(ActionExecution::completed(ActionOutcome::Deferred));
+                }
+                if let Some(deferred) = enforce_merge_evidence_gate(
+                    config,
+                    item,
+                    &policy_snapshot,
+                    &metadata.head_sha,
+                    &validated_base_sha,
+                )? {
+                    return Ok(deferred);
                 }
                 let refspec = format!("HEAD:refs/heads/{}", metadata.head_branch);
                 run_in_dir(&workspace, "git", &["push", "origin", refspec.as_str()])
@@ -3903,6 +3973,15 @@ fn handle_pr_attention(
 
     let number = item.number.to_string();
     if item.draft {
+        if let Some(deferred) = enforce_merge_evidence_gate(
+            config,
+            item,
+            &policy_snapshot,
+            &metadata.head_sha,
+            &validated_base_sha,
+        )? {
+            return Ok(deferred);
+        }
         println!(
             "Marking {}#{} ready only after exact-head local validation",
             item.repository, item.number
@@ -3988,6 +4067,15 @@ fn handle_pr_attention(
     }
     if !policy_snapshot_is_current(&workspace, &policy_snapshot, "immediately before merge")? {
         return Ok(ActionExecution::completed(ActionOutcome::Deferred));
+    }
+    if let Some(deferred) = enforce_merge_evidence_gate(
+        config,
+        item,
+        &policy_snapshot,
+        &metadata.head_sha,
+        &validated_base_sha,
+    )? {
+        return Ok(deferred);
     }
 
     println!(
