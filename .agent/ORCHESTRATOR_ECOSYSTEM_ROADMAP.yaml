@@ -51,6 +51,11 @@ verified_current_facts:
   - merge_evidence_policy_schema_1_distinguishes_portable_ci_hardware_required_and_human_required
   - hardware_required_and_human_required_defer_before_any_PR_mutation_until_authoritative_evidence_protocol_exists
   - compile_success_runner_labels_emulation_lavapipe_and_self_reported_benchmark_text_are_not_hardware_evidence
+  - ORCH2a_PR_46_merged_at_main_92a05e300e41c2e1bcf7337db8ce5c34a95f3ece_with_exact_head_030f377dcde4c50ded192ef1389bff3b4ce3a16f_green_CI
+  - portable_validation_plan_schema_1_is_structured_bounded_shell_free_and_fail_closed
+  - portable_validation_executes_in_a_network_isolated_read_only_worktree_with_real_git_metadata_and_host_credentials_hidden
+  - portable_validation_step_evidence_is_append_only_and_bound_to_policy_base_pre_edit_HEAD_and_exact_dirty_untracked_worktree_tree
+  - portable_validation_does_not_satisfy_hardware_required_or_human_required_merge_evidence
 
 invariants:
   - no_autonomous_direct_default_branch_coding
@@ -64,6 +69,7 @@ invariants:
   - stale_issue_PR_repository_or_publication_transactions_fail_closed
   - required_CI_must_be_green_on_exact_PR_head_before_merge
   - hardware_or_human_evidence_requirement_cannot_be_satisfied_by_portable_compile_only_evidence
+  - partial_or_interrupted_validation_step_evidence_must_never_be_interpreted_as_a_complete_plan_success
 
 ownership:
   role: organization_GitHub_development_control_plane
@@ -201,13 +207,29 @@ roadmap:
   - id: ORCH2
     name: Repository-specific validation plans
     status: active_priority
-    next_slice: ORCH2a_versioned_portable_validation_plan
+    next_slice: ORCH2b_durable_validation_plan_result_and_recovery
+    completed_slices:
+      - id: ORCH2a
+        name: Versioned portable repository validation plan
+        status: complete
+        completion_evidence:
+          - issue_45_defined_portable_validation_plan_scope
+          - PR_46_merged_to_main_as_92a05e300e41c2e1bcf7337db8ce5c34a95f3ece
+          - exact_head_030f377dcde4c50ded192ef1389bff3b4ce3a16f_ci_170_and_contributor_attribution_37_completed_success_before_merge
+          - strict_validation_plan_schema_1_portable_structured_argv_and_bounded_timeouts
+          - shell_free_execution_with_quote_aware_inline_argv_parser
+          - read_only_candidate_worktree_private_network_and_synthetic_git_metadata_boundary
+          - host_credentials_and_orchestrator_state_masked_from_repository_controlled_validation
+          - exact_dirty_and_untracked_worktree_tree_fingerprint_recorded_with_each_step
+          - portable_sandbox_root_integration_9_of_9_and_workspace_Rust_tests_136_of_136
+          - all_five_review_threads_resolved_only_after_fixes_were_on_exact_PR_head
     goals:
       - derive_required_validation_from_versioned_repository_policy_not_only_root_Cargo_detection
       - distinguish_portable_CI_hardware_required_and_human_only_gates
       - never_mark_a_hardware_requirement_passed_from_compile_only_evidence
       - record_commands_results_timeouts_and_environment_scope
       - bind_validation_result_to_policy_identity_base_SHA_and_exact_worktree_head
+      - persist_a_terminal_plan_result_that_cannot_be_confused_with_partial_step_evidence_after_restart
   - id: ORCH3
     name: Coding backend abstraction
     status: active
