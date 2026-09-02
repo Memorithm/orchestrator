@@ -22,6 +22,8 @@ const MAX_POLICY_IDENTITY_CHARS: usize = 65_536;
 const MAX_REQUIREMENT_ID_CHARS: usize = 96;
 const MAX_REPOSITORY_CHARS: usize = 256;
 const MAX_AUDIT_BYTES: usize = 96 * 1024;
+const MAX_AUDIT_RECORDS_PER_BINDING: usize = 256;
+const MAX_AUDIT_SCAN_ENTRIES: usize = 512;
 const RUNNER_JQ: &str = ".runners[] | [.id, (.name|@uri), (.os|@uri), .status, (.busy|tostring), ([.labels[].name|@uri] | join(\",\"))] | @tsv";
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -504,6 +506,7 @@ fn write_audit(record: &AuditRecord<'_>) -> Result<PathBuf, String> {
         .join(record.request.head_sha)
         .join(record.request.requirement_id);
     ensure_managed_directory(record.request.data_root, &state_root, &directory)?;
+    prune_audit_records(&directory, MAX_AUDIT_RECORDS_PER_BINDING.saturating_sub(1))?;
 
     let configured_runners = if record.config.runners.is_empty() {
         "-".to_owned()
@@ -578,6 +581,73 @@ fn write_audit(record: &AuditRecord<'_>) -> Result<PathBuf, String> {
         }
     }
     Err("hardware capability audit sequence exhausted".to_owned())
+}
+
+fn prune_audit_records(directory: &Path, keep: usize) -> Result<(), String> {
+    let mut records = Vec::new();
+    let entries = fs::read_dir(directory)
+        .map_err(|error| format!("failed to read hardware capability audit directory: {error}"))?;
+    for (index, entry) in entries.enumerate() {
+        if index >= MAX_AUDIT_SCAN_ENTRIES {
+            return Err(
+                "hardware capability audit directory exceeds bounded scan limit".to_owned(),
+            );
+        }
+        let entry = entry.map_err(|error| {
+            format!("failed to inspect hardware capability audit entry: {error}")
+        })?;
+        let file_type = entry.file_type().map_err(|error| {
+            format!("failed to inspect hardware capability audit entry type: {error}")
+        })?;
+        if file_type.is_symlink() || !file_type.is_file() {
+            return Err(
+                "hardware capability audit directory contains a non-regular entry".to_owned(),
+            );
+        }
+        let name = entry
+            .file_name()
+            .into_string()
+            .map_err(|_| "hardware capability audit filename is not UTF-8".to_owned())?;
+        let key = parse_audit_filename(&name)?;
+        records.push((key, entry.path()));
+    }
+    records.sort_by_key(|(key, _)| *key);
+    let remove_count = records.len().saturating_sub(keep);
+    for (_, path) in records.into_iter().take(remove_count) {
+        fs::remove_file(&path).map_err(|error| {
+            format!(
+                "failed to prune retained hardware capability audit record {}: {error}",
+                path.display()
+            )
+        })?;
+    }
+    Ok(())
+}
+
+fn parse_audit_filename(name: &str) -> Result<(u64, u32, u32), String> {
+    let stem = name
+        .strip_suffix(".state")
+        .ok_or_else(|| "invalid hardware capability audit filename extension".to_owned())?;
+    let mut parts = stem.split('-');
+    let observed_at = parts
+        .next()
+        .ok_or_else(|| "invalid hardware capability audit filename".to_owned())?
+        .parse::<u64>()
+        .map_err(|_| "invalid hardware capability audit timestamp filename component".to_owned())?;
+    let pid = parts
+        .next()
+        .ok_or_else(|| "invalid hardware capability audit filename".to_owned())?
+        .parse::<u32>()
+        .map_err(|_| "invalid hardware capability audit pid filename component".to_owned())?;
+    let sequence = parts
+        .next()
+        .ok_or_else(|| "invalid hardware capability audit filename".to_owned())?
+        .parse::<u32>()
+        .map_err(|_| "invalid hardware capability audit sequence filename component".to_owned())?;
+    if parts.next().is_some() || observed_at == 0 || pid == 0 || sequence >= 128 {
+        return Err("invalid hardware capability audit filename".to_owned());
+    }
+    Ok((observed_at, pid, sequence))
 }
 
 fn ensure_managed_directory(
@@ -1016,6 +1086,43 @@ mod tests {
                 .unwrap();
         assert!(matches!(second, HardwareCapabilityOutcome::Deferred(_)));
         assert_eq!(audit_files(&root).len(), 2);
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn audit_retention_prunes_oldest_records_to_bound() {
+        let root = temp_root("audit-retention");
+        let directory = root.join("audit");
+        fs::create_dir_all(&directory).unwrap();
+        for observed_at in 1..=4u64 {
+            fs::write(
+                directory.join(format!("{observed_at}-1-0.state")),
+                "fixture",
+            )
+            .unwrap();
+        }
+        prune_audit_records(&directory, 2).unwrap();
+        let mut names = fs::read_dir(&directory)
+            .unwrap()
+            .map(|entry| entry.unwrap().file_name().into_string().unwrap())
+            .collect::<Vec<_>>();
+        names.sort();
+        assert_eq!(names, ["3-1-0.state", "4-1-0.state"]);
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn audit_retention_rejects_symlink_entries() {
+        use std::os::unix::fs::symlink;
+
+        let root = temp_root("audit-retention-symlink");
+        let directory = root.join("audit");
+        fs::create_dir_all(&directory).unwrap();
+        fs::write(root.join("outside"), "fixture").unwrap();
+        symlink(root.join("outside"), directory.join("1-1-0.state")).unwrap();
+        let error = prune_audit_records(&directory, 1).unwrap_err();
+        assert!(error.contains("non-regular"));
         fs::remove_dir_all(root).unwrap();
     }
 
