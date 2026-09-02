@@ -1,0 +1,25 @@
+name: Temporary ORCH6a roadmap staging
+
+on:
+  push:
+    branches: [agent/ecosystem-roadmap-orch6a-staging]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply roadmap patch
+        run: python3 tools/roadmap-orch6a-patch.py
+      - name: Commit roadmap product only
+        run: |
+          git config user.name "MEMOPERF"
+          git config user.email "contact@checkupauto.fr"
+          git add .agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.yaml
+          git diff --cached --quiet && { echo "no roadmap changes"; exit 1; }
+          git commit -m "docs(agent): record ORCH6a completion"
+          git push origin HEAD:agent/ecosystem-roadmap-orch6a-staging
