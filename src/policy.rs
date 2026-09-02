@@ -198,7 +198,19 @@ struct MergePolicyRule {
 pub(crate) enum MergeEvidenceEligibility {
     Inherit,
     PortableCi,
+    HardwareRequired(HardwareEvidenceRequirement),
     Deferred(PolicyDenial),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct HardwareEvidenceRequirement {
+    requirement_id: String,
+}
+
+impl HardwareEvidenceRequirement {
+    pub(crate) fn requirement_id(&self) -> &str {
+        &self.requirement_id
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -229,7 +241,9 @@ impl MergeEvidenceClass {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct MergeEvidenceRule {
+    schema_version: u8,
     required: MergeEvidenceClass,
+    requirement_id: Option<String>,
     source_ref: String,
     source_path: String,
     source_commit: String,
@@ -431,6 +445,17 @@ impl PolicySnapshot {
         let Some(rule) = selected else {
             return Ok(MergeEvidenceEligibility::Inherit);
         };
+        if rule.schema_version == 2 {
+            if rule.required != MergeEvidenceClass::HardwareRequired {
+                return Err("merge evidence schema v2 is reserved for hardware_required".to_owned());
+            }
+            let requirement_id = rule.requirement_id.ok_or_else(|| {
+                "merge evidence schema v2 hardware_required is missing requirement_id".to_owned()
+            })?;
+            return Ok(MergeEvidenceEligibility::HardwareRequired(
+                HardwareEvidenceRequirement { requirement_id },
+            ));
+        }
         if rule.required == MergeEvidenceClass::PortableCi {
             return Ok(MergeEvidenceEligibility::PortableCi);
         }
@@ -923,6 +948,22 @@ fn parse_validation_plan(
     }))
 }
 
+fn validate_hardware_requirement_id(value: &str) -> Result<(), String> {
+    const MAX_CHARS: usize = 96;
+    if value.is_empty() || value.len() > MAX_CHARS {
+        return Err("invalid hardware requirement_id".to_owned());
+    }
+    let mut bytes = value.bytes();
+    if !bytes
+        .next()
+        .is_some_and(|byte| byte.is_ascii_alphanumeric())
+        || !bytes.all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
+    {
+        return Err("invalid hardware requirement_id".to_owned());
+    }
+    Ok(())
+}
+
 fn parse_merge_evidence_policy(
     document: &PolicyDocument,
 ) -> Result<Option<MergeEvidenceRule>, String> {
@@ -930,6 +971,7 @@ fn parse_merge_evidence_policy(
     let mut saw_section = false;
     let mut schema_version = None;
     let mut required = None;
+    let mut requirement_id = None;
 
     for raw_line in document.content.lines() {
         let raw_line = raw_line.trim_end_matches('\r');
@@ -982,15 +1024,19 @@ fn parse_merge_evidence_policy(
         let value = parse_policy_scalar(raw_value.trim(), key)?;
         match key {
             "schema_version" => {
-                if schema_version.replace(value.clone()).is_some() {
+                let parsed = match value.as_str() {
+                    "1" => 1_u8,
+                    "2" => 2_u8,
+                    other => {
+                        return Err(format!(
+                            "unsupported merge evidence policy schema_version {other} in origin/{}:{}",
+                            document.ref_name, document.path
+                        ));
+                    }
+                };
+                if schema_version.replace(parsed).is_some() {
                     return Err(format!(
                         "duplicate merge evidence schema_version in origin/{}:{}",
-                        document.ref_name, document.path
-                    ));
-                }
-                if value != "1" {
-                    return Err(format!(
-                        "unsupported merge evidence policy schema_version {value} in origin/{}:{}",
                         document.ref_name, document.path
                     ));
                 }
@@ -1000,6 +1046,15 @@ fn parse_merge_evidence_policy(
                 if required.replace(parsed).is_some() {
                     return Err(format!(
                         "duplicate merge evidence requirement in origin/{}:{}",
+                        document.ref_name, document.path
+                    ));
+                }
+            }
+            "requirement_id" => {
+                validate_hardware_requirement_id(&value)?;
+                if requirement_id.replace(value).is_some() {
+                    return Err(format!(
+                        "duplicate hardware requirement_id in origin/{}:{}",
                         document.ref_name, document.path
                     ));
                 }
@@ -1016,20 +1071,47 @@ fn parse_merge_evidence_policy(
     if !saw_section {
         return Ok(None);
     }
-    if schema_version.as_deref() != Some("1") {
-        return Err(format!(
-            "merge_evidence_policy requires schema_version: 1 in origin/{}:{}",
+    let schema_version = schema_version.ok_or_else(|| {
+        format!(
+            "merge_evidence_policy requires schema_version in origin/{}:{}",
             document.ref_name, document.path
-        ));
-    }
+        )
+    })?;
     let required = required.ok_or_else(|| {
         format!(
             "merge_evidence_policy requires required in origin/{}:{}",
             document.ref_name, document.path
         )
     })?;
+    match schema_version {
+        1 => {
+            if requirement_id.is_some() {
+                return Err(format!(
+                    "merge_evidence_policy schema v1 does not accept requirement_id in origin/{}:{}",
+                    document.ref_name, document.path
+                ));
+            }
+        }
+        2 => {
+            if required != MergeEvidenceClass::HardwareRequired {
+                return Err(format!(
+                    "merge_evidence_policy schema v2 only supports hardware_required in origin/{}:{}",
+                    document.ref_name, document.path
+                ));
+            }
+            if requirement_id.is_none() {
+                return Err(format!(
+                    "merge_evidence_policy schema v2 hardware_required requires requirement_id in origin/{}:{}",
+                    document.ref_name, document.path
+                ));
+            }
+        }
+        _ => unreachable!(),
+    }
     Ok(Some(MergeEvidenceRule {
+        schema_version,
         required,
+        requirement_id,
         source_ref: document.ref_name.clone(),
         source_path: document.path.clone(),
         source_commit: document.commit_sha.clone(),
@@ -2273,13 +2355,25 @@ roadmap:
             let MergeEvidenceEligibility::Deferred(denial) =
                 snapshot.merge_evidence_eligibility().unwrap()
             else {
-                panic!("expected {required} to defer merge");
+                panic!("expected v1 {required} to defer merge");
             };
             assert_eq!(denial.value, required);
             let reason = denial.merge_reason("Memorithm/Test", &snapshot);
             assert!(reason.contains(required));
             assert!(reason.contains("source=origin/agent/policy-0:.agent/POLICY-0.yaml"));
         }
+
+        let hardware = snapshot_with_policy_documents(&[r#"merge_evidence_policy:
+  schema_version: 2
+  required: hardware_required
+  requirement_id: jetson-thor-real-device
+"#]);
+        let MergeEvidenceEligibility::HardwareRequired(requirement) =
+            hardware.merge_evidence_eligibility().unwrap()
+        else {
+            panic!("expected schema v2 hardware requirement");
+        };
+        assert_eq!(requirement.requirement_id(), "jetson-thor-real-device");
     }
 
     #[test]
@@ -2295,15 +2389,22 @@ roadmap:
 
         let duplicate = snapshot_with_policy_documents(&[
             "merge_evidence_policy:\n  schema_version: 1\n  required: portable_ci\n",
-            "merge_evidence_policy:\n  schema_version: 1\n  required: hardware_required\n",
+            "merge_evidence_policy:\n  schema_version: 2\n  required: hardware_required\n  requirement_id: gpu-a\n",
         ]);
         assert!(duplicate.merge_evidence_eligibility().is_err());
 
         for content in [
-            "merge_evidence_policy:\n  schema_version: 2\n  required: portable_ci\n",
+            "merge_evidence_policy:\n  schema_version: 3\n  required: hardware_required\n  requirement_id: gpu-a\n",
+            "merge_evidence_policy:\n  schema_version: 2\n  required: hardware_required\n",
+            "merge_evidence_policy:\n  schema_version: 2\n  required: portable_ci\n  requirement_id: gpu-a\n",
+            "merge_evidence_policy:\n  schema_version: 2\n  required: human_required\n  requirement_id: gpu-a\n",
+            "merge_evidence_policy:\n  schema_version: 1\n  required: hardware_required\n  requirement_id: gpu-a\n",
+            "merge_evidence_policy:\n  schema_version: 2\n  required: hardware_required\n  requirement_id: ../gpu\n",
+            "merge_evidence_policy:\n  schema_version: 2\n  required: hardware_required\n  requirement_id: gpu-a\n  signer_workflow: Memorithm/repo/.github/workflows/gpu.yml\n",
             "merge_evidence_policy:\n  schema_version: 1\n  required: self_reported_gpu\n",
             "merge_evidence_policy:\n  schema_version: 1\n  unknown: hardware_required\n",
             "merge_evidence_policy:\n  schema_version: 1\n  required: portable_ci\n  required: human_required\n",
+            "merge_evidence_policy:\n  schema_version: 2\n  required: hardware_required\n  requirement_id: gpu-a\n  requirement_id: gpu-b\n",
         ] {
             assert!(
                 snapshot_with_policy_documents(&[content])
