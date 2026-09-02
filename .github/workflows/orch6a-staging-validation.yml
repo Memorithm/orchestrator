@@ -14,7 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Apply ORCH6a transformation
-        run: python3 tools/orch6a-patch.py
+        run: |
+          python3 tools/orch6a-patch.py
+          python3 tools/orch6a-clippy-fix.py
       - name: Validate shell scripts
         run: |
           bash -n scripts/start.sh
