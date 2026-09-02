@@ -33,4 +33,9 @@ jobs:
           probe net_before_capdrop "${BASE[@]}" --unshare-net --cap-drop ALL "${FS[@]}"
           probe net_without_capdrop "${BASE[@]}" --unshare-net "${FS[@]}"
           probe no_net_capdrop "${BASE[@]}" --cap-drop ALL "${FS[@]}"
+          probe net_no_user bwrap --die-with-parent --unshare-net --unshare-pid --unshare-ipc --unshare-uts --cap-drop ALL "${FS[@]}"
+          probe net_only bwrap --die-with-parent --unshare-net --ro-bind / / --proc /proc --dev /dev --
+          echo '===== official_agent_sandbox_selftest ====='
+          bash scripts/selftest-agent-sandbox.sh
+          echo "RESULT official_agent_sandbox_selftest=$?"
           exit 0
