@@ -1,0 +1,36 @@
+name: Temporary ORCH2a bwrap network diagnostic
+
+on:
+  push:
+    branches:
+      - diagnostic/orch2a-bwrap-net
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install bubblewrap
+        run: sudo apt-get update -qq && sudo apt-get install -y bubblewrap
+      - name: Probe network namespace variants
+        shell: bash
+        run: |
+          set +e
+          probe() {
+            name="$1"; shift
+            echo "===== $name ====="
+            "$@" true
+            rc=$?
+            echo "RESULT $name=$rc"
+            echo
+          }
+          BASE=(bwrap --die-with-parent --unshare-user --uid 0 --gid 0 --unshare-pid --unshare-ipc --unshare-uts --unshare-cgroup-try)
+          FS=(--ro-bind / / --proc /proc --dev /dev --)
+          probe current "${BASE[@]}" --cap-drop ALL --unshare-net "${FS[@]}"
+          probe net_before_capdrop "${BASE[@]}" --unshare-net --cap-drop ALL "${FS[@]}"
+          probe net_without_capdrop "${BASE[@]}" --unshare-net "${FS[@]}"
+          probe no_net_capdrop "${BASE[@]}" --cap-drop ALL "${FS[@]}"
+          exit 0
