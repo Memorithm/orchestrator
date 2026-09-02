@@ -10,6 +10,7 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 mod evidence;
 mod hardware_dispatch;
 mod hardware_evidence;
+mod hardware_ingest;
 mod health;
 mod merge_policy;
 mod policy;
@@ -3696,13 +3697,63 @@ fn enforce_merge_evidence_gate(
                                 dispatch_detail = format!(
                                     "; hardware evidence workflow dispatched for exact binding token={token}; dispatch is not evidence"
                                 );
+                                match hardware_ingest::discover_and_ingest(&request, &token)
+                                    .classified(state::FailureClass::Validation)?
+                                {
+                                    hardware_ingest::HardwareIngestOutcome::Imported {
+                                        evidence_path,
+                                        artifact_id,
+                                        run_id,
+                                    } => {
+                                        println!(
+                                            "Authoritative remote hardware evidence imported and canonically reverified for {}#{} requirement={} artifact_id={} run_id={} path={}",
+                                            item.repository,
+                                            item.number,
+                                            requirement.requirement_id(),
+                                            artifact_id,
+                                            run_id,
+                                            evidence_path.display()
+                                        );
+                                        return Ok(None);
+                                    }
+                                    hardware_ingest::HardwareIngestOutcome::Deferred(reason) => {
+                                        dispatch_detail.push_str(&format!(
+                                            "; remote evidence ingestion deferred: {reason}"
+                                        ));
+                                    }
+                                }
                             }
                             hardware_dispatch::HardwareDispatchOutcome::AlreadyDispatched {
                                 token,
                             } => {
                                 dispatch_detail = format!(
-                                    "; exact hardware evidence workflow was already dispatched token={token}; waiting for authoritative evidence"
+                                    "; exact hardware evidence workflow was already dispatched token={token}; dispatch is not evidence"
                                 );
+                                match hardware_ingest::discover_and_ingest(&request, &token)
+                                    .classified(state::FailureClass::Validation)?
+                                {
+                                    hardware_ingest::HardwareIngestOutcome::Imported {
+                                        evidence_path,
+                                        artifact_id,
+                                        run_id,
+                                    } => {
+                                        println!(
+                                            "Authoritative remote hardware evidence imported and canonically reverified for {}#{} requirement={} artifact_id={} run_id={} path={}",
+                                            item.repository,
+                                            item.number,
+                                            requirement.requirement_id(),
+                                            artifact_id,
+                                            run_id,
+                                            evidence_path.display()
+                                        );
+                                        return Ok(None);
+                                    }
+                                    hardware_ingest::HardwareIngestOutcome::Deferred(reason) => {
+                                        dispatch_detail.push_str(&format!(
+                                            "; remote evidence ingestion deferred: {reason}"
+                                        ));
+                                    }
+                                }
                             }
                             hardware_dispatch::HardwareDispatchOutcome::Deferred(reason) => {
                                 dispatch_detail = format!("; dispatch deferred: {reason}");

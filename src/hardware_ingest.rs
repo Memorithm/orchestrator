@@ -78,6 +78,7 @@ struct IngestRecord {
     artifact_id: u64,
     run_id: u64,
     artifact_name: String,
+    artifact_size_bytes: u64,
     discovered_at: u64,
     finished_at: u64,
     phase: IngestPhase,
@@ -138,6 +139,7 @@ fn discover_and_ingest_with_program(
         artifact_id: candidate.artifact_id,
         run_id: candidate.run_id,
         artifact_name: candidate.name.clone(),
+        artifact_size_bytes: candidate.size_bytes,
         discovered_at,
         finished_at: discovered_at,
         phase: IngestPhase::Deferred,
@@ -381,9 +383,11 @@ fn inspect_candidate(directory: &Path) -> Result<PathBuf, String> {
         .transpose()
         .map_err(|error| format!("failed to inspect hardware ingest payload: {error}"))?
         .ok_or_else(|| "hardware evidence artifact extracted no payload".to_owned())?;
-    if entries.next().transpose().map_err(|error| {
-        format!("failed to inspect additional hardware ingest payload: {error}")
-    })?.is_some()
+    if entries
+        .next()
+        .transpose()
+        .map_err(|error| format!("failed to inspect additional hardware ingest payload: {error}"))?
+        .is_some()
     {
         return Err("hardware evidence artifact must contain exactly one payload".to_owned());
     }
@@ -414,12 +418,22 @@ fn inspect_candidate(directory: &Path) -> Result<PathBuf, String> {
     Ok(path)
 }
 
-fn ensure_managed_directory(data_root: &Path, state_root: &Path, directory: &Path) -> Result<(), String> {
+fn ensure_managed_directory(
+    data_root: &Path,
+    state_root: &Path,
+    directory: &Path,
+) -> Result<(), String> {
     let canonical_data = fs::canonicalize(data_root).map_err(|error| {
-        format!("failed to canonicalize orchestrator data root {}: {error}", data_root.display())
+        format!(
+            "failed to canonicalize orchestrator data root {}: {error}",
+            data_root.display()
+        )
     })?;
     if !state_root.starts_with(data_root) || !directory.starts_with(state_root) {
-        return Err(format!("hardware ingest path is outside orchestrator data root: {}", directory.display()));
+        return Err(format!(
+            "hardware ingest path is outside orchestrator data root: {}",
+            directory.display()
+        ));
     }
     let relative = directory
         .strip_prefix(data_root)
@@ -442,17 +456,27 @@ fn ensure_managed_directory(data_root: &Path, state_root: &Path, directory: &Pat
             }
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
                 fs::create_dir(&current).map_err(|error| {
-                    format!("failed to create hardware ingest directory {}: {error}", current.display())
+                    format!(
+                        "failed to create hardware ingest directory {}: {error}",
+                        current.display()
+                    )
                 })?;
             }
             Err(error) => {
-                return Err(format!("failed to inspect hardware ingest directory {}: {error}", current.display()));
+                return Err(format!(
+                    "failed to inspect hardware ingest directory {}: {error}",
+                    current.display()
+                ));
             }
         }
-        let canonical_current = fs::canonicalize(&current)
-            .map_err(|error| format!("failed to canonicalize hardware ingest directory: {error}"))?;
+        let canonical_current = fs::canonicalize(&current).map_err(|error| {
+            format!("failed to canonicalize hardware ingest directory: {error}")
+        })?;
         if !canonical_current.starts_with(&canonical_data) {
-            return Err(format!("hardware ingest directory escapes data root: {}", current.display()));
+            return Err(format!(
+                "hardware ingest directory escapes data root: {}",
+                current.display()
+            ));
         }
     }
     Ok(())
@@ -476,28 +500,44 @@ fn remove_tree_entry(canonical_root: &Path, path: &Path) -> Result<(), String> {
     let metadata = match fs::symlink_metadata(path) {
         Ok(metadata) => metadata,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
-        Err(error) => return Err(format!("failed to inspect ingest cleanup path {}: {error}", path.display())),
+        Err(error) => {
+            return Err(format!(
+                "failed to inspect ingest cleanup path {}: {error}",
+                path.display()
+            ));
+        }
     };
     if metadata.file_type().is_symlink() || metadata.is_file() {
         return fs::remove_file(path)
             .map_err(|error| format!("failed to remove ingest file {}: {error}", path.display()));
     }
     if !metadata.is_dir() {
-        return Err(format!("refusing to remove special ingest file {}", path.display()));
+        return Err(format!(
+            "refusing to remove special ingest file {}",
+            path.display()
+        ));
     }
     let canonical = fs::canonicalize(path)
         .map_err(|error| format!("failed to canonicalize ingest cleanup directory: {error}"))?;
     if !canonical.starts_with(canonical_root) {
-        return Err(format!("refusing to traverse ingest directory outside root: {}", path.display()));
+        return Err(format!(
+            "refusing to traverse ingest directory outside root: {}",
+            path.display()
+        ));
     }
     for entry in fs::read_dir(path)
         .map_err(|error| format!("failed to read ingest cleanup directory: {error}"))?
     {
-        let entry = entry.map_err(|error| format!("failed to read ingest cleanup entry: {error}"))?;
+        let entry =
+            entry.map_err(|error| format!("failed to read ingest cleanup entry: {error}"))?;
         remove_tree_entry(canonical_root, &entry.path())?;
     }
-    fs::remove_dir(path)
-        .map_err(|error| format!("failed to remove ingest directory {}: {error}", path.display()))
+    fs::remove_dir(path).map_err(|error| {
+        format!(
+            "failed to remove ingest directory {}: {error}",
+            path.display()
+        )
+    })
 }
 
 fn read_state(data_root: &Path, root: &Path, path: &Path) -> Result<Option<String>, String> {
@@ -506,8 +546,12 @@ fn read_state(data_root: &Path, root: &Path, path: &Path) -> Result<Option<Strin
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
         Err(error) => return Err(format!("failed to inspect hardware ingest state: {error}")),
     };
-    if metadata.file_type().is_symlink() || !metadata.is_file() || metadata.len() > MAX_STATE_BYTES {
-        return Err(format!("invalid hardware ingest state file: {}", path.display()));
+    if metadata.file_type().is_symlink() || !metadata.is_file() || metadata.len() > MAX_STATE_BYTES
+    {
+        return Err(format!(
+            "invalid hardware ingest state file: {}",
+            path.display()
+        ));
     }
     let canonical_data = fs::canonicalize(data_root)
         .map_err(|error| format!("failed to canonicalize data root for ingest state: {error}"))?;
@@ -515,7 +559,8 @@ fn read_state(data_root: &Path, root: &Path, path: &Path) -> Result<Option<Strin
         .map_err(|error| format!("failed to canonicalize ingest state root: {error}"))?;
     let canonical_path = fs::canonicalize(path)
         .map_err(|error| format!("failed to canonicalize ingest state: {error}"))?;
-    if !canonical_root.starts_with(&canonical_data) || !canonical_path.starts_with(&canonical_root) {
+    if !canonical_root.starts_with(&canonical_data) || !canonical_path.starts_with(&canonical_root)
+    {
         return Err("hardware ingest state escapes managed root".to_owned());
     }
     let contents = fs::read_to_string(path)
@@ -527,16 +572,23 @@ fn read_state(data_root: &Path, root: &Path, path: &Path) -> Result<Option<Strin
 }
 
 fn atomic_replace(path: &Path, contents: &str) -> Result<(), String> {
-    let parent = path.parent().ok_or_else(|| "hardware ingest state has no parent".to_owned())?;
+    let parent = path
+        .parent()
+        .ok_or_else(|| "hardware ingest state has no parent".to_owned())?;
     let stamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .map_err(|error| format!("system clock is before UNIX epoch: {error}"))?
         .as_nanos();
-    let name = path.file_name().and_then(|value| value.to_str())
+    let name = path
+        .file_name()
+        .and_then(|value| value.to_str())
         .ok_or_else(|| "hardware ingest state filename is not UTF-8".to_owned())?;
     let temporary = parent.join(format!(".{name}.{}.{}.tmp", std::process::id(), stamp));
     let result = (|| {
-        let mut file = OpenOptions::new().write(true).create_new(true).open(&temporary)
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&temporary)
             .map_err(|error| format!("failed to create hardware ingest transaction: {error}"))?;
         file.write_all(contents.as_bytes())
             .map_err(|error| format!("failed to write hardware ingest transaction: {error}"))?;
@@ -552,7 +604,7 @@ fn atomic_replace(path: &Path, contents: &str) -> Result<(), String> {
 
 fn serialize_record(record: &IngestRecord) -> String {
     format!(
-        "{STATE_VERSION}\nrepository={}\npr_number={}\nhead_sha={}\nbase_sha={}\npolicy_identity={}\nrequirement_id={}\ndispatch_token={}\ndispatch_repository={}\ndispatch_workflow={}\ndispatch_ref={}\nartifact_id={}\nrun_id={}\nartifact_name={}\ndiscovered_at={}\nfinished_at={}\nstatus={}\n",
+        "{STATE_VERSION}\nrepository={}\npr_number={}\nhead_sha={}\nbase_sha={}\npolicy_identity={}\nrequirement_id={}\ndispatch_token={}\ndispatch_repository={}\ndispatch_workflow={}\ndispatch_ref={}\nartifact_id={}\nrun_id={}\nartifact_name={}\nartifact_size_bytes={}\ndiscovered_at={}\nfinished_at={}\nstatus={}\n",
         record.repository,
         record.pr_number,
         record.head_sha,
@@ -566,6 +618,7 @@ fn serialize_record(record: &IngestRecord) -> String {
         record.artifact_id,
         record.run_id,
         record.artifact_name,
+        record.artifact_size_bytes,
         record.discovered_at,
         record.finished_at,
         record.phase.as_str(),
@@ -575,10 +628,23 @@ fn serialize_record(record: &IngestRecord) -> String {
 fn parse_record(contents: &str) -> Result<IngestRecord, String> {
     let fields = parse_fields(contents)?;
     const ALLOWED: &[&str] = &[
-        "repository", "pr_number", "head_sha", "base_sha", "policy_identity",
-        "requirement_id", "dispatch_token", "dispatch_repository", "dispatch_workflow",
-        "dispatch_ref", "artifact_id", "run_id", "artifact_name", "discovered_at",
-        "finished_at", "status",
+        "repository",
+        "pr_number",
+        "head_sha",
+        "base_sha",
+        "policy_identity",
+        "requirement_id",
+        "dispatch_token",
+        "dispatch_repository",
+        "dispatch_workflow",
+        "dispatch_ref",
+        "artifact_id",
+        "run_id",
+        "artifact_name",
+        "artifact_size_bytes",
+        "discovered_at",
+        "finished_at",
+        "status",
     ];
     reject_unknown_or_missing(&fields, ALLOWED)?;
     let discovered_at = parse_nonzero_u64("discovered_at", required(&fields, "discovered_at")?)?;
@@ -600,6 +666,10 @@ fn parse_record(contents: &str) -> Result<IngestRecord, String> {
         artifact_id: parse_nonzero_u64("artifact_id", required(&fields, "artifact_id")?)?,
         run_id: parse_nonzero_u64("run_id", required(&fields, "run_id")?)?,
         artifact_name: required(&fields, "artifact_name")?.to_owned(),
+        artifact_size_bytes: parse_nonzero_u64(
+            "artifact_size_bytes",
+            required(&fields, "artifact_size_bytes")?,
+        )?,
         discovered_at,
         finished_at,
         phase: IngestPhase::parse(required(&fields, "status")?)?,
@@ -620,6 +690,7 @@ fn validate_record_binding(expected: &IngestRecord, actual: &IngestRecord) -> Re
         || expected.artifact_id != actual.artifact_id
         || expected.run_id != actual.run_id
         || expected.artifact_name != actual.artifact_name
+        || expected.artifact_size_bytes != actual.artifact_size_bytes
     {
         return Err("hardware ingest state does not match exact candidate binding".to_owned());
     }
@@ -631,18 +702,25 @@ fn parse_fields(contents: &str) -> Result<BTreeMap<String, String>, String> {
         return Err("hardware ingest state contains NUL".to_owned());
     }
     let mut lines = contents.lines();
-    let version = lines.next().ok_or_else(|| "hardware ingest state is empty".to_owned())?;
+    let version = lines
+        .next()
+        .ok_or_else(|| "hardware ingest state is empty".to_owned())?;
     if version != STATE_VERSION {
-        return Err(format!("unsupported hardware ingest state version: {version}"));
+        return Err(format!(
+            "unsupported hardware ingest state version: {version}"
+        ));
     }
     let mut fields = BTreeMap::new();
     for line in lines {
         if line.is_empty() {
             continue;
         }
-        let (key, value) = line.split_once('=')
+        let (key, value) = line
+            .split_once('=')
             .ok_or_else(|| format!("malformed hardware ingest state line: {line:?}"))?;
-        if key.is_empty() || value.is_empty() || key.chars().any(char::is_whitespace)
+        if key.is_empty()
+            || value.is_empty()
+            || key.chars().any(char::is_whitespace)
             || value.chars().any(|ch| ch.is_control())
         {
             return Err("invalid hardware ingest state field".to_owned());
@@ -654,7 +732,10 @@ fn parse_fields(contents: &str) -> Result<BTreeMap<String, String>, String> {
     Ok(fields)
 }
 
-fn reject_unknown_or_missing(fields: &BTreeMap<String, String>, allowed: &[&str]) -> Result<(), String> {
+fn reject_unknown_or_missing(
+    fields: &BTreeMap<String, String>,
+    allowed: &[&str],
+) -> Result<(), String> {
     let allowed = allowed.iter().copied().collect::<BTreeSet<_>>();
     if let Some(unknown) = fields.keys().find(|key| !allowed.contains(key.as_str())) {
         return Err(format!("unknown hardware ingest state field: {unknown}"));
@@ -666,14 +747,19 @@ fn reject_unknown_or_missing(fields: &BTreeMap<String, String>, allowed: &[&str]
 }
 
 fn required<'a>(fields: &'a BTreeMap<String, String>, key: &str) -> Result<&'a str, String> {
-    fields.get(key).map(String::as_str)
+    fields
+        .get(key)
+        .map(String::as_str)
         .ok_or_else(|| format!("missing hardware ingest state field: {key}"))
 }
 
 fn validate_artifact_name(value: &str) -> Result<(), String> {
-    if value.len() < 20 || value.len() > 128
+    if value.len() < 20
+        || value.len() > 128
         || !value.starts_with("hardware-evidence-")
-        || !value["hardware-evidence-".len()..].bytes().all(|byte| byte.is_ascii_hexdigit())
+        || !value["hardware-evidence-".len()..]
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit())
     {
         return Err("invalid deterministic hardware artifact name".to_owned());
     }
@@ -688,7 +774,8 @@ fn validate_git_digest(label: &str, value: &str) -> Result<(), String> {
 }
 
 fn parse_nonzero_u64(label: &str, value: &str) -> Result<u64, String> {
-    let parsed = value.parse::<u64>()
+    let parsed = value
+        .parse::<u64>()
         .map_err(|error| format!("invalid hardware ingest {label} {value:?}: {error}"))?;
     if parsed == 0 {
         return Err(format!("hardware ingest {label} must be nonzero"));
@@ -697,7 +784,8 @@ fn parse_nonzero_u64(label: &str, value: &str) -> Result<u64, String> {
 }
 
 fn unix_timestamp() -> Result<u64, String> {
-    let value = SystemTime::now().duration_since(UNIX_EPOCH)
+    let value = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
         .map_err(|error| format!("system clock is before UNIX epoch: {error}"))?
         .as_secs();
     if value == 0 {
@@ -716,13 +804,18 @@ fn hex_component(value: &str) -> String {
 }
 
 fn bounded_diagnostic(value: &str) -> String {
-    let result = value.chars()
+    let result = value
+        .chars()
         .filter(|character| !character.is_control() || matches!(character, '\n' | '\t'))
         .take(512)
         .collect::<String>()
         .trim()
         .replace('\n', " ");
-    if result.is_empty() { "no diagnostic".to_owned() } else { result }
+    if result.is_empty() {
+        "no diagnostic".to_owned()
+    } else {
+        result
+    }
 }
 
 #[cfg(test)]
@@ -733,7 +826,10 @@ mod tests {
     use std::time::{SystemTime, UNIX_EPOCH};
 
     fn temp_root(label: &str) -> PathBuf {
-        let stamp = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
+        let stamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
         let root = env::temp_dir().join(format!(
             "orchestrator-hardware-ingest-{label}-{}-{stamp}",
             std::process::id()
@@ -754,22 +850,194 @@ mod tests {
         }
     }
 
+    fn write_dispatch_and_trust(root: &Path) {
+        let dispatch = root.join("config/hardware-dispatch");
+        fs::create_dir_all(&dispatch).unwrap();
+        fs::write(
+            dispatch.join("jetson-thor-real-device.state"),
+            "v1\nmode=github_workflow\nrepository=Memorithm/hardware-ci\nworkflow=hardware.yml\nref=main\n",
+        )
+        .unwrap();
+        let trust = root.join("config/hardware-trust");
+        fs::create_dir_all(&trust).unwrap();
+        fs::write(
+            trust.join("jetson-thor-real-device.state"),
+            "v1\nsigner_workflow=Memorithm/hardware-ci/.github/workflows/verify.yml\nsigner_digest=cccccccccccccccccccccccccccccccccccccccc\n",
+        )
+        .unwrap();
+    }
+
+    fn canonical_evidence(root: &Path) -> PathBuf {
+        root.join("state/hardware-evidence")
+            .join(hex_component("Memorithm/Test"))
+            .join("pr-53")
+            .join("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+            .join("jetson-thor-real-device.evidence")
+    }
+
+    #[cfg(unix)]
+    fn write_fake_gh(root: &Path, token: &str, base_sha: &str, label: &str) -> (PathBuf, PathBuf) {
+        use std::os::unix::fs::PermissionsExt;
+
+        let program = root.join(format!("fake-gh-{label}"));
+        let marker = root.join(format!("fake-gh-{label}.log"));
+        let script = format!(
+            r#"#!/bin/sh
+set -eu
+printf '%s\n' "$1" >> '{marker}'
+case "$1" in
+  api)
+    test "$2" = 'repos/Memorithm/hardware-ci/actions/artifacts?name=hardware-evidence-{token}&per_page=10'
+    test "$3" = --jq
+    printf '7\t9\thardware-evidence-{token}\tfalse\t512\n'
+    ;;
+  run)
+    test "$2" = download
+    test "$3" = 9
+    shift 3
+    dir=''
+    while [ "$#" -gt 0 ]; do
+      case "$1" in
+        --repo)
+          test "$2" = Memorithm/hardware-ci
+          shift 2
+          ;;
+        --name)
+          test "$2" = hardware-evidence-{token}
+          shift 2
+          ;;
+        --dir)
+          dir="$2"
+          shift 2
+          ;;
+        *) exit 91 ;;
+      esac
+    done
+    test -n "$dir"
+    mkdir -p "$dir"
+    cat > "$dir/hardware.evidence" <<'EOF'
+v1
+repository=Memorithm/Test
+pr_number=53
+head_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+base_sha={base_sha}
+policy_identity=abcd1234
+requirement_id=jetson-thor-real-device
+result=passed
+hardware_class=jetson-thor
+device_fingerprint=dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+started_at=100
+finished_at=101
+EOF
+    ;;
+  attestation)
+    test "$2" = verify
+    test "$4" = --repo
+    test "$5" = Memorithm/Test
+    test "$6" = --signer-workflow
+    test "$7" = Memorithm/hardware-ci/.github/workflows/verify.yml
+    test "$8" = --signer-digest
+    test "$9" = cccccccccccccccccccccccccccccccccccccccc
+    test "${{10}}" = --source-digest
+    test "${{11}}" = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    test "${{12}}" = --predicate-type
+    test "${{13}}" = https://slsa.dev/provenance/v1
+    ;;
+  *) exit 92 ;;
+esac
+"#,
+            marker = marker.display(),
+            token = token,
+            base_sha = base_sha,
+        );
+        fs::write(&program, script).unwrap();
+        let mut permissions = fs::metadata(&program).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&program, permissions).unwrap();
+        (program, marker)
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn exact_remote_candidate_is_downloaded_verified_imported_and_reverified() {
+        let root = temp_root("end-to-end");
+        write_dispatch_and_trust(&root);
+        let req = request(&root);
+        let token = hardware_dispatch::binding_token(&req).unwrap();
+        let (program, marker) = write_fake_gh(
+            &root,
+            &token,
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "success",
+        );
+
+        let outcome = discover_and_ingest_with_program(&req, &token, program.as_os_str()).unwrap();
+        assert!(matches!(
+            outcome,
+            HardwareIngestOutcome::Imported {
+                artifact_id: 7,
+                run_id: 9,
+                ..
+            }
+        ));
+        let canonical = canonical_evidence(&root);
+        assert!(canonical.is_file());
+        let evidence = fs::read_to_string(&canonical).unwrap();
+        assert!(evidence.contains("base_sha=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
+        let actions = fs::read_to_string(&marker).unwrap();
+        assert_eq!(
+            actions.lines().collect::<Vec<_>>(),
+            ["api", "run", "attestation", "attestation"]
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn mismatched_remote_manifest_never_reaches_canonical_evidence() {
+        let root = temp_root("binding-mismatch");
+        write_dispatch_and_trust(&root);
+        let req = request(&root);
+        let token = hardware_dispatch::binding_token(&req).unwrap();
+        let (program, marker) = write_fake_gh(
+            &root,
+            &token,
+            "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "mismatch",
+        );
+
+        let error =
+            discover_and_ingest_with_program(&req, &token, program.as_os_str()).unwrap_err();
+        assert!(error.contains("binding mismatch for base_sha"));
+        assert!(!canonical_evidence(&root).exists());
+        let actions = fs::read_to_string(&marker).unwrap();
+        assert_eq!(actions.lines().collect::<Vec<_>>(), ["api", "run"]);
+        fs::remove_dir_all(root).unwrap();
+    }
+
     #[test]
     fn artifact_metadata_is_exact_bounded_and_unambiguous() {
         let token = "cccccccccccccccccccccccccccccccccccccccc";
         let name = format!("hardware-evidence-{token}");
         assert!(matches!(
             parse_candidate_lines(&format!("7\t9\t{name}\tfalse\t512\n"), &name).unwrap(),
-            DiscoveryStatus::Found(ArtifactCandidate { artifact_id: 7, run_id: 9, .. })
+            DiscoveryStatus::Found(ArtifactCandidate {
+                artifact_id: 7,
+                run_id: 9,
+                ..
+            })
         ));
         assert!(matches!(
             parse_candidate_lines(&format!("7\t9\t{name}\ttrue\t512\n"), &name).unwrap(),
             DiscoveryStatus::Deferred(_)
         ));
-        assert!(parse_candidate_lines(
-            &format!("7\t9\t{name}\tfalse\t512\n8\t10\t{name}\tfalse\t512\n"),
-            &name
-        ).is_err());
+        assert!(
+            parse_candidate_lines(
+                &format!("7\t9\t{name}\tfalse\t512\n8\t10\t{name}\tfalse\t512\n"),
+                &name
+            )
+            .is_err()
+        );
         assert!(parse_candidate_lines(&format!("7\t9\t{name}\tfalse\t0\n"), &name).is_err());
     }
 
