@@ -15,27 +15,29 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install bubblewrap
         run: sudo apt-get update -qq && sudo apt-get install -y bubblewrap
-      - name: Probe network namespace variants
+      - name: Probe root deployment identity
         shell: bash
         run: |
           set +e
-          probe() {
-            name="$1"; shift
-            echo "===== $name ====="
-            "$@" true
-            rc=$?
-            echo "RESULT $name=$rc"
-            echo
-          }
-          BASE=(bwrap --die-with-parent --unshare-user --uid 0 --gid 0 --unshare-pid --unshare-ipc --unshare-uts --unshare-cgroup-try)
-          FS=(--ro-bind / / --proc /proc --dev /dev --)
-          probe current "${BASE[@]}" --cap-drop ALL --unshare-net "${FS[@]}"
-          probe net_before_capdrop "${BASE[@]}" --unshare-net --cap-drop ALL "${FS[@]}"
-          probe net_without_capdrop "${BASE[@]}" --unshare-net "${FS[@]}"
-          probe no_net_capdrop "${BASE[@]}" --cap-drop ALL "${FS[@]}"
-          probe net_no_user bwrap --die-with-parent --unshare-net --unshare-pid --unshare-ipc --unshare-uts --cap-drop ALL "${FS[@]}"
-          probe net_only bwrap --die-with-parent --unshare-net --ro-bind / / --proc /proc --dev /dev --
-          echo '===== official_agent_sandbox_selftest ====='
-          bash scripts/selftest-agent-sandbox.sh
-          echo "RESULT official_agent_sandbox_selftest=$?"
+          echo '===== root_exact_portable_profile ====='
+          sudo bwrap \
+            --die-with-parent \
+            --unshare-user \
+            --uid 0 \
+            --gid 0 \
+            --unshare-pid \
+            --unshare-ipc \
+            --unshare-uts \
+            --unshare-cgroup-try \
+            --unshare-net \
+            --cap-drop ALL \
+            --ro-bind / / \
+            --proc /proc \
+            --dev /dev \
+            -- true
+          echo "RESULT root_exact_portable_profile=$?"
+          echo
+          echo '===== root_agent_sandbox_selftest ====='
+          sudo --preserve-env=PATH bash scripts/selftest-agent-sandbox.sh
+          echo "RESULT root_agent_sandbox_selftest=$?"
           exit 0
