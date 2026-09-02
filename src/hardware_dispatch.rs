@@ -26,11 +26,13 @@ pub(crate) enum HardwareDispatchOutcome {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-struct DispatchConfig {
-    repository: String,
-    workflow: String,
-    ref_name: String,
+pub(crate) struct HardwareDispatchSource {
+    pub(crate) repository: String,
+    pub(crate) workflow: String,
+    pub(crate) ref_name: String,
 }
+
+type DispatchConfig = HardwareDispatchSource;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum DispatchPhase {
@@ -73,6 +75,25 @@ struct DispatchRecord {
 
 pub(crate) fn binding_token(request: &HardwareEvidenceRequest<'_>) -> Result<String, String> {
     binding_token_with_program(request, OsStr::new("git"))
+}
+
+pub(crate) fn discovery_source(
+    request: &HardwareEvidenceRequest<'_>,
+) -> Result<Option<HardwareDispatchSource>, String> {
+    validate_request(request)?;
+    let config_root = request.data_root.join("config/hardware-dispatch");
+    let config_path = config_root.join(format!("{}.state", request.requirement_id));
+    let Some(contents) = read_regular_bounded(
+        request.data_root,
+        &config_root,
+        &config_path,
+        MAX_CONFIG_BYTES,
+        "hardware dispatch config",
+    )?
+    else {
+        return Ok(None);
+    };
+    parse_config(&contents).map(Some)
 }
 
 fn binding_token_with_program(
