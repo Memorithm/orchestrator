@@ -1,0 +1,45 @@
+name: Temporary ORCH6d roadmap staging
+
+on:
+  push:
+    branches: [agent/orch6d-roadmap-staging]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record ORCH6d completion
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('.agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.yaml')
+          s = p.read_text()
+          old = '''  - id: ORCH6\n    name: CI capability and hardware scheduling\n    status: active_priority\n    next_slice: ORCH6d_trusted_capability_inventory_and_runner_availability\n    completed_slices:\n'''
+          new = '''  - id: ORCH6\n    name: CI capability and hardware scheduling\n    status: complete\n    completed_slices:\n'''
+          assert s.count(old) == 1
+          s = s.replace(old, new, 1)
+          anchor = '''          - no_review_threads_open_at_merge_and_no_staging_artifacts_entered_product_branch\n    goals:\n'''
+          insert = '''          - no_review_threads_open_at_merge_and_no_staging_artifacts_entered_product_branch\n      - id: ORCH6d\n        name: Trusted capability inventory and runner availability\n        status: complete\n        completion_evidence:\n          - issue_56_defined_trusted_runner_capability_inventory_scope\n          - PR_57_merged_to_main_as_916609b22987d5f3c5faf5c91539bd39ec6e9493\n          - exact_head_3a6dbae855110bff7737fb9e73951acaf7587168_ci_182_and_contributor_attribution_49_completed_success_before_merge\n          - CI_182_first_attempt_exposed_unrelated_transient_ORCH6c_ETXTBSY_fixture_failure_and_same_exact_head_rerun_completed_success_without_bypass\n          - strict_Orchestrator_owned_manual_hosted_and_self_hosted_repository_scheduling_inventory\n          - fresh_read_only_runner_availability_query_before_each_new_dispatch_and_online_busy_is_queueable\n          - permission_auth_network_or_API_unavailability_defers_without_claiming_runner_absence_or_success\n          - runner_names_labels_and_availability_are_scheduling_inputs_only_and_never_authoritative_hardware_evidence\n          - exact_existing_dispatch_state_is_checked_before_fresh_availability_gate_preserving_ORCH6b_idempotency_and_ORCH6c_ingestion\n          - capability_audit_retention_is_bounded_to_256_records_per_binding_with_512_entry_scan_limit_and_fail_closed_malformed_or_symlink_entries\n          - P2_unbounded_audit_growth_review_was_fixed_on_exact_PR_head_and_review_thread_resolved_before_merge\n          - staging_selftests_workspace_Rust_tests_portable_validation_sandbox_and_clippy_completed_success_before_clean_PR_publication\n          - no_staging_workflows_or_patch_helpers_entered_product_branch\n    goals:\n'''
+          assert s.count(anchor) == 1
+          s = s.replace(anchor, insert, 1)
+          p.write_text(s)
+          PY
+      - name: Verify roadmap shape
+        run: |
+          grep -F 'status: complete' .agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.yaml >/dev/null
+          grep -F 'id: ORCH6d' .agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.yaml >/dev/null
+          grep -F '916609b22987d5f3c5faf5c91539bd39ec6e9493' .agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.yaml >/dev/null
+          ! grep -F 'next_slice: ORCH6d_trusted_capability_inventory_and_runner_availability' .agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.yaml
+      - name: Commit roadmap only
+        run: |
+          git config user.name "MEMOPERF"
+          git config user.email "contact@checkupauto.fr"
+          git add .agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.yaml
+          git diff --cached --quiet && { echo no-roadmap-change; exit 1; }
+          git commit -m "docs(agent): record ORCH6d completion"
+          git push origin HEAD:agent/orch6d-roadmap-staging
