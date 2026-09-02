@@ -1,0 +1,66 @@
+name: Temporary ORCH2a sandbox hardening v2
+
+on:
+  push:
+    branches:
+      - feat/orch2a-sandbox-hardening-v2
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install bubblewrap
+        run: sudo apt-get update -qq && sudo apt-get install -y bubblewrap
+      - name: Apply validated hardening transformations
+        run: |
+          chmod +x scripts/validation-sandbox
+          python3 .github/orch2a-sandbox-hardening.py
+          python3 .github/orch2a-sandbox-hardening-v2.py
+      - name: Validate shell boundaries
+        run: |
+          bash -n scripts/validation-sandbox
+          bash -n scripts/start.sh
+      - name: Validate Rust and ordinary tests
+        run: |
+          cargo fmt --all
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+      - name: Exercise portable sandbox as deployment root
+        run: |
+          cleanup_validation_secret() {
+            sudo rm -f /root/.ssh/orchestrator-validation-ci-secret
+          }
+          trap cleanup_validation_secret EXIT
+          sudo mkdir -p /root/.ssh
+          sudo touch /root/.ssh/orchestrator-validation-ci-secret
+          sudo env \
+            PATH="$PATH" \
+            HOME="$HOME" \
+            CARGO_HOME="${CARGO_HOME:-$HOME/.cargo}" \
+            RUSTUP_HOME="${RUSTUP_HOME:-$HOME/.rustup}" \
+            CARGO_TARGET_DIR="$RUNNER_TEMP/orch2-root-target" \
+            GITHUB_TOKEN="must-not-cross-validation-sandbox" \
+            ORCHESTRATOR_SOURCE_ROOT="$GITHUB_WORKSPACE" \
+            ORCHESTRATOR_VALIDATION_SANDBOX="$GITHUB_WORKSPACE/scripts/validation-sandbox" \
+            ORCHESTRATOR_REAL_BWRAP="$(command -v bwrap)" \
+            cargo test --workspace portable_validation_ -- --nocapture
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Commit validated product files only
+        shell: bash
+        run: |
+          git config user.name 'ZEKRITI Tarek'
+          git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+          git add src/main.rs src/policy.rs scripts/start.sh scripts/validation-sandbox .github/workflows/ci.yml
+          git update-index --chmod=+x scripts/validation-sandbox
+          git diff --cached --check
+          git commit -m 'fix(validation): isolate portable plan execution'
+          git push origin HEAD:feat/orch2a-sandbox-hardening-v2
