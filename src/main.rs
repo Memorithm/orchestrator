@@ -8,6 +8,7 @@ use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 mod evidence;
+mod hardware_capability;
 mod hardware_dispatch;
 mod hardware_evidence;
 mod hardware_ingest;
