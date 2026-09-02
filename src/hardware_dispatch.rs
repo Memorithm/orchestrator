@@ -6,6 +6,7 @@ use std::path::Path;
 use std::process::{Command, Stdio};
 use std::time::{SystemTime, UNIX_EPOCH};
 
+use crate::hardware_capability::{self, HardwareCapabilityOutcome};
 use crate::hardware_evidence::HardwareEvidenceRequest;
 
 const CONFIG_VERSION: &str = "v1";
@@ -225,6 +226,13 @@ fn ensure_dispatched_with_program(
                 "hardware dispatch token {dispatch_token} already has an in-progress transaction; refusing duplicate dispatch"
             ))),
         };
+    }
+
+    match hardware_capability::check_schedulable_with_program(request, &config, now, program)? {
+        HardwareCapabilityOutcome::Schedulable => {}
+        HardwareCapabilityOutcome::Deferred(reason) => {
+            return Ok(HardwareDispatchOutcome::Deferred(reason));
+        }
     }
 
     let dispatching_contents = serialize_record(&record);
@@ -897,6 +905,13 @@ mod tests {
         fs::write(
             directory.join("jetson-thor-real-device.state"),
             "v1\nmode=github_workflow\nrepository=Memorithm/hardware-ci\nworkflow=dispatch.yml\nref=main\n",
+        )
+        .unwrap();
+        let capability_directory = root.join("config/hardware-capabilities");
+        fs::create_dir_all(&capability_directory).unwrap();
+        fs::write(
+            capability_directory.join("jetson-thor-real-device.state"),
+            "v1\nmode=hosted\nrepository=Memorithm/hardware-ci\n",
         )
         .unwrap();
     }

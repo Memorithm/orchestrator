@@ -219,9 +219,7 @@ fn query_exact_runner(
     repository: &str,
     runner_name: &str,
 ) -> Result<Option<RunnerObservation>, QueryError> {
-    let endpoint = format!(
-        "repos/{repository}/actions/runners?name={runner_name}&per_page=100"
-    );
+    let endpoint = format!("repos/{repository}/actions/runners?name={runner_name}&per_page=100");
     let output = Command::new(program)
         .arg("api")
         .arg(&endpoint)
@@ -237,9 +235,8 @@ fn query_exact_runner(
             "hardware runner API output exceeds the bounded size limit".to_owned(),
         ));
     }
-    let stdout = String::from_utf8(output.stdout).map_err(|_| {
-        QueryError::Malformed("hardware runner API output is not UTF-8".to_owned())
-    })?;
+    let stdout = String::from_utf8(output.stdout)
+        .map_err(|_| QueryError::Malformed("hardware runner API output is not UTF-8".to_owned()))?;
     let observations = parse_runner_lines(&stdout).map_err(QueryError::Malformed)?;
     let exact = observations
         .into_iter()
@@ -400,7 +397,9 @@ fn parse_config(contents: &str) -> Result<CapabilityConfig, String> {
                 required_labels,
             })
         }
-        other => Err(format!("unsupported hardware capability scheduling mode: {other}")),
+        other => Err(format!(
+            "unsupported hardware capability scheduling mode: {other}"
+        )),
     }
 }
 
@@ -428,7 +427,9 @@ fn parse_fields(contents: &str) -> Result<BTreeMap<String, String>, String> {
             return Err("invalid hardware capability inventory field".to_owned());
         }
         if fields.insert(key.to_owned(), value.to_owned()).is_some() {
-            return Err(format!("duplicate hardware capability inventory field: {key}"));
+            return Err(format!(
+                "duplicate hardware capability inventory field: {key}"
+            ));
         }
     }
     Ok(fields)
@@ -436,10 +437,14 @@ fn parse_fields(contents: &str) -> Result<BTreeMap<String, String>, String> {
 
 fn reject_exact_fields(fields: &BTreeMap<String, String>, allowed: &[&str]) -> Result<(), String> {
     if let Some(unknown) = fields.keys().find(|key| !allowed.contains(&key.as_str())) {
-        return Err(format!("unknown hardware capability inventory field: {unknown}"));
+        return Err(format!(
+            "unknown hardware capability inventory field: {unknown}"
+        ));
     }
     if let Some(missing) = allowed.iter().find(|key| !fields.contains_key(**key)) {
-        return Err(format!("missing hardware capability inventory field: {missing}"));
+        return Err(format!(
+            "missing hardware capability inventory field: {missing}"
+        ));
     }
     if fields.len() != allowed.len() {
         return Err("invalid hardware capability inventory field count".to_owned());
@@ -575,10 +580,13 @@ fn write_audit(record: &AuditRecord<'_>) -> Result<PathBuf, String> {
     Err("hardware capability audit sequence exhausted".to_owned())
 }
 
-fn ensure_managed_directory(data_root: &Path, state_root: &Path, directory: &Path) -> Result<(), String> {
-    let canonical_data = fs::canonicalize(data_root).map_err(|error| {
-        format!("failed to canonicalize orchestrator data root: {error}")
-    })?;
+fn ensure_managed_directory(
+    data_root: &Path,
+    state_root: &Path,
+    directory: &Path,
+) -> Result<(), String> {
+    let canonical_data = fs::canonicalize(data_root)
+        .map_err(|error| format!("failed to canonicalize orchestrator data root: {error}"))?;
     if !state_root.starts_with(data_root) || !directory.starts_with(state_root) {
         return Err("hardware capability audit path is outside orchestrator data root".to_owned());
     }
@@ -654,11 +662,12 @@ fn read_regular_bounded(
         .map_err(|error| format!("failed to canonicalize {label} root: {error}"))?;
     let canonical_path = fs::canonicalize(path)
         .map_err(|error| format!("failed to canonicalize {label}: {error}"))?;
-    if !canonical_root.starts_with(&canonical_data) || !canonical_path.starts_with(&canonical_root) {
+    if !canonical_root.starts_with(&canonical_data) || !canonical_path.starts_with(&canonical_root)
+    {
         return Err(format!("{label} escapes orchestrator-owned root"));
     }
-    let contents = fs::read_to_string(path)
-        .map_err(|error| format!("failed to read {label}: {error}"))?;
+    let contents =
+        fs::read_to_string(path).map_err(|error| format!("failed to read {label}: {error}"))?;
     if contents.len() as u64 > max_bytes {
         return Err(format!("{label} exceeds bound after read"));
     }
@@ -672,7 +681,11 @@ fn validate_request(request: &HardwareEvidenceRequest<'_>) -> Result<(), String>
     }
     validate_git_digest("head SHA", request.head_sha)?;
     validate_git_digest("base SHA", request.base_sha)?;
-    validate_hex("policy identity", request.policy_identity, MAX_POLICY_IDENTITY_CHARS)?;
+    validate_hex(
+        "policy identity",
+        request.policy_identity,
+        MAX_POLICY_IDENTITY_CHARS,
+    )?;
     validate_config_token("requirement id", request.requirement_id)?;
     if request.requirement_id.len() > MAX_REQUIREMENT_ID_CHARS {
         return Err("hardware capability requirement id exceeds bound".to_owned());
@@ -697,7 +710,9 @@ fn validate_source(source: &HardwareDispatchSource) -> Result<(), String> {
 fn validate_repository(value: &str) -> Result<(), String> {
     if value.is_empty()
         || value.len() > MAX_REPOSITORY_CHARS
-        || value.bytes().any(|byte| matches!(byte, b'\n' | b'\r' | 0 | b'\\'))
+        || value
+            .bytes()
+            .any(|byte| matches!(byte, b'\n' | b'\r' | 0 | b'\\'))
     {
         return Err("invalid hardware capability repository".to_owned());
     }
@@ -801,10 +816,7 @@ mod tests {
     #[test]
     fn hosted_inventory_is_schedulable_without_runner_query() {
         let root = temp_root("hosted");
-        write_inventory(
-            &root,
-            "v1\nmode=hosted\nrepository=Memorithm/hardware-ci\n",
-        );
+        write_inventory(&root, "v1\nmode=hosted\nrepository=Memorithm/hardware-ci\n");
         let outcome = check_schedulable_with_program(
             &request(&root),
             &source(),
@@ -820,18 +832,13 @@ mod tests {
     #[test]
     fn manual_inventory_always_defers() {
         let root = temp_root("manual");
-        write_inventory(
-            &root,
-            "v1\nmode=manual\nrepository=Memorithm/hardware-ci\n",
+        write_inventory(&root, "v1\nmode=manual\nrepository=Memorithm/hardware-ci\n");
+        let outcome =
+            check_schedulable_with_program(&request(&root), &source(), 100, OsStr::new("unused"))
+                .unwrap();
+        assert!(
+            matches!(outcome, HardwareCapabilityOutcome::Deferred(reason) if reason.contains("manual scheduling"))
         );
-        let outcome = check_schedulable_with_program(
-            &request(&root),
-            &source(),
-            100,
-            OsStr::new("unused"),
-        )
-        .unwrap();
-        assert!(matches!(outcome, HardwareCapabilityOutcome::Deferred(reason) if reason.contains("manual scheduling")));
         assert_eq!(audit_files(&root).len(), 1);
         fs::remove_dir_all(root).unwrap();
     }
@@ -855,13 +862,9 @@ mod tests {
         let mut permissions = fs::metadata(&fake).unwrap().permissions();
         permissions.set_mode(0o755);
         fs::set_permissions(&fake, permissions).unwrap();
-        let outcome = check_schedulable_with_program(
-            &request(&root),
-            &source(),
-            100,
-            fake.as_os_str(),
-        )
-        .unwrap();
+        let outcome =
+            check_schedulable_with_program(&request(&root), &source(), 100, fake.as_os_str())
+                .unwrap();
         assert_eq!(outcome, HardwareCapabilityOutcome::Schedulable);
         let audit = fs::read_to_string(&audit_files(&root)[0]).unwrap();
         assert!(audit.contains("outcome=self_hosted_schedulable"));
@@ -892,19 +895,20 @@ mod tests {
             let fake = root.join("fake-gh");
             fs::write(
                 &fake,
-                format!("#!/bin/sh\nset -eu\nprintf '{}'\n", row.replace('\\', "\\\\").replace('\n', "\\n").replace('\t', "\\t")),
+                format!(
+                    "#!/bin/sh\nset -eu\nprintf '{}'\n",
+                    row.replace('\\', "\\\\")
+                        .replace('\n', "\\n")
+                        .replace('\t', "\\t")
+                ),
             )
             .unwrap();
             let mut permissions = fs::metadata(&fake).unwrap().permissions();
             permissions.set_mode(0o755);
             fs::set_permissions(&fake, permissions).unwrap();
-            let outcome = check_schedulable_with_program(
-                &request(&root),
-                &source(),
-                100,
-                fake.as_os_str(),
-            )
-            .unwrap();
+            let outcome =
+                check_schedulable_with_program(&request(&root), &source(), 100, fake.as_os_str())
+                    .unwrap();
             assert!(matches!(outcome, HardwareCapabilityOutcome::Deferred(_)));
             fs::remove_dir_all(root).unwrap();
         }
@@ -925,14 +929,12 @@ mod tests {
         let mut permissions = fs::metadata(&fake).unwrap().permissions();
         permissions.set_mode(0o755);
         fs::set_permissions(&fake, permissions).unwrap();
-        let outcome = check_schedulable_with_program(
-            &request(&root),
-            &source(),
-            100,
-            fake.as_os_str(),
-        )
-        .unwrap();
-        assert!(matches!(outcome, HardwareCapabilityOutcome::Deferred(reason) if reason.contains("could not be fully inspected")));
+        let outcome =
+            check_schedulable_with_program(&request(&root), &source(), 100, fake.as_os_str())
+                .unwrap();
+        assert!(
+            matches!(outcome, HardwareCapabilityOutcome::Deferred(reason) if reason.contains("could not be fully inspected"))
+        );
         let audit = fs::read_to_string(&audit_files(&root)[0]).unwrap();
         assert!(audit.contains("outcome=self_hosted_query_incomplete"));
         fs::remove_dir_all(root).unwrap();
@@ -941,30 +943,20 @@ mod tests {
     #[test]
     fn repository_mismatch_and_unknown_fields_fail_closed() {
         let root = temp_root("mismatch");
-        write_inventory(
-            &root,
-            "v1\nmode=hosted\nrepository=Memorithm/other\n",
-        );
-        let error = check_schedulable_with_program(
-            &request(&root),
-            &source(),
-            100,
-            OsStr::new("unused"),
-        )
-        .unwrap_err();
+        write_inventory(&root, "v1\nmode=hosted\nrepository=Memorithm/other\n");
+        let error =
+            check_schedulable_with_program(&request(&root), &source(), 100, OsStr::new("unused"))
+                .unwrap_err();
         assert!(error.contains("does not match exact dispatch repository"));
 
         write_inventory(
             &root,
             "v1\nmode=hosted\nrepository=Memorithm/hardware-ci\nextra=bad\n",
         );
-        assert!(check_schedulable_with_program(
-            &request(&root),
-            &source(),
-            101,
-            OsStr::new("unused"),
-        )
-        .is_err());
+        assert!(
+            check_schedulable_with_program(&request(&root), &source(), 101, OsStr::new("unused"),)
+                .is_err()
+        );
         fs::remove_dir_all(root).unwrap();
     }
 
@@ -982,13 +974,9 @@ mod tests {
             "v1\nmode=hosted\nrepository=Memorithm/hardware-ci\n",
         )
         .unwrap();
-        let error = check_schedulable_with_program(
-            &request(&root),
-            &source(),
-            100,
-            OsStr::new("unused"),
-        )
-        .unwrap_err();
+        let error =
+            check_schedulable_with_program(&request(&root), &source(), 100, OsStr::new("unused"))
+                .unwrap_err();
         assert!(error.contains("root must be a non-symlink directory"));
         fs::remove_dir_all(root).unwrap();
         fs::remove_dir_all(outside).unwrap();
@@ -1014,13 +1002,8 @@ mod tests {
         permissions.set_mode(0o755);
         fs::set_permissions(&fake, permissions).unwrap();
         assert_eq!(
-            check_schedulable_with_program(
-                &request(&root),
-                &source(),
-                100,
-                fake.as_os_str(),
-            )
-            .unwrap(),
+            check_schedulable_with_program(&request(&root), &source(), 100, fake.as_os_str(),)
+                .unwrap(),
             HardwareCapabilityOutcome::Schedulable
         );
         fs::write(
@@ -1028,13 +1011,9 @@ mod tests {
             "#!/bin/sh\nprintf '23\\ttarek-scirust-arm64-01\\tlinux\\toffline\\tfalse\\tself-hosted,Linux,ARM64\\n'\n",
         )
         .unwrap();
-        let second = check_schedulable_with_program(
-            &request(&root),
-            &source(),
-            101,
-            fake.as_os_str(),
-        )
-        .unwrap();
+        let second =
+            check_schedulable_with_program(&request(&root), &source(), 101, fake.as_os_str())
+                .unwrap();
         assert!(matches!(second, HardwareCapabilityOutcome::Deferred(_)));
         assert_eq!(audit_files(&root).len(), 2);
         fs::remove_dir_all(root).unwrap();
@@ -1049,7 +1028,11 @@ mod tests {
         assert_eq!(decoded[0].id, 23);
         assert!(decoded[0].busy);
         assert_eq!(decoded[0].labels, ["self-hosted", "Linux", "ARM64"]);
-        assert!(percent_decode("jetson%2Dthor", "fixture").unwrap().contains("jetson-thor"));
+        assert!(
+            percent_decode("jetson%2Dthor", "fixture")
+                .unwrap()
+                .contains("jetson-thor")
+        );
         assert!(percent_decode("%ZZ", "fixture").is_err());
     }
 }
