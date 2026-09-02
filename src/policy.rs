@@ -2163,6 +2163,22 @@ roadmap:
     }
 
     #[test]
+    fn validation_plan_preserves_non_shell_argument_bytes() {
+        let snapshot = snapshot_with_policy_documents(&[r#"validation_plan:
+  schema_version: 1
+  class: portable
+  steps:
+    - id: literal
+      argv: [touch, literal;touch injected]
+"#]);
+        let plan = snapshot
+            .portable_validation_plan()
+            .unwrap()
+            .expect("portable plan");
+        assert_eq!(plan.steps[0].argv, ["touch", "literal;touch injected"]);
+    }
+
+    #[test]
     fn validation_plan_rejects_shell_unsafe_or_ambiguous_structure() {
         for content in [
             "validation_plan:\n  schema_version: 2\n  class: portable\n  steps:\n    - id: x\n      argv: [cargo, check]\n",

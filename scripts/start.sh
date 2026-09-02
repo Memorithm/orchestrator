@@ -84,6 +84,7 @@ install -m 700 "$ROOT/scripts/cargo" "$WRAPPER_DIR/cargo"
 install -m 700 "$ROOT/scripts/git" "$WRAPPER_DIR/git"
 install -m 700 "$ROOT/scripts/gh" "$WRAPPER_DIR/gh"
 install -m 700 "$ROOT/scripts/agent-sandbox" "$WRAPPER_DIR/agent-sandbox"
+install -m 700 "$ROOT/scripts/validation-sandbox" "$WRAPPER_DIR/validation-sandbox"
 
 # The coding worker receives managed read-only Git/GitHub bridges and a separate
 # launch path. Only the launch path contains the ollama interceptor; it is not
@@ -118,6 +119,7 @@ export ORCHESTRATOR_HOST_ACCOUNT_HOME="$HOST_ACCOUNT_HOME"
 export ORCHESTRATOR_RUNTIME_HOME="$RUNTIME_HOME"
 export ORCHESTRATOR_OPENCODE_CORE="$WRAPPER_DIR/opencode-core"
 export ORCHESTRATOR_AGENT_SANDBOX="$WRAPPER_DIR/agent-sandbox"
+export ORCHESTRATOR_VALIDATION_SANDBOX="$WRAPPER_DIR/validation-sandbox"
 export ORCHESTRATOR_AGENT_WRAPPER_DIR="$AGENT_WRAPPER_DIR"
 export ORCHESTRATOR_AGENT_HOME="$AGENT_HOME"
 export ORCHESTRATOR_AGENT_CONFIG_DIR="$AGENT_CONFIG_DIR"
@@ -155,6 +157,7 @@ printf 'agent_cargo_bridge=enabled\n'
 printf 'agent_git_bridge=read-only\n'
 printf 'agent_gh_bridge=read-only-no-credentials\n'
 printf 'agent_config=isolate-home-xdg\n'
-printf 'agent_process_sandbox=bubblewrap+private-dev+readonly-git+masked-host-state\n\n'
+printf 'agent_process_sandbox=bubblewrap+private-dev+readonly-git+masked-host-state\n'
+printf 'validation_sandbox=bubblewrap+private-net+readonly-git+masked-host-state\n\n'
 
 exec ./target/release/orchestrator run "$ORGANIZATION"

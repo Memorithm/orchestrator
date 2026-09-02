@@ -1,0 +1,207 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${1:-}" != "--cwd" || -z "${2:-}" ]]; then
+  printf 'validation sandbox usage: validation-sandbox --cwd RELATIVE -- command [args...]\n' >&2
+  exit 2
+fi
+RELATIVE_CWD="$2"
+shift 2
+if [[ "${1:-}" != "--" ]]; then
+  printf 'validation sandbox: expected -- before command\n' >&2
+  exit 2
+fi
+shift
+if [[ "$#" -eq 0 ]]; then
+  printf 'validation sandbox: missing command\n' >&2
+  exit 2
+fi
+
+case "$RELATIVE_CWD" in
+  .) ;;
+  /*|*\\*|*:*|*/|../*|*/../*|*/..|..|./*|*/./*|*/.)
+    printf 'validation sandbox: unsafe relative cwd: %s\n' "$RELATIVE_CWD" >&2
+    exit 2
+    ;;
+esac
+
+BWRAP="${ORCHESTRATOR_REAL_BWRAP:-$(command -v bwrap || true)}"
+DATA_ROOT="${ORCHESTRATOR_DATA_ROOT:?ORCHESTRATOR_DATA_ROOT is not set}"
+if [[ -z "$BWRAP" || ! -x "$BWRAP" ]]; then
+  printf 'validation sandbox: bubblewrap is unavailable\n' >&2
+  exit 2
+fi
+
+WORKSPACE="$(pwd -P)"
+WORKSPACES_ROOT="$(realpath -m "$DATA_ROOT/workspaces")"
+case "$WORKSPACE" in
+  "$WORKSPACES_ROOT"/*) ;;
+  *)
+    printf 'validation sandbox: refusing workspace outside %s: %s\n' "$WORKSPACES_ROOT" "$WORKSPACE" >&2
+    exit 2
+    ;;
+esac
+if [[ ! -d "$WORKSPACE/.git" ]]; then
+  printf 'validation sandbox: managed workspace is missing .git: %s\n' "$WORKSPACE" >&2
+  exit 2
+fi
+
+HOST_HOME="${ORCHESTRATOR_HOST_ACCOUNT_HOME:-}"
+if [[ -z "$HOST_HOME" ]]; then
+  HOST_HOME="$(getent passwd "$(id -u)" | awk -F: 'NR == 1 { print $6 }')"
+fi
+if [[ -z "$HOST_HOME" ]]; then
+  HOST_HOME="${HOME:-/root}"
+fi
+RUNTIME_HOME="${ORCHESTRATOR_RUNTIME_HOME:-${HOME:-$HOST_HOME}}"
+CARGO_HOME_HOST="${CARGO_HOME:-$DATA_ROOT/cargo-home}"
+RUSTUP_HOME_HOST="${RUSTUP_HOME:-$HOST_HOME/.rustup}"
+REAL_CARGO="${ORCHESTRATOR_REAL_CARGO:-$(command -v cargo || true)}"
+
+internal_root=/tmp/orchestrator
+internal_workspace="$internal_root/workspace"
+internal_cargo_home="$internal_root/cargo-home"
+internal_home="$internal_root/home"
+internal_cwd="$internal_workspace"
+if [[ "$RELATIVE_CWD" != "." ]]; then
+  internal_cwd="$internal_workspace/$RELATIVE_CWD"
+fi
+
+mount_args=(
+  --ro-bind / /
+  --dev /dev
+  --proc /proc
+  --tmpfs /tmp
+  --dir "$internal_root"
+  --dir "$internal_home"
+  --bind "$WORKSPACE" "$internal_workspace"
+  --tmpfs "$internal_workspace/.git"
+  --dir "$internal_cargo_home"
+)
+
+safe_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+if [[ -n "$REAL_CARGO" && -x "$REAL_CARGO" ]]; then
+  CARGO_PATH_ENTRY="$(dirname "$REAL_CARGO")"
+  if [[ -d "$CARGO_PATH_ENTRY" ]]; then
+    safe_path="$CARGO_PATH_ENTRY:$safe_path"
+  fi
+fi
+
+# Expose only Cargo dependency caches through the private CARGO_HOME. Cargo
+# credentials and configuration never enter this namespace. All caches are
+# read-only and Cargo is forced offline.
+if [[ -d "$CARGO_HOME_HOST/registry" ]]; then
+  mount_args+=(--dir "$internal_cargo_home/registry")
+  for part in index cache src; do
+    if [[ -d "$CARGO_HOME_HOST/registry/$part" ]]; then
+      mount_args+=(--ro-bind "$CARGO_HOME_HOST/registry/$part" "$internal_cargo_home/registry/$part")
+    fi
+  done
+fi
+if [[ -d "$CARGO_HOME_HOST/git" ]]; then
+  mount_args+=(--dir "$internal_cargo_home/git")
+  for part in db checkouts; do
+    if [[ -d "$CARGO_HOME_HOST/git/$part" ]]; then
+      mount_args+=(--ro-bind "$CARGO_HOME_HOST/git/$part" "$internal_cargo_home/git/$part")
+    fi
+  done
+fi
+
+mask_args=()
+add_tmpfs_mask() {
+  local path="$1"
+  [[ -n "$path" && -d "$path" ]] || return 0
+  mask_args+=(--tmpfs "$path")
+}
+add_file_mask() {
+  local path="$1"
+  [[ -n "$path" && -f "$path" ]] || return 0
+  mask_args+=(--ro-bind /dev/null "$path")
+}
+mask_home_credentials() {
+  local home="$1"
+  [[ -n "$home" && -d "$home" ]] || return 0
+  for path in \
+    "$home/.ssh" \
+    "$home/.gnupg" \
+    "$home/.aws" \
+    "$home/.azure" \
+    "$home/.kube" \
+    "$home/.docker" \
+    "$home/.codex" \
+    "$home/.claude" \
+    "$home/.huggingface" \
+    "$home/.password-store" \
+    "$home/.config/gh" \
+    "$home/.config/gcloud" \
+    "$home/.config/openai" \
+    "$home/.config/claude" \
+    "$home/.config/github-copilot" \
+    "$home/.local/share/keyrings" \
+    "$home/.cache/huggingface"; do
+    add_tmpfs_mask "$path"
+  done
+  for path in \
+    "$home/.git-credentials" \
+    "$home/.netrc" \
+    "$home/.npmrc" \
+    "$home/.pypirc" \
+    "$home/.cargo/credentials" \
+    "$home/.cargo/credentials.toml" \
+    "$home/.config/pip/pip.conf" \
+    "$home/.config/pypoetry/auth.toml"; do
+    add_file_mask "$path"
+  done
+}
+
+mask_home_credentials "$HOST_HOME"
+if [[ "$RUNTIME_HOME" != "$HOST_HOME" ]]; then
+  mask_home_credentials "$RUNTIME_HOME"
+fi
+for path in /run /var/lib /var/log /mnt /media /srv; do
+  add_tmpfs_mask "$path"
+done
+for path in /etc/ssh /etc/wpa_supplicant /etc/NetworkManager/system-connections; do
+  add_tmpfs_mask "$path"
+done
+for path in /etc/shadow /etc/gshadow /etc/memorithm-orchestrator.env; do
+  add_file_mask "$path"
+done
+
+env_args=(
+  --clearenv
+  --setenv HOME "$internal_home"
+  --setenv TMPDIR /tmp
+  --setenv PATH "$safe_path"
+  --setenv CARGO_HOME "$internal_cargo_home"
+  --setenv CARGO_NET_OFFLINE true
+  --setenv LANG "${LANG:-C.UTF-8}"
+  --setenv LC_ALL "${LC_ALL:-C.UTF-8}"
+)
+if [[ -d "$RUSTUP_HOME_HOST" ]]; then
+  env_args+=(--setenv RUSTUP_HOME "$RUSTUP_HOME_HOST")
+fi
+for name in CUDA_HOME CUDA_PATH LD_LIBRARY_PATH LIBRARY_PATH CPATH PKG_CONFIG_PATH CMAKE_PREFIX_PATH RUSTFLAGS RUSTDOCFLAGS RUST_BACKTRACE CC CXX AR VULKAN_SDK; do
+  if [[ -n "${!name:-}" ]]; then
+    env_args+=(--setenv "$name" "${!name}")
+  fi
+done
+
+exec "$BWRAP" \
+  --die-with-parent \
+  --new-session \
+  --unshare-user \
+  --uid 0 \
+  --gid 0 \
+  --unshare-pid \
+  --unshare-ipc \
+  --unshare-uts \
+  --unshare-cgroup-try \
+  --unshare-net \
+  --cap-drop ALL \
+  "${mount_args[@]}" \
+  "${mask_args[@]}" \
+  --chdir "$internal_cwd" \
+  "${env_args[@]}" \
+  -- \
+  "$@"

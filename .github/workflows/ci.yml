@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Validate shell scripts
         run: |
           bash -n scripts/start.sh
@@ -25,6 +27,7 @@ jobs:
           bash -n scripts/agent-gh
           bash -n scripts/agent-ollama
           bash -n scripts/agent-sandbox
+          bash -n scripts/validation-sandbox
           bash -n scripts/selftest-runtime.sh
           bash -n scripts/selftest-opencode-watchdog.sh
           bash -n scripts/selftest-opencode-reaping.sh
@@ -66,5 +69,31 @@ jobs:
         run: cargo check --workspace
       - name: Test
         run: cargo test --workspace
+      - name: Portable validation sandbox integration
+        run: |
+          cleanup_validation_secret() {
+            sudo rm -f /root/.ssh/orchestrator-validation-ci-secret
+          }
+          trap cleanup_validation_secret EXIT
+          sudo mkdir -p /root/.ssh
+          sudo touch /root/.ssh/orchestrator-validation-ci-secret
+          runner_cargo_home="${CARGO_HOME:-$HOME/.cargo}"
+          runner_rustup_home="${RUSTUP_HOME:-$HOME/.rustup}"
+          sudo chmod o+x "$HOME"
+          sudo chmod a+rx "$runner_cargo_home"
+          if [[ -d "$runner_cargo_home/bin" ]]; then sudo chmod -R a+rX "$runner_cargo_home/bin"; fi
+          if [[ -d "$runner_cargo_home/registry" ]]; then sudo chmod -R a+rX "$runner_cargo_home/registry"; fi
+          if [[ -d "$runner_cargo_home/git" ]]; then sudo chmod -R a+rX "$runner_cargo_home/git"; fi
+          sudo chmod -R a+rX "$runner_rustup_home"
+          sudo env \
+            PATH="$PATH" \
+            HOME="/root" \
+            CARGO_HOME="$runner_cargo_home" \
+            RUSTUP_HOME="$runner_rustup_home" \
+            CARGO_TARGET_DIR="$RUNNER_TEMP/orch2-root-target" \
+            GITHUB_TOKEN="must-not-cross-validation-sandbox" \
+            ORCHESTRATOR_VALIDATION_SANDBOX="$GITHUB_WORKSPACE/scripts/validation-sandbox" \
+            ORCHESTRATOR_REAL_BWRAP="$(command -v bwrap)" \
+            cargo test --workspace portable_validation_ -- --nocapture
       - name: Clippy
         run: cargo clippy --workspace --all-targets -- -D warnings
