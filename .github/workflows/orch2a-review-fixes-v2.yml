@@ -1,0 +1,70 @@
+name: Temporary ORCH2a review fixes validation v2
+
+on:
+  push:
+    branches:
+      - feat/orch2a-review-fixes-staging
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install bubblewrap
+        run: sudo apt-get update -qq && sudo apt-get install -y bubblewrap
+      - name: Apply review fixes
+        run: |
+          python3 .github/orch2a-review-fixes.py
+          python3 .github/orch2a-review-fixes-v2.py
+          chmod +x scripts/validation-sandbox
+      - name: Validate shell boundary
+        run: bash -n scripts/validation-sandbox
+      - name: Validate Rust
+        run: |
+          cargo fmt --all
+          cargo fmt --all -- --check
+          cargo check --workspace
+          cargo test --workspace
+      - name: Exercise portable sandbox as deployment root
+        run: |
+          cleanup_validation_secret() {
+            sudo rm -f /root/.ssh/orchestrator-validation-ci-secret
+          }
+          trap cleanup_validation_secret EXIT
+          sudo mkdir -p /root/.ssh
+          sudo touch /root/.ssh/orchestrator-validation-ci-secret
+          runner_cargo_home="${CARGO_HOME:-$HOME/.cargo}"
+          runner_rustup_home="${RUSTUP_HOME:-$HOME/.rustup}"
+          sudo chmod o+x "$HOME"
+          sudo chmod a+rx "$runner_cargo_home"
+          if [[ -d "$runner_cargo_home/bin" ]]; then sudo chmod -R a+rX "$runner_cargo_home/bin"; fi
+          if [[ -d "$runner_cargo_home/registry" ]]; then sudo chmod -R a+rX "$runner_cargo_home/registry"; fi
+          if [[ -d "$runner_cargo_home/git" ]]; then sudo chmod -R a+rX "$runner_cargo_home/git"; fi
+          sudo chmod -R a+rX "$runner_rustup_home"
+          sudo env \
+            PATH="$PATH" \
+            HOME="/root" \
+            CARGO_HOME="$runner_cargo_home" \
+            RUSTUP_HOME="$runner_rustup_home" \
+            CARGO_TARGET_DIR="$RUNNER_TEMP/orch2-review-root-target" \
+            ORCHESTRATOR_VALIDATION_SANDBOX="$GITHUB_WORKSPACE/scripts/validation-sandbox" \
+            ORCHESTRATOR_REAL_BWRAP="$(command -v bwrap)" \
+            cargo test --workspace portable_validation_ -- --nocapture
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Commit validated product fixes only
+        shell: bash
+        run: |
+          git config user.name 'ZEKRITI Tarek'
+          git config user.email '194770978+CHECKUPAUTO@users.noreply.github.com'
+          git add src/main.rs src/policy.rs scripts/validation-sandbox
+          git update-index --chmod=+x scripts/validation-sandbox
+          git diff --cached --check
+          git commit -m 'fix(validation): bind evidence to immutable worktree'
+          git push origin HEAD:feat/orch2a-review-fixes-staging
