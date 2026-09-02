@@ -284,8 +284,7 @@ roadmap:
       - prevent_dependency_cycles_and_cross_repo_branch_races
   - id: ORCH6
     name: CI capability and hardware scheduling
-    status: active_priority
-    next_slice: ORCH6d_trusted_capability_inventory_and_runner_availability
+    status: complete
     completed_slices:
       - id: ORCH6a
         name: Authoritative hardware evidence contract with pinned attestations
@@ -332,6 +331,23 @@ roadmap:
           - durable_ingest_state_binds_exact_candidate_identity_and_records_payload_digest_and_download_timestamps
           - staging_runtime_sandbox_workspace_tests_and_clippy_completed_success_before_clean_PR_publication
           - no_review_threads_open_at_merge_and_no_staging_artifacts_entered_product_branch
+      - id: ORCH6d
+        name: Trusted capability inventory and runner availability
+        status: complete
+        completion_evidence:
+          - issue_56_defined_trusted_runner_capability_inventory_scope
+          - PR_57_merged_to_main_as_916609b22987d5f3c5faf5c91539bd39ec6e9493
+          - exact_head_3a6dbae855110bff7737fb9e73951acaf7587168_ci_182_and_contributor_attribution_49_completed_success_before_merge
+          - CI_182_first_attempt_exposed_unrelated_transient_ORCH6c_ETXTBSY_fixture_failure_and_same_exact_head_rerun_completed_success_without_bypass
+          - strict_Orchestrator_owned_manual_hosted_and_self_hosted_repository_scheduling_inventory
+          - fresh_read_only_runner_availability_query_before_each_new_dispatch_and_online_busy_is_queueable
+          - permission_auth_network_or_API_unavailability_defers_without_claiming_runner_absence_or_success
+          - runner_names_labels_and_availability_are_scheduling_inputs_only_and_never_authoritative_hardware_evidence
+          - exact_existing_dispatch_state_is_checked_before_fresh_availability_gate_preserving_ORCH6b_idempotency_and_ORCH6c_ingestion
+          - capability_audit_retention_is_bounded_to_256_records_per_binding_with_512_entry_scan_limit_and_fail_closed_malformed_or_symlink_entries
+          - P2_unbounded_audit_growth_review_was_fixed_on_exact_PR_head_and_review_thread_resolved_before_merge
+          - staging_selftests_workspace_Rust_tests_portable_validation_sandbox_and_clippy_completed_success_before_clean_PR_publication
+          - no_staging_workflows_or_patch_helpers_entered_product_branch
     goals:
       - distinguish_hosted_self_hosted_GPU_ARM_and_manual_gate_requirements
       - define_authoritative_hardware_evidence_provenance_that_cannot_be_satisfied_by_check_names_labels_or_repository_prose
