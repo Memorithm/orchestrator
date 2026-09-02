@@ -16,6 +16,7 @@ mod reclaim;
 mod resource;
 mod state;
 mod trajectory;
+mod validation_state;
 mod workspace_gc;
 
 #[derive(Debug, Clone, Copy)]
@@ -1947,6 +1948,7 @@ fn hex_bytes(value: &str) -> String {
 }
 
 struct ValidationStepResult<'a> {
+    plan_attempt_id: &'a str,
     worktree_head: &'a str,
     worktree_tree: &'a str,
     started_at: u64,
@@ -1964,6 +1966,7 @@ fn persist_validation_step_evidence(
     result: &ValidationStepResult<'_>,
 ) -> Result<PathBuf, String> {
     let ValidationStepResult {
+        plan_attempt_id,
         worktree_head,
         worktree_tree,
         started_at,
@@ -1989,10 +1992,11 @@ fn persist_validation_step_evidence(
         .collect::<Vec<_>>()
         .join(",");
     let record = format!(
-        "validation-schema=1\nclass=portable\nrepository={}\nwork-kind={}\nwork-number={}\nstep-id={}\nargv-hex={}\ncwd={}\ntimeout-seconds={}\nstarted-at={}\nfinished-at={}\nexit-code={}\ntimed-out={}\npolicy-identity={}\nbase-sha={}\nworktree-head={}\nworktree-tree={}\nsource-ref=origin/{}\nsource-path={}\nsource-commit={}\nsource-blob={}\n",
+        "validation-schema=1\nclass=portable\nrepository={}\nwork-kind={}\nwork-number={}\nplan-attempt-id={}\nstep-id={}\nargv-hex={}\ncwd={}\ntimeout-seconds={}\nstarted-at={}\nfinished-at={}\nexit-code={}\ntimed-out={}\npolicy-identity={}\nbase-sha={}\nworktree-head={}\nworktree-tree={}\nsource-ref=origin/{}\nsource-path={}\nsource-commit={}\nsource-blob={}\n",
         item.repository,
         item.kind.as_str(),
         item.number,
+        plan_attempt_id,
         step.id,
         argv_hex,
         step.cwd,
@@ -2168,11 +2172,143 @@ fn validation_sandbox_path() -> Result<PathBuf, String> {
     Ok(canonical)
 }
 
+fn git_hash_validation_payload(workspace: &Path, payload: &str) -> Result<String, String> {
+    let mut child = Command::new("git")
+        .current_dir(workspace)
+        .args(["hash-object", "--stdin"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|error| format!("failed to hash portable validation identity: {error}"))?;
+    let mut stdin = child
+        .stdin
+        .take()
+        .ok_or_else(|| "failed to open git hash-object stdin".to_owned())?;
+    stdin
+        .write_all(payload.as_bytes())
+        .map_err(|error| format!("failed to write portable validation identity: {error}"))?;
+    drop(stdin);
+    let output = child
+        .wait_with_output()
+        .map_err(|error| format!("failed to wait for git hash-object: {error}"))?;
+    if !output.status.success() {
+        return Err(format!(
+            "git hash-object failed while binding portable validation: {}",
+            String::from_utf8_lossy(&output.stderr).trim()
+        ));
+    }
+    let identity = String::from_utf8(output.stdout)
+        .map_err(|error| format!("invalid UTF-8 from git hash-object: {error}"))?;
+    let identity = identity.trim();
+    if !matches!(identity.len(), 40 | 64) || !identity.bytes().all(|byte| byte.is_ascii_hexdigit())
+    {
+        return Err(format!(
+            "invalid portable validation hash identity: {identity:?}"
+        ));
+    }
+    Ok(identity.to_owned())
+}
+
+fn portable_validation_plan_identity(
+    workspace: &Path,
+    plan: &policy::PortableValidationPlan,
+) -> Result<String, String> {
+    let mut record = format!("portable-validation-plan-v1\nsteps={}\n", plan.steps.len());
+    for (step_index, step) in plan.steps.iter().enumerate() {
+        record.push_str(&format!(
+            "step-index={step_index}\nstep-id-hex={}\ncwd-hex={}\ntimeout-seconds={}\nargc={}\n",
+            hex_bytes(&step.id),
+            hex_bytes(&step.cwd),
+            step.timeout_seconds,
+            step.argv.len()
+        ));
+        for (arg_index, arg) in step.argv.iter().enumerate() {
+            record.push_str(&format!(
+                "arg-index={arg_index}\narg-hex={}\n",
+                hex_bytes(arg)
+            ));
+        }
+    }
+    git_hash_validation_payload(workspace, &record)
+}
+
 struct ValidationWorktreeIdentity<'a> {
     head: &'a str,
     tree: &'a str,
 }
 
+fn portable_validation_binding(
+    workspace: &Path,
+    item: &WorkItem,
+    snapshot: &policy::PolicySnapshot,
+    plan: &policy::PortableValidationPlan,
+    identity: &ValidationWorktreeIdentity<'_>,
+) -> Result<validation_state::PlanBinding, String> {
+    let plan_identity = portable_validation_plan_identity(workspace, plan)?;
+    let policy_identity = snapshot.identity_token();
+    let binding_record = format!(
+        "portable-validation-binding-v1\nrepository-hex={}\nwork-kind={}\nwork-number={}\nplan-identity={}\npolicy-identity={}\nbase-sha={}\nworktree-head={}\nworktree-tree={}\nsource-ref-hex={}\nsource-path-hex={}\nsource-commit={}\nsource-blob={}\ndeclared-steps={}\n",
+        hex_bytes(&item.repository),
+        item.kind.as_str(),
+        item.number,
+        plan_identity,
+        policy_identity,
+        snapshot.base_sha(),
+        identity.head,
+        identity.tree,
+        hex_bytes(&plan.source_ref),
+        hex_bytes(&plan.source_path),
+        plan.source_commit,
+        plan.source_blob,
+        plan.steps.len()
+    );
+    let binding_identity = git_hash_validation_payload(workspace, &binding_record)?;
+    validation_state::PlanBinding::new(
+        item.repository.clone(),
+        item.kind.as_str().to_owned(),
+        item.number,
+        binding_identity,
+        plan_identity,
+        policy_identity,
+        snapshot.base_sha().to_owned(),
+        identity.head.to_owned(),
+        identity.tree.to_owned(),
+        plan.source_ref.clone(),
+        plan.source_path.clone(),
+        plan.source_commit.clone(),
+        plan.source_blob.clone(),
+        plan.steps.len(),
+    )
+}
+
+fn portable_validation_attempt_id(
+    binding: &validation_state::PlanBinding,
+) -> Result<String, String> {
+    let nanos = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_err(|error| format!("system clock is before UNIX epoch: {error}"))?
+        .as_nanos();
+    Ok(format!(
+        "{}-{nanos}-{}",
+        binding.binding_identity(),
+        std::process::id()
+    ))
+}
+
+#[derive(Debug)]
+enum PortableStepOutcome {
+    Passed,
+    Failed(String),
+    TimedOut(String),
+}
+
+struct PortableValidationStepContext<'a> {
+    identity: &'a ValidationWorktreeIdentity<'a>,
+    plan_attempt_id: &'a str,
+}
+
+#[cfg(test)]
 fn run_portable_validation_plan(
     config: &RunConfig,
     workspace: &Path,
@@ -2181,14 +2317,92 @@ fn run_portable_validation_plan(
     plan: &policy::PortableValidationPlan,
     worktree_head: &str,
 ) -> Result<(), String> {
+    run_portable_validation_plan_with_reuse(
+        config,
+        workspace,
+        item,
+        snapshot,
+        plan,
+        worktree_head,
+        false,
+    )
+}
+
+fn run_portable_validation_plan_with_reuse(
+    config: &RunConfig,
+    workspace: &Path,
+    item: &WorkItem,
+    snapshot: &policy::PolicySnapshot,
+    plan: &policy::PortableValidationPlan,
+    worktree_head: &str,
+    allow_reuse: bool,
+) -> Result<(), String> {
     let worktree_tree = validation_worktree_tree(config, workspace)?;
     let identity = ValidationWorktreeIdentity {
         head: worktree_head,
         tree: &worktree_tree,
     };
-    for step in &plan.steps {
-        run_portable_validation_step(config, workspace, item, snapshot, plan, step, &identity)?;
+    let binding = portable_validation_binding(workspace, item, snapshot, plan, &identity)?;
+    let store =
+        validation_state::ValidationPlanStore::new(config.data_root.join("state/validation-plans"));
+    if allow_reuse && store.reusable_passed(&binding)? {
+        println!(
+            "Reusing exact portable validation pass binding={}",
+            binding.binding_identity()
+        );
+        return Ok(());
     }
+
+    let attempt_id = portable_validation_attempt_id(&binding)?;
+    let mut attempt = store.begin(binding, attempt_id, unix_timestamp())?;
+    for (index, step) in plan.steps.iter().enumerate() {
+        let completed_steps = index + 1;
+        let step_context = PortableValidationStepContext {
+            identity: &identity,
+            plan_attempt_id: attempt.attempt_id(),
+        };
+        let outcome = run_portable_validation_step(
+            config,
+            workspace,
+            item,
+            snapshot,
+            plan,
+            step,
+            &step_context,
+        )?;
+        store.update_progress(&mut attempt, completed_steps)?;
+        match outcome {
+            PortableStepOutcome::Passed => {}
+            PortableStepOutcome::Failed(message) => {
+                let history = store.finish(
+                    &mut attempt,
+                    validation_state::TerminalStatus::Failed,
+                    completed_steps,
+                    unix_timestamp(),
+                )?;
+                println!("validation plan terminal evidence: {}", history.display());
+                return Err(message);
+            }
+            PortableStepOutcome::TimedOut(message) => {
+                let history = store.finish(
+                    &mut attempt,
+                    validation_state::TerminalStatus::TimedOut,
+                    completed_steps,
+                    unix_timestamp(),
+                )?;
+                println!("validation plan terminal evidence: {}", history.display());
+                return Err(message);
+            }
+        }
+    }
+    let declared_steps = plan.steps.len();
+    let history = store.finish(
+        &mut attempt,
+        validation_state::TerminalStatus::Passed,
+        declared_steps,
+        unix_timestamp(),
+    )?;
+    println!("validation plan terminal evidence: {}", history.display());
     Ok(())
 }
 
@@ -2199,8 +2413,8 @@ fn run_portable_validation_step(
     snapshot: &policy::PolicySnapshot,
     plan: &policy::PortableValidationPlan,
     step: &policy::PortableValidationStep,
-    identity: &ValidationWorktreeIdentity<'_>,
-) -> Result<(), String> {
+    context: &PortableValidationStepContext<'_>,
+) -> Result<PortableStepOutcome, String> {
     let _cwd = resolve_validation_cwd(workspace, &step.cwd)?;
     let workspace_root = workspace.canonicalize().map_err(|error| {
         format!(
@@ -2255,8 +2469,9 @@ fn run_portable_validation_step(
         plan,
         step,
         &ValidationStepResult {
-            worktree_head: identity.head,
-            worktree_tree: identity.tree,
+            plan_attempt_id: context.plan_attempt_id,
+            worktree_head: context.identity.head,
+            worktree_tree: context.identity.tree,
             started_at,
             finished_at,
             exit_code: status.code(),
@@ -2265,32 +2480,41 @@ fn run_portable_validation_step(
     )?;
     println!("validation evidence: {}", evidence.display());
     if timed_out {
-        return Err(format!(
+        return Ok(PortableStepOutcome::TimedOut(format!(
             "portable validation step {} timed out after {} seconds",
             step.id, step.timeout_seconds
-        ));
+        )));
     }
     if !status.success() {
-        return Err(format!(
+        return Ok(PortableStepOutcome::Failed(format!(
             "portable validation step {} failed with {status}",
             step.id
-        ));
+        )));
     }
-    Ok(())
+    Ok(PortableStepOutcome::Passed)
 }
 
-fn validate_workspace(
+fn validate_workspace_internal(
     config: &RunConfig,
     workspace: &Path,
     item: &WorkItem,
     snapshot: &policy::PolicySnapshot,
+    allow_portable_reuse: bool,
 ) -> Result<(), String> {
     println!();
     println!("===== ORCHESTRATOR VALIDATION =====");
     run_in_dir(workspace, "git", &["diff", "--check"])?;
     if let Some(plan) = snapshot.portable_validation_plan()? {
         let worktree_head = capture_in_dir(workspace, "git", &["rev-parse", "HEAD"])?;
-        run_portable_validation_plan(config, workspace, item, snapshot, &plan, &worktree_head)?;
+        run_portable_validation_plan_with_reuse(
+            config,
+            workspace,
+            item,
+            snapshot,
+            &plan,
+            &worktree_head,
+            allow_portable_reuse,
+        )?;
         return Ok(());
     }
     if workspace.join("Cargo.toml").is_file() {
@@ -2313,6 +2537,24 @@ fn validate_workspace(
         }
     }
     Ok(())
+}
+
+fn validate_workspace(
+    config: &RunConfig,
+    workspace: &Path,
+    item: &WorkItem,
+    snapshot: &policy::PolicySnapshot,
+) -> Result<(), String> {
+    validate_workspace_internal(config, workspace, item, snapshot, false)
+}
+
+fn validate_workspace_reusing_passed(
+    config: &RunConfig,
+    workspace: &Path,
+    item: &WorkItem,
+    snapshot: &policy::PolicySnapshot,
+) -> Result<(), String> {
+    validate_workspace_internal(config, workspace, item, snapshot, true)
 }
 
 fn ensure_git_identity(workspace: &Path) -> Result<(), String> {
@@ -2694,7 +2936,7 @@ fn validate_recovered_publication(
     run_in_dir(workspace, "git", &["diff", "--check", range.as_str()])?;
     validate_canonical_author_range(workspace, &base_ref)?;
     reject_sensitive_committed_paths(workspace, &base_ref)?;
-    validate_workspace(config, workspace, item, snapshot)
+    validate_workspace_reusing_passed(config, workspace, item, snapshot)
 }
 
 fn resume_issue_publication(
@@ -4627,6 +4869,42 @@ mod tests {
     }
 
     #[test]
+    fn exact_portable_validation_pass_is_reused_without_new_step_evidence() {
+        if !root_validation_sandbox_test_enabled() {
+            return;
+        }
+        let root = orch2_validation_test_root("reuse-pass");
+        let data_root = root.join("data");
+        let workspace = orch2_validation_test_workspace(&data_root);
+        let config = orch2_validation_test_config(&data_root);
+        let item = orch2_validation_test_item();
+        let snapshot = policy::test_snapshot_for_validation(
+            "Memorithm/Test",
+            "main",
+            "0123456789abcdef0123456789abcdef01234567",
+        );
+        let plan = orch2_validation_test_plan(vec![orch2_step("pass", &["true"], 5)]);
+        let head = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        run_portable_validation_plan_with_reuse(
+            &config, &workspace, &item, &snapshot, &plan, head, false,
+        )
+        .unwrap();
+        let evidence_dir = data_root
+            .join("state/validation-evidence")
+            .join("Memorithm__Test")
+            .join("ISSUE-45");
+        let before = fs::read_dir(&evidence_dir).unwrap().count();
+        assert_eq!(before, 1);
+        run_portable_validation_plan_with_reuse(
+            &config, &workspace, &item, &snapshot, &plan, head, true,
+        )
+        .unwrap();
+        let after = fs::read_dir(&evidence_dir).unwrap().count();
+        assert_eq!(after, before);
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
     fn portable_validation_stops_after_first_failure() {
         if !root_validation_sandbox_test_enabled() {
             return;
@@ -5016,6 +5294,7 @@ mod tests {
             &plan,
             &step,
             &ValidationStepResult {
+                plan_attempt_id: "test-attempt",
                 worktree_head: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 worktree_tree: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
                 started_at: 100,
@@ -5032,6 +5311,7 @@ mod tests {
             &plan,
             &step,
             &ValidationStepResult {
+                plan_attempt_id: "test-attempt",
                 worktree_head: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 worktree_tree: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
                 started_at: 100,

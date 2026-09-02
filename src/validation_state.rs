@@ -83,7 +83,11 @@ impl PlanBinding {
         validate_path_token("work kind", &work_kind, MAX_WORK_KIND_CHARS)?;
         validate_hash("binding identity", &binding_identity)?;
         validate_hash("plan identity", &plan_identity)?;
-        validate_hex("policy identity", &policy_identity, MAX_POLICY_IDENTITY_CHARS)?;
+        validate_hex(
+            "policy identity",
+            &policy_identity,
+            MAX_POLICY_IDENTITY_CHARS,
+        )?;
         validate_hash("base SHA", &base_sha)?;
         validate_hash("worktree HEAD", &worktree_head)?;
         validate_hash("worktree tree", &worktree_tree)?;
@@ -116,10 +120,6 @@ impl PlanBinding {
 
     pub(crate) fn binding_identity(&self) -> &str {
         &self.binding_identity
-    }
-
-    pub(crate) fn declared_steps(&self) -> usize {
-        self.declared_steps
     }
 }
 
@@ -276,7 +276,9 @@ impl ValidationPlanStore {
             return Err("portable validation pass requires all declared steps".to_owned());
         }
         if status != TerminalStatus::Passed && completed_steps == 0 {
-            return Err("portable validation failure/timeout requires one attempted step".to_owned());
+            return Err(
+                "portable validation failure/timeout requires one attempted step".to_owned(),
+            );
         }
         if finished_at < attempt.started_at {
             return Err("portable validation terminal timestamp predates start".to_owned());
@@ -289,7 +291,10 @@ impl ValidationPlanStore {
         let history = self.archive(attempt, "terminal")?;
         self.save_current(attempt)?;
         if status == TerminalStatus::Passed {
-            atomic_write(&self.passed_path(&attempt.binding), &serialize_attempt(attempt))?;
+            atomic_write(
+                &self.passed_path(&attempt.binding),
+                &serialize_attempt(attempt),
+            )?;
         }
         Ok(history)
     }
@@ -331,10 +336,7 @@ impl ValidationPlanStore {
         })?;
         let record = serialize_attempt(attempt);
         for sequence in 0..1_024_u16 {
-            let path = directory.join(format!(
-                "{}-{suffix}-{sequence}.state",
-                attempt.attempt_id
-            ));
+            let path = directory.join(format!("{}-{suffix}-{sequence}.state", attempt.attempt_id));
             let mut file = match OpenOptions::new().create_new(true).write(true).open(&path) {
                 Ok(file) => file,
                 Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
@@ -396,9 +398,9 @@ fn validate_attempt(attempt: &PlanAttempt) -> Result<(), String> {
             }
         }
         AttemptPhase::Terminal(status) => {
-            let finished_at = attempt
-                .finished_at
-                .ok_or_else(|| "terminal portable validation attempt is missing finished_at".to_owned())?;
+            let finished_at = attempt.finished_at.ok_or_else(|| {
+                "terminal portable validation attempt is missing finished_at".to_owned()
+            })?;
             if finished_at < attempt.started_at {
                 return Err("portable validation finished_at predates started_at".to_owned());
             }
@@ -584,9 +586,7 @@ fn validate_hash(label: &str, value: &str) -> Result<(), String> {
 }
 
 fn validate_hex(label: &str, value: &str, max: usize) -> Result<(), String> {
-    if value.is_empty()
-        || value.len() > max
-        || !value.bytes().all(|byte| byte.is_ascii_hexdigit())
+    if value.is_empty() || value.len() > max || !value.bytes().all(|byte| byte.is_ascii_hexdigit())
     {
         return Err(format!("invalid portable validation {label}"));
     }
@@ -635,14 +635,21 @@ fn hex_component(value: &str) -> String {
 }
 
 fn atomic_write(path: &Path, contents: &str) -> Result<(), String> {
-    let parent = path
-        .parent()
-        .ok_or_else(|| format!("portable validation state path has no parent: {}", path.display()))?;
+    let parent = path.parent().ok_or_else(|| {
+        format!(
+            "portable validation state path has no parent: {}",
+            path.display()
+        )
+    })?;
     fs::create_dir_all(parent)
         .map_err(|error| format!("failed to create {}: {error}", parent.display()))?;
     for sequence in 0..1_024_u16 {
         let temporary = path.with_extension(format!("tmp.{}.{}", std::process::id(), sequence));
-        let mut file = match OpenOptions::new().create_new(true).write(true).open(&temporary) {
+        let mut file = match OpenOptions::new()
+            .create_new(true)
+            .write(true)
+            .open(&temporary)
+        {
             Ok(file) => file,
             Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
             Err(error) => {
@@ -807,8 +814,11 @@ mod tests {
             .unwrap();
         let passed = store.passed_path(&binding);
         let valid = fs::read_to_string(&passed).unwrap();
-        fs::write(&passed, valid.replace("repository=Memorithm/Test", "repository=Memorithm/Other"))
-            .unwrap();
+        fs::write(
+            &passed,
+            valid.replace("repository=Memorithm/Test", "repository=Memorithm/Other"),
+        )
+        .unwrap();
         assert!(store.reusable_passed(&binding).is_err());
         fs::write(&passed, "v99\n").unwrap();
         assert!(store.reusable_passed(&binding).is_err());
