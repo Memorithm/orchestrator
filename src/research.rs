@@ -98,14 +98,20 @@ impl fmt::Display for ResearchDirectiveError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::MalformedDirective { line } => {
-                write!(formatter, "malformed autonomous-research directive on line {line}")
+                write!(
+                    formatter,
+                    "malformed autonomous-research directive on line {line}"
+                )
             }
             Self::UnknownDirective { line, key } => write!(
                 formatter,
                 "unknown autonomous-research directive {key:?} on line {line}"
             ),
             Self::DuplicateMode { line } => {
-                write!(formatter, "duplicate autonomous-research mode on line {line}")
+                write!(
+                    formatter,
+                    "duplicate autonomous-research mode on line {line}"
+                )
             }
             Self::DuplicateProgramme { line } => write!(
                 formatter,
@@ -183,9 +189,7 @@ pub fn parse_issue_directive(
             }
             PROGRAMME_KEY => {
                 if programme.is_some() {
-                    return Err(ResearchDirectiveError::DuplicateProgramme {
-                        line: line_number,
-                    });
+                    return Err(ResearchDirectiveError::DuplicateProgramme { line: line_number });
                 }
                 if !valid_programme_id(value) {
                     return Err(ResearchDirectiveError::InvalidProgramme { line: line_number });
@@ -211,9 +215,9 @@ pub fn parse_issue_directive(
 fn valid_programme_id(value: &str) -> bool {
     !value.is_empty()
         && value.len() <= MAX_PROGRAMME_ID_BYTES
-        && value.bytes().all(|byte| {
-            byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b'/')
-        })
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b'/'))
 }
 
 #[cfg(test)]
@@ -248,7 +252,8 @@ mod tests {
 
     #[test]
     fn prose_mention_never_grants_research_authority() {
-        let body = "Please document <!-- orchestrator-research-mode: autonomous-v1 --> as an example.";
+        let body =
+            "Please document <!-- orchestrator-research-mode: autonomous-v1 --> as an example.";
         assert_eq!(parse_issue_directive(body), Ok(None));
     }
 
