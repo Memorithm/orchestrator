@@ -16,6 +16,7 @@ const MAX_TEXT_BYTES: usize = 8 * 1024;
 const MAX_REPOSITORY_BYTES: usize = 256;
 const MAX_PROGRAMME_BYTES: usize = 128;
 const MAX_BRANCH_BYTES: usize = 256;
+const MAX_LINE_ID_BYTES: usize = 128;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ResearchDecision {
@@ -49,6 +50,9 @@ impl ResearchDecision {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ResearchCycleReport {
+    /// Stable, canonical identity for the current research line. `None` exists
+    /// only for persisted pre-ORCH9f state; new handoffs require an identifier.
+    pub line_id: Option<String>,
     pub hypothesis: String,
     pub experiment: String,
     pub evidence_report: String,
@@ -74,8 +78,9 @@ impl ResearchCycleRecord {
     #[must_use]
     pub fn continuation_context(&self) -> String {
         format!(
-            "PRIOR RESEARCH CYCLE (UNVERIFIED AGENT REPORT)\nSequence: {}\nHypothesis: {}\nExperiment: {}\nAgent evidence report: {}\nDecision: {}\nNext action: {}\nParent validation status: UNVERIFIED — this record does not prove that the experiment, benchmark, CI, hardware run, or claimed result succeeded.",
+            "PRIOR RESEARCH CYCLE (UNVERIFIED AGENT REPORT)\nSequence: {}\nResearch line ID: {}\nHypothesis: {}\nExperiment: {}\nAgent evidence report: {}\nDecision: {}\nNext action: {}\nParent validation status: UNVERIFIED — this record does not prove that the experiment, benchmark, CI, hardware run, or claimed result succeeded.",
             self.sequence,
+            self.report.line_id.as_deref().unwrap_or("(legacy-unbound)"),
             self.report.hypothesis,
             self.report.experiment,
             self.report.evidence_report,
@@ -133,11 +138,6 @@ impl ResearchCycleStore {
                     if filename_sequence != expected_next {
                         return Err(error);
                     }
-                    // create_new can leave a zero-length or partially written
-                    // next history record after ENOSPC/process termination. It
-                    // has never become durable state: latest still points to the
-                    // previous sequence. Remove only that exact next record and
-                    // re-evaluate the remaining append-only history.
                     fs::remove_file(&path).map_err(|remove_error| {
                         format!(
                             "failed to remove incomplete research cycle history {} after {error}: {remove_error}",
@@ -174,10 +174,6 @@ impl ResearchCycleStore {
                         programme_root.display()
                     ));
                 }
-                // A higher complete history sequence means the process died
-                // after durable history write but before latest.state rename.
-                // Treat history as the effective latest record; the next append
-                // advances from it and atomically repairs latest.state.
                 Ok(Some(if history.sequence > latest.sequence {
                     history
                 } else {
@@ -303,7 +299,7 @@ impl ResearchCycleStore {
 }
 
 pub fn parse_handoff(contents: &str) -> Result<ResearchCycleReport, String> {
-    if contents.len() > MAX_TEXT_BYTES.saturating_mul(5).saturating_add(1024) {
+    if contents.len() > MAX_TEXT_BYTES.saturating_mul(5).saturating_add(2048) {
         return Err("research cycle handoff exceeds bounded size".to_owned());
     }
     let mut lines = contents.lines();
@@ -312,6 +308,7 @@ pub fn parse_handoff(contents: &str) -> Result<ResearchCycleReport, String> {
     }
 
     let mut seen = BTreeSet::new();
+    let mut line_id = None;
     let mut hypothesis = None;
     let mut experiment = None;
     let mut evidence_report = None;
@@ -328,6 +325,10 @@ pub fn parse_handoff(contents: &str) -> Result<ResearchCycleReport, String> {
             return Err(format!("duplicate research cycle handoff field: {name}"));
         }
         match name {
+            "line_id" => {
+                validate_line_id(value)?;
+                line_id = Some(value.to_owned());
+            }
             "hypothesis" => {
                 validate_bounded_line(name, value, MAX_TEXT_BYTES)?;
                 hypothesis = Some(value.to_owned());
@@ -350,6 +351,7 @@ pub fn parse_handoff(contents: &str) -> Result<ResearchCycleReport, String> {
     }
 
     let report = ResearchCycleReport {
+        line_id: Some(line_id.ok_or_else(|| "research cycle handoff missing line_id".to_owned())?),
         hypothesis: hypothesis
             .ok_or_else(|| "research cycle handoff missing hypothesis".to_owned())?,
         experiment: experiment
@@ -367,7 +369,7 @@ pub fn parse_handoff(contents: &str) -> Result<ResearchCycleReport, String> {
 #[must_use]
 pub fn handoff_contract() -> String {
     format!(
-        "RESEARCH CYCLE HANDOFF (REQUIRED FOR THIS EXPLICIT RESEARCH MODE)\nBefore finishing, write exactly one parent-only machine handoff file named `{HANDOFF_FILE}` at the repository root. This is the sole exception to the generic rule against status-report files; it is not a product artifact and Orchestrator removes it before diff validation or publication. Use exactly this single-line format (one field per line, no Markdown):\n{STATE_VERSION}\nhypothesis=<current falsifiable hypothesis, one line>\nexperiment=<bounded experiment/control/ablation actually attempted this cycle, one line>\nevidence_report=<what you observed; state negative, null, inconclusive, blocked, or failed results explicitly, one line>\ndecision=<continue|revise|abandon|blocked>\nnext_action=<best next permitted research action, one line>\nThe evidence_report is an unverified agent report. Never describe it as authoritative CI, hardware, benchmark, or validation evidence unless the parent-provided evidence actually establishes that fact."
+        "RESEARCH CYCLE HANDOFF (REQUIRED FOR THIS EXPLICIT RESEARCH MODE)\nBefore finishing, write exactly one parent-only machine handoff file named `{HANDOFF_FILE}` at the repository root. This is the sole exception to the generic rule against status-report files; it is not a product artifact and Orchestrator removes it before diff validation or publication. Use exactly this single-line format (one field per line, no Markdown):\n{STATE_VERSION}\nline_id=<stable canonical identifier for the current research line: ASCII alphanumeric plus ._- only, max {MAX_LINE_ID_BYTES} bytes>\nhypothesis=<current falsifiable hypothesis, one line>\nexperiment=<bounded experiment/control/ablation actually attempted this cycle, one line>\nevidence_report=<what you observed; state negative, null, inconclusive, blocked, or failed results explicitly, one line>\ndecision=<continue|revise|abandon|blocked>\nnext_action=<best next permitted research action, one line>\nKeep the same line_id while continuing, revising, or reporting a blocker on the same research line. Mint a new line_id only when selecting a materially different line. An abandon decision names the line being abandoned. The line_id and evidence_report remain unverified agent report fields: neither is authoritative CI, hardware, benchmark, validation evidence, or permission to cross a parent gate."
     )
 }
 
@@ -400,10 +402,27 @@ fn validate_record_identity(
 }
 
 fn validate_report(report: &ResearchCycleReport) -> Result<(), String> {
+    if let Some(line_id) = report.line_id.as_deref() {
+        validate_line_id(line_id)?;
+    }
     validate_bounded_line("hypothesis", &report.hypothesis, MAX_TEXT_BYTES)?;
     validate_bounded_line("experiment", &report.experiment, MAX_TEXT_BYTES)?;
     validate_bounded_line("evidence_report", &report.evidence_report, MAX_TEXT_BYTES)?;
     validate_bounded_line("next_action", &report.next_action, MAX_TEXT_BYTES)
+}
+
+fn validate_line_id(value: &str) -> Result<(), String> {
+    let mut bytes = value.bytes();
+    let Some(first) = bytes.next() else {
+        return Err("invalid research line identifier".to_owned());
+    };
+    if value.len() > MAX_LINE_ID_BYTES
+        || !first.is_ascii_alphanumeric()
+        || !bytes.all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
+    {
+        return Err("invalid research line identifier".to_owned());
+    }
+    Ok(())
 }
 
 fn validate_repository(value: &str) -> Result<(), String> {
@@ -635,7 +654,7 @@ fn hex_decode(name: &str, value: &str, maximum: usize) -> Result<String, String>
 
 fn serialize_state(record: &ResearchCycleRecord) -> String {
     format!(
-        "{STATE_VERSION}\nrepository_hex={}\nissue_number={}\nprogramme_hex={}\nmanaged_branch_hex={}\nsequence={}\nrecorded_at={}\nworker_exit_code={}\nevidence_authority=agent_report_unverified\nparent_validation=unverified\nhypothesis_hex={}\nexperiment_hex={}\nevidence_report_hex={}\ndecision={}\nnext_action_hex={}\n",
+        "{STATE_VERSION}\nrepository_hex={}\nissue_number={}\nprogramme_hex={}\nmanaged_branch_hex={}\nsequence={}\nrecorded_at={}\nworker_exit_code={}\nevidence_authority=agent_report_unverified\nparent_validation=unverified\nline_id_hex={}\nhypothesis_hex={}\nexperiment_hex={}\nevidence_report_hex={}\ndecision={}\nnext_action_hex={}\n",
         hex_encode(&record.repository),
         record.issue_number,
         record
@@ -646,6 +665,11 @@ fn serialize_state(record: &ResearchCycleRecord) -> String {
         record.sequence,
         record.recorded_at,
         record.worker_exit_code,
+        record
+            .report
+            .line_id
+            .as_deref()
+            .map_or_else(String::new, hex_encode),
         hex_encode(&record.report.hypothesis),
         hex_encode(&record.report.experiment),
         hex_encode(&record.report.evidence_report),
@@ -681,6 +705,7 @@ fn parse_state(contents: &str) -> Result<ResearchCycleRecord, String> {
         "worker_exit_code",
         "evidence_authority",
         "parent_validation",
+        "line_id_hex",
         "hypothesis_hex",
         "experiment_hex",
         "evidence_report_hex",
@@ -716,6 +741,14 @@ fn parse_state(contents: &str) -> Result<ResearchCycleRecord, String> {
     } else {
         Some(hex_decode("programme", programme_hex, MAX_PROGRAMME_BYTES)?)
     };
+    let line_id = match fields.get("line_id_hex").map(String::as_str) {
+        None | Some("") => None,
+        Some(encoded) => {
+            let decoded = hex_decode("line_id", encoded, MAX_LINE_ID_BYTES)?;
+            validate_line_id(&decoded)?;
+            Some(decoded)
+        }
+    };
     let record = ResearchCycleRecord {
         repository,
         issue_number,
@@ -735,6 +768,7 @@ fn parse_state(contents: &str) -> Result<ResearchCycleRecord, String> {
             .parse()
             .map_err(|error| format!("invalid research cycle worker_exit_code: {error}"))?,
         report: ResearchCycleReport {
+            line_id,
             hypothesis: hex_decode("hypothesis", take("hypothesis_hex")?, MAX_TEXT_BYTES)?,
             experiment: hex_decode("experiment", take("experiment_hex")?, MAX_TEXT_BYTES)?,
             evidence_report: hex_decode(
@@ -768,6 +802,7 @@ mod tests {
 
     fn report(decision: ResearchDecision) -> ResearchCycleReport {
         ResearchCycleReport {
+            line_id: Some("retrieval-fusion-a".to_owned()),
             hypothesis: "bounded state improves recall".to_owned(),
             experiment: "run deterministic recall ablation".to_owned(),
             evidence_report: "null result on synthetic case".to_owned(),
@@ -777,26 +812,31 @@ mod tests {
     }
 
     #[test]
-    fn handoff_parser_is_strict_and_preserves_negative_evidence() {
+    fn handoff_parser_requires_canonical_line_identity_and_preserves_negative_evidence() {
         let parsed = parse_handoff(
-            "research-cycle-v1\nhypothesis=H1\nexperiment=control A\nevidence_report=null result\ndecision=revise\nnext_action=control B\n",
+            "research-cycle-v1\nline_id=recall-a\nhypothesis=H1\nexperiment=control A\nevidence_report=null result\ndecision=revise\nnext_action=control B\n",
         )
         .unwrap();
+        assert_eq!(parsed.line_id.as_deref(), Some("recall-a"));
         assert_eq!(parsed.decision, ResearchDecision::Revise);
         assert_eq!(parsed.evidence_report, "null result");
         assert!(parse_handoff("research-cycle-v1\nhypothesis=H1\n").is_err());
         assert!(
-            parse_handoff("research-cycle-v1\nhypothesis=H1\nhypothesis=H2\nexperiment=x\nevidence_report=y\ndecision=continue\nnext_action=z\n")
+            parse_handoff("research-cycle-v1\nline_id=bad/line\nhypothesis=H1\nexperiment=x\nevidence_report=y\ndecision=continue\nnext_action=z\n")
                 .is_err()
         );
         assert!(
-            parse_handoff("research-cycle-v1\nhypothesis=H1\nexperiment=x\nevidence_report=y\ndecision=win\nnext_action=z\n")
+            parse_handoff("research-cycle-v1\nline_id=recall-a\nhypothesis=H1\nhypothesis=H2\nexperiment=x\nevidence_report=y\ndecision=continue\nnext_action=z\n")
+                .is_err()
+        );
+        assert!(
+            parse_handoff("research-cycle-v1\nline_id=recall-a\nhypothesis=H1\nexperiment=x\nevidence_report=y\ndecision=win\nnext_action=z\n")
                 .is_err()
         );
     }
 
     #[test]
-    fn store_is_append_only_and_latest_round_trips() {
+    fn store_is_append_only_and_latest_round_trips_line_identity() {
         let root = temporary_root("roundtrip");
         let store = ResearchCycleStore::new(root.clone());
         let first = store
@@ -823,6 +863,7 @@ mod tests {
             .unwrap();
         assert_eq!(first.sequence, 1);
         assert_eq!(second.sequence, 2);
+        assert_eq!(second.report.line_id.as_deref(), Some("retrieval-fusion-a"));
         assert_eq!(
             store
                 .load_latest("Memorithm/TDI", 87, Some("TDI-8"))
@@ -832,6 +873,32 @@ mod tests {
         let history = root.join("Memorithm__TDI/issue-87/programme-5444492d38/history");
         assert_eq!(fs::read_dir(history).unwrap().count(), 2);
         let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn legacy_state_without_line_id_remains_loadable_as_unbound() {
+        let mut record = ResearchCycleRecord {
+            repository: "Memorithm/ADA".to_owned(),
+            issue_number: 9,
+            programme: Some("ADA-R".to_owned()),
+            managed_branch: "orchestrator/issue-9-100".to_owned(),
+            sequence: 1,
+            recorded_at: 100,
+            worker_exit_code: 0,
+            report: report(ResearchDecision::Continue),
+        };
+        let serialized = serialize_state(&record);
+        let legacy = serialized
+            .lines()
+            .filter(|line| !line.starts_with("line_id_hex="))
+            .collect::<Vec<_>>()
+            .join("\n")
+            + "\n";
+        record.report.line_id = None;
+        assert_eq!(parse_state(&legacy).unwrap(), record);
+        assert!(record
+            .continuation_context()
+            .contains("Research line ID: (legacy-unbound)"));
     }
 
     #[test]
@@ -979,11 +1046,15 @@ mod tests {
     }
 
     #[test]
-    fn control_characters_and_identity_mismatch_fail_closed() {
+    fn control_characters_line_identity_and_identity_mismatch_fail_closed() {
         assert!(
-            parse_handoff("research-cycle-v1\nhypothesis=H1\texploit\nexperiment=x\nevidence_report=y\ndecision=continue\nnext_action=z\n")
+            parse_handoff("research-cycle-v1\nline_id=recall-a\nhypothesis=H1\texploit\nexperiment=x\nevidence_report=y\ndecision=continue\nnext_action=z\n")
                 .is_err()
         );
+        assert!(validate_line_id("-starts-with-punctuation").is_err());
+        assert!(validate_line_id("bad line").is_err());
+        assert!(validate_line_id("line/escape").is_err());
+        assert!(validate_line_id("line.valid_2-a").is_ok());
         assert!(validate_managed_branch("orchestrator/issue-8-100", 9).is_err());
         assert!(validate_worker_exit_code(256).is_err());
     }
@@ -1016,7 +1087,7 @@ mod tests {
     }
 
     #[test]
-    fn continuation_context_never_promotes_agent_report_to_evidence() {
+    fn continuation_context_never_promotes_line_identity_or_agent_report_to_evidence() {
         let root = temporary_root("context");
         let store = ResearchCycleStore::new(root.clone());
         let record = store
@@ -1032,8 +1103,10 @@ mod tests {
             .unwrap();
         let context = record.continuation_context();
         assert!(context.contains("UNVERIFIED AGENT REPORT"));
+        assert!(context.contains("Research line ID: retrieval-fusion-a"));
         assert!(context.contains("does not prove"));
-        assert!(handoff_contract().contains(HANDOFF_FILE));
+        assert!(handoff_contract().contains("line_id=<stable canonical identifier"));
+        assert!(handoff_contract().contains("line_id and evidence_report remain unverified"));
         let _ = fs::remove_dir_all(root);
     }
 }
