@@ -100,42 +100,84 @@ impl ResearchCycleStore {
         &self,
         repository: &str,
         issue_number: u64,
+        programme: Option<&str>,
     ) -> Result<Option<ResearchCycleRecord>, String> {
         validate_repository(repository)?;
         validate_issue_number(issue_number)?;
-        let issue_root = self.issue_root(repository, issue_number);
-        let latest = load_optional_state(&issue_root.join("latest.state"))?;
-        let history = load_highest_history(&issue_root.join("history"))?;
+        validate_optional_programme(programme)?;
+        let programme_root = self.programme_root(repository, issue_number, programme);
+        let latest = load_optional_state(&programme_root.join("latest.state"))?;
+        let history_candidate = highest_history_candidate(&programme_root.join("history"))?;
+        let history = match history_candidate {
+            None => None,
+            Some((filename_sequence, path)) => match load_optional_state(&path) {
+                Ok(Some(record)) => {
+                    if record.sequence != filename_sequence {
+                        return Err(format!(
+                            "research cycle history filename/state sequence mismatch: {}",
+                            path.display()
+                        ));
+                    }
+                    Some(record)
+                }
+                Ok(None) => {
+                    return Err(format!(
+                        "research cycle history disappeared: {}",
+                        path.display()
+                    ));
+                }
+                Err(error) => {
+                    let expected_next = latest
+                        .as_ref()
+                        .map_or(1, |record| record.sequence.saturating_add(1));
+                    if filename_sequence != expected_next {
+                        return Err(error);
+                    }
+                    // create_new can leave a zero-length or partially written
+                    // next history record after ENOSPC/process termination. It
+                    // has never become durable state: latest still points to the
+                    // previous sequence. Remove only that exact next record and
+                    // re-evaluate the remaining append-only history.
+                    fs::remove_file(&path).map_err(|remove_error| {
+                        format!(
+                            "failed to remove incomplete research cycle history {} after {error}: {remove_error}",
+                            path.display()
+                        )
+                    })?;
+                    return self.load_latest(repository, issue_number, programme);
+                }
+            },
+        };
 
         match (latest, history) {
             (None, None) => Ok(None),
             (None, Some(history)) => {
-                validate_record_identity(&history, repository, issue_number)?;
+                validate_record_identity(&history, repository, issue_number, programme)?;
                 Ok(Some(history))
             }
             (Some(latest), None) => Err(format!(
                 "research cycle latest state exists without append-only history in {}",
-                issue_root.display()
+                programme_root.display()
             )),
             (Some(latest), Some(history)) => {
-                validate_record_identity(&latest, repository, issue_number)?;
-                validate_record_identity(&history, repository, issue_number)?;
+                validate_record_identity(&latest, repository, issue_number, programme)?;
+                validate_record_identity(&history, repository, issue_number, programme)?;
                 if history.sequence < latest.sequence {
                     return Err(format!(
                         "research cycle history is behind latest state in {}",
-                        issue_root.display()
+                        programme_root.display()
                     ));
                 }
                 if history.sequence == latest.sequence && history != latest {
                     return Err(format!(
                         "research cycle latest/history mismatch in {}",
-                        issue_root.display()
+                        programme_root.display()
                     ));
                 }
-                // A higher append-only history sequence means the process died
+                // A higher complete history sequence means the process died
                 // after durable history write but before latest.state rename.
                 // Treat history as the effective latest record; the next append
-                // will advance from it and atomically repair latest.state.
+                // advances from it and atomically repairs latest.state.
                 Ok(Some(if history.sequence > latest.sequence {
                     history
                 } else {
@@ -163,8 +205,8 @@ impl ResearchCycleStore {
         validate_worker_exit_code(worker_exit_code)?;
         validate_report(&report)?;
 
-        self.ensure_directories(repository, issue_number)?;
-        let previous = self.load_latest(repository, issue_number)?;
+        self.ensure_directories(repository, issue_number, programme)?;
+        let previous = self.load_latest(repository, issue_number, programme)?;
         let sequence = match previous {
             Some(ref record) => record
                 .sequence
@@ -185,8 +227,8 @@ impl ResearchCycleStore {
         };
         validate_record(&record)?;
 
-        let issue_root = self.issue_root(repository, issue_number);
-        let history_root = issue_root.join("history");
+        let programme_root = self.programme_root(repository, issue_number, programme);
+        let history_root = programme_root.join("history");
         let serialized = serialize_state(&record);
         let history_path = history_root.join(format!("{sequence:020}.state"));
         let mut history = OpenOptions::new()
@@ -199,18 +241,27 @@ impl ResearchCycleStore {
                     history_path.display()
                 )
             })?;
-        history
-            .write_all(serialized.as_bytes())
-            .map_err(|error| format!("failed to write {}: {error}", history_path.display()))?;
-        history
-            .sync_all()
-            .map_err(|error| format!("failed to sync {}: {error}", history_path.display()))?;
+        if let Err(error) = history.write_all(serialized.as_bytes()) {
+            drop(history);
+            let _ = fs::remove_file(&history_path);
+            return Err(format!("failed to write {}: {error}", history_path.display()));
+        }
+        if let Err(error) = history.sync_all() {
+            drop(history);
+            let _ = fs::remove_file(&history_path);
+            return Err(format!("failed to sync {}: {error}", history_path.display()));
+        }
 
-        write_latest_atomically(&issue_root, sequence, &serialized)?;
+        write_latest_atomically(&programme_root, sequence, &serialized)?;
         Ok(record)
     }
 
-    fn ensure_directories(&self, repository: &str, issue_number: u64) -> Result<(), String> {
+    fn ensure_directories(
+        &self,
+        repository: &str,
+        issue_number: u64,
+        programme: Option<&str>,
+    ) -> Result<(), String> {
         fs::create_dir_all(&self.root).map_err(|error| {
             format!(
                 "failed to create research cycle root {}: {error}",
@@ -223,13 +274,25 @@ impl ResearchCycleStore {
         ensure_child_directory(&repository_root)?;
         let issue_root = self.issue_root(repository, issue_number);
         ensure_child_directory(&issue_root)?;
-        ensure_child_directory(&issue_root.join("history"))
+        let programme_root = self.programme_root(repository, issue_number, programme);
+        ensure_child_directory(&programme_root)?;
+        ensure_child_directory(&programme_root.join("history"))
     }
 
     fn issue_root(&self, repository: &str, issue_number: u64) -> PathBuf {
         self.root
             .join(repository.replace('/', "__"))
             .join(format!("issue-{issue_number}"))
+    }
+
+    fn programme_root(
+        &self,
+        repository: &str,
+        issue_number: u64,
+        programme: Option<&str>,
+    ) -> PathBuf {
+        self.issue_root(repository, issue_number)
+            .join(programme_component(programme))
     }
 }
 
@@ -318,9 +381,13 @@ fn validate_record_identity(
     record: &ResearchCycleRecord,
     repository: &str,
     issue_number: u64,
+    programme: Option<&str>,
 ) -> Result<(), String> {
     validate_record(record)?;
-    if record.repository != repository || record.issue_number != issue_number {
+    if record.repository != repository
+        || record.issue_number != issue_number
+        || record.programme.as_deref() != programme
+    {
         return Err("research cycle state identity mismatch".to_owned());
     }
     Ok(())
@@ -367,6 +434,13 @@ fn validate_optional_programme(value: Option<&str>) -> Result<(), String> {
     Ok(())
 }
 
+fn programme_component(programme: Option<&str>) -> String {
+    programme.map_or_else(
+        || "programme-unspecified".to_owned(),
+        |value| format!("programme-{}", hex_encode(value)),
+    )
+}
+
 fn validate_managed_branch(branch: &str, issue_number: u64) -> Result<(), String> {
     validate_bounded_line("managed branch", branch, MAX_BRANCH_BYTES)?;
     let prefix = format!("orchestrator/issue-{issue_number}-");
@@ -387,10 +461,7 @@ fn validate_worker_exit_code(exit_code: i32) -> Result<(), String> {
 }
 
 fn validate_bounded_line(name: &str, value: &str, maximum: usize) -> Result<(), String> {
-    if value.is_empty()
-        || value.len() > maximum
-        || value.chars().any(char::is_control)
-    {
+    if value.is_empty() || value.len() > maximum || value.chars().any(char::is_control) {
         return Err(format!("invalid or oversized research cycle {name}"));
     }
     Ok(())
@@ -444,7 +515,7 @@ fn load_optional_state(path: &Path) -> Result<Option<ResearchCycleRecord>, Strin
         .map_err(|error| format!("invalid research cycle {}: {error}", path.display()))
 }
 
-fn load_highest_history(path: &Path) -> Result<Option<ResearchCycleRecord>, String> {
+fn highest_history_candidate(path: &Path) -> Result<Option<(u64, PathBuf)>, String> {
     let metadata = match fs::symlink_metadata(path) {
         Ok(metadata) => metadata,
         Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(None),
@@ -462,10 +533,10 @@ fn load_highest_history(path: &Path) -> Result<Option<ResearchCycleRecord>, Stri
         .map_err(|error| format!("failed to read {}: {error}", path.display()))?
     {
         let entry = entry.map_err(|error| format!("failed to read history entry: {error}"))?;
-        let metadata = entry
+        let file_type = entry
             .file_type()
             .map_err(|error| format!("failed to inspect history entry: {error}"))?;
-        if !metadata.is_file() || metadata.is_symlink() {
+        if !file_type.is_file() || file_type.is_symlink() {
             return Err(format!(
                 "unexpected non-file research cycle history entry: {}",
                 entry.path().display()
@@ -484,31 +555,22 @@ fn load_highest_history(path: &Path) -> Result<Option<ResearchCycleRecord>, Stri
         let sequence = sequence_text
             .parse::<u64>()
             .map_err(|error| format!("invalid history sequence {sequence_text}: {error}"))?;
-        if highest.as_ref().is_none_or(|(current, _)| sequence > *current) {
+        if highest
+            .as_ref()
+            .is_none_or(|(current, _)| sequence > *current)
+        {
             highest = Some((sequence, entry.path()));
         }
     }
-
-    let Some((filename_sequence, path)) = highest else {
-        return Ok(None);
-    };
-    let record = load_optional_state(&path)?
-        .ok_or_else(|| format!("research cycle history disappeared: {}", path.display()))?;
-    if record.sequence != filename_sequence {
-        return Err(format!(
-            "research cycle history filename/state sequence mismatch: {}",
-            path.display()
-        ));
-    }
-    Ok(Some(record))
+    Ok(highest)
 }
 
 fn write_latest_atomically(
-    issue_root: &Path,
+    programme_root: &Path,
     sequence: u64,
     serialized: &str,
 ) -> Result<(), String> {
-    let latest = issue_root.join("latest.state");
+    let latest = programme_root.join("latest.state");
     if let Ok(metadata) = fs::symlink_metadata(&latest)
         && metadata.file_type().is_symlink()
     {
@@ -517,7 +579,7 @@ fn write_latest_atomically(
             latest.display()
         ));
     }
-    let temporary = issue_root.join(format!(
+    let temporary = programme_root.join(format!(
         "latest.state.tmp.{}.{sequence}",
         std::process::id()
     ));
@@ -757,17 +819,55 @@ mod tests {
         assert_eq!(first.sequence, 1);
         assert_eq!(second.sequence, 2);
         assert_eq!(
-            store.load_latest("Memorithm/TDI", 87).unwrap(),
+            store
+                .load_latest("Memorithm/TDI", 87, Some("TDI-8"))
+                .unwrap(),
             Some(second)
         );
-        let history = root.join("Memorithm__TDI/issue-87/history");
+        let history = root.join("Memorithm__TDI/issue-87/programme-5444492d38/history");
         assert_eq!(fs::read_dir(history).unwrap().count(), 2);
         let _ = fs::remove_dir_all(root);
     }
 
     #[test]
-    fn history_recovers_interrupted_latest_update() {
-        let root = temporary_root("recover");
+    fn programmes_have_independent_cycle_sequences() {
+        let root = temporary_root("programmes");
+        let store = ResearchCycleStore::new(root.clone());
+        store
+            .append(
+                "Memorithm/ADA",
+                9,
+                Some("programme-a"),
+                "orchestrator/issue-9-100",
+                100,
+                0,
+                report(ResearchDecision::Continue),
+            )
+            .unwrap();
+        assert!(
+            store
+                .load_latest("Memorithm/ADA", 9, Some("programme-b"))
+                .unwrap()
+                .is_none()
+        );
+        let first_b = store
+            .append(
+                "Memorithm/ADA",
+                9,
+                Some("programme-b"),
+                "orchestrator/issue-9-200",
+                200,
+                0,
+                report(ResearchDecision::Revise),
+            )
+            .unwrap();
+        assert_eq!(first_b.sequence, 1);
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn complete_history_recovers_interrupted_latest_update() {
+        let root = temporary_root("recover-complete");
         let store = ResearchCycleStore::new(root.clone());
         let first = store
             .append(
@@ -780,12 +880,17 @@ mod tests {
                 report(ResearchDecision::Continue),
             )
             .unwrap();
-        let history_path = root.join("Memorithm__ADA/issue-9/history/00000000000000000002.state");
+        let history_path = root.join(
+            "Memorithm__ADA/issue-9/programme-4144412d52/history/00000000000000000002.state",
+        );
         let mut interrupted = first.clone();
         interrupted.sequence = 2;
         interrupted.managed_branch = "orchestrator/issue-9-200".to_owned();
         fs::write(&history_path, serialize_state(&interrupted)).unwrap();
-        let recovered = store.load_latest("Memorithm/ADA", 9).unwrap().unwrap();
+        let recovered = store
+            .load_latest("Memorithm/ADA", 9, Some("ADA-R"))
+            .unwrap()
+            .unwrap();
         assert_eq!(recovered.sequence, 2);
 
         let third = store
@@ -804,6 +909,43 @@ mod tests {
     }
 
     #[test]
+    fn incomplete_next_history_is_removed_and_retry_can_reuse_sequence() {
+        let root = temporary_root("recover-partial");
+        let store = ResearchCycleStore::new(root.clone());
+        store
+            .append(
+                "Memorithm/ADA",
+                9,
+                None,
+                "orchestrator/issue-9-100",
+                100,
+                0,
+                report(ResearchDecision::Continue),
+            )
+            .unwrap();
+        let history_path = root.join(
+            "Memorithm__ADA/issue-9/programme-unspecified/history/00000000000000000002.state",
+        );
+        fs::write(&history_path, "research-cycle-v1\nrepository_hex=").unwrap();
+        let recovered = store.load_latest("Memorithm/ADA", 9, None).unwrap().unwrap();
+        assert_eq!(recovered.sequence, 1);
+        assert!(!history_path.exists());
+        let second = store
+            .append(
+                "Memorithm/ADA",
+                9,
+                None,
+                "orchestrator/issue-9-200",
+                200,
+                0,
+                report(ResearchDecision::Revise),
+            )
+            .unwrap();
+        assert_eq!(second.sequence, 2);
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
     fn corrupt_or_authority_escalating_state_fails_closed() {
         let root = temporary_root("authority");
         let store = ResearchCycleStore::new(root.clone());
@@ -818,14 +960,14 @@ mod tests {
                 report(ResearchDecision::Blocked),
             )
             .unwrap();
-        let latest = root.join("Memorithm__TDI/issue-87/latest.state");
+        let latest = root.join("Memorithm__TDI/issue-87/programme-unspecified/latest.state");
         let contents = fs::read_to_string(&latest).unwrap();
         fs::write(
             &latest,
             contents.replace("parent_validation=unverified", "parent_validation=passed"),
         )
         .unwrap();
-        assert!(store.load_latest("Memorithm/TDI", 87).is_err());
+        assert!(store.load_latest("Memorithm/TDI", 87, None).is_err());
         let _ = fs::remove_dir_all(root);
     }
 
