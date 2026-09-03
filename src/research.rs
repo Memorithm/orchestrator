@@ -154,10 +154,7 @@ fn markdown_fence_open(raw_line: &str) -> Option<MarkdownFence> {
     if !matches!(marker, b'`' | b'~') {
         return None;
     }
-    let length = candidate
-        .bytes()
-        .take_while(|byte| *byte == marker)
-        .count();
+    let length = candidate.bytes().take_while(|byte| *byte == marker).count();
     (length >= 3).then_some(MarkdownFence { marker, length })
 }
 
@@ -329,9 +326,11 @@ mod tests {
     #[test]
     fn directive_after_closed_fence_is_active() {
         let body = "```text\n<!-- orchestrator-research-mode: autonomous-v1 -->\n```\n<!-- orchestrator-research-mode: autonomous-v1 -->\n";
-        assert!(parse_issue_directive(body)
-            .expect("valid outside directive")
-            .is_some());
+        assert!(
+            parse_issue_directive(body)
+                .expect("valid outside directive")
+                .is_some()
+        );
     }
 
     #[test]
