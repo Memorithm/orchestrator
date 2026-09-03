@@ -1,4 +1,5 @@
 use std::env;
+use std::fmt;
 use std::fs;
 use std::io::{self, Read, Write};
 use std::path::{Path, PathBuf};
@@ -13,11 +14,33 @@ const TITLE_MARKER: &str = "Title:";
 const BODY_MARKER: &str = "GitHub body (may be truncated):";
 const POLICY_MARKER: &str = "Parent-resolved repository policy snapshot:";
 const ISSUE_BRANCH_PREFIX: &str = "orchestrator/issue-";
-// Policy ingestion is bounded at 512 KiB. The parent can additionally transport
-// bounded Unicode body/CI sections, so keep a conservative bounded envelope
-// above the maximum currently constructible worker prompt.
 const MAX_PROMPT_BYTES: usize = 2 * 1024 * 1024;
 const MAX_HANDOFF_BYTES: u64 = 48 * 1024;
+
+#[derive(Debug)]
+enum BridgeError {
+    Contract(String),
+    Infrastructure(String),
+}
+
+impl BridgeError {
+    const fn exit_code(&self) -> i32 {
+        match self {
+            Self::Contract(_) => 2,
+            Self::Infrastructure(_) => 70,
+        }
+    }
+}
+
+impl fmt::Display for BridgeError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Contract(message) | Self::Infrastructure(message) => formatter.write_str(message),
+        }
+    }
+}
+
+type BridgeResult<T> = Result<T, BridgeError>;
 
 fn canonical_repository(prompt: &str) -> Result<&str, String> {
     let repository_start = prompt
@@ -55,9 +78,6 @@ fn unique_body_marker(prompt: &str) -> Result<Option<usize>, String> {
         return Err("ISSUE worker prompt is missing the GitHub body boundary".to_owned());
     };
     if matches.next().is_some() {
-        // A user-controlled title/body or repository policy duplicated the
-        // envelope marker. Disable research augmentation rather than guessing a
-        // boundary; the ordinary issue worker can still run safely.
         return Ok(None);
     }
     Ok(Some(index))
@@ -129,21 +149,28 @@ fn transform_worker_prompt(prompt: &str, issue_number: u64) -> Result<String, St
         .map_err(|error| format!("autonomous research directive rejected: {error}"))
 }
 
-fn transform_with_cycle_state(prompt: &str) -> Result<String, String> {
-    let Some(body) = issue_body_from_worker_prompt(prompt)? else {
+fn transform_with_cycle_state(prompt: &str) -> BridgeResult<String> {
+    let Some(body) = issue_body_from_worker_prompt(prompt).map_err(BridgeError::Contract)? else {
         return Ok(prompt.to_owned());
     };
     let Some(directive) = orchestrator::research::parse_issue_directive(body)
-        .map_err(|error| format!("autonomous research directive rejected: {error}"))?
+        .map_err(|error| {
+            BridgeError::Contract(format!("autonomous research directive rejected: {error}"))
+        })?
     else {
         return Ok(prompt.to_owned());
     };
 
-    let repository = canonical_repository(prompt)?;
-    let branch = managed_branch()?;
-    let issue_number = issue_number_from_branch(&branch)?;
-    let mut transformed = transform_worker_prompt(prompt, issue_number)?;
-    if let Some(previous) = cycle_store()?.load_latest(repository, issue_number)? {
+    let repository = canonical_repository(prompt).map_err(BridgeError::Contract)?;
+    let branch = managed_branch().map_err(BridgeError::Infrastructure)?;
+    let issue_number = issue_number_from_branch(&branch).map_err(BridgeError::Infrastructure)?;
+    let mut transformed =
+        transform_worker_prompt(prompt, issue_number).map_err(BridgeError::Contract)?;
+    let store = cycle_store().map_err(BridgeError::Infrastructure)?;
+    if let Some(previous) = store
+        .load_latest(repository, issue_number, directive.programme())
+        .map_err(BridgeError::Infrastructure)?
+    {
         transformed.push_str("\n\n");
         transformed.push_str(&previous.continuation_context());
     }
@@ -168,130 +195,152 @@ fn read_prompt() -> Result<String, String> {
     String::from_utf8(input).map_err(|error| format!("worker prompt is not valid UTF-8: {error}"))
 }
 
-fn write_prompt(prompt: &str) -> Result<(), String> {
+fn write_prompt(prompt: &str) -> BridgeResult<()> {
     io::stdout()
         .write_all(prompt.as_bytes())
-        .map_err(|error| format!("failed to write worker prompt: {error}"))
+        .map_err(|error| BridgeError::Infrastructure(format!("failed to write worker prompt: {error}")))
 }
 
-fn remove_reserved_handoff(path: &Path) -> Result<(), String> {
+fn handoff_metadata(path: &Path) -> BridgeResult<Option<fs::Metadata>> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) => Ok(Some(metadata)),
+        Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(None),
+        Err(error) => Err(BridgeError::Infrastructure(format!(
+            "failed to inspect reserved research handoff {}: {error}",
+            path.display()
+        ))),
+    }
+}
+
+fn remove_reserved_handoff(path: &Path) -> BridgeResult<()> {
     match fs::remove_file(path) {
         Ok(()) => Ok(()),
         Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(()),
-        Err(error) => Err(format!(
+        Err(error) => Err(BridgeError::Infrastructure(format!(
             "failed to remove reserved research handoff {}: {error}",
             path.display()
-        )),
+        ))),
     }
 }
 
-fn record_cycle(prompt: &str, worker_exit_code: i32) -> Result<(), String> {
+fn record_cycle(prompt: &str, worker_exit_code: i32) -> BridgeResult<()> {
     let handoff_path = env::current_dir()
-        .map_err(|error| format!("failed to inspect research workspace: {error}"))?
+        .map_err(|error| {
+            BridgeError::Infrastructure(format!("failed to inspect research workspace: {error}"))
+        })?
         .join(HANDOFF_FILE);
-    let Some(body) = issue_body_from_worker_prompt(prompt)? else {
-        if handoff_path.exists() {
+    let metadata = handoff_metadata(&handoff_path)?;
+    let Some(body) = issue_body_from_worker_prompt(prompt).map_err(BridgeError::Contract)? else {
+        if metadata.is_some() {
             remove_reserved_handoff(&handoff_path)?;
-            return Err(
+            return Err(BridgeError::Contract(
                 "non-ISSUE worker attempted to create reserved research handoff".to_owned(),
-            );
+            ));
         }
         return Ok(());
     };
-    let directive = orchestrator::research::parse_issue_directive(body)
-        .map_err(|error| format!("autonomous research directive rejected: {error}"))?;
+    let directive = orchestrator::research::parse_issue_directive(body).map_err(|error| {
+        BridgeError::Contract(format!("autonomous research directive rejected: {error}"))
+    })?;
     let Some(directive) = directive else {
-        if handoff_path.exists() {
+        if metadata.is_some() {
             remove_reserved_handoff(&handoff_path)?;
-            return Err("ordinary ISSUE attempted to create reserved research handoff".to_owned());
+            return Err(BridgeError::Contract(
+                "ordinary ISSUE attempted to create reserved research handoff".to_owned(),
+            ));
         }
         return Ok(());
     };
 
-    if !handoff_path.exists() {
+    let Some(metadata) = metadata else {
         if worker_exit_code == 0 {
-            return Err(format!(
+            return Err(BridgeError::Contract(format!(
                 "research worker completed without required parent-only handoff {HANDOFF_FILE}"
-            ));
+            )));
         }
         return Ok(());
-    }
-    let metadata = fs::symlink_metadata(&handoff_path).map_err(|error| {
-        format!(
-            "failed to inspect reserved research handoff {}: {error}",
-            handoff_path.display()
-        )
-    })?;
+    };
     if !metadata.file_type().is_file() || metadata.file_type().is_symlink() {
         remove_reserved_handoff(&handoff_path)?;
-        return Err("reserved research handoff must be a regular non-symlink file".to_owned());
+        return Err(BridgeError::Contract(
+            "reserved research handoff must be a regular non-symlink file".to_owned(),
+        ));
     }
     if metadata.len() > MAX_HANDOFF_BYTES {
         remove_reserved_handoff(&handoff_path)?;
-        return Err(format!(
+        return Err(BridgeError::Contract(format!(
             "reserved research handoff exceeds {MAX_HANDOFF_BYTES} bytes"
-        ));
+        )));
     }
     let contents = fs::read_to_string(&handoff_path).map_err(|error| {
-        format!(
+        BridgeError::Contract(format!(
             "failed to read reserved research handoff {}: {error}",
             handoff_path.display()
-        )
+        ))
     });
     remove_reserved_handoff(&handoff_path)?;
-    let report = orchestrator::research_cycle::parse_handoff(&contents?)?;
-    let repository = canonical_repository(prompt)?;
-    let branch = managed_branch()?;
-    let issue_number = issue_number_from_branch(&branch)?;
+    let report = orchestrator::research_cycle::parse_handoff(&contents?)
+        .map_err(BridgeError::Contract)?;
+    let repository = canonical_repository(prompt).map_err(BridgeError::Contract)?;
+    let branch = managed_branch().map_err(BridgeError::Infrastructure)?;
+    let issue_number = issue_number_from_branch(&branch).map_err(BridgeError::Infrastructure)?;
     let recorded_at = SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .map_err(|error| format!("system clock is before UNIX epoch: {error}"))?
+        .map_err(|error| {
+            BridgeError::Infrastructure(format!("system clock is before UNIX epoch: {error}"))
+        })?
         .as_secs();
-    let record = cycle_store()?.append(
-        repository,
-        issue_number,
-        directive.programme(),
-        &branch,
-        recorded_at,
-        worker_exit_code,
-        report,
-    )?;
+    let store = cycle_store().map_err(BridgeError::Infrastructure)?;
+    let record = store
+        .append(
+            repository,
+            issue_number,
+            directive.programme(),
+            &branch,
+            recorded_at,
+            worker_exit_code,
+            report,
+        )
+        .map_err(BridgeError::Infrastructure)?;
     eprintln!(
-        "orchestrator research cycle: recorded unverified agent report sequence={} repository={} issue=#{}",
-        record.sequence, record.repository, record.issue_number
+        "orchestrator research cycle: recorded unverified agent report sequence={} repository={} issue=#{} programme={}",
+        record.sequence,
+        record.repository,
+        record.issue_number,
+        record.programme.as_deref().unwrap_or("(unspecified)")
     );
     Ok(())
 }
 
-fn run_transform() -> Result<(), String> {
-    let prompt = read_prompt()?;
+fn run_transform() -> BridgeResult<()> {
+    let prompt = read_prompt().map_err(BridgeError::Contract)?;
     let transformed = transform_with_cycle_state(&prompt)?;
     write_prompt(&transformed)
 }
 
-fn run_record(exit_code: &str) -> Result<(), String> {
-    let worker_exit_code = exit_code
-        .parse::<i32>()
-        .map_err(|error| format!("invalid worker exit code {exit_code:?}: {error}"))?;
-    let prompt = read_prompt()?;
+fn run_record(exit_code: &str) -> BridgeResult<()> {
+    let worker_exit_code = exit_code.parse::<i32>().map_err(|error| {
+        BridgeError::Contract(format!("invalid worker exit code {exit_code:?}: {error}"))
+    })?;
+    let prompt = read_prompt().map_err(BridgeError::Contract)?;
     record_cycle(&prompt, worker_exit_code)
 }
 
-fn run() -> Result<(), String> {
+fn run() -> BridgeResult<()> {
     let mut args = env::args().skip(1);
     match (args.next().as_deref(), args.next(), args.next()) {
         (None, None, None) | (Some("transform"), None, None) => run_transform(),
         (Some("record"), Some(exit_code), None) => run_record(&exit_code),
-        _ => Err(
+        _ => Err(BridgeError::Contract(
             "usage: orchestrator-research-prompt [transform|record <worker-exit-code>]".to_owned(),
-        ),
+        )),
     }
 }
 
 fn main() {
     if let Err(error) = run() {
         eprintln!("orchestrator research prompt bridge: {error}");
-        std::process::exit(2);
+        std::process::exit(error.exit_code());
     }
 }
 
@@ -325,6 +374,15 @@ mod tests {
         );
         assert!(issue_number_from_branch("feature/issue-58-1788420000").is_err());
         assert!(issue_number_from_branch("orchestrator/issue-x-1788420000").is_err());
+    }
+
+    #[test]
+    fn error_classification_keeps_parent_state_failures_transient() {
+        assert_eq!(BridgeError::Contract("bad handoff".to_owned()).exit_code(), 2);
+        assert_eq!(
+            BridgeError::Infrastructure("disk full".to_owned()).exit_code(),
+            70
+        );
     }
 
     #[test]
