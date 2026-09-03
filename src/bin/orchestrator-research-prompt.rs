@@ -19,9 +19,9 @@ fn issue_body_from_worker_prompt(prompt: &str) -> Result<Option<&str>, String> {
         .rfind(BODY_MARKER)
         .ok_or_else(|| "ISSUE worker prompt is missing the GitHub body boundary".to_owned())?
         + BODY_MARKER.len();
-    let policy_start = prompt
-        .rfind(POLICY_MARKER)
-        .ok_or_else(|| "ISSUE worker prompt is missing the repository policy boundary".to_owned())?;
+    let policy_start = prompt.rfind(POLICY_MARKER).ok_or_else(|| {
+        "ISSUE worker prompt is missing the repository policy boundary".to_owned()
+    })?;
     if policy_start <= body_start {
         return Err("ISSUE worker prompt has invalid body/policy boundary ordering".to_owned());
     }
