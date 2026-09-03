@@ -29,6 +29,7 @@ jobs:
           bash -n scripts/agent-sandbox
           bash -n scripts/validation-sandbox
           bash -n scripts/selftest-runtime.sh
+          bash -n scripts/selftest-research-budget.sh
           bash -n scripts/selftest-opencode-watchdog.sh
           bash -n scripts/selftest-opencode-reaping.sh
           bash -n scripts/selftest-agent-sandbox.sh
@@ -36,6 +37,8 @@ jobs:
           bash -n scripts/install-systemd.sh
       - name: Runtime bridge selftest
         run: bash scripts/selftest-runtime.sh
+      - name: Research resource budget selftest
+        run: bash scripts/selftest-research-budget.sh
       - name: General agent watchdog selftest
         run: bash scripts/selftest-opencode-watchdog.sh
       - name: Agent process reaping selftest
