@@ -73,7 +73,7 @@ run_case() {
     "${common_env[@]}" \
     RESEARCH_BUDGET_CAPTURE="$capture" \
     "$@" \
-    "$TARGET" run --auto --model ollama/test <<<"$prompt"
+    bash "$TARGET" run --auto --model ollama/test <<<"$prompt"
   actual="$(cat "$capture")"
   if [[ "$actual" != "$expected" ]]; then
     printf 'research budget selftest %s: expected %s got %s\n' "$name" "$expected" "$actual" >&2
@@ -116,7 +116,7 @@ env \
   "${common_env[@]}" \
   RESEARCH_BUDGET_CAPTURE="$capture" \
   ORCHESTRATOR_RESEARCH_MAX_TOOLS=0 \
-  "$TARGET" run --auto --model ollama/test <<<"EXPLICIT_RESEARCH_OPT_IN"
+  bash "$TARGET" run --auto --model ollama/test <<<"EXPLICIT_RESEARCH_OPT_IN"
 status=$?
 set -e
 if [[ "$status" -ne 70 ]]; then
