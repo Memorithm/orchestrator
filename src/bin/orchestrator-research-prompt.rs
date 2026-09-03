@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use orchestrator::research_cycle::{HANDOFF_FILE, ResearchCycleStore};
+use orchestrator::research_cycle::{ResearchCycleStore, HANDOFF_FILE};
 
 const REPOSITORY_MARKER: &str = "Repository: ";
 const TASK_MARKER: &str = "Task: ";
@@ -153,10 +153,9 @@ fn transform_with_cycle_state(prompt: &str) -> BridgeResult<String> {
     let Some(body) = issue_body_from_worker_prompt(prompt).map_err(BridgeError::Contract)? else {
         return Ok(prompt.to_owned());
     };
-    let Some(directive) = orchestrator::research::parse_issue_directive(body)
-        .map_err(|error| {
-            BridgeError::Contract(format!("autonomous research directive rejected: {error}"))
-        })?
+    let Some(directive) = orchestrator::research::parse_issue_directive(body).map_err(|error| {
+        BridgeError::Contract(format!("autonomous research directive rejected: {error}"))
+    })?
     else {
         return Ok(prompt.to_owned());
     };
@@ -196,9 +195,9 @@ fn read_prompt() -> Result<String, String> {
 }
 
 fn write_prompt(prompt: &str) -> BridgeResult<()> {
-    io::stdout()
-        .write_all(prompt.as_bytes())
-        .map_err(|error| BridgeError::Infrastructure(format!("failed to write worker prompt: {error}")))
+    io::stdout().write_all(prompt.as_bytes()).map_err(|error| {
+        BridgeError::Infrastructure(format!("failed to write worker prompt: {error}"))
+    })
 }
 
 fn handoff_metadata(path: &Path) -> BridgeResult<Option<fs::Metadata>> {
@@ -279,8 +278,8 @@ fn record_cycle(prompt: &str, worker_exit_code: i32) -> BridgeResult<()> {
         ))
     });
     remove_reserved_handoff(&handoff_path)?;
-    let report = orchestrator::research_cycle::parse_handoff(&contents?)
-        .map_err(BridgeError::Contract)?;
+    let report =
+        orchestrator::research_cycle::parse_handoff(&contents?).map_err(BridgeError::Contract)?;
     let repository = canonical_repository(prompt).map_err(BridgeError::Contract)?;
     let branch = managed_branch().map_err(BridgeError::Infrastructure)?;
     let issue_number = issue_number_from_branch(&branch).map_err(BridgeError::Infrastructure)?;
@@ -378,7 +377,10 @@ mod tests {
 
     #[test]
     fn error_classification_keeps_parent_state_failures_transient() {
-        assert_eq!(BridgeError::Contract("bad handoff".to_owned()).exit_code(), 2);
+        assert_eq!(
+            BridgeError::Contract("bad handoff".to_owned()).exit_code(),
+            2
+        );
         assert_eq!(
             BridgeError::Infrastructure("disk full".to_owned()).exit_code(),
             70
