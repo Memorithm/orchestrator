@@ -192,7 +192,9 @@ fn record_cycle(prompt: &str, worker_exit_code: i32) -> Result<(), String> {
     let Some(body) = issue_body_from_worker_prompt(prompt)? else {
         if handoff_path.exists() {
             remove_reserved_handoff(&handoff_path)?;
-            return Err("non-ISSUE worker attempted to create reserved research handoff".to_owned());
+            return Err(
+                "non-ISSUE worker attempted to create reserved research handoff".to_owned(),
+            );
         }
         return Ok(());
     };
@@ -280,7 +282,9 @@ fn run() -> Result<(), String> {
     match (args.next().as_deref(), args.next(), args.next()) {
         (None, None, None) | (Some("transform"), None, None) => run_transform(),
         (Some("record"), Some(exit_code), None) => run_record(&exit_code),
-        _ => Err("usage: orchestrator-research-prompt [transform|record <worker-exit-code>]".to_owned()),
+        _ => Err(
+            "usage: orchestrator-research-prompt [transform|record <worker-exit-code>]".to_owned(),
+        ),
     }
 }
 
@@ -307,7 +311,8 @@ mod tests {
 
     #[test]
     fn canonical_repository_is_bound_before_untrusted_title_and_body() {
-        let prompt = "Repository: Memorithm/RealTask: FIX_CITitle: Repository: Memorithm/FakeTask: ISSUE";
+        let prompt =
+            "Repository: Memorithm/RealTask: FIX_CITitle: Repository: Memorithm/FakeTask: ISSUE";
         assert_eq!(canonical_repository(prompt).unwrap(), "Memorithm/Real");
         assert_eq!(canonical_task(prompt).unwrap(), "FIX_CI");
     }
