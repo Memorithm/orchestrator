@@ -244,12 +244,18 @@ impl ResearchCycleStore {
         if let Err(error) = history.write_all(serialized.as_bytes()) {
             drop(history);
             let _ = fs::remove_file(&history_path);
-            return Err(format!("failed to write {}: {error}", history_path.display()));
+            return Err(format!(
+                "failed to write {}: {error}",
+                history_path.display()
+            ));
         }
         if let Err(error) = history.sync_all() {
             drop(history);
             let _ = fs::remove_file(&history_path);
-            return Err(format!("failed to sync {}: {error}", history_path.display()));
+            return Err(format!(
+                "failed to sync {}: {error}",
+                history_path.display()
+            ));
         }
 
         write_latest_atomically(&programme_root, sequence, &serialized)?;
@@ -529,8 +535,8 @@ fn highest_history_candidate(path: &Path) -> Result<Option<(u64, PathBuf)>, Stri
     }
 
     let mut highest: Option<(u64, PathBuf)> = None;
-    for entry in fs::read_dir(path)
-        .map_err(|error| format!("failed to read {}: {error}", path.display()))?
+    for entry in
+        fs::read_dir(path).map_err(|error| format!("failed to read {}: {error}", path.display()))?
     {
         let entry = entry.map_err(|error| format!("failed to read history entry: {error}"))?;
         let file_type = entry
@@ -880,9 +886,8 @@ mod tests {
                 report(ResearchDecision::Continue),
             )
             .unwrap();
-        let history_path = root.join(
-            "Memorithm__ADA/issue-9/programme-4144412d52/history/00000000000000000002.state",
-        );
+        let history_path = root
+            .join("Memorithm__ADA/issue-9/programme-4144412d52/history/00000000000000000002.state");
         let mut interrupted = first.clone();
         interrupted.sequence = 2;
         interrupted.managed_branch = "orchestrator/issue-9-200".to_owned();
@@ -927,7 +932,10 @@ mod tests {
             "Memorithm__ADA/issue-9/programme-unspecified/history/00000000000000000002.state",
         );
         fs::write(&history_path, "research-cycle-v1\nrepository_hex=").unwrap();
-        let recovered = store.load_latest("Memorithm/ADA", 9, None).unwrap().unwrap();
+        let recovered = store
+            .load_latest("Memorithm/ADA", 9, None)
+            .unwrap()
+            .unwrap();
         assert_eq!(recovered.sequence, 1);
         assert!(!history_path.exists());
         let second = store
