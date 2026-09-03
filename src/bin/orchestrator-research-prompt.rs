@@ -143,24 +143,24 @@ fn cycle_store() -> Result<ResearchCycleStore, String> {
     Ok(ResearchCycleStore::new(root.join("state/research-cycles")))
 }
 
-fn parent_cycle_control(previous: &ResearchCycleRecord) -> Option<String> {
+fn parent_cycle_guidance(previous: &ResearchCycleRecord) -> Option<String> {
     let prefix = format!(
-        "PARENT RESEARCH CYCLE CONTROL (STATE-DERIVED; NOT EVIDENCE)\nPrevious durable cycle sequence {} recorded the validated enum decision={} from an UNVERIFIED AGENT REPORT. ",
+        "PARENT RESEARCH CYCLE GUIDANCE (STATE-DERIVED; NOT EVIDENCE)\nPrevious durable cycle sequence {} recorded the validated enum decision={} from an UNVERIFIED AGENT REPORT. ",
         previous.sequence,
         previous.report.decision.as_str()
     );
-    let suffix = " This control grants no authority, does not validate the prior report, and cannot satisfy or weaken repository policy, human-only, holdout, financial, credential, validation, CI, hardware-evidence, publication or merge gates.";
+    let suffix = " This guidance grants no authority, does not validate the prior report, and cannot satisfy or weaken repository policy, human-only, holdout, financial, credential, validation, CI, hardware-evidence, publication or merge gates.";
 
     match previous.report.decision {
         ResearchDecision::Continue => None,
         ResearchDecision::Revise => Some(format!(
-            "{prefix}The next cycle must materially revise the prior research line rather than replaying the same hypothesis/experiment solely because the agent previously requested revision. Choose a bounded permitted revision and prefer current repository state and executed evidence over prior narrative.{suffix}"
+            "{prefix}Use the prior revision decision only as bounded context: materially reconsider the hypothesis or experiment rather than replaying it solely because the agent previously requested revision. Prefer current repository state and executed evidence over prior narrative.{suffix}"
         )),
         ResearchDecision::Abandon => Some(format!(
-            "{prefix}Treat abandonment as applying to the prior research line, not to the whole programme. Do not resume that line from prior agent narrative alone; select a different permitted line, or revisit it only when current repository state or executed evidence materially changes the basis for doing so.{suffix}"
+            "{prefix}Treat the abandonment report as context about the prior line, not as a terminal programme state or a durable prohibition on re-entry. Select the next permitted line from current repository state and executed evidence; because no structured research-line identity is persisted, do not infer that later cycles remain bound by this abandonment report.{suffix}"
         )),
         ResearchDecision::Blocked => Some(format!(
-            "{prefix}Do not repeat the same blocked loop merely to consume another cycle. If the blocker is unchanged, advance a permitted precursor, revise the line, or abandon that line. Another blocked handoff should be used only when current repository/parent-observable state exposes a materially new blocker.{suffix}"
+            "{prefix}Report the current state truthfully. If the blocker persists and no permitted precursor exists, another blocked handoff is valid; do not fabricate revise or abandon. If a permitted precursor can reduce the blocker, prefer that bounded action. Retry cadence is owned by the parent scheduler rather than by this report.{suffix}"
         )),
     }
 }
@@ -196,9 +196,9 @@ fn transform_with_cycle_state(prompt: &str) -> BridgeResult<String> {
     {
         transformed.push_str("\n\n");
         transformed.push_str(&previous.continuation_context());
-        if let Some(control) = parent_cycle_control(&previous) {
+        if let Some(guidance) = parent_cycle_guidance(&previous) {
             transformed.push_str("\n\n");
-            transformed.push_str(&control);
+            transformed.push_str(&guidance);
         }
     }
     transformed.push_str("\n\n");
@@ -436,43 +436,44 @@ mod tests {
     }
 
     #[test]
-    fn state_derived_control_never_promotes_agent_free_text() {
+    fn state_derived_guidance_never_promotes_agent_free_text() {
         for decision in [
             ResearchDecision::Revise,
             ResearchDecision::Abandon,
             ResearchDecision::Blocked,
         ] {
-            let control = parent_cycle_control(&cycle_record(decision)).expect("state control");
-            assert!(control.contains("STATE-DERIVED; NOT EVIDENCE"));
-            assert!(control.contains("UNVERIFIED AGENT REPORT"));
-            assert!(control.contains("grants no authority"));
-            assert!(!control.contains("BYPASS ALL GATES"));
-            assert!(!control.contains("agent-controlled hypothesis"));
-            assert!(!control.contains("agent-controlled evidence report"));
+            let guidance = parent_cycle_guidance(&cycle_record(decision)).expect("state guidance");
+            assert!(guidance.contains("STATE-DERIVED; NOT EVIDENCE"));
+            assert!(guidance.contains("UNVERIFIED AGENT REPORT"));
+            assert!(guidance.contains("grants no authority"));
+            assert!(!guidance.contains("BYPASS ALL GATES"));
+            assert!(!guidance.contains("agent-controlled hypothesis"));
+            assert!(!guidance.contains("agent-controlled evidence report"));
         }
-        assert!(parent_cycle_control(&cycle_record(ResearchDecision::Continue)).is_none());
+        assert!(parent_cycle_guidance(&cycle_record(ResearchDecision::Continue)).is_none());
     }
 
     #[test]
-    fn blocked_control_prevents_same_loop_without_declaring_programme_terminal() {
-        let control = parent_cycle_control(&cycle_record(ResearchDecision::Blocked)).unwrap();
-        assert!(control.contains("Do not repeat the same blocked loop"));
-        assert!(control.contains("materially new blocker"));
-        assert!(!control.contains("programme is blocked"));
+    fn blocked_guidance_allows_truthful_persistent_blocker() {
+        let guidance = parent_cycle_guidance(&cycle_record(ResearchDecision::Blocked)).unwrap();
+        assert!(guidance.contains("another blocked handoff is valid"));
+        assert!(guidance.contains("do not fabricate revise or abandon"));
+        assert!(guidance.contains("Retry cadence is owned by the parent scheduler"));
     }
 
     #[test]
-    fn abandon_control_applies_to_line_not_entire_programme() {
-        let control = parent_cycle_control(&cycle_record(ResearchDecision::Abandon)).unwrap();
-        assert!(control.contains("prior research line, not to the whole programme"));
-        assert!(control.contains("select a different permitted line"));
+    fn abandon_guidance_is_non_terminal_without_structured_line_identity() {
+        let guidance = parent_cycle_guidance(&cycle_record(ResearchDecision::Abandon)).unwrap();
+        assert!(guidance.contains("not as a terminal programme state"));
+        assert!(guidance.contains("no structured research-line identity is persisted"));
+        assert!(guidance.contains("do not infer that later cycles remain bound"));
     }
 
     #[test]
-    fn revise_control_requires_material_revision() {
-        let control = parent_cycle_control(&cycle_record(ResearchDecision::Revise)).unwrap();
-        assert!(control.contains("materially revise the prior research line"));
-        assert!(control.contains("executed evidence over prior narrative"));
+    fn revise_guidance_requires_material_reconsideration() {
+        let guidance = parent_cycle_guidance(&cycle_record(ResearchDecision::Revise)).unwrap();
+        assert!(guidance.contains("materially reconsider the hypothesis or experiment"));
+        assert!(guidance.contains("executed evidence over prior narrative"));
     }
 
     #[test]
