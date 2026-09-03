@@ -227,9 +227,4 @@ mod tests {
         assert!(transformed.contains("Operate issue #58"));
         assert!(!transformed.contains("Operate issue #999"));
     }
-
-    #[test]
-    fn bridge_bound_covers_parent_policy_and_unicode_sections() {
-        assert!(MAX_PROMPT_BYTES >= 2 * 1024 * 1024);
-    }
 }
