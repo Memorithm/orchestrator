@@ -199,7 +199,7 @@ impl ResearchCycleStore {
         validate_optional_programme(programme)?;
         validate_managed_branch(managed_branch, issue_number)?;
         validate_worker_exit_code(worker_exit_code)?;
-        validate_report(&report)?;
+        validate_new_report(&report)?;
 
         self.ensure_directories(repository, issue_number, programme)?;
         let previous = self.load_latest(repository, issue_number, programme)?;
@@ -362,7 +362,7 @@ pub fn parse_handoff(contents: &str) -> Result<ResearchCycleReport, String> {
         next_action: next_action
             .ok_or_else(|| "research cycle handoff missing next_action".to_owned())?,
     };
-    validate_report(&report)?;
+    validate_new_report(&report)?;
     Ok(report)
 }
 
@@ -399,6 +399,13 @@ fn validate_record_identity(
         return Err("research cycle state identity mismatch".to_owned());
     }
     Ok(())
+}
+
+fn validate_new_report(report: &ResearchCycleReport) -> Result<(), String> {
+    if report.line_id.is_none() {
+        return Err("new research cycle report requires line_id".to_owned());
+    }
+    validate_report(report)
 }
 
 fn validate_report(report: &ResearchCycleReport) -> Result<(), String> {
@@ -742,7 +749,10 @@ fn parse_state(contents: &str) -> Result<ResearchCycleRecord, String> {
         Some(hex_decode("programme", programme_hex, MAX_PROGRAMME_BYTES)?)
     };
     let line_id = match fields.get("line_id_hex").map(String::as_str) {
-        None | Some("") => None,
+        None => None,
+        Some("") => {
+            return Err("research cycle state contains explicit empty line_id_hex".to_owned());
+        }
         Some(encoded) => {
             let decoded = hex_decode("line_id", encoded, MAX_LINE_ID_BYTES)?;
             validate_line_id(&decoded)?;
@@ -896,9 +906,59 @@ mod tests {
             + "\n";
         record.report.line_id = None;
         assert_eq!(parse_state(&legacy).unwrap(), record);
-        assert!(record
-            .continuation_context()
-            .contains("Research line ID: (legacy-unbound)"));
+        assert!(
+            record
+                .continuation_context()
+                .contains("Research line ID: (legacy-unbound)")
+        );
+    }
+
+    #[test]
+    fn new_append_requires_line_identity_and_explicit_empty_state_is_rejected() {
+        let root = temporary_root("line-id-required");
+        let store = ResearchCycleStore::new(root.clone());
+        let mut missing = report(ResearchDecision::Continue);
+        missing.line_id = None;
+        let error = store
+            .append(
+                "Memorithm/ADA",
+                9,
+                None,
+                "orchestrator/issue-9-100",
+                100,
+                0,
+                missing,
+            )
+            .unwrap_err();
+        assert!(error.contains("requires line_id"));
+        assert!(!root.exists());
+
+        let record = ResearchCycleRecord {
+            repository: "Memorithm/ADA".to_owned(),
+            issue_number: 9,
+            programme: None,
+            managed_branch: "orchestrator/issue-9-100".to_owned(),
+            sequence: 1,
+            recorded_at: 100,
+            worker_exit_code: 0,
+            report: report(ResearchDecision::Continue),
+        };
+        let serialized = serialize_state(&record);
+        let explicit_empty = serialized
+            .lines()
+            .map(|line| {
+                if line.starts_with("line_id_hex=") {
+                    "line_id_hex="
+                } else {
+                    line
+                }
+            })
+            .collect::<Vec<_>>()
+            .join("\n")
+            + "\n";
+        let error = parse_state(&explicit_empty).unwrap_err();
+        assert!(error.contains("explicit empty line_id_hex"));
+        let _ = fs::remove_dir_all(root);
     }
 
     #[test]
