@@ -49,9 +49,9 @@ fn issue_body_from_worker_prompt(prompt: &str) -> Result<Option<&str>, String> {
         return Ok(None);
     };
     let body_start = body_marker + BODY_MARKER.len();
-    let policy_offset = prompt[body_start..]
-        .find(POLICY_MARKER)
-        .ok_or_else(|| "ISSUE worker prompt is missing the repository policy boundary".to_owned())?;
+    let policy_offset = prompt[body_start..].find(POLICY_MARKER).ok_or_else(|| {
+        "ISSUE worker prompt is missing the repository policy boundary".to_owned()
+    })?;
     let policy_start = body_start + policy_offset;
     Ok(Some(prompt[body_start..policy_start].trim()))
 }
