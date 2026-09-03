@@ -34,10 +34,10 @@ export OPENCODE_PURE=1
 
 mkdir -p "$OPENCODE_CONFIG_DIR"
 
-# Autonomous research is a parent-side prompt transformation. Intercept only
-# the exact autonomous argv shape emitted by Rust. Doctor/self-test/unsupported
-# invocations retain the historical delegation contract and are validated by
-# the core wrapper itself.
+# Autonomous research is a parent-side prompt/state transformation. Intercept
+# only the exact autonomous argv shape emitted by Rust. Doctor/self-test and
+# unsupported invocations retain the historical delegation contract and are
+# validated by the core wrapper itself.
 if [[ "$#" -eq 4 && "${1:-}" == "run" && "${2:-}" == "--auto" && "${3:-}" == "--model" ]]; then
   if [[ -t 0 ]]; then
     printf 'orchestrator opencode environment: refusing TTY stdin for autonomous run\n' >&2
@@ -57,13 +57,30 @@ if [[ "$#" -eq 4 && "${1:-}" == "run" && "${2:-}" == "--auto" && "${3:-}" == "--
     exit 70
   fi
 
-  transformed_prompt="$(printf '%s' "$agent_prompt" | "$helper")" || {
+  transformed_prompt="$(printf '%s' "$agent_prompt" | "$helper" transform)" || {
     status=$?
     printf 'orchestrator opencode environment: research prompt validation failed\n' >&2
     exit "$status"
   }
 
-  exec bash "$CORE" "$@" < <(printf '%s' "$transformed_prompt")
+  # Do not exec here: the parent-side bridge must consume and remove the
+  # reserved research handoff after the worker exits, before Rust inspects the
+  # managed workspace diff. Preserve the worker status unless a successful
+  # worker violates the research handoff contract.
+  set +e
+  bash "$CORE" "$@" < <(printf '%s' "$transformed_prompt")
+  core_status=$?
+  set -e
+
+  record_status=0
+  printf '%s' "$agent_prompt" | "$helper" record "$core_status" || record_status=$?
+  if (( record_status != 0 )); then
+    printf 'orchestrator opencode environment: research cycle recording failed with status %s\n' "$record_status" >&2
+    if (( core_status == 0 )); then
+      exit "$record_status"
+    fi
+  fi
+  exit "$core_status"
 fi
 
 exec bash "$CORE" "$@"
