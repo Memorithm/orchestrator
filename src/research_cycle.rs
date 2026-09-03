@@ -155,7 +155,7 @@ impl ResearchCycleStore {
                 validate_record_identity(&history, repository, issue_number, programme)?;
                 Ok(Some(history))
             }
-            (Some(latest), None) => Err(format!(
+            (Some(_), None) => Err(format!(
                 "research cycle latest state exists without append-only history in {}",
                 programme_root.display()
             )),
@@ -427,15 +427,14 @@ fn validate_issue_number(issue_number: u64) -> Result<(), String> {
 }
 
 fn validate_optional_programme(value: Option<&str>) -> Result<(), String> {
-    if let Some(value) = value {
-        if value.is_empty()
+    if let Some(value) = value
+        && (value.is_empty()
             || value.len() > MAX_PROGRAMME_BYTES
             || !value.bytes().all(|byte| {
                 byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b'/')
-            })
-        {
-            return Err("invalid research cycle programme identifier".to_owned());
-        }
+            }))
+    {
+        return Err("invalid research cycle programme identifier".to_owned());
     }
     Ok(())
 }
@@ -621,7 +620,7 @@ fn hex_decode(name: &str, value: &str, maximum: usize) -> Result<String, String>
         return Err(format!("invalid encoded research cycle {name}"));
     }
     let mut bytes = Vec::with_capacity(value.len() / 2);
-    for pair in value.as_bytes().chunks_exact(2) {
+    for pair in value.as_bytes().as_chunks::<2>().0 {
         let text = std::str::from_utf8(pair)
             .map_err(|_| format!("invalid encoded research cycle {name}"))?;
         let byte = u8::from_str_radix(text, 16)
