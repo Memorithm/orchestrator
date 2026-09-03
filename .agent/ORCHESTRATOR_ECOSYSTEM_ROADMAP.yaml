@@ -1,7 +1,7 @@
 schema_version: 1
 kind: memorithm_orchestrator_ecosystem_agent_roadmap
 status: active
-last_updated: "2026-09-02"
+last_updated: "2026-09-03"
 repository: Memorithm/orchestrator
 intended_consumer: autonomous_coding_agent
 merge_policy: never_merge_this_file_to_default_branch_unless_user_explicitly_requests
@@ -70,6 +70,9 @@ verified_current_facts:
   - hardware_missing_evidence_defer_is_typed_and_only_missing_evidence_is_dispatch_eligible
   - hardware_dispatch_uses_Orchestrator_owned_strict_configuration_direct_shell_free_argv_and_exact_binding_token
   - exact_successful_hardware_dispatch_is_idempotent_and_never_counts_as_hardware_evidence
+  - ORCH9a_PR_59_rebase_merged_to_main_at_f42aeaee86b4e195b88011c179460cb41ad1e212
+  - ORCH9a_exact_head_a99fd03ceaa2907655fa416955c1a39c1e30bd1e_ci_187_and_contributor_attribution_54_completed_success_before_merge
+  - autonomous_research_mode_is_explicit_versioned_and_never_inferred_from_prose_or_Markdown_code_examples
 
 invariants:
   - no_autonomous_direct_default_branch_coding
@@ -85,6 +88,7 @@ invariants:
   - hardware_or_human_evidence_requirement_cannot_be_satisfied_by_portable_compile_only_evidence
   - partial_or_interrupted_validation_step_evidence_must_never_be_interpreted_as_a_complete_plan_success
   - hardware_evidence_must_not_be_inferred_from_check_names_runner_labels_emulation_or_repository_controlled_prose
+  - autonomous_research_authority_must_be_explicit_and_cannot_override_repository_policy_or_human_only_gates
 
 ownership:
   role: organization_GitHub_development_control_plane
@@ -95,6 +99,7 @@ ownership:
     - Git_commit_push_PR_creation_and_optional_merge_mutations
     - exact_head_CI_and_base_sync_merge_gates
     - agent_backend_policy_boundary_for_development_tasks
+    - policy_gated_autonomous_research_programme_iteration_strategy
   does_not_own:
     - SoulSystem_inner_coding_agent_reasoning_tool_or_session_semantics
     - CCOS_causal_context_memory_and_replay_semantics
@@ -357,6 +362,29 @@ roadmap:
       - one_mutation_lease_per_repository_publication_surface
       - dashboard_of_policy_state_PR_CI_quarantine_and_agent_evidence
       - compatibility_matrix_for_all_bootstrapped_Memorithm_repositories
+  - id: ORCH9
+    name: Autonomous research programme loop
+    status: active
+    next_slice: ORCH9b_issue_execution_mission_integration
+    completed_slices:
+      - id: ORCH9a
+        name: Explicit autonomous research authority contract
+        status: complete
+        completion_evidence:
+          - issue_58_defined_project_manager_and_agent_authority_boundary
+          - PR_59_rebase_merged_to_main_at_f42aeaee86b4e195b88011c179460cb41ad1e212
+          - exact_head_a99fd03ceaa2907655fa416955c1a39c1e30bd1e_ci_187_and_contributor_attribution_54_completed_success_before_merge
+          - autonomous_v1_requires_exact_versioned_HTML_comment_opt_in
+          - prose_fenced_code_tilde_fences_and_indented_Markdown_examples_are_inert
+          - duplicate_malformed_unknown_or_unsupported_reserved_directives_fail_closed
+          - generated_research_mission_preserves_repository_human_only_holdout_hardware_validation_publication_and_merge_gates
+    goals:
+      - wire_explicit_research_directive_into_existing_issue_execution_and_agent_mission_path
+      - preserve_standard_issue_semantics_when_no_directive_is_present
+      - malformed_reserved_research_directives_must_fail_closed_before_agent_execution
+      - persist_research_hypothesis_experiment_evidence_and_decision_state_across_cycles
+      - add_bounded_research_cycle_and_resource_budget_controls
+      - integrate_dependency_aware_research_scheduling_without_duplicate_cross_repository_control_planes
 
 agent_operating_protocol:
   must_read_this_file:
