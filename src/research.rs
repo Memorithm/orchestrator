@@ -13,6 +13,7 @@ const MODE_KEY: &str = "orchestrator-research-mode";
 const PROGRAMME_KEY: &str = "orchestrator-research-programme";
 const AUTONOMOUS_V1: &str = "autonomous-v1";
 const MAX_PROGRAMME_ID_BYTES: usize = 128;
+const AUTONOMOUS_PROMPT_HEADER: &str = "AUTONOMOUS RESEARCH MISSION (EXPLICIT ISSUE OPT-IN)";
 
 /// Versioned research mode explicitly requested by a programme issue.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -266,6 +267,30 @@ pub fn parse_issue_directive(
     }
 }
 
+/// Apply an explicit autonomous-research issue directive to an already-built
+/// worker prompt.
+///
+/// Ordinary issues are returned byte-for-byte unchanged. A valid opt-in appends
+/// a bounded research mission that explicitly supersedes only the generic
+/// issue-slice selection rule; every parent and repository policy gate remains
+/// authoritative. Reserved malformed/unknown directives fail closed.
+pub fn augment_issue_prompt(
+    base_prompt: &str,
+    issue_body: &str,
+    issue_number: u64,
+) -> Result<String, ResearchDirectiveError> {
+    let Some(directive) = parse_issue_directive(issue_body)? else {
+        return Ok(base_prompt.to_owned());
+    };
+
+    Ok(format!(
+        "{base_prompt}\n\n{AUTONOMOUS_PROMPT_HEADER}\nMode: {}\nProgramme: {}\nThis explicit research mission replaces only the generic instruction above to choose the earliest unfinished issue deliverable. It does not replace, weaken, or reinterpret any mandatory operating contract or parent-resolved repository policy.\n{}",
+        directive.mode().as_str(),
+        directive.programme().unwrap_or("(unspecified)"),
+        directive.mission(issue_number)
+    ))
+}
+
 fn valid_programme_id(value: &str) -> bool {
     !value.is_empty()
         && value.len() <= MAX_PROGRAMME_ID_BYTES
@@ -379,6 +404,40 @@ mod tests {
         assert!(matches!(
             parse_issue_directive("<!-- orchestrator-research-permission: all -->"),
             Err(ResearchDirectiveError::UnknownDirective { line: 1, .. })
+        ));
+    }
+
+    #[test]
+    fn ordinary_prompt_is_byte_identical_without_opt_in() {
+        let base = "standard worker prompt\nwith policy context";
+        let augmented = augment_issue_prompt(base, "Ordinary issue body", 58).unwrap();
+        assert_eq!(augmented, base);
+    }
+
+    #[test]
+    fn explicit_opt_in_appends_autonomous_mission_and_preserves_gates() {
+        let body = "<!-- orchestrator-research-mode: autonomous-v1 -->\n<!-- orchestrator-research-programme: ORCH9 -->";
+        let augmented = augment_issue_prompt("standard worker prompt", body, 58).unwrap();
+        assert!(augmented.contains(AUTONOMOUS_PROMPT_HEADER));
+        assert!(augmented.contains("Mode: autonomous-v1"));
+        assert!(augmented.contains("Programme: ORCH9"));
+        assert!(augmented.contains("replaces only the generic instruction"));
+        assert!(augmented.contains("does not replace, weaken, or reinterpret"));
+        assert!(augmented.contains("independently formulate or revise hypotheses"));
+        assert!(augmented.contains("Do not wait for intermediate human approval"));
+    }
+
+    #[test]
+    fn prompt_augmentation_fails_closed_on_reserved_invalid_directive() {
+        let error = augment_issue_prompt(
+            "standard worker prompt",
+            "<!-- orchestrator-research-mode: autonomous-v2 -->",
+            58,
+        )
+        .unwrap_err();
+        assert!(matches!(
+            error,
+            ResearchDirectiveError::UnsupportedMode { line: 1, .. }
         ));
     }
 }
