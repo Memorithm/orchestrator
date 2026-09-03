@@ -34,4 +34,38 @@ export OPENCODE_PURE=1
 
 mkdir -p "$OPENCODE_CONFIG_DIR"
 
+# Autonomous research is a parent-side prompt transformation. The helper is a
+# dependency-free Rust binary built from the same versioned parser used by the
+# Orchestrator research contract. It receives only the already-constructed
+# worker prompt on stdin; it has no Git/GitHub mutation authority. Non-ISSUE
+# prompts are returned byte-for-byte unchanged. A malformed reserved directive
+# fails before the OpenCode core or model is launched.
+if [[ "${1:-}" == "run" ]]; then
+  if [[ -t 0 ]]; then
+    printf 'orchestrator opencode environment: refusing TTY stdin for autonomous run\n' >&2
+    exit 2
+  fi
+
+  agent_prompt="$(cat)"
+  if [[ -z "$agent_prompt" ]]; then
+    printf 'orchestrator opencode environment: empty autonomous prompt on stdin\n' >&2
+    exit 2
+  fi
+
+  wrapper_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  helper="${ORCHESTRATOR_RESEARCH_PROMPT_HELPER:-$wrapper_dir/../release/orchestrator-research-prompt}"
+  if [[ ! -x "$helper" ]]; then
+    printf 'orchestrator opencode environment: research prompt helper unavailable: %s\n' "$helper" >&2
+    exit 70
+  fi
+
+  transformed_prompt="$(printf '%s' "$agent_prompt" | "$helper")" || {
+    status=$?
+    printf 'orchestrator opencode environment: research prompt validation failed\n' >&2
+    exit "$status"
+  }
+
+  exec bash "$CORE" "$@" < <(printf '%s' "$transformed_prompt")
+fi
+
 exec bash "$CORE" "$@"
