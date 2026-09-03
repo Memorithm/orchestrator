@@ -472,7 +472,11 @@ mod tests {
 
     #[test]
     fn legacy_cycle_guidance_mints_valid_line_identity_instead_of_reusing_sentinel() {
-        for decision in [ResearchDecision::Continue, ResearchDecision::Abandon, ResearchDecision::Blocked] {
+        for decision in [
+            ResearchDecision::Continue,
+            ResearchDecision::Abandon,
+            ResearchDecision::Blocked,
+        ] {
             let mut record = cycle_record(decision);
             record.report.line_id = None;
             let guidance = parent_cycle_guidance(&record).expect("legacy guidance");
