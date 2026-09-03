@@ -106,7 +106,7 @@ mod tests {
     #[test]
     fn explicit_issue_opt_in_gets_autonomous_research_mission() {
         let prompt = issue_prompt(
-            "<!-- orchestrator-research-mode: autonomous-v1 --><!-- orchestrator-research-programme: ORCH9 -->",
+            "<!-- orchestrator-research-mode: autonomous-v1 -->\n<!-- orchestrator-research-programme: ORCH9 -->",
         );
         let transformed = transform_worker_prompt(&prompt).unwrap();
         assert!(transformed.starts_with(&prompt));
