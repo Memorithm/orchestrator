@@ -5,9 +5,9 @@
 //! gates remain owned by the Orchestrator parent. Persisted reports are carried
 //! into later cycles only as bounded context.
 
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, OpenOptions};
-use std::io::Write;
+use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 
 const STATE_VERSION: &str = "research-cycle-v1";
@@ -102,23 +102,50 @@ impl ResearchCycleStore {
         issue_number: u64,
     ) -> Result<Option<ResearchCycleRecord>, String> {
         validate_repository(repository)?;
-        let path = self.issue_root(repository, issue_number).join("latest.state");
-        if !path.exists() {
-            return Ok(None);
+        validate_issue_number(issue_number)?;
+        let issue_root = self.issue_root(repository, issue_number);
+        let latest = load_optional_state(&issue_root.join("latest.state"))?;
+        let history = load_highest_history(&issue_root.join("history"))?;
+
+        match (latest, history) {
+            (None, None) => Ok(None),
+            (None, Some(history)) => {
+                validate_record_identity(&history, repository, issue_number)?;
+                Ok(Some(history))
+            }
+            (Some(latest), None) => Err(format!(
+                "research cycle latest state exists without append-only history in {}",
+                issue_root.display()
+            )),
+            (Some(latest), Some(history)) => {
+                validate_record_identity(&latest, repository, issue_number)?;
+                validate_record_identity(&history, repository, issue_number)?;
+                if history.sequence < latest.sequence {
+                    return Err(format!(
+                        "research cycle history is behind latest state in {}",
+                        issue_root.display()
+                    ));
+                }
+                if history.sequence == latest.sequence && history != latest {
+                    return Err(format!(
+                        "research cycle latest/history mismatch in {}",
+                        issue_root.display()
+                    ));
+                }
+                // A higher append-only history sequence means the process died
+                // after durable history write but before latest.state rename.
+                // Treat history as the effective latest record; the next append
+                // will advance from it and atomically repair latest.state.
+                Ok(Some(if history.sequence > latest.sequence {
+                    history
+                } else {
+                    latest
+                }))
+            }
         }
-        let contents = fs::read_to_string(&path)
-            .map_err(|error| format!("failed to read research cycle {}: {error}", path.display()))?;
-        let record = parse_state(&contents)
-            .map_err(|error| format!("invalid research cycle {}: {error}", path.display()))?;
-        if record.repository != repository || record.issue_number != issue_number {
-            return Err(format!(
-                "research cycle identity mismatch in {}",
-                path.display()
-            ));
-        }
-        Ok(Some(record))
     }
 
+    #[allow(clippy::too_many_arguments)]
     pub fn append(
         &self,
         repository: &str,
@@ -130,18 +157,21 @@ impl ResearchCycleStore {
         report: ResearchCycleReport,
     ) -> Result<ResearchCycleRecord, String> {
         validate_repository(repository)?;
+        validate_issue_number(issue_number)?;
         validate_optional_programme(programme)?;
-        validate_bounded_line("managed branch", managed_branch, MAX_BRANCH_BYTES)?;
+        validate_managed_branch(managed_branch, issue_number)?;
+        validate_worker_exit_code(worker_exit_code)?;
         validate_report(&report)?;
 
+        self.ensure_directories(repository, issue_number)?;
         let previous = self.load_latest(repository, issue_number)?;
-        let sequence = previous
-            .as_ref()
-            .map_or(1, |record| record.sequence.saturating_add(1));
-        if sequence == u64::MAX && previous.as_ref().is_some_and(|record| record.sequence == u64::MAX)
-        {
-            return Err("research cycle sequence exhausted".to_owned());
-        }
+        let sequence = match previous {
+            Some(ref record) => record
+                .sequence
+                .checked_add(1)
+                .ok_or_else(|| "research cycle sequence exhausted".to_owned())?,
+            None => 1,
+        };
 
         let record = ResearchCycleRecord {
             repository: repository.to_owned(),
@@ -153,17 +183,10 @@ impl ResearchCycleStore {
             worker_exit_code,
             report,
         };
+        validate_record(&record)?;
+
         let issue_root = self.issue_root(repository, issue_number);
         let history_root = issue_root.join("history");
-        fs::create_dir_all(&history_root).map_err(|error| {
-            format!(
-                "failed to create research cycle history {}: {error}",
-                history_root.display()
-            )
-        })?;
-        reject_symlink(&issue_root)?;
-        reject_symlink(&history_root)?;
-
         let serialized = serialize_state(&record);
         let history_path = history_root.join(format!("{sequence:020}.state"));
         let mut history = OpenOptions::new()
@@ -183,26 +206,24 @@ impl ResearchCycleStore {
             .sync_all()
             .map_err(|error| format!("failed to sync {}: {error}", history_path.display()))?;
 
-        let latest = issue_root.join("latest.state");
-        let temporary = issue_root.join(format!("latest.state.tmp.{}", std::process::id()));
-        let mut file = OpenOptions::new()
-            .create(true)
-            .truncate(true)
-            .write(true)
-            .open(&temporary)
-            .map_err(|error| format!("failed to open {}: {error}", temporary.display()))?;
-        file.write_all(serialized.as_bytes())
-            .map_err(|error| format!("failed to write {}: {error}", temporary.display()))?;
-        file.sync_all()
-            .map_err(|error| format!("failed to sync {}: {error}", temporary.display()))?;
-        fs::rename(&temporary, &latest).map_err(|error| {
+        write_latest_atomically(&issue_root, sequence, &serialized)?;
+        Ok(record)
+    }
+
+    fn ensure_directories(&self, repository: &str, issue_number: u64) -> Result<(), String> {
+        fs::create_dir_all(&self.root).map_err(|error| {
             format!(
-                "failed to atomically replace research cycle {} with {}: {error}",
-                latest.display(),
-                temporary.display()
+                "failed to create research cycle root {}: {error}",
+                self.root.display()
             )
         })?;
-        Ok(record)
+        require_real_directory(&self.root)?;
+
+        let repository_root = self.root.join(repository.replace('/', "__"));
+        ensure_child_directory(&repository_root)?;
+        let issue_root = self.issue_root(repository, issue_number);
+        ensure_child_directory(&issue_root)?;
+        ensure_child_directory(&issue_root.join("history"))
     }
 
     fn issue_root(&self, repository: &str, issue_number: u64) -> PathBuf {
@@ -260,12 +281,15 @@ pub fn parse_handoff(contents: &str) -> Result<ResearchCycleReport, String> {
     }
 
     let report = ResearchCycleReport {
-        hypothesis: hypothesis.ok_or_else(|| "research cycle handoff missing hypothesis".to_owned())?,
-        experiment: experiment.ok_or_else(|| "research cycle handoff missing experiment".to_owned())?,
+        hypothesis: hypothesis
+            .ok_or_else(|| "research cycle handoff missing hypothesis".to_owned())?,
+        experiment: experiment
+            .ok_or_else(|| "research cycle handoff missing experiment".to_owned())?,
         evidence_report: evidence_report
             .ok_or_else(|| "research cycle handoff missing evidence_report".to_owned())?,
         decision: decision.ok_or_else(|| "research cycle handoff missing decision".to_owned())?,
-        next_action: next_action.ok_or_else(|| "research cycle handoff missing next_action".to_owned())?,
+        next_action: next_action
+            .ok_or_else(|| "research cycle handoff missing next_action".to_owned())?,
     };
     validate_report(&report)?;
     Ok(report)
@@ -276,6 +300,30 @@ pub fn handoff_contract() -> String {
     format!(
         "RESEARCH CYCLE HANDOFF (REQUIRED FOR THIS EXPLICIT RESEARCH MODE)\nBefore finishing, write exactly one parent-only machine handoff file named `{HANDOFF_FILE}` at the repository root. This is the sole exception to the generic rule against status-report files; it is not a product artifact and Orchestrator removes it before diff validation or publication. Use exactly this single-line format (one field per line, no Markdown):\n{STATE_VERSION}\nhypothesis=<current falsifiable hypothesis, one line>\nexperiment=<bounded experiment/control/ablation actually attempted this cycle, one line>\nevidence_report=<what you observed; state negative, null, inconclusive, blocked, or failed results explicitly, one line>\ndecision=<continue|revise|abandon|blocked>\nnext_action=<best next permitted research action, one line>\nThe evidence_report is an unverified agent report. Never describe it as authoritative CI, hardware, benchmark, or validation evidence unless the parent-provided evidence actually establishes that fact."
     )
+}
+
+fn validate_record(record: &ResearchCycleRecord) -> Result<(), String> {
+    validate_repository(&record.repository)?;
+    validate_issue_number(record.issue_number)?;
+    validate_optional_programme(record.programme.as_deref())?;
+    validate_managed_branch(&record.managed_branch, record.issue_number)?;
+    validate_worker_exit_code(record.worker_exit_code)?;
+    if record.sequence == 0 {
+        return Err("research cycle sequence must be positive".to_owned());
+    }
+    validate_report(&record.report)
+}
+
+fn validate_record_identity(
+    record: &ResearchCycleRecord,
+    repository: &str,
+    issue_number: u64,
+) -> Result<(), String> {
+    validate_record(record)?;
+    if record.repository != repository || record.issue_number != issue_number {
+        return Err("research cycle state identity mismatch".to_owned());
+    }
+    Ok(())
 }
 
 fn validate_report(report: &ResearchCycleReport) -> Result<(), String> {
@@ -289,18 +337,51 @@ fn validate_repository(value: &str) -> Result<(), String> {
     if value.is_empty()
         || value.len() > MAX_REPOSITORY_BYTES
         || value.matches('/').count() != 1
-        || !value.bytes().all(|byte| {
-            byte.is_ascii_alphanumeric() || matches!(byte, b'/' | b'-' | b'_' | b'.')
-        })
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'/' | b'-' | b'_' | b'.'))
     {
         return Err("invalid research cycle repository identity".to_owned());
     }
     Ok(())
 }
 
+fn validate_issue_number(issue_number: u64) -> Result<(), String> {
+    if issue_number == 0 {
+        return Err("research cycle issue number must be positive".to_owned());
+    }
+    Ok(())
+}
+
 fn validate_optional_programme(value: Option<&str>) -> Result<(), String> {
     if let Some(value) = value {
-        validate_bounded_line("programme", value, MAX_PROGRAMME_BYTES)?;
+        if value.is_empty()
+            || value.len() > MAX_PROGRAMME_BYTES
+            || !value.bytes().all(|byte| {
+                byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b'/')
+            })
+        {
+            return Err("invalid research cycle programme identifier".to_owned());
+        }
+    }
+    Ok(())
+}
+
+fn validate_managed_branch(branch: &str, issue_number: u64) -> Result<(), String> {
+    validate_bounded_line("managed branch", branch, MAX_BRANCH_BYTES)?;
+    let prefix = format!("orchestrator/issue-{issue_number}-");
+    let timestamp = branch
+        .strip_prefix(&prefix)
+        .ok_or_else(|| "research cycle managed branch does not match issue identity".to_owned())?;
+    if timestamp.is_empty() || !timestamp.bytes().all(|byte| byte.is_ascii_digit()) {
+        return Err("research cycle managed branch has invalid timestamp".to_owned());
+    }
+    Ok(())
+}
+
+fn validate_worker_exit_code(exit_code: i32) -> Result<(), String> {
+    if !(0..=255).contains(&exit_code) {
+        return Err("research cycle worker exit code is outside shell status range".to_owned());
     }
     Ok(())
 }
@@ -308,22 +389,154 @@ fn validate_optional_programme(value: Option<&str>) -> Result<(), String> {
 fn validate_bounded_line(name: &str, value: &str, maximum: usize) -> Result<(), String> {
     if value.is_empty()
         || value.len() > maximum
-        || value.bytes().any(|byte| matches!(byte, b'\n' | b'\r' | 0))
+        || value.chars().any(char::is_control)
     {
         return Err(format!("invalid or oversized research cycle {name}"));
     }
     Ok(())
 }
 
-fn reject_symlink(path: &Path) -> Result<(), String> {
-    if fs::symlink_metadata(path)
-        .map_err(|error| format!("failed to inspect {}: {error}", path.display()))?
-        .file_type()
-        .is_symlink()
-    {
-        return Err(format!("research cycle state path is a symlink: {}", path.display()));
+fn ensure_child_directory(path: &Path) -> Result<(), String> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) => {
+            if metadata.file_type().is_symlink() || !metadata.is_dir() {
+                return Err(format!(
+                    "research cycle state directory is not a real directory: {}",
+                    path.display()
+                ));
+            }
+            Ok(())
+        }
+        Err(error) if error.kind() == io::ErrorKind::NotFound => fs::create_dir(path)
+            .map_err(|error| format!("failed to create {}: {error}", path.display())),
+        Err(error) => Err(format!("failed to inspect {}: {error}", path.display())),
+    }
+}
+
+fn require_real_directory(path: &Path) -> Result<(), String> {
+    let metadata = fs::symlink_metadata(path)
+        .map_err(|error| format!("failed to inspect {}: {error}", path.display()))?;
+    if metadata.file_type().is_symlink() || !metadata.is_dir() {
+        return Err(format!(
+            "research cycle state root is not a real directory: {}",
+            path.display()
+        ));
     }
     Ok(())
+}
+
+fn load_optional_state(path: &Path) -> Result<Option<ResearchCycleRecord>, String> {
+    let metadata = match fs::symlink_metadata(path) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => return Err(format!("failed to inspect {}: {error}", path.display())),
+    };
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(format!(
+            "research cycle state is not a regular file: {}",
+            path.display()
+        ));
+    }
+    let contents = fs::read_to_string(path)
+        .map_err(|error| format!("failed to read research cycle {}: {error}", path.display()))?;
+    parse_state(&contents)
+        .map(Some)
+        .map_err(|error| format!("invalid research cycle {}: {error}", path.display()))
+}
+
+fn load_highest_history(path: &Path) -> Result<Option<ResearchCycleRecord>, String> {
+    let metadata = match fs::symlink_metadata(path) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => return Err(format!("failed to inspect {}: {error}", path.display())),
+    };
+    if metadata.file_type().is_symlink() || !metadata.is_dir() {
+        return Err(format!(
+            "research cycle history is not a real directory: {}",
+            path.display()
+        ));
+    }
+
+    let mut highest: Option<(u64, PathBuf)> = None;
+    for entry in fs::read_dir(path)
+        .map_err(|error| format!("failed to read {}: {error}", path.display()))?
+    {
+        let entry = entry.map_err(|error| format!("failed to read history entry: {error}"))?;
+        let metadata = entry
+            .file_type()
+            .map_err(|error| format!("failed to inspect history entry: {error}"))?;
+        if !metadata.is_file() || metadata.is_symlink() {
+            return Err(format!(
+                "unexpected non-file research cycle history entry: {}",
+                entry.path().display()
+            ));
+        }
+        let name = entry
+            .file_name()
+            .into_string()
+            .map_err(|_| "research cycle history filename is not UTF-8".to_owned())?;
+        let sequence_text = name
+            .strip_suffix(".state")
+            .ok_or_else(|| format!("unexpected research cycle history filename: {name:?}"))?;
+        if sequence_text.len() != 20 || !sequence_text.bytes().all(|byte| byte.is_ascii_digit()) {
+            return Err(format!("invalid research cycle history filename: {name:?}"));
+        }
+        let sequence = sequence_text
+            .parse::<u64>()
+            .map_err(|error| format!("invalid history sequence {sequence_text}: {error}"))?;
+        if highest.as_ref().is_none_or(|(current, _)| sequence > *current) {
+            highest = Some((sequence, entry.path()));
+        }
+    }
+
+    let Some((filename_sequence, path)) = highest else {
+        return Ok(None);
+    };
+    let record = load_optional_state(&path)?
+        .ok_or_else(|| format!("research cycle history disappeared: {}", path.display()))?;
+    if record.sequence != filename_sequence {
+        return Err(format!(
+            "research cycle history filename/state sequence mismatch: {}",
+            path.display()
+        ));
+    }
+    Ok(Some(record))
+}
+
+fn write_latest_atomically(
+    issue_root: &Path,
+    sequence: u64,
+    serialized: &str,
+) -> Result<(), String> {
+    let latest = issue_root.join("latest.state");
+    if let Ok(metadata) = fs::symlink_metadata(&latest)
+        && metadata.file_type().is_symlink()
+    {
+        return Err(format!(
+            "research cycle latest state is a symlink: {}",
+            latest.display()
+        ));
+    }
+    let temporary = issue_root.join(format!(
+        "latest.state.tmp.{}.{sequence}",
+        std::process::id()
+    ));
+    let mut file = OpenOptions::new()
+        .create_new(true)
+        .write(true)
+        .open(&temporary)
+        .map_err(|error| format!("failed to create {}: {error}", temporary.display()))?;
+    file.write_all(serialized.as_bytes())
+        .map_err(|error| format!("failed to write {}: {error}", temporary.display()))?;
+    file.sync_all()
+        .map_err(|error| format!("failed to sync {}: {error}", temporary.display()))?;
+    fs::rename(&temporary, &latest).map_err(|error| {
+        format!(
+            "failed to atomically replace research cycle {} with {}: {error}",
+            latest.display(),
+            temporary.display()
+        )
+    })
 }
 
 fn hex_encode(value: &str) -> String {
@@ -347,8 +560,8 @@ fn hex_decode(name: &str, value: &str, maximum: usize) -> Result<String, String>
             .map_err(|_| format!("invalid encoded research cycle {name}"))?;
         bytes.push(byte);
     }
-    let decoded = String::from_utf8(bytes)
-        .map_err(|_| format!("invalid UTF-8 research cycle {name}"))?;
+    let decoded =
+        String::from_utf8(bytes).map_err(|_| format!("invalid UTF-8 research cycle {name}"))?;
     validate_bounded_line(name, &decoded, maximum)?;
     Ok(decoded)
 }
@@ -358,7 +571,10 @@ fn serialize_state(record: &ResearchCycleRecord) -> String {
         "{STATE_VERSION}\nrepository_hex={}\nissue_number={}\nprogramme_hex={}\nmanaged_branch_hex={}\nsequence={}\nrecorded_at={}\nworker_exit_code={}\nevidence_authority=agent_report_unverified\nparent_validation=unverified\nhypothesis_hex={}\nexperiment_hex={}\nevidence_report_hex={}\ndecision={}\nnext_action_hex={}\n",
         hex_encode(&record.repository),
         record.issue_number,
-        record.programme.as_deref().map_or_else(String::new, hex_encode),
+        record
+            .programme
+            .as_deref()
+            .map_or_else(String::new, hex_encode),
         hex_encode(&record.managed_branch),
         record.sequence,
         record.recorded_at,
@@ -376,7 +592,7 @@ fn parse_state(contents: &str) -> Result<ResearchCycleRecord, String> {
     if lines.next() != Some(STATE_VERSION) {
         return Err("unsupported research cycle state version".to_owned());
     }
-    let mut fields = std::collections::BTreeMap::new();
+    let mut fields = BTreeMap::new();
     for line in lines {
         if line.is_empty() {
             continue;
@@ -418,35 +634,30 @@ fn parse_state(contents: &str) -> Result<ResearchCycleRecord, String> {
     if take("evidence_authority")? != "agent_report_unverified"
         || take("parent_validation")? != "unverified"
     {
-        return Err("research cycle state attempted to claim unsupported evidence authority".to_owned());
+        return Err(
+            "research cycle state attempted to claim unsupported evidence authority".to_owned(),
+        );
     }
+
     let repository = hex_decode("repository", take("repository_hex")?, MAX_REPOSITORY_BYTES)?;
-    validate_repository(&repository)?;
+    let issue_number = take("issue_number")?
+        .parse::<u64>()
+        .map_err(|error| format!("invalid research cycle issue number: {error}"))?;
     let programme_hex = take("programme_hex")?;
     let programme = if programme_hex.is_empty() {
         None
     } else {
         Some(hex_decode("programme", programme_hex, MAX_PROGRAMME_BYTES)?)
     };
-    let report = ResearchCycleReport {
-        hypothesis: hex_decode("hypothesis", take("hypothesis_hex")?, MAX_TEXT_BYTES)?,
-        experiment: hex_decode("experiment", take("experiment_hex")?, MAX_TEXT_BYTES)?,
-        evidence_report: hex_decode(
-            "evidence_report",
-            take("evidence_report_hex")?,
-            MAX_TEXT_BYTES,
-        )?,
-        decision: ResearchDecision::parse(take("decision")?)?,
-        next_action: hex_decode("next_action", take("next_action_hex")?, MAX_TEXT_BYTES)?,
-    };
-    validate_report(&report)?;
-    Ok(ResearchCycleRecord {
+    let record = ResearchCycleRecord {
         repository,
-        issue_number: take("issue_number")?
-            .parse()
-            .map_err(|error| format!("invalid research cycle issue number: {error}"))?,
+        issue_number,
         programme,
-        managed_branch: hex_decode("managed_branch", take("managed_branch_hex")?, MAX_BRANCH_BYTES)?,
+        managed_branch: hex_decode(
+            "managed_branch",
+            take("managed_branch_hex")?,
+            MAX_BRANCH_BYTES,
+        )?,
         sequence: take("sequence")?
             .parse()
             .map_err(|error| format!("invalid research cycle sequence: {error}"))?,
@@ -456,8 +667,20 @@ fn parse_state(contents: &str) -> Result<ResearchCycleRecord, String> {
         worker_exit_code: take("worker_exit_code")?
             .parse()
             .map_err(|error| format!("invalid research cycle worker_exit_code: {error}"))?,
-        report,
-    })
+        report: ResearchCycleReport {
+            hypothesis: hex_decode("hypothesis", take("hypothesis_hex")?, MAX_TEXT_BYTES)?,
+            experiment: hex_decode("experiment", take("experiment_hex")?, MAX_TEXT_BYTES)?,
+            evidence_report: hex_decode(
+                "evidence_report",
+                take("evidence_report_hex")?,
+                MAX_TEXT_BYTES,
+            )?,
+            decision: ResearchDecision::parse(take("decision")?)?,
+            next_action: hex_decode("next_action", take("next_action_hex")?, MAX_TEXT_BYTES)?,
+        },
+    };
+    validate_record(&record)?;
+    Ok(record)
 }
 
 #[cfg(test)]
@@ -495,8 +718,14 @@ mod tests {
         assert_eq!(parsed.decision, ResearchDecision::Revise);
         assert_eq!(parsed.evidence_report, "null result");
         assert!(parse_handoff("research-cycle-v1\nhypothesis=H1\n").is_err());
-        assert!(parse_handoff("research-cycle-v1\nhypothesis=H1\nhypothesis=H2\nexperiment=x\nevidence_report=y\ndecision=continue\nnext_action=z\n").is_err());
-        assert!(parse_handoff("research-cycle-v1\nhypothesis=H1\nexperiment=x\nevidence_report=y\ndecision=win\nnext_action=z\n").is_err());
+        assert!(
+            parse_handoff("research-cycle-v1\nhypothesis=H1\nhypothesis=H2\nexperiment=x\nevidence_report=y\ndecision=continue\nnext_action=z\n")
+                .is_err()
+        );
+        assert!(
+            parse_handoff("research-cycle-v1\nhypothesis=H1\nexperiment=x\nevidence_report=y\ndecision=win\nnext_action=z\n")
+                .is_err()
+        );
     }
 
     #[test]
@@ -527,9 +756,50 @@ mod tests {
             .unwrap();
         assert_eq!(first.sequence, 1);
         assert_eq!(second.sequence, 2);
-        assert_eq!(store.load_latest("Memorithm/TDI", 87).unwrap(), Some(second));
+        assert_eq!(
+            store.load_latest("Memorithm/TDI", 87).unwrap(),
+            Some(second)
+        );
         let history = root.join("Memorithm__TDI/issue-87/history");
         assert_eq!(fs::read_dir(history).unwrap().count(), 2);
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn history_recovers_interrupted_latest_update() {
+        let root = temporary_root("recover");
+        let store = ResearchCycleStore::new(root.clone());
+        let first = store
+            .append(
+                "Memorithm/ADA",
+                9,
+                Some("ADA-R"),
+                "orchestrator/issue-9-100",
+                100,
+                0,
+                report(ResearchDecision::Continue),
+            )
+            .unwrap();
+        let history_path = root.join("Memorithm__ADA/issue-9/history/00000000000000000002.state");
+        let mut interrupted = first.clone();
+        interrupted.sequence = 2;
+        interrupted.managed_branch = "orchestrator/issue-9-200".to_owned();
+        fs::write(&history_path, serialize_state(&interrupted)).unwrap();
+        let recovered = store.load_latest("Memorithm/ADA", 9).unwrap().unwrap();
+        assert_eq!(recovered.sequence, 2);
+
+        let third = store
+            .append(
+                "Memorithm/ADA",
+                9,
+                Some("ADA-R"),
+                "orchestrator/issue-9-300",
+                300,
+                0,
+                report(ResearchDecision::Revise),
+            )
+            .unwrap();
+        assert_eq!(third.sequence, 3);
         let _ = fs::remove_dir_all(root);
     }
 
@@ -557,6 +827,43 @@ mod tests {
         .unwrap();
         assert!(store.load_latest("Memorithm/TDI", 87).is_err());
         let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn control_characters_and_identity_mismatch_fail_closed() {
+        assert!(
+            parse_handoff("research-cycle-v1\nhypothesis=H1\texploit\nexperiment=x\nevidence_report=y\ndecision=continue\nnext_action=z\n")
+                .is_err()
+        );
+        assert!(validate_managed_branch("orchestrator/issue-8-100", 9).is_err());
+        assert!(validate_worker_exit_code(256).is_err());
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn symlink_state_directory_is_rejected_before_write() {
+        let root = temporary_root("symlink");
+        let outside = temporary_root("outside");
+        fs::create_dir_all(&outside).unwrap();
+        fs::create_dir_all(&root).unwrap();
+        std::os::unix::fs::symlink(&outside, root.join("Memorithm__ADA")).unwrap();
+        let store = ResearchCycleStore::new(root.clone());
+        assert!(
+            store
+                .append(
+                    "Memorithm/ADA",
+                    9,
+                    None,
+                    "orchestrator/issue-9-100",
+                    100,
+                    0,
+                    report(ResearchDecision::Continue),
+                )
+                .is_err()
+        );
+        assert_eq!(fs::read_dir(&outside).unwrap().count(), 0);
+        let _ = fs::remove_dir_all(root);
+        let _ = fs::remove_dir_all(outside);
     }
 
     #[test]
