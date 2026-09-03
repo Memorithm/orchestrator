@@ -1,6 +1,13 @@
+use std::env;
+use std::fs;
 use std::io::{self, Read, Write};
+use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::time::{SystemTime, UNIX_EPOCH};
 
+use orchestrator::research_cycle::{HANDOFF_FILE, ResearchCycleStore};
+
+const REPOSITORY_MARKER: &str = "Repository: ";
 const TASK_MARKER: &str = "Task: ";
 const TITLE_MARKER: &str = "Title:";
 const BODY_MARKER: &str = "GitHub body (may be truncated):";
@@ -10,6 +17,22 @@ const ISSUE_BRANCH_PREFIX: &str = "orchestrator/issue-";
 // bounded Unicode body/CI sections, so keep a conservative bounded envelope
 // above the maximum currently constructible worker prompt.
 const MAX_PROMPT_BYTES: usize = 2 * 1024 * 1024;
+const MAX_HANDOFF_BYTES: u64 = 48 * 1024;
+
+fn canonical_repository(prompt: &str) -> Result<&str, String> {
+    let repository_start = prompt
+        .find(REPOSITORY_MARKER)
+        .ok_or_else(|| "worker prompt is missing the canonical repository field".to_owned())?
+        + REPOSITORY_MARKER.len();
+    let task_offset = prompt[repository_start..]
+        .find(TASK_MARKER)
+        .ok_or_else(|| "worker prompt is missing the canonical task field".to_owned())?;
+    let repository = prompt[repository_start..repository_start + task_offset].trim();
+    if repository.is_empty() {
+        return Err("worker prompt has an empty canonical repository field".to_owned());
+    }
+    Ok(repository)
+}
 
 fn canonical_task(prompt: &str) -> Result<&str, String> {
     let task_start = prompt
@@ -56,7 +79,7 @@ fn issue_body_from_worker_prompt(prompt: &str) -> Result<Option<&str>, String> {
     Ok(Some(prompt[body_start..policy_start].trim()))
 }
 
-fn issue_number_from_managed_branch() -> Result<u64, String> {
+fn managed_branch() -> Result<String, String> {
     let output = Command::new("git")
         .args(["branch", "--show-current"])
         .output()
@@ -67,9 +90,12 @@ fn issue_number_from_managed_branch() -> Result<u64, String> {
             String::from_utf8_lossy(&output.stderr).trim()
         ));
     }
-    let branch = String::from_utf8(output.stdout)
-        .map_err(|error| format!("managed issue branch is not UTF-8: {error}"))?;
-    let branch = branch.trim();
+    String::from_utf8(output.stdout)
+        .map(|branch| branch.trim().to_owned())
+        .map_err(|error| format!("managed issue branch is not UTF-8: {error}"))
+}
+
+fn issue_number_from_branch(branch: &str) -> Result<u64, String> {
     let suffix = branch.strip_prefix(ISSUE_BRANCH_PREFIX).ok_or_else(|| {
         format!("research-enabled ISSUE is not on a managed issue branch: {branch:?}")
     })?;
@@ -88,6 +114,13 @@ fn issue_number_from_managed_branch() -> Result<u64, String> {
         .map_err(|error| format!("managed issue number is invalid: {error}"))
 }
 
+fn cycle_store() -> Result<ResearchCycleStore, String> {
+    let root = env::var_os("ORCHESTRATOR_DATA_ROOT")
+        .map(PathBuf::from)
+        .ok_or_else(|| "ORCHESTRATOR_DATA_ROOT is required for research cycle state".to_owned())?;
+    Ok(ResearchCycleStore::new(root.join("state/research-cycles")))
+}
+
 fn transform_worker_prompt(prompt: &str, issue_number: u64) -> Result<String, String> {
     let Some(body) = issue_body_from_worker_prompt(prompt)? else {
         return Ok(prompt.to_owned());
@@ -96,7 +129,32 @@ fn transform_worker_prompt(prompt: &str, issue_number: u64) -> Result<String, St
         .map_err(|error| format!("autonomous research directive rejected: {error}"))
 }
 
-fn run() -> Result<(), String> {
+fn transform_with_cycle_state(prompt: &str) -> Result<String, String> {
+    let Some(body) = issue_body_from_worker_prompt(prompt)? else {
+        return Ok(prompt.to_owned());
+    };
+    let Some(directive) = orchestrator::research::parse_issue_directive(body)
+        .map_err(|error| format!("autonomous research directive rejected: {error}"))?
+    else {
+        return Ok(prompt.to_owned());
+    };
+
+    let repository = canonical_repository(prompt)?;
+    let branch = managed_branch()?;
+    let issue_number = issue_number_from_branch(&branch)?;
+    let mut transformed = transform_worker_prompt(prompt, issue_number)?;
+    if let Some(previous) = cycle_store()?.load_latest(repository, issue_number)? {
+        transformed.push_str("\n\n");
+        transformed.push_str(&previous.continuation_context());
+    }
+    transformed.push_str("\n\n");
+    transformed.push_str(&orchestrator::research_cycle::handoff_contract());
+    transformed.push_str("\nProgramme binding: ");
+    transformed.push_str(directive.programme().unwrap_or("(unspecified)"));
+    Ok(transformed)
+}
+
+fn read_prompt() -> Result<String, String> {
     let mut input = Vec::new();
     io::stdin()
         .take((MAX_PROMPT_BYTES + 1) as u64)
@@ -107,32 +165,122 @@ fn run() -> Result<(), String> {
             "worker prompt exceeds research bridge limit of {MAX_PROMPT_BYTES} bytes"
         ));
     }
-    let prompt = String::from_utf8(input)
-        .map_err(|error| format!("worker prompt is not valid UTF-8: {error}"))?;
+    String::from_utf8(input).map_err(|error| format!("worker prompt is not valid UTF-8: {error}"))
+}
 
-    let Some(body) = issue_body_from_worker_prompt(&prompt)? else {
-        io::stdout()
-            .write_all(prompt.as_bytes())
-            .map_err(|error| format!("failed to write worker prompt: {error}"))?;
+fn write_prompt(prompt: &str) -> Result<(), String> {
+    io::stdout()
+        .write_all(prompt.as_bytes())
+        .map_err(|error| format!("failed to write worker prompt: {error}"))
+}
+
+fn remove_reserved_handoff(path: &Path) -> Result<(), String> {
+    match fs::remove_file(path) {
+        Ok(()) => Ok(()),
+        Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(format!(
+            "failed to remove reserved research handoff {}: {error}",
+            path.display()
+        )),
+    }
+}
+
+fn record_cycle(prompt: &str, worker_exit_code: i32) -> Result<(), String> {
+    let handoff_path = env::current_dir()
+        .map_err(|error| format!("failed to inspect research workspace: {error}"))?
+        .join(HANDOFF_FILE);
+    let Some(body) = issue_body_from_worker_prompt(prompt)? else {
+        if handoff_path.exists() {
+            remove_reserved_handoff(&handoff_path)?;
+            return Err("non-ISSUE worker attempted to create reserved research handoff".to_owned());
+        }
         return Ok(());
     };
-    match orchestrator::research::parse_issue_directive(body)
-        .map_err(|error| format!("autonomous research directive rejected: {error}"))?
-    {
-        None => {
-            io::stdout()
-                .write_all(prompt.as_bytes())
-                .map_err(|error| format!("failed to write worker prompt: {error}"))?;
-            Ok(())
+    let directive = orchestrator::research::parse_issue_directive(body)
+        .map_err(|error| format!("autonomous research directive rejected: {error}"))?;
+    let Some(directive) = directive else {
+        if handoff_path.exists() {
+            remove_reserved_handoff(&handoff_path)?;
+            return Err("ordinary ISSUE attempted to create reserved research handoff".to_owned());
         }
-        Some(_) => {
-            let issue_number = issue_number_from_managed_branch()?;
-            let transformed = transform_worker_prompt(&prompt, issue_number)?;
-            io::stdout()
-                .write_all(transformed.as_bytes())
-                .map_err(|error| format!("failed to write transformed worker prompt: {error}"))?;
-            Ok(())
+        return Ok(());
+    };
+
+    if !handoff_path.exists() {
+        if worker_exit_code == 0 {
+            return Err(format!(
+                "research worker completed without required parent-only handoff {HANDOFF_FILE}"
+            ));
         }
+        return Ok(());
+    }
+    let metadata = fs::symlink_metadata(&handoff_path).map_err(|error| {
+        format!(
+            "failed to inspect reserved research handoff {}: {error}",
+            handoff_path.display()
+        )
+    })?;
+    if !metadata.file_type().is_file() || metadata.file_type().is_symlink() {
+        remove_reserved_handoff(&handoff_path)?;
+        return Err("reserved research handoff must be a regular non-symlink file".to_owned());
+    }
+    if metadata.len() > MAX_HANDOFF_BYTES {
+        remove_reserved_handoff(&handoff_path)?;
+        return Err(format!(
+            "reserved research handoff exceeds {MAX_HANDOFF_BYTES} bytes"
+        ));
+    }
+    let contents = fs::read_to_string(&handoff_path).map_err(|error| {
+        format!(
+            "failed to read reserved research handoff {}: {error}",
+            handoff_path.display()
+        )
+    });
+    remove_reserved_handoff(&handoff_path)?;
+    let report = orchestrator::research_cycle::parse_handoff(&contents?)?;
+    let repository = canonical_repository(prompt)?;
+    let branch = managed_branch()?;
+    let issue_number = issue_number_from_branch(&branch)?;
+    let recorded_at = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_err(|error| format!("system clock is before UNIX epoch: {error}"))?
+        .as_secs();
+    let record = cycle_store()?.append(
+        repository,
+        issue_number,
+        directive.programme(),
+        &branch,
+        recorded_at,
+        worker_exit_code,
+        report,
+    )?;
+    eprintln!(
+        "orchestrator research cycle: recorded unverified agent report sequence={} repository={} issue=#{}",
+        record.sequence, record.repository, record.issue_number
+    );
+    Ok(())
+}
+
+fn run_transform() -> Result<(), String> {
+    let prompt = read_prompt()?;
+    let transformed = transform_with_cycle_state(&prompt)?;
+    write_prompt(&transformed)
+}
+
+fn run_record(exit_code: &str) -> Result<(), String> {
+    let worker_exit_code = exit_code
+        .parse::<i32>()
+        .map_err(|error| format!("invalid worker exit code {exit_code:?}: {error}"))?;
+    let prompt = read_prompt()?;
+    record_cycle(&prompt, worker_exit_code)
+}
+
+fn run() -> Result<(), String> {
+    let mut args = env::args().skip(1);
+    match (args.next().as_deref(), args.next(), args.next()) {
+        (None, None, None) | (Some("transform"), None, None) => run_transform(),
+        (Some("record"), Some(exit_code), None) => run_record(&exit_code),
+        _ => Err("usage: orchestrator-research-prompt [transform|record <worker-exit-code>]".to_owned()),
     }
 }
 
@@ -155,6 +303,23 @@ mod tests {
 
     fn issue_prompt(body: &str) -> String {
         issue_prompt_with_policy(body, "policy")
+    }
+
+    #[test]
+    fn canonical_repository_is_bound_before_untrusted_title_and_body() {
+        let prompt = "Repository: Memorithm/RealTask: FIX_CITitle: Repository: Memorithm/FakeTask: ISSUE";
+        assert_eq!(canonical_repository(prompt).unwrap(), "Memorithm/Real");
+        assert_eq!(canonical_task(prompt).unwrap(), "FIX_CI");
+    }
+
+    #[test]
+    fn managed_branch_parser_is_strict() {
+        assert_eq!(
+            issue_number_from_branch("orchestrator/issue-58-1788420000").unwrap(),
+            58
+        );
+        assert!(issue_number_from_branch("feature/issue-58-1788420000").is_err());
+        assert!(issue_number_from_branch("orchestrator/issue-x-1788420000").is_err());
     }
 
     #[test]
