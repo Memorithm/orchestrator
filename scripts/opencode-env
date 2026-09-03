@@ -34,6 +34,51 @@ export OPENCODE_PURE=1
 
 mkdir -p "$OPENCODE_CONFIG_DIR"
 
+budget_value_is_safe() {
+  [[ "$1" =~ ^[1-9][0-9]{0,8}$ ]]
+}
+
+budget_min() {
+  local left="$1"
+  local right="$2"
+  if (( left <= right )); then
+    printf '%s' "$left"
+  else
+    printf '%s' "$right"
+  fi
+}
+
+apply_research_resource_budget() {
+  local general_tools="${ORCHESTRATOR_GENERAL_MAX_TOOLS:-96}"
+  local general_idle="${ORCHESTRATOR_GENERAL_IDLE_SECS:-600}"
+  local general_secs="${ORCHESTRATOR_GENERAL_MAX_SECS:-5400}"
+  local research_tools="${ORCHESTRATOR_RESEARCH_MAX_TOOLS:-48}"
+  local research_idle="${ORCHESTRATOR_RESEARCH_IDLE_SECS:-420}"
+  local research_secs="${ORCHESTRATOR_RESEARCH_MAX_SECS:-2700}"
+  local value
+
+  for value in \
+    "$general_tools" \
+    "$general_idle" \
+    "$general_secs" \
+    "$research_tools" \
+    "$research_idle" \
+    "$research_secs"; do
+    if ! budget_value_is_safe "$value"; then
+      printf 'orchestrator opencode environment: invalid bounded research budget value: %s\n' "$value" >&2
+      return 70
+    fi
+  done
+
+  export ORCHESTRATOR_GENERAL_MAX_TOOLS="$(budget_min "$general_tools" "$research_tools")"
+  export ORCHESTRATOR_GENERAL_IDLE_SECS="$(budget_min "$general_idle" "$research_idle")"
+  export ORCHESTRATOR_GENERAL_MAX_SECS="$(budget_min "$general_secs" "$research_secs")"
+  printf 'orchestrator research budget: tools=%s idle_secs=%s max_secs=%s\n' \
+    "$ORCHESTRATOR_GENERAL_MAX_TOOLS" \
+    "$ORCHESTRATOR_GENERAL_IDLE_SECS" \
+    "$ORCHESTRATOR_GENERAL_MAX_SECS" >&2
+}
+
 # Autonomous research is a parent-side prompt/state transformation. Intercept
 # only the exact autonomous argv shape emitted by Rust. Doctor/self-test and
 # unsupported invocations retain the historical delegation contract and are
@@ -62,6 +107,15 @@ if [[ "$#" -eq 4 && "${1:-}" == "run" && "${2:-}" == "--auto" && "${3:-}" == "--
     printf 'orchestrator opencode environment: research prompt validation failed\n' >&2
     exit "$status"
   }
+
+  # The Rust helper returns ordinary work byte-identically and changes the
+  # prompt only after a valid explicit autonomous-research directive. Resource
+  # limits therefore follow the helper's policy-safe classification rather than
+  # re-parsing repository-controlled prose in shell. Research can only narrow
+  # the generic watchdog envelope; it can never expand it.
+  if [[ "$transformed_prompt" != "$agent_prompt" ]]; then
+    apply_research_resource_budget || exit $?
+  fi
 
   # Do not exec here: the parent-side bridge must consume and remove the
   # reserved research handoff after the worker exits, before Rust inspects the
