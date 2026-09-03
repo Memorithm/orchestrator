@@ -34,13 +34,11 @@ export OPENCODE_PURE=1
 
 mkdir -p "$OPENCODE_CONFIG_DIR"
 
-# Autonomous research is a parent-side prompt transformation. The helper is a
-# dependency-free Rust binary built from the same versioned parser used by the
-# Orchestrator research contract. It receives only the already-constructed
-# worker prompt on stdin; it has no Git/GitHub mutation authority. Non-ISSUE
-# prompts are returned byte-for-byte unchanged. A malformed reserved directive
-# fails before the OpenCode core or model is launched.
-if [[ "${1:-}" == "run" ]]; then
+# Autonomous research is a parent-side prompt transformation. Intercept only
+# the exact autonomous argv shape emitted by Rust. Doctor/self-test/unsupported
+# invocations retain the historical delegation contract and are validated by
+# the core wrapper itself.
+if [[ "$#" -eq 4 && "${1:-}" == "run" && "${2:-}" == "--auto" && "${3:-}" == "--model" ]]; then
   if [[ -t 0 ]]; then
     printf 'orchestrator opencode environment: refusing TTY stdin for autonomous run\n' >&2
     exit 2
