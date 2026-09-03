@@ -134,11 +134,52 @@ impl fmt::Display for ResearchDirectiveError {
 
 impl std::error::Error for ResearchDirectiveError {}
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct MarkdownFence {
+    marker: u8,
+    length: usize,
+}
+
+fn markdown_indented_code(raw_line: &str) -> bool {
+    raw_line.starts_with('\t') || raw_line.bytes().take_while(|byte| *byte == b' ').count() >= 4
+}
+
+fn markdown_fence_open(raw_line: &str) -> Option<MarkdownFence> {
+    let leading_spaces = raw_line.bytes().take_while(|byte| *byte == b' ').count();
+    if leading_spaces > 3 {
+        return None;
+    }
+    let candidate = &raw_line[leading_spaces..];
+    let marker = *candidate.as_bytes().first()?;
+    if !matches!(marker, b'`' | b'~') {
+        return None;
+    }
+    let length = candidate
+        .bytes()
+        .take_while(|byte| *byte == marker)
+        .count();
+    (length >= 3).then_some(MarkdownFence { marker, length })
+}
+
+fn markdown_fence_close(raw_line: &str, fence: MarkdownFence) -> bool {
+    let leading_spaces = raw_line.bytes().take_while(|byte| *byte == b' ').count();
+    if leading_spaces > 3 {
+        return false;
+    }
+    let candidate = &raw_line[leading_spaces..];
+    let marker_count = candidate
+        .bytes()
+        .take_while(|byte| *byte == fence.marker)
+        .count();
+    marker_count >= fence.length && candidate[marker_count..].trim().is_empty()
+}
+
 /// Parse an issue body for an explicit autonomous-research opt-in.
 ///
 /// Only whole trimmed HTML-comment lines in the reserved namespace are
-/// machine directives. Mentions in prose, quoted examples and arbitrary
-/// substrings do not grant authority. The currently supported form is:
+/// machine directives. Mentions in prose, block quotes, fenced/indented code
+/// examples and arbitrary substrings do not grant authority. The currently
+/// supported form is:
 ///
 /// `<!-- orchestrator-research-mode: autonomous-v1 -->`
 ///
@@ -150,13 +191,29 @@ pub fn parse_issue_directive(
 ) -> Result<Option<ResearchDirective>, ResearchDirectiveError> {
     let mut mode = None;
     let mut programme = None;
+    let mut fence = None;
 
     for (zero_indexed, raw_line) in body.lines().enumerate() {
         let line_number = zero_indexed + 1;
+
+        if let Some(active_fence) = fence {
+            if markdown_fence_close(raw_line, active_fence) {
+                fence = None;
+            }
+            continue;
+        }
+        if markdown_indented_code(raw_line) {
+            continue;
+        }
+        if let Some(opened_fence) = markdown_fence_open(raw_line) {
+            fence = Some(opened_fence);
+            continue;
+        }
+
         let line = raw_line.trim();
 
         // A normal prose mention is deliberately inert. Only a whole comment
-        // line enters the reserved machine-directive parser.
+        // line outside Markdown code enters the reserved machine parser.
         if !line.starts_with("<!-- orchestrator-research-") {
             continue;
         }
@@ -255,6 +312,26 @@ mod tests {
         let body =
             "Please document <!-- orchestrator-research-mode: autonomous-v1 --> as an example.";
         assert_eq!(parse_issue_directive(body), Ok(None));
+    }
+
+    #[test]
+    fn markdown_code_examples_never_grant_research_authority() {
+        let fenced = "```text\n<!-- orchestrator-research-mode: autonomous-v1 -->\n```\n";
+        assert_eq!(parse_issue_directive(fenced), Ok(None));
+
+        let tilde_fenced = "~~~\n<!-- orchestrator-research-mode: autonomous-v1 -->\n~~~\n";
+        assert_eq!(parse_issue_directive(tilde_fenced), Ok(None));
+
+        let indented = "    <!-- orchestrator-research-mode: autonomous-v1 -->\n";
+        assert_eq!(parse_issue_directive(indented), Ok(None));
+    }
+
+    #[test]
+    fn directive_after_closed_fence_is_active() {
+        let body = "```text\n<!-- orchestrator-research-mode: autonomous-v1 -->\n```\n<!-- orchestrator-research-mode: autonomous-v1 -->\n";
+        assert!(parse_issue_directive(body)
+            .expect("valid outside directive")
+            .is_some());
     }
 
     #[test]
