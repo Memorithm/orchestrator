@@ -198,21 +198,56 @@ fn truncate_chars(value: &str, maximum: usize) -> String {
     }
 }
 
+// Fast chunk-based JSON string escaping for trajectory journal log events.
 fn json_escape(value: &str) -> String {
-    let mut escaped = String::with_capacity(value.len());
-    for character in value.chars() {
-        match character {
-            '"' => escaped.push_str("\\\""),
-            '\\' => escaped.push_str("\\\\"),
-            '\n' => escaped.push_str("\\n"),
-            '\r' => escaped.push_str("\\r"),
-            '\t' => escaped.push_str("\\t"),
-            character if character.is_control() => {
+    // Pre-allocate buffer capacity to avoid string reallocations when characters are escaped.
+    let mut escaped = String::with_capacity(value.len().saturating_add(value.len() / 8));
+    let mut start = 0;
+    let bytes = value.as_bytes();
+    let mut i = 0;
+
+    while i < bytes.len() {
+        let byte = bytes[i];
+        if byte < 0x80 {
+            let replacement = match byte {
+                b'"' => "\\\"",
+                b'\\' => "\\\\",
+                b'\n' => "\\n",
+                b'\r' => "\\r",
+                b'\t' => "\\t",
+                _ if byte < 0x20 || byte == 0x7F => {
+                    escaped.push_str(&value[start..i]);
+                    use std::fmt::Write as _;
+                    let _ = write!(escaped, "\\u{:04x}", byte);
+                    start = i + 1;
+                    i += 1;
+                    continue;
+                }
+                _ => {
+                    i += 1;
+                    continue;
+                }
+            };
+            escaped.push_str(&value[start..i]);
+            escaped.push_str(replacement);
+            start = i + 1;
+            i += 1;
+        } else {
+            // Multi-byte UTF-8 sequence
+            let ch = value[i..].chars().next().unwrap();
+            let len = ch.len_utf8();
+            if ch.is_control() {
+                escaped.push_str(&value[start..i]);
                 use std::fmt::Write as _;
-                let _ = write!(escaped, "\\u{:04x}", u32::from(character));
+                let _ = write!(escaped, "\\u{:04x}", u32::from(ch));
+                start = i + len;
             }
-            character => escaped.push(character),
+            i += len;
         }
+    }
+
+    if start < value.len() {
+        escaped.push_str(&value[start..]);
     }
     escaped
 }
@@ -249,6 +284,33 @@ mod tests {
     #[test]
     fn json_escape_handles_log_control_characters() {
         assert_eq!(json_escape("a\"b\\c\nd\te"), "a\\\"b\\\\c\\nd\\te");
+    }
+
+    #[test]
+    fn json_escape_comprehensive_cases() {
+        // Empty string
+        assert_eq!(json_escape(""), "");
+
+        // No characters requiring escaping
+        assert_eq!(json_escape("hello world 123"), "hello world 123");
+
+        // Quotes, backslashes, standard whitespace escapes
+        assert_eq!(
+            json_escape("quote: \" slash: \\ newline: \n carriage: \r tab: \t"),
+            "quote: \\\" slash: \\\\ newline: \\n carriage: \\r tab: \\t"
+        );
+
+        // ASCII control character (\x00, \x01, \x1f, \x7f)
+        assert_eq!(
+            json_escape("\x00\x01\x1f\x7f"),
+            "\\u0000\\u0001\\u001f\\u007f"
+        );
+
+        // Multi-byte UTF-8 non-control chars (e.g., German umlaut, Emoji, CJK)
+        assert_eq!(
+            json_escape("Hello 🌍, 🚀, Über, 世界"),
+            "Hello 🌍, 🚀, Über, 世界"
+        );
     }
 
     #[test]
