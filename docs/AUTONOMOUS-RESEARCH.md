@@ -53,6 +53,23 @@ Target-repository policy remains authoritative and is resolved by Orchestrator b
 
 If the scientifically preferred next action is gated, the agent should advance the best permitted precursor or report the exact blocker. It must not infer authorization from the research-mode directive.
 
+## Roadmap dependency contract
+
+ORCH9g defines a strict machine-readable roadmap section for cross-repository research prerequisites. Dependencies are never inferred from prose, agent reports, repository names mentioned in documentation, CI labels or benchmark output.
+
+```yaml
+research_dependencies:
+  schema_version: 1
+  requires:
+    - programme: TDI-8
+      repository: Memorithm/SciRust
+      merged_commit: 0123456789abcdef0123456789abcdef01234567
+```
+
+Each requirement binds one exact autonomous-research programme to one provider repository and one full Git object identifier that the parent scheduler must eventually prove reachable from the provider's current default branch. The parser accepts only the versioned top-level section, bounds the number of requirements, rejects duplicate requirements and fails closed on malformed programme identifiers, repository identities, commits, indentation or unknown fields.
+
+The declaration is a requested scheduling prerequisite, not proof that the commit is merged. Repository-controlled roadmap text, the research agent and persisted research-cycle reports cannot self-attest satisfaction. ORCH9g deliberately defines only the reusable contract; the following scheduler slice must resolve these declarations through parent-owned GitHub state and defer research work when a prerequisite cannot be proved. Until that resolver is wired, projects should not rely on this section as an enforced execution gate.
+
 ## Project-manager model
 
 The intended operating split is:
@@ -74,4 +91,4 @@ ONE REVIEWABLE PR -> VALIDATION -> CI -> MERGE GATES
                   +------> next permitted research slice
 ```
 
-This first ORCH9 slice defines the explicit versioned contract. Subsequent slices wire the directive into issue mission generation, persist research decisions/evidence across cycles, add bounded research budgets and then make dependency-aware research scheduling a first-class Orchestrator capability.
+The ORCH9 programme now has explicit opt-in and mission generation, durable research-cycle state, bounded research budgets, state-derived cycle guidance, structured research-line identity and the roadmap dependency contract above. The next slice is parent-owned dependency resolution and scheduling; it must preserve every existing policy, validation, CI, hardware-evidence, publication and exact-head merge gate.
