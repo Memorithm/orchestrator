@@ -1,6 +1,6 @@
 use std::process::Command;
 
-use orchestrator::research_dependency::{
+use orchestrator::research_eval::{
     ProviderComparison, UnresolvedProviderDependency, default_history_satisfies,
     selected_requirements, valid_object_id,
 };
