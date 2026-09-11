@@ -204,9 +204,7 @@ fn finish_requirement(
 
     let (programme, programme_line) = pending
         .programme
-        .ok_or(ResearchDependencyError::MissingRequirementField {
-            field: "programme",
-        })?;
+        .ok_or(ResearchDependencyError::MissingRequirementField { field: "programme" })?;
     let (repository, repository_line) =
         pending
             .repository
