@@ -3,9 +3,7 @@ use std::fmt;
 use std::io::{self, Read};
 use std::process::Command;
 
-use orchestrator::research_dependency::{
-    ResearchDependency, parse_roadmap_research_dependencies,
-};
+use orchestrator::research_dependency::{ResearchDependency, parse_roadmap_research_dependencies};
 
 const TASK_MARKER: &str = "Task: ";
 const TITLE_MARKER: &str = "Title:";
