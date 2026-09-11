@@ -83,7 +83,9 @@ For each requirement matching the exact research programme, the parent resolver:
 
 A declaration is therefore never self-attesting. `behind`, `diverged`, unknown comparison states, malformed provider metadata and GitHub/API failures do not count as success. Infrastructure failures remain fail-closed. If a valid prerequisite is not yet on the provider's default-branch history, the OpenCode worker is not started and no research-cycle handoff is recorded.
 
-This slice intentionally does not yet claim a first-class scheduler `deferred` outcome. At the OpenCode bridge boundary an unresolved provider prerequisite becomes a safe no-op so existing parent code observes an unchanged workspace. A following scheduler integration must promote that condition to an explicit durable defer reason, carry provider/commit identity into trajectory state, and revalidate dependencies before publication if the policy snapshot or provider state changes.
+ORCH9i promotes that condition to a first-class scheduler `deferred` outcome. The parent issue worker evaluates the same parent-resolved policy snapshot and live GitHub default-branch comparison before launching the coding agent. An unresolved prerequisite records a non-failure trajectory detail that names the programme, provider repository, required commit, observed default head, compare status and consumer policy identity. The OpenCode bridge remains defense-in-depth: it still refuses to start the worker, but the scheduler no longer treats the skip as an ordinary no-change success.
+
+The same gate is revalidated before a PREPARED publication is pushed and again before PR creation. If the provider falls off the default-branch history after a local commit already exists, Orchestrator keeps the PREPARED transaction and defers without remote mutation. If the branch is already PUSHED when the prerequisite regresses, the transaction is retained fail-closed for manual review instead of opening a stale PR. Policy, validation, CI, hardware-evidence, financial, credential and exact-head merge gates remain unchanged.
 
 ## Project-manager model
 
@@ -106,4 +108,4 @@ ONE REVIEWABLE PR -> VALIDATION -> CI -> MERGE GATES
                   +------> next permitted research slice
 ```
 
-The ORCH9 programme now has explicit opt-in and mission generation, durable research-cycle state, bounded research budgets, state-derived cycle guidance, structured research-line identity, a strict roadmap dependency contract and parent-owned pre-worker provider resolution. The next slice is first-class scheduler deferral and durable dependency evidence/revalidation; every existing policy, validation, CI, hardware-evidence, publication and exact-head merge gate remains authoritative.
+The ORCH9 programme now has explicit opt-in and mission generation, durable research-cycle state, bounded research budgets, state-derived cycle guidance, structured research-line identity, a strict roadmap dependency contract, parent-owned pre-worker provider resolution, first-class scheduler deferral and publication-time dependency revalidation. Later slices may add richer cross-repository scheduling; every existing policy, validation, CI, hardware-evidence, publication and exact-head merge gate remains authoritative.

@@ -131,9 +131,10 @@ if [[ "$#" -eq 4 && "${1:-}" == "run" && "${2:-}" == "--auto" && "${3:-}" == "--
       0)
         ;;
       75)
-        # Do not launch or record a research cycle when a provider prerequisite
-        # is not yet merged. Returning success preserves the existing parent
-        # no-change path; first-class scheduler deferral is a separate slice.
+        # Defense in depth: the parent scheduler now records a first-class
+        # deferred outcome before this bridge runs. If the worker is still
+        # invoked, do not launch or record a research cycle. Returning success
+        # keeps the workspace unchanged for any residual caller.
         printf 'orchestrator opencode environment: autonomous research skipped because a provider dependency is unresolved\n' >&2
         exit 0
         ;;
