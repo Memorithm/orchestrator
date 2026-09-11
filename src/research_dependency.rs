@@ -9,7 +9,7 @@ use core::fmt;
 use std::collections::BTreeSet;
 
 const SECTION: &str = "research_dependencies:";
-const SCHEMA_VERSION: u8 = 1;
+const SCHEMA_VERSION: &str = "1";
 const MAX_REQUIREMENTS: usize = 64;
 const MAX_PROGRAMME_BYTES: usize = 128;
 const MAX_REPOSITORY_BYTES: usize = 256;
@@ -90,13 +90,19 @@ impl fmt::Display for ResearchDependencyError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::DuplicateSection { line } => {
-                write!(formatter, "duplicate research_dependencies section on line {line}")
+                write!(
+                    formatter,
+                    "duplicate research_dependencies section on line {line}"
+                )
             }
             Self::TabIndentation { line } => {
                 write!(formatter, "tab indentation is not allowed on line {line}")
             }
             Self::MalformedField { line } => {
-                write!(formatter, "malformed research dependency field on line {line}")
+                write!(
+                    formatter,
+                    "malformed research dependency field on line {line}"
+                )
             }
             Self::UnknownField { line, field } => write!(
                 formatter,
@@ -121,10 +127,16 @@ impl fmt::Display for ResearchDependencyError {
                 "research dependency plan exceeds {MAX_REQUIREMENTS} requirements on line {line}"
             ),
             Self::MissingRequirementField { field } => {
-                write!(formatter, "research dependency requirement is missing {field}")
+                write!(
+                    formatter,
+                    "research dependency requirement is missing {field}"
+                )
             }
             Self::InvalidProgramme { line } => {
-                write!(formatter, "invalid research programme identifier on line {line}")
+                write!(
+                    formatter,
+                    "invalid research programme identifier on line {line}"
+                )
             }
             Self::InvalidRepository { line } => {
                 write!(formatter, "invalid dependency repository on line {line}")
@@ -133,7 +145,10 @@ impl fmt::Display for ResearchDependencyError {
                 write!(formatter, "invalid dependency commit on line {line}")
             }
             Self::DuplicateRequirement { line } => {
-                write!(formatter, "duplicate research dependency requirement on line {line}")
+                write!(
+                    formatter,
+                    "duplicate research dependency requirement on line {line}"
+                )
             }
         }
     }
@@ -187,17 +202,23 @@ fn finish_requirement(
         return Err(ResearchDependencyError::TooManyRequirements { line });
     }
 
-    let (programme, programme_line) = pending.programme.ok_or(
-        ResearchDependencyError::MissingRequirementField { field: "programme" },
-    )?;
-    let (repository, repository_line) = pending.repository.ok_or(
-        ResearchDependencyError::MissingRequirementField { field: "repository" },
-    )?;
-    let (merged_commit, commit_line) = pending.merged_commit.ok_or(
-        ResearchDependencyError::MissingRequirementField {
-            field: "merged_commit",
-        },
-    )?;
+    let (programme, programme_line) = pending
+        .programme
+        .ok_or(ResearchDependencyError::MissingRequirementField {
+            field: "programme",
+        })?;
+    let (repository, repository_line) =
+        pending
+            .repository
+            .ok_or(ResearchDependencyError::MissingRequirementField {
+                field: "repository",
+            })?;
+    let (merged_commit, commit_line) =
+        pending
+            .merged_commit
+            .ok_or(ResearchDependencyError::MissingRequirementField {
+                field: "merged_commit",
+            })?;
 
     if !valid_programme(&programme) {
         return Err(ResearchDependencyError::InvalidProgramme {
@@ -284,12 +305,7 @@ pub fn parse_roadmap_research_dependencies(
         let indent = raw_line.len() - raw_line.trim_start_matches(' ').len();
 
         if indent == 0 {
-            finish_requirement(
-                &mut pending,
-                &mut requirements,
-                &mut seen,
-                line_number,
-            )?;
+            finish_requirement(&mut pending, &mut requirements, &mut seen, line_number)?;
             in_section = false;
             in_requires = false;
             if raw_line == SECTION {
@@ -299,12 +315,7 @@ pub fn parse_roadmap_research_dependencies(
         }
 
         if indent == 2 {
-            finish_requirement(
-                &mut pending,
-                &mut requirements,
-                &mut seen,
-                line_number,
-            )?;
+            finish_requirement(&mut pending, &mut requirements, &mut seen, line_number)?;
             in_requires = false;
             let (key, value) = split_field(trimmed, line_number)?;
             match key {
@@ -315,7 +326,7 @@ pub fn parse_roadmap_research_dependencies(
                             field: key.to_owned(),
                         });
                     }
-                    if value != SCHEMA_VERSION.to_string() {
+                    if value != SCHEMA_VERSION {
                         return Err(ResearchDependencyError::UnsupportedSchemaVersion {
                             line: line_number,
                             version: value.to_owned(),
@@ -354,12 +365,7 @@ pub fn parse_roadmap_research_dependencies(
             let item = trimmed
                 .strip_prefix("- ")
                 .ok_or(ResearchDependencyError::MalformedField { line: line_number })?;
-            finish_requirement(
-                &mut pending,
-                &mut requirements,
-                &mut seen,
-                line_number,
-            )?;
+            finish_requirement(&mut pending, &mut requirements, &mut seen, line_number)?;
             let (key, value) = split_field(item, line_number)?;
             if key != "programme" {
                 return Err(ResearchDependencyError::UnknownField {
@@ -432,7 +438,8 @@ fn valid_programme(value: &str) -> bool {
 }
 
 fn valid_repository(value: &str) -> bool {
-    if value.is_empty() || value.len() > MAX_REPOSITORY_BYTES || value.chars().any(char::is_control) {
+    if value.is_empty() || value.len() > MAX_REPOSITORY_BYTES || value.chars().any(char::is_control)
+    {
         return false;
     }
     let mut parts = value.split('/');
@@ -455,7 +462,7 @@ fn valid_commit(value: &str) -> bool {
     matches!(value.len(), 40 | 64)
         && value
             .bytes()
-            .all(|byte| byte.is_ascii_digit() || matches!(byte, b'a'..=b'f'))
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
 #[cfg(test)]
@@ -517,9 +524,7 @@ mod tests {
     #[test]
     fn malformed_or_unsupported_section_fails_closed() {
         assert_eq!(
-            parse_roadmap_research_dependencies(
-                "research_dependencies:\n  requires:\n"
-            ),
+            parse_roadmap_research_dependencies("research_dependencies:\n  requires:\n"),
             Err(ResearchDependencyError::MissingSchemaVersion)
         );
         assert!(matches!(
