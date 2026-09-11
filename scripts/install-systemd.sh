@@ -13,6 +13,17 @@ ENV_PATH="/etc/${SERVICE_NAME}.env"
 RUNTIME_DATA="/root/.local/share/memorithm-orchestrator"
 RUNTIME_HOME="$RUNTIME_DATA/runtime-home"
 CARGO_HOME_PATH="$RUNTIME_DATA/cargo-home"
+INSTALL_AUTO_MERGE="${ORCHESTRATOR_INSTALL_AUTO_MERGE:-0}"
+INSTALL_INTERVAL_SECS="${ORCHESTRATOR_INSTALL_INTERVAL_SECS:-180}"
+
+if [[ "$INSTALL_AUTO_MERGE" != "0" && "$INSTALL_AUTO_MERGE" != "1" ]]; then
+  printf 'ERROR: ORCHESTRATOR_INSTALL_AUTO_MERGE must be 0 or 1\n' >&2
+  exit 1
+fi
+if [[ ! "$INSTALL_INTERVAL_SECS" =~ ^[1-9][0-9]*$ ]]; then
+  printf 'ERROR: ORCHESTRATOR_INSTALL_INTERVAL_SECS must be a positive integer\n' >&2
+  exit 1
+fi
 
 for command_name in git gh ollama opencode cargo rustc bwrap stat systemctl; do
   if ! command -v "$command_name" >/dev/null 2>&1; then
@@ -27,14 +38,15 @@ chmod 700 "$RUNTIME_HOME" "$CARGO_HOME_PATH"
 # Persist only non-secret runtime policy. GitHub authentication remains in the
 # root account's existing gh credential/config store; no token is copied here.
 # Qwen 3.8 is the sole autonomous model for primary, surgical, and follow-up
-# work. Auto-merge remains disabled until unattended validation is proven.
+# work. Auto-merge is opt-in at install time and still remains subject to the
+# Orchestrator exact-head, repository-policy, CI, evidence and base-tip gates.
 umask 077
-cat >"$ENV_PATH" <<'EOF'
+cat >"$ENV_PATH" <<EOF
 ORCHESTRATOR_DATA_ROOT=/root/.local/share/memorithm-orchestrator
 ORCHESTRATOR_MODEL=ollama/qwen3.8:latest
 ORCHESTRATOR_SURGICAL_MODEL=ollama/qwen3.8:latest
-ORCHESTRATOR_INTERVAL_SECS=180
-ORCHESTRATOR_AUTO_MERGE=0
+ORCHESTRATOR_INTERVAL_SECS=$INSTALL_INTERVAL_SECS
+ORCHESTRATOR_AUTO_MERGE=$INSTALL_AUTO_MERGE
 ORCHESTRATOR_AUTO_MERGE_SCOPE=orchestrator-validated
 ORCHESTRATOR_FULL_VALIDATION=1
 ORCHESTRATOR_MIN_AVAILABLE_MEMORY_MB=4096
@@ -73,11 +85,19 @@ fi
 systemctl daemon-reload
 systemctl enable --now "$SERVICE_NAME.service"
 
-printf '\nMemorithm Orchestrator systemd service installed.\n'
+if ! systemctl is-active --quiet "$SERVICE_NAME.service"; then
+  printf 'ERROR: %s.service did not become active\n' "$SERVICE_NAME" >&2
+  systemctl status "$SERVICE_NAME.service" --no-pager --full >&2 || true
+  exit 1
+fi
+
+printf '\nMemorithm Orchestrator systemd service installed and active.\n'
 printf 'Service : %s.service\n' "$SERVICE_NAME"
 printf 'Unit    : %s\n' "$UNIT_PATH"
 printf 'Policy  : %s\n' "$ENV_PATH"
 printf 'Data    : %s\n' "$RUNTIME_DATA"
+printf 'Loop    : every %s seconds\n' "$INSTALL_INTERVAL_SECS"
+printf 'Merge   : %s (still gated by repository policy and exact-head CI)\n' "$INSTALL_AUTO_MERGE"
 printf '\nUseful commands:\n'
 printf '  systemctl status %s --no-pager\n' "$SERVICE_NAME"
 printf '  journalctl -u %s -f\n' "$SERVICE_NAME"
