@@ -66,9 +66,24 @@ research_dependencies:
       merged_commit: 0123456789abcdef0123456789abcdef01234567
 ```
 
-Each requirement binds one exact autonomous-research programme to one provider repository and one full Git object identifier that the parent scheduler must eventually prove reachable from the provider's current default branch. The parser accepts only the versioned top-level section, bounds the number of requirements, rejects duplicate requirements and fails closed on malformed programme identifiers, repository identities, commits, indentation or unknown fields.
+Each requirement binds one exact autonomous-research programme to one provider repository and one full Git object identifier that the parent scheduler must prove reachable from the provider's current default branch. The parser accepts only the versioned top-level section, bounds the number of requirements, rejects duplicate requirements and fails closed on malformed programme identifiers, repository identities, commits, indentation or unknown fields.
 
-The declaration is a requested scheduling prerequisite, not proof that the commit is merged. Repository-controlled roadmap text, the research agent and persisted research-cycle reports cannot self-attest satisfaction. ORCH9g deliberately defines only the reusable contract; the following scheduler slice must resolve these declarations through parent-owned GitHub state and defer research work when a prerequisite cannot be proved. Until that resolver is wired, projects should not rely on this section as an enforced execution gate.
+The declaration is a requested scheduling prerequisite, not proof that the commit is merged. Repository-controlled roadmap text, the research agent and persisted research-cycle reports cannot self-attest satisfaction.
+
+## Parent-owned provider resolution
+
+ORCH9h enforces declared provider prerequisites before an autonomous research worker is launched. The parent-side resolver consumes only the canonical issue directive and parent-resolved repository policy snapshot already bound into the worker prompt. Untrusted CI evidence lies outside that boundary and cannot inject or satisfy a dependency declaration.
+
+For each requirement matching the exact research programme, the parent resolver:
+
+1. asks GitHub for the provider repository's current default branch;
+2. resolves the exact current default-branch head;
+3. compares the declared full provider commit to that exact head; and
+4. accepts the prerequisite only when GitHub reports the default head as identical to, or ahead of, the required commit.
+
+A declaration is therefore never self-attesting. `behind`, `diverged`, unknown comparison states, malformed provider metadata and GitHub/API failures do not count as success. Infrastructure failures remain fail-closed. If a valid prerequisite is not yet on the provider's default-branch history, the OpenCode worker is not started and no research-cycle handoff is recorded.
+
+This slice intentionally does not yet claim a first-class scheduler `deferred` outcome. At the OpenCode bridge boundary an unresolved provider prerequisite becomes a safe no-op so existing parent code observes an unchanged workspace. A following scheduler integration must promote that condition to an explicit durable defer reason, carry provider/commit identity into trajectory state, and revalidate dependencies before publication if the policy snapshot or provider state changes.
 
 ## Project-manager model
 
@@ -91,4 +106,4 @@ ONE REVIEWABLE PR -> VALIDATION -> CI -> MERGE GATES
                   +------> next permitted research slice
 ```
 
-The ORCH9 programme now has explicit opt-in and mission generation, durable research-cycle state, bounded research budgets, state-derived cycle guidance, structured research-line identity and the roadmap dependency contract above. The next slice is parent-owned dependency resolution and scheduling; it must preserve every existing policy, validation, CI, hardware-evidence, publication and exact-head merge gate.
+The ORCH9 programme now has explicit opt-in and mission generation, durable research-cycle state, bounded research budgets, state-derived cycle guidance, structured research-line identity, a strict roadmap dependency contract and parent-owned pre-worker provider resolution. The next slice is first-class scheduler deferral and durable dependency evidence/revalidation; every existing policy, validation, CI, hardware-evidence, publication and exact-head merge gate remains authoritative.
