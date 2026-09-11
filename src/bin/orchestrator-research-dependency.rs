@@ -4,7 +4,7 @@ use std::io::{self, Read};
 use std::process::Command;
 
 use orchestrator::research_dependency::{
-    ResearchDependency, ResearchDependencyPlan, parse_roadmap_research_dependencies,
+    ResearchDependency, parse_roadmap_research_dependencies,
 };
 
 const TASK_MARKER: &str = "Task: ";
@@ -60,7 +60,9 @@ fn canonical_task(prompt: &str) -> Result<&str, String> {
 fn unique_marker(prompt: &str, marker: &str) -> Result<usize, String> {
     let mut matches = prompt.match_indices(marker);
     let Some((index, _)) = matches.next() else {
-        return Err(format!("worker prompt is missing required boundary {marker:?}"));
+        return Err(format!(
+            "worker prompt is missing required boundary {marker:?}"
+        ));
     };
     if matches.next().is_some() {
         return Err(format!("worker prompt has duplicate boundary {marker:?}"));
@@ -91,8 +93,8 @@ fn policy_context_from_worker_prompt(prompt: &str) -> Result<&str, String> {
     Ok(prompt[policy_start..ci_marker].trim())
 }
 
-fn applicable_dependencies<'a>(
-    prompt: &'a str,
+fn applicable_dependencies(
+    prompt: &str,
 ) -> ResolverResult<Option<(String, Vec<ResearchDependency>)>> {
     let Some(body) = issue_body_from_worker_prompt(prompt).map_err(ResolverError::Contract)? else {
         return Ok(None);
@@ -115,7 +117,10 @@ fn applicable_dependencies<'a>(
         return Ok(None);
     };
 
-    let requirements = plan.requirements_for(programme).cloned().collect::<Vec<_>>();
+    let requirements = plan
+        .requirements_for(programme)
+        .cloned()
+        .collect::<Vec<_>>();
     if requirements.is_empty() {
         return Ok(None);
     }
@@ -192,10 +197,7 @@ fn requirement_satisfied(status: &str) -> bool {
     matches!(status, "ahead" | "identical")
 }
 
-fn resolve_requirement(
-    programme: &str,
-    requirement: &ResearchDependency,
-) -> ResolverResult<bool> {
+fn resolve_requirement(programme: &str, requirement: &ResearchDependency) -> ResolverResult<bool> {
     let repository = requirement.repository();
     let required = requirement.merged_commit();
     let default_head = repository_default_head(repository)?;
@@ -361,9 +363,10 @@ mod tests {
     #[test]
     fn parser_type_remains_dependency_plan() {
         let policy = dependency_policy("TDI-8");
-        let parsed: ResearchDependencyPlan = parse_roadmap_research_dependencies(&policy)
-            .unwrap()
-            .unwrap();
+        let parsed: orchestrator::research_dependency::ResearchDependencyPlan =
+            parse_roadmap_research_dependencies(&policy)
+                .unwrap()
+                .unwrap();
         assert_eq!(parsed.requirements().len(), 1);
     }
 }
