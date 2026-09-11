@@ -5,3 +5,4 @@
 pub mod research;
 pub mod research_cycle;
 pub mod research_dependency;
+pub mod research_eval;
