@@ -9,6 +9,8 @@ git show origin/agent/ecosystem-roadmap:.agent/ORCHESTRATOR_ECOSYSTEM_ROADMAP.ya
 
 If the roadmap cannot be fetched or read, fail closed for major scheduler, coding-backend, publication, cross-repository policy, or merge decisions. Read-only diagnosis is allowed.
 
+Also read `docs/HOLDOUTS.md` before any merge decision or issue slice selection.
+
 ## Repository role
 
 Memorithm Orchestrator owns the organization's GitHub development lifecycle: repository discovery, issue/PR triage, isolated workspace selection, coding delegation, validation, commit/push/PR publication, CI observation and optional exact-head merge.
@@ -22,6 +24,10 @@ Before any agent edits another repository, Orchestrator must load that repositor
 A coding backend must never gain Git commit, push, PR, issue, workflow, release, secret or merge authority merely because it can edit and test code. Orchestrator retains publication authority.
 
 No PR may be merged unless all required CI for the exact head is definitively green and the validated base/head identities are still current. No force push or admin bypass.
+
+## V0 holdouts (2026-09-12)
+
+Do not AUTO_MERGE TDI, itd-simulator, Replikans, nonlocal-relativity-v2, SoulSystem vendor trees, or scirust-automotive. Do not merge a vendor of a sibling monorepo. Do not create a 31st repository before the hub catalog is CI-backed.
 
 Reread the roadmap at every session start, before scheduler/backend/publication/merge policy changes, before ecosystem integrations, and before relevant PR/merge decisions.
 
