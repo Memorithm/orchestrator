@@ -115,6 +115,41 @@ if [[ "$#" -eq 4 && "${1:-}" == "run" && "${2:-}" == "--auto" && "${3:-}" == "--
   # the generic watchdog envelope; it can never expand it.
   if [[ "$transformed_prompt" != "$agent_prompt" ]]; then
     apply_research_resource_budget || exit $?
+
+    # Cross-repository prerequisites are resolved by a separate parent-owned
+    # helper before the coding worker runs. It consumes the original canonical
+    # prompt so repository policy and untrusted CI boundaries remain intact.
+    dependency_helper="${ORCHESTRATOR_RESEARCH_DEPENDENCY_HELPER:-$wrapper_dir/../release/orchestrator-research-dependency}"
+    if [[ ! -x "$dependency_helper" ]]; then
+      printf 'orchestrator opencode environment: research dependency helper unavailable: %s\n' "$dependency_helper" >&2
+      exit 70
+    fi
+
+    dependency_status=0
+    printf '%s' "$agent_prompt" | "$dependency_helper" check || dependency_status=$?
+    case "$dependency_status" in
+      0)
+        ;;
+      75)
+        # Do not launch or record a research cycle when a provider prerequisite
+        # is not yet merged. Returning success preserves the existing parent
+        # no-change path; first-class scheduler deferral is a separate slice.
+        printf 'orchestrator opencode environment: autonomous research skipped because a provider dependency is unresolved\n' >&2
+        exit 0
+        ;;
+      2)
+        printf 'orchestrator opencode environment: research dependency policy validation failed\n' >&2
+        exit 2
+        ;;
+      70)
+        printf 'orchestrator opencode environment: research dependency resolver infrastructure failure\n' >&2
+        exit 70
+        ;;
+      *)
+        printf 'orchestrator opencode environment: unexpected research dependency resolver status: %s\n' "$dependency_status" >&2
+        exit 70
+        ;;
+    esac
   fi
 
   # Do not exec here: the parent-side bridge must consume and remove the
