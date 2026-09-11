@@ -46,6 +46,22 @@ esac
 HELPER
 chmod +x "$TMP/fake-helper"
 
+cat >"$TMP/fake-dependency-helper" <<'DEPENDENCY'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "${1:-}" != "check" || "$#" -ne 1 ]]; then
+  exit 2
+fi
+prompt="$(cat)"
+case "$prompt" in
+  *UNRESOLVED_PROVIDER*) exit 75 ;;
+  *DEPENDENCY_CONTRACT_ERROR*) exit 2 ;;
+  *DEPENDENCY_INFRA_ERROR*) exit 70 ;;
+  *) exit 0 ;;
+esac
+DEPENDENCY
+chmod +x "$TMP/fake-dependency-helper"
+
 common_env=(
   ORCHESTRATOR_OPENCODE_CORE="$TMP/fake-core"
   ORCHESTRATOR_AGENT_HOME="$TMP/agent-home"
@@ -54,6 +70,7 @@ common_env=(
   ORCHESTRATOR_AGENT_CACHE_DIR="$TMP/agent-cache"
   ORCHESTRATOR_GH_CONFIG_DIR="$TMP/gh-config"
   ORCHESTRATOR_RESEARCH_PROMPT_HELPER="$TMP/fake-helper"
+  ORCHESTRATOR_RESEARCH_DEPENDENCY_HELPER="$TMP/fake-dependency-helper"
 )
 
 run_case() {
@@ -77,6 +94,31 @@ run_case() {
   actual="$(cat "$capture")"
   if [[ "$actual" != "$expected" ]]; then
     printf 'research budget selftest %s: expected %s got %s\n' "$name" "$expected" "$actual" >&2
+    exit 1
+  fi
+}
+
+run_rejected_dependency_case() {
+  local name="$1"
+  local prompt="$2"
+  local expected_status="$3"
+  local capture="$TMP/$name.capture"
+  rm -f "$capture"
+  set +e
+  env \
+    "${common_env[@]}" \
+    RESEARCH_BUDGET_CAPTURE="$capture" \
+    bash "$TARGET" run --auto --model ollama/test <<<"$prompt"
+  status=$?
+  set -e
+  if [[ "$status" -ne "$expected_status" ]]; then
+    printf 'research dependency bridge selftest %s: expected exit %s got %s\n' \
+      "$name" "$expected_status" "$status" >&2
+    exit 1
+  fi
+  if [[ -e "$capture" ]]; then
+    printf 'research dependency bridge selftest %s: core ran despite rejected dependency state\n' \
+      "$name" >&2
     exit 1
   fi
 }
@@ -128,4 +170,14 @@ if [[ -e "$capture" ]]; then
   exit 1
 fi
 
-printf 'research resource budget selftest: PASS\n'
+# An unresolved provider is a safe no-op at this bridge layer: the worker is not
+# launched and no research-cycle handoff is recorded. Contract/infrastructure
+# failures remain errors and likewise never launch the worker.
+run_rejected_dependency_case unresolved-provider \
+  'EXPLICIT_RESEARCH_OPT_IN UNRESOLVED_PROVIDER' 0
+run_rejected_dependency_case dependency-contract-error \
+  'EXPLICIT_RESEARCH_OPT_IN DEPENDENCY_CONTRACT_ERROR' 2
+run_rejected_dependency_case dependency-infrastructure-error \
+  'EXPLICIT_RESEARCH_OPT_IN DEPENDENCY_INFRA_ERROR' 70
+
+printf 'research resource budget and dependency bridge selftest: PASS\n'
