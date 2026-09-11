@@ -1,0 +1,190 @@
+use std::ops::Deref;
+use std::path::{Path, PathBuf};
+
+#[path = "policy/legacy.rs"]
+mod legacy;
+mod research_dependency_gate;
+
+pub(crate) use legacy::{
+    HardwareEvidenceRequirement, MergeEligibility, MergeEvidenceEligibility,
+    PortableValidationPlan, PortableValidationStep,
+};
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct PolicySnapshot {
+    inner: legacy::PolicySnapshot,
+}
+
+impl Deref for PolicySnapshot {
+    type Target = legacy::PolicySnapshot;
+
+    fn deref(&self) -> &Self::Target {
+        &self.inner
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) enum TaskEligibility {
+    Allowed,
+    Deferred(PolicyDenial),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) enum PolicyDenial {
+    Legacy(legacy::PolicyDenial),
+    ResearchDependency { detail: String },
+}
+
+impl PolicyDenial {
+    fn research_dependency(detail: String) -> Self {
+        Self::ResearchDependency { detail }
+    }
+
+    pub(crate) fn reason(&self, repository: &str, snapshot: &PolicySnapshot) -> String {
+        match self {
+            Self::Legacy(denial) => denial.reason(repository, &snapshot.inner),
+            Self::ResearchDependency { detail } => {
+                format!("repository={repository} {detail}")
+            }
+        }
+    }
+
+    #[cfg(test)]
+    fn research_detail(&self) -> Option<&str> {
+        match self {
+            Self::ResearchDependency { detail } => Some(detail),
+            Self::Legacy(_) => None,
+        }
+    }
+}
+
+impl PolicySnapshot {
+    pub(crate) fn identity_record(&self) -> String {
+        self.inner.identity_record()
+    }
+
+    pub(crate) fn identity_token(&self) -> String {
+        self.inner.identity_token()
+    }
+
+    pub(crate) fn prompt_context(&self) -> String {
+        self.inner.prompt_context()
+    }
+
+    pub(crate) fn task_eligibility(
+        &self,
+        title: &str,
+        body: &str,
+    ) -> Result<TaskEligibility, String> {
+        match self.inner.task_eligibility(title, body)? {
+            legacy::TaskEligibility::Allowed => {}
+            legacy::TaskEligibility::Deferred(denial) => {
+                return Ok(TaskEligibility::Deferred(PolicyDenial::Legacy(denial)));
+            }
+        }
+
+        if let Some(denial) = research_dependency_gate::eligibility(self, body)? {
+            return Ok(TaskEligibility::Deferred(denial));
+        }
+
+        Ok(TaskEligibility::Allowed)
+    }
+
+    pub(crate) fn merge_eligibility(&self) -> Result<MergeEligibility, String> {
+        self.inner.merge_eligibility()
+    }
+
+    pub(crate) fn merge_evidence_eligibility(
+        &self,
+    ) -> Result<MergeEvidenceEligibility, String> {
+        self.inner.merge_evidence_eligibility()
+    }
+
+    pub(crate) fn portable_validation_plan(
+        &self,
+    ) -> Result<Option<PortableValidationPlan>, String> {
+        self.inner.portable_validation_plan()
+    }
+
+    pub(crate) fn base_branch(&self) -> &str {
+        self.inner.base_branch()
+    }
+
+    pub(crate) fn base_sha(&self) -> &str {
+        self.inner.base_sha()
+    }
+}
+
+pub(crate) fn load_snapshot(
+    workspace: &Path,
+    repository: &str,
+    base_branch: &str,
+    base_sha: &str,
+) -> Result<PolicySnapshot, String> {
+    legacy::load_snapshot(workspace, repository, base_branch, base_sha)
+        .map(|inner| PolicySnapshot { inner })
+}
+
+pub(crate) fn remote_identity_is_current(
+    workspace: &Path,
+    snapshot: &PolicySnapshot,
+) -> Result<bool, String> {
+    legacy::remote_identity_is_current(workspace, &snapshot.inner)
+}
+
+pub(crate) fn persist_identity(
+    data_root: &Path,
+    repository: &str,
+    kind: &str,
+    number: u64,
+    timestamp: u64,
+    snapshot: &PolicySnapshot,
+) -> Result<PathBuf, String> {
+    legacy::persist_identity(
+        data_root,
+        repository,
+        kind,
+        number,
+        timestamp,
+        &snapshot.inner,
+    )
+}
+
+#[cfg(test)]
+pub(crate) fn test_snapshot_for_validation(
+    repository: &str,
+    base_branch: &str,
+    base_sha: &str,
+) -> PolicySnapshot {
+    PolicySnapshot {
+        inner: legacy::test_snapshot_for_validation(repository, base_branch, base_sha),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn historical_task_denial_keeps_precedence() {
+        let snapshot = PolicySnapshot {
+            inner: legacy::test_snapshot_with_policy_documents(&[r#"roadmap:
+  - id: HUMAN1
+    agent_policy: forbidden_to_initiate
+research_dependencies:
+  schema_version: 1
+  requires:
+    - programme: TDI-8
+      repository: Memorithm/Provider
+      merged_commit: 0123456789abcdef0123456789abcdef01234567
+"#]),
+        };
+        assert!(matches!(
+            snapshot.task_eligibility(
+                "Run HUMAN1",
+                "<!-- orchestrator-research-mode: autonomous-v1 -->\n<!-- orchestrator-research-programme: TDI-8 -->"
+            ),
+            Ok(TaskEligibility::Deferred(PolicyDenial::Legacy(_)))
+        ));
+    }
+}
