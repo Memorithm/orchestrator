@@ -154,10 +154,7 @@ impl fmt::Display for SelectedRequirementsError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Directive(error) => {
-                write!(
-                    formatter,
-                    "autonomous research directive rejected: {error}"
-                )
+                write!(formatter, "autonomous research directive rejected: {error}")
             }
             Self::Policy(error) => {
                 write!(formatter, "research dependency policy rejected: {error}")
@@ -233,9 +230,11 @@ mod tests {
         let policy = format!(
             "research_dependencies:\n  schema_version: 1\n  requires:\n    - programme: TDI-8\n      repository: Memorithm/SciRust\n      merged_commit: {SHA_A}\n"
         );
-        assert!(selected_requirements("ordinary issue", &policy)
-            .unwrap()
-            .is_none());
+        assert!(
+            selected_requirements("ordinary issue", &policy)
+                .unwrap()
+                .is_none()
+        );
 
         let opted = "<!-- orchestrator-research-mode: autonomous-v1 -->\n<!-- orchestrator-research-programme: TDI-8 -->";
         let (programme, requirements) = selected_requirements(opted, &policy)
