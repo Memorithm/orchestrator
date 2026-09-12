@@ -1,27 +1,16 @@
 # ORCH9i scheduler wiring
 
-`research_dependency_gate` is present on `main` but not compiled into the binary (`src/main.rs` does not `mod` it). This slice binds it.
+The evaluator lives in `src/research_dependency_gate.rs`.
 
-## Required binary edits
-
-1. Add `mod research_dependency_gate;` next to the other `src/` modules.
-2. After `TaskEligibility` succeeds and before `run_agent`:
+To compile it without editing the 200k `main.rs` monolith, nest it under `policy.rs`:
 
 ```rust
-match research_dependency_gate::evaluate(&body, &policy_snapshot) {
-    Ok(research_dependency_gate::ResearchDependencyGate::Allow) => {}
-    Ok(research_dependency_gate::ResearchDependencyGate::Defer { reason }) => {
-        println!("research dependency gate: DEFERRED {reason}");
-        return Ok(ActionExecution::deferred(reason));
-    }
-    Err(message) => {
-        return Err(ActionFailure::new(state::FailureClass::Validation, message));
-    }
-}
+#[path = "research_dependency_gate.rs"]
+mod research_dependency_gate;
 ```
 
-3. Before pushing a PREPARED publication: same match; on `Defer`, keep the transaction and return `ActionExecution::deferred(reason)`.
-4. Before `create_issue_pull_request` on a PUSHED transaction: same match; on `Defer`, return a publication error and retain the transaction.
-5. Repeat 3-4 inside `resume_issue_publication` after loading `github_body(item)`.
+Then, before every `TaskEligibility::Allowed` return in `task_eligibility`, call `finish_task_eligibility` from `src/policy_orch9i.inc.rs` (`include!` inside the `impl PolicySnapshot` block).
 
-Infrastructure messages from the GitHub resolver stay fail-closed. Ordinary issues and unmatched programmes remain inert (`Allow` without provider calls).
+Existing `execute_issue` already maps `TaskEligibility::Deferred` to `ActionExecution::deferred`, so a provider miss becomes a first-class scheduler deferral before OpenCode starts. Roadmap `human_only` / deny rules still run first and are unchanged.
+
+Publication-time revalidation (PREPARED keep / PUSHED fail-closed) still needs the four sites in `src/main.rs` listed previously.
