@@ -5,15 +5,13 @@ The evaluator is compiled in the library crate as
 the parent-resolved policy snapshot text plus identity token. Untrusted CI
 evidence cannot inject or satisfy a declaration.
 
-`PolicySnapshot::finish_task_eligibility` is inlined in `impl PolicySnapshot`
-(`src/policy_orch9i.inc.rs` is the reference copy; this toolchain rejects
-`include!` in impl position). Every `TaskEligibility::Allowed` path in
-`task_eligibility` routes through that method so `execute_issue` maps a
-provider miss to `ActionExecution::deferred` before OpenCode starts. Roadmap
-`human_only` / deny rules still run first.
+`src/policy_orch9i.inc.rs` is the exact `finish_task_eligibility` method to
+inline inside `impl PolicySnapshot` (this toolchain rejects `include!` in impl
+position). Route every `TaskEligibility::Allowed` return through that method so
+`execute_issue` maps a provider miss to `ActionExecution::deferred` before
+OpenCode starts. Roadmap `human_only` / deny rules still run first.
 
-Publication-time revalidation calls the same helper via
-`unresolved_research_provider`:
+Publication-time revalidation must call the same `evaluate` helper:
 
 | Site | Phase | On unresolved prerequisite |
 | --- | --- | --- |
@@ -22,6 +20,8 @@ Publication-time revalidation calls the same helper via
 | `resume_issue_publication` before resumed push | PREPARED | keep transaction, `ActionOutcome::Deferred` |
 | `resume_issue_publication` before resumed PR | PUSHED | keep transaction, fail closed for manual review |
 
-Malformed directives/policy and GitHub/API failures stay fail-closed.
-Policy, validation, CI, hardware-evidence, financial, credential and
-exact-head merge gates are unchanged.
+`src/policy.rs` and `src/main.rs` still need those call sites inlined; they
+exceed the Contents API payload used by this control plane, so they remain a
+separate exact-head slice. Malformed directives/policy and GitHub/API failures
+stay fail-closed. Policy, validation, CI, hardware-evidence, financial,
+credential and exact-head merge gates are unchanged.
