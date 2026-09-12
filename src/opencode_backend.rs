@@ -60,7 +60,9 @@ impl CodingBackend for OpenCodeBackend {
             .stdout(Stdio::inherit())
             .stderr(Stdio::inherit())
             .spawn()
-            .map_err(|error| infrastructure_failure(&format!("failed to start OpenCode: {error}")))?;
+            .map_err(|error| {
+                infrastructure_failure(&format!("failed to start OpenCode: {error}"))
+            })?;
 
         let Some(mut stdin) = child.stdin.take() else {
             return Err(infrastructure_failure("OpenCode stdin pipe unavailable"));
@@ -70,9 +72,9 @@ impl CodingBackend for OpenCodeBackend {
             .map_err(|error| infrastructure_failure(&format!("failed to send prompt: {error}")))?;
         drop(stdin);
 
-        let status = child
-            .wait()
-            .map_err(|error| infrastructure_failure(&format!("failed to wait for OpenCode: {error}")))?;
+        let status = child.wait().map_err(|error| {
+            infrastructure_failure(&format!("failed to wait for OpenCode: {error}"))
+        })?;
         if !status.success() {
             return Err(agent_failure(&format!(
                 "OpenCode exited unsuccessfully: {status}"
