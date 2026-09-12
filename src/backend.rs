@@ -181,7 +181,10 @@ impl fmt::Display for BackendContractError {
             Self::DetailTooLong => write!(formatter, "backend detail exceeds bounded size"),
             Self::EmptyFailureMessage => write!(formatter, "backend failure message is empty"),
             Self::NonMonotonicEventSequence => {
-                write!(formatter, "backend event sequence is not strictly increasing")
+                write!(
+                    formatter,
+                    "backend event sequence is not strictly increasing"
+                )
             }
         }
     }
