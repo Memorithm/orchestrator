@@ -5,13 +5,15 @@ The evaluator is compiled in the library crate as
 the parent-resolved policy snapshot text plus identity token. Untrusted CI
 evidence cannot inject or satisfy a declaration.
 
-`src/policy_orch9i.inc.rs` is the exact `finish_task_eligibility` method to
-inline inside `impl PolicySnapshot` (this toolchain rejects `include!` in impl
-position). Route every `TaskEligibility::Allowed` return through that method so
-`execute_issue` maps a provider miss to `ActionExecution::deferred` before
-OpenCode starts. Roadmap `human_only` / deny rules still run first.
+`PolicySnapshot::finish_task_eligibility` is inlined in `impl PolicySnapshot`
+(`src/policy_orch9i.inc.rs` is the reference copy; this toolchain rejects
+`include!` in impl position). Every `TaskEligibility::Allowed` path in
+`task_eligibility` routes through that method so `execute_issue` maps a
+provider miss to `ActionExecution::deferred` before OpenCode starts. Roadmap
+`human_only` / deny rules still run first.
 
-Publication-time revalidation calls the same `evaluate` helper:
+Publication-time revalidation calls the same helper via
+`unresolved_research_provider`:
 
 | Site | Phase | On unresolved prerequisite |
 | --- | --- | --- |
