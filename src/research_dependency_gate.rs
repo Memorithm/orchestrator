@@ -220,10 +220,9 @@ mod tests {
         .unwrap();
         assert_eq!(first, ResearchDependencyGate::Allow);
 
-        let second = evaluate_with_resolver(&body, &policy, "policy-id", |_, _| {
-            Ok(comparison("behind"))
-        })
-        .unwrap();
+        let second =
+            evaluate_with_resolver(&body, &policy, "policy-id", |_, _| Ok(comparison("behind")))
+                .unwrap();
         assert!(matches!(second, ResearchDependencyGate::Defer { .. }));
     }
 
