@@ -123,7 +123,7 @@ where
 /// Malformed policy/directives and GitHub/API failures fail closed.
 pub(crate) fn evaluate(
     body: &str,
-    policy_snapshot: &crate::policy::PolicySnapshot,
+    policy_snapshot: &super::PolicySnapshot,
 ) -> Result<ResearchDependencyGate, String> {
     evaluate_with_resolver(
         body,
