@@ -210,6 +210,24 @@ mod tests {
     }
 
     #[test]
+    fn provider_state_is_re_evaluated_instead_of_cached() {
+        let body = research_body("TDI-8");
+        let policy = dependency_policy("TDI-8");
+
+        let first = evaluate_with_resolver(&body, &policy, "policy-id", |_, _| {
+            Ok(comparison("identical"))
+        })
+        .unwrap();
+        assert_eq!(first, ResearchDependencyGate::Allow);
+
+        let second = evaluate_with_resolver(&body, &policy, "policy-id", |_, _| {
+            Ok(comparison("behind"))
+        })
+        .unwrap();
+        assert!(matches!(second, ResearchDependencyGate::Defer { .. }));
+    }
+
+    #[test]
     fn unrelated_programme_does_not_inherit_dependency() {
         let mut called = false;
         let decision = evaluate_with_resolver(
