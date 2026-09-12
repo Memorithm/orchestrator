@@ -1,5 +1,11 @@
 include!("policy_a1.inc.rs");
 include!("policy_a2.inc.rs");
-include!("policy_b.inc.rs");
-include!("policy_c.inc.rs");
-include!("policy_tests.inc.rs");
+include!("policy_b_01.inc.rs");
+include!("policy_b_02.inc.rs");
+include!("policy_b_03.inc.rs");
+include!("policy_b_04.inc.rs");
+include!("policy_c_01.inc.rs");
+include!("policy_c_02.inc.rs");
+include!("policy_c_03.inc.rs");
+include!("policy_t_01.inc.rs");
+include!("policy_t_02.inc.rs");
