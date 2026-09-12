@@ -1,14 +1,15 @@
 use std::process::Command;
 
-use orchestrator::research_eval::{
+use crate::research_eval::{
     ProviderComparison, UnresolvedProviderDependency, default_history_satisfies,
     selected_requirements, valid_object_id,
 };
 
 const MAX_DEFAULT_BRANCH_BYTES: usize = 256;
 
+/// Parent-owned live evaluation of declared research provider prerequisites.
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub(crate) enum ResearchDependencyGate {
+pub enum ResearchDependencyGate {
     Allow,
     Defer { reason: String },
 }
@@ -121,16 +122,15 @@ where
 /// Missing research opt-in or unmatched programme requirements are inert.
 /// Unresolved but well-formed prerequisites are a non-failure deferral.
 /// Malformed policy/directives and GitHub/API failures fail closed.
-pub(crate) fn evaluate(
+///
+/// `policy_context` must be the parent-resolved snapshot text (not untrusted CI).
+/// `policy_identity` is the consumer snapshot identity token.
+pub fn evaluate(
     body: &str,
-    policy_snapshot: &super::PolicySnapshot,
+    policy_context: &str,
+    policy_identity: &str,
 ) -> Result<ResearchDependencyGate, String> {
-    evaluate_with_resolver(
-        body,
-        &policy_snapshot.prompt_context(),
-        &policy_snapshot.identity_token(),
-        resolve_provider,
-    )
+    evaluate_with_resolver(body, policy_context, policy_identity, resolve_provider)
 }
 
 #[cfg(test)]
