@@ -113,10 +113,10 @@ impl BackendResult {
     pub fn validate(&self) -> Result<(), BackendContractError> {
         let mut previous = None;
         for event in &self.events {
-            if let Some(previous) = previous {
-                if event.sequence <= previous {
-                    return Err(BackendContractError::NonMonotonicEventSequence);
-                }
+            if let Some(previous) = previous
+                && event.sequence <= previous
+            {
+                return Err(BackendContractError::NonMonotonicEventSequence);
             }
             previous = Some(event.sequence);
         }
