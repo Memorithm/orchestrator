@@ -103,12 +103,8 @@ where
         if default_history_satisfies(comparison.compare_status()) {
             continue;
         }
-        let unresolved = UnresolvedProviderDependency::new(
-            &programme,
-            requirement,
-            comparison,
-            policy_identity,
-        );
+        let unresolved =
+            UnresolvedProviderDependency::new(&programme, requirement, comparison, policy_identity);
         return Ok(ResearchDependencyGate::Defer {
             reason: unresolved.defer_reason(),
         });
