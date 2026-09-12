@@ -4,16 +4,19 @@ Complements `AGENTS.md`. Repository-specific rules override scheduler defaults.
 
 ## Never AUTO_MERGE
 
+Enforced two ways:
+
+1. Target-repo ecosystem roadmap `autonomous_merge_policy` (schema_version 1, decision deny) — already loaded by Orchestrator from `AGENTS.md` off-main refs. Landed first on `Memorithm/itd-simulator` `agent/ecosystem-roadmap`.
+2. In-process denylist `merge_policy::auto_merge_denied` — same names, environment flag cannot override.
+
 | Repository | Reason |
 |---|---|
-| TDI | freeze 11.2 fields, labeled holdouts, issue #151 |
+| TDI | freeze 11.2 fields, labeled holdouts |
 | itd-simulator | V29.18 frozen simulator |
 | Replikans | custody / secrets gate before any demo |
 | nonlocal-relativity-v2 | SciRust fork snapshot (see FORK.md) |
 | SoulSystem | vendor freeze; no merge of sibling monorepo copies |
 | scirust-automotive | private empty stub |
-
-`ORCHESTRATOR_AUTO_MERGE` must stay `0` for the rows above even if the environment flag is `1`. Implement as a repository-name denylist in code in V1; until then this file is the fail-closed policy.
 
 ## Do not schedule feature work
 
