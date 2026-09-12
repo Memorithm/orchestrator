@@ -1,20 +1,17 @@
 # ORCH9i scheduler wiring
 
-The evaluator lives in `src/research_dependency_gate.rs` and is nested under
-`policy.rs` so the 200k `main.rs` monolith does not have to declare the module:
+The evaluator is compiled in the library crate as
+`orchestrator::research_dependency_gate`. It consumes only the issue body and
+the parent-resolved policy snapshot text plus identity token. Untrusted CI
+evidence cannot inject or satisfy a declaration.
 
-```rust
-#[path = "research_dependency_gate.rs"]
-mod research_dependency_gate;
-```
+`src/policy_orch9i.inc.rs` is the exact `finish_task_eligibility` method to
+inline inside `impl PolicySnapshot` (this toolchain rejects `include!` in impl
+position). Route every `TaskEligibility::Allowed` return through that method so
+`execute_issue` maps a provider miss to `ActionExecution::deferred` before
+OpenCode starts. Roadmap `human_only` / deny rules still run first.
 
-`task_eligibility` routes every `Allowed` path through `finish_task_eligibility`.
-Existing `execute_issue` already maps `TaskEligibility::Deferred` to
-`ActionExecution::deferred`, so a provider miss is a first-class scheduler
-deferral before OpenCode starts. Roadmap `human_only` / deny rules still run
-first and are unchanged.
-
-Publication-time revalidation uses `research_provider_gate` in `src/main.rs`:
+Publication-time revalidation calls the same `evaluate` helper:
 
 | Site | Phase | On unresolved prerequisite |
 | --- | --- | --- |
