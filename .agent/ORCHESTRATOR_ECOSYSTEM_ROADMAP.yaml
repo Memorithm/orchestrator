@@ -339,3 +339,21 @@ agent_operating_protocol:
     If this roadmap cannot be read, do not make major scheduler, coding-backend,
     publication, cross-repository policy, or merge decisions. Read-only diagnosis
     is allowed.
+
+ax_task_contract_convergence:
+  source_review_date: "2026-09-27"
+  external_reference: google_ax_architecture_only
+  role: orchestration_consumer_and_convergence_target
+  objective: >-
+    Converge reusable orchestration paths on SciRust Hub task/workspace
+    contracts instead of creating a second incompatible source of task
+    identity, capability or lifecycle truth.
+  phases:
+    - AXO1_inventory_existing_orchestrator_job_and_worker_contracts
+    - AXO2_map_compatible_jobs_to_Hub_TaskSpec
+    - AXO3_remove_or_adapter_isolate_duplicate_task_authority
+    - AXO4_preserve_domain_specific_workflow_features_above_the_common_task_layer
+  invariants:
+    - one_authoritative_task_identity_per_execution
+    - duplicate_lifecycle_truth_is_not_silently_maintained
+    - migration_must_preserve_existing_reproducibility_and_failure_semantics
