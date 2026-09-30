@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T01:30:20+02:00",
+  "updated_at": "2026-10-01T01:39:51+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 3,
-    "remaining": 98,
-    "merged_prs": 1
+    "closed": 4,
+    "remaining": 97,
+    "merged_prs": 2
   },
   "batches": [
     {
@@ -41,6 +41,11 @@
           "repository": "Memorithm/TurboQuant",
           "number": 14,
           "merge_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f"
+        },
+        {
+          "repository": "Memorithm/ExtremEngine",
+          "number": 44,
+          "merge_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367"
         }
       ]
     }
@@ -354,8 +359,8 @@
       "base": "agent/initial-engine",
       "base_sha": "62d05926252265247c62aba6c0b3136b065a956a",
       "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-      "merge_sha": null,
-      "status": "open_awaiting_exact_head_ci_after_review_fix",
+      "merge_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "status": "qualified_integrated",
       "ids": [
         "BF-EE-01"
       ],
@@ -364,58 +369,72 @@
         {
           "id": 110144768276,
           "name": "Native Compile (macos-latest)",
-          "status": "queued",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768276"
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768276",
+          "started_at": "2026-09-30T23:29:46Z",
+          "completed_at": "2026-09-30T23:31:43Z"
         },
         {
           "id": 110144768255,
           "name": "Code Quality & Security",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768255"
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768255",
+          "started_at": "2026-09-30T23:29:40Z",
+          "completed_at": "2026-09-30T23:30:51Z"
         },
         {
           "id": 110144768216,
           "name": "Test Suite (ubuntu-latest, Rust stable)",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768216"
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768216",
+          "started_at": "2026-09-30T23:29:40Z",
+          "completed_at": "2026-09-30T23:30:51Z"
         },
         {
           "id": 110144768190,
           "name": "Test Suite (ubuntu-latest, Rust 1.87)",
-          "status": "queued",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768190"
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768190",
+          "started_at": "2026-09-30T23:29:40Z",
+          "completed_at": "2026-09-30T23:31:11Z"
         },
         {
           "id": 110144768090,
           "name": "Indexed world mesh pixel qualification",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361205/job/110144768090"
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361205/job/110144768090",
+          "started_at": "2026-09-30T23:29:40Z",
+          "completed_at": "2026-09-30T23:31:04Z"
         },
         {
           "id": 110144768011,
           "name": "Native Compile (windows-latest)",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768011"
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768011",
+          "started_at": "2026-09-30T23:29:41Z",
+          "completed_at": "2026-09-30T23:32:50Z"
         },
         {
           "id": 110144767713,
           "name": "Controlled scheduler effect evidence",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361207/job/110144767713"
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361207/job/110144767713",
+          "started_at": "2026-09-30T23:29:39Z",
+          "completed_at": "2026-09-30T23:32:33Z"
         }
       ],
       "local_validation": [
@@ -434,11 +453,90 @@
       ],
       "review_followup": {
         "reviewed_head": "ba7a015424e525509f635e33629cee84d2ee95cd",
-        "finding": "P2 unbounded eager formatting of attacker-controlled attribute key",
+        "finding": "P2 eager formatting of attacker-controlled unknown attribute key",
         "resolution_head": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-        "resolution": "match supported attributes first; use static bounded conversion labels; regression rejects unknown attribute before value conversion",
-        "comment_id": 5921559778
-      }
+        "resolution": "match/reject before conversion; static labels for supported keys; dedicated regression; thread outdated and resolved",
+        "comment_id": 5921559778,
+        "thread_id": "PRRT_kwDOT2x5Ss6nvsl2"
+      },
+      "tested_merge_sha": "19ef234b43c91218400d17311c3ce23a9d816b40",
+      "tree_sha": "6c7d88efe61b8486d80c413bb0ae4228eb42cf58",
+      "exact_tree_match": true,
+      "postmerge_checks": [
+        {
+          "id": 110146339776,
+          "name": "Indexed world mesh pixel qualification",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857815/job/110146339776",
+          "started_at": "2026-09-30T23:35:23Z",
+          "completed_at": "2026-09-30T23:36:40Z"
+        },
+        {
+          "id": 110146338877,
+          "name": "Native Compile (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338877",
+          "started_at": "2026-09-30T23:35:23Z",
+          "completed_at": "2026-09-30T23:38:24Z"
+        },
+        {
+          "id": 110146338814,
+          "name": "Test Suite (ubuntu-latest, Rust 1.87)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338814",
+          "started_at": "2026-09-30T23:35:23Z",
+          "completed_at": "2026-09-30T23:37:16Z"
+        },
+        {
+          "id": 110146338699,
+          "name": "Test Suite (ubuntu-latest, Rust stable)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338699",
+          "started_at": "2026-09-30T23:35:24Z",
+          "completed_at": "2026-09-30T23:37:06Z"
+        },
+        {
+          "id": 110146338665,
+          "name": "Native Compile (macos-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338665",
+          "started_at": "2026-09-30T23:35:29Z",
+          "completed_at": "2026-09-30T23:37:32Z"
+        },
+        {
+          "id": 110146338552,
+          "name": "Controlled scheduler effect evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857855/job/110146338552",
+          "started_at": "2026-09-30T23:35:23Z",
+          "completed_at": "2026-09-30T23:37:34Z"
+        },
+        {
+          "id": 110146338448,
+          "name": "Code Quality & Security",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338448",
+          "started_at": "2026-09-30T23:35:23Z",
+          "completed_at": "2026-09-30T23:36:29Z"
+        }
+      ],
+      "expected_head_guard": true,
+      "merged_at": "2026-10-01T01:35:18+02:00",
+      "target_validated_at": "2026-10-01T01:39:51+02:00"
     }
   ],
   "repository_observations": [
@@ -507,7 +605,8 @@
       "visibility": "public",
       "default_branch": "agent/initial-engine",
       "error": null,
-      "current_head": "62d05926252265247c62aba6c0b3136b065a956a"
+      "current_head": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "observed_at": "2026-10-01T01:39:51+02:00"
     },
     {
       "repository": "Memorithm/FLAT-ATTENTION",
@@ -3361,11 +3460,11 @@
         "Valider count contre plafonds par attribut, relation count/stride/longueur BIN avec arithmétique vérifiée, puis utiliser allocation fallible et budget cumulé; ajouter test petit GLB avec count très grand qui retourne une erreur avant allocation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "awaiting_ci",
-      "current_head": "62d05926252265247c62aba6c0b3136b065a956a",
+      "status": "resolved",
+      "current_head": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
       "default_branch": "agent/initial-engine",
       "audit_head": "62d05926252265247c62aba6c0b3136b065a956a",
-      "head_reconciliation": "unchanged_since_audit",
+      "head_reconciliation": "resolved_on_integrated_head",
       "policy_review": "root_AGENTS_LICENSE_MIT_and_license_convergence_read_no_nested_AGENTS",
       "prs": [
         {
@@ -3375,13 +3474,23 @@
           "base": "agent/initial-engine",
           "base_sha": "62d05926252265247c62aba6c0b3136b065a956a",
           "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
-          "merge_sha": null,
-          "status": "open_awaiting_exact_head_ci_after_review_fix"
+          "merge_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "status": "qualified_integrated"
         }
       ],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T01:30:20+02:00",
-      "next_action": "Attendre les 7 checks relancés sur HEAD e383e4e après correction P2; lire les logs, revalider base/HEAD/diff/reviews/protections, puis fusionner avec expected_head_sha.",
+      "resolution_evidence": [
+        {
+          "proof": "https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/docs/audit-global/proofs/ExtremEngine-44.json",
+          "pr": "https://github.com/Memorithm/ExtremEngine/pull/44",
+          "head": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+          "merge_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "tree_sha": "6c7d88efe61b8486d80c413bb0ae4228eb42cf58",
+          "result": "count caps, checked stride/BIN spans before reserve, fallible allocation, 128 MiB cumulative requested-decoded budget, checked integer conversions and six hostile-input regressions; exact integrated tree validated pre/post merge",
+          "validated_at": "2026-10-01T01:39:51+02:00"
+        }
+      ],
+      "last_observed_at": "2026-10-01T01:39:51+02:00",
+      "next_action": "Résolu et qualifié sur agent/initial-engine; surveiller uniquement une régression ultérieure. Poursuivre BF-EE-02 et BF-EE-03 sur le nouveau HEAD.",
       "confirmation_evidence": [
         {
           "head": "62d05926252265247c62aba6c0b3136b065a956a",
