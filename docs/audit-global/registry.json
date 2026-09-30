@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T01:39:51+02:00",
+  "updated_at": "2026-10-01T01:42:46+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -536,7 +536,11 @@
       ],
       "expected_head_guard": true,
       "merged_at": "2026-10-01T01:35:18+02:00",
-      "target_validated_at": "2026-10-01T01:39:51+02:00"
+      "target_validated_at": "2026-10-01T01:39:51+02:00",
+      "proof_url": "https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/docs/audit-global/proofs/ExtremEngine-44.json",
+      "central_issue_comment_id": 5921715501,
+      "final_pr_comment_id": 5921717586,
+      "journal_run_key": "ExtremEngine-44-qualified"
     }
   ],
   "repository_observations": [
