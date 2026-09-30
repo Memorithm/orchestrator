@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Lot 1 : 1/50 ; cumul fusionné : 1 ; clos : 3 ; restants : 98.
+101 IDs ; 12 positifs conservés. Lot 1 : 2/50 ; cumul fusionné : 2 ; clos : 4 ; restants : 97.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -92,7 +92,7 @@
 | B-NL-01 | Memorithm/NoiseLab | 5 | à faire |  |
 | B-NL-02 | Memorithm/NoiseLab | 1 | à faire |  |
 | B-NL-03 | Memorithm/NoiseLab | 8 | à faire |  |
-| BF-EE-01 | Memorithm/ExtremEngine | 1 | en cours |  |
+| BF-EE-01 | Memorithm/ExtremEngine | 1 | résolu |  |
 | BF-EE-02 | Memorithm/ExtremEngine | 1 | à faire |  |
 | BF-EE-03 | Memorithm/ExtremEngine | 1 | à faire |  |
 | BF-KV-01 | Memorithm/KVLab | 9 | à faire |  |
