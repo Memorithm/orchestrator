@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T01:02:53+02:00",
+  "updated_at": "2026-10-01T01:23:35+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -346,6 +346,96 @@
       ],
       "target_validated_at": "2026-10-01T01:02:53+02:00",
       "target_head": "2a8c4650e1c040745a8720223d2a21ecf7719e6f"
+    },
+    {
+      "repository": "Memorithm/ExtremEngine",
+      "number": 44,
+      "url": "https://github.com/Memorithm/ExtremEngine/pull/44",
+      "base": "agent/initial-engine",
+      "base_sha": "62d05926252265247c62aba6c0b3136b065a956a",
+      "head_sha": "ba7a015424e525509f635e33629cee84d2ee95cd",
+      "merge_sha": null,
+      "status": "open_awaiting_exact_head_ci",
+      "ids": [
+        "BF-EE-01"
+      ],
+      "batch": 1,
+      "checks": [
+        {
+          "id": 110143033733,
+          "name": "Native Compile (macos-latest)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "ba7a015424e525509f635e33629cee84d2ee95cd",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36790819876/job/110143033733"
+        },
+        {
+          "id": 110143033650,
+          "name": "Native Compile (windows-latest)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "ba7a015424e525509f635e33629cee84d2ee95cd",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36790819876/job/110143033650"
+        },
+        {
+          "id": 110143033611,
+          "name": "Test Suite (ubuntu-latest, Rust 1.87)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "ba7a015424e525509f635e33629cee84d2ee95cd",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36790819876/job/110143033611"
+        },
+        {
+          "id": 110143033582,
+          "name": "Controlled scheduler effect evidence",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "ba7a015424e525509f635e33629cee84d2ee95cd",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36790819903/job/110143033582"
+        },
+        {
+          "id": 110143033580,
+          "name": "Test Suite (ubuntu-latest, Rust stable)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "ba7a015424e525509f635e33629cee84d2ee95cd",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36790819876/job/110143033580"
+        },
+        {
+          "id": 110143033470,
+          "name": "Code Quality & Security",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "ba7a015424e525509f635e33629cee84d2ee95cd",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36790819876/job/110143033470"
+        },
+        {
+          "id": 110143032862,
+          "name": "Indexed world mesh pixel qualification",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "ba7a015424e525509f635e33629cee84d2ee95cd",
+          "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36790819827/job/110143032862"
+        }
+      ],
+      "local_validation": [
+        {
+          "command": "cargo fmt --all -- --check",
+          "result": "success"
+        },
+        {
+          "command": "cargo test -p extrem_gpu gltf_static --locked",
+          "result": "9 passed, 0 failed"
+        },
+        {
+          "command": "cargo test -p extrem_gpu --all-targets --locked",
+          "result": "26 unit + 12 mesh_contract + 6 texture_contract passed"
+        },
+        {
+          "command": "cargo clippy -p extrem_gpu --all-targets --locked -- -D warnings",
+          "result": "success"
+        }
+      ]
     }
   ],
   "repository_observations": [
@@ -3268,16 +3358,27 @@
         "Valider count contre plafonds par attribut, relation count/stride/longueur BIN avec arithmétique vérifiée, puis utiliser allocation fallible et budget cumulé; ajouter test petit GLB avec count très grand qui retourne une erreur avant allocation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "in_progress",
+      "status": "awaiting_ci",
       "current_head": "62d05926252265247c62aba6c0b3136b065a956a",
       "default_branch": "agent/initial-engine",
       "audit_head": "62d05926252265247c62aba6c0b3136b065a956a",
       "head_reconciliation": "unchanged_since_audit",
       "policy_review": "root_AGENTS_LICENSE_MIT_and_license_convergence_read_no_nested_AGENTS",
-      "prs": [],
+      "prs": [
+        {
+          "repository": "Memorithm/ExtremEngine",
+          "number": 44,
+          "url": "https://github.com/Memorithm/ExtremEngine/pull/44",
+          "base": "agent/initial-engine",
+          "base_sha": "62d05926252265247c62aba6c0b3136b065a956a",
+          "head_sha": "ba7a015424e525509f635e33629cee84d2ee95cd",
+          "merge_sha": null,
+          "status": "open_awaiting_exact_head_ci"
+        }
+      ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-09-30T22:55:38Z",
-      "next_action": "Sur agent/initial-engine : count cap avant reserve ; checked span (count-1)*stride+element width ; budget cumulé et try_reserve ; checked integer conversions ; inclure attributs/colors/indices et allocations dérivées ; tests tiny GLB huge counts/stride/offset plus imports valides ; CI CPU réelle sans qualification GPU prétendue.",
+      "last_observed_at": "2026-10-01T01:23:35+02:00",
+      "next_action": "Attendre les 7 checks réels sur HEAD ba7a015 ; lire les logs tests/qualifications, revalider base/HEAD/diff/reviews/protections, puis fusionner avec expected_head_sha sans prétention GPU non exécutée.",
       "confirmation_evidence": [
         {
           "head": "62d05926252265247c62aba6c0b3136b065a956a",
