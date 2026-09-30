@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T00:34:39+02:00",
+  "updated_at": "2026-10-01T00:53:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -46,125 +46,127 @@
       "url": "https://github.com/Memorithm/TurboQuant/pull/14",
       "base": "main",
       "base_sha": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
-      "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
+      "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
       "merge_sha": null,
       "status": "open_awaiting_exact_head_ci",
       "ids": [
-        "RT-TQ-01"
+        "RT-TQ-01",
+        "RT-TQ-05",
+        "RT-TQ-07"
       ],
       "batch": 1,
       "checks": [
         {
-          "id": 110127923606,
-          "name": "mdBook",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923606"
-        },
-        {
-          "id": 110127923435,
-          "name": "Test (ubuntu-22.04)",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923435"
-        },
-        {
-          "id": 110127923426,
-          "name": "Check (ubuntu-24.04)",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923426"
-        },
-        {
-          "id": 110127923418,
+          "id": 110133083213,
           "name": "MSRV (1.83)",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923418"
-        },
-        {
-          "id": 110127923402,
-          "name": "Format",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923402"
-        },
-        {
-          "id": 110127923356,
-          "name": "Clippy",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923356"
-        },
-        {
-          "id": 110127923348,
-          "name": "Security Audit",
           "status": "in_progress",
           "conclusion": null,
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923348"
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133083213"
         },
         {
-          "id": 110127923327,
+          "id": 110133083192,
           "name": "Check (ubuntu-22.04)",
           "status": "in_progress",
           "conclusion": null,
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923327"
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133083192"
         },
         {
-          "id": 110127923324,
-          "name": "test (3.11)",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155416/job/110127923324"
+          "id": 110133083189,
+          "name": "Test (ubuntu-22.04)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133083189"
         },
         {
-          "id": 110127923292,
-          "name": "test (3.13)",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155416/job/110127923292"
-        },
-        {
-          "id": 110127923277,
-          "name": "Docs",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923277"
-        },
-        {
-          "id": 110127923179,
-          "name": "test (3.10)",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155416/job/110127923179"
-        },
-        {
-          "id": 110127923073,
+          "id": 110133083178,
           "name": "Test (ubuntu-24.04)",
           "status": "in_progress",
           "conclusion": null,
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155418/job/110127923073"
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133083178"
         },
         {
-          "id": 110127922974,
+          "id": 110133083161,
+          "name": "Docs",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133083161"
+        },
+        {
+          "id": 110133083137,
+          "name": "Clippy",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133083137"
+        },
+        {
+          "id": 110133083093,
+          "name": "mdBook",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133083093"
+        },
+        {
+          "id": 110133083092,
+          "name": "test (3.11)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735546/job/110133083092"
+        },
+        {
+          "id": 110133083072,
+          "name": "Check (ubuntu-24.04)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133083072"
+        },
+        {
+          "id": 110133083065,
+          "name": "Security Audit",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133083065"
+        },
+        {
+          "id": 110133083045,
+          "name": "test (3.10)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735546/job/110133083045"
+        },
+        {
+          "id": 110133082996,
+          "name": "test (3.13)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735546/job/110133082996"
+        },
+        {
+          "id": 110133082880,
+          "name": "Format",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735579/job/110133082880"
+        },
+        {
+          "id": 110133082860,
           "name": "test (3.12)",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
-          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36786155416/job/110127922974"
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36787735546/job/110133082860"
         }
       ],
       "previous_attempts": [
@@ -181,6 +183,18 @@
         {
           "head": "8f163474fa925e02102cfff44985f6d14d52b6e5",
           "status": "superseded_by_bounded_fuzz_tests"
+        },
+        {
+          "head": "49f7352828f743001ffd7a0aa21b408baef2e271",
+          "status": "rejected_false_green_msrv",
+          "job": 110127923418,
+          "actual_exit_code": 101,
+          "reason": "Cargo 1.83 cannot parse getrandom 0.4.2 manifest; continue-on-error hid failure",
+          "tests": {
+            "parser": 16,
+            "roundtrip": 6,
+            "bounded_property_cases_per_test": 512
+          }
         }
       ]
     }
@@ -611,7 +625,7 @@
       "default_branch": "main",
       "audit_head": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
       "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "AGENTS_and_required_TurboQuant_roadmap_read",
+      "policy_review": "AGENTS_roadmap_and_licenses_read",
       "prs": [
         {
           "repository": "Memorithm/TurboQuant",
@@ -619,14 +633,14 @@
           "url": "https://github.com/Memorithm/TurboQuant/pull/14",
           "base": "main",
           "base_sha": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
-          "head_sha": "49f7352828f743001ffd7a0aa21b408baef2e271",
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
           "merge_sha": null,
           "status": "open_awaiting_exact_head_ci"
         }
       ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:34:39+02:00",
-      "next_action": "Attendre tous les checks réellement verts sur HEAD 49f7352 ; revalider base/HEAD/diff/mergeable/protections, puis fusionner avec expected_head_sha et vérifier CI cible."
+      "last_observed_at": "2026-10-01T00:53:00+02:00",
+      "next_action": "Lire les logs MSRV et tests sur HEAD 706d1fb ; corriger toute incompatibilité sans affaiblir les gates ; revalider base/diff/HEAD avant fusion puis vérifier la cible."
     },
     {
       "id": "RT-TQ-02",
@@ -719,16 +733,27 @@
         "Rendre MSRV bloquant; --locked; qualifier dépendances et bindings séparément si des surfaces ont un MSRV différent.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
+      "status": "awaiting_ci",
       "current_head": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
       "default_branch": "main",
       "audit_head": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
       "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
+      "policy_review": "AGENTS_roadmap_and_licenses_read",
+      "prs": [
+        {
+          "repository": "Memorithm/TurboQuant",
+          "number": 14,
+          "url": "https://github.com/Memorithm/TurboQuant/pull/14",
+          "base": "main",
+          "base_sha": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "merge_sha": null,
+          "status": "open_awaiting_exact_head_ci"
+        }
+      ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "last_observed_at": "2026-10-01T00:53:00+02:00",
+      "next_action": "Lire les logs MSRV et tests sur HEAD 706d1fb ; corriger toute incompatibilité sans affaiblir les gates ; revalider base/diff/HEAD avant fusion puis vérifier la cible."
     },
     {
       "id": "RT-TQ-06",
@@ -769,16 +794,27 @@
         "Déclarer contents:read et persist-credentials:false; épingler actions par SHA; prendre les workflows scirust/FLAT comme base.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
+      "status": "awaiting_ci",
       "current_head": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
       "default_branch": "main",
       "audit_head": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
       "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
+      "policy_review": "AGENTS_roadmap_and_licenses_read",
+      "prs": [
+        {
+          "repository": "Memorithm/TurboQuant",
+          "number": 14,
+          "url": "https://github.com/Memorithm/TurboQuant/pull/14",
+          "base": "main",
+          "base_sha": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
+          "head_sha": "706d1fbb0123b09ab6fcebd377fb73a7280742b5",
+          "merge_sha": null,
+          "status": "open_awaiting_exact_head_ci"
+        }
+      ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "last_observed_at": "2026-10-01T00:53:00+02:00",
+      "next_action": "Lire les logs MSRV et tests sur HEAD 706d1fb ; corriger toute incompatibilité sans affaiblir les gates ; revalider base/diff/HEAD avant fusion puis vérifier la cible."
     },
     {
       "id": "RT-SLHA-01",
