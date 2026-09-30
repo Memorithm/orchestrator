@@ -129,6 +129,14 @@
   ],
   "postmerge_checks": [
     {
+      "id": 110136175268,
+      "name": "Security audit",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
+      "url": "https://github.com/Memorithm/TurboQuant/runs/110136175268"
+    },
+    {
       "id": 110135253898,
       "name": "Check (ubuntu-22.04)",
       "status": "completed",
@@ -139,16 +147,16 @@
     {
       "id": 110135253838,
       "name": "Test (ubuntu-22.04)",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
       "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36788415174/job/110135253838"
     },
     {
       "id": 110135253826,
       "name": "Check (ubuntu-24.04)",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
       "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36788415174/job/110135253826"
     },
@@ -187,24 +195,24 @@
     {
       "id": 110135253759,
       "name": "Test (ubuntu-24.04)",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
       "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36788415174/job/110135253759"
     },
     {
       "id": 110135253718,
       "name": "Security Audit",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
       "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36788415174/job/110135253718"
     },
     {
       "id": 110135253447,
       "name": "test (3.12)",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
       "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36788415133/job/110135253447"
     },
@@ -219,8 +227,8 @@
     {
       "id": 110135253435,
       "name": "test (3.13)",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
       "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36788415133/job/110135253435"
     },
@@ -235,8 +243,8 @@
     {
       "id": 110135253293,
       "name": "Build & Deploy Docs",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
       "url": "https://github.com/Memorithm/TurboQuant/actions/runs/36788415190/job/110135253293"
     },
@@ -304,5 +312,77 @@
     "roadmap_blob": "dbd4f5df3be0936cba6c52dd9d0679a8aa3a8601",
     "expected_head_guard": true
   },
-  "updated_at": "2026-10-01T00:58:47+02:00"
+  "updated_at": "2026-10-01T01:02:53+02:00",
+  "target_validated_at": "2026-10-01T01:02:53+02:00",
+  "target_head": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
+  "status": "qualified_integrated",
+  "ci_reference_patterns": [
+    {
+      "url": "https://github.com/Memorithm/scirust/blob/6a9287dc3b55576f54275edf3f30d58686e3ed57/.github/workflows/ci.yml",
+      "blob": "76c351dc43044f09b680a71af00181424d63f65b",
+      "pattern_lines": [
+        "# their own tokens. Declaring `contents: read` at the top level drops every",
+        "  contents: read",
+        "        run: cargo +nightly-2026-07-02 clippy --workspace --all-targets --locked -- -D warnings",
+        "        run: cargo +nightly-2026-07-02 clippy -p scirust-gpu --features wgpu --all-targets --locked -- -D warnings",
+        "        run: cargo +nightly-2026-07-02 clippy -p scirust-sim --features rl --all-targets --locked -- -D warnings",
+        "        run: cargo +nightly-2026-07-02 clippy -p scirust-sim --features stiff --all-targets --locked -- -D warnings",
+        "        run: cargo +nightly-2026-07-02 clippy -p scirust-biomed --features sim --all-targets --locked -- -D warnings",
+        "        run: cargo +nightly-2026-07-02 run --locked -q -p scirust-sigma --bin epsilon-audit -- --root . --check",
+        "        run: cargo +nightly-2026-07-02 build --workspace --all-targets --locked",
+        "        run: cargo +nightly-2026-07-02 test --workspace --locked",
+        "        run: cargo +nightly-2026-07-02 test -p scirust-simd --all-targets --features portable-simd --locked",
+        "  # `--locked`: like `fuzz`, it keeps no committed lockfile.",
+        "        run: cargo +stable test -p scirust-simd --all-targets --features transformer-inference --locked",
+        "        run: cargo +nightly-2026-07-02 test -p scirust-simd --all-targets --features nightly-simd,transformer-inference --locked",
+        "        run: cargo +stable build --workspace --all-targets --locked"
+      ]
+    },
+    {
+      "url": "https://github.com/Memorithm/FLAT-ATTENTION/blob/ad1634fc922f6223dd3a83ac84154a82b1a35562/.github/workflows/ci.yml",
+      "blob": "59ed6a645b9c489d85c0cd4a6db63f11847c2cb6",
+      "pattern_lines": [
+        "  contents: read",
+        "          persist-credentials: false",
+        "          toolchain: 1.89.0",
+        "          persist-credentials: false",
+        "          toolchain: 1.89.0"
+      ]
+    }
+  ],
+  "postmerge_test_excerpts": [
+    {
+      "job": 110135253759,
+      "lines": [
+        "2026-09-30T22:57:26.1860676Z \u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 34.71s",
+        "2026-09-30T22:57:27.6729691Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.32s",
+        "2026-09-30T22:57:27.6750400Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-09-30T22:57:27.7808253Z \u001b[1m\u001b[92m     Running\u001b[0m tests/parser_limits.rs (rust/target/debug/deps/parser_limits-128754df7fd7eed7)",
+        "2026-09-30T22:57:27.7816075Z running 16 tests",
+        "2026-09-30T22:57:28.3736929Z test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.59s",
+        "2026-09-30T22:57:28.3771346Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "job": 110135253838,
+      "lines": [
+        "2026-09-30T22:57:43.6622915Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.38s",
+        "2026-09-30T22:57:43.6653197Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-09-30T22:57:43.7887069Z \u001b[1m\u001b[92m     Running\u001b[0m tests/parser_limits.rs (rust/target/debug/deps/parser_limits-128754df7fd7eed7)",
+        "2026-09-30T22:57:43.7899972Z running 16 tests",
+        "2026-09-30T22:57:44.4410999Z test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.65s",
+        "2026-09-30T22:57:44.4458754Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    }
+  ],
+  "postmerge_msrv_excerpt": [
+    "2026-09-30T22:56:47.6273003Z   1.83.0-x86_64-unknown-linux-gnu installed - rustc 1.83.0 (90b35a623 2024-11-26)",
+    "2026-09-30T22:56:47.6604301Z   1.83.0-x86_64-unknown-linux-gnu unchanged - rustc 1.83.0 (90b35a623 2024-11-26)",
+    "2026-09-30T22:56:47.8279460Z rustc 1.83.0 (90b35a623 2024-11-26)",
+    "2026-09-30T22:57:13.1952344Z \u001b[1m\u001b[32m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 25.34s"
+  ],
+  "postmerge_audit_excerpt": [
+    "2026-09-30T22:59:49.4554051Z No vulnerabilities were found",
+    "2026-09-30T22:59:50.4391134Z No critical vulnerabilities were found, not marking check as failed"
+  ]
 }

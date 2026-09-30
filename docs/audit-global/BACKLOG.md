@@ -1,19 +1,19 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Lot 1 : 1/50 ; cumul fusionné : 1 ; clos : 0 ; restants : 101.
+101 IDs ; 12 positifs conservés. Lot 1 : 1/50 ; cumul fusionné : 1 ; clos : 3 ; restants : 98.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
 | RT-SCI-01 | Memorithm/scirust | 9 | à faire |  |
 | RT-SCI-02 | Memorithm/scirust | 1 | à faire |  |
 | RT-SCI-03 | Memorithm/scirust | 9 | à faire |  |
-| RT-TQ-01 | Memorithm/TurboQuant | 1 | attente CI cible |  |
+| RT-TQ-01 | Memorithm/TurboQuant | 1 | résolu |  |
 | RT-TQ-02 | Memorithm/TurboQuant | 9 | à faire | RT-TQ-01 |
 | RT-TQ-03 | Memorithm/TurboQuant | 9 | à faire |  |
 | RT-TQ-04 | Memorithm/TurboQuant | 9 | à faire |  |
-| RT-TQ-05 | Memorithm/TurboQuant | 8 | attente CI cible |  |
+| RT-TQ-05 | Memorithm/TurboQuant | 8 | résolu |  |
 | RT-TQ-06 | Memorithm/TurboQuant | 5 | à faire |  |
-| RT-TQ-07 | Memorithm/TurboQuant | 8 | attente CI cible |  |
+| RT-TQ-07 | Memorithm/TurboQuant | 8 | résolu |  |
 | RT-SLHA-01 | Memorithm/SLHAv2 | 9 | à faire |  |
 | RT-SLHA-02 | Memorithm/SLHAv2 | 9 | à faire |  |
 | RT-SLHA-05 | Memorithm/SLHAv2 | 9 | à faire |  |
