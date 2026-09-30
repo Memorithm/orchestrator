@@ -1,0 +1,354 @@
+{
+  "schema": 1,
+  "ids": [
+    "BF-EE-01"
+  ],
+  "repository": "Memorithm/ExtremEngine",
+  "pr": "https://github.com/Memorithm/ExtremEngine/pull/44",
+  "base": "62d05926252265247c62aba6c0b3136b065a956a",
+  "head": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+  "reviewed_head": "ba7a015424e525509f635e33629cee84d2ee95cd",
+  "tested_merge": "19ef234b43c91218400d17311c3ce23a9d816b40",
+  "merged_commit": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+  "tree": "6c7d88efe61b8486d80c413bb0ae4228eb42cf58",
+  "exact_tree_match": true,
+  "parents": [
+    "62d05926252265247c62aba6c0b3136b065a956a",
+    "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f"
+  ],
+  "merge_signature_verified": true,
+  "change_summary": [
+    "caps every supported accessor count before reserve",
+    "proves checked (count-1)*stride+element_width within BIN view before allocation",
+    "uses importer-owned try_reserve_exact and 128 MiB cumulative requested-decoded admission budget",
+    "uses checked glTF u64 conversions without platform truncation",
+    "matches unknown attributes before value conversion and uses bounded static labels"
+  ],
+  "regressions": [
+    "maximum POSITION count",
+    "impossible one-byte POSITION span",
+    "maximum index count",
+    "accessor stride/span overflow",
+    "cumulative budget rejection before reserve",
+    "unknown attribute rejected before value conversion"
+  ],
+  "local_validation": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "result": "success"
+    },
+    {
+      "command": "cargo test -p extrem_gpu --all-targets --locked",
+      "result": "27 unit + 12 mesh_contract + 6 texture_contract passed"
+    },
+    {
+      "command": "cargo clippy -p extrem_gpu --all-targets --locked -- -D warnings",
+      "result": "success"
+    }
+  ],
+  "premerge_checks": [
+    {
+      "id": 110144768276,
+      "name": "Native Compile (macos-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768276",
+      "started_at": "2026-09-30T23:29:46Z",
+      "completed_at": "2026-09-30T23:31:43Z"
+    },
+    {
+      "id": 110144768255,
+      "name": "Code Quality & Security",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768255",
+      "started_at": "2026-09-30T23:29:40Z",
+      "completed_at": "2026-09-30T23:30:51Z"
+    },
+    {
+      "id": 110144768216,
+      "name": "Test Suite (ubuntu-latest, Rust stable)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768216",
+      "started_at": "2026-09-30T23:29:40Z",
+      "completed_at": "2026-09-30T23:30:51Z"
+    },
+    {
+      "id": 110144768190,
+      "name": "Test Suite (ubuntu-latest, Rust 1.87)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768190",
+      "started_at": "2026-09-30T23:29:40Z",
+      "completed_at": "2026-09-30T23:31:11Z"
+    },
+    {
+      "id": 110144768090,
+      "name": "Indexed world mesh pixel qualification",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361205/job/110144768090",
+      "started_at": "2026-09-30T23:29:40Z",
+      "completed_at": "2026-09-30T23:31:04Z"
+    },
+    {
+      "id": 110144768011,
+      "name": "Native Compile (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361269/job/110144768011",
+      "started_at": "2026-09-30T23:29:41Z",
+      "completed_at": "2026-09-30T23:32:50Z"
+    },
+    {
+      "id": 110144767713,
+      "name": "Controlled scheduler effect evidence",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791361207/job/110144767713",
+      "started_at": "2026-09-30T23:29:39Z",
+      "completed_at": "2026-09-30T23:32:33Z"
+    }
+  ],
+  "postmerge_checks": [
+    {
+      "id": 110146339776,
+      "name": "Indexed world mesh pixel qualification",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857815/job/110146339776",
+      "started_at": "2026-09-30T23:35:23Z",
+      "completed_at": "2026-09-30T23:36:40Z"
+    },
+    {
+      "id": 110146338877,
+      "name": "Native Compile (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338877",
+      "started_at": "2026-09-30T23:35:23Z",
+      "completed_at": "2026-09-30T23:38:24Z"
+    },
+    {
+      "id": 110146338814,
+      "name": "Test Suite (ubuntu-latest, Rust 1.87)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338814",
+      "started_at": "2026-09-30T23:35:23Z",
+      "completed_at": "2026-09-30T23:37:16Z"
+    },
+    {
+      "id": 110146338699,
+      "name": "Test Suite (ubuntu-latest, Rust stable)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338699",
+      "started_at": "2026-09-30T23:35:24Z",
+      "completed_at": "2026-09-30T23:37:06Z"
+    },
+    {
+      "id": 110146338665,
+      "name": "Native Compile (macos-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338665",
+      "started_at": "2026-09-30T23:35:29Z",
+      "completed_at": "2026-09-30T23:37:32Z"
+    },
+    {
+      "id": 110146338552,
+      "name": "Controlled scheduler effect evidence",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857855/job/110146338552",
+      "started_at": "2026-09-30T23:35:23Z",
+      "completed_at": "2026-09-30T23:37:34Z"
+    },
+    {
+      "id": 110146338448,
+      "name": "Code Quality & Security",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36791857863/job/110146338448",
+      "started_at": "2026-09-30T23:35:23Z",
+      "completed_at": "2026-09-30T23:36:29Z"
+    }
+  ],
+  "premerge_test_excerpt": [
+    "2026-09-30T23:29:42.3486932Z HEAD is now at 19ef234 Merge e383e4ea0ca1c50c2ece7a069524d29d31b0b43f into 62d05926252265247c62aba6c0b3136b065a956a",
+    "2026-09-30T23:29:50.8603841Z   1.87-x86_64-unknown-linux-gnu installed - rustc 1.87.0 (17067e9ac 2025-05-09)",
+    "2026-09-30T23:29:50.8891200Z   1.87-x86_64-unknown-linux-gnu unchanged - rustc 1.87.0 (17067e9ac 2025-05-09)",
+    "2026-09-30T23:29:51.0223866Z rustc 1.87.0 (17067e9ac 2025-05-09)",
+    "2026-09-30T23:30:20.4216331Z ##[group]Run cargo test --workspace --all-targets --locked",
+    "2026-09-30T23:30:20.4216778Z cargo test --workspace --all-targets --locked",
+    "2026-09-30T23:31:05.1281860Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+    "2026-09-30T23:31:05.1363667Z running 27 tests",
+    "2026-09-30T23:31:05.1369002Z test gltf_static::tests::cumulative_decode_budget_rejects_before_reserve ... ok",
+    "2026-09-30T23:31:05.1372074Z test gltf_static::tests::rejects_accessor_span_overflow_before_allocation ... ok",
+    "2026-09-30T23:31:05.1372795Z test gltf_static::tests::rejects_impossible_position_span_before_reserving ... ok",
+    "2026-09-30T23:31:05.1373727Z test gltf_static::tests::rejects_maximum_index_count_before_allocation ... ok",
+    "2026-09-30T23:31:05.1374414Z test gltf_static::tests::rejects_maximum_position_count_before_allocation ... ok",
+    "2026-09-30T23:31:05.1376595Z test gltf_static::tests::rejects_unknown_attribute_before_converting_its_value ... ok",
+    "2026-09-30T23:31:05.1386485Z test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:31:05.1398642Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:31:05.1411903Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ],
+  "postmerge_test_excerpt": [
+    "2026-09-30T23:35:32.6445813Z   1.87-x86_64-unknown-linux-gnu installed - rustc 1.87.0 (17067e9ac 2025-05-09)",
+    "2026-09-30T23:35:32.6825203Z   1.87-x86_64-unknown-linux-gnu unchanged - rustc 1.87.0 (17067e9ac 2025-05-09)",
+    "2026-09-30T23:35:32.8718220Z rustc 1.87.0 (17067e9ac 2025-05-09)",
+    "2026-09-30T23:36:10.2637663Z ##[group]Run cargo test --workspace --all-targets --locked",
+    "2026-09-30T23:36:10.2638131Z cargo test --workspace --all-targets --locked",
+    "2026-09-30T23:37:08.3245351Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+    "2026-09-30T23:37:08.3356026Z running 27 tests",
+    "2026-09-30T23:37:08.3365183Z test gltf_static::tests::cumulative_decode_budget_rejects_before_reserve ... ok",
+    "2026-09-30T23:37:08.3375944Z test gltf_static::tests::rejects_accessor_span_overflow_before_allocation ... ok",
+    "2026-09-30T23:37:08.3380524Z test gltf_static::tests::rejects_maximum_index_count_before_allocation ... ok",
+    "2026-09-30T23:37:08.3382501Z test gltf_static::tests::rejects_maximum_position_count_before_allocation ... ok",
+    "2026-09-30T23:37:08.3384476Z test gltf_static::tests::rejects_unknown_attribute_before_converting_its_value ... ok",
+    "2026-09-30T23:37:08.3395417Z test gltf_static::tests::rejects_impossible_position_span_before_reserving ... ok",
+    "2026-09-30T23:37:08.3398002Z test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:37:08.3414253Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:37:08.3430391Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ],
+  "premerge_quality_excerpt": [
+    "2026-09-30T23:29:42.2309480Z Download action repository 'EmbarkStudios/cargo-deny-action@9c67a826e39827395bfa619cd85cb2aaeb43cfaa' (SHA:9c67a826e39827395bfa619cd85cb2aaeb43cfaa)",
+    "2026-09-30T23:29:58.1382301Z HEAD is now at 19ef234 Merge e383e4ea0ca1c50c2ece7a069524d29d31b0b43f into 62d05926252265247c62aba6c0b3136b065a956a",
+    "2026-09-30T23:29:59.0950228Z ##[group]Run EmbarkStudios/cargo-deny-action@9c67a826e39827395bfa619cd85cb2aaeb43cfaa",
+    "2026-09-30T23:30:03.4296846Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic = 0.1.0'",
+    "2026-09-30T23:30:03.4300259Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-adapters = 0.1.0'",
+    "2026-09-30T23:30:03.4320437Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-core = 0.1.0'",
+    "2026-09-30T23:30:03.4332203Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-eir = 0.1.0'",
+    "2026-09-30T23:30:03.4340557Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-kv = 0.1.0'",
+    "2026-09-30T23:30:03.4343853Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-macros = 0.1.0'",
+    "2026-09-30T23:30:03.4347394Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-runtime = 0.1.0'",
+    "2026-09-30T23:30:03.7117204Z advisories ok, bans ok, licenses ok, sources ok",
+    "2026-09-30T23:30:12.4486407Z ##[group]Run cargo fmt --all -- --check",
+    "2026-09-30T23:30:12.4487090Z cargo fmt --all -- --check",
+    "2026-09-30T23:30:13.8197776Z ##[group]Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+    "2026-09-30T23:30:13.8198300Z cargo clippy --workspace --all-targets --locked -- -D warnings",
+    "2026-09-30T23:30:42.7750068Z ##[group]Run RUSTDOCFLAGS=\"-D warnings\" cargo doc --workspace --no-deps --locked",
+    "2026-09-30T23:30:42.7750497Z RUSTDOCFLAGS=\"-D warnings\" cargo doc --workspace --no-deps --locked"
+  ],
+  "postmerge_quality_excerpt": [
+    "2026-09-30T23:35:24.8826805Z Download action repository 'EmbarkStudios/cargo-deny-action@9c67a826e39827395bfa619cd85cb2aaeb43cfaa' (SHA:9c67a826e39827395bfa619cd85cb2aaeb43cfaa)",
+    "2026-09-30T23:35:37.5779933Z ##[group]Run EmbarkStudios/cargo-deny-action@9c67a826e39827395bfa619cd85cb2aaeb43cfaa",
+    "2026-09-30T23:35:44.1765997Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic = 0.1.0'",
+    "2026-09-30T23:35:44.1771169Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-adapters = 0.1.0'",
+    "2026-09-30T23:35:44.1789262Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-core = 0.1.0'",
+    "2026-09-30T23:35:44.1908116Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-eir = 0.1.0'",
+    "2026-09-30T23:35:44.1917194Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-kv = 0.1.0'",
+    "2026-09-30T23:35:44.1920601Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-macros = 0.1.0'",
+    "2026-09-30T23:35:44.1924477Z warning[no-license-field]: license expression was not specified in manifest for crate 'elastic-runtime = 0.1.0'",
+    "2026-09-30T23:35:44.4439086Z advisories ok, bans ok, licenses ok, sources ok",
+    "2026-09-30T23:35:47.1005237Z ##[group]Run cargo fmt --all -- --check",
+    "2026-09-30T23:35:47.1005606Z cargo fmt --all -- --check",
+    "2026-09-30T23:35:47.4756599Z ##[group]Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+    "2026-09-30T23:35:47.4757175Z cargo clippy --workspace --all-targets --locked -- -D warnings",
+    "2026-09-30T23:36:22.7080680Z ##[group]Run RUSTDOCFLAGS=\"-D warnings\" cargo doc --workspace --no-deps --locked",
+    "2026-09-30T23:36:22.7081455Z RUSTDOCFLAGS=\"-D warnings\" cargo doc --workspace --no-deps --locked"
+  ],
+  "premerge_pixel_excerpt": [
+    "2026-09-30T23:29:44.6792037Z HEAD is now at 19ef234 Merge e383e4ea0ca1c50c2ece7a069524d29d31b0b43f into 62d05926252265247c62aba6c0b3136b065a956a",
+    "2026-09-30T23:30:41.8987445Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+    "2026-09-30T23:30:41.9131215Z test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:30:41.9143400Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:30:41.9162830Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:30:54.8311727Z cargo run -p extrem_engine --example mesh_qualification --locked -- evidence/mesh-depth.ppm | tee evidence/pixel-checks.txt",
+    "2026-09-30T23:31:00.6067127Z      Running `target/debug/examples/mesh_scene --headless evidence/mesh-cubes.ppm`",
+    "2026-09-30T23:31:00.7094622Z mesh_scene_passed: 3 lit instances, 36 triangles, nonwhite_pixels=31878"
+  ],
+  "postmerge_pixel_excerpt": [
+    "2026-09-30T23:36:21.6685710Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+    "2026-09-30T23:36:21.6829120Z test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:36:21.6850449Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:36:21.6866592Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-09-30T23:36:33.5036412Z cargo run -p extrem_engine --example mesh_qualification --locked -- evidence/mesh-depth.ppm | tee evidence/pixel-checks.txt",
+    "2026-09-30T23:36:37.4390067Z      Running `target/debug/examples/mesh_scene --headless evidence/mesh-cubes.ppm`",
+    "2026-09-30T23:36:37.5541112Z mesh_scene_passed: 3 lit instances, 36 triangles, nonwhite_pixels=31878"
+  ],
+  "premerge_scheduler_excerpt": [
+    "2026-09-30T23:29:41.9008670Z HEAD is now at e383e4e fix(glb): bound unknown attribute rejection [BF-EE-01]",
+    "2026-09-30T23:29:50.4599974Z expected=\"e383e4ea0ca1c50c2ece7a069524d29d31b0b43f\"",
+    "2026-09-30T23:29:50.4804494Z ##[group]Run cargo fmt --all -- --check",
+    "2026-09-30T23:29:50.4804852Z cargo fmt --all -- --check",
+    "2026-09-30T23:29:50.4805354Z cargo check -p extrem_engine --features elastic-quality --example adaptive_quality_bench --locked",
+    "2026-09-30T23:29:50.4806138Z cargo clippy -p extrem_engine --features elastic-quality --example adaptive_quality_bench --locked -- -D warnings",
+    "2026-09-30T23:32:31.4288201Z # code_revision=e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+    "2026-09-30T23:32:31.4350964Z summary,pressure,baseline,120835,129922,359,0,0,4,359",
+    "2026-09-30T23:32:31.4351352Z summary,pressure,adaptive,109364,153065,249,110,2,2,249",
+    "2026-09-30T23:32:31.4419291Z summary,recovery,baseline,102322,116327,240,119,0,2,240",
+    "2026-09-30T23:32:31.4420128Z summary,recovery,adaptive,185856,202007,359,0,2,4,359",
+    "2026-09-30T23:32:31.4435546Z summary,pressure,baseline,120835,129922,359,0,0,4,359",
+    "2026-09-30T23:32:31.4436047Z summary,pressure,adaptive,109364,153065,249,110,2,2,249",
+    "2026-09-30T23:32:31.4436645Z summary,recovery,baseline,102322,116327,240,119,0,2,240",
+    "2026-09-30T23:32:31.4437305Z summary,recovery,adaptive,185856,202007,359,0,2,4,359"
+  ],
+  "postmerge_scheduler_excerpt": [
+    "2026-09-30T23:35:25.6504533Z HEAD is now at a530e3c Merge pull request #44 from Memorithm/audit/bf-ee-01-glb-allocation-bounds",
+    "2026-09-30T23:35:33.3432093Z expected=\"a530e3c57c2bc89a108dc98eb58aaa5222803367\"",
+    "2026-09-30T23:35:33.3612984Z ##[group]Run cargo fmt --all -- --check",
+    "2026-09-30T23:35:33.3613238Z cargo fmt --all -- --check",
+    "2026-09-30T23:35:33.3613544Z cargo check -p extrem_engine --features elastic-quality --example adaptive_quality_bench --locked",
+    "2026-09-30T23:35:33.3613996Z cargo clippy -p extrem_engine --features elastic-quality --example adaptive_quality_bench --locked -- -D warnings",
+    "2026-09-30T23:37:31.5099150Z # code_revision=a530e3c57c2bc89a108dc98eb58aaa5222803367",
+    "2026-09-30T23:37:31.5132303Z summary,pressure,baseline,46139,63326,359,0,0,4,359",
+    "2026-09-30T23:37:31.5132515Z summary,pressure,adaptive,52519,79059,249,110,2,2,249",
+    "2026-09-30T23:37:31.5160533Z summary,recovery,baseline,45168,57837,240,119,0,2,240",
+    "2026-09-30T23:37:31.5160847Z summary,recovery,adaptive,70867,95373,359,0,2,4,359",
+    "2026-09-30T23:37:31.5175246Z summary,pressure,baseline,46139,63326,359,0,0,4,359",
+    "2026-09-30T23:37:31.5175471Z summary,pressure,adaptive,52519,79059,249,110,2,2,249",
+    "2026-09-30T23:37:31.5175676Z summary,recovery,baseline,45168,57837,240,119,0,2,240",
+    "2026-09-30T23:37:31.5175873Z summary,recovery,adaptive,70867,95373,359,0,2,4,359"
+  ],
+  "review": {
+    "reviewed_commit": "ba7a015424e525509f635e33629cee84d2ee95cd",
+    "finding": "P2 eager attacker-key formatting",
+    "resolution_commit": "e383e4ea0ca1c50c2ece7a069524d29d31b0b43f",
+    "thread_id": "PRRT_kwDOT2x5Ss6nvsl2",
+    "thread_outdated": true,
+    "thread_resolved": true,
+    "fix_comment_id": 5921559778,
+    "premerge_evidence_comment_id": 5921623188
+  },
+  "protection_observation": {
+    "branch": "agent/initial-engine",
+    "branch_protected": false,
+    "visible_inherited_rulesets": [],
+    "server_constraints_bypassed": false,
+    "expected_head_guard": true
+  },
+  "qualification_scope": {
+    "parser_and_cpu_geometry": true,
+    "headless_pixel_software": true,
+    "gpu_hardware_claim": false,
+    "network_exposure_claim": false
+  },
+  "residual_separate_findings": [
+    "BF-EE-02",
+    "BF-EE-03",
+    "BF-EE-04",
+    "BF-EE-05",
+    "BF-EE-06"
+  ],
+  "target_head": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+  "target_validated_at": "2026-10-01T01:40:27+02:00",
+  "status": "qualified_integrated",
+  "updated_at": "2026-10-01T01:40:27+02:00"
+}
