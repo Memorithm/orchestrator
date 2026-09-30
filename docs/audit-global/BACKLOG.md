@@ -1,19 +1,19 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs issus du JSON complet ; 12 constats positifs conservés dans les sources. Aucune clôture implicite.
+101 IDs ; 12 positifs conservés. Lot 1 : 1/50 ; cumul fusionné : 1 ; clos : 0 ; restants : 101.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
 | RT-SCI-01 | Memorithm/scirust | 9 | à faire |  |
 | RT-SCI-02 | Memorithm/scirust | 1 | à faire |  |
 | RT-SCI-03 | Memorithm/scirust | 9 | à faire |  |
-| RT-TQ-01 | Memorithm/TurboQuant | 1 | à faire |  |
+| RT-TQ-01 | Memorithm/TurboQuant | 1 | attente CI cible |  |
 | RT-TQ-02 | Memorithm/TurboQuant | 9 | à faire | RT-TQ-01 |
 | RT-TQ-03 | Memorithm/TurboQuant | 9 | à faire |  |
 | RT-TQ-04 | Memorithm/TurboQuant | 9 | à faire |  |
-| RT-TQ-05 | Memorithm/TurboQuant | 8 | à faire |  |
+| RT-TQ-05 | Memorithm/TurboQuant | 8 | attente CI cible |  |
 | RT-TQ-06 | Memorithm/TurboQuant | 5 | à faire |  |
-| RT-TQ-07 | Memorithm/TurboQuant | 8 | à faire |  |
+| RT-TQ-07 | Memorithm/TurboQuant | 8 | attente CI cible |  |
 | RT-SLHA-01 | Memorithm/SLHAv2 | 9 | à faire |  |
 | RT-SLHA-02 | Memorithm/SLHAv2 | 9 | à faire |  |
 | RT-SLHA-05 | Memorithm/SLHAv2 | 9 | à faire |  |
@@ -55,9 +55,9 @@
 | COG-OCTA-001 | Memorithm/octasoma | 6 | à faire |  |
 | COG-OCTA-002 | Memorithm/octasoma | 1 | à faire |  |
 | COG-OCTA-003 | Memorithm/octasoma | 9 | à faire |  |
-| COG-SML-001 | Accès restreint | 9 | à faire |  |
-| COG-SML-002 | Accès restreint | 8 | à faire |  |
-| COG-SML-003 | Accès restreint | 9 | à faire |  |
+| COG-SML-001 | Périmètre privé — source interne | 9 | à faire |  |
+| COG-SML-002 | Périmètre privé — source interne | 8 | à faire |  |
+| COG-SML-003 | Périmètre privé — source interne | 9 | à faire |  |
 | FORGE-01 | Memorithm/Forge | 5 | à faire |  |
 | FORGE-02 | Memorithm/Forge | 7 | à faire |  |
 | FORGE-03 | Memorithm/Forge | 9 | à faire |  |
@@ -75,8 +75,8 @@
 | B-ITD-01 | Memorithm/itd-simulator | 9 | à faire |  |
 | B-ITD-02 | Memorithm/itd-simulator | 9 | à faire |  |
 | B-ITD-03 | Memorithm/itd-simulator | 9 | à faire | B-NO-03 |
-| B-NR-01 | Accès restreint | 8 | à faire |  |
-| B-NR-02 | Accès restreint | 9 | à faire |  |
+| B-NR-01 | Périmètre privé — source interne | 8 | à faire |  |
+| B-NR-02 | Périmètre privé — source interne | 9 | à faire |  |
 | B-RH-01 | Memorithm/riemann_ndim_bench | 8 | à faire |  |
 | B-RH-02 | Memorithm/riemann_ndim_bench | 6 | à faire |  |
 | B-PL-01 | Memorithm/ProofLab | 6 | à faire |  |
@@ -92,7 +92,7 @@
 | B-NL-01 | Memorithm/NoiseLab | 5 | à faire |  |
 | B-NL-02 | Memorithm/NoiseLab | 1 | à faire |  |
 | B-NL-03 | Memorithm/NoiseLab | 8 | à faire |  |
-| BF-EE-01 | Memorithm/ExtremEngine | 1 | à faire |  |
+| BF-EE-01 | Memorithm/ExtremEngine | 1 | en cours |  |
 | BF-EE-02 | Memorithm/ExtremEngine | 1 | à faire |  |
 | BF-EE-03 | Memorithm/ExtremEngine | 1 | à faire |  |
 | BF-KV-01 | Memorithm/KVLab | 9 | à faire |  |
@@ -105,5 +105,3 @@
 | BF-EE-04 | Memorithm/ExtremEngine | 9 | à faire |  |
 | BF-EE-05 | Memorithm/ExtremEngine | 9 | à faire |  |
 | BF-EE-06 | Memorithm/ExtremEngine | 9 | à faire |  |
-
-Les critères d’acceptation et liens de preuve par ID sont dans registry.json. Les priorités suivent l’ordre demandé ; les dépendances proposées doivent être confirmées lors du découpage des PR.
