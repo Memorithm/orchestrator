@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T12:28:36+02:00",
+  "updated_at": "2026-10-01T13:45:07+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 13,
-    "remaining": 88,
-    "merged_prs": 15
+    "closed": 15,
+    "remaining": 86,
+    "merged_prs": 17
   },
   "batches": [
     {
@@ -111,6 +111,16 @@
           "repository": "Memorithm/scirust-hub",
           "number": 83,
           "merge_sha": "c53ecd84af0a8bf17b595296004539c0252582d2"
+        },
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 37,
+          "merge_sha": "d3bae0c16e4287140175ed370710dc12302bbd3d"
+        },
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 38,
+          "merge_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890"
         }
       ]
     }
@@ -1882,6 +1892,107 @@
         }
       ],
       "target_validation": "format, ML adapter contracts, catalog integrity, strict Clippy, workspace build/tests and rustdoc passed on the exact signed target commit"
+    },
+    {
+      "repository": "Memorithm/SciRust-Verify",
+      "number": 37,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/37",
+      "base": "feat/scirust-verify-foundation",
+      "base_sha": "229066c0465d70269f715a62f66e9d8c9af89f34",
+      "head_sha": "c526fe2a509d5d4ebf39328cabb33b3526d54385",
+      "merge_sha": "d3bae0c16e4287140175ed370710dc12302bbd3d",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-16"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T11:36:49Z",
+      "merge_method": "automatic",
+      "checks": [
+        {
+          "id": 36856130966,
+          "name": "CI 151",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "c526fe2a509d5d4ebf39328cabb33b3526d54385",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36856130966",
+          "jobs": [
+            110348924319,
+            110349199725
+          ]
+        }
+      ],
+      "review": {
+        "head": "c526fe2a509d5d4ebf39328cabb33b3526d54385",
+        "result": "P1_fixed_and_thread_resolved",
+        "thread": "PRRT_kwDOUDnSxs6n6-2U"
+      },
+      "validated_tree": "0d1534e270535f7ddea6fc41dcaba8fd7da37d25",
+      "exact_tree_match": true,
+      "target_head": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+      "target_checks": [
+        {
+          "id": 36856995356,
+          "name": "CI 153 push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36856995356",
+          "jobs": [
+            110351744846,
+            110352105187
+          ]
+        }
+      ],
+      "target_validation": "MEM-16 code unchanged at the later exact default-branch commit; format, locked check, strict Clippy, all-target tests, rustdoc and dogfood all passed"
+    },
+    {
+      "repository": "Memorithm/SciRust-Verify",
+      "number": 38,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/38",
+      "base": "feat/scirust-verify-foundation",
+      "base_sha": "d3bae0c16e4287140175ed370710dc12302bbd3d",
+      "head_sha": "8f49f3f89beeef4af126d7e8166559d7047dce34",
+      "merge_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-18"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T11:41:54Z",
+      "merge_method": "automatic",
+      "checks": [
+        {
+          "id": 36856607245,
+          "name": "CI 152",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "8f49f3f89beeef4af126d7e8166559d7047dce34",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36856607245",
+          "jobs": [
+            110350470059,
+            110350796970
+          ]
+        }
+      ],
+      "validated_tree": "06ed8cb3908275c5c5f7acc54006926a6b6c4622",
+      "exact_tree_match": true,
+      "target_head": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+      "target_checks": [
+        {
+          "id": 36856995356,
+          "name": "CI 153 push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36856995356",
+          "jobs": [
+            110351744846,
+            110352105187
+          ]
+        }
+      ],
+      "target_validation": "the new push trigger fired on the exact integrated default-branch commit and every configured gate passed"
     }
   ],
   "repository_observations": [
@@ -2114,8 +2225,8 @@
       "visibility": "public",
       "default_branch": "feat/scirust-verify-foundation",
       "error": null,
-      "current_head": "229066c0465d70269f715a62f66e9d8c9af89f34",
-      "last_observed_at": "2026-10-01T07:03:58+02:00"
+      "current_head": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+      "last_observed_at": "2026-10-01T13:45:07+02:00"
     },
     {
       "repository": "Memorithm/TDI",
@@ -3708,16 +3819,32 @@
         "Groupe process/job object par plateforme, tuer groupe avant drainage et imposer deadline de drain; ne pas certifier timeout si terminaisons non confirmées. Partager mécanisme avec Hub et SciCapsule.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "593692aea76b90e50899e733344ffa4cf61ba380",
+      "status": "resolved",
+      "current_head": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
       "default_branch": "feat/scirust-verify-foundation",
       "audit_head": "593692aea76b90e50899e733344ffa4cf61ba380",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "MEM-16 merged as d3bae0c16e4287140175ed370710dc12302bbd3d with tested tree 0d1534e270535f7ddea6fc41dcaba8fd7da37d25; the unchanged runner code then passed complete target CI 153 on 99e6a8ba8e9ee5346319ef385360c21ed1a61890.",
+      "policy_review": "AGENTS.md, full ecosystem and ML roadmaps, CONTRIBUTING.md, README.md, LICENSE.md and workflows read; PolyForm Noncommercial 1.0.0 preserved; roadmap SHA-256 38cb82f4c2e70dcb36662769601b8ddc2b73ea5f4e97f7f6191dc865207e99a8 and ML overlay a17d82492704b093b686eb0d759e64e20180621171ab0510db6705585276e886.",
+      "prs": [
+        {
+          "number": 37,
+          "url": "https://github.com/Memorithm/SciRust-Verify/pull/37",
+          "base": "feat/scirust-verify-foundation",
+          "base_sha": "229066c0465d70269f715a62f66e9d8c9af89f34",
+          "head_sha": "c526fe2a509d5d4ebf39328cabb33b3526d54385",
+          "status": "merged_target_validated",
+          "merge_sha": "d3bae0c16e4287140175ed370710dc12302bbd3d"
+        }
+      ],
+      "resolution_evidence": [
+        "Unix commands use dedicated process groups; cleanup is attempted after timeout and normal parent exit before capture is accepted.",
+        "Stdout/stderr share an independent one-second deadline and incomplete capture fails closed; TimedOut requires confirmed cleanup.",
+        "Linux zombie-only groups are distinguished from live members after the P1 review finding; the review thread was resolved only after exact-head CI.",
+        "PR head c526fe2a509d5d4ebf39328cabb33b3526d54385 passed CI 151 jobs 110348924319/110349199725; target 99e6a8ba8e9ee5346319ef385360c21ed1a61890 passed CI 153 jobs 110351744846/110352105187.",
+        "Proof: docs/audit-global/proofs/SciRust-Verify-MEM-16-MEM-18.json"
+      ],
+      "last_observed_at": "2026-10-01T13:45:07+02:00",
+      "next_action": "Closed and target-qualified; keep the explicit non-sandbox and non-Unix child-only limitations."
     },
     {
       "id": "MEM-17",
@@ -3779,16 +3906,32 @@
         "Aligner default branch/trigger (conserver ou changer la branche explicitement), lancer CI sur SHA publié et rendre checks requis avant promotion.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "593692aea76b90e50899e733344ffa4cf61ba380",
+      "status": "resolved",
+      "current_head": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
       "default_branch": "feat/scirust-verify-foundation",
       "audit_head": "593692aea76b90e50899e733344ffa4cf61ba380",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "The default-branch push trigger was added by PR #38 and fired CI 153 on the exact integrated commit 99e6a8ba8e9ee5346319ef385360c21ed1a61890.",
+      "policy_review": "Same repository instruction, roadmap and PolyForm Noncommercial 1.0.0 review as MEM-16; no workflow gate was removed or weakened.",
+      "prs": [
+        {
+          "number": 38,
+          "url": "https://github.com/Memorithm/SciRust-Verify/pull/38",
+          "base": "feat/scirust-verify-foundation",
+          "base_sha": "d3bae0c16e4287140175ed370710dc12302bbd3d",
+          "head_sha": "8f49f3f89beeef4af126d7e8166559d7047dce34",
+          "status": "merged_target_validated",
+          "merge_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890"
+        }
+      ],
+      "resolution_evidence": [
+        "Workflow push branches now include feat/scirust-verify-foundation while preserving main and pull_request validation.",
+        "PR head 8f49f3f89beeef4af126d7e8166559d7047dce34 passed CI 152 jobs 110350470059/110350796970.",
+        "The new trigger fired CI 153 on integrated commit 99e6a8ba8e9ee5346319ef385360c21ed1a61890; both jobs and every configured step succeeded.",
+        "Branch protection/rulesets remain absent and are explicitly not claimed as remediated by the trigger.",
+        "Proof: docs/audit-global/proofs/SciRust-Verify-MEM-16-MEM-18.json"
+      ],
+      "last_observed_at": "2026-10-01T13:45:07+02:00",
+      "next_action": "Closed and target-qualified; branch protection remains a separate governance limitation."
     },
     {
       "id": "MEM-19",
@@ -5459,14 +5602,14 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261001T1210",
-    "acquired_at": "2026-10-01T10:10:30.000Z",
-    "expires_at": "2026-10-01T12:00:00.000Z",
-    "released_at": "2026-10-01T10:28:36.000Z",
+    "owner": "codex-audit-20261001T1314",
+    "acquired_at": "2026-10-01T11:14:45.000Z",
+    "expires_at": "2026-10-01T13:00:00.000Z",
+    "released_at": "2026-10-01T11:45:07.000Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "next_action": "Reacquire with blob-SHA CAS, reconcile issue #81 and registry, then continue priority-3 execution_guard consumer remediation from the qualified scirust-hub owner."
+    "next_action": "Reacquire by blob-SHA CAS, reconcile issue #81 and registry, then continue priority-3 ProofLab execution lifecycle remediation."
   },
   "capabilities": [
     {
@@ -5487,7 +5630,11 @@
       "status": "owner_implemented_and_qualified_for_process_group_cleanup_bounded_capture_and_sanitized_spawn_errors",
       "owner": "Memorithm/scirust-hub/crates/hub-executor",
       "proof": "docs/audit-global/proofs/scirust-hub-MEM-13-MEM-14.json",
-      "adoption": "remaining consumers require their own versioned contract, exact-head tests and target validation; no automatic portability claim"
+      "adoption": "SciCapsule and SciRust-Verify have independently qualified compatible process-group and bounded-capture semantics; remaining consumers still require their own versioned contracts and tests.",
+      "qualified_consumers": [
+        "Memorithm/SciCapsule",
+        "Memorithm/SciRust-Verify"
+      ]
     },
     {
       "name": "numeric_invariants",

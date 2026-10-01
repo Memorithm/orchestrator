@@ -3,9 +3,9 @@
   "owner": "codex-audit-20261001T1314",
   "acquired_at": "2026-10-01T11:14:45.000Z",
   "expires_at": "2026-10-01T13:00:00.000Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-01T11:45:07.000Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Reconcile SciRust-Verify HEAD and remediate MEM-16 on feat/scirust-verify-foundation; no merge without exact-head green CI."
+  "next_action": "Reacquire by blob-SHA CAS, reconcile issue #81 and registry, then continue priority-3 ProofLab execution lifecycle remediation."
 }

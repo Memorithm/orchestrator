@@ -39,9 +39,9 @@
 | MEM-13 | Memorithm/scirust-hub | 3 | résolu |  |
 | MEM-14 | Memorithm/scirust-hub | 3 | résolu |  |
 | MEM-15 | Memorithm/scirust-hub | 9 | à faire |  |
-| MEM-16 | Memorithm/SciRust-Verify | 3 | à faire |  |
-| MEM-17 | Memorithm/SciRust-Verify | 2 | à faire |  |
-| MEM-18 | Memorithm/SciRust-Verify | 8 | à faire |  |
+| MEM-16 | Memorithm/SciRust-Verify | 3 | résolu |  |
+| MEM-17 | Memorithm/SciRust-Verify | 2 | résolu |  |
+| MEM-18 | Memorithm/SciRust-Verify | 8 | résolu |  |
 | MEM-19 | Memorithm/SciRust-Verify | 9 | à faire |  |
 | COG-ADA-001 | Memorithm/ADA | 9 | à faire |  |
 | COG-ADA-002 | Memorithm/ADA | 9 | à faire |  |

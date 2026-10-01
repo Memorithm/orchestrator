@@ -6970,6 +6970,91 @@
           "next_action": "Clos; conserver l'invariant de non-sérialisation des secrets dans les futurs backends."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T13:45:07+02:00",
+      "hour": "2026-10-01T13:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 17,
+        "target": 50
+      },
+      "total_merged": 17,
+      "closed": 15,
+      "remaining": 86,
+      "actions": [
+        "SciRust-Verify #37 a ajouté les groupes de processus Unix, le nettoyage après timeout ou sortie normale, la confirmation de terminaison et un délai partagé indépendant d'une seconde pour les drains stdout/stderr.",
+        "La revue a détecté un P1 sur les groupes ne contenant plus que des zombies Linux; le correctif /proc distingue désormais les états inertes Z/X des membres encore exécutables et le fil a été résolu après CI exacte.",
+        "Le run intermédiaire 150 a échoué seulement rustfmt et ses étapes suivantes ont été ignorées; le HEAD final c526fe2a509d5d4ebf39328cabb33b3526d54385 a réussi CI 151 avant fusion automatique exacte en d3bae0c16e4287140175ed370710dc12302bbd3d.",
+        "SciRust-Verify #38 a ensuite aligné le trigger push sur la vraie branche par défaut feat/scirust-verify-foundation sans retirer de gate; CI 152 a réussi avant fusion automatique en 99e6a8ba8e9ee5346319ef385360c21ed1a61890.",
+        "Le nouveau trigger a lancé CI cible 153 sur le commit intégré exact; les deux jobs et toutes leurs étapes ont réussi."
+      ],
+      "executed_checks": [
+        "PR #37 HEAD c526fe2a509d5d4ebf39328cabb33b3526d54385: CI 151 jobs 110348924319/110349199725, format, locked check, Clippy strict, tests tous targets, rustdoc, build CLI, auto-vérification et fixtures passante/échouante réussis.",
+        "PR #38 HEAD 8f49f3f89beeef4af126d7e8166559d7047dce34: CI 152 jobs 110350470059/110350796970, même périmètre complet réussi.",
+        "Cible feat/scirust-verify-foundation 99e6a8ba8e9ee5346319ef385360c21ed1a61890: CI push 153 jobs 110351744846/110352105187, même périmètre complet réussi.",
+        "Arbres intégrés vérifiés: d3bae0c16e4287140175ed370710dc12302bbd3d -> 0d1534e270535f7ddea6fc41dcaba8fd7da37d25; 99e6a8ba8e9ee5346319ef385360c21ed1a61890 -> 06ed8cb3908275c5c5f7acc54006926a6b6c4622."
+      ],
+      "waiting": [
+        "La branche par défaut SciRust-Verify reste non protégée et sans checks requis; le trigger CI corrige MEM-18 mais ne vaut pas protection de branche.",
+        "86 IDs restent ouverts; prochaine action autonome: poursuivre les consommateurs priority-3, notamment ProofLab, à partir du contrat execution_guard qualifié sans revendiquer de sandbox."
+      ],
+      "work_items": [
+        {
+          "id": "MEM-16",
+          "repository": "Memorithm/SciRust-Verify",
+          "status": "resolved",
+          "actions": "Groupes Unix, nettoyage/confirmation avant drain, deadline indépendante, fail-closed et correction zombie-only issue de revue.",
+          "results": "PR #37 fusionnée; CI exacte et CI cible ultérieure entièrement vertes; limite non-Unix et frontière non-sandbox explicites.",
+          "pr": [
+            {
+              "number": 37,
+              "url": "https://github.com/Memorithm/SciRust-Verify/pull/37",
+              "head_sha": "c526fe2a509d5d4ebf39328cabb33b3526d54385",
+              "merge_sha": "d3bae0c16e4287140175ed370710dc12302bbd3d"
+            }
+          ],
+          "head": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+          "checks": [
+            36856130966,
+            110348924319,
+            110349199725,
+            36856995356,
+            110351744846,
+            110352105187
+          ],
+          "dependencies": [
+            "Memorithm/scirust-hub#83 execution_guard owner semantics"
+          ],
+          "next_action": "Clos et qualifié sur la cible; conserver les limitations de plateforme et de sécurité."
+        },
+        {
+          "id": "MEM-18",
+          "repository": "Memorithm/SciRust-Verify",
+          "status": "resolved",
+          "actions": "Ajout de feat/scirust-verify-foundation au trigger push CI, sans suppression de main ni pull_request.",
+          "results": "PR #38 fusionnée; le trigger a effectivement exécuté et réussi CI 153 sur le SHA intégré exact.",
+          "pr": [
+            {
+              "number": 38,
+              "url": "https://github.com/Memorithm/SciRust-Verify/pull/38",
+              "head_sha": "8f49f3f89beeef4af126d7e8166559d7047dce34",
+              "merge_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890"
+            }
+          ],
+          "head": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+          "checks": [
+            36856607245,
+            110350470059,
+            110350796970,
+            36856995356,
+            110351744846,
+            110352105187
+          ],
+          "dependencies": [],
+          "next_action": "Clos; traiter séparément l'absence de protection/règles obligatoires."
+        }
+      ]
     }
   ]
 }

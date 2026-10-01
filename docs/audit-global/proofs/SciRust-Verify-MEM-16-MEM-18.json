@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "ids": [
+    "MEM-16",
+    "MEM-18"
+  ],
+  "repository": "Memorithm/SciRust-Verify",
+  "base_branch": "feat/scirust-verify-foundation",
+  "audit_head": "593692aea76b90e50899e733344ffa4cf61ba380",
+  "prs": [
+    {
+      "number": 37,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/37",
+      "id": "MEM-16",
+      "base_sha": "229066c0465d70269f715a62f66e9d8c9af89f34",
+      "head_sha": "c526fe2a509d5d4ebf39328cabb33b3526d54385",
+      "merge_sha": "d3bae0c16e4287140175ed370710dc12302bbd3d",
+      "tree": "0d1534e270535f7ddea6fc41dcaba8fd7da37d25",
+      "merge_mode": "automatic after exact-head gates"
+    },
+    {
+      "number": 38,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/38",
+      "id": "MEM-18",
+      "base_sha": "d3bae0c16e4287140175ed370710dc12302bbd3d",
+      "head_sha": "8f49f3f89beeef4af126d7e8166559d7047dce34",
+      "merge_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+      "tree": "06ed8cb3908275c5c5f7acc54006926a6b6c4622",
+      "merge_mode": "automatic after exact-head gates"
+    }
+  ],
+  "change_summary": [
+    "run Unix verification commands in dedicated process groups and clean the group after timeout or normal parent exit",
+    "confirm termination before accepting output and distinguish Linux zombie-only groups from live members",
+    "give stdout and stderr one independent shared one-second drain deadline and fail closed on incomplete capture",
+    "record TimedOut only after group cleanup and bounded capture are confirmed",
+    "retain explicit child-only termination on non-Unix platforms without a sandbox claim",
+    "run the complete CI workflow on the actual default branch feat/scirust-verify-foundation"
+  ],
+  "regressions": [
+    "timeout terminates a descendant that retains inherited pipes",
+    "normal parent exit cleans a descendant that retains inherited pipes",
+    "capture deadline is independent and bounded",
+    "Linux zombie-only groups count as terminated while live members remain fail-closed"
+  ],
+  "premerge_validation": [
+    {
+      "pr": 37,
+      "head_sha": "c526fe2a509d5d4ebf39328cabb33b3526d54385",
+      "workflow_run": 36856130966,
+      "jobs": [
+        110348924319,
+        110349199725
+      ],
+      "conclusion": "success",
+      "successful_steps": [
+        "cargo fmt --all -- --check",
+        "cargo check --workspace --all-targets --locked",
+        "cargo clippy --workspace --all-targets --locked -- -D warnings",
+        "cargo test --workspace --all-targets --locked",
+        "RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked",
+        "release CLI build",
+        "repository self-verification",
+        "passing fixture",
+        "failing fixture with sealed dossier"
+      ],
+      "review": "P1 zombie-only group finding corrected on a new head; thread PRRT_kwDOUDnSxs6n6-2U resolved after exact-head CI"
+    },
+    {
+      "pr": 38,
+      "head_sha": "8f49f3f89beeef4af126d7e8166559d7047dce34",
+      "workflow_run": 36856607245,
+      "jobs": [
+        110350470059,
+        110350796970
+      ],
+      "conclusion": "success",
+      "successful_steps": [
+        "format, locked check, strict clippy, all-target tests and rustdoc",
+        "repository self-verification and both end-to-end fixtures"
+      ]
+    }
+  ],
+  "discarded_attempts": [
+    {
+      "run": 36855913461,
+      "head_sha": "9a4f3ed1d12bd5d2b0608d5e63a1c50eed9741cf",
+      "reason": "rustfmt failed and later steps were skipped; the partial run was not counted"
+    },
+    {
+      "run": 36854973664,
+      "head_sha": "54e58db7352b3704d3f43d0238a8797986b155bd",
+      "reason": "green but superseded by a valid P1 review finding; it was not used for final qualification"
+    }
+  ],
+  "postmerge_validation": {
+    "head_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+    "tree": "06ed8cb3908275c5c5f7acc54006926a6b6c4622",
+    "workflow_run": 36856995356,
+    "event": "push",
+    "branch": "feat/scirust-verify-foundation",
+    "jobs": [
+      110351744846,
+      110352105187
+    ],
+    "conclusion": "success",
+    "successful_steps": [
+      "format, locked check, strict clippy, all-target tests and rustdoc",
+      "repository self-verification and both end-to-end fixtures"
+    ]
+  },
+  "acceptance": [
+    "ordinary Unix descendants are terminated and termination is confirmed before bounded output drainage",
+    "TimedOut is not emitted when cleanup or capture confirmation fails",
+    "the default branch now starts the complete CI workflow on every push",
+    "both exact PR heads and the exact integrated default-branch commit passed every configured gate"
+  ],
+  "limitations": [
+    "the implementation is resource supervision and not an OS security sandbox",
+    "non-Unix platforms retain child-level termination; no process-tree claim is made there",
+    "the default branch remains unprotected and declares no required checks; that governance gap is not represented as fixed by a workflow trigger"
+  ],
+  "policy": {
+    "license": "PolyForm Noncommercial 1.0.0",
+    "roadmap_sha256": "38cb82f4c2e70dcb36662769601b8ddc2b73ea5f4e97f7f6191dc865207e99a8",
+    "ml_overlay_sha256": "a17d82492704b093b686eb0d759e64e20180621171ab0510db6705585276e886"
+  },
+  "local_note": "Rust tooling was unavailable in the automation runtime; no local Rust execution is claimed",
+  "closed_at": "2026-10-01T13:45:07+02:00"
+}
