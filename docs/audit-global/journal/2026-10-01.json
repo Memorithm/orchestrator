@@ -6207,9 +6207,39 @@
           "status": "resolved",
           "actions": "Validation rendue obligatoire dans instantiate; plan itératif fallible; relations préallouées; rollback testé sur échec intermédiaire; revues P1 traitées.",
           "results": "Résolu sur le merge signé 1eb9b60a21944d980088edbc90f5e6175bb8800e, arbre 100b85aedc1d7c9ae98c0669f8c8419520c2f5e9, avec 11 checks exact-head et 11 checks cible réussis.",
-          "pr": [{"number": 45, "url": "https://github.com/Memorithm/ExtremEngine/pull/45", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"}],
+          "pr": [
+            {
+              "number": 45,
+              "url": "https://github.com/Memorithm/ExtremEngine/pull/45",
+              "head_sha": "04ed317123792c819de29781632222b7a0aba676",
+              "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+            }
+          ],
           "head": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
-          "checks": [110155218053, 110155218048, 110155218032, 110155217978, 110155217853, 110155217824, 110155217725, 110155217470, 110155217447, 110155217283, 110155217055, 110156289301, 110156289232, 110156289229, 110156289224, 110156289183, 110156289115, 110156288908, 110156288900, 110156288575, 110156288538, 110156288535],
+          "checks": [
+            110155218053,
+            110155218048,
+            110155218032,
+            110155217978,
+            110155217853,
+            110155217824,
+            110155217725,
+            110155217470,
+            110155217447,
+            110155217283,
+            110155217055,
+            110156289301,
+            110156289232,
+            110156289229,
+            110156289224,
+            110156289183,
+            110156289115,
+            110156288908,
+            110156288900,
+            110156288575,
+            110156288538,
+            110156288535
+          ],
           "dependencies": [],
           "next_action": "Résolu et qualifié; surveiller uniquement une régression ultérieure."
         },
@@ -6219,11 +6249,247 @@
           "status": "resolved",
           "actions": "Ajout d'une enveloppe dure et réductible: 8 MiB encodés, 4 KiB par nom, budget agrégé, nœuds/profondeur pendant le décodage seedé, croissance géométrique; test document plat excessif.",
           "results": "Résolu sur le merge signé 1eb9b60a21944d980088edbc90f5e6175bb8800e, arbre identique au HEAD validé; limites exécutées dans la qualification scène Rust 1.87/stable.",
-          "pr": [{"number": 45, "url": "https://github.com/Memorithm/ExtremEngine/pull/45", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"}],
+          "pr": [
+            {
+              "number": 45,
+              "url": "https://github.com/Memorithm/ExtremEngine/pull/45",
+              "head_sha": "04ed317123792c819de29781632222b7a0aba676",
+              "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+            }
+          ],
           "head": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
-          "checks": [110155218048, 110155218032, 110155217853, 110155217824, 110156289229, 110156289183, 110156289115, 110156288535],
+          "checks": [
+            110155218048,
+            110155218032,
+            110155217853,
+            110155217824,
+            110156289229,
+            110156289183,
+            110156289115,
+            110156288535
+          ],
           "dependencies": [],
           "next_action": "Résolu et qualifié; surveiller uniquement une régression ultérieure."
+        }
+      ]
+    },
+    {
+      "observed_at": "2026-10-01T03:59:38+02:00",
+      "hour": "2026-10-01T03:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 6,
+        "target": 50
+      },
+      "total_merged": 6,
+      "closed": 7,
+      "remaining": 94,
+      "actions": [
+        "MEM-04 revérifié sur CCOS-Core main d56f5f5; PR #28 a ajouté rejets symlink, bornes fichiers/octets et lectures no-follow.",
+        "La revue exacte tardive de #28 a terminé après sa fusion automatique et signalé trois défauts encore actifs; MEM-04 est resté ouvert.",
+        "PR #29 a remplacé la découverte pathname par une énumération depuis descriptor épinglé, ajouté O_NONBLOCK et rendu les plateformes sans resolver handle-relatif fail-closed.",
+        "Après fusion de #29, le push fa9bd00 a révélé l'échec déterministe de la politique d'auteur sur le committer GitHub; PR #30 a restreint l'exception à GitHub <noreply@github.com> comme committer seulement, avec test négatif comme auteur.",
+        "Les PR #28, #29 et #30 ont été fusionnés avec expected_head_sha; aucune alerte de revue exacte n'est restée active."
+      ],
+      "executed_checks": [
+        "PR #28 HEAD b504516: CI 11/11, import strict 1/1, sécurité 2/2 réussis; revue tardive conservée comme défaut non clos.",
+        "PR #29 HEAD 550fc93: CI 11/11, import strict 1/1, sécurité 2/2 et revue exacte sans défaut majeur.",
+        "PR #30 HEAD 7b66cbb: test shell local de politique, CI 11/11, import strict 1/1, sécurité 2/2 et revue exacte sans défaut majeur."
+      ],
+      "waiting": [
+        "Validation post-fusion finale de main poursuivie dans l'heure 04:00; le premier push de #29 n'était pas compté comme qualifié à cause du gate auteur rouge."
+      ],
+      "work_items": [
+        {
+          "id": "MEM-04",
+          "repository": "Memorithm/CCOS-Core",
+          "status": "in_progress",
+          "actions": "Trois PR cohérents: remédiation initiale, fermeture des races de chemin/FIFO, puis réparation du gate post-fusion sans élargir les auteurs.",
+          "results": "Les trois PR sont fusionnés; clôture suspendue à la validation de main après #30.",
+          "pr": [
+            {
+              "number": 28,
+              "url": "https://github.com/Memorithm/CCOS-Core/pull/28",
+              "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+              "merge_sha": "cadf9d7bd31285f1b9300895b64f602f4ed8cfdd"
+            },
+            {
+              "number": 29,
+              "url": "https://github.com/Memorithm/CCOS-Core/pull/29",
+              "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+              "merge_sha": "fa9bd002e82288ab2b926d02e80949139e2d07d0"
+            },
+            {
+              "number": 30,
+              "url": "https://github.com/Memorithm/CCOS-Core/pull/30",
+              "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+              "merge_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b"
+            }
+          ],
+          "head": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "checks": [
+            110175935611,
+            110175935683,
+            110175935715,
+            110175935643,
+            110175935694,
+            110175935465,
+            110175935716,
+            110175935766,
+            110175935790,
+            110175935616,
+            110175935709,
+            110175935569,
+            110175935687,
+            110175935458,
+            110179589376,
+            110179589299,
+            110179589262,
+            110179589331,
+            110179589265,
+            110179589272,
+            110179589277,
+            110179589375,
+            110179589346,
+            110179589281,
+            110179589059,
+            110179589044,
+            110179589276,
+            110179589488,
+            110181827297,
+            110181827421,
+            110181827428,
+            110181827451,
+            110181827364,
+            110181827371,
+            110181827373,
+            110181827358,
+            110181827347,
+            110181827143,
+            110181827378,
+            110181827319,
+            110181827160,
+            110181827310
+          ],
+          "dependencies": [],
+          "next_action": "Attendre les trois workflows push exacts de 13146f2 puis clore uniquement s'ils réussissent."
+        }
+      ]
+    },
+    {
+      "observed_at": "2026-10-01T04:08:28+02:00",
+      "hour": "2026-10-01T04:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 6,
+        "target": 50
+      },
+      "total_merged": 6,
+      "closed": 7,
+      "remaining": 94,
+      "actions": [
+        "Validation post-fusion de CCOS-Core main au SHA exact 13146f27b30ddfe605c842bc0261c94b40f4b88b.",
+        "Le gate Repository hygiene + author policy réussit désormais sur le squash réel tout en conservant le test négatif GitHub-comme-auteur.",
+        "CI, import strict et audit sécurité réussis; MEM-04 clos avec preuve combinée de la séquence #28/#29/#30.",
+        "Registre, compteur de lot, dépôt observé et preuve durable réconciliés; MEM-08 reste ouvert pour la copie vendoriée."
+      ],
+      "executed_checks": [
+        "Cible 13146f2: CI 11/11 réussis, incluant tests debug/release, tests cognitifs, clippy -D warnings, fmt, docs, trois cargo check, MSRV 1.89 et politique auteur.",
+        "Cible 13146f2: Strict BEIR import 1/1 et Security Audit 2/2 réussis.",
+        "Preuve: docs/audit-global/proofs/CCOS-Core-MEM-04.json."
+      ],
+      "waiting": [
+        "94 IDs restent ouverts; prochain chantier prioritaire indépendant MEM-17 sur SciRust-Verify, branche par défaut feat/scirust-verify-foundation.",
+        "MEM-08 reste dépendant de la propagation qualifiée vers CCOS-Enterprise; aucun statut résolu n'est accordé par dépendance implicite."
+      ],
+      "work_items": [
+        {
+          "id": "MEM-04",
+          "repository": "Memorithm/CCOS-Core",
+          "status": "resolved",
+          "actions": "Scanner confiné à un descriptor Unix épinglé; découverte et ouvertures relatives no-follow/nonblocking; limites explicites; non-Unix fail-closed; gate de squash réparé sans autoriser GitHub comme auteur.",
+          "results": "Résolu sur main 13146f27b30ddfe605c842bc0261c94b40f4b88b, arbre d9187bbd51c396e83518bc7966f3a7896ce28118; 14 validations de cible réussies.",
+          "pr": [
+            {
+              "number": 28,
+              "url": "https://github.com/Memorithm/CCOS-Core/pull/28",
+              "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+              "merge_sha": "cadf9d7bd31285f1b9300895b64f602f4ed8cfdd"
+            },
+            {
+              "number": 29,
+              "url": "https://github.com/Memorithm/CCOS-Core/pull/29",
+              "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+              "merge_sha": "fa9bd002e82288ab2b926d02e80949139e2d07d0"
+            },
+            {
+              "number": 30,
+              "url": "https://github.com/Memorithm/CCOS-Core/pull/30",
+              "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+              "merge_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b"
+            }
+          ],
+          "head": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "checks": [
+            110175935611,
+            110175935683,
+            110175935715,
+            110175935643,
+            110175935694,
+            110175935465,
+            110175935716,
+            110175935766,
+            110175935790,
+            110175935616,
+            110175935709,
+            110175935569,
+            110175935687,
+            110175935458,
+            110179589376,
+            110179589299,
+            110179589262,
+            110179589331,
+            110179589265,
+            110179589272,
+            110179589277,
+            110179589375,
+            110179589346,
+            110179589281,
+            110179589059,
+            110179589044,
+            110179589276,
+            110179589488,
+            110181827297,
+            110181827421,
+            110181827428,
+            110181827451,
+            110181827364,
+            110181827371,
+            110181827373,
+            110181827358,
+            110181827347,
+            110181827143,
+            110181827378,
+            110181827319,
+            110181827160,
+            110181827310,
+            110183417781,
+            110183417954,
+            110183417993,
+            110183418002,
+            110183418016,
+            110183418050,
+            110183418061,
+            110183418112,
+            110183418235,
+            110183418245,
+            110183418298,
+            110183417901,
+            110183418038,
+            110183418243
+          ],
+          "dependencies": [],
+          "next_action": "Clos et qualifié; propager vers le vendor CCOS-Enterprise sous MEM-08 avant de clore ce dernier."
         }
       ]
     }
