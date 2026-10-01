@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "owner": "codex-audit-20261001T1405",
-  "acquired_at": "2026-10-01T12:05:45.000Z",
-  "expires_at": "2026-10-01T14:00:00.000Z",
-  "released_at": "2026-10-01T13:40:40.000Z",
-  "status": "released",
+  "owner": "codex-audit-20261001T1613",
+  "acquired_at": "2026-10-01T14:14:30.000Z",
+  "expires_at": "2026-10-01T16:00:00.000Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Reacquire by blob-SHA CAS, reconcile issue #81 and registry, then continue B-PL-02 true isolation or the next independent priority-3 consumer."
+  "next_action": "Reconcile CCOS-Core HEAD and remediate MEM-03 bounded storage reads before allocation or retention."
 }
