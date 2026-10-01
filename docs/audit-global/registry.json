@@ -1812,7 +1812,7 @@
         }
       ],
       "validated_tree": "4f538ff69ae1cf48c82a9a97072756850a34a23e",
-      "exact_tree_match": false,
+      "exact_tree_match": true,
       "target_head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
       "target_checks": [
         {
