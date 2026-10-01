@@ -1,0 +1,237 @@
+{
+  "schema": 1,
+  "ids": [
+    "COG-COGNO-001",
+    "COG-COGNO-002",
+    "COG-COGNO-004"
+  ],
+  "repository": "Memorithm/COGNO-1",
+  "base_branch": "main",
+  "audit_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+  "pull_requests": [
+    {
+      "number": 261,
+      "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+      "base_sha": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+      "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+      "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+      "tested_tree": "3e1705ad08f481ed80125011fe378602d16d3f7a",
+      "integrated_tree": "3e1705ad08f481ed80125011fe378602d16d3f7a",
+      "exact_tree_match": true
+    },
+    {
+      "number": 262,
+      "url": "https://github.com/Memorithm/COGNO-1/pull/262",
+      "base_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+      "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+      "merge_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+      "tested_tree": "b3386dd00691a81f542c5e1e6ed417c0f0bb3265",
+      "integrated_tree": "b3386dd00691a81f542c5e1e6ed417c0f0bb3265",
+      "exact_tree_match": true
+    }
+  ],
+  "final_head": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+  "change_summary": [
+    "TCP server refuses startup unless COGNO_TASTE_TOKEN contains 32..=128 non-whitespace ASCII bytes",
+    "accepted sockets receive bounded read and write timeouts, configurable up to five minutes",
+    "verified packages are atomically written and fsynced in taste.inbox before OK; first-directory parent and inbox directory entries are synchronized on Unix",
+    "persistence failure returns ERR persistence_failed without updating idempotency memory",
+    "restart idempotency is rebuilt from digest-verified inbox packages",
+    "raw TCP bind resolution is performed once and rejected unless every endpoint is loopback; remote peers require an authenticated encrypted host tunnel terminating on loopback"
+  ],
+  "regressions": [
+    "tcp_token_is_mandatory_and_bounded",
+    "push_is_not_acknowledged_or_remembered_before_persistence",
+    "raw_tcp_bind_is_restricted_to_loopback"
+  ],
+  "premerge_validation": [
+    {
+      "pr": 261,
+      "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+      "runs": [
+        {
+          "id": 36932195966,
+          "name": "CI",
+          "jobs": [
+            110604028264,
+            110604028369,
+            110604028456,
+            110604028475,
+            110604028483,
+            110604028531
+          ],
+          "conclusion": "success"
+        },
+        {
+          "id": 36932198914,
+          "name": "Offline distribution",
+          "jobs": [
+            110604021909
+          ],
+          "conclusion": "success"
+        },
+        {
+          "id": 36932196211,
+          "name": "Rust50 v2 integration",
+          "jobs": [
+            110604125656
+          ],
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "pr": 262,
+      "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+      "runs": [
+        {
+          "id": 36933205728,
+          "name": "CI",
+          "jobs": [
+            110607391387,
+            110607391602,
+            110607391660,
+            110607391715,
+            110607391741,
+            110607391815
+          ],
+          "conclusion": "success"
+        },
+        {
+          "id": 36933205866,
+          "name": "Offline distribution",
+          "jobs": [
+            110607281726
+          ],
+          "conclusion": "success"
+        },
+        {
+          "id": 36933205740,
+          "name": "Rust50 v2 integration",
+          "jobs": [
+            110607490159
+          ],
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "postmerge_validation": [
+    {
+      "head_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+      "runs": [
+        {
+          "id": 36932618970,
+          "name": "CI",
+          "jobs": [
+            110605379626,
+            110605379891,
+            110605379906,
+            110605379915,
+            110605379925,
+            110605380032
+          ],
+          "conclusion": "success"
+        },
+        {
+          "id": 36932619016,
+          "name": "Offline distribution",
+          "jobs": [
+            110605378376
+          ],
+          "conclusion": "success"
+        },
+        {
+          "id": 36932619011,
+          "name": "Rust50 v2 integration",
+          "jobs": [
+            110605378501
+          ],
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "head_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+      "runs": [
+        {
+          "id": 36933674543,
+          "name": "CI",
+          "jobs": [
+            110608780680,
+            110608780863,
+            110608780950,
+            110608780968,
+            110608780978,
+            110608781301
+          ],
+          "conclusion": "success"
+        },
+        {
+          "id": 36933674514,
+          "name": "Offline distribution",
+          "jobs": [
+            110608779856
+          ],
+          "conclusion": "success"
+        },
+        {
+          "id": 36933674451,
+          "name": "Rust50 v2 integration",
+          "jobs": [
+            110608781034
+          ],
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "review": {
+    "pr_261": {
+      "changed_files": 3,
+      "finding": "first creation of taste.inbox did not synchronize the store_root directory entry",
+      "resolution": "synchronize store_root after creating taste.inbox before the acceptance boundary",
+      "unresolved_threads": 0
+    },
+    "pr_262": {
+      "changed_files": 2,
+      "result": "exact diff inspected; no open review threads"
+    }
+  },
+  "discarded_attempts": [
+    {
+      "head_sha": "602facd9",
+      "reason": "Clippy failure; superseded and not counted"
+    },
+    {
+      "head_sha": "07e26085",
+      "reason": "Clippy failure; superseded and not counted"
+    },
+    {
+      "head_sha": "04e6b69a22b8d060c8298c17e2c4f24e9bacae83",
+      "reason": "review found missing parent-directory fsync; superseded and not merged"
+    },
+    {
+      "head_sha": "b5048b8449c039a64250effb6a606e8eaf651ac9",
+      "reason": "rustfmt failure after review correction; superseded and not merged"
+    },
+    {
+      "head_sha": "98a89bd7bd8cfc16b96b1a6323882be3de78db8b",
+      "reason": "rustfmt failure in loopback follow-up; superseded and not merged"
+    }
+  ],
+  "acceptance": [
+    "the TCP server cannot start without a bounded secret",
+    "raw transport is loopback-only and remote operation requires a separate authenticated encrypted host tunnel",
+    "read and write stalls are bounded per accepted connection",
+    "a verified PUSH is durably retained before OK and a storage error remains fail-closed",
+    "candidate and integrated trees match exactly for both PRs and every configured workflow passed on both exact integrated commits"
+  ],
+  "limitations": [
+    "the application protocol does not implement TLS; remote exposure is intentionally unsupported by the raw listener and requires a host tunnel",
+    "the authenticated encrypted tunnel itself was not hardware- or end-to-end-qualified here; the enforced property is that the raw server cannot bind a non-loopback endpoint",
+    "branch-protection details were inaccessible to the GitHub App (403); no protection was bypassed and both PRs were clean and fully green before guarded squash merge",
+    "no local Rust execution is claimed because the runtime lacked a Rust toolchain; git diff --check passed locally and all Rust checks ran in GitHub Actions"
+  ],
+  "closed_at": "2026-10-02T00:16:42+02:00"
+}
