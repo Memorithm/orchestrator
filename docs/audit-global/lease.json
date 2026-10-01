@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "owner": "codex-audit-20261001T0418",
-  "acquired_at": "2026-10-01T02:18:18Z",
-  "expires_at": "2026-10-01T06:00:00Z",
-  "released_at": "2026-10-01T05:07:30Z",
-  "status": "released",
+  "owner": "codex-audit-20261001T0710",
+  "acquired_at": "2026-10-01T05:10:40Z",
+  "expires_at": "2026-10-01T07:00:00Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Acquire a fresh lease, reconcile GitHub and remediate RT-SCI-02 in Memorithm/scirust (whole-file safetensors/state-dict reads before allocation/header budgets); separately track SciRust-Verify CI push trigger mismatch without reopening MEM-17."
+  "next_action": "Reconcile Memorithm/scirust master, verify RT-SCI-02 at current HEAD, apply bounded streaming imports with tests, and qualify the resulting PR."
 }
