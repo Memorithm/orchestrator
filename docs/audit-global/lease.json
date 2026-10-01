@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "owner": "codex-audit-20261001T2009",
-  "acquired_at": "2026-10-01T18:10:30.000Z",
-  "expires_at": "2026-10-01T19:30:00.000Z",
-  "released_at": "2026-10-01T18:12:00.000Z",
-  "status": "released",
+  "owner": "codex-audit-20261001T2110",
+  "acquired_at": "2026-10-01T19:11:30.000Z",
+  "expires_at": "2026-10-01T20:30:00.000Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Reacquire by blob-SHA CAS and continue the next open priority finding; B-NL-01 is closed with exact target proof."
+  "next_action": "Reconcile the registry with GitHub, select the next open priority finding, verify it on the exact repository HEAD, and remediate only with repository policy and validation evidence."
 }
