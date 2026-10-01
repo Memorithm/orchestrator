@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "finding": "MEM-17",
+  "repository": "Memorithm/SciRust-Verify",
+  "default_branch": "feat/scirust-verify-foundation",
+  "audit_head": "593692aea76b90e50899e733344ffa4cf61ba380",
+  "resolved_head": "229066c0465d70269f715a62f66e9d8c9af89f34",
+  "resolved_tree": "ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8",
+  "resolved_at": "2026-10-01T07:03:58+02:00",
+  "status": "resolved",
+  "scope": "Path confinement, bounded bundle reads, symlink/special-file refusal, stable semantic snapshot and atomic publication.",
+  "changes": [
+    "Exact run-id and canonical relative-path validation; absolute, traversal, non-UTF-8, symlink and non-regular entries are rejected.",
+    "Descriptor-rooted openat traversal on Linux prevents pathname re-resolution; unsupported safe resolution paths fail closed.",
+    "Explicit entry-count, per-file byte, aggregate byte and component-depth budgets are enforced before allocations.",
+    "Attachment reads are deduplicated; semantic parsing and the digest map bind to the exact first-read bytes, with a second live-tree digest comparison against A→B→A changes.",
+    "Atomic publication uses create_new collision-safe temporaries, preserves the opened descriptor across rename, verifies identity and exact bytes, removes a rejected destination, and restores the exact captured run.json bytes on rollback.",
+    "The final follow-up transfers ownership of the bounded run.json buffer instead of cloning it."
+  ],
+  "pull_requests": [
+    {
+      "number": 34,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/34",
+      "head_sha": "07eea4157238ab82daa0b582c253f0af906b49f6",
+      "merge_sha": "eaa6facf0676c29b9432235ca951eb71e9ba9785",
+      "ci_run": 145,
+      "status": "merged_then_review_followup",
+      "note": "External automatic merge occurred while final review was running; the review's exact-byte rollback P2 was preserved and resolved by PR #35."
+    },
+    {
+      "number": 35,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/35",
+      "head_sha": "f7bfd780f80a3cc2cfa11ac2697d74c14fb37383",
+      "merge_sha": "c0606b13579ab7542526dda27441fac619e7664e",
+      "ci_run": 147,
+      "status": "merged_then_review_followup",
+      "note": "External automatic merge occurred while final review was running; the retained duplicate run buffer P2 was preserved and resolved by PR #36."
+    },
+    {
+      "number": 36,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/36",
+      "base_sha": "c0606b13579ab7542526dda27441fac619e7664e",
+      "head_sha": "c00ac843252395d9249294ee4ba2af374b8df28d",
+      "merge_sha": "229066c0465d70269f715a62f66e9d8c9af89f34",
+      "merge_method": "squash",
+      "ci_run": 148,
+      "validated_merge_preview_sha": "af639882ea30656fd993452aa27b3b699f258fd1",
+      "validated_tree": "ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8",
+      "final_review": {
+        "head_sha": "c00ac843252395d9249294ee4ba2af374b8df28d",
+        "completed_at": "2026-10-01T05:01:20Z",
+        "result": "no_major_issues"
+      },
+      "status": "merged_target_tree_validated"
+    }
+  ],
+  "validation": {
+    "workflow": "CI run 148",
+    "run_url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36817394781",
+    "jobs": [
+      {
+        "id": 110225331663,
+        "name": "fmt / check / clippy / test / doc",
+        "conclusion": "success"
+      },
+      {
+        "id": 110225574493,
+        "name": "Dogfood — scirust-verify verify .",
+        "conclusion": "success"
+      }
+    ],
+    "executed": [
+      "cargo fmt --all -- --check",
+      "cargo check --workspace --all-targets --locked",
+      "cargo clippy --workspace --all-targets --locked -- -D warnings",
+      "cargo test --workspace --all-targets --locked",
+      "RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked",
+      "release CLI build, repository self-verification, passing fixture, and expected failing fixture with sealed dossier"
+    ],
+    "focused_regressions": [
+      "path traversal, absolute run IDs, symlink cycles and symlinked JSON refusal",
+      "non-UTF-8 path rejection without freezing",
+      "file-count, aggregate-byte and component-depth limits",
+      "tampered/deleted/added sealed files and digest-map mismatches",
+      "exact run.json rollback after failed publication"
+    ],
+    "tested_merge_preview_sha": "af639882ea30656fd993452aa27b3b699f258fd1",
+    "tested_tree_sha": "ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8",
+    "integrated_tree_sha": "ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8",
+    "tree_identity": true,
+    "target_branch_head": "229066c0465d70269f715a62f66e9d8c9af89f34",
+    "postmerge_note": "CI push is configured only for main, not the actual default branch. Qualification therefore relies on the successful pull_request merge preview whose tree is byte-identical to the signed squash commit now at the target ref; this workflow trigger mismatch remains a separate CI opportunity and is not represented as a target push run."
+  },
+  "policies": {
+    "roadmap_sha": "8c9a661090bc30df9152d087ecfc7f22901478ff",
+    "ml_overlay_sha": "b5bb8a19a6388b6f5ca58c2579dc607078e042db",
+    "license": "PolyForm Noncommercial",
+    "claims": "No formal-proof, sandbox, hardware or production qualification claim is made."
+  }
+}
