@@ -1,0 +1,155 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "RT-NNIS-02"
+  ],
+  "repository": "Memorithm/NNIS",
+  "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#RT-NNIS-02",
+  "status": "resolved",
+  "audit_sha": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
+  "verified_base_sha": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea",
+  "default_branch": "main",
+  "policy_and_license_review": [
+    "AGENTS.md",
+    "origin/agent/sovereignty-roadmap:.agent/NNIS_SOVEREIGNTY_ROADMAP.yaml",
+    "origin/agent/sovereignty-roadmap:.agent/ML_MATURITY_OVERLAY.yaml",
+    "workspace Cargo.toml package.license=MIT; no root LICENSE or LICENSE.md was present"
+  ],
+  "reconciliation": "The lexical path check followed by is_file/fs::read and the duplicated preflight policy remained present on exact main SHA 0e7faf90dabc98c9b66e5a78d3733b65cd2542ea.",
+  "change": {
+    "pull_request": "https://github.com/Memorithm/NNIS/pull/253",
+    "branch": "audit/RT-NNIS-02-confined-shards",
+    "candidate_head": "6308f63f1a6e83c91aed284e9b09da5cdcae653c",
+    "candidate_tree": "50c27b36183876d4d8669b364b88bc866f87010a",
+    "summary": "Loader and CPU preflight share one confined file-discovery/read boundary. Relative non-traversing paths are required, every symlink component is rejected, the canonical target must remain below the canonical model root, and Unix final open uses O_NOFOLLOW/O_CLOEXEC with inspected/opened device and inode equality. Non-Unix fails closed pending an equivalent resolver.",
+    "trust_boundary": "The local model directory is an immutable admission input for the duration of loading; no network model source is introduced.",
+    "acceptance_mapping": [
+      "Shared discovery and read functions replace the duplicated preflight policy.",
+      "Model root, intermediate components and final component reject symlinks; paths remain relative and non-traversing.",
+      "Canonical containment plus no-follow final open and inode/device comparison verify the opened Unix file under the documented immutable-input boundary.",
+      "Regression tests cover an external single-file symlink, external indexed shard symlink, and symlinked intermediate directory."
+    ]
+  },
+  "non_counted_attempts": [
+    {
+      "head_sha": "dca8957ddb0ff7446e0f8e7ea43c60a4adf971f6",
+      "workflow_run_id": 36918495678,
+      "job_id": 110558341332,
+      "result": "rustfmt failed; this candidate is not counted as validated even though later steps happened to pass"
+    }
+  ],
+  "candidate_validation": [
+    {
+      "workflow": "CI",
+      "run_id": 36918760472,
+      "head_sha": "6308f63f1a6e83c91aed284e9b09da5cdcae653c",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "job_id": 110559227632,
+          "name": "Rust quality (CPU)",
+          "scope": [
+            "repository evidence validators",
+            "license provenance validator",
+            "rustfmt",
+            "cargo check",
+            "portable core and CPU dependency boundaries",
+            "Clippy",
+            "tests without GPU requirement"
+          ]
+        },
+        {
+          "job_id": 110559228181,
+          "name": "Rust 1.77 check",
+          "scope": [
+            "cargo check at declared MSRV 1.77"
+          ]
+        }
+      ],
+      "url": "https://github.com/Memorithm/NNIS/actions/runs/36918760472"
+    },
+    {
+      "workflow": "SmolLM2 benchmark harness",
+      "run_id": 36918760492,
+      "job_id": 110559228124,
+      "head_sha": "6308f63f1a6e83c91aed284e9b09da5cdcae653c",
+      "conclusion": "success",
+      "scope": [
+        "Rust format",
+        "benchmark example checks",
+        "benchmark example Clippy",
+        "Python benchmark harness validation"
+      ],
+      "url": "https://github.com/Memorithm/NNIS/actions/runs/36918760492"
+    }
+  ],
+  "diff_review": {
+    "head_sha": "6308f63f1a6e83c91aed284e9b09da5cdcae653c",
+    "base_sha": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea",
+    "ahead_by": 7,
+    "behind_by": 0,
+    "changed_files": 5,
+    "unresolved_review_threads": 0,
+    "result": "exact diff inspected after CI; no unresolved issue retained"
+  },
+  "merge": {
+    "method": "squash",
+    "guard": "expected_head_sha=6308f63f1a6e83c91aed284e9b09da5cdcae653c",
+    "merge_sha": "8a4b3187eb5faf766704a90059bcd6d7675e7ae4",
+    "merged_at": "2026-10-01T20:07:23Z",
+    "main_matches_merge_sha": true,
+    "integrated_tree": "50c27b36183876d4d8669b364b88bc866f87010a",
+    "candidate_tree_matches_integrated": true
+  },
+  "target_validation": {
+    "status": "success",
+    "head_sha": "8a4b3187eb5faf766704a90059bcd6d7675e7ae4",
+    "checks": [
+      {
+        "workflow": "CI",
+        "run_id": 36919268471,
+        "conclusion": "success",
+        "jobs": [
+          {
+            "job_id": 110560934899,
+            "name": "Rust quality (CPU)",
+            "scope": [
+              "repository evidence validators",
+              "license provenance validator",
+              "rustfmt",
+              "cargo check",
+              "portable core and CPU dependency boundaries",
+              "Clippy",
+              "tests without GPU requirement"
+            ]
+          },
+          {
+            "job_id": 110560934608,
+            "name": "Rust 1.77 check",
+            "scope": [
+              "cargo check at declared MSRV 1.77"
+            ]
+          }
+        ],
+        "url": "https://github.com/Memorithm/NNIS/actions/runs/36919268471"
+      }
+    ],
+    "result": "The configured main push CI completed successfully on the exact integrated SHA; the pull-request-only SmolLM2 harness had already succeeded on the identical candidate tree."
+  },
+  "local_validation": {
+    "status": "partial",
+    "checks": [
+      "git diff --check"
+    ],
+    "result": "success",
+    "reason": "the automation environment did not provide rustc, cargo or rustfmt; no local Rust result is claimed"
+  },
+  "governance_observation": {
+    "branch_protected": false,
+    "repository_rulesets": [],
+    "required_checks": [],
+    "statement": "GitHub branch metadata reported protection disabled and no required checks; no gate was bypassed or reduced."
+  },
+  "observed_at": "2026-10-01T22:11:24+02:00",
+  "closed_at": "2026-10-01T22:11:24+02:00"
+}
