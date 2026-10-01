@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "owner": "codex-audit-20261001T1711",
-  "acquired_at": "2026-10-01T15:12:00.000Z",
-  "expires_at": "2026-10-01T17:00:00.000Z",
-  "released_at": "2026-10-01T15:45:53.000Z",
-  "status": "released",
+  "owner": "codex-audit-20261001T1807",
+  "acquired_at": "2026-10-01T16:09:29.000Z",
+  "expires_at": "2026-10-01T18:00:00.000Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Reacquire by blob-SHA CAS, reconcile issue #81 and registry, then continue priority-1 B-NL-02 or the next independent priority item."
+  "next_action": "Verify B-NL-02 against NoiseLab main, implement bounded spectral allocation/FFT admission if still present, qualify exact-head CI, and journal evidence."
 }
