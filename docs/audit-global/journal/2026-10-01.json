@@ -6802,6 +6802,95 @@
           "next_action": "Attendre la conclusion de Miri numeric-a; clore seulement si CI 4654 devient entièrement verte."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T10:26:00+02:00",
+      "hour": "2026-10-01T10:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 14,
+        "target": 50
+      },
+      "total_merged": 14,
+      "closed": 11,
+      "remaining": 90,
+      "actions": [
+        "RT-SCI-02 a été clos après succès du dernier job Miri numeric-a de CI cible 4654; le HEAD scirust courant, un commit SciAgent sans rapport plus loin, conserve le blob safetensors corrigé.",
+        "SciCapsule #31 a corrigé MEM-10: groupe tué dès sortie du parent, drains stdout/stderr bornés par un délai indépendant commun et capture-error structurée.",
+        "Le premier run SciCapsule n'a exécuté aucun test à cause de RUSTUP_HOME non inscriptible; les homes Rust/Cargo ont été déplacés dans le workspace. Le format puis CARGO_HOME ont été corrigés sur des HEAD ultérieurs sans compter les runs partiels.",
+        "PR #31 fusionnée avec expected_head_sha; le commit intégré 425e4bfa6a724f8dda44e07ff62deeeb3dedd4db a exactement l'arbre testé 4f538ff69ae1cf48c82a9a97072756850a34a23e et la CI cible 85 est verte.",
+        "L'inventaire propriétaire confirme SciCapsule pour ses sémantiques produit; hub-executor reste le candidat propriétaire du contrat commun execution_guard et ses MEM-13/MEM-14 restent ouverts."
+      ],
+      "executed_checks": [
+        "scirust cible 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce: CI 4654, 28/28 jobs, dernier Miri numeric-a 110247001369 réussi.",
+        "SciCapsule HEAD 6ea0a1a9949c20745f6f28365a2118c95b3527cc: CI 84 job 110282281418, format, check stable, Clippy strict, tous les tests et check MSRV 1.89 réussis; suites 37+47+3+3+2 tests.",
+        "Régression réelle parent_exit_kills_pipe_holding_descendant_and_bounds_capture_drain réussie.",
+        "SciCapsule main 425e4bfa6a724f8dda44e07ff62deeeb3dedd4db: CI 85 job 110282884202, même périmètre entièrement vert."
+      ],
+      "waiting": [
+        "MEM-11 reste ouvert: la confiance et la politique d'exécution des PR sur le runner interne ne sont pas résolues par le seul répertoire de toolchain inscriptible.",
+        "MEM-13/MEM-14 scirust-hub sont confirmés sur le HEAD 7fb890925def77d5069e2e1f8d39ba4f7dedc40c; prochaine action: corriger groupe/drain et supprimer l'exposition Debug de Command."
+      ],
+      "work_items": [
+        {
+          "id": "RT-SCI-02",
+          "repository": "Memorithm/scirust",
+          "status": "resolved",
+          "actions": "Qualification cible finale et réconciliation du HEAD courant.",
+          "results": "CI 4654 entièrement verte; safetensors blob inchangé au HEAD courant.",
+          "pr": [
+            {
+              "number": 1519,
+              "url": "https://github.com/Memorithm/scirust/pull/1519",
+              "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
+              "merge_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce"
+            }
+          ],
+          "head": "09cc3954f128a41ba105b36114a8df4c0645812e",
+          "checks": [
+            36824485281,
+            110247001369
+          ],
+          "dependencies": [],
+          "next_action": "Clos; surveiller séparément les changements futurs du loader."
+        },
+        {
+          "id": "MEM-10",
+          "repository": "Memorithm/SciCapsule",
+          "status": "resolved",
+          "actions": "Nettoyage de groupe avant drains, délai de drain indépendant, régression et restauration CI.",
+          "results": "PR #31 fusionnée et CI cible verte sur arbre identique.",
+          "pr": [
+            {
+              "number": 31,
+              "url": "https://github.com/Memorithm/SciCapsule/pull/31",
+              "head_sha": "6ea0a1a9949c20745f6f28365a2118c95b3527cc",
+              "merge_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db"
+            }
+          ],
+          "head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+          "checks": [
+            36835641168,
+            110282281418,
+            36835827718,
+            110282884202
+          ],
+          "dependencies": [],
+          "next_action": "Clos; traiter MEM-11 séparément."
+        },
+        {
+          "id": "MEM-13/MEM-14",
+          "repository": "Memorithm/scirust-hub",
+          "status": "in_progress",
+          "actions": "Inventaire du propriétaire execution_guard et vérification du HEAD hub-executor.",
+          "results": "Le join des lecteurs reste non borné après sortie parent et spawn_error contient Debug(Command).",
+          "pr": [],
+          "head": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
+          "checks": [],
+          "dependencies": [],
+          "next_action": "Lire les bootstraps runtime complets puis corriger le superviseur propriétaire sans revendiquer de sandbox."
+        }
+      ]
     }
   ]
 }
