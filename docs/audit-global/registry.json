@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T02:15:48+02:00",
+  "updated_at": "2026-10-01T04:07:32+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 6,
-    "remaining": 95,
-    "merged_prs": 3
+    "closed": 7,
+    "remaining": 94,
+    "merged_prs": 6
   },
   "batches": [
     {
@@ -51,6 +51,21 @@
           "repository": "Memorithm/ExtremEngine",
           "number": 45,
           "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "repository": "Memorithm/CCOS-Core",
+          "number": 28,
+          "merge_sha": "cadf9d7bd31285f1b9300895b64f602f4ed8cfdd"
+        },
+        {
+          "repository": "Memorithm/CCOS-Core",
+          "number": 29,
+          "merge_sha": "fa9bd002e82288ab2b926d02e80949139e2d07d0"
+        },
+        {
+          "repository": "Memorithm/CCOS-Core",
+          "number": 30,
+          "merge_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b"
         }
       ]
     }
@@ -562,24 +577,94 @@
       ],
       "batch": 1,
       "checks": [
-        {"id": 110155218053, "name": "Native Compile (macos-latest)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155218048, "name": "Test Suite (ubuntu-latest, Rust 1.87)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155218032, "name": "Test Suite (ubuntu-latest, Rust stable)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155217978, "name": "Native Compile (windows-latest)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155217853, "name": "Code Quality & Security", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155217824, "name": "Scene correctness and CPU evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155217725, "name": "Render graph parity and headless CPU evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155217470, "name": "Extraction parity and CPU evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155217447, "name": "Indexed world mesh pixel qualification", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155217283, "name": "Controlled scheduler effect evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
-        {"id": 110155217055, "name": "Elastic facade consumer contract", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"}
+        {
+          "id": 110155218053,
+          "name": "Native Compile (macos-latest)",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155218048,
+          "name": "Test Suite (ubuntu-latest, Rust 1.87)",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155218032,
+          "name": "Test Suite (ubuntu-latest, Rust stable)",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155217978,
+          "name": "Native Compile (windows-latest)",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155217853,
+          "name": "Code Quality & Security",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155217824,
+          "name": "Scene correctness and CPU evidence",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155217725,
+          "name": "Render graph parity and headless CPU evidence",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155217470,
+          "name": "Extraction parity and CPU evidence",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155217447,
+          "name": "Indexed world mesh pixel qualification",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155217283,
+          "name": "Controlled scheduler effect evidence",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        },
+        {
+          "id": 110155217055,
+          "name": "Elastic facade consumer contract",
+          "conclusion": "success",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676"
+        }
       ],
       "local_validation": [
-        {"command": "cargo +1.87.0 fmt --all -- --check", "result": "success"},
-        {"command": "cargo +1.87.0 test -p extrem_scene --all-targets --locked", "result": "35 passed"},
-        {"command": "cargo +1.87.0 test -p extrem_engine --lib --tests --locked", "result": "34 passed"},
-        {"command": "cargo +1.87.0 clippy -p extrem_scene -p extrem_engine --all-targets --locked -- -D warnings", "result": "success"},
-        {"command": "git diff --check", "result": "success"}
+        {
+          "command": "cargo +1.87.0 fmt --all -- --check",
+          "result": "success"
+        },
+        {
+          "command": "cargo +1.87.0 test -p extrem_scene --all-targets --locked",
+          "result": "35 passed"
+        },
+        {
+          "command": "cargo +1.87.0 test -p extrem_engine --lib --tests --locked",
+          "result": "34 passed"
+        },
+        {
+          "command": "cargo +1.87.0 clippy -p extrem_scene -p extrem_engine --all-targets --locked -- -D warnings",
+          "result": "success"
+        },
+        {
+          "command": "git diff --check",
+          "result": "success"
+        }
       ],
       "review_followup": {
         "reviewed_head": "d68d5248e00b8ee43592aac403d03371568f350d",
@@ -597,23 +682,609 @@
       "tree_sha": "100b85aedc1d7c9ae98c0669f8c8419520c2f5e9",
       "exact_tree_match": true,
       "postmerge_checks": [
-        {"id": 110156289301, "name": "Native Compile (macos-latest)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156289232, "name": "Controlled scheduler effect evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156289229, "name": "Test Suite (ubuntu-latest, Rust stable)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156289224, "name": "Native Compile (windows-latest)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156289183, "name": "Test Suite (ubuntu-latest, Rust 1.87)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156289115, "name": "Code Quality & Security", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156288908, "name": "Render graph parity and headless CPU evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156288900, "name": "Indexed world mesh pixel qualification", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156288575, "name": "Extraction parity and CPU evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156288538, "name": "Elastic facade consumer contract", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
-        {"id": 110156288535, "name": "Scene correctness and CPU evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"}
+        {
+          "id": 110156289301,
+          "name": "Native Compile (macos-latest)",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156289232,
+          "name": "Controlled scheduler effect evidence",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156289229,
+          "name": "Test Suite (ubuntu-latest, Rust stable)",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156289224,
+          "name": "Native Compile (windows-latest)",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156289183,
+          "name": "Test Suite (ubuntu-latest, Rust 1.87)",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156289115,
+          "name": "Code Quality & Security",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156288908,
+          "name": "Render graph parity and headless CPU evidence",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156288900,
+          "name": "Indexed world mesh pixel qualification",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156288575,
+          "name": "Extraction parity and CPU evidence",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156288538,
+          "name": "Elastic facade consumer contract",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        },
+        {
+          "id": 110156288535,
+          "name": "Scene correctness and CPU evidence",
+          "conclusion": "success",
+          "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
+        }
       ],
       "expected_head_guard": true,
       "merged_at": "2026-10-01T02:12:26+02:00",
       "target_validated_at": "2026-10-01T02:15:48+02:00",
       "proof_url": "https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/docs/audit-global/proofs/ExtremEngine-45.json",
       "journal_run_key": "ExtremEngine-45-qualified"
+    },
+    {
+      "repository": "Memorithm/CCOS-Core",
+      "number": 28,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/28",
+      "base": "main",
+      "base_sha": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+      "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+      "merge_sha": "cadf9d7bd31285f1b9300895b64f602f4ed8cfdd",
+      "status": "merged_superseded_by_security_followup",
+      "ids": [
+        "MEM-04"
+      ],
+      "batch": 1,
+      "checks": [
+        {
+          "id": 110175935611,
+          "name": "tests (release)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935611"
+        },
+        {
+          "id": 110175935683,
+          "name": "cargo clippy -D warnings",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935683"
+        },
+        {
+          "id": 110175935715,
+          "name": "cargo check (--all-features)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935715"
+        },
+        {
+          "id": 110175935643,
+          "name": "documentation build",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935643"
+        },
+        {
+          "id": 110175935694,
+          "name": "cargo check (--no-default-features)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935694"
+        },
+        {
+          "id": 110175935465,
+          "name": "Repository hygiene + author policy",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935465"
+        },
+        {
+          "id": 110175935716,
+          "name": "MSRV 1.89",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935716"
+        },
+        {
+          "id": 110175935766,
+          "name": "cargo fmt",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935766"
+        },
+        {
+          "id": 110175935790,
+          "name": "cargo check ()",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935790"
+        },
+        {
+          "id": 110175935616,
+          "name": "tests (debug)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935616"
+        },
+        {
+          "id": 110175935709,
+          "name": "Cognitive core tests (offline, deterministic)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274783/job/110175935709"
+        },
+        {
+          "id": 110175935569,
+          "name": "import",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274838/job/110175935569"
+        },
+        {
+          "id": 110175935687,
+          "name": "secret detection",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274800/job/110175935687"
+        },
+        {
+          "id": 110175935458,
+          "name": "dependency + license + SBOM",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36801274800/job/110175935458"
+        }
+      ],
+      "merged_at": "2026-10-01T03:34:59+02:00",
+      "merge_method": "squash",
+      "validated_tree": "c8f5779c66fd1e21ee9021c9fb2b18dee59603e0",
+      "review_followup": {
+        "status": "late_findings_after_automatic_merge",
+        "findings": [
+          "P1 pathname discovery/anchored-open TOCTOU",
+          "P1 non-Unix ancestor junction race",
+          "P2 blocking FIFO open"
+        ],
+        "resolution_pr": 29
+      }
+    },
+    {
+      "repository": "Memorithm/CCOS-Core",
+      "number": 29,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/29",
+      "base": "main",
+      "base_sha": "cadf9d7bd31285f1b9300895b64f602f4ed8cfdd",
+      "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+      "merge_sha": "fa9bd002e82288ab2b926d02e80949139e2d07d0",
+      "status": "merged_security_followup",
+      "ids": [
+        "MEM-04"
+      ],
+      "batch": 1,
+      "checks": [
+        {
+          "id": 110179589376,
+          "name": "tests (release)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589376"
+        },
+        {
+          "id": 110179589299,
+          "name": "cargo clippy -D warnings",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589299"
+        },
+        {
+          "id": 110179589262,
+          "name": "cargo check (--all-features)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589262"
+        },
+        {
+          "id": 110179589331,
+          "name": "documentation build",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589331"
+        },
+        {
+          "id": 110179589265,
+          "name": "cargo check (--no-default-features)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589265"
+        },
+        {
+          "id": 110179589272,
+          "name": "Repository hygiene + author policy",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589272"
+        },
+        {
+          "id": 110179589277,
+          "name": "MSRV 1.89",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589277"
+        },
+        {
+          "id": 110179589375,
+          "name": "cargo fmt",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589375"
+        },
+        {
+          "id": 110179589346,
+          "name": "cargo check ()",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589346"
+        },
+        {
+          "id": 110179589281,
+          "name": "tests (debug)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589281"
+        },
+        {
+          "id": 110179589059,
+          "name": "Cognitive core tests (offline, deterministic)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456055/job/110179589059"
+        },
+        {
+          "id": 110179589044,
+          "name": "import",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456033/job/110179589044"
+        },
+        {
+          "id": 110179589276,
+          "name": "secret detection",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456101/job/110179589276"
+        },
+        {
+          "id": 110179589488,
+          "name": "dependency + license + SBOM",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36802456101/job/110179589488"
+        }
+      ],
+      "merged_at": "2026-10-01T03:48:59+02:00",
+      "merge_method": "squash",
+      "validated_tree": "9f910d9f344dae69001bb80b0d6d0ef1113dc96b",
+      "review": {
+        "head": "550fc93bf02af0da767d2d0f966737cc78c44361",
+        "result": "no_major_issues"
+      },
+      "postmerge_regression": {
+        "job": 110180911412,
+        "issue": "author policy rejected exact GitHub squash committer",
+        "resolution_pr": 30
+      }
+    },
+    {
+      "repository": "Memorithm/CCOS-Core",
+      "number": 30,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/30",
+      "base": "main",
+      "base_sha": "fa9bd002e82288ab2b926d02e80949139e2d07d0",
+      "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+      "merge_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-04"
+      ],
+      "batch": 1,
+      "checks": [
+        {
+          "id": 110181827297,
+          "name": "tests (release)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827297"
+        },
+        {
+          "id": 110181827421,
+          "name": "cargo clippy -D warnings",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827421"
+        },
+        {
+          "id": 110181827428,
+          "name": "cargo check (--all-features)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827428"
+        },
+        {
+          "id": 110181827451,
+          "name": "documentation build",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827451"
+        },
+        {
+          "id": 110181827364,
+          "name": "cargo check (--no-default-features)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827364"
+        },
+        {
+          "id": 110181827371,
+          "name": "Repository hygiene + author policy",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827371"
+        },
+        {
+          "id": 110181827373,
+          "name": "MSRV 1.89",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827373"
+        },
+        {
+          "id": 110181827358,
+          "name": "cargo fmt",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827358"
+        },
+        {
+          "id": 110181827347,
+          "name": "cargo check ()",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827347"
+        },
+        {
+          "id": 110181827143,
+          "name": "tests (debug)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827143"
+        },
+        {
+          "id": 110181827378,
+          "name": "Cognitive core tests (offline, deterministic)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186051/job/110181827378"
+        },
+        {
+          "id": 110181827319,
+          "name": "import",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186096/job/110181827319"
+        },
+        {
+          "id": 110181827160,
+          "name": "secret detection",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186052/job/110181827160"
+        },
+        {
+          "id": 110181827310,
+          "name": "dependency + license + SBOM",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803186052/job/110181827310"
+        }
+      ],
+      "merged_at": "2026-10-01T03:59:38+02:00",
+      "merge_method": "squash",
+      "validated_tree": "d9187bbd51c396e83518bc7966f3a7896ce28118",
+      "review": {
+        "head": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+        "result": "no_major_issues"
+      },
+      "target_head": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+      "target_checks": [
+        {
+          "id": 110183417781,
+          "name": "tests (release)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183417781"
+        },
+        {
+          "id": 110183417954,
+          "name": "cargo clippy -D warnings",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183417954"
+        },
+        {
+          "id": 110183417993,
+          "name": "cargo check (--all-features)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183417993"
+        },
+        {
+          "id": 110183418002,
+          "name": "documentation build",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418002"
+        },
+        {
+          "id": 110183418016,
+          "name": "cargo check (--no-default-features)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418016"
+        },
+        {
+          "id": 110183418050,
+          "name": "Repository hygiene + author policy",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418050"
+        },
+        {
+          "id": 110183418061,
+          "name": "MSRV 1.89",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418061"
+        },
+        {
+          "id": 110183418112,
+          "name": "cargo fmt",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418112"
+        },
+        {
+          "id": 110183418235,
+          "name": "cargo check ()",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418235"
+        },
+        {
+          "id": 110183418245,
+          "name": "tests (debug)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418245"
+        },
+        {
+          "id": 110183418298,
+          "name": "Cognitive core tests (offline, deterministic)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418298"
+        },
+        {
+          "id": 110183417901,
+          "name": "import",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717017/job/110183417901"
+        },
+        {
+          "id": 110183418038,
+          "name": "secret detection",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803716995/job/110183418038"
+        },
+        {
+          "id": 110183418243,
+          "name": "dependency + license + SBOM",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803716995/job/110183418243"
+        }
+      ],
+      "target_validated_at": "2026-10-01T04:07:32+02:00"
     }
   ],
   "repository_observations": [
@@ -641,8 +1312,8 @@
       "repository": "Memorithm/CCOS-Core",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
-      "tree_sha": "5df5c6321a7aec9f95d014cce1defa0721cf9b6c",
+      "current_head": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+      "tree_sha": "d9187bbd51c396e83518bc7966f3a7896ce28118",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -1902,16 +2573,144 @@
         "Refuser les liens symboliques de fichiers, confiner le descriptor au root, ouvrir no-follow et borner taille/nombre/fichiers; ajouter une régression symlink .rs vers extérieur.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+      "status": "resolved",
+      "current_head": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
       "default_branch": "main",
       "audit_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "registered_remediation_sequence",
+      "policy_review": "AGENTS_roadmap_and_license_read",
+      "prs": [
+        {
+          "repository": "Memorithm/CCOS-Core",
+          "number": 28,
+          "url": "https://github.com/Memorithm/CCOS-Core/pull/28",
+          "base": "main",
+          "base_sha": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+          "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+          "merge_sha": "cadf9d7bd31285f1b9300895b64f602f4ed8cfdd",
+          "status": "merged_superseded_by_security_followup"
+        },
+        {
+          "repository": "Memorithm/CCOS-Core",
+          "number": 29,
+          "url": "https://github.com/Memorithm/CCOS-Core/pull/29",
+          "base": "main",
+          "base_sha": "cadf9d7bd31285f1b9300895b64f602f4ed8cfdd",
+          "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "merge_sha": "fa9bd002e82288ab2b926d02e80949139e2d07d0",
+          "status": "merged_security_followup"
+        },
+        {
+          "repository": "Memorithm/CCOS-Core",
+          "number": 30,
+          "url": "https://github.com/Memorithm/CCOS-Core/pull/30",
+          "base": "main",
+          "base_sha": "fa9bd002e82288ab2b926d02e80949139e2d07d0",
+          "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+          "merge_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+          "status": "merged_target_validated"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "pr": "https://github.com/Memorithm/CCOS-Core/pull/29",
+          "head": "550fc93bf02af0da767d2d0f966737cc78c44361",
+          "merge": "fa9bd002e82288ab2b926d02e80949139e2d07d0",
+          "tree": "9f910d9f344dae69001bb80b0d6d0ef1113dc96b",
+          "proof": "https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/docs/audit-global/proofs/CCOS-Core-MEM-04.json",
+          "validated_at": "2026-10-01T04:07:32+02:00",
+          "criteria_met": true,
+          "checks": [
+            {
+              "name": "tests (release)",
+              "job": 110183417781,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183417781",
+              "conclusion": "success"
+            },
+            {
+              "name": "cargo clippy -D warnings",
+              "job": 110183417954,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183417954",
+              "conclusion": "success"
+            },
+            {
+              "name": "cargo check (--all-features)",
+              "job": 110183417993,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183417993",
+              "conclusion": "success"
+            },
+            {
+              "name": "documentation build",
+              "job": 110183418002,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418002",
+              "conclusion": "success"
+            },
+            {
+              "name": "cargo check (--no-default-features)",
+              "job": 110183418016,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418016",
+              "conclusion": "success"
+            },
+            {
+              "name": "Repository hygiene + author policy",
+              "job": 110183418050,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418050",
+              "conclusion": "success"
+            },
+            {
+              "name": "MSRV 1.89",
+              "job": 110183418061,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418061",
+              "conclusion": "success"
+            },
+            {
+              "name": "cargo fmt",
+              "job": 110183418112,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418112",
+              "conclusion": "success"
+            },
+            {
+              "name": "cargo check ()",
+              "job": 110183418235,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418235",
+              "conclusion": "success"
+            },
+            {
+              "name": "tests (debug)",
+              "job": 110183418245,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418245",
+              "conclusion": "success"
+            },
+            {
+              "name": "Cognitive core tests (offline, deterministic)",
+              "job": 110183418298,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717006/job/110183418298",
+              "conclusion": "success"
+            },
+            {
+              "name": "import",
+              "job": 110183417901,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803717017/job/110183417901",
+              "conclusion": "success"
+            },
+            {
+              "name": "secret detection",
+              "job": 110183418038,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803716995/job/110183418038",
+              "conclusion": "success"
+            },
+            {
+              "name": "dependency + license + SBOM",
+              "job": 110183418243,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/36803716995/job/110183418243",
+              "conclusion": "success"
+            }
+          ],
+          "scope": "Scanner .rs confined to pinned Unix descriptors with no-follow/nonblocking opens and explicit file/count/byte budgets; external symlink, ancestor and oversized-source regressions; non-Unix fail-closed."
+        }
+      ],
+      "last_observed_at": "2026-10-01T04:07:32+02:00",
+      "next_action": "Clos sur la version fusionnée et validée; propager la correction vers les copies vendoriées dépendantes (MEM-08) avant de les clore."
     },
     {
       "id": "MEM-05",
@@ -3935,9 +4734,15 @@
     "RT-NNIS-04"
   ],
   "lease": {
-    "branch": "audit/global-remediation-2026-09-30",
-    "path": "docs/audit-global/lease.json",
-    "protocol": "exclusive-create then blob-SHA compare-and-swap, verify owner/expiry before every mutation; release explicitly; reclaim only expired/released, fail closed on malformed state"
+    "schema_version": 1,
+    "owner": "codex-audit-20261001T0312",
+    "acquired_at": "2026-10-01T01:13:30Z",
+    "expires_at": "2026-10-01T02:40:00Z",
+    "released_at": null,
+    "status": "active",
+    "scope": "audit-global-remediation",
+    "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
+    "next_action": "Complete and qualify CCOS-Core MEM-04 follow-up PR #29 after premature #28 merge; update durable evidence, then continue SciRust-Verify MEM-17."
   },
   "capabilities": [
     {
