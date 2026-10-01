@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Lot 1 : 24/50 ; cumul fusionné : 24 ; clos : 21 ; restants : 80.
+101 IDs ; 12 positifs conservés. Lot 1 : 26/50 ; cumul fusionné : 26 ; clos : 24 ; restants : 77.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -45,10 +45,10 @@
 | MEM-19 | Memorithm/SciRust-Verify | 9 | à faire |  |
 | COG-ADA-001 | Memorithm/ADA | 9 | à faire |  |
 | COG-ADA-002 | Memorithm/ADA | 9 | à faire |  |
-| COG-COGNO-001 | Memorithm/COGNO-1 | 4 | à faire |  |
-| COG-COGNO-002 | Memorithm/COGNO-1 | 4 | à faire |  |
+| COG-COGNO-001 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261), [PR #262](https://github.com/Memorithm/COGNO-1/pull/262) |
+| COG-COGNO-002 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) |
 | COG-COGNO-003 | Memorithm/COGNO-1 | 9 | à faire |  |
-| COG-COGNO-004 | Memorithm/COGNO-1 | 4 | à faire | COG-COGNO-001, COG-COGNO-002 |
+| COG-COGNO-004 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) |
 | COG-RSI-001 | Memorithm/RSI | 4 | à faire |  |
 | COG-RSI-002 | Memorithm/RSI | 4 | à faire |  |
 | COG-RSI-003 | Memorithm/RSI | 7 | à faire |  |
