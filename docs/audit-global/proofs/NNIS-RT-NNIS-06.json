@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "id": "RT-NNIS-06",
+  "repositories": [
+    "Memorithm/NNIS",
+    "Memorithm/KVLab"
+  ],
+  "source_date": "2026-09-30",
+  "resolution": {
+    "nnis": {
+      "pr": "https://github.com/Memorithm/NNIS/pull/252",
+      "base": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
+      "head": "35a6707b5005cbe1b718bddfba247fe41070c083",
+      "merged_commit": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea",
+      "tree": "3c917ca68842beef2190a0bb1b1457da7ac3e83f",
+      "exact_tree_match": true,
+      "changes": [
+        "stdin is capped at 1 MiB before UTF-8 decoding, JSON parsing, canonicalisation, hashing, model loading or CUDA work",
+        "text fields are capped at 1024 bytes and model/evaluation/retained collections are bounded against the exact checkpoint position capacity",
+        "the caller contract requires an independent wall deadline, bounded concurrent stdout/stderr drains and whole-process-group termination"
+      ],
+      "premerge_checks": [
+        {
+          "run": 36825553164,
+          "name": "CI 758",
+          "conclusion": "success",
+          "head_sha": "35a6707b5005cbe1b718bddfba247fe41070c083",
+          "jobs": [
+            110250329929,
+            110250330026
+          ]
+        },
+        {
+          "run": 36825553148,
+          "name": "Tiny Llama reference 83",
+          "conclusion": "success",
+          "head_sha": "35a6707b5005cbe1b718bddfba247fe41070c083"
+        }
+      ],
+      "postmerge_checks": [
+        {
+          "run": 36826191536,
+          "name": "CI 759",
+          "conclusion": "success",
+          "head_sha": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea",
+          "jobs": [
+            110252297903,
+            110252298179
+          ]
+        }
+      ],
+      "limitation": "The Tiny Llama reference workflow passed on the exact PR head and did not trigger on the target push; only target CI 759 is claimed as post-merge validation."
+    },
+    "kvlab": [
+      {
+        "pr": "https://github.com/Memorithm/KVLab/pull/176",
+        "base": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+        "head": "466783883ea89d963e21e39d78f8bf96349390b9",
+        "merged_commit": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4",
+        "tree": "392369cca660ecc6b99a9c4579c59e878f269ac4",
+        "exact_tree_match": true,
+        "checks": [
+          {
+            "run": 36825894397,
+            "name": "CI 1002",
+            "conclusion": "success"
+          },
+          {
+            "run": 36826224732,
+            "name": "CI 1003 target",
+            "conclusion": "success"
+          }
+        ],
+        "review_followup": {
+          "finding": "P1 buffered pipe close could block behind a live drain thread when an escaped descendant inherited the pipe",
+          "thread": "PRRT_kwDOUTpDbc6n1Qoy",
+          "resolution_pr": 177,
+          "status": "resolved_after_followup_target_validation"
+        }
+      },
+      {
+        "pr": "https://github.com/Memorithm/KVLab/pull/177",
+        "base": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4",
+        "head": "ff8b975ddc0700c8069ace1be63e5af7c7713cda",
+        "merged_commit": "7916cb004911fad6e8192d792976a33a356d1924",
+        "tree": "920aebaaa91f08d7ed7f87e24c9f2241a13bb5a3",
+        "exact_tree_match": true,
+        "changes": [
+          "one unbuffered nonblocking selectors loop owns stdin, stdout and stderr descriptors",
+          "wall execution deadline and independent post-exit/post-kill drain deadline are enforced",
+          "stdout is retained up to 1 MiB and stderr up to 64 KiB while both pipes are drained concurrently",
+          "the original process group is killed on timeout and when inherited pipes outlive an exited leader",
+          "escaped-session descendants cannot block caller cleanup; the call fails closed without claiming the escaped process was killed",
+          "large stdin writes use persistent memoryview slices to avoid quadratic remainder copies"
+        ],
+        "regressions": [
+          "timeout kills a same-group descendant",
+          "escaped-session descendant retaining pipes cannot extend the caller deadline",
+          "exited leader with a same-group child retaining pipes causes bounded failure and group termination",
+          "256 KiB request is sent through multiple zero-copy memoryview slices",
+          "stdout over 1 MiB fails closed"
+        ],
+        "premerge_checks": [
+          {
+            "run": 36827693949,
+            "name": "CI 1016",
+            "conclusion": "success",
+            "head_sha": "ff8b975ddc0700c8069ace1be63e5af7c7713cda",
+            "jobs": [
+              110256971597,
+              110256971863
+            ],
+            "python_tests": 571
+          }
+        ],
+        "postmerge_checks": [
+          {
+            "run": 36828034390,
+            "name": "CI 1017",
+            "conclusion": "success",
+            "head_sha": "7916cb004911fad6e8192d792976a33a356d1924",
+            "jobs": [
+              110258029937,
+              110258030221
+            ],
+            "python_tests": 571
+          }
+        ],
+        "review_followups": [
+          {
+            "priority": "P2",
+            "thread": "PRRT_kwDOUTpDbc6n1anG",
+            "finding": "partial writes copied the unsent payload remainder",
+            "status": "resolved"
+          },
+          {
+            "priority": "P1",
+            "thread": "PRRT_kwDOUTpDbc6n1epk",
+            "finding": "same-group child could retain pipes after leader exit without group termination",
+            "status": "resolved"
+          }
+        ],
+        "exact_head_review": {
+          "head": "ff8b975ddc0700c8069ace1be63e5af7c7713cda",
+          "result": "completed_no_further_findings",
+          "completed_at": "2026-10-01T07:00:57Z"
+        }
+      }
+    ]
+  },
+  "acceptance": [
+    "all size and collection bounds are applied before expensive parse/allocation/model work",
+    "caller supervision is independently deadline-bounded, drains both output streams under retention caps, and terminates the owned process group",
+    "all three integrated trees equal their exact tested head trees",
+    "NNIS target CI and the final KVLab target CI completed successfully"
+  ],
+  "closed_at": "2026-10-01T09:04:30+02:00",
+  "limitations": [
+    "No network service exposure or exploitability is asserted.",
+    "An escaped descendant in a different session cannot be killed through the original group; the caller instead closes its descriptors and fails within the bounded drain deadline.",
+    "KVLab evidence is experimental/protocol qualification and is not represented as hardware performance qualification."
+  ]
+}
