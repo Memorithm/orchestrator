@@ -3,9 +3,9 @@
   "owner": "codex-audit-20261001T0814",
   "acquired_at": "2026-10-01T06:15:16.702Z",
   "expires_at": "2026-10-01T08:00:00Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-01T07:10:27.916Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Reconcile scirust PR #1519 and exact head 082bdc85c7fa5f48526b66ef2e5202f61ebe439e; qualify CI 4653, reread roadmap/ML overlay, validate base/head/diff/review threads, merge with expected_head_sha if green, then validate master and close RT-SCI-02."
+  "next_action": "Reconcile registry and GitHub state; inspect scirust target CI 4654 job 110247001369. If the exact target run is fully successful, create RT-SCI-02 proof and close it. Then continue the shared execution_guard capability and its SciCapsule/scirust-hub/SciRust-Verify/ProofLab consumers."
 }
