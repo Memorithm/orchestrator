@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T04:07:32+02:00",
+  "updated_at": "2026-10-01T07:03:58+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 7,
-    "remaining": 94,
-    "merged_prs": 6
+    "closed": 8,
+    "remaining": 93,
+    "merged_prs": 9
   },
   "batches": [
     {
@@ -66,6 +66,21 @@
           "repository": "Memorithm/CCOS-Core",
           "number": 30,
           "merge_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b"
+        },
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 34,
+          "merge_sha": "eaa6facf0676c29b9432235ca951eb71e9ba9785"
+        },
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 35,
+          "merge_sha": "c0606b13579ab7542526dda27441fac619e7664e"
+        },
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 36,
+          "merge_sha": "229066c0465d70269f715a62f66e9d8c9af89f34"
         }
       ]
     }
@@ -1285,6 +1300,127 @@
         }
       ],
       "target_validated_at": "2026-10-01T04:07:32+02:00"
+    },
+    {
+      "repository": "Memorithm/SciRust-Verify",
+      "number": 34,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/34",
+      "base": "feat/scirust-verify-foundation",
+      "head_sha": "07eea4157238ab82daa0b582c253f0af906b49f6",
+      "merge_sha": "eaa6facf0676c29b9432235ca951eb71e9ba9785",
+      "status": "merged_superseded_by_review_followup",
+      "ids": [
+        "MEM-17"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T06:40:42+02:00",
+      "merge_method": "squash",
+      "checks": [
+        {
+          "id": 110220885161,
+          "name": "fmt / check / clippy / test / doc",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "07eea4157238ab82daa0b582c253f0af906b49f6",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36815940928/job/110220885161"
+        },
+        {
+          "id": 110221053595,
+          "name": "Dogfood — scirust-verify verify .",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "07eea4157238ab82daa0b582c253f0af906b49f6",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36815940928/job/110221053595"
+        }
+      ],
+      "review_followup": {
+        "status": "late_finding_after_automatic_merge",
+        "finding": "P2 exact run.json rollback must restore captured bytes",
+        "resolution_pr": 35
+      }
+    },
+    {
+      "repository": "Memorithm/SciRust-Verify",
+      "number": 35,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/35",
+      "base": "feat/scirust-verify-foundation",
+      "base_sha": "eaa6facf0676c29b9432235ca951eb71e9ba9785",
+      "head_sha": "f7bfd780f80a3cc2cfa11ac2697d74c14fb37383",
+      "merge_sha": "c0606b13579ab7542526dda27441fac619e7664e",
+      "status": "merged_superseded_by_review_followup",
+      "ids": [
+        "MEM-17"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T06:52:19+02:00",
+      "merge_method": "squash",
+      "checks": [
+        {
+          "id": 110223720825,
+          "name": "fmt / check / clippy / test / doc",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "f7bfd780f80a3cc2cfa11ac2697d74c14fb37383",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36816863574/job/110223720825"
+        },
+        {
+          "id": 110224020906,
+          "name": "Dogfood — scirust-verify verify .",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "f7bfd780f80a3cc2cfa11ac2697d74c14fb37383",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36816863574/job/110224020906"
+        }
+      ],
+      "review_followup": {
+        "status": "late_finding_after_automatic_merge",
+        "finding": "P2 duplicate retention of bounded run.json buffer",
+        "resolution_pr": 36
+      }
+    },
+    {
+      "repository": "Memorithm/SciRust-Verify",
+      "number": 36,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/36",
+      "base": "feat/scirust-verify-foundation",
+      "base_sha": "c0606b13579ab7542526dda27441fac619e7664e",
+      "head_sha": "c00ac843252395d9249294ee4ba2af374b8df28d",
+      "merge_sha": "229066c0465d70269f715a62f66e9d8c9af89f34",
+      "status": "merged_target_tree_validated",
+      "ids": [
+        "MEM-17"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T07:03:58+02:00",
+      "merge_method": "squash",
+      "checks": [
+        {
+          "id": 110225331663,
+          "name": "fmt / check / clippy / test / doc",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "c00ac843252395d9249294ee4ba2af374b8df28d",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36817394781/job/110225331663"
+        },
+        {
+          "id": 110225574493,
+          "name": "Dogfood — scirust-verify verify .",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "c00ac843252395d9249294ee4ba2af374b8df28d",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/36817394781/job/110225574493"
+        }
+      ],
+      "review": {
+        "head": "c00ac843252395d9249294ee4ba2af374b8df28d",
+        "result": "no_major_issues",
+        "completed_at": "2026-10-01T05:01:20Z"
+      },
+      "validated_merge_preview": "af639882ea30656fd993452aa27b3b699f258fd1",
+      "validated_tree": "ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8",
+      "target_head": "229066c0465d70269f715a62f66e9d8c9af89f34",
+      "target_tree": "ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8",
+      "target_validation": "pull_request merge-preview tree equals signed squash target tree; push workflow does not target actual default branch"
     }
   ],
   "repository_observations": [
@@ -1517,7 +1653,8 @@
       "visibility": "public",
       "default_branch": "feat/scirust-verify-foundation",
       "error": null,
-      "current_head": "593692aea76b90e50899e733344ffa4cf61ba380"
+      "current_head": "229066c0465d70269f715a62f66e9d8c9af89f34",
+      "last_observed_at": "2026-10-01T07:03:58+02:00"
     },
     {
       "repository": "Memorithm/TDI",
@@ -3030,16 +3167,37 @@
         "Valider chaque clé manifeste et run ID, rejeter symlinks/fichiers non réguliers avant ouvertures fd/no-follow; limiter taille totale/nombre/profondeur; inclure tests ../../, chemin absolu et symlink-cycle.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "593692aea76b90e50899e733344ffa4cf61ba380",
+      "status": "resolved",
+      "current_head": "229066c0465d70269f715a62f66e9d8c9af89f34",
       "default_branch": "feat/scirust-verify-foundation",
       "audit_head": "593692aea76b90e50899e733344ffa4cf61ba380",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "remediated_and_validated_on_default_branch",
+      "policy_review": "AGENTS.md, roadmap, ML overlay, CONTRIBUTING and PolyForm Noncommercial license applied",
+      "prs": [
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 34,
+          "url": "https://github.com/Memorithm/SciRust-Verify/pull/34"
+        },
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 35,
+          "url": "https://github.com/Memorithm/SciRust-Verify/pull/35"
+        },
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 36,
+          "url": "https://github.com/Memorithm/SciRust-Verify/pull/36"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/SciRust-Verify-MEM-17.json",
+        "CI run 148 succeeded on merge preview af639882ea30656fd993452aa27b3b699f258fd1",
+        "tested and integrated tree ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8 are identical",
+        "default branch head 229066c0465d70269f715a62f66e9d8c9af89f34"
+      ],
+      "last_observed_at": "2026-10-01T07:03:58+02:00",
+      "next_action": "Closed; separately remediate the CI push trigger that names main instead of the actual default branch."
     },
     {
       "id": "MEM-18",
