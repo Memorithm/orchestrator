@@ -7329,6 +7329,63 @@
           "next_action": "Clos; préserver l'admission avant allocation, les plafonds configurables et les erreurs typées lors de toute évolution du chemin spectral."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T19:53:00+02:00",
+      "hour": "2026-10-01T19:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 22,
+        "target": 50
+      },
+      "total_merged": 22,
+      "closed": 18,
+      "remaining": 83,
+      "actions": [
+        "B-NL-01 a été reproduit sur NoiseLab main 01ca101bfe370c35f97b9eab4a8e650b68a15eb5 après lecture des politiques et licences.",
+        "PR #74 rend GaussianNoise non constructible par literal externe, revalide à la frontière publique, utilise une réservation faillible et rejette les sorties non finies avec une erreur typée indexée.",
+        "Le premier HEAD f3cf3447414631418e38607682d9b0e3e824ab54 a échoué uniquement rustfmt et n'est pas compté.",
+        "Le HEAD exact f38c39e25a3461445991a00bae38f20d587b749a a réussi les deux workflows complets.",
+        "La fusion squash gardée a produit d5d831a446cd93b45fc916455293f6af7cb5b680; main pointe sur ce SHA et le blob source intégré est identique au candidat."
+      ],
+      "executed_checks": [
+        "CI 36901966517 / job 110503062571: format, check toutes cibles, Clippy -D warnings et cargo test réussis sur f38c39e25a3461445991a00bae38f20d587b749a.",
+        "Research report smoke 36901966436 / job 110503197321: identité source, validations synthétiques, graphe retenu, exécutables, répétitions/captures, provenance et scellement réussis sur le même HEAD.",
+        "Diff exact inspecté: un fichier modifié, aucun fil de revue ouvert.",
+        "main comparé au merge SHA: identique; blob src/scirust_bridge.rs candidat et intégré d4b4af45d2f0792da336f63669a9ec5ce6da9fa3."
+      ],
+      "waiting": [
+        "B-NL-01 reste ouvert jusqu'à observation des workflows push sur l'exact commit intégré d5d831a446cd93b45fc916455293f6af7cb5b680.",
+        "Les identités et conclusions des runs push n'étaient pas exposées par l'interface GitHub disponible pendant cette passe.",
+        "L'environnement local était indisponible; aucun test Rust local n'est revendiqué.",
+        "83 IDs restent ouverts."
+      ],
+      "work_items": [
+        {
+          "id": "B-NL-01",
+          "repository": "Memorithm/NoiseLab",
+          "status": "waiting_ci",
+          "actions": "Champs privés, validation répétée à la frontière publique, allocation faillible, contrôle de finitude et erreurs typées avec régressions de contournement.",
+          "results": "PR #74 fusionnée; validations candidat complètes vertes; main exact et blob source intégré vérifiés; cible push encore à observer.",
+          "pr": [
+            {
+              "number": 74,
+              "url": "https://github.com/Memorithm/NoiseLab/pull/74",
+              "head_sha": "f38c39e25a3461445991a00bae38f20d587b749a",
+              "merge_sha": "d5d831a446cd93b45fc916455293f6af7cb5b680"
+            }
+          ],
+          "head": "d5d831a446cd93b45fc916455293f6af7cb5b680",
+          "checks": [
+            36901966517,
+            110503062571,
+            36901966436,
+            110503197321
+          ],
+          "dependencies": [],
+          "next_action": "Observer et enregistrer les validations push exactes de d5d831a446cd93b45fc916455293f6af7cb5b680; clore B-NL-01 uniquement si elles réussissent."
+        }
+      ]
     }
   ]
 }
