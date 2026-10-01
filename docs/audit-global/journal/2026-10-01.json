@@ -7442,6 +7442,69 @@
           "next_action": "Clos; conserver les invariants GaussianNoise et les validations exactes candidat/cible lors des évolutions futures."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T22:11:24+02:00",
+      "hour": "2026-10-01T21:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 23,
+        "target": 50
+      },
+      "total_merged": 23,
+      "closed": 20,
+      "remaining": 81,
+      "actions": [
+        "RT-NNIS-02 a été reproduit sur NNIS main 0e7faf90dabc98c9b66e5a78d3733b65cd2542ea après lecture des politiques racine et hors branche par défaut.",
+        "PR #253 centralise découverte et lecture entre chargeur/preflight, documente le dossier modèle local immuable, refuse les symlinks et vérifie la cible canonique puis l'inode ouvert sous Unix.",
+        "Trois régressions couvrent le fichier unique externe, le shard indexé externe et le répertoire intermédiaire symlinké.",
+        "Le premier candidat dca8957ddb0ff7446e0f8e7ea43c60a4adf971f6 a échoué rustfmt et n'est pas compté.",
+        "Le HEAD exact 6308f63f1a6e83c91aed284e9b09da5cdcae653c a réussi CI et le harnais SmolLM2, puis la fusion squash gardée a produit 8a4b3187eb5faf766704a90059bcd6d7675e7ae4 avec un arbre identique.",
+        "CI push a réussi sur le SHA intégré exact; RT-NNIS-02 est clos."
+      ],
+      "executed_checks": [
+        "git diff --check réussi localement; aucune exécution Rust locale n'est revendiquée faute de toolchain.",
+        "CI candidat 36918760472 / jobs 110559227632 et 110559228181: preuves, provenance licences, rustfmt, cargo check, frontières de dépendances, Clippy, tests CPU et Rust 1.77 réussis sur 6308f63f1a6e83c91aed284e9b09da5cdcae653c.",
+        "SmolLM2 benchmark harness candidat 36918760492 / job 110559228124: format, exemples check/Clippy et harnais Python réussis sur le même HEAD.",
+        "Diff exact inspecté: 5 fichiers, 7 commits d'écriture séquentielle, 0 derrière la base, aucun fil de revue ouvert.",
+        "main=8a4b3187eb5faf766704a90059bcd6d7675e7ae4 et arbre candidat/intégré identique 50c27b36183876d4d8669b364b88bc866f87010a.",
+        "CI push 36919268471 / jobs 110560934899 et 110560934608: même qualité CPU et check Rust 1.77 réussis sur le SHA intégré."
+      ],
+      "waiting": [
+        "Le harnais SmolLM2 est configuré uniquement sur pull_request; sa validation candidat s'applique à l'arbre exactement identique intégré.",
+        "La branche main reste non protégée, sans ruleset ni check requis; cette limite n'est pas déclarée résolue.",
+        "81 IDs restent ouverts."
+      ],
+      "work_items": [
+        {
+          "id": "RT-NNIS-02",
+          "repository": "Memorithm/NNIS",
+          "status": "resolved",
+          "actions": "Frontière de confiance documentée, politique de lecture partagée, refus symlink/traversée, confinement canonique, ouverture finale no-follow et régressions.",
+          "results": "PR #253 fusionnée; validations candidat complètes et CI cible exactes vertes; arbre candidat et intégré identique; constat clos.",
+          "pr": [
+            {
+              "number": 253,
+              "url": "https://github.com/Memorithm/NNIS/pull/253",
+              "head_sha": "6308f63f1a6e83c91aed284e9b09da5cdcae653c",
+              "merge_sha": "8a4b3187eb5faf766704a90059bcd6d7675e7ae4"
+            }
+          ],
+          "head": "8a4b3187eb5faf766704a90059bcd6d7675e7ae4",
+          "checks": [
+            36918760472,
+            110559227632,
+            110559228181,
+            36918760492,
+            110559228124,
+            36919268471,
+            110560934899,
+            110560934608
+          ],
+          "dependencies": [],
+          "next_action": "Clos; préserver le contrat de modèle local immuable, le résolveur partagé et les validations exactes lors des évolutions futures."
+        }
+      ]
     }
   ]
 }
