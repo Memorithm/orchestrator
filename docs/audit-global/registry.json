@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T10:15:00+02:00",
+  "updated_at": "2026-10-01T10:24:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 10,
-    "remaining": 91,
-    "merged_prs": 13
+    "closed": 11,
+    "remaining": 90,
+    "merged_prs": 14
   },
   "batches": [
     {
@@ -101,6 +101,11 @@
           "repository": "Memorithm/KVLab",
           "number": 177,
           "merge_sha": "7916cb004911fad6e8192d792976a33a356d1924"
+        },
+        {
+          "repository": "Memorithm/SciCapsule",
+          "number": 31,
+          "merge_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db"
         }
       ]
     }
@@ -1779,6 +1784,48 @@
           "python_tests": 571
         }
       ]
+    },
+    {
+      "repository": "Memorithm/SciCapsule",
+      "number": 31,
+      "url": "https://github.com/Memorithm/SciCapsule/pull/31",
+      "base": "main",
+      "base_sha": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
+      "head_sha": "6ea0a1a9949c20745f6f28365a2118c95b3527cc",
+      "merge_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-10"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T08:21:54Z",
+      "merge_method": "merge",
+      "checks": [
+        {
+          "id": 36835641168,
+          "name": "CI 84",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6ea0a1a9949c20745f6f28365a2118c95b3527cc",
+          "url": "https://github.com/Memorithm/SciCapsule/actions/runs/36835641168",
+          "job": 110282281418
+        }
+      ],
+      "validated_tree": "4f538ff69ae1cf48c82a9a97072756850a34a23e",
+      "exact_tree_match": false,
+      "target_head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+      "target_checks": [
+        {
+          "id": 36835827718,
+          "name": "CI 85",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+          "url": "https://github.com/Memorithm/SciCapsule/actions/runs/36835827718",
+          "job": 110282884202
+        }
+      ],
+      "target_validation": "format, stable check, strict Clippy, all-target tests and MSRV 1.89 check passed on the exact merge commit"
     }
   ],
   "repository_observations": [
@@ -2000,8 +2047,8 @@
       "repository": "Memorithm/SciCapsule",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
-      "tree_sha": "66f3cc49dabc2540ac7b28d9aa33ca2f276e9064",
+      "current_head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+      "tree_sha": "4f538ff69ae1cf48c82a9a97072756850a34a23e",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -3407,16 +3454,33 @@
         "Nettoyer le groupe dès fin du parent, avant les joins; borner aussi le drainage et retourner état capture-incomplete. Tester parent sortant avec descendant gardant stdout/stderr.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
+      "status": "resolved",
+      "current_head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
       "default_branch": "main",
       "audit_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "MEM-10 merged as 425e4bfa6a724f8dda44e07ff62deeeb3dedd4db. The exact PR head passed all configured checks and the exact merge commit passed target CI 85.",
+      "policy_review": "AGENTS.md, README.md, Cargo.toml, docs/EXECUTION.md, ecosystem roadmap and ML overlay read; repository contains no LICENSE file and Cargo metadata declares no license",
+      "prs": [
+        {
+          "number": 31,
+          "url": "https://github.com/Memorithm/SciCapsule/pull/31",
+          "base": "main",
+          "base_sha": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
+          "head_sha": "6ea0a1a9949c20745f6f28365a2118c95b3527cc",
+          "status": "merged_target_validated",
+          "merge_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db"
+        }
+      ],
+      "resolution_evidence": [
+        "The process group is killed immediately after the initial child exits and before output drains.",
+        "Both capture drains share an independent one-second deadline and return structured capture-error state if incomplete.",
+        "Real-process regression parent_exit_kills_pipe_holding_descendant_and_bounds_capture_drain passed.",
+        "Exact PR head 6ea0a1a9949c20745f6f28365a2118c95b3527cc passed CI 84: format, stable check, strict Clippy, all-target tests and MSRV 1.89 check.",
+        "Exact integrated commit 425e4bfa6a724f8dda44e07ff62deeeb3dedd4db passed target CI 85 with the same validation scope.",
+        "Proof: docs/audit-global/proofs/SciCapsule-MEM-10.json"
+      ],
+      "last_observed_at": "2026-10-01T10:24:00+02:00",
+      "next_action": "Closed and target-qualified; MEM-11 remains a separate open question about self-hosted runner trust and PR policy."
     },
     {
       "id": "MEM-11",
