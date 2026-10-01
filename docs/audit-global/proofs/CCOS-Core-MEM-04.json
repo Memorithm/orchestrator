@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "finding": "MEM-04",
+  "repository": "Memorithm/CCOS-Core",
+  "default_branch": "main",
+  "audit_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+  "sequence": [
+    {
+      "pr": 28,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/28",
+      "base_sha": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+      "head_sha": "b5045166a045c489ed91891dd428cde3dba71031",
+      "merge_sha": "cadf9d7bd31285f1b9300895b64f602f4ed8cfdd",
+      "status": "merged_then_superseded_by_security_followup",
+      "exact_head_runs": [
+        36801274783,
+        36801274838,
+        36801274800
+      ],
+      "note": "All exact-head checks succeeded, but a late exact-head review completed after automatic merge and found pathname-based discovery/non-Unix races plus a blocking FIFO open. MEM-04 was intentionally kept open."
+    },
+    {
+      "pr": 29,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/29",
+      "base_sha": "cadf9d7bd31285f1b9300895b64f602f4ed8cfdd",
+      "head_sha": "550fc93bf02af0da767d2d0f966737cc78c44361",
+      "merge_sha": "fa9bd002e82288ab2b926d02e80949139e2d07d0",
+      "status": "merged_security_followup",
+      "exact_head_runs": [
+        36802456055,
+        36802456033,
+        36802456101
+      ],
+      "review": {
+        "commit": "550fc93bf02af0da767d2d0f966737cc78c44361",
+        "result": "no_major_issues"
+      },
+      "note": "Traversal and reads are descriptor-relative on Unix, nonblocking and no-follow; non-Unix fails closed. The first target push exposed an author-policy regression."
+    },
+    {
+      "pr": 30,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/30",
+      "base_sha": "fa9bd002e82288ab2b926d02e80949139e2d07d0",
+      "head_sha": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+      "merge_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+      "status": "merged_ci_regression_fix",
+      "exact_head_runs": [
+        36803186051,
+        36803186096,
+        36803186052
+      ],
+      "review": {
+        "commit": "7b66cbba5b0f5be8128ba91439a16a67313c8f03",
+        "result": "no_major_issues"
+      },
+      "note": "Allows the exact GitHub service identity only as squash committer; GitHub remains forbidden as author."
+    }
+  ],
+  "acceptance": {
+    "reject_rs_symlinks": true,
+    "pin_root_descriptor": true,
+    "descriptor_relative_discovery": true,
+    "no_follow": true,
+    "nonblocking_special_files": true,
+    "limits": {
+      "files": 10000,
+      "per_file_bytes": 8388608,
+      "aggregate_bytes": 536870912
+    },
+    "regressions": [
+      "external .rs symlink sentinel",
+      "symlinked ancestor",
+      "oversized sparse Rust source",
+      "GitHub committer allowed only with authorized author"
+    ],
+    "non_unix": "fail_closed_until_handle_relative_resolver"
+  },
+  "final_target": {
+    "sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+    "tree": "unknown_not_claimed",
+    "runs": [
+      {
+        "id": 36803717006,
+        "name": "CI",
+        "conclusion": "success",
+        "jobs": [
+          110183417781,
+          110183417954,
+          110183417993,
+          110183418002,
+          110183418016,
+          110183418050,
+          110183418061,
+          110183418112,
+          110183418235,
+          110183418245,
+          110183418298
+        ]
+      },
+      {
+        "id": 36803717017,
+        "name": "Strict BEIR import",
+        "conclusion": "success",
+        "jobs": [
+          110183417901
+        ]
+      },
+      {
+        "id": 36803716995,
+        "name": "Security Audit",
+        "conclusion": "success",
+        "jobs": [
+          110183418038,
+          110183418243
+        ]
+      }
+    ],
+    "validated_at": "2026-10-01T04:05:00+02:00"
+  },
+  "policy_notes": {
+    "branch_protection": "read endpoint unavailable to the GitHub App (403 observed); mergeability and repository jobs were checked without bypassing gates",
+    "local_rust": "unavailable for MEM-04 code; exact-head CI supplied compilation and functional execution",
+    "local_policy_tests": [
+      "bash -n scripts/check-author-policy.sh scripts/test-author-push-range.sh",
+      "bash scripts/test-author-push-range.sh",
+      "git diff --check"
+    ]
+  }
+}
