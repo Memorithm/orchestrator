@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Lot 1 : 15/50 ; cumul fusionné : 15 ; clos : 13 ; restants : 88.
+101 IDs ; 12 positifs conservés. Lot 1 : 22/50 ; cumul fusionné : 22 ; clos : 18 ; restants : 83.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -89,7 +89,7 @@
 | B-NO-02 | Memorithm/NeuralOperator | 8 | à faire |  |
 | B-NO-03 | Memorithm/NeuralOperator | 9 | à faire |  |
 | B-NO-04 | Memorithm/NeuralOperator | 9 | à faire |  |
-| B-NL-01 | Memorithm/NoiseLab | 5 | à faire |  |
+| B-NL-01 | Memorithm/NoiseLab | 5 | attente CI cible | [PR 74](https://github.com/Memorithm/NoiseLab/pull/74), [preuve provisoire](proofs/NoiseLab-74-B-NL-01.json) |
 | B-NL-02 | Memorithm/NoiseLab | 1 | résolu | [PR 73](https://github.com/Memorithm/NoiseLab/pull/73), [preuve](proofs/NoiseLab-73-B-NL-02.json) |
 | B-NL-03 | Memorithm/NoiseLab | 8 | à faire |  |
 | BF-EE-01 | Memorithm/ExtremEngine | 1 | résolu |  |
