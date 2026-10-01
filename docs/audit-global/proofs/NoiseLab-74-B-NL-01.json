@@ -5,7 +5,7 @@
   ],
   "repository": "Memorithm/NoiseLab",
   "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#B-NL-01",
-  "status": "awaiting_exact_target_validation",
+  "status": "resolved",
   "audit_sha": "8b1ba211cf655dde2715779a5188943697a015fd",
   "verified_base_sha": "01ca101bfe370c35f97b9eab4a8e650b68a15eb5",
   "default_branch": "main",
@@ -85,9 +85,41 @@
     "candidate_source_blob_matches_integrated": true
   },
   "target_validation": {
-    "status": "pending_observation",
+    "status": "success",
     "head_sha": "d5d831a446cd93b45fc916455293f6af7cb5b680",
-    "reason": "Push workflows are configured for main, but their exact run identities and conclusions were not observable through the available GitHub connector during this pass. The finding remains open until exact-SHA target checks are recorded."
+    "checks": [
+      {
+        "workflow": "CI",
+        "run_id": 36902249415,
+        "job_id": 110503995163,
+        "conclusion": "success",
+        "scope": [
+          "format",
+          "check",
+          "Clippy",
+          "cargo test"
+        ],
+        "url": "https://github.com/Memorithm/NoiseLab/actions/runs/36902249415"
+      },
+      {
+        "workflow": "Research report smoke contracts",
+        "run_id": 36902249479,
+        "job_id": 110503996447,
+        "conclusion": "success",
+        "scope": [
+          "exact source and non-scientific scope",
+          "synthetic report and integrity validators",
+          "retained dependency graph",
+          "report executables",
+          "rejected flags and repeated reports",
+          "two U2 captures",
+          "protocol and executable identities",
+          "evidence sealing"
+        ],
+        "url": "https://github.com/Memorithm/NoiseLab/actions/runs/36902249479"
+      }
+    ],
+    "result": "Both configured push workflows completed successfully on the exact integrated main SHA."
   },
   "local_validation": {
     "status": "not_executed",
@@ -99,5 +131,6 @@
     "required_checks": [],
     "statement": "Known observation from the immediately preceding NoiseLab pass; no gate was bypassed or reduced."
   },
-  "observed_at": "2026-10-01T19:53:00+02:00"
+  "observed_at": "2026-10-01T20:09:30+02:00",
+  "closed_at": "2026-10-01T20:09:30+02:00"
 }
