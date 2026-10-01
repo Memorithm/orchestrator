@@ -89,5 +89,7 @@
     "processes that deliberately leave the dedicated process group are outside the claimed supervision boundary",
     "the self-hosted runner trust/exposure question tracked by MEM-11 remains open; this PR only restores writable validation state"
   ],
-  "closed_at": "2026-10-01T10:23:00+02:00"
+  "closed_at": "2026-10-01T10:23:00+02:00",
+  "exact_tree_match": true,
+  "tested_tree": "4f538ff69ae1cf48c82a9a97072756850a34a23e"
 }
