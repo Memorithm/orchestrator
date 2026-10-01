@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T09:05:30+02:00",
+  "updated_at": "2026-10-01T10:15:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 9,
-    "remaining": 92,
+    "closed": 10,
+    "remaining": 91,
     "merged_prs": 13
   },
   "batches": [
@@ -1449,7 +1449,7 @@
       "base": "master",
       "base_sha": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
       "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "RT-SCI-02"
       ],
@@ -1550,14 +1550,17 @@
         },
         {
           "id": 36824485281,
-          "name": "CI",
-          "status": "in_progress",
-          "conclusion": null,
+          "name": "CI 4654",
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
           "url": "https://github.com/Memorithm/scirust/actions/runs/36824485281",
-          "pending_job": {
+          "jobs": 28,
+          "last_job": {
             "id": 110247001369,
-            "name": "Miri shard (numeric-a)"
+            "name": "Miri shard (numeric-a)",
+            "conclusion": "success",
+            "completed_at": "2026-10-01T07:11:09Z"
           }
         },
         {
@@ -1600,7 +1603,13 @@
           "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
           "url": "https://github.com/Memorithm/scirust/actions/runs/36824485219"
         }
-      ]
+      ],
+      "target_validation": "all seven push workflows successful; CI 4654 completed 28/28 jobs",
+      "current_head_reconciliation": {
+        "head": "09cc3954f128a41ba105b36114a8df4c0645812e",
+        "ahead_by": 1,
+        "safetensors_blob_unchanged": "cf82789019e04c8cb39b4e4b3e3afe7f80b8f467"
+      }
     },
     {
       "repository": "Memorithm/NNIS",
@@ -2090,8 +2099,8 @@
       "repository": "Memorithm/scirust",
       "visibility": "public",
       "default_branch": "master",
-      "current_head": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
-      "tree_sha": "d9cebe5bf42da160eec962126c63d5f875f8be40",
+      "current_head": "09cc3954f128a41ba105b36114a8df4c0645812e",
+      "tree_sha": "e5a6bd780aff652b281937cf2b0a83edc871dca2",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -2147,11 +2156,11 @@
         "Lire longueur/header en streaming avec quota total configurable et validation taille attendue avant allocation; qualifier import de fichier énorme/rejet.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_target_ci",
-      "current_head": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+      "status": "resolved",
+      "current_head": "09cc3954f128a41ba105b36114a8df4c0645812e",
       "default_branch": "master",
       "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
-      "head_reconciliation": "merged on master 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce; tree d9cebe5bf42da160eec962126c63d5f875f8be40 exactly matches tested merge preview",
+      "head_reconciliation": "RT-SCI-02 merged as 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce with tested tree d9cebe5bf42da160eec962126c63d5f875f8be40; target CI 4654 passed 28/28 jobs. Current master 09cc3954f128a41ba105b36114a8df4c0645812e is one unrelated SciAgent commit ahead and preserves safetensors blob cf82789019e04c8cb39b4e4b3e3afe7f80b8f467 unchanged.",
       "policy_review": "AGENTS.md, CLAUDE.md, CONTRIBUTING.md, PolyForm Noncommercial 1.0.0, ecosystem roadmap 31b1e5668cec842fbba45af5a30a14e4c7ead2ad and ML overlay 041bfe655055e7aa90cda847909cae3746583953 read",
       "prs": [
         {
@@ -2160,20 +2169,22 @@
           "base": "master",
           "base_sha": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
           "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
-          "status": "merged_waiting_target_ci",
+          "status": "merged_target_validated",
           "merge_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce"
         }
       ],
       "resolution_evidence": [
-        "File-backed safetensors loaders now read an 8-byte prefix and bounded header before any payload allocation, enforce configurable header/total quotas and exact declared length, use fallible reserves/exact reads, and detect file growth.",
+        "File-backed safetensors loaders read only an 8-byte prefix and bounded header before payload allocation, enforce configurable header/total quotas and exact descriptor length, use fallible reservations/exact reads, and detect growth.",
         "Sorted tensor spans must cover the payload contiguously; overlaps and gaps fail before payload or decoded tensor allocation.",
-        "Regression tests cover oversized sparse files, declared/file-size mismatch, custom header quotas, and overlapping tensor spans.",
-        "Exact-head review for 082bdc85c7fa5f48526b66ef2e5202f61ebe439e completed with no major issues after its P1 overlap finding was fixed.",
-        "Exact-head validation complete: 8 workflows and 35 check runs successful; CI 4653 completed 28/28 jobs, including MSRV, Clippy, format, tests, platforms, coverage, Miri shards, fuzz/security and documentation.",
-        "Squash 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce is master and has tree d9cebe5bf42da160eec962126c63d5f875f8be40, exactly matching tested merge preview 6e9c7e3589bcbd1fc822afc997594009c46ae9ab."
+        "Regression tests cover oversized sparse files, declared/file-size mismatch, custom header quotas and overlapping tensor spans.",
+        "Exact-head review for 082bdc85c7fa5f48526b66ef2e5202f61ebe439e completed with no further major issue after its P1 overlap finding was fixed.",
+        "Exact-head validation: 8 workflows and 35 check runs successful; CI 4653 completed 28/28 jobs.",
+        "Target validation: all seven push workflows on 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce succeeded; CI 4654 completed 28/28 jobs including Miri numeric-a 110247001369.",
+        "Current master 09cc3954f128a41ba105b36114a8df4c0645812e changes only SciAgent paths and preserves the exact remediated safetensors blob cf82789019e04c8cb39b4e4b3e3afe7f80b8f467.",
+        "Proof: docs/audit-global/proofs/scirust-RT-SCI-02.json"
       ],
-      "last_observed_at": "2026-10-01T09:05:30+02:00",
-      "next_action": "Wait only for target CI 4654 Miri numeric-a job 110247001369; all six specialized push workflows and the other 26 CI jobs are successful."
+      "last_observed_at": "2026-10-01T10:15:00+02:00",
+      "next_action": "Closed and target-qualified; monitor the unrelated current SciAgent push CI separately without reopening RT-SCI-02 unless it changes or regresses the safetensors loader."
     },
     {
       "id": "RT-SCI-03",
@@ -5297,14 +5308,14 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261001T0814",
-    "acquired_at": "2026-10-01T06:15:16.702Z",
-    "expires_at": "2026-10-01T08:00:00Z",
+    "owner": "codex-audit-20261001T1011",
+    "acquired_at": "2026-10-01T08:12:08.425Z",
+    "expires_at": "2026-10-01T10:00:00Z",
     "released_at": null,
     "status": "active",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "next_action": "Reconcile scirust PR #1519 and exact head 082bdc85c7fa5f48526b66ef2e5202f61ebe439e; qualify CI 4653, reread roadmap/ML overlay, validate base/head/diff/review threads, merge with expected_head_sha if green, then validate master and close RT-SCI-02."
+    "next_action": "Reconcile scirust CI 4654 and close RT-SCI-02 only if the exact target run is green; then validate and remediate the shared execution_guard-related findings without duplicating capabilities."
   },
   "capabilities": [
     {
