@@ -1,0 +1,198 @@
+{
+  "date": "2026-10-02",
+  "timezone": "Europe/Paris",
+  "entries": [
+    {
+      "observed_at": "2026-10-02T00:17:28+02:00",
+      "hour": "2026-10-02T00:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 26,
+        "target": 50
+      },
+      "total_merged": 26,
+      "closed": 24,
+      "remaining": 77,
+      "actions": [
+        "COG-COGNO-001, COG-COGNO-002 et COG-COGNO-004 ont été reproduits sur COGNO-1 main 37f101a0db410d0a9d7372f316e751beca2e74eb après lecture des instructions racine, de la feuille de route hors branche et de la licence MIT.",
+        "La PR #261 exige un secret TCP borné, applique des délais lecture/écriture, ajoute une frontière PackagePersister et conserve atomiquement chaque paquet vérifié avant OK.",
+        "Une revue P1 a détecté l'absence de fsync du parent lors de la première création de taste.inbox; le HEAD final synchronise store_root avant toute acceptation et le fil est résolu.",
+        "La relecture contre le critère durable a montré que le secret seul ne suffisait pas pour un pair distant sans transport chiffré; COG-COGNO-001 n'a pas été clos prématurément.",
+        "La PR #262 résout une fois l'adresse d'écoute, refuse toute adresse non-loopback et exige dans la documentation un tunnel hôte chiffré/authentifié pour les pairs distants.",
+        "Les deux PR ont été fusionnées par squash avec expected_head_sha; leurs arbres candidats sont identiques aux arbres intégrés et tous les workflows push ont réussi."
+      ],
+      "executed_checks": [
+        "git diff --check réussi localement; aucune exécution Rust locale n'est revendiquée faute de toolchain.",
+        "PR #261 candidat 7513f016b74668b7cd8ffbaf0051235952fd28d0: CI 36932195966 (format, Clippy strict, tests, build release frozen, doc, politique dépendances), Offline 36932198914 et Rust50 36932196211 réussis.",
+        "PR #261 intégré ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6: CI 36932618970, Offline 36932619016 et Rust50 36932619011 réussis; arbre identique 3e1705ad08f481ed80125011fe378602d16d3f7a.",
+        "PR #262 candidat c1283ee1ba5c27161d277d9d21ef0f8e2d073889: CI 36933205728, Offline 36933205866 et Rust50 36933205740 réussis; diff exact de deux fichiers sans fil ouvert.",
+        "PR #262 intégré 05f526dfdad3f777ff0eb48f0a6b1819125526a5: CI 36933674543, Offline 36933674514 et Rust50 36933674451 réussis; arbre identique b3386dd00691a81f542c5e1e6ed417c0f0bb3265."
+      ],
+      "waiting": [
+        "Le protocole applicatif n'implémente pas TLS; l'écoute brute est intentionnellement limitée au loopback et le tunnel hôte distant reste une dépendance opérationnelle externe.",
+        "Le tunnel SSH/mTLS n'a pas été qualifié bout en bout ici; la propriété testée est le refus fail-closed de toute écoute brute non-loopback.",
+        "Les détails de protection de branche étaient inaccessibles à l'intégration GitHub (403); aucune protection n'a été contournée et les deux PR étaient propres et entièrement vertes.",
+        "77 IDs restent ouverts."
+      ],
+      "work_items": [
+        {
+          "id": "COG-COGNO-001",
+          "repository": "Memorithm/COGNO-1",
+          "status": "resolved",
+          "actions": "Secret obligatoire, validation bornée, écoute brute limitée au loopback et exigence documentée d'un tunnel hôte chiffré/authentifié pour le distant.",
+          "results": "PR #261 et #262 fusionnées; validations candidat et cible exactes vertes; constat clos.",
+          "pr": [
+            {
+              "number": 261,
+              "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+              "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+              "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+            },
+            {
+              "number": 262,
+              "url": "https://github.com/Memorithm/COGNO-1/pull/262",
+              "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+              "merge_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5"
+            }
+          ],
+          "head": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+          "checks": [
+            36932195966,
+            110604028264,
+            110604028369,
+            110604028456,
+            110604028475,
+            110604028483,
+            110604028531,
+            36932198914,
+            110604021909,
+            36932196211,
+            110604125656,
+            36932618970,
+            110605379626,
+            110605379891,
+            110605379906,
+            110605379915,
+            110605379925,
+            110605380032,
+            36932619016,
+            110605378376,
+            36932619011,
+            110605378501,
+            36933205728,
+            110607391387,
+            110607391602,
+            110607391660,
+            110607391715,
+            110607391741,
+            110607391815,
+            36933205866,
+            110607281726,
+            36933205740,
+            110607490159,
+            36933674543,
+            110608780680,
+            110608780863,
+            110608780950,
+            110608780968,
+            110608780978,
+            110608781301,
+            36933674514,
+            110608779856,
+            36933674451,
+            110608781034
+          ],
+          "dependencies": [],
+          "next_action": "Clos; préserver le loopback fail-closed et ne pas présenter le secret applicatif comme substitut à TLS."
+        },
+        {
+          "id": "COG-COGNO-002",
+          "repository": "Memorithm/COGNO-1",
+          "status": "resolved",
+          "actions": "Délais de lecture et d'écriture sur chaque socket accepté, configurables et plafonnés.",
+          "results": "PR #261 fusionnée et qualifiée sur candidat puis cible.",
+          "pr": [
+            {
+              "number": 261,
+              "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+              "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+              "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+            }
+          ],
+          "head": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+          "checks": [
+            36932195966,
+            110604028264,
+            110604028369,
+            110604028456,
+            110604028475,
+            110604028483,
+            110604028531,
+            36932198914,
+            110604021909,
+            36932196211,
+            110604125656,
+            36932618970,
+            110605379626,
+            110605379891,
+            110605379906,
+            110605379915,
+            110605379925,
+            110605380032,
+            36932619016,
+            110605378376,
+            36932619011,
+            110605378501
+          ],
+          "dependencies": [],
+          "next_action": "Clos; conserver les délais positifs et plafonnés."
+        },
+        {
+          "id": "COG-COGNO-004",
+          "repository": "Memorithm/COGNO-1",
+          "status": "resolved",
+          "actions": "Inbox atomique, synchronisation fichier/répertoires/index avant OK, idempotence reconstruite depuis les paquets vérifiés et échec de persistance fail-closed.",
+          "results": "PR #261 fusionnée et qualifiée sur candidat puis cible; revue P1 corrigée.",
+          "pr": [
+            {
+              "number": 261,
+              "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+              "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+              "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+            }
+          ],
+          "head": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+          "checks": [
+            36932195966,
+            110604028264,
+            110604028369,
+            110604028456,
+            110604028475,
+            110604028483,
+            110604028531,
+            36932198914,
+            110604021909,
+            36932196211,
+            110604125656,
+            36932618970,
+            110605379626,
+            110605379891,
+            110605379906,
+            110605379915,
+            110605379925,
+            110605380032,
+            36932619016,
+            110605378376,
+            36932619011,
+            110605378501
+          ],
+          "dependencies": [
+            "COG-COGNO-001",
+            "COG-COGNO-002"
+          ],
+          "next_action": "Clos; préserver la frontière de durabilité avant ACK."
+        }
+      ]
+    }
+  ]
+}
