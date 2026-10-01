@@ -3,9 +3,9 @@
   "owner": "codex-audit-20261001T0710",
   "acquired_at": "2026-10-01T05:10:40Z",
   "expires_at": "2026-10-01T07:00:00Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-01T05:45:13.198Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Reconcile Memorithm/scirust master, verify RT-SCI-02 at current HEAD, apply bounded streaming imports with tests, and qualify the resulting PR."
+  "next_action": "Acquire a fresh lease; reconcile scirust PR #1519 and exact head 082bdc85c7fa5f48526b66ef2e5202f61ebe439e; wait for CI 4653, then reread roadmap/ML overlay, revalidate base/head/diff/review threads and squash-merge with expected_head_sha only if every check is green. After merge, validate master and close RT-SCI-02."
 }
