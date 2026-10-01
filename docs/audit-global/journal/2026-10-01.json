@@ -6492,6 +6492,77 @@
           "next_action": "Clos et qualifié; propager vers le vendor CCOS-Enterprise sous MEM-08 avant de clore ce dernier."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T07:06:14+02:00",
+      "hour": "2026-10-01T07:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 9,
+        "target": 50
+      },
+      "total_merged": 9,
+      "closed": 8,
+      "remaining": 93,
+      "actions": [
+        "MEM-17 revérifié sur SciRust-Verify, branche par défaut feat/scirust-verify-foundation; les chemins de manifeste, symlinks, fichiers spéciaux, lectures et allocations étaient insuffisamment bornés au HEAD d'audit.",
+        "PR #34 a livré le confinement descriptor-rooted, les budgets, la capture sémantique stable, la vérification de carte de digests et la publication atomique. Sa fusion automatique a précédé la fin de revue; le P2 de rollback exact a été conservé.",
+        "PR #35 a restauré run.json depuis ses octets capturés exacts. Sa fusion automatique a encore précédé la revue; le P2 de copie mémoire dupliquée a été conservé.",
+        "PR #36, maintenue en brouillon jusqu'à CI et revue finale, a transféré la propriété du buffer borné sans clone; elle a été marquée prête puis fusionnée avec expected_head_sha.",
+        "La branche cible pointe sur 229066c0465d70269f715a62f66e9d8c9af89f34. Son arbre ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8 est exactement celui du merge preview testé par CI 148.",
+        "MEM-17 est clos; la preuve durable et les trois PR sont enregistrées."
+      ],
+      "executed_checks": [
+        "PR #34 HEAD 07eea41: CI 145, fmt/check/clippy/test/doc et dogfood réussis; revue tardive conservée comme défaut non clos.",
+        "PR #35 HEAD f7bfd78: CI 147, les deux jobs réussis; revue tardive conservée comme défaut non clos.",
+        "PR #36 HEAD c00ac84: CI 148, jobs 110225331663 et 110225574493 réussis; revue exacte terminée sans défaut majeur.",
+        "CI 148 a réellement checkout le merge preview af639882ea30656fd993452aa27b3b699f258fd1; son arbre ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8 égale l'arbre du squash signé intégré."
+      ],
+      "waiting": [
+        "93 IDs restent ouverts. Le prochain constat de priorité allocation/parsing est RT-SCI-02 dans Memorithm/scirust.",
+        "Le workflow SciRust-Verify déclenche les push seulement sur main et pas sur la branche par défaut réelle; aucun push run n'est inventé. L'identité d'arbre testée/intégrée qualifie MEM-17, et la divergence de trigger reste une opportunité CI distincte.",
+        "Les groupes de processus, délais indépendants et drains bornés restent ordonnés derrière la capacité execution_guard commune."
+      ],
+      "work_items": [
+        {
+          "id": "MEM-17",
+          "repository": "Memorithm/SciRust-Verify",
+          "status": "resolved",
+          "actions": "Confinement par descriptors et no-follow, validation stricte run/path, budgets d'entrées/fichiers/octets/profondeur, snapshot exact, digests complets, publication atomique et rollback exact; suppression du clone du buffer run.",
+          "results": "Résolu sur feat/scirust-verify-foundation 229066c0465d70269f715a62f66e9d8c9af89f34, arbre ceca88723de7e2a1f14f8ad6d8267e6b4dcf5fe8 identique à l'arbre testé; revue finale propre.",
+          "pr": [
+            {
+              "number": 34,
+              "url": "https://github.com/Memorithm/SciRust-Verify/pull/34",
+              "head_sha": "07eea4157238ab82daa0b582c253f0af906b49f6",
+              "merge_sha": "eaa6facf0676c29b9432235ca951eb71e9ba9785"
+            },
+            {
+              "number": 35,
+              "url": "https://github.com/Memorithm/SciRust-Verify/pull/35",
+              "head_sha": "f7bfd780f80a3cc2cfa11ac2697d74c14fb37383",
+              "merge_sha": "c0606b13579ab7542526dda27441fac619e7664e"
+            },
+            {
+              "number": 36,
+              "url": "https://github.com/Memorithm/SciRust-Verify/pull/36",
+              "head_sha": "c00ac843252395d9249294ee4ba2af374b8df28d",
+              "merge_sha": "229066c0465d70269f715a62f66e9d8c9af89f34"
+            }
+          ],
+          "head": "229066c0465d70269f715a62f66e9d8c9af89f34",
+          "checks": [
+            110220885161,
+            110221053595,
+            110223720825,
+            110224020906,
+            110225331663,
+            110225574493
+          ],
+          "dependencies": [],
+          "next_action": "Clos et qualifié; traiter séparément le trigger push CI, puis poursuivre RT-SCI-02."
+        }
+      ]
     }
   ]
 }
