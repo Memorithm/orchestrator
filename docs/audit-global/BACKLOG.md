@@ -90,7 +90,7 @@
 | B-NO-03 | Memorithm/NeuralOperator | 9 | à faire |  |
 | B-NO-04 | Memorithm/NeuralOperator | 9 | à faire |  |
 | B-NL-01 | Memorithm/NoiseLab | 5 | à faire |  |
-| B-NL-02 | Memorithm/NoiseLab | 1 | à faire |  |
+| B-NL-02 | Memorithm/NoiseLab | 1 | résolu | [PR 73](https://github.com/Memorithm/NoiseLab/pull/73), [preuve](proofs/NoiseLab-73-B-NL-02.json) |
 | B-NL-03 | Memorithm/NoiseLab | 8 | à faire |  |
 | BF-EE-01 | Memorithm/ExtremEngine | 1 | résolu |  |
 | BF-EE-02 | Memorithm/ExtremEngine | 1 | résolu |  |

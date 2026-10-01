@@ -1,0 +1,120 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "B-NL-02"
+  ],
+  "repository": "Memorithm/NoiseLab",
+  "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#B-NL-02",
+  "audit_and_base_sha": "8b1ba211cf655dde2715779a5188943697a015fd",
+  "default_branch": "main",
+  "policy_and_license_review": [
+    "AGENTS.md",
+    "LICENSE",
+    "LICENSE.md",
+    "origin/agent/ecosystem-roadmap:.agent/NOISELAB_ECOSYSTEM_ROADMAP.yaml"
+  ],
+  "reconciliation": "The finding was reproduced unchanged on the exact current base before modification.",
+  "change": {
+    "branch": "audit/B-NL-02-bounded-spectral-admission",
+    "pull_request": "https://github.com/Memorithm/NoiseLab/pull/73",
+    "candidate_head": "c3d60bdf8d02c5f085fe87defe88ac9091535bb5",
+    "candidate_tree": "2aca1403897912c300bace95ef4c590f1d89fe25",
+    "summary": "Preserve the existing spectral_signature API with default bounds; add configurable signal, segment, working-byte and work-unit limits; reject segment_len above the signal; perform checked admission before window/FFT allocation; use fallible allocation and typed limit/overflow/allocation errors.",
+    "acceptance_mapping": [
+      "Input samples, segment size, Welch working bytes and conservative FFT/work units are checked before allocating the Hann window or invoking Welch/FFT work.",
+      "segment_len <= signal.len is enforced and all limits are configurable through SpectralLimits.",
+      "Hann allocation uses try_reserve_exact and returns AllocationFailed; limit and arithmetic failures are typed.",
+      "Regression tests cover segment/signal limits, work amplification, working-set limits and exact equivalence with SciRust hanning."
+    ]
+  },
+  "candidate_validation": [
+    {
+      "workflow": "CI",
+      "run_id": 36890591494,
+      "job_id": 110464918957,
+      "head_sha": "c3d60bdf8d02c5f085fe87defe88ac9091535bb5",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/NoiseLab/actions/runs/36890591494",
+      "scope": [
+        "cargo fmt --check",
+        "cargo check --all-targets",
+        "cargo clippy --all-targets -- -D warnings",
+        "cargo test"
+      ]
+    },
+    {
+      "workflow": "Research smoke",
+      "run_id": 36890591457,
+      "job_id": 110465072512,
+      "head_sha": "c3d60bdf8d02c5f085fe87defe88ac9091535bb5",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/NoiseLab/actions/runs/36890591457",
+      "scope": [
+        "exact source identity",
+        "synthetic report and integrity tests",
+        "locked dependency graph",
+        "examples build",
+        "rejected flags and repeated reports",
+        "two exact U2 captures",
+        "source/executable identities",
+        "evidence sealing and verification"
+      ]
+    }
+  ],
+  "non_counted_attempts": [
+    {
+      "head_sha": "011348fa0f66e4e6f8156ac7877c4adfd8443ef3",
+      "result": "CI failed only rustfmt; the exact format correction was applied and the failed run was not counted as validation."
+    }
+  ],
+  "review": {
+    "head_sha": "c3d60bdf8d02c5f085fe87defe88ac9091535bb5",
+    "completed_at": "2026-10-01T16:18:49Z",
+    "result": "no major issues",
+    "unresolved_threads": 0
+  },
+  "merge": {
+    "method": "squash",
+    "guard": "expected_head_sha=c3d60bdf8d02c5f085fe87defe88ac9091535bb5",
+    "merge_sha": "01ca101bfe370c35f97b9eab4a8e650b68a15eb5",
+    "merged_at": "2026-10-01T16:19:22Z",
+    "verified_signature": true,
+    "integrated_tree": "2aca1403897912c300bace95ef4c590f1d89fe25",
+    "candidate_tree_matches_integrated_tree": true
+  },
+  "target_validation": [
+    {
+      "workflow": "CI push",
+      "run_id": 36891115215,
+      "job_id": 110466685388,
+      "head_sha": "01ca101bfe370c35f97b9eab4a8e650b68a15eb5",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/NoiseLab/actions/runs/36891115215",
+      "scope": "format, all-targets check, strict Clippy and cargo test"
+    },
+    {
+      "workflow": "Research smoke push",
+      "run_id": 36891115124,
+      "job_id": 110466687283,
+      "head_sha": "01ca101bfe370c35f97b9eab4a8e650b68a15eb5",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/NoiseLab/actions/runs/36891115124",
+      "scope": "source identity, locked graph, examples, replay/captures, provenance and evidence sealing"
+    }
+  ],
+  "local_validation": {
+    "git_diff_check": "success",
+    "rust_toolchain": "absent; no local Rust test is claimed"
+  },
+  "governance_observation": {
+    "branch_protected": false,
+    "repository_rulesets": [],
+    "required_checks": [],
+    "statement": "This residual governance limit is recorded; no gate was bypassed or reduced."
+  },
+  "claims": {
+    "hardware_qualification": false,
+    "scientific_result_qualification": false
+  },
+  "observed_at": "2026-10-01T18:22:29+02:00"
+}
