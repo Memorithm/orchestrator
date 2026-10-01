@@ -6622,6 +6622,186 @@
           "next_action": "Attendre la fin de CI 4653; fusionner uniquement si tout est vert et la base/head restent exacts."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T08:59:30+02:00",
+      "hour": "2026-10-01T08:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 12,
+        "target": 50
+      },
+      "total_merged": 12,
+      "closed": 8,
+      "remaining": 93,
+      "actions": [
+        "SciRust #1519 a été fusionnée par squash avec expected_head_sha après 8 workflows/35 checks du HEAD exact et revue propre; master pointe sur 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce, arbre exact d9cebe5bf42da160eec962126c63d5f875f8be40.",
+        "NNIS #252 a corrigé l'échec initial de format/fixture, puis passé CI 758 et Tiny Llama reference 83 au HEAD 35a6707b5005cbe1b718bddfba247fe41070c083; squash 0e7faf90dabc98c9b66e5a78d3733b65cd2542ea.",
+        "NNIS main a passé CI 759 sur le commit intégré; aucun run Tiny Llama cible n'a été déclenché et aucun n'est revendiqué.",
+        "KVLab #176 a remplacé capture_output non borné par supervision POSIX groupée et drains bornés; CI 1002 et cible CI 1003 vertes, merge e2921e9d41c06b3e1d277f8eada7e1e7e87643a4.",
+        "La revue tardive de #176 a trouvé un P1 réel de close bloquant avec descendant échappé; #177 a été ouverte et maintenue hors fusion jusqu'aux cycles correctifs complets."
+      ],
+      "executed_checks": [
+        "SciRust HEAD 082bdc85c7fa5f48526b66ef2e5202f61ebe439e: 8 workflows, 35 checks et 28 jobs CI 4653 réussis; arbre testé/intégré identique.",
+        "NNIS HEAD 35a6707b5005cbe1b718bddfba247fe41070c083: CI 758 jobs 110250329929/110250330026 et Tiny Llama 83 réussis; cible CI 759 jobs 110252297903/110252298179 réussis.",
+        "KVLab #176 HEAD 466783883ea89d963e21e39d78f8bf96349390b9: CI 1002, 568 tests Python et Rust BKV réussis; cible CI 1003 réussie."
+      ],
+      "waiting": [
+        "SciRust cible CI 4654 reste ouverte uniquement sur Miri shard numeric-a 110247001369; les six workflows spécialisés et les 26 autres jobs CI sont verts.",
+        "RT-SCI-02 reste ouvert tant que ce dernier job cible n'est pas terminé.",
+        "RT-NNIS-06 reste ouvert jusqu'à la qualification du correctif de suivi KVLab #177."
+      ],
+      "work_items": [
+        {
+          "id": "RT-SCI-02",
+          "repository": "Memorithm/scirust",
+          "status": "waiting_target_ci",
+          "actions": "Fusion #1519 et validation arbre cible.",
+          "results": "Master 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce; seule Miri numeric-a reste en cours.",
+          "pr": [
+            {
+              "number": 1519,
+              "url": "https://github.com/Memorithm/scirust/pull/1519",
+              "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
+              "merge_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce"
+            }
+          ],
+          "head": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+          "checks": [
+            36824485281,
+            110247001369
+          ],
+          "dependencies": [],
+          "next_action": "Attendre Miri numeric-a puis clore avec preuve si CI 4654 est entièrement verte."
+        },
+        {
+          "id": "RT-NNIS-06",
+          "repository": "Memorithm/NNIS + Memorithm/KVLab",
+          "status": "in_progress",
+          "actions": "Bornes NNIS et supervision KVLab intégrées; P1 tardif transféré vers #177.",
+          "results": "NNIS #252 et KVLab #176 fusionnées/CI cible vertes; #177 en cycles CI/revue.",
+          "pr": [
+            {
+              "repository": "Memorithm/NNIS",
+              "number": 252,
+              "url": "https://github.com/Memorithm/NNIS/pull/252",
+              "head_sha": "35a6707b5005cbe1b718bddfba247fe41070c083",
+              "merge_sha": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea"
+            },
+            {
+              "repository": "Memorithm/KVLab",
+              "number": 176,
+              "url": "https://github.com/Memorithm/KVLab/pull/176",
+              "head_sha": "466783883ea89d963e21e39d78f8bf96349390b9",
+              "merge_sha": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4"
+            }
+          ],
+          "head": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4",
+          "checks": [
+            36825553164,
+            36825553148,
+            36826191536,
+            36825894397,
+            36826224732
+          ],
+          "dependencies": [],
+          "next_action": "Achever #177 avec CI/revue exactes puis revalider KVLab main."
+        }
+      ]
+    },
+    {
+      "observed_at": "2026-10-01T09:05:30+02:00",
+      "hour": "2026-10-01T09:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 13,
+        "target": 50
+      },
+      "total_merged": 13,
+      "closed": 9,
+      "remaining": 92,
+      "actions": [
+        "KVLab #177 a remplacé les threads de pipes tamponnés par un selector non bloquant unique, ajouté des délais de drain indépendants et une gestion fail-closed des descendants échappés.",
+        "La relecture a successivement trouvé un P2 de copies quadratiques puis un P1 de groupe résiduel après sortie du leader; les deux ont été corrigés, testés, re-revus et leurs fils résolus avant fusion.",
+        "PR #177 fusionnée avec expected_head_sha; main 7916cb004911fad6e8192d792976a33a356d1924 a exactement l'arbre testé 920aebaaa91f08d7ed7f87e24c9f2241a13bb5a3.",
+        "CI cible 1017 a réussi; l'ancien P1 de #176 a alors été résolu et RT-NNIS-06 clos avec preuve durable."
+      ],
+      "executed_checks": [
+        "KVLab HEAD ff8b975ddc0700c8069ace1be63e5af7c7713cda: CI 1016, 571 tests Python, format/Clippy/tests Rust BKV réussis.",
+        "Revue indépendante exacte achevée le 2026-10-01T07:00:57Z sans nouveau constat après corrections P1/P2.",
+        "KVLab main 7916cb004911fad6e8192d792976a33a356d1924: CI 1017 jobs 110258029937/110258030221 réussis, dont 571 tests Python.",
+        "Preuve docs/audit-global/proofs/NNIS-RT-NNIS-06.json créée; NNIS et KVLab intégrés qualifiés sans sur-affirmer Tiny Llama cible ou destruction d'un descendant ayant changé de session."
+      ],
+      "waiting": [
+        "RT-SCI-02 attend toujours uniquement Miri shard numeric-a de CI 4654 sur master.",
+        "92 IDs restent ouverts; prochain travail autonome après clôture de la gate SciRust: capacité execution_guard commune et consommateurs SciCapsule/scirust-hub/SciRust-Verify/ProofLab."
+      ],
+      "work_items": [
+        {
+          "id": "RT-NNIS-06",
+          "repository": "Memorithm/NNIS + Memorithm/KVLab",
+          "status": "resolved",
+          "actions": "Bornes d'entrée/collections côté NNIS et supervision processus/IO bornée côté KVLab, suivis P1/P2 inclus.",
+          "results": "NNIS main 0e7faf90dabc98c9b66e5a78d3733b65cd2542ea et KVLab main 7916cb004911fad6e8192d792976a33a356d1924 qualifiés sur cibles.",
+          "pr": [
+            {
+              "repository": "Memorithm/NNIS",
+              "number": 252,
+              "url": "https://github.com/Memorithm/NNIS/pull/252",
+              "head_sha": "35a6707b5005cbe1b718bddfba247fe41070c083",
+              "merge_sha": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea"
+            },
+            {
+              "repository": "Memorithm/KVLab",
+              "number": 176,
+              "url": "https://github.com/Memorithm/KVLab/pull/176",
+              "head_sha": "466783883ea89d963e21e39d78f8bf96349390b9",
+              "merge_sha": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4"
+            },
+            {
+              "repository": "Memorithm/KVLab",
+              "number": 177,
+              "url": "https://github.com/Memorithm/KVLab/pull/177",
+              "head_sha": "ff8b975ddc0700c8069ace1be63e5af7c7713cda",
+              "merge_sha": "7916cb004911fad6e8192d792976a33a356d1924"
+            }
+          ],
+          "head": "7916cb004911fad6e8192d792976a33a356d1924",
+          "checks": [
+            36825553164,
+            36825553148,
+            36826191536,
+            36825894397,
+            36826224732,
+            36827693949,
+            36828034390
+          ],
+          "dependencies": [],
+          "next_action": "Clos et qualifié; réutiliser le contrat de supervision via execution_guard."
+        },
+        {
+          "id": "RT-SCI-02",
+          "repository": "Memorithm/scirust",
+          "status": "waiting_target_ci",
+          "actions": "Aucun changement supplémentaire; surveillance de la cible exacte.",
+          "results": "26/27 jobs CI 4654 verts; Miri numeric-a encore en cours.",
+          "pr": [
+            {
+              "number": 1519,
+              "url": "https://github.com/Memorithm/scirust/pull/1519",
+              "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
+              "merge_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce"
+            }
+          ],
+          "head": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+          "checks": [
+            36824485281,
+            110247001369
+          ],
+          "dependencies": [],
+          "next_action": "Attendre la conclusion de Miri numeric-a; clore seulement si CI 4654 devient entièrement verte."
+        }
+      ]
     }
   ]
 }
