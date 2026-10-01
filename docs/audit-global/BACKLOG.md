@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Lot 1 : 22/50 ; cumul fusionné : 22 ; clos : 19 ; restants : 82.
+101 IDs ; 12 positifs conservés. Lot 1 : 23/50 ; cumul fusionné : 23 ; clos : 20 ; restants : 81.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -20,7 +20,7 @@
 | RT-FLAT-01 | Memorithm/FLAT-ATTENTION | 8 | à faire |  |
 | RT-ELASTIC-01 | Memorithm/ElasticXxx | 8 | à faire |  |
 | RT-NNIS-01 | Memorithm/NNIS | 9 | à faire |  |
-| RT-NNIS-02 | Memorithm/NNIS | 2 | à faire |  |
+| RT-NNIS-02 | Memorithm/NNIS | 2 | résolu | [preuve](proofs/NNIS-253-RT-NNIS-02.json), [PR #253](https://github.com/Memorithm/NNIS/pull/253) |
 | RT-NNIS-03 | Memorithm/NNIS | 9 | à faire |  |
 | RT-NNIS-05 | Memorithm/NNIS | 9 | à faire |  |
 | RT-NNIS-06 | Memorithm/NNIS | 1 | résolu |  |
