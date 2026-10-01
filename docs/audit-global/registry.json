@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T08:31:45+02:00",
+  "updated_at": "2026-10-01T09:05:30+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 8,
-    "remaining": 93,
-    "merged_prs": 10
+    "closed": 9,
+    "remaining": 92,
+    "merged_prs": 13
   },
   "batches": [
     {
@@ -86,6 +86,21 @@
           "repository": "Memorithm/scirust",
           "number": 1519,
           "merge_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce"
+        },
+        {
+          "repository": "Memorithm/NNIS",
+          "number": 252,
+          "merge_sha": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea"
+        },
+        {
+          "repository": "Memorithm/KVLab",
+          "number": 176,
+          "merge_sha": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4"
+        },
+        {
+          "repository": "Memorithm/KVLab",
+          "number": 177,
+          "merge_sha": "7916cb004911fad6e8192d792976a33a356d1924"
         }
       ]
     }
@@ -1526,28 +1541,64 @@
       "target_head": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
       "target_checks": [
         {
+          "id": 36824485216,
+          "name": "API function lexicon",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485216"
+        },
+        {
           "id": 36824485281,
           "name": "CI",
-          "status": "queued",
+          "status": "in_progress",
           "conclusion": null,
           "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
-          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485281"
+          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485281",
+          "pending_job": {
+            "id": 110247001369,
+            "name": "Miri shard (numeric-a)"
+          }
+        },
+        {
+          "id": 36824485267,
+          "name": "Core API documentation",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485267"
+        },
+        {
+          "id": 36824485289,
+          "name": "SOUP symbolic reward",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485289"
+        },
+        {
+          "id": 36824485229,
+          "name": "Workspace Rustdoc",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485229"
         },
         {
           "id": 36824485282,
           "name": "FLAT Elastic contextual advisory",
-          "status": "queued",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
           "url": "https://github.com/Memorithm/scirust/actions/runs/36824485282"
         },
         {
-          "id": 36824485216,
-          "name": "API function lexicon",
-          "status": "in_progress",
-          "conclusion": null,
+          "id": 36824485219,
+          "name": "Tensor Parity Validation",
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
-          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485216"
+          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485219"
         }
       ]
     },
@@ -1557,15 +1608,168 @@
       "url": "https://github.com/Memorithm/NNIS/pull/252",
       "base": "main",
       "base_sha": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "head_sha": "e23fd525d288bb7f0b3925de17aebc313e68ac30",
-      "merge_sha": null,
-      "status": "draft_waiting_ci",
+      "head_sha": "35a6707b5005cbe1b718bddfba247fe41070c083",
+      "merge_sha": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea",
+      "status": "merged_target_validated",
       "ids": [
         "RT-NNIS-06"
       ],
       "batch": 1,
-      "checks": [],
-      "review": null
+      "merged_at": "2026-10-01T06:37:26Z",
+      "merge_method": "squash",
+      "checks": [
+        {
+          "id": 36825553164,
+          "name": "CI 758",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "35a6707b5005cbe1b718bddfba247fe41070c083",
+          "url": "https://github.com/Memorithm/NNIS/actions/runs/36825553164"
+        },
+        {
+          "id": 36825553148,
+          "name": "Tiny Llama reference 83",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "35a6707b5005cbe1b718bddfba247fe41070c083",
+          "url": "https://github.com/Memorithm/NNIS/actions/runs/36825553148"
+        }
+      ],
+      "review": {
+        "head": "35a6707b5005cbe1b718bddfba247fe41070c083",
+        "result": "no_major_issues",
+        "review_id": 5375784252
+      },
+      "validated_tree": "3c917ca68842beef2190a0bb1b1457da7ac3e83f",
+      "exact_tree_match": true,
+      "target_head": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea",
+      "target_checks": [
+        {
+          "id": 36826191536,
+          "name": "CI 759",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea",
+          "url": "https://github.com/Memorithm/NNIS/actions/runs/36826191536"
+        }
+      ],
+      "target_validation": "CI 759 passed both Rust 1.77 and Rust quality CPU jobs; Tiny Llama passed only on the exact PR head and did not trigger on the target push"
+    },
+    {
+      "repository": "Memorithm/KVLab",
+      "number": 176,
+      "url": "https://github.com/Memorithm/KVLab/pull/176",
+      "base": "main",
+      "base_sha": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+      "head_sha": "466783883ea89d963e21e39d78f8bf96349390b9",
+      "merge_sha": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4",
+      "status": "merged_followup_resolved",
+      "ids": [
+        "RT-NNIS-06"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T06:42:33Z",
+      "merge_method": "squash",
+      "checks": [
+        {
+          "id": 36825894397,
+          "name": "CI 1002",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "466783883ea89d963e21e39d78f8bf96349390b9",
+          "url": "https://github.com/Memorithm/KVLab/actions/runs/36825894397"
+        }
+      ],
+      "review": {
+        "head": "466783883ea89d963e21e39d78f8bf96349390b9",
+        "result": "late_P1_after_merge",
+        "review_id": 5375785304
+      },
+      "review_followup": {
+        "finding": "buffered close could block behind a live drain thread",
+        "thread": "PRRT_kwDOUTpDbc6n1Qoy",
+        "resolution_pr": 177,
+        "status": "resolved_after_target_validation"
+      },
+      "validated_tree": "392369cca660ecc6b99a9c4579c59e878f269ac4",
+      "exact_tree_match": true,
+      "target_head": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4",
+      "target_checks": [
+        {
+          "id": 36826224732,
+          "name": "CI 1003",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4",
+          "url": "https://github.com/Memorithm/KVLab/actions/runs/36826224732"
+        }
+      ]
+    },
+    {
+      "repository": "Memorithm/KVLab",
+      "number": 177,
+      "url": "https://github.com/Memorithm/KVLab/pull/177",
+      "base": "main",
+      "base_sha": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4",
+      "head_sha": "ff8b975ddc0700c8069ace1be63e5af7c7713cda",
+      "merge_sha": "7916cb004911fad6e8192d792976a33a356d1924",
+      "status": "merged_target_validated",
+      "ids": [
+        "RT-NNIS-06"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T07:02:11Z",
+      "merge_method": "squash",
+      "checks": [
+        {
+          "id": 36827693949,
+          "name": "CI 1016",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ff8b975ddc0700c8069ace1be63e5af7c7713cda",
+          "url": "https://github.com/Memorithm/KVLab/actions/runs/36827693949",
+          "jobs": [
+            110256971597,
+            110256971863
+          ],
+          "python_tests": 571
+        }
+      ],
+      "review": {
+        "head": "ff8b975ddc0700c8069ace1be63e5af7c7713cda",
+        "result": "no_further_findings_after_P1_P2_fixes",
+        "completed_at": "2026-10-01T07:00:57Z"
+      },
+      "review_followups": [
+        {
+          "priority": "P2",
+          "thread": "PRRT_kwDOUTpDbc6n1anG",
+          "status": "resolved"
+        },
+        {
+          "priority": "P1",
+          "thread": "PRRT_kwDOUTpDbc6n1epk",
+          "status": "resolved"
+        }
+      ],
+      "validated_tree": "920aebaaa91f08d7ed7f87e24c9f2241a13bb5a3",
+      "exact_tree_match": true,
+      "target_head": "7916cb004911fad6e8192d792976a33a356d1924",
+      "target_checks": [
+        {
+          "id": 36828034390,
+          "name": "CI 1017",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7916cb004911fad6e8192d792976a33a356d1924",
+          "url": "https://github.com/Memorithm/KVLab/actions/runs/36828034390",
+          "jobs": [
+            110258029937,
+            110258030221
+          ],
+          "python_tests": 571
+        }
+      ]
     }
   ],
   "repository_observations": [
@@ -1681,8 +1885,8 @@
       "repository": "Memorithm/KVLab",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
-      "tree_sha": "a0595ae16309e6204286005c4d41ab32de2d8013",
+      "current_head": "7916cb004911fad6e8192d792976a33a356d1924",
+      "tree_sha": "920aebaaa91f08d7ed7f87e24c9f2241a13bb5a3",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -1691,8 +1895,8 @@
       "repository": "Memorithm/NNIS",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "tree_sha": "725ce0243568244bdc9fd9cb398080e10e670db3",
+      "current_head": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea",
+      "tree_sha": "3c917ca68842beef2190a0bb1b1457da7ac3e83f",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -1886,8 +2090,8 @@
       "repository": "Memorithm/scirust",
       "visibility": "public",
       "default_branch": "master",
-      "current_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
-      "tree_sha": "2ad6cf75bed83f442b28f3dc17a8b3499b76df5e",
+      "current_head": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+      "tree_sha": "d9cebe5bf42da160eec962126c63d5f875f8be40",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -1968,8 +2172,8 @@
         "Exact-head validation complete: 8 workflows and 35 check runs successful; CI 4653 completed 28/28 jobs, including MSRV, Clippy, format, tests, platforms, coverage, Miri shards, fuzz/security and documentation.",
         "Squash 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce is master and has tree d9cebe5bf42da160eec962126c63d5f875f8be40, exactly matching tested merge preview 6e9c7e3589bcbd1fc822afc997594009c46ae9ab."
       ],
-      "last_observed_at": "2026-10-01T08:23:53+02:00",
-      "next_action": "Wait for all push workflows on master 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce; close only if every target check succeeds."
+      "last_observed_at": "2026-10-01T09:05:30+02:00",
+      "next_action": "Wait only for target CI 4654 Miri numeric-a job 110247001369; all six specialized push workflows and the other 26 CI jobs are successful."
     },
     {
       "id": "RT-SCI-03",
@@ -2772,30 +2976,54 @@
         "Imposer quota octets avant lecture complète, borne collections/tokens et délai processus côté appelant; réutiliser lecteur borné MCP.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "in_progress",
-      "current_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
+      "status": "resolved",
+      "current_head": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea",
       "default_branch": "main",
       "audit_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "head_reconciliation": "unchanged_since_audit; remediation PR #252 head e23fd525d288bb7f0b3925de17aebc313e68ac30",
+      "head_reconciliation": "NNIS main 0e7faf90dabc98c9b66e5a78d3733b65cd2542ea and KVLab main 7916cb004911fad6e8192d792976a33a356d1924; all integrated trees exactly equal their tested exact-head trees",
       "policy_review": "AGENTS.md, full sovereignty roadmap a73d4da318a1e916fe357bab19fd5deab63c84a5, full ML maturity overlay 46da807acd6a1dda795bcd454bcad34e8d78a7a3, README, Cargo workspace MIT declaration and Rust 1.77 MSRV read; no root license file present",
       "prs": [
         {
+          "repository": "Memorithm/NNIS",
           "number": 252,
           "url": "https://github.com/Memorithm/NNIS/pull/252",
           "base": "main",
           "base_sha": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-          "head_sha": "e23fd525d288bb7f0b3925de17aebc313e68ac30",
-          "status": "draft_waiting_ci"
+          "head_sha": "35a6707b5005cbe1b718bddfba247fe41070c083",
+          "status": "merged_target_validated",
+          "merge_sha": "0e7faf90dabc98c9b66e5a78d3733b65cd2542ea"
+        },
+        {
+          "repository": "Memorithm/KVLab",
+          "number": 176,
+          "url": "https://github.com/Memorithm/KVLab/pull/176",
+          "base": "main",
+          "base_sha": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+          "head_sha": "466783883ea89d963e21e39d78f8bf96349390b9",
+          "status": "merged_followup_resolved",
+          "merge_sha": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4"
+        },
+        {
+          "repository": "Memorithm/KVLab",
+          "number": 177,
+          "url": "https://github.com/Memorithm/KVLab/pull/177",
+          "base": "main",
+          "base_sha": "e2921e9d41c06b3e1d277f8eada7e1e7e87643a4",
+          "head_sha": "ff8b975ddc0700c8069ace1be63e5af7c7713cda",
+          "status": "merged_target_validated",
+          "merge_sha": "7916cb004911fad6e8192d792976a33a356d1924"
         }
       ],
       "resolution_evidence": [
-        "PR #252 limits stdin to 1 MiB before UTF-8/JSON/canonicalisation/hash/model/CUDA work, with max+1 oversize detection.",
-        "Text fields are limited to 1,024 bytes; input/evaluation/retained collections are checked against the exact checkpoint position capacity before execution.",
-        "The child contract now explicitly requires caller-owned independent deadline, bounded stdout/stderr drains and whole-process-group termination; KVLab consumer qualification remains outstanding.",
-        "Regression tests added for exact-limit/one-byte-over request reads, invalid UTF-8 and oversized sequences."
+        "NNIS rejects stdin beyond 1 MiB before UTF-8/JSON/canonicalisation/hash/model work and bounds 1024-byte text fields plus all token/position collections against the exact checkpoint capacity.",
+        "NNIS exact head 35a6707b5005cbe1b718bddfba247fe41070c083 passed CI 758 and Tiny Llama reference 83; integrated main 0e7faf90dabc98c9b66e5a78d3733b65cd2542ea passed target CI 759. No target Tiny Llama run is claimed.",
+        "KVLab uses a single unbuffered nonblocking selectors loop with one wall deadline, an independent bounded drain window, stdout/stderr retention caps, process-group kill and fail-closed escaped-pipe handling.",
+        "Late P1/P2 reviews were fixed in #177: cleanup cannot block on a buffered reader lock, large stdin writes use zero-copy memoryview slices, and same-group children retaining pipes are killed even after leader exit.",
+        "KVLab exact head ff8b975ddc0700c8069ace1be63e5af7c7713cda passed CI 1016 with 571 Python tests and Rust BKV checks; integrated main 7916cb004911fad6e8192d792976a33a356d1924 passed target CI 1017 with the same scopes.",
+        "Proof: docs/audit-global/proofs/NNIS-RT-NNIS-06.json"
       ],
-      "last_observed_at": "2026-10-01T08:31:45+02:00",
-      "next_action": "Qualify NNIS PR #252 exact head e23fd525d288bb7f0b3925de17aebc313e68ac30; inspect/fix CI and review, then verify and remediate the KVLab caller timeout/drain contract before closing RT-NNIS-06."
+      "last_observed_at": "2026-10-01T09:05:30+02:00",
+      "next_action": "Closed and target-qualified; preserve limitations and reuse the bounded supervisor contract through the common execution_guard capability."
     },
     {
       "id": "MEM-01",
@@ -5069,14 +5297,14 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261001T0710",
-    "acquired_at": "2026-10-01T05:10:40Z",
-    "expires_at": "2026-10-01T07:00:00Z",
+    "owner": "codex-audit-20261001T0814",
+    "acquired_at": "2026-10-01T06:15:16.702Z",
+    "expires_at": "2026-10-01T08:00:00Z",
     "released_at": null,
     "status": "active",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "next_action": "Reconcile Memorithm/scirust master, verify RT-SCI-02 at current HEAD, apply bounded streaming imports with tests, and qualify the resulting PR."
+    "next_action": "Reconcile scirust PR #1519 and exact head 082bdc85c7fa5f48526b66ef2e5202f61ebe439e; qualify CI 4653, reread roadmap/ML overlay, validate base/head/diff/review threads, merge with expected_head_sha if green, then validate master and close RT-SCI-02."
   },
   "capabilities": [
     {
