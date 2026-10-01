@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Lot 1 : 3/50 ; cumul fusionné : 3 ; clos : 6 ; restants : 95.
+101 IDs ; 12 positifs conservés. Lot 1 : 6/50 ; cumul fusionné : 6 ; clos : 7 ; restants : 94.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -27,7 +27,7 @@
 | MEM-01 | Memorithm/CCOS-Core | 9 | à faire |  |
 | MEM-02 | Memorithm/CCOS-Core | 6 | à faire |  |
 | MEM-03 | Memorithm/CCOS-Core | 1 | à faire |  |
-| MEM-04 | Memorithm/CCOS-Core | 2 | à faire |  |
+| MEM-04 | Memorithm/CCOS-Core | 2 | résolu |  |
 | MEM-05 | Memorithm/CCOS-Core | 8 | à faire |  |
 | MEM-06 | Memorithm/CCOS-Core | 9 | à faire |  |
 | MEM-07 | Memorithm/CCOS-Enterprise | 9 | à faire |  |
