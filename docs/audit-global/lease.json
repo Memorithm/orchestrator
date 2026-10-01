@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "owner": "codex-audit-20261001T1807",
-  "acquired_at": "2026-10-01T16:09:29.000Z",
-  "expires_at": "2026-10-01T18:00:00.000Z",
-  "released_at": "2026-10-01T16:22:29.000Z",
-  "status": "released",
+  "owner": "codex-audit-20261001T1912",
+  "acquired_at": "2026-10-01T17:13:30.000Z",
+  "expires_at": "2026-10-01T18:30:00.000Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Reacquire by blob-SHA CAS, reconcile issue #81 and registry, then continue the next independent priority item."
+  "next_action": "Reconcile the durable registry, verify the next independent priority finding on its exact default-branch HEAD, and remediate only after reading repository policies and licences."
 }
