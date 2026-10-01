@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T01:42:46+02:00",
+  "updated_at": "2026-10-01T02:15:48+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 4,
-    "remaining": 97,
-    "merged_prs": 2
+    "closed": 6,
+    "remaining": 95,
+    "merged_prs": 3
   },
   "batches": [
     {
@@ -46,6 +46,11 @@
           "repository": "Memorithm/ExtremEngine",
           "number": 44,
           "merge_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367"
+        },
+        {
+          "repository": "Memorithm/ExtremEngine",
+          "number": 45,
+          "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"
         }
       ]
     }
@@ -541,6 +546,74 @@
       "central_issue_comment_id": 5921715501,
       "final_pr_comment_id": 5921717586,
       "journal_run_key": "ExtremEngine-44-qualified"
+    },
+    {
+      "repository": "Memorithm/ExtremEngine",
+      "number": 45,
+      "url": "https://github.com/Memorithm/ExtremEngine/pull/45",
+      "base": "agent/initial-engine",
+      "base_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+      "head_sha": "04ed317123792c819de29781632222b7a0aba676",
+      "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+      "status": "qualified_integrated",
+      "ids": [
+        "BF-EE-02",
+        "BF-EE-03"
+      ],
+      "batch": 1,
+      "checks": [
+        {"id": 110155218053, "name": "Native Compile (macos-latest)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155218048, "name": "Test Suite (ubuntu-latest, Rust 1.87)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155218032, "name": "Test Suite (ubuntu-latest, Rust stable)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155217978, "name": "Native Compile (windows-latest)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155217853, "name": "Code Quality & Security", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155217824, "name": "Scene correctness and CPU evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155217725, "name": "Render graph parity and headless CPU evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155217470, "name": "Extraction parity and CPU evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155217447, "name": "Indexed world mesh pixel qualification", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155217283, "name": "Controlled scheduler effect evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"},
+        {"id": 110155217055, "name": "Elastic facade consumer contract", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676"}
+      ],
+      "local_validation": [
+        {"command": "cargo +1.87.0 fmt --all -- --check", "result": "success"},
+        {"command": "cargo +1.87.0 test -p extrem_scene --all-targets --locked", "result": "35 passed"},
+        {"command": "cargo +1.87.0 test -p extrem_engine --lib --tests --locked", "result": "34 passed"},
+        {"command": "cargo +1.87.0 clippy -p extrem_scene -p extrem_engine --all-targets --locked -- -D warnings", "result": "success"},
+        {"command": "git diff --check", "result": "success"}
+      ],
+      "review_followup": {
+        "reviewed_head": "d68d5248e00b8ee43592aac403d03371568f350d",
+        "findings": [
+          "P1 exact single-element reserves made wide RON arrays potentially quadratic",
+          "P1 direct documents bypassed the aggregate decoded-name budget"
+        ],
+        "resolution_head": "04ed317123792c819de29781632222b7a0aba676",
+        "resolution": "geometric try_reserve; checked aggregate name-byte accounting before planning; dedicated direct-document regression; both threads resolved",
+        "thread_ids": [
+          "PRRT_kwDOT2x5Ss6nwNE4",
+          "PRRT_kwDOT2x5Ss6nwNE9"
+        ]
+      },
+      "tree_sha": "100b85aedc1d7c9ae98c0669f8c8419520c2f5e9",
+      "exact_tree_match": true,
+      "postmerge_checks": [
+        {"id": 110156289301, "name": "Native Compile (macos-latest)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156289232, "name": "Controlled scheduler effect evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156289229, "name": "Test Suite (ubuntu-latest, Rust stable)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156289224, "name": "Native Compile (windows-latest)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156289183, "name": "Test Suite (ubuntu-latest, Rust 1.87)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156289115, "name": "Code Quality & Security", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156288908, "name": "Render graph parity and headless CPU evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156288900, "name": "Indexed world mesh pixel qualification", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156288575, "name": "Extraction parity and CPU evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156288538, "name": "Elastic facade consumer contract", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"},
+        {"id": 110156288535, "name": "Scene correctness and CPU evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"}
+      ],
+      "expected_head_guard": true,
+      "merged_at": "2026-10-01T02:12:26+02:00",
+      "target_validated_at": "2026-10-01T02:15:48+02:00",
+      "proof_url": "https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/docs/audit-global/proofs/ExtremEngine-45.json",
+      "journal_run_key": "ExtremEngine-45-qualified"
     }
   ],
   "repository_observations": [
@@ -609,8 +682,8 @@
       "visibility": "public",
       "default_branch": "agent/initial-engine",
       "error": null,
-      "current_head": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
-      "observed_at": "2026-10-01T01:39:51+02:00"
+      "current_head": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+      "observed_at": "2026-10-01T02:15:48+02:00"
     },
     {
       "repository": "Memorithm/FLAT-ATTENTION",
@@ -3518,16 +3591,37 @@
         "Faire de l'instanciation une opération obligatoirement validée, ou exiger un type ValidatedSceneDocument non constructible directement; préférer parcours itératif borné et rollback des entités créées sur erreur.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "62d05926252265247c62aba6c0b3136b065a956a",
+      "status": "resolved",
+      "current_head": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
       "default_branch": "agent/initial-engine",
       "audit_head": "62d05926252265247c62aba6c0b3136b065a956a",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "resolved_on_integrated_head",
+      "policy_review": "root_AGENTS_LICENSE_MIT_and_license_convergence_read_no_nested_AGENTS",
+      "prs": [
+        {
+          "repository": "Memorithm/ExtremEngine",
+          "number": 45,
+          "url": "https://github.com/Memorithm/ExtremEngine/pull/45",
+          "base": "agent/initial-engine",
+          "base_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676",
+          "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+          "status": "qualified_integrated"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/docs/audit-global/proofs/ExtremEngine-45.json",
+          "pr": "https://github.com/Memorithm/ExtremEngine/pull/45",
+          "head": "04ed317123792c819de29781632222b7a0aba676",
+          "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+          "tree_sha": "100b85aedc1d7c9ae98c0669f8c8419520c2f5e9",
+          "result": "public instantiate validates before mutation, builds an iterative fallible plan, preallocates relationships and rolls back created entities on failure; direct invalid/deep/name-budget and injected mid-transaction failure regressions executed",
+          "validated_at": "2026-10-01T02:15:48+02:00"
+        }
+      ],
+      "last_observed_at": "2026-10-01T02:15:48+02:00",
+      "next_action": "Résolu et qualifié sur agent/initial-engine; surveiller uniquement une régression ultérieure."
     },
     {
       "id": "BF-EE-03",
@@ -3543,16 +3637,37 @@
         "Ajouter plafond octets, longueurs noms et limites pendant lecture avant allocations; budget configurable de chargement, testé sur document plat excessif.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "62d05926252265247c62aba6c0b3136b065a956a",
+      "status": "resolved",
+      "current_head": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
       "default_branch": "agent/initial-engine",
       "audit_head": "62d05926252265247c62aba6c0b3136b065a956a",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "resolved_on_integrated_head",
+      "policy_review": "root_AGENTS_LICENSE_MIT_and_license_convergence_read_no_nested_AGENTS",
+      "prs": [
+        {
+          "repository": "Memorithm/ExtremEngine",
+          "number": 45,
+          "url": "https://github.com/Memorithm/ExtremEngine/pull/45",
+          "base": "agent/initial-engine",
+          "base_sha": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+          "head_sha": "04ed317123792c819de29781632222b7a0aba676",
+          "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+          "status": "qualified_integrated"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/docs/audit-global/proofs/ExtremEngine-45.json",
+          "pr": "https://github.com/Memorithm/ExtremEngine/pull/45",
+          "head": "04ed317123792c819de29781632222b7a0aba676",
+          "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+          "tree_sha": "100b85aedc1d7c9ae98c0669f8c8419520c2f5e9",
+          "result": "8 MiB encoded-input hard cap before serde allocation; caller-reducible name/node/depth limits enforced during seeded RON decoding; aggregate decoded-name budget and geometric vector growth; flat excess regression executed",
+          "validated_at": "2026-10-01T02:15:48+02:00"
+        }
+      ],
+      "last_observed_at": "2026-10-01T02:15:48+02:00",
+      "next_action": "Résolu et qualifié sur agent/initial-engine; surveiller uniquement une régression ultérieure."
     },
     {
       "id": "BF-KV-01",

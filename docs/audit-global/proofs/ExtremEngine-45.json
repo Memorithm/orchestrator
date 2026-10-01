@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "ids": [
+    "BF-EE-02",
+    "BF-EE-03"
+  ],
+  "repository": "Memorithm/ExtremEngine",
+  "pr": "https://github.com/Memorithm/ExtremEngine/pull/45",
+  "base_branch": "agent/initial-engine",
+  "base": "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+  "initial_head": "d68d5248e00b8ee43592aac403d03371568f350d",
+  "head": "04ed317123792c819de29781632222b7a0aba676",
+  "merged_commit": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+  "tree": "100b85aedc1d7c9ae98c0669f8c8419520c2f5e9",
+  "exact_tree_match": true,
+  "parents": [
+    "a530e3c57c2bc89a108dc98eb58aaa5222803367",
+    "04ed317123792c819de29781632222b7a0aba676"
+  ],
+  "merge_signature_verified": true,
+  "change_summary": [
+    "SceneDocument::instantiate validates the public document before any world mutation",
+    "instantiation uses an iterative fallibly allocated plan and pre-reserved parent/child storage",
+    "any mid-transaction world or capacity failure rolls back every entity created by the transaction",
+    "Scene::from_ron rejects more than 8 MiB before serde allocation and applies caller-reducible hard-envelope limits",
+    "seeded RON decoding enforces node, hierarchy-depth, individual-name and aggregate-name budgets while reading",
+    "decoded node vectors grow geometrically; RON recursion is aligned with the configured hierarchy bound",
+    "new limits and typed instantiation error are re-exported by the engine facade"
+  ],
+  "regressions": [
+    "direct invalid document rejected without world mutation",
+    "flat node excess rejected during decode",
+    "encoded byte excess rejected before decode",
+    "name excess rejected during decode",
+    "direct hierarchy depth excess rejected without recursive instantiation",
+    "direct aggregate name budget enforced before planning and cloning",
+    "injected mid-instantiation capacity failure rolls back created entities"
+  ],
+  "local_validation": [
+    {"command": "cargo +1.87.0 fmt --all -- --check", "result": "success"},
+    {"command": "git diff --check", "result": "success"},
+    {"command": "cargo +1.87.0 test -p extrem_scene --all-targets --locked", "result": "14 unit + 10 propagation + 11 validation passed"},
+    {"command": "cargo +1.87.0 test -p extrem_engine --lib --tests --locked", "result": "34 passed"},
+    {"command": "cargo +1.87.0 clippy -p extrem_scene -p extrem_engine --all-targets --locked -- -D warnings", "result": "success"},
+    {"command": "cargo +1.87.0 test -p extrem_engine --all-targets --locked", "result": "34 library/integration tests passed; the local managed filesystem denied execution of the compiled mesh_scene example because its output lacked execute permission, so no success was claimed for that example"}
+  ],
+  "review_followup": {
+    "reviewed_head": "d68d5248e00b8ee43592aac403d03371568f350d",
+    "findings": [
+      {"priority": "P1", "thread": "PRRT_kwDOT2x5Ss6nwNE4", "comment": 4150489653, "finding": "try_reserve_exact(1) could make a wide decoded array quadratic", "resolution": "geometric try_reserve(1)"},
+      {"priority": "P1", "thread": "PRRT_kwDOT2x5Ss6nwNE9", "comment": 4150489659, "finding": "direct documents did not enforce aggregate name bytes", "resolution": "checked aggregate accounting in mandatory validation plus direct-document regression"}
+    ],
+    "resolution_head": "04ed317123792c819de29781632222b7a0aba676",
+    "all_threads_resolved": true
+  },
+  "premerge_checks": [
+    {"id": 110155218053, "name": "Native Compile (macos-latest)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659313/job/110155218053"},
+    {"id": 110155218048, "name": "Test Suite (ubuntu-latest, Rust 1.87)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659313/job/110155218048"},
+    {"id": 110155218032, "name": "Test Suite (ubuntu-latest, Rust stable)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659313/job/110155218032"},
+    {"id": 110155217978, "name": "Native Compile (windows-latest)", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659313/job/110155217978"},
+    {"id": 110155217853, "name": "Code Quality & Security", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659313/job/110155217853"},
+    {"id": 110155217824, "name": "Scene correctness and CPU evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659215/job/110155217824"},
+    {"id": 110155217725, "name": "Render graph parity and headless CPU evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659211/job/110155217725"},
+    {"id": 110155217470, "name": "Extraction parity and CPU evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659192/job/110155217470"},
+    {"id": 110155217447, "name": "Indexed world mesh pixel qualification", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659195/job/110155217447"},
+    {"id": 110155217283, "name": "Controlled scheduler effect evidence", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659213/job/110155217283"},
+    {"id": 110155217055, "name": "Elastic facade consumer contract", "conclusion": "success", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794659169/job/110155217055"}
+  ],
+  "postmerge_checks": [
+    {"id": 110156289301, "name": "Native Compile (macos-latest)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995998/job/110156289301"},
+    {"id": 110156289232, "name": "Controlled scheduler effect evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995912/job/110156289232"},
+    {"id": 110156289229, "name": "Test Suite (ubuntu-latest, Rust stable)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995998/job/110156289229"},
+    {"id": 110156289224, "name": "Native Compile (windows-latest)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995998/job/110156289224"},
+    {"id": 110156289183, "name": "Test Suite (ubuntu-latest, Rust 1.87)", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995998/job/110156289183"},
+    {"id": 110156289115, "name": "Code Quality & Security", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995998/job/110156289115"},
+    {"id": 110156288908, "name": "Render graph parity and headless CPU evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995954/job/110156288908"},
+    {"id": 110156288900, "name": "Indexed world mesh pixel qualification", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995923/job/110156288900"},
+    {"id": 110156288575, "name": "Extraction parity and CPU evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995919/job/110156288575"},
+    {"id": 110156288538, "name": "Elastic facade consumer contract", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995903/job/110156288538"},
+    {"id": 110156288535, "name": "Scene correctness and CPU evidence", "conclusion": "success", "head_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e", "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/36794995898/job/110156288535"}
+  ],
+  "merge_gate": {
+    "mergeable": true,
+    "base_unchanged": true,
+    "behind_by": 0,
+    "rulesets": [],
+    "unresolved_review_threads": 0,
+    "expected_head_guard": true,
+    "merge_method": "merge"
+  },
+  "merged_at": "2026-10-01T00:12:26Z",
+  "target_validated_at": "2026-10-01T00:15:48Z",
+  "limitations": [
+    "public serde data structures remain available for compatibility; direct world mutation still passes mandatory validation in instantiate",
+    "pixel qualification is headless/software evidence and is not represented as hardware GPU qualification",
+    "no network exposure, exploitability or production compromise is asserted"
+  ]
+}

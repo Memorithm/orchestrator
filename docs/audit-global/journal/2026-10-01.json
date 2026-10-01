@@ -6172,6 +6172,60 @@
           "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T02:19:30+02:00",
+      "hour": "2026-10-01T02:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 3,
+        "target": 50
+      },
+      "total_merged": 3,
+      "closed": 6,
+      "remaining": 95,
+      "actions": [
+        "BF-EE-02 et BF-EE-03 revérifiés sur le HEAD réel a530e3c puis corrigés ensemble par ExtremEngine #45",
+        "Chargement RON borné avant et pendant lecture; instanciation publique validée, itérative, fallible et transactionnelle",
+        "Deux revues P1 reçues après le premier vert, corrigées sur 04ed317; sept régressions de bornes/atomicité exécutées",
+        "Onze checks relancés et réussis sur le HEAD final; fusion gardée par expected_head_sha vers agent/initial-engine",
+        "Onze checks post-fusion réussis sur 1eb9b60; registre, backlog, preuve et bilan quotidien réconciliés"
+      ],
+      "executed_checks": [
+        "Local Rust 1.87: extrem_scene 35/35, extrem_engine lib/intégration 34/34, fmt, diff-check et Clippy -D warnings réussis",
+        "HEAD 04ed317: Rust 1.87, stable, qualité/sécurité, scène CPU, render, extraction, mesh, scheduler, facade et compilations macOS/Windows — 11/11 succès",
+        "Cible 1eb9b60: même matrice complète post-fusion — 11/11 succès"
+      ],
+      "waiting": [
+        "Aucune attente CI pour BF-EE-02/03; 95 IDs restent ouverts selon leurs priorités et dépendances.",
+        "Le prochain constat prioritaire indépendant est le durcissement des chemins/symlinks CCOS-Core/SciRust-Verify; acquisition d'un nouveau lease requise au prochain passage."
+      ],
+      "work_items": [
+        {
+          "id": "BF-EE-02",
+          "repository": "Memorithm/ExtremEngine",
+          "status": "resolved",
+          "actions": "Validation rendue obligatoire dans instantiate; plan itératif fallible; relations préallouées; rollback testé sur échec intermédiaire; revues P1 traitées.",
+          "results": "Résolu sur le merge signé 1eb9b60a21944d980088edbc90f5e6175bb8800e, arbre 100b85aedc1d7c9ae98c0669f8c8419520c2f5e9, avec 11 checks exact-head et 11 checks cible réussis.",
+          "pr": [{"number": 45, "url": "https://github.com/Memorithm/ExtremEngine/pull/45", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"}],
+          "head": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+          "checks": [110155218053, 110155218048, 110155218032, 110155217978, 110155217853, 110155217824, 110155217725, 110155217470, 110155217447, 110155217283, 110155217055, 110156289301, 110156289232, 110156289229, 110156289224, 110156289183, 110156289115, 110156288908, 110156288900, 110156288575, 110156288538, 110156288535],
+          "dependencies": [],
+          "next_action": "Résolu et qualifié; surveiller uniquement une régression ultérieure."
+        },
+        {
+          "id": "BF-EE-03",
+          "repository": "Memorithm/ExtremEngine",
+          "status": "resolved",
+          "actions": "Ajout d'une enveloppe dure et réductible: 8 MiB encodés, 4 KiB par nom, budget agrégé, nœuds/profondeur pendant le décodage seedé, croissance géométrique; test document plat excessif.",
+          "results": "Résolu sur le merge signé 1eb9b60a21944d980088edbc90f5e6175bb8800e, arbre identique au HEAD validé; limites exécutées dans la qualification scène Rust 1.87/stable.",
+          "pr": [{"number": 45, "url": "https://github.com/Memorithm/ExtremEngine/pull/45", "head_sha": "04ed317123792c819de29781632222b7a0aba676", "merge_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e"}],
+          "head": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+          "checks": [110155218048, 110155218032, 110155217853, 110155217824, 110156289229, 110156289183, 110156289115, 110156288535],
+          "dependencies": [],
+          "next_action": "Résolu et qualifié; surveiller uniquement une régression ultérieure."
+        }
+      ]
     }
   ]
 }
