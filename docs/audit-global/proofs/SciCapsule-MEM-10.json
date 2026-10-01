@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "id": "MEM-10",
+  "repository": "Memorithm/SciCapsule",
+  "pr": "https://github.com/Memorithm/SciCapsule/pull/31",
+  "base_branch": "main",
+  "audit_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
+  "head": "6ea0a1a9949c20745f6f28365a2118c95b3527cc",
+  "merged_commit": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+  "tree": "4f538ff69ae1cf48c82a9a97072756850a34a23e",
+  "change_summary": [
+    "kill the dedicated Unix process group as soon as the initial child exits, before output drain",
+    "replace unbounded capture-thread joins with one shared independent one-second drain deadline",
+    "surface drain expiry as the existing structured capture-error result",
+    "keep the process-supervision boundary explicitly distinct from an OS sandbox",
+    "move Rust and Cargo homes into writable workspace paths after the internal runner rejected its configured global paths before validation"
+  ],
+  "regression": "execution_cli::tests::parent_exit_kills_pipe_holding_descendant_and_bounds_capture_drain",
+  "premerge_validation": {
+    "head_sha": "6ea0a1a9949c20745f6f28365a2118c95b3527cc",
+    "workflow_run": 36835641168,
+    "job": 110282281418,
+    "conclusion": "success",
+    "commands": [
+      "cargo fmt --all -- --check",
+      "cargo check --locked --all-targets",
+      "cargo clippy --locked --all-targets -- -D warnings",
+      "cargo test --locked --all-targets",
+      "cargo +1.89.0 check --locked --all-targets"
+    ],
+    "test_suites": [
+      {
+        "passed": 37,
+        "failed": 0
+      },
+      {
+        "passed": 47,
+        "failed": 0
+      },
+      {
+        "passed": 3,
+        "failed": 0
+      },
+      {
+        "passed": 3,
+        "failed": 0
+      },
+      {
+        "passed": 2,
+        "failed": 0
+      }
+    ],
+    "regression_conclusion": "success",
+    "discarded_attempts": [
+      {
+        "run": 36835356665,
+        "reason": "runner-global RUSTUP_HOME permission denied before compilation; all validations skipped"
+      },
+      {
+        "run": 36835445044,
+        "reason": "format check found two rustfmt-only changes; later checks skipped"
+      },
+      {
+        "run": 36835521907,
+        "reason": "runner-global CARGO_HOME permission denied while fetching pinned scirust dependency; later checks skipped"
+      }
+    ]
+  },
+  "postmerge_validation": {
+    "head_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+    "workflow_run": 36835827718,
+    "job": 110282884202,
+    "conclusion": "success",
+    "steps": [
+      "format",
+      "stable check",
+      "strict Clippy",
+      "all-target tests",
+      "MSRV 1.89 check"
+    ]
+  },
+  "acceptance": [
+    "the parent exit path kills in-group descendants before drains",
+    "stdout and stderr drains share a deadline independent from the entrypoint timeout",
+    "a descendant retaining the pipes is covered by a real-process regression test",
+    "the exact PR head and exact integrated target commit passed every configured validation"
+  ],
+  "limitations": [
+    "processes that deliberately leave the dedicated process group are outside the claimed supervision boundary",
+    "the self-hosted runner trust/exposure question tracked by MEM-11 remains open; this PR only restores writable validation state"
+  ],
+  "closed_at": "2026-10-01T10:23:00+02:00"
+}
