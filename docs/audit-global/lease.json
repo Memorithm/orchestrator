@@ -2,10 +2,10 @@
   "schema_version": 1,
   "owner": "codex-audit-20261001T0418",
   "acquired_at": "2026-10-01T02:18:18Z",
-  "expires_at": "2026-10-01T05:00:00Z",
+  "expires_at": "2026-10-01T06:00:00Z",
   "released_at": null,
   "status": "active",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Complete final review and merge SciRust-Verify PR #34 at expected head 7bebcc5e56edd2764bdec9fd56fa0874c91ffde4; validate target branch and record MEM-17 evidence."
+  "next_action": "Complete final review and merge SciRust-Verify PR #34 at expected head d49ffa53c34445e9535c2e1e06166597fd86694d; validate target branch and record MEM-17 evidence."
 }
