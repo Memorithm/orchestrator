@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T08:23:53+02:00",
+  "updated_at": "2026-10-01T08:31:45+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -1550,6 +1550,22 @@
           "url": "https://github.com/Memorithm/scirust/actions/runs/36824485216"
         }
       ]
+    },
+    {
+      "repository": "Memorithm/NNIS",
+      "number": 252,
+      "url": "https://github.com/Memorithm/NNIS/pull/252",
+      "base": "main",
+      "base_sha": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
+      "head_sha": "e23fd525d288bb7f0b3925de17aebc313e68ac30",
+      "merge_sha": null,
+      "status": "draft_waiting_ci",
+      "ids": [
+        "RT-NNIS-06"
+      ],
+      "batch": 1,
+      "checks": [],
+      "review": null
     }
   ],
   "repository_observations": [
@@ -2756,16 +2772,30 @@
         "Imposer quota octets avant lecture complète, borne collections/tokens et délai processus côté appelant; réutiliser lecteur borné MCP.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
+      "status": "in_progress",
       "current_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
       "default_branch": "main",
       "audit_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "unchanged_since_audit; remediation PR #252 head e23fd525d288bb7f0b3925de17aebc313e68ac30",
+      "policy_review": "AGENTS.md, full sovereignty roadmap a73d4da318a1e916fe357bab19fd5deab63c84a5, full ML maturity overlay 46da807acd6a1dda795bcd454bcad34e8d78a7a3, README, Cargo workspace MIT declaration and Rust 1.77 MSRV read; no root license file present",
+      "prs": [
+        {
+          "number": 252,
+          "url": "https://github.com/Memorithm/NNIS/pull/252",
+          "base": "main",
+          "base_sha": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
+          "head_sha": "e23fd525d288bb7f0b3925de17aebc313e68ac30",
+          "status": "draft_waiting_ci"
+        }
+      ],
+      "resolution_evidence": [
+        "PR #252 limits stdin to 1 MiB before UTF-8/JSON/canonicalisation/hash/model/CUDA work, with max+1 oversize detection.",
+        "Text fields are limited to 1,024 bytes; input/evaluation/retained collections are checked against the exact checkpoint position capacity before execution.",
+        "The child contract now explicitly requires caller-owned independent deadline, bounded stdout/stderr drains and whole-process-group termination; KVLab consumer qualification remains outstanding.",
+        "Regression tests added for exact-limit/one-byte-over request reads, invalid UTF-8 and oversized sequences."
+      ],
+      "last_observed_at": "2026-10-01T08:31:45+02:00",
+      "next_action": "Qualify NNIS PR #252 exact head e23fd525d288bb7f0b3925de17aebc313e68ac30; inspect/fix CI and review, then verify and remediate the KVLab caller timeout/drain contract before closing RT-NNIS-06."
     },
     {
       "id": "MEM-01",
