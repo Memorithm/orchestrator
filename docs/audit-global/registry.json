@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T23:38:57+02:00",
+  "updated_at": "2026-10-02T00:18:16+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 21,
-    "remaining": 80,
-    "merged_prs": 24
+    "closed": 24,
+    "remaining": 77,
+    "merged_prs": 26
   },
   "batches": [
     {
@@ -156,6 +156,16 @@
           "repository": "Memorithm/Forge",
           "number": 48,
           "merge_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f"
+        },
+        {
+          "repository": "Memorithm/COGNO-1",
+          "number": 261,
+          "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+        },
+        {
+          "repository": "Memorithm/COGNO-1",
+          "number": 262,
+          "merge_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5"
         }
       ]
     }
@@ -2571,6 +2581,220 @@
         }
       ],
       "target_validation": "all four configured check runs passed on the exact integrated main SHA"
+    },
+    {
+      "repository": "Memorithm/COGNO-1",
+      "number": 261,
+      "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+      "base": "main",
+      "base_sha": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+      "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+      "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+      "status": "merged_target_validated",
+      "ids": [
+        "COG-COGNO-001",
+        "COG-COGNO-002",
+        "COG-COGNO-004"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T22:02:47Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "checks": [
+        {
+          "id": 36932195966,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36932195966",
+          "jobs": [
+            110604028264,
+            110604028369,
+            110604028456,
+            110604028475,
+            110604028483,
+            110604028531
+          ]
+        },
+        {
+          "id": 36932198914,
+          "name": "Offline distribution",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36932198914",
+          "jobs": [
+            110604021909
+          ]
+        },
+        {
+          "id": 36932196211,
+          "name": "Rust50 v2 integration",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36932196211",
+          "jobs": [
+            110604125656
+          ]
+        }
+      ],
+      "review": {
+        "head": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+        "result": "P1_parent_directory_sync_fixed_and_thread_resolved",
+        "unresolved_threads": 0,
+        "changed_files": 3
+      },
+      "validated_tree": "3e1705ad08f481ed80125011fe378602d16d3f7a",
+      "exact_tree_match": true,
+      "target_head": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+      "target_checks": [
+        {
+          "id": 36932618970,
+          "name": "CI push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36932618970",
+          "jobs": [
+            110605379626,
+            110605379891,
+            110605379906,
+            110605379915,
+            110605379925,
+            110605380032
+          ]
+        },
+        {
+          "id": 36932619016,
+          "name": "Offline distribution push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36932619016",
+          "jobs": [
+            110605378376
+          ]
+        },
+        {
+          "id": 36932619011,
+          "name": "Rust50 v2 integration push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36932619011",
+          "jobs": [
+            110605378501
+          ]
+        }
+      ],
+      "target_validation": "CI, offline distribution and Rust50 v2 all passed on the exact integrated main SHA"
+    },
+    {
+      "repository": "Memorithm/COGNO-1",
+      "number": 262,
+      "url": "https://github.com/Memorithm/COGNO-1/pull/262",
+      "base": "main",
+      "base_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+      "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+      "merge_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+      "status": "merged_target_validated",
+      "ids": [
+        "COG-COGNO-001"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T22:12:50Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "checks": [
+        {
+          "id": 36933205728,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36933205728",
+          "jobs": [
+            110607391387,
+            110607391602,
+            110607391660,
+            110607391715,
+            110607391741,
+            110607391815
+          ]
+        },
+        {
+          "id": 36933205866,
+          "name": "Offline distribution",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36933205866",
+          "jobs": [
+            110607281726
+          ]
+        },
+        {
+          "id": 36933205740,
+          "name": "Rust50 v2 integration",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36933205740",
+          "jobs": [
+            110607490159
+          ]
+        }
+      ],
+      "review": {
+        "head": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+        "result": "exact_diff_inspected_no_open_threads",
+        "unresolved_threads": 0,
+        "changed_files": 2
+      },
+      "validated_tree": "b3386dd00691a81f542c5e1e6ed417c0f0bb3265",
+      "exact_tree_match": true,
+      "target_head": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+      "target_checks": [
+        {
+          "id": 36933674543,
+          "name": "CI push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36933674543",
+          "jobs": [
+            110608780680,
+            110608780863,
+            110608780950,
+            110608780968,
+            110608780978,
+            110608781301
+          ]
+        },
+        {
+          "id": 36933674514,
+          "name": "Offline distribution push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36933674514",
+          "jobs": [
+            110608779856
+          ]
+        },
+        {
+          "id": 36933674451,
+          "name": "Rust50 v2 integration push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/36933674451",
+          "jobs": [
+            110608781034
+          ]
+        }
+      ],
+      "target_validation": "CI, offline distribution and Rust50 v2 all passed on the exact integrated main SHA"
     }
   ],
   "repository_observations": [
@@ -2618,11 +2842,11 @@
       "repository": "Memorithm/COGNO-1",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
-      "tree_sha": "82a93f0eb9abb4b7454238447a05ff3e2f55c70f",
+      "current_head": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+      "tree_sha": "b3386dd00691a81f542c5e1e6ed417c0f0bb3265",
       "protected": true,
       "required_checks": [],
-      "error": null
+      "error": "branch-protection details inaccessible to integration (403); no bypass performed"
     },
     {
       "repository": "Memorithm/ElasticXxx",
@@ -4634,16 +4858,41 @@
         "Refuser un bind hors loopback sans authentification configurée, rendre le mode non authentifié explicitement local, exiger TLS/transport hôte authentifié pour les pairs distants; ne pas interpréter le digest comme signature.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+      "status": "resolved",
+      "current_head": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
       "default_branch": "main",
       "audit_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "PR #261 made the application secret mandatory; PR #262 closed the remaining remote-transport gap by limiting the raw listener to loopback. Both integrated commits passed every configured workflow.",
+      "policy_review": "Root AGENTS.md, off-main ecosystem roadmap and MIT license read; raw TCP is loopback-only and remote operation requires an authenticated encrypted host tunnel.",
+      "prs": [
+        {
+          "number": 261,
+          "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+          "base": "main",
+          "base_sha": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+          "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+          "status": "merged_target_validated",
+          "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+        },
+        {
+          "number": 262,
+          "url": "https://github.com/Memorithm/COGNO-1/pull/262",
+          "base": "main",
+          "base_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
+          "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+          "status": "merged_target_validated",
+          "merge_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5"
+        }
+      ],
+      "resolution_evidence": [
+        "COGNO_TASTE_TOKEN is mandatory and bounded before bind.",
+        "Raw TCP resolves once and refuses any empty or non-loopback endpoint set; remote peers require an authenticated encrypted host tunnel terminating on loopback.",
+        "Regression raw_tcp_bind_is_restricted_to_loopback covers IPv4/IPv6 loopback and wildcard/external refusal.",
+        "Both candidate and target commits for PRs #261 and #262 passed CI, offline distribution and Rust50 v2 with identical candidate/integrated trees.",
+        "Proof: docs/audit-global/proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json"
+      ],
+      "last_observed_at": "2026-10-02T00:18:16+02:00",
+      "next_action": "Closed and target-qualified; preserve mandatory application auth, loopback-only raw bind and the distinct encrypted host-tunnel requirement for remote peers."
     },
     {
       "id": "COG-COGNO-002",
@@ -4659,16 +4908,31 @@
         "Ajouter deadlines lecture/écriture et budget mural de session; fermer immédiatement les frames invalides/non authentifiées ou drainer sous budget. Tester connect-without-header et truncated-body.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+      "status": "resolved",
+      "current_head": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
       "default_branch": "main",
       "audit_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "PR #261 merged as ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6 with bounded socket read/write timeouts; candidate and integrated commit passed all configured workflows with the same tree.",
+      "policy_review": "Root AGENTS.md, off-main ecosystem roadmap and MIT license read; raw TCP is loopback-only and remote operation requires an authenticated encrypted host tunnel.",
+      "prs": [
+        {
+          "number": 261,
+          "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+          "base": "main",
+          "base_sha": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+          "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+          "status": "merged_target_validated",
+          "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+        }
+      ],
+      "resolution_evidence": [
+        "Every accepted TCP stream receives read and write timeouts before protocol processing.",
+        "Timeout is positive, defaults to five seconds and is capped at five minutes.",
+        "Exact candidate and integrated commits passed CI, offline distribution and Rust50 v2 with identical tree 3e1705ad08f481ed80125011fe378602d16d3f7a.",
+        "Proof: docs/audit-global/proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json"
+      ],
+      "last_observed_at": "2026-10-02T00:18:16+02:00",
+      "next_action": "Closed and target-qualified; preserve positive capped read/write deadlines on every accepted connection."
     },
     {
       "id": "COG-COGNO-003",
@@ -4712,16 +4976,33 @@
         "Définir ACK comme validation ou remise durable explicitement. Pour un véritable échange utilisé par l'écosystème, retourner le package validé ou un handle inbox, le persister de façon atomique et bornée avant ACK, puis lancer l'import consent-gated avec receipts/idempotence. Tester redémarrage entre réception, durabilité et ACK.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+      "status": "resolved",
+      "current_head": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
       "default_branch": "main",
       "audit_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "PR #261 merged as ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6 with durable-before-ACK persistence; candidate and integrated commit passed all configured workflows with the same tree.",
+      "policy_review": "Root AGENTS.md, off-main ecosystem roadmap and MIT license read; raw TCP is loopback-only and remote operation requires an authenticated encrypted host tunnel.",
+      "prs": [
+        {
+          "number": 261,
+          "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+          "base": "main",
+          "base_sha": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+          "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+          "status": "merged_target_validated",
+          "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+        }
+      ],
+      "resolution_evidence": [
+        "PackagePersister is invoked after verification but before in-memory idempotency mutation and before OK.",
+        "The CLI writes a create-new temporary, syncs it, renames atomically, syncs taste.inbox and synchronizes store_root when creating the inbox directory.",
+        "Persistence failure sends ERR persistence_failed and leaves the digest retryable; restart idempotency is rebuilt from digest-verified inbox packages.",
+        "Regression proves a rejecting persister receives no OK and does not update seen state.",
+        "Exact candidate and integrated commits passed CI, offline distribution and Rust50 v2 with identical tree 3e1705ad08f481ed80125011fe378602d16d3f7a.",
+        "Proof: docs/audit-global/proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json"
+      ],
+      "last_observed_at": "2026-10-02T00:18:16+02:00",
+      "next_action": "Closed and target-qualified; preserve atomic durable retention and directory sync before every acceptance acknowledgement."
     },
     {
       "id": "COG-RSI-001",
@@ -6274,14 +6555,14 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261001T2312",
-    "acquired_at": "2026-10-01T21:13:00.000Z",
-    "expires_at": "2026-10-01T22:30:00.000Z",
-    "released_at": "2026-10-01T21:38:57.000Z",
+    "owner": "codex-audit-20261001T2344",
+    "acquired_at": "2026-10-01T21:46:00.000Z",
+    "expires_at": "2026-10-01T23:15:00.000Z",
+    "released_at": "2026-10-02T00:18:16+02:00",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "next_action": "Reacquire by blob-SHA CAS, reconcile GitHub, and continue the next open priority finding; FORGE-04 is closed with exact candidate and target proof."
+    "next_action": "Reacquire by blob-SHA CAS, reconcile GitHub, and continue the next open priority finding; COG-COGNO-001/002/004 are closed with exact candidate and target proof."
   },
   "capabilities": [
     {
