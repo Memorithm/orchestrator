@@ -53,7 +53,7 @@
 | COG-RSI-002 | Memorithm/RSI | 4 | à faire |  |
 | COG-RSI-003 | Memorithm/RSI | 7 | à faire |  |
 | COG-OCTA-001 | Memorithm/octasoma | 6 | à faire |  |
-| COG-OCTA-002 | Memorithm/octasoma | 1 | à faire |  |
+| COG-OCTA-002 | Memorithm/octasoma | 1 | résolu | [preuve](proofs/octasoma-68-COG-OCTA-002.json), [PR #68](https://github.com/Memorithm/octasoma/pull/68) |
 | COG-OCTA-003 | Memorithm/octasoma | 9 | à faire |  |
 | COG-SML-001 | Périmètre privé — source interne | 9 | à faire |  |
 | COG-SML-002 | Périmètre privé — source interne | 8 | à faire |  |

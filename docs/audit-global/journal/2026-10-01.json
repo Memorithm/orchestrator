@@ -7199,6 +7199,76 @@
           "next_action": "Clos; préserver les limites, le refus no-follow/special-file et la symétrie save/load lors de toute évolution des formats."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T17:45:53+02:00",
+      "hour": "2026-10-01T17:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 20,
+        "target": 50
+      },
+      "total_merged": 20,
+      "closed": 17,
+      "remaining": 84,
+      "actions": [
+        "octasoma #68 ajoute LoadLimits et des lectures metadata puis max+1 avant parsing pour FRAC, RECS, SKCH, OSMS, CLST, OSHH et les générations hybrides.",
+        "Deux P1 de revue ont été corrigés: budget projecteur avant SimHasher::new et débit du payload RECS avant allocation; les deux fils ont été résolus.",
+        "Le HEAD final fbf502ebb7101d02f1be209d65617b1a69de8b2f a réussi huit jobs exacts et une relecture exacte propre.",
+        "La fusion squash gardée par expected_head_sha a produit 646be5834ca7cfe2d334af5382595977f361fc0b, avec le même arbre 2859953aa89192301164886b8b38866046b5e326.",
+        "CI push 36885761137 a réussi les huit mêmes jobs sur le commit intégré."
+      ],
+      "executed_checks": [
+        "Contrôle local: git diff --check réussi; cargo absent, donc aucun test Rust local revendiqué.",
+        "CI PR 36884742520: jobs 110445053435, 110445053360, 110445053333, 110445053328, 110445053235, 110445053148, 110445053039 et 110445052821 réussis.",
+        "CI push 36885761137: jobs 110448528084, 110448528065, 110448528052, 110448527984, 110448527968, 110448527942, 110448527905 et 110448527733 réussis.",
+        "Périmètre: format, Clippy toutes combinaisons, Linux défaut/MCP/SIMD/all-features, MSRV 1.89, macOS et Windows."
+      ],
+      "waiting": [
+        "84 IDs restent ouverts; prochaine action autonome: B-NL-02 ou un autre chantier priorité 1 indépendant après réacquisition de la lease.",
+        "master est observée non protégée, sans ruleset ni check requis déclaré; aucune protection n'est affirmée.",
+        "lavapipe est une qualification logicielle du chemin GPU, pas une qualification matérielle."
+      ],
+      "work_items": [
+        {
+          "id": "COG-OCTA-002",
+          "repository": "Memorithm/octasoma",
+          "status": "resolved",
+          "actions": "Budgets publics et lectures bornées avant allocation, propagation à tous les chargeurs persistés, limites de comptes/payloads/projecteurs/expansion et correction des deux P1.",
+          "results": "PR #68 fusionnée; CI exacte PR et cible verte; arbre candidat et intégré identique; relecture exacte propre.",
+          "pr": [
+            {
+              "number": 68,
+              "url": "https://github.com/Memorithm/octasoma/pull/68",
+              "head_sha": "fbf502ebb7101d02f1be209d65617b1a69de8b2f",
+              "merge_sha": "646be5834ca7cfe2d334af5382595977f361fc0b"
+            }
+          ],
+          "head": "646be5834ca7cfe2d334af5382595977f361fc0b",
+          "checks": [
+            36884742520,
+            110445053435,
+            110445053360,
+            110445053333,
+            110445053328,
+            110445053235,
+            110445053148,
+            110445053039,
+            110445052821,
+            36885761137,
+            110448528084,
+            110448528065,
+            110448528052,
+            110448527984,
+            110448527968,
+            110448527942,
+            110448527905,
+            110448527733
+          ],
+          "dependencies": [],
+          "next_action": "Clos; préserver les budgets explicites et les validations avant allocation lors de toute évolution des formats."
+        }
+      ]
     }
   ]
 }

@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T16:48:00+02:00",
+  "updated_at": "2026-10-01T17:45:53+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 16,
-    "remaining": 85,
-    "merged_prs": 19
+    "closed": 17,
+    "remaining": 84,
+    "merged_prs": 20
   },
   "batches": [
     {
@@ -131,6 +131,11 @@
           "repository": "Memorithm/CCOS-Core",
           "number": 31,
           "merge_sha": "de650435ffb8fb7abc95902dd4e1d3bf27d818b8"
+        },
+        {
+          "repository": "Memorithm/octasoma",
+          "number": 68,
+          "merge_sha": "646be5834ca7cfe2d334af5382595977f361fc0b"
         }
       ]
     }
@@ -2173,6 +2178,74 @@
         }
       ],
       "target_validation": "exact integrated main commit and tested candidate have the same tree; CI, security audit and strict import all passed on the integrated SHA"
+    },
+    {
+      "repository": "Memorithm/octasoma",
+      "number": 68,
+      "url": "https://github.com/Memorithm/octasoma/pull/68",
+      "base": "master",
+      "base_sha": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
+      "head_sha": "fbf502ebb7101d02f1be209d65617b1a69de8b2f",
+      "merge_sha": "646be5834ca7cfe2d334af5382595977f361fc0b",
+      "status": "merged_target_validated",
+      "ids": [
+        "COG-OCTA-002"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T15:37:48Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "checks": [
+        {
+          "id": 36884742520,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "fbf502ebb7101d02f1be209d65617b1a69de8b2f",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/36884742520",
+          "jobs": [
+            110445053435,
+            110445053360,
+            110445053333,
+            110445053328,
+            110445053235,
+            110445053148,
+            110445053039,
+            110445052821
+          ]
+        }
+      ],
+      "review": {
+        "head": "fbf502ebb7101d02f1be209d65617b1a69de8b2f",
+        "result": "two_P1_findings_fixed_all_threads_resolved_final_review_clean",
+        "threads": [
+          "PRRT_kwDOS_F8JM6oAuV5",
+          "PRRT_kwDOS_F8JM6oAuV-"
+        ]
+      },
+      "validated_tree": "2859953aa89192301164886b8b38866046b5e326",
+      "exact_tree_match": true,
+      "target_head": "646be5834ca7cfe2d334af5382595977f361fc0b",
+      "target_checks": [
+        {
+          "id": 36885761137,
+          "name": "CI push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "646be5834ca7cfe2d334af5382595977f361fc0b",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/36885761137",
+          "jobs": [
+            110448528084,
+            110448528065,
+            110448528052,
+            110448527984,
+            110448527968,
+            110448527942,
+            110448527905,
+            110448527733
+          ]
+        }
+      ],
+      "target_validation": "the signed squash commit has the exact tested tree; all eight Linux, MSRV, macOS, Windows and lint jobs passed again on the integrated master SHA"
     }
   ],
   "repository_observations": [
@@ -2460,8 +2533,8 @@
       "repository": "Memorithm/octasoma",
       "visibility": "public",
       "default_branch": "master",
-      "current_head": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
-      "tree_sha": "a0c92669333b330ebb51f6e833ae0ff35ea2c2cf",
+      "current_head": "646be5834ca7cfe2d334af5382595977f361fc0b",
+      "tree_sha": "2859953aa89192301164886b8b38866046b5e326",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -4424,16 +4497,25 @@
         "Introduire des LoadLimits explicites (fichier, records, shards, payload, expansion) et lecture via File::metadata + take(max+1) avant allocations; réutiliser le pattern de SML raw_context ou COGNO bounded readers.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
+      "status": "resolved",
+      "current_head": "646be5834ca7cfe2d334af5382595977f361fc0b",
       "default_branch": "master",
       "audit_head": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "bounded_load_limits_merged_target_validated",
+      "policy_review": "AGENTS.md, PolyForm Noncommercial 1.0.0 and off-main ecosystem roadmap read and preserved",
+      "prs": [
+        {
+          "number": 68,
+          "url": "https://github.com/Memorithm/octasoma/pull/68",
+          "head_sha": "fbf502ebb7101d02f1be209d65617b1a69de8b2f",
+          "merge_sha": "646be5834ca7cfe2d334af5382595977f361fc0b"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/octasoma-68-COG-OCTA-002.json"
+      ],
+      "last_observed_at": "2026-10-01T17:45:53+02:00",
+      "next_action": "Clos; préserver les budgets explicites et les validations avant allocation lors de toute évolution des formats."
     },
     {
       "id": "COG-OCTA-003",
@@ -5810,14 +5892,14 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261001T1613",
-    "acquired_at": "2026-10-01T14:14:30.000Z",
-    "expires_at": "2026-10-01T16:00:00.000Z",
-    "released_at": "2026-10-01T14:48:00.000Z",
+    "owner": "codex-audit-20261001T1711",
+    "acquired_at": "2026-10-01T15:12:00.000Z",
+    "expires_at": "2026-10-01T17:00:00.000Z",
+    "released_at": "2026-10-01T15:45:53.000Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "next_action": "Reacquire by blob-SHA CAS, reconcile issue #81 and registry, then continue priority-1 COG-OCTA-002 or the next independent priority item."
+    "next_action": "Reacquire by blob-SHA CAS, reconcile issue #81 and registry, then continue priority-1 B-NL-02 or the next independent priority item."
   },
   "capabilities": [
     {

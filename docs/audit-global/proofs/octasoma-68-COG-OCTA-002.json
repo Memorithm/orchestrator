@@ -1,0 +1,101 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "COG-OCTA-002"
+  ],
+  "repository": "Memorithm/octasoma",
+  "pull_request": 68,
+  "pull_request_url": "https://github.com/Memorithm/octasoma/pull/68",
+  "default_branch": "master",
+  "audit_head": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
+  "base_sha": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
+  "validated_head_sha": "fbf502ebb7101d02f1be209d65617b1a69de8b2f",
+  "validated_tree_sha": "2859953aa89192301164886b8b38866046b5e326",
+  "merge_sha": "646be5834ca7cfe2d334af5382595977f361fc0b",
+  "integrated_tree_sha": "2859953aa89192301164886b8b38866046b5e326",
+  "tree_identity": true,
+  "merged_at": "2026-10-01T15:37:48Z",
+  "merge_method": "squash_with_expected_head_sha",
+  "change": [
+    "A public LoadLimits contract now bounds bytes per file, logical records, shards or clusters, aggregate payload bytes, regenerated projector bytes and compression expansion.",
+    "FRAC, RECS, SKCH, OSMS, CLST, OSHH and hybrid generation loaders open files, inspect metadata and retain at most max+1 bytes before parsing or allocation.",
+    "Manifest counts, decompressed payloads, component hashes, centroid arrays and sketch projectors are validated against checked sizes and caller-selected budgets before allocation.",
+    "Compatibility methods retain finite defaults while explicit with_limits variants allow reviewed tighter or larger budgets."
+  ],
+  "candidate_validations": [
+    {
+      "run_id": 36884742520,
+      "name": "CI",
+      "event": "pull_request",
+      "head_sha": "fbf502ebb7101d02f1be209d65617b1a69de8b2f",
+      "conclusion": "success",
+      "jobs": [
+        110445053435,
+        110445053360,
+        110445053333,
+        110445053328,
+        110445053235,
+        110445053148,
+        110445053039,
+        110445052821
+      ],
+      "gates": [
+        "cargo fmt and Clippy with warnings denied across default, mcp, simd, gpu and all-features",
+        "release tests on Linux default, mcp, simd and all-features",
+        "declared MSRV 1.89 check and release tests",
+        "macOS and Windows default, mcp and simd tests"
+      ]
+    }
+  ],
+  "target_validations": [
+    {
+      "run_id": 36885761137,
+      "name": "CI",
+      "event": "push",
+      "head_sha": "646be5834ca7cfe2d334af5382595977f361fc0b",
+      "conclusion": "success",
+      "jobs": [
+        110448528084,
+        110448528065,
+        110448528052,
+        110448527984,
+        110448527968,
+        110448527942,
+        110448527905,
+        110448527733
+      ],
+      "gates": [
+        "same eight exact-target jobs as the candidate validation"
+      ]
+    }
+  ],
+  "review": {
+    "summary_comment_id": 5934493190,
+    "final_reviewed_head": "fbf502ebb7101d02f1be209d65617b1a69de8b2f",
+    "final_status": "completed_no_new_findings",
+    "resolved_threads": [
+      "PRRT_kwDOS_F8JM6oAuV5",
+      "PRRT_kwDOS_F8JM6oAuV-"
+    ],
+    "fixed_findings": [
+      "P1 bound persisted sketch geometry before rebuilding projectors",
+      "P1 charge the RECS payload budget before allocating"
+    ]
+  },
+  "non_counted_attempts": [
+    "69f9d16087: initial exact-head review found two P1 issues",
+    "4a368dde and 63ead113: formatting failed",
+    "93833a77 and 66dadaf2: intermediate corrected heads superseded before complete exact-head qualification"
+  ],
+  "local_validation": {
+    "git_diff_check": "success",
+    "rust_toolchain": "unavailable; no local Rust test claimed"
+  },
+  "branch_state_after_validation": {
+    "observed_head": "646be5834ca7cfe2d334af5382595977f361fc0b",
+    "observed_at": "2026-10-01T17:45:53+02:00",
+    "rulesets": [],
+    "required_checks": [],
+    "protection_claimed": false
+  }
+}
