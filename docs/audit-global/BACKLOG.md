@@ -26,7 +26,7 @@
 | RT-NNIS-06 | Memorithm/NNIS | 1 | résolu |  |
 | MEM-01 | Memorithm/CCOS-Core | 9 | à faire |  |
 | MEM-02 | Memorithm/CCOS-Core | 6 | à faire |  |
-| MEM-03 | Memorithm/CCOS-Core | 1 | à faire |  |
+| MEM-03 | Memorithm/CCOS-Core | 1 | résolu | [preuve](proofs/CCOS-Core-MEM-03-bounded-persistence.json), [PR #31](https://github.com/Memorithm/CCOS-Core/pull/31) |
 | MEM-04 | Memorithm/CCOS-Core | 2 | résolu |  |
 | MEM-05 | Memorithm/CCOS-Core | 8 | à faire |  |
 | MEM-06 | Memorithm/CCOS-Core | 9 | à faire |  |

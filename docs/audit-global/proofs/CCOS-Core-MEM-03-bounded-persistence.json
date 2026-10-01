@@ -1,0 +1,103 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": ["MEM-03"],
+  "repository": "Memorithm/CCOS-Core",
+  "pull_request": 31,
+  "pull_request_url": "https://github.com/Memorithm/CCOS-Core/pull/31",
+  "default_branch": "main",
+  "audit_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+  "base_sha": "13146f27b30ddfe605c842bc0261c94b40f4b88b",
+  "validated_head_sha": "9e05c0fb572e484fc4ff51fa4d0a7ad47e87ce2b",
+  "validated_tree_sha": "952dbdf0b24573a73f5092218624f9572db88d9e",
+  "merge_sha": "de650435ffb8fb7abc95902dd4e1d3bf27d818b8",
+  "integrated_tree_sha": "952dbdf0b24573a73f5092218624f9572db88d9e",
+  "tree_identity": true,
+  "merged_at": "2026-10-01T14:42:38Z",
+  "merge_method": "automatic_rebase_after_exact_head_validation",
+  "change": [
+    "All CCPS and legacy JSON loads open the final component without following links and require a regular file before reading.",
+    "Reads retain at most limit+1 bytes before parsing and reject declared or observed oversize inputs.",
+    "Single-file JSON save and load share the 64 MiB cap; a successful save cannot create a snapshot rejected solely by the loader's size policy.",
+    "Snapshot outputs are opened no-follow and nonblocking, validated as regular descriptors before truncation, and reject symlinks or special files without modifying their targets."
+  ],
+  "candidate_validations": [
+    {
+      "run_id": 36877603520,
+      "name": "CI",
+      "event": "pull_request",
+      "head_sha": "9e05c0fb572e484fc4ff51fa4d0a7ad47e87ce2b",
+      "conclusion": "success",
+      "jobs": [110420938998, 110420939169, 110420939207, 110420939237, 110420939270, 110420939351, 110420939382, 110420939383, 110420939418, 110420939459, 110420939559],
+      "gates": ["format", "MSRV 1.89", "default/no-default/all-features checks", "Clippy -D warnings", "debug and release unit/integration tests", "doctests", "cognitive, replay, snapshot and schema suites", "documentation", "repository hygiene and author policy"]
+    },
+    {
+      "run_id": 36877603291,
+      "name": "Security Audit",
+      "event": "pull_request",
+      "head_sha": "9e05c0fb572e484fc4ff51fa4d0a7ad47e87ce2b",
+      "conclusion": "success",
+      "jobs": [110420937291, 110420937731],
+      "gates": ["cargo deny advisories/licenses/bans/sources", "SBOM", "secret detection"]
+    },
+    {
+      "run_id": 36877603517,
+      "name": "Strict BEIR import",
+      "event": "pull_request",
+      "head_sha": "9e05c0fb572e484fc4ff51fa4d0a7ad47e87ce2b",
+      "conclusion": "success",
+      "jobs": [110420959067]
+    }
+  ],
+  "target_validations": [
+    {
+      "run_id": 36878484636,
+      "name": "CI",
+      "event": "push",
+      "head_sha": "de650435ffb8fb7abc95902dd4e1d3bf27d818b8",
+      "conclusion": "success",
+      "jobs": [110423920217, 110423920243, 110423920296, 110423920326, 110423920337, 110423920364, 110423920528, 110423920535, 110423920634, 110423920766, 110423921513]
+    },
+    {
+      "run_id": 36878484651,
+      "name": "Security Audit",
+      "event": "push",
+      "head_sha": "de650435ffb8fb7abc95902dd4e1d3bf27d818b8",
+      "conclusion": "success",
+      "jobs": [110423921479, 110423921516]
+    },
+    {
+      "run_id": 36878484680,
+      "name": "Strict BEIR import",
+      "event": "push",
+      "head_sha": "de650435ffb8fb7abc95902dd4e1d3bf27d818b8",
+      "conclusion": "success",
+      "jobs": [110423919985]
+    }
+  ],
+  "review": {
+    "summary_comment_id": 5933397737,
+    "final_reviewed_head": "9e05c0fb572e484fc4ff51fa4d0a7ad47e87ce2b",
+    "final_status": "completed_no_new_findings",
+    "resolved_threads": [
+      "PRRT_kwDOTkLq_s6n_C1e",
+      "PRRT_kwDOTkLq_s6n_J_O",
+      "PRRT_kwDOTkLq_s6n_Wo9"
+    ],
+    "fixed_findings": [
+      "P1 reject save success for snapshots above the load cap",
+      "P2 reject symlink snapshot outputs without modifying the target",
+      "P2 make Unix special-file validation nonblocking"
+    ]
+  },
+  "local_validation": {
+    "git_diff_check": "success",
+    "rust_toolchain": "unavailable; no local Rust test claimed"
+  },
+  "branch_state_after_validation": {
+    "observed_head": "de650435ffb8fb7abc95902dd4e1d3bf27d818b8",
+    "observed_at": "2026-10-01T16:48:00+02:00",
+    "rulesets": [],
+    "required_checks": [],
+    "protection_claimed": false
+  }
+}
