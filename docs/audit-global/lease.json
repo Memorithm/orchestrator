@@ -3,9 +3,9 @@
   "owner": "codex-audit-20261001T0312",
   "acquired_at": "2026-10-01T01:13:30Z",
   "expires_at": "2026-10-01T02:40:00Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-01T02:10:34Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Complete and qualify CCOS-Core MEM-04 follow-up PR #29 after premature #28 merge; update durable evidence, then continue SciRust-Verify MEM-17."
+  "next_action": "Acquire a fresh lease; reconcile 6/50 and 7/101; remediate SciRust-Verify MEM-17 on feat/scirust-verify-foundation, then propagate MEM-04 under MEM-08."
 }
