@@ -1,0 +1,103 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "B-NL-01"
+  ],
+  "repository": "Memorithm/NoiseLab",
+  "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#B-NL-01",
+  "status": "awaiting_exact_target_validation",
+  "audit_sha": "8b1ba211cf655dde2715779a5188943697a015fd",
+  "verified_base_sha": "01ca101bfe370c35f97b9eab4a8e650b68a15eb5",
+  "default_branch": "main",
+  "policy_and_license_review": [
+    "AGENTS.md",
+    "LICENSE",
+    "LICENSE.md",
+    "origin/agent/ecosystem-roadmap:.agent/NOISELAB_ECOSYSTEM_ROADMAP.yaml"
+  ],
+  "reconciliation": "The invalid literal-state bypass and missing output-finiteness check remained present on exact main SHA 01ca101bfe370c35f97b9eab4a8e650b68a15eb5.",
+  "change": {
+    "pull_request": "https://github.com/Memorithm/NoiseLab/pull/74",
+    "branch": "audit/B-NL-01-gaussian-validation",
+    "candidate_head": "f38c39e25a3461445991a00bae38f20d587b749a",
+    "candidate_source_blob": "d4b4af45d2f0792da336f63669a9ec5ce6da9fa3",
+    "summary": "GaussianNoise fields are private, constructor validation is repeated at the public generator boundary, output allocation is fallible, and non-finite generated values return a typed indexed error.",
+    "acceptance_mapping": [
+      "External struct literals can no longer bypass the constructor.",
+      "The public generator independently validates sigma before allocation or generation.",
+      "Each generated value is checked for finiteness and numeric overflow returns NonFiniteOutput with the sample index.",
+      "Regression tests deliberately construct invalid literals inside the module and exercise finite-input output overflow."
+    ]
+  },
+  "non_counted_attempts": [
+    {
+      "head_sha": "f3cf3447414631418e38607682d9b0e3e824ab54",
+      "workflow_run_id": 36901847919,
+      "job_id": 110502656801,
+      "result": "rustfmt failed; later gates were skipped and this run is not counted"
+    }
+  ],
+  "candidate_validation": [
+    {
+      "workflow": "CI",
+      "run_id": 36901966517,
+      "job_id": 110503062571,
+      "head_sha": "f38c39e25a3461445991a00bae38f20d587b749a",
+      "conclusion": "success",
+      "scope": [
+        "format",
+        "check all targets",
+        "Clippy -D warnings",
+        "cargo test"
+      ]
+    },
+    {
+      "workflow": "Research report smoke contracts",
+      "run_id": 36901966436,
+      "job_id": 110503197321,
+      "head_sha": "f38c39e25a3461445991a00bae38f20d587b749a",
+      "conclusion": "success",
+      "scope": [
+        "exact source identity",
+        "synthetic report and integrity validators",
+        "retained dependency graph",
+        "report executables",
+        "rejected flags and repeated reports",
+        "two U2 captures",
+        "protocol and executable identities",
+        "evidence sealing"
+      ]
+    }
+  ],
+  "diff_review": {
+    "head_sha": "f38c39e25a3461445991a00bae38f20d587b749a",
+    "changed_files": 1,
+    "unresolved_review_threads": 0,
+    "result": "exact diff inspected; no unresolved issue retained"
+  },
+  "merge": {
+    "method": "squash",
+    "guard": "expected_head_sha=f38c39e25a3461445991a00bae38f20d587b749a",
+    "merge_sha": "d5d831a446cd93b45fc916455293f6af7cb5b680",
+    "merged_at": "2026-10-01T17:49:31Z",
+    "main_matches_merge_sha": true,
+    "integrated_source_blob": "d4b4af45d2f0792da336f63669a9ec5ce6da9fa3",
+    "candidate_source_blob_matches_integrated": true
+  },
+  "target_validation": {
+    "status": "pending_observation",
+    "head_sha": "d5d831a446cd93b45fc916455293f6af7cb5b680",
+    "reason": "Push workflows are configured for main, but their exact run identities and conclusions were not observable through the available GitHub connector during this pass. The finding remains open until exact-SHA target checks are recorded."
+  },
+  "local_validation": {
+    "status": "not_executed",
+    "reason": "execution environment unavailable; no local Rust result is claimed"
+  },
+  "governance_observation": {
+    "branch_protected": false,
+    "repository_rulesets": [],
+    "required_checks": [],
+    "statement": "Known observation from the immediately preceding NoiseLab pass; no gate was bypassed or reduced."
+  },
+  "observed_at": "2026-10-01T19:53:00+02:00"
+}
