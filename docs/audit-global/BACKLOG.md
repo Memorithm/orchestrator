@@ -80,7 +80,7 @@
 | B-RH-01 | Memorithm/riemann_ndim_bench | 8 | à faire |  |
 | B-RH-02 | Memorithm/riemann_ndim_bench | 6 | à faire |  |
 | B-PL-01 | Memorithm/ProofLab | 6 | à faire |  |
-| B-PL-02 | Memorithm/ProofLab | 3 | à faire |  |
+| B-PL-02 | Memorithm/ProofLab | 3 | en cours | [process supervision merged; isolation pending](proofs/ProofLab-B-PL-02-process-supervision.json), [PR #77](https://github.com/Memorithm/ProofLab/pull/77) |
 | B-PL-03 | Memorithm/ProofLab | 9 | à faire | B-PL-01, B-PL-02 |
 | B-FL-01 | Memorithm/FieldLab | 5 | à faire |  |
 | B-FL-02 | Memorithm/FieldLab | 9 | à faire |  |

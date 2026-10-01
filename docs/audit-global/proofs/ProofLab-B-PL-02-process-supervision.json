@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "ids": [
+    "B-PL-02"
+  ],
+  "repository": "Memorithm/ProofLab",
+  "base_branch": "main",
+  "audit_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
+  "pr": {
+    "number": 77,
+    "url": "https://github.com/Memorithm/ProofLab/pull/77",
+    "base_sha": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
+    "head_sha": "562f7ae58429ae17cb7e3155ea2ee8f4d3e8b26d",
+    "merge_sha": "790f3013a808f800ea6984452f809f43971b6642",
+    "tree": "dfb1f6101e9966918deb48e7f6f62632da49f063",
+    "merge_mode": "squash with expected_head_sha"
+  },
+  "change_summary": [
+    "replace unbounded Command::output with one monotonic invocation deadline and typed termination outcomes",
+    "run Lean in a dedicated Unix process group and clean descendants after timeout or normal leader exit",
+    "retain the leader with waitid WNOWAIT until signals are sent, then bound leader reaping and group confirmation by one termination deadline",
+    "capture stdout and stderr through nonblocking cancellable workers with independent byte and drain budgets",
+    "bind supervisor version and all limits into content-addressed VerificationJob and KernelReceipt identity",
+    "propagate custom kernel contracts through corpus and assumption-minimization orchestration",
+    "reject non-Unix execution rather than asserting weaker process-tree guarantees"
+  ],
+  "regressions": [
+    "timeout cannot accept a late zero exit",
+    "descendant-held pipes are bounded and workers are cancelled and joined",
+    "signal termination is distinct from timeout and rejection",
+    "stdout and stderr quota overflow fail closed",
+    "capture-thread creation failure cleans the process group",
+    "post-SIGKILL leader polling obeys the termination deadline",
+    "custom limits remain bound through corpus and minimization jobs"
+  ],
+  "premerge_validation": {
+    "head_sha": "562f7ae58429ae17cb7e3155ea2ee8f4d3e8b26d",
+    "workflow_run": 36868739001,
+    "run_number": 297,
+    "jobs": [
+      110390726099,
+      110390725542
+    ],
+    "conclusion": "success",
+    "successful_steps": [
+      "pinned Rust 1.98.1 format",
+      "Clippy with warnings denied",
+      "workspace tests including process-boundary regressions",
+      "pinned Lean dependency resolution and build",
+      "fresh Lean kernel replay",
+      "Rust-to-Lean trust-boundary integration gate"
+    ],
+    "review": "six exact-head review rounds; ten findings (two P1, eight P2) fixed, replied to and resolved; final review of 562f7ae completed with no new thread"
+  },
+  "discarded_attempts": [
+    {
+      "run": 36866804648,
+      "head_sha": "be3abb366ef130435372068eea7cf8e8c1896125",
+      "reason": "fully green but superseded by a valid P2 review finding on unbounded post-SIGKILL wait"
+    },
+    {
+      "run": 36868377343,
+      "head_sha": "8d1b5da5cf5704888541aa264b45f037277111a8",
+      "reason": "format failed and Clippy/tests were skipped; not counted as qualification"
+    }
+  ],
+  "postmerge_validation": {
+    "head_sha": "790f3013a808f800ea6984452f809f43971b6642",
+    "tree": "dfb1f6101e9966918deb48e7f6f62632da49f063",
+    "workflow_run": 36869801601,
+    "run_number": 298,
+    "event": "push",
+    "branch": "main",
+    "jobs": [
+      110394346627,
+      110394346192
+    ],
+    "conclusion": "success",
+    "successful_steps": [
+      "format, strict Clippy and workspace tests",
+      "Lean build, fresh kernel replay and Rust-to-Lean integration gate"
+    ]
+  },
+  "acceptance_met": [
+    "process group, monotonic wall timeout, output quotas, bounded drain and bounded cleanup are integrated and tested",
+    "timeout, signal, launch/capture failure and ordinary rejection remain distinct fail-closed outcomes",
+    "candidate and signed integrated commit have the identical tree and both exact versions passed configured gates"
+  ],
+  "acceptance_pending": [
+    "hostile or generated Lean must run in a truly isolated environment enforcing CPU, RAM, PIDs, network and filesystem policy"
+  ],
+  "finding_status": "in_progress",
+  "policy": {
+    "license": "PolyForm Noncommercial 1.0.0",
+    "instructions": "AGENTS.md read and followed",
+    "off_main_roadmap": "read and preserved; not modified by PR #77"
+  },
+  "governance": {
+    "rulesets": [],
+    "branch_protection": "endpoint inaccessible to the GitHub integration; no protection claim is made"
+  },
+  "local_note": "Rust and Lean tooling were unavailable locally; no local execution is claimed",
+  "observed_at": "2026-10-01T15:40:40+02:00"
+}
