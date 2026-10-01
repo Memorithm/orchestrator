@@ -7505,6 +7505,76 @@
           "next_action": "Clos; préserver le contrat de modèle local immuable, le résolveur partagé et les validations exactes lors des évolutions futures."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T23:38:57+02:00",
+      "hour": "2026-10-01T23:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 24,
+        "target": 50
+      },
+      "total_merged": 24,
+      "closed": 21,
+      "remaining": 80,
+      "actions": [
+        "FORGE-04 a été reproduit sur Forge main 5b85f1944ce27fc7cad2c5713e4023e8c353cb62 après lecture des politiques racine/hors branche, du bootstrap AX et des licences PolyForm.",
+        "La PR #48 draine stdout/stderr simultanément avec une rétention de 1 MiB par flux et un délai de drain distinct, puis supervise un groupe de processus POSIX dédié partagé par les deux runners.",
+        "La revue du premier HEAD vert a trouvé un P2 valide sur l'adoption globale subreaper; cette adoption et le waitpid groupé ont été retirés, le leader direct reste attendu et la frontière SupervisedProcess est explicitement limitée au groupe.",
+        "Les régressions réelles couvrent saturation simultanée des pipes, capture bornée, timeout et descendant du groupe conservant les pipes.",
+        "Le HEAD exact a81a04f4bc59c6b5568a05cc90558ff79d06a4a9 a réussi les trois workflows, puis la fusion squash gardée a produit 6e75489c51a65ac0e3abcdbd79f04f133a52c00f avec le même arbre.",
+        "Les trois workflows push ont réussi sur le SHA intégré exact; FORGE-04 est clos avec la limite non-sandbox documentée."
+      ],
+      "executed_checks": [
+        "git diff --check réussi localement; aucune exécution Rust locale n'est revendiquée faute de toolchain.",
+        "CI candidat 36929288271 / jobs 110594280638 et 110594280974: format, check workspace, Clippy strict, tests workspace, tests bandit, Clippy bandit et qualification adaptateur NNIS réussis sur a81a04f4bc59c6b5568a05cc90558ff79d06a4a9.",
+        "Scientific ask tell candidat 36929288353 / job 110594282295: format, tests/Clippy forge-bridge, build exemple et contrôle du processus scientifique réussis.",
+        "SML topology candidat 36929288278 / job 110594280744: format, check/Clippy forge-domains, tests du domaine et smoke de campagne isolée réussis.",
+        "Diff exact inspecté: 5 fichiers; revue P2 corrigée; fil devenu obsolète puis résolu; base main inchangée; PR fusionnable proprement.",
+        "main=6e75489c51a65ac0e3abcdbd79f04f133a52c00f et arbre candidat/intégré identique a5c370fbf31710988012278d9725e4114533142a.",
+        "CI push 36929555243 / jobs 110595165544 et 110595165900, Scientific ask tell push 36929555211 / job 110595165701 et SML topology push 36929555267 / job 110595166102 ont tous réussi sur le SHA intégré."
+      ],
+      "waiting": [
+        "SupervisedProcess n'est pas un sandbox; un descendant quittant volontairement le groupe reste hors de la garantie et le code hostile exige toujours Container ou mieux.",
+        "La branche main reste non protégée, sans ruleset ni check requis; cette limite n'est pas déclarée résolue.",
+        "80 IDs restent ouverts."
+      ],
+      "work_items": [
+        {
+          "id": "FORGE-04",
+          "repository": "Memorithm/Forge",
+          "status": "resolved",
+          "actions": "Drains simultanés bornés, délai de collecte indépendant, groupe POSIX dédié, nettoyage après timeout/sortie normale, retrait du subreaper global après revue.",
+          "results": "PR #48 fusionnée; validations candidat et cible exactes vertes; arbre candidat/intégré identique; constat clos avec frontière non-sandbox documentée.",
+          "pr": [
+            {
+              "number": 48,
+              "url": "https://github.com/Memorithm/Forge/pull/48",
+              "head_sha": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+              "merge_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f"
+            }
+          ],
+          "head": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
+          "checks": [
+            36929288271,
+            110594280638,
+            110594280974,
+            36929288353,
+            110594282295,
+            36929288278,
+            110594280744,
+            36929555243,
+            110595165544,
+            110595165900,
+            36929555211,
+            110595165701,
+            36929555267,
+            110595166102
+          ],
+          "dependencies": [],
+          "next_action": "Clos; conserver la limite de groupe et l'admission fail-closed Container-or-stronger pour tout code généré hostile."
+        }
+      ]
     }
   ]
 }

@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T22:11:24+02:00",
+  "updated_at": "2026-10-01T23:38:57+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 20,
-    "remaining": 81,
-    "merged_prs": 23
+    "closed": 21,
+    "remaining": 80,
+    "merged_prs": 24
   },
   "batches": [
     {
@@ -151,6 +151,11 @@
           "repository": "Memorithm/NNIS",
           "number": 253,
           "merge_sha": "8a4b3187eb5faf766704a90059bcd6d7675e7ae4"
+        },
+        {
+          "repository": "Memorithm/Forge",
+          "number": 48,
+          "merge_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f"
         }
       ]
     }
@@ -2474,6 +2479,98 @@
         }
       ],
       "target_validation": "CI 762 passed Rust quality CPU and Rust 1.77 jobs on the exact integrated SHA; the PR-only SmolLM2 harness passed on the identical candidate tree"
+    },
+    {
+      "repository": "Memorithm/Forge",
+      "number": 48,
+      "url": "https://github.com/Memorithm/Forge/pull/48",
+      "base": "main",
+      "base_sha": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
+      "head_sha": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+      "merge_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
+      "status": "merged_target_validated",
+      "ids": [
+        "FORGE-04"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T21:34:12Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "checks": [
+        {
+          "id": 36929288271,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+          "jobs": [
+            110594280638,
+            110594280974
+          ]
+        },
+        {
+          "id": 36929288353,
+          "name": "Scientific ask tell process qualification",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+          "jobs": [
+            110594282295
+          ]
+        },
+        {
+          "id": 36929288278,
+          "name": "SML topology domain",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+          "jobs": [
+            110594280744
+          ]
+        }
+      ],
+      "review": {
+        "head": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+        "result": "P2_subreaper_adoption_removed_and_thread_resolved",
+        "unresolved_threads": 0,
+        "changed_files": 5
+      },
+      "validated_tree": "a5c370fbf31710988012278d9725e4114533142a",
+      "exact_tree_match": true,
+      "target_head": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
+      "target_checks": [
+        {
+          "id": 36929555243,
+          "name": "CI push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
+          "jobs": [
+            110595165544,
+            110595165900
+          ]
+        },
+        {
+          "id": 36929555211,
+          "name": "Scientific ask tell process qualification push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
+          "jobs": [
+            110595165701
+          ]
+        },
+        {
+          "id": 36929555267,
+          "name": "SML topology domain push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
+          "jobs": [
+            110595166102
+          ]
+        }
+      ],
+      "target_validation": "all four configured check runs passed on the exact integrated main SHA"
     }
   ],
   "repository_observations": [
@@ -2569,8 +2666,8 @@
       "repository": "Memorithm/Forge",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
-      "tree_sha": "65c662d214177af5fcc2cdb9348b3e1cb1332608",
+      "current_head": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
+      "tree_sha": "a5c370fbf31710988012278d9725e4114533142a",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -4946,16 +5043,33 @@
         "Drainer stdout/stderr simultanément avec une taille maximale; superviser un groupe de processus/cgroup et arrêter/reaper tous les descendants.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
+      "status": "resolved",
+      "current_head": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
       "default_branch": "main",
       "audit_head": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "FORGE-04 merged as 6e75489c51a65ac0e3abcdbd79f04f133a52c00f; the exact PR head and the exact integrated commit passed every configured workflow with the same tree.",
+      "policy_review": "Root AGENTS.md, off-main ecosystem roadmap, ML maturity overlay, kernel-agent overlay, AX isolation bootstrap and PolyForm Noncommercial licensing files read; SupervisedProcess remains explicitly distinct from a sandbox.",
+      "prs": [
+        {
+          "number": 48,
+          "url": "https://github.com/Memorithm/Forge/pull/48",
+          "base": "main",
+          "base_sha": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
+          "head_sha": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+          "status": "merged_target_validated",
+          "merge_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f"
+        }
+      ],
+      "resolution_evidence": [
+        "Stdout and stderr are drained concurrently while retaining at most 1 MiB per stream; drain completion has its own two-second bound.",
+        "Each supervised command gets a dedicated POSIX process group, which is killed on timeout and after leader exit; the direct leader is always waited.",
+        "The process-wide subreaper design was removed after exact review found it could adopt an escaped descendant that group-scoped waitpid could not safely reap.",
+        "Regressions cover simultaneous pipe saturation, bounded capture, timeout and cleanup of a pipe-holding in-group descendant.",
+        "Exact PR head a81a04f4bc59c6b5568a05cc90558ff79d06a4a9 and exact integrated commit 6e75489c51a65ac0e3abcdbd79f04f133a52c00f passed CI, scientific ask/tell and SML topology workflows; both have tree a5c370fbf31710988012278d9725e4114533142a.",
+        "Proof: docs/audit-global/proofs/Forge-48-FORGE-04.json"
+      ],
+      "last_observed_at": "2026-10-01T23:38:57+02:00",
+      "next_action": "Closed and target-qualified; preserve the process-group-only SupervisedProcess boundary and keep Container-or-stronger fail-closed admission for hostile generated code."
     },
     {
       "id": "ORCH-01",
@@ -6160,14 +6274,14 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261001T2110",
-    "acquired_at": "2026-10-01T19:11:30.000Z",
-    "expires_at": "2026-10-01T20:30:00.000Z",
-    "released_at": "2026-10-01T20:11:24.000Z",
+    "owner": "codex-audit-20261001T2312",
+    "acquired_at": "2026-10-01T21:13:00.000Z",
+    "expires_at": "2026-10-01T22:30:00.000Z",
+    "released_at": "2026-10-01T21:38:57.000Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "next_action": "Reacquire by blob-SHA CAS, reconcile GitHub, and continue the next open priority finding; RT-NNIS-02 is closed with exact candidate and target proof."
+    "next_action": "Reacquire by blob-SHA CAS, reconcile GitHub, and continue the next open priority finding; FORGE-04 is closed with exact candidate and target proof."
   },
   "capabilities": [
     {

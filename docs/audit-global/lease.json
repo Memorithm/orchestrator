@@ -3,9 +3,9 @@
   "owner": "codex-audit-20261001T2312",
   "acquired_at": "2026-10-01T21:13:00.000Z",
   "expires_at": "2026-10-01T22:30:00.000Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-01T21:38:57.000Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "next_action": "Verify FORGE-04 on the exact Forge default-branch HEAD, read applicable policies and licenses, then remediate bounded concurrent capture and process-tree cleanup only if still present."
+  "next_action": "Reacquire by blob-SHA CAS, reconcile GitHub, and continue the next open priority finding; FORGE-04 is closed with exact candidate and target proof."
 }

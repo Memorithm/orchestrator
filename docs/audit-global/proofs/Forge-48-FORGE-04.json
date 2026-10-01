@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "id": "FORGE-04",
+  "repository": "Memorithm/Forge",
+  "pr": "https://github.com/Memorithm/Forge/pull/48",
+  "base_branch": "main",
+  "audit_head": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
+  "head": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+  "merged_commit": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
+  "tested_tree": "a5c370fbf31710988012278d9725e4114533142a",
+  "integrated_tree": "a5c370fbf31710988012278d9725e4114533142a",
+  "exact_tree_match": true,
+  "change_summary": [
+    "drain stdout and stderr concurrently while retaining at most 1 MiB per stream and discarding excess bytes",
+    "bound output completion with an independent two-second drain deadline",
+    "place each supervised command in a dedicated POSIX process group and kill that group after timeout or leader exit",
+    "wait the direct leader on every cleanup path without installing process-wide subreaper state",
+    "share the same supervisor between the timeout runner and the resource-envelope runner",
+    "retain the truthful SupervisedProcess classification and existing fail-closed Container requirement for untrusted generated code"
+  ],
+  "regressions": [
+    "drains_stdout_and_stderr_concurrently_without_unbounded_capture",
+    "stops_process_group_descendants_when_the_leader_exits",
+    "kills_long_running_subprocess"
+  ],
+  "premerge_validation": {
+    "head_sha": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+    "conclusion": "success",
+    "workflow_runs": [
+      {
+        "id": 36929288271,
+        "name": "CI",
+        "jobs": [110594280638, 110594280974],
+        "steps": [
+          "cargo fmt --all -- --check",
+          "cargo check --workspace --all-targets",
+          "cargo clippy --workspace --all-targets -- -D warnings",
+          "cargo test --workspace --all-targets",
+          "cargo test -p forge-core --lib --features bandit",
+          "cargo clippy -p forge-core --all-targets --features bandit -- -D warnings",
+          "NNIS adapter format, check, Clippy and host tests"
+        ]
+      },
+      {
+        "id": 36929288353,
+        "name": "Scientific ask tell process qualification",
+        "jobs": [110594282295],
+        "conclusion": "success"
+      },
+      {
+        "id": 36929288278,
+        "name": "SML topology domain",
+        "jobs": [110594280744],
+        "conclusion": "success"
+      }
+    ],
+    "discarded_attempts": [
+      {
+        "head_sha": "252a7158f6c7a765c718113f349a9debb41544a7",
+        "reason": "rustfmt failed before compilation; later gates were skipped"
+      },
+      {
+        "head_sha": "530791fda2370d5466a40557d09e4fe7eeaac5b0",
+        "reason": "all workflows passed, but exact review found unsafe process-wide subreaper adoption; superseded and not merged"
+      },
+      {
+        "head_sha": "6c342d863d35e6e5590a123885e7d48343560927",
+        "reason": "rustfmt failed after the review correction; later gates were skipped"
+      },
+      {
+        "head_sha": "1f5be73a9fdfc3b2796bbf147a598a7f0a94a1a9",
+        "reason": "all workflows passed, then documentation was narrowed to the exact process-group boundary; superseded before merge"
+      }
+    ]
+  },
+  "review": {
+    "head_sha": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+    "changed_files": 5,
+    "finding": "process-wide subreaper could adopt an escaped descendant that group-scoped waitpid would never reap",
+    "resolution": "removed PR_SET_CHILD_SUBREAPER and group-scoped waitpid; group cleanup waits only the direct leader and leaves orphan reaping to system init",
+    "unresolved_threads": 0
+  },
+  "merge": {
+    "method": "squash",
+    "expected_head_sha": "a81a04f4bc59c6b5568a05cc90558ff79d06a4a9",
+    "merge_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f"
+  },
+  "postmerge_validation": {
+    "head_sha": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f",
+    "conclusion": "success",
+    "workflow_runs": [
+      {
+        "id": 36929555243,
+        "name": "CI",
+        "jobs": [110595165544, 110595165900]
+      },
+      {
+        "id": 36929555211,
+        "name": "Scientific ask tell process qualification",
+        "jobs": [110595165701]
+      },
+      {
+        "id": 36929555267,
+        "name": "SML topology domain",
+        "jobs": [110595166102]
+      }
+    ]
+  },
+  "acceptance": [
+    "stdout and stderr are drained simultaneously with independent one-MiB retention limits",
+    "pipe completion has a deadline independent from the candidate wall-clock timeout",
+    "the dedicated process group is terminated after timeout and after normal leader exit, and the direct leader is always waited",
+    "real-process regressions cover simultaneous pipe saturation, capture bounds, timeout and a pipe-holding in-group descendant",
+    "the exact PR head and exact integrated target commit passed every configured workflow"
+  ],
+  "limitations": [
+    "this is resource supervision, not a hostile-code sandbox",
+    "a descendant that deliberately leaves the dedicated process group is outside the claimed boundary; untrusted generated code still requires Container-or-stronger isolation and fails closed on this backend",
+    "group-member orphans are reaped by system init rather than by process-wide Forge subreaper state, avoiding adoption of unrelated or escaped children",
+    "the main branch is unprotected and declares no required checks; no protection is claimed or bypassed"
+  ],
+  "closed_at": "2026-10-01T23:38:57+02:00"
+}

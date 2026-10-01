@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Lot 1 : 23/50 ; cumul fusionné : 23 ; clos : 20 ; restants : 81.
+101 IDs ; 12 positifs conservés. Lot 1 : 24/50 ; cumul fusionné : 24 ; clos : 21 ; restants : 80.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -61,7 +61,7 @@
 | FORGE-01 | Memorithm/Forge | 5 | à faire |  |
 | FORGE-02 | Memorithm/Forge | 7 | à faire |  |
 | FORGE-03 | Memorithm/Forge | 9 | à faire |  |
-| FORGE-04 | Memorithm/Forge | 3 | à faire |  |
+| FORGE-04 | Memorithm/Forge | 3 | résolu | [preuve](proofs/Forge-48-FORGE-04.json), [PR #48](https://github.com/Memorithm/Forge/pull/48) |
 | ORCH-01 | Memorithm/orchestrator | 7 | à faire |  |
 | PAPERS-01 | Memorithm/PAPERS-AGENT | 7 | à faire |  |
 | PAPERS-02 | Memorithm/PAPERS-AGENT | 7 | à faire |  |
