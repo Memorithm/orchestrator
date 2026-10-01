@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "ids": [
+    "MEM-13",
+    "MEM-14"
+  ],
+  "repository": "Memorithm/scirust-hub",
+  "pr": "https://github.com/Memorithm/scirust-hub/pull/83",
+  "base_branch": "main",
+  "audit_head": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
+  "head": "05777d2ef03e436eab887706b2a99164aee92c35",
+  "merged_commit": "c53ecd84af0a8bf17b595296004539c0252582d2",
+  "tree": "2937ae142649a9927ebffef7da40ce318bd74694",
+  "change_summary": [
+    "add the shared hub-executor execution_guard owner for process lifetime and bounded output capture",
+    "kill and confirm the ordinary Unix process group after the direct parent exits, before output collection",
+    "replace unbounded reader joins with one independent shared one-second stdout/stderr drain deadline",
+    "fail closed with an explicit incomplete-stream backend error on reader failure, disconnect or drain expiry",
+    "persist only executable basename, environment variable names and the OS error on spawn failure; omit argv, environment values and the full executable path",
+    "retain the explicit resource-supervision-not-sandbox boundary"
+  ],
+  "regressions": [
+    "tests::parent_exit_cleans_descendants_before_bounded_pipe_drain",
+    "execution_guard::tests::capture_wait_is_bounded_and_reports_incomplete_stream",
+    "tests::missing_program_is_an_observed_start_error (argument and environment secret canaries)"
+  ],
+  "premerge_validation": {
+    "head_sha": "05777d2ef03e436eab887706b2a99164aee92c35",
+    "workflow_run": 36848432568,
+    "job": 110324097099,
+    "conclusion": "success",
+    "commands": [
+      "cargo fmt --all -- --check",
+      "python3 -m unittest scripts/test_soup_hub_adapter.py scripts/test_soup_elastic_hub_adapter.py scripts/test_soup_scirust_symbolic_hub_adapter.py scripts/test_forge_soup_hub_adapter.py scripts/test_nnis_hf_preflight_hub_adapter.py scripts/test_soup_nnis_merge_hub_adapter.py scripts/test_nnis_hf_generate_hub_adapter.py scripts/test_nnis_hf_generation_transport.py",
+      "python3 -m unittest scripts/test_catalog.py",
+      "cargo clippy --workspace --all-targets --all-features --locked -- -D warnings",
+      "cargo build --workspace --all-targets --locked",
+      "cargo test --workspace --all-features --locked",
+      "RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked"
+    ],
+    "successful_steps": [
+      "Format",
+      "ML adapter contracts",
+      "Org catalog integrity",
+      "Clippy",
+      "Build",
+      "Test",
+      "Doc"
+    ],
+    "discarded_attempts": [
+      {
+        "run": 36848301659,
+        "job": 110323664043,
+        "reason": "rustfmt differences; later validation steps were skipped and the run was not counted"
+      }
+    ],
+    "local_note": "git diff --check passed; cargo was unavailable in the automation runtime, so no local Rust validation is claimed"
+  },
+  "postmerge_validation": {
+    "head_sha": "c53ecd84af0a8bf17b595296004539c0252582d2",
+    "workflow_run": 36848673898,
+    "job": 110324875593,
+    "conclusion": "success",
+    "successful_steps": [
+      "Format",
+      "ML adapter contracts",
+      "Org catalog integrity",
+      "Clippy",
+      "Build",
+      "Test",
+      "Doc"
+    ]
+  },
+  "acceptance": [
+    "ordinary in-group descendants are killed and group termination is confirmed before drains after parent exit",
+    "stdout and stderr drains share a deadline independent from the entrypoint timeout",
+    "capture incompleteness is reported as a bounded fail-closed backend event",
+    "spawn errors include OS error, binary identifier and environment names but no argv, environment values or Debug(Command)",
+    "the exact PR head and exact integrated target commit passed every configured validation"
+  ],
+  "limitations": [
+    "processes that deliberately leave the dedicated process group remain outside the claimed supervision boundary",
+    "ProcessExecutor remains resource supervision and is not an OS security sandbox"
+  ],
+  "closed_at": "2026-10-01T12:23:00+02:00",
+  "exact_tree_match": true,
+  "tested_tree": "2937ae142649a9927ebffef7da40ce318bd74694"
+}

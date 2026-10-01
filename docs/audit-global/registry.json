@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T10:24:00+02:00",
+  "updated_at": "2026-10-01T12:23:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 11,
-    "remaining": 90,
-    "merged_prs": 14
+    "closed": 13,
+    "remaining": 88,
+    "merged_prs": 15
   },
   "batches": [
     {
@@ -106,6 +106,11 @@
           "repository": "Memorithm/SciCapsule",
           "number": 31,
           "merge_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db"
+        },
+        {
+          "repository": "Memorithm/scirust-hub",
+          "number": 83,
+          "merge_sha": "c53ecd84af0a8bf17b595296004539c0252582d2"
         }
       ]
     }
@@ -1826,6 +1831,57 @@
         }
       ],
       "target_validation": "format, stable check, strict Clippy, all-target tests and MSRV 1.89 check passed on the exact merge commit"
+    },
+    {
+      "repository": "Memorithm/scirust-hub",
+      "number": 83,
+      "url": "https://github.com/Memorithm/scirust-hub/pull/83",
+      "base": "main",
+      "base_sha": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
+      "head_sha": "05777d2ef03e436eab887706b2a99164aee92c35",
+      "merge_sha": "c53ecd84af0a8bf17b595296004539c0252582d2",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-13",
+        "MEM-14"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T12:21:54+02:00",
+      "merge_method": "squash",
+      "checks": [
+        {
+          "id": 36848432568,
+          "name": "CI 264",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "05777d2ef03e436eab887706b2a99164aee92c35",
+          "url": "https://github.com/Memorithm/scirust-hub/actions/runs/36848432568",
+          "job": 110324097099
+        }
+      ],
+      "previous_attempts": [
+        {
+          "run": 36848301659,
+          "job": 110323664043,
+          "status": "format_failed_corrected",
+          "reason": "rustfmt differences; later gates skipped"
+        }
+      ],
+      "validated_tree": "2937ae142649a9927ebffef7da40ce318bd74694",
+      "exact_tree_match": true,
+      "target_head": "c53ecd84af0a8bf17b595296004539c0252582d2",
+      "target_checks": [
+        {
+          "id": 36848673898,
+          "name": "CI 265",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "c53ecd84af0a8bf17b595296004539c0252582d2",
+          "url": "https://github.com/Memorithm/scirust-hub/actions/runs/36848673898",
+          "job": 110324875593
+        }
+      ],
+      "target_validation": "format, ML adapter contracts, catalog integrity, strict Clippy, workspace build/tests and rustdoc passed on the exact signed target commit"
     }
   ],
   "repository_observations": [
@@ -2156,8 +2212,8 @@
       "repository": "Memorithm/scirust-hub",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
-      "tree_sha": "65365ad22bc5570f00e340907f68ca25cb0bd624",
+      "current_head": "c53ecd84af0a8bf17b595296004539c0252582d2",
+      "tree_sha": "2937ae142649a9927ebffef7da40ce318bd74694",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -3546,16 +3602,32 @@
         "Réutiliser un superviseur commun avec nettoyage groupe avant drainage, deadline sur collecte, confirmation des terminaisons et événements incomplets. Tester descendant conservant pipes après exit parent.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
+      "status": "resolved",
+      "current_head": "c53ecd84af0a8bf17b595296004539c0252582d2",
       "default_branch": "main",
       "audit_head": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "MEM-13 merged as c53ecd84af0a8bf17b595296004539c0252582d2 with exact tested tree 2937ae142649a9927ebffef7da40ce318bd74694. Exact PR CI 264 and target CI 265 both passed every configured gate.",
+      "policy_review": "AGENTS.md, README.md, CONTRIBUTING.md, SECURITY.md, Cargo manifests, AX runtime bootstrap/roadmap, ecosystem roadmap 7a9d16ea20b6325d15b80530e768ece093cfba05075710cbab194996b4e391a9 and ML overlay 5205d19a4cb2317d081b32341e30fb00e33705ce3f4733b496e095f58131493b read; repository has no LICENSE file and README records licensing as open",
+      "prs": [
+        {
+          "number": 83,
+          "url": "https://github.com/Memorithm/scirust-hub/pull/83",
+          "base": "main",
+          "base_sha": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
+          "head_sha": "05777d2ef03e436eab887706b2a99164aee92c35",
+          "status": "merged_target_validated",
+          "merge_sha": "c53ecd84af0a8bf17b595296004539c0252582d2"
+        }
+      ],
+      "resolution_evidence": [
+        "Shared hub-executor execution_guard cleans and confirms the ordinary Unix process group before bounded capture collection after parent exit.",
+        "Stdout and stderr use one independent one-second drain deadline; read failure, disconnect or expiry becomes an explicit capture-incomplete backend error.",
+        "Real-process descendant and bounded incomplete-drain regressions passed in exact-head CI.",
+        "Exact PR head 05777d2ef03e436eab887706b2a99164aee92c35 passed CI 264 job 110324097099; target c53ecd84af0a8bf17b595296004539c0252582d2 passed CI 265 job 110324875593.",
+        "Proof: docs/audit-global/proofs/scirust-hub-MEM-13-MEM-14.json"
+      ],
+      "last_observed_at": "2026-10-01T12:23:00+02:00",
+      "next_action": "Closed and target-qualified; propagate the shared execution_guard contract to remaining consumers only through their own versioned integrations and tests."
     },
     {
       "id": "MEM-14",
@@ -3571,16 +3643,31 @@
         "Enregistrer erreur OS, identifiant binaire et noms de variables; expurger argv et ne jamais rendre Command Debug dans une erreur persistée. Tester secret-canary env/argv sur échec spawn.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
+      "status": "resolved",
+      "current_head": "c53ecd84af0a8bf17b595296004539c0252582d2",
       "default_branch": "main",
       "audit_head": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "MEM-14 merged as c53ecd84af0a8bf17b595296004539c0252582d2 with exact tested tree 2937ae142649a9927ebffef7da40ce318bd74694. Exact PR CI 264 and target CI 265 both passed every configured gate.",
+      "policy_review": "AGENTS.md, README.md, CONTRIBUTING.md, SECURITY.md, Cargo manifests, AX runtime bootstrap/roadmap, ecosystem roadmap 7a9d16ea20b6325d15b80530e768ece093cfba05075710cbab194996b4e391a9 and ML overlay 5205d19a4cb2317d081b32341e30fb00e33705ce3f4733b496e095f58131493b read; repository has no LICENSE file and README records licensing as open",
+      "prs": [
+        {
+          "number": 83,
+          "url": "https://github.com/Memorithm/scirust-hub/pull/83",
+          "base": "main",
+          "base_sha": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
+          "head_sha": "05777d2ef03e436eab887706b2a99164aee92c35",
+          "status": "merged_target_validated",
+          "merge_sha": "c53ecd84af0a8bf17b595296004539c0252582d2"
+        }
+      ],
+      "resolution_evidence": [
+        "Spawn errors persist the executable basename, environment variable names and OS error only; argv, environment values, full path and Debug(Command) are absent.",
+        "The spawn-failure regression uses argument and environment-value secret canaries and verifies they are not serialized.",
+        "Exact PR head 05777d2ef03e436eab887706b2a99164aee92c35 passed CI 264 job 110324097099; target c53ecd84af0a8bf17b595296004539c0252582d2 passed CI 265 job 110324875593.",
+        "Proof: docs/audit-global/proofs/scirust-hub-MEM-13-MEM-14.json"
+      ],
+      "last_observed_at": "2026-10-01T12:23:00+02:00",
+      "next_action": "Closed and target-qualified; retain the no-secret serialization invariant in future executor backends."
     },
     {
       "id": "MEM-15",
@@ -5372,14 +5459,14 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261001T1011",
-    "acquired_at": "2026-10-01T08:12:08.425Z",
-    "expires_at": "2026-10-01T10:00:00Z",
+    "owner": "codex-audit-20261001T1210",
+    "acquired_at": "2026-10-01T10:10:30.000Z",
+    "expires_at": "2026-10-01T12:00:00.000Z",
     "released_at": null,
     "status": "active",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "next_action": "Reconcile scirust CI 4654 and close RT-SCI-02 only if the exact target run is green; then validate and remediate the shared execution_guard-related findings without duplicating capabilities."
+    "next_action": "Continue priority-3 execution_guard consumer remediation from the qualified scirust-hub owner without duplicating supervision logic."
   },
   "capabilities": [
     {
@@ -5397,7 +5484,10 @@
         "orchestrator",
         "PAPERS-AGENT"
       ],
-      "status": "inventory_required"
+      "status": "owner_implemented_and_qualified_for_process_group_cleanup_bounded_capture_and_sanitized_spawn_errors",
+      "owner": "Memorithm/scirust-hub/crates/hub-executor",
+      "proof": "docs/audit-global/proofs/scirust-hub-MEM-13-MEM-14.json",
+      "adoption": "remaining consumers require their own versioned contract, exact-head tests and target validation; no automatic portability claim"
     },
     {
       "name": "numeric_invariants",

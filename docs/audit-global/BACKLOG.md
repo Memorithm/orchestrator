@@ -1,11 +1,11 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Lot 1 : 6/50 ; cumul fusionné : 6 ; clos : 7 ; restants : 94.
+101 IDs ; 12 positifs conservés. Lot 1 : 15/50 ; cumul fusionné : 15 ; clos : 13 ; restants : 88.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
 | RT-SCI-01 | Memorithm/scirust | 9 | à faire |  |
-| RT-SCI-02 | Memorithm/scirust | 1 | à faire |  |
+| RT-SCI-02 | Memorithm/scirust | 1 | résolu |  |
 | RT-SCI-03 | Memorithm/scirust | 9 | à faire |  |
 | RT-TQ-01 | Memorithm/TurboQuant | 1 | résolu |  |
 | RT-TQ-02 | Memorithm/TurboQuant | 9 | à faire | RT-TQ-01 |
@@ -23,7 +23,7 @@
 | RT-NNIS-02 | Memorithm/NNIS | 2 | à faire |  |
 | RT-NNIS-03 | Memorithm/NNIS | 9 | à faire |  |
 | RT-NNIS-05 | Memorithm/NNIS | 9 | à faire |  |
-| RT-NNIS-06 | Memorithm/NNIS | 1 | à faire |  |
+| RT-NNIS-06 | Memorithm/NNIS | 1 | résolu |  |
 | MEM-01 | Memorithm/CCOS-Core | 9 | à faire |  |
 | MEM-02 | Memorithm/CCOS-Core | 6 | à faire |  |
 | MEM-03 | Memorithm/CCOS-Core | 1 | à faire |  |
@@ -33,11 +33,11 @@
 | MEM-07 | Memorithm/CCOS-Enterprise | 9 | à faire |  |
 | MEM-08 | Memorithm/CCOS-Enterprise | 9 | à faire | MEM-02, MEM-03, MEM-04 |
 | MEM-09 | Memorithm/CCOS-Enterprise | 9 | à faire |  |
-| MEM-10 | Memorithm/SciCapsule | 3 | à faire |  |
+| MEM-10 | Memorithm/SciCapsule | 3 | résolu |  |
 | MEM-11 | Memorithm/SciCapsule | 8 | à faire |  |
 | MEM-12 | Memorithm/SciCapsule | 9 | à faire |  |
-| MEM-13 | Memorithm/scirust-hub | 3 | à faire |  |
-| MEM-14 | Memorithm/scirust-hub | 3 | à faire |  |
+| MEM-13 | Memorithm/scirust-hub | 3 | résolu |  |
+| MEM-14 | Memorithm/scirust-hub | 3 | résolu |  |
 | MEM-15 | Memorithm/scirust-hub | 9 | à faire |  |
 | MEM-16 | Memorithm/SciRust-Verify | 3 | à faire |  |
 | MEM-17 | Memorithm/SciRust-Verify | 2 | à faire |  |

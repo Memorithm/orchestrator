@@ -6891,6 +6891,85 @@
           "next_action": "Lire les bootstraps runtime complets puis corriger le superviseur propriétaire sans revendiquer de sandbox."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-01T12:23:00+02:00",
+      "hour": "2026-10-01T12:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 15,
+        "target": 50
+      },
+      "total_merged": 15,
+      "closed": 13,
+      "remaining": 88,
+      "actions": [
+        "scirust-hub #83 a créé le propriétaire partagé hub-executor/execution_guard: nettoyage et confirmation du groupe après sortie parent, puis délai commun indépendant d'une seconde pour stdout/stderr.",
+        "Les erreurs de capture incomplète échouent explicitement; l'erreur de spawn ne conserve plus que basename binaire, noms de variables et erreur OS, sans argv, valeurs d'environnement, chemin complet ni Debug(Command).",
+        "Le premier HEAD a échoué uniquement rustfmt et ses gates suivants ont été ignorés; le format exact a été appliqué avant toute qualification.",
+        "Le HEAD final 05777d2ef03e436eab887706b2a99164aee92c35 a réussi CI 264; PR #83 fusionnée par squash avec expected_head_sha en c53ecd84af0a8bf17b595296004539c0252582d2.",
+        "CI cible 265 a réussi le même périmètre sur le commit signé intégré et l'arbre testé/intégré 2937ae142649a9927ebffef7da40ce318bd74694 est identique."
+      ],
+      "executed_checks": [
+        "Contrôle disponible localement: git diff --check réussi; cargo absent de l'environnement local, donc aucune validation Rust locale revendiquée.",
+        "CI PR 264 / job 110324097099: format, contrats adaptateurs ML, intégrité catalogue, Clippy strict, build workspace, tests workspace et rustdoc réussis.",
+        "Régressions incluses et exécutées par la suite workspace: parent_exit_cleans_descendants_before_bounded_pipe_drain, capture_wait_is_bounded_and_reports_incomplete_stream et canaris secrets du start_error.",
+        "CI push cible 265 / job 110324875593: mêmes sept gates réussis sur c53ecd84af0a8bf17b595296004539c0252582d2."
+      ],
+      "waiting": [
+        "Les consommateurs restants de execution_guard (SciRust-Verify, ProofLab, Forge, RSI, orchestrator, PAPERS-AGENT) restent ouverts jusqu'à contrats/versionnement et validations propres; aucune portabilité automatique n'est revendiquée.",
+        "La branche main de scirust-hub n'est pas protégée et ne déclare aucun check requis; la fusion a néanmoins exigé la CI complète exacte sans réduire les gates."
+      ],
+      "work_items": [
+        {
+          "id": "MEM-13",
+          "repository": "Memorithm/scirust-hub",
+          "status": "resolved",
+          "actions": "Superviseur partagé, nettoyage/confirmation du groupe avant drains et deadline de collecte indépendante avec erreur capture-incomplete.",
+          "results": "PR #83 fusionnée; CI exacte PR et cible vertes; arbre intégré identique à l'arbre testé.",
+          "pr": [
+            {
+              "number": 83,
+              "url": "https://github.com/Memorithm/scirust-hub/pull/83",
+              "head_sha": "05777d2ef03e436eab887706b2a99164aee92c35",
+              "merge_sha": "c53ecd84af0a8bf17b595296004539c0252582d2"
+            }
+          ],
+          "head": "c53ecd84af0a8bf17b595296004539c0252582d2",
+          "checks": [
+            36848432568,
+            110324097099,
+            36848673898,
+            110324875593
+          ],
+          "dependencies": [],
+          "next_action": "Clos; propager le contrat propriétaire seulement via les intégrations et tests versionnés de chaque consommateur."
+        },
+        {
+          "id": "MEM-14",
+          "repository": "Memorithm/scirust-hub",
+          "status": "resolved",
+          "actions": "Sérialisation spawn-error assainie et régression canaris argv/env ajoutée.",
+          "results": "Aucun argv, valeur d'environnement, chemin complet ou Debug(Command) dans le start_error; CI exacte PR et cible vertes.",
+          "pr": [
+            {
+              "number": 83,
+              "url": "https://github.com/Memorithm/scirust-hub/pull/83",
+              "head_sha": "05777d2ef03e436eab887706b2a99164aee92c35",
+              "merge_sha": "c53ecd84af0a8bf17b595296004539c0252582d2"
+            }
+          ],
+          "head": "c53ecd84af0a8bf17b595296004539c0252582d2",
+          "checks": [
+            36848432568,
+            110324097099,
+            36848673898,
+            110324875593
+          ],
+          "dependencies": [],
+          "next_action": "Clos; conserver l'invariant de non-sérialisation des secrets dans les futurs backends."
+        }
+      ]
     }
   ]
 }
