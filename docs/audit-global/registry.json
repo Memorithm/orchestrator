@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T18:22:29+02:00",
+  "updated_at": "2026-10-01T19:53:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 18,
     "remaining": 83,
-    "merged_prs": 21
+    "merged_prs": 22
   },
   "batches": [
     {
@@ -141,6 +141,11 @@
           "repository": "Memorithm/NoiseLab",
           "number": 73,
           "merge_sha": "01ca101bfe370c35f97b9eab4a8e650b68a15eb5"
+        },
+        {
+          "repository": "Memorithm/NoiseLab",
+          "number": 74,
+          "merge_sha": "d5d831a446cd93b45fc916455293f6af7cb5b680"
         }
       ]
     }
@@ -2329,6 +2334,65 @@
         }
       ],
       "target_validation": "the signed squash commit has the exact tested tree; CI and research-smoke workflows both passed again on the integrated main SHA"
+    },
+    {
+      "repository": "Memorithm/NoiseLab",
+      "number": 74,
+      "url": "https://github.com/Memorithm/NoiseLab/pull/74",
+      "base": "main",
+      "base_sha": "01ca101bfe370c35f97b9eab4a8e650b68a15eb5",
+      "head_sha": "f38c39e25a3461445991a00bae38f20d587b749a",
+      "merge_sha": "d5d831a446cd93b45fc916455293f6af7cb5b680",
+      "status": "merged_awaiting_target_validation",
+      "ids": [
+        "B-NL-01"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-01T17:49:31Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "checks": [
+        {
+          "id": 36901966517,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "f38c39e25a3461445991a00bae38f20d587b749a",
+          "url": "https://github.com/Memorithm/NoiseLab/actions/runs/36901966517",
+          "jobs": [
+            110503062571
+          ]
+        },
+        {
+          "id": 36901966436,
+          "name": "Research report smoke contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "f38c39e25a3461445991a00bae38f20d587b749a",
+          "url": "https://github.com/Memorithm/NoiseLab/actions/runs/36901966436",
+          "jobs": [
+            110503197321
+          ]
+        }
+      ],
+      "prior_attempts": [
+        {
+          "head_sha": "f3cf3447414631418e38607682d9b0e3e824ab54",
+          "run_id": 36901847919,
+          "job_id": 110502656801,
+          "result": "format_failed_later_gates_skipped_not_counted"
+        }
+      ],
+      "review": {
+        "head": "f38c39e25a3461445991a00bae38f20d587b749a",
+        "result": "exact_diff_inspected_no_open_threads",
+        "changed_files": 1
+      },
+      "candidate_source_blob": "d4b4af45d2f0792da336f63669a9ec5ce6da9fa3",
+      "target_head": "d5d831a446cd93b45fc916455293f6af7cb5b680",
+      "target_source_blob": "d4b4af45d2f0792da336f63669a9ec5ce6da9fa3",
+      "exact_changed_blob_match": true,
+      "target_checks": [],
+      "target_validation": "pending exact push workflow observation; main equals merge SHA but no target workflow identity/conclusion was observable through the available connector"
     }
   ],
   "repository_observations": [
@@ -2474,11 +2538,12 @@
       "repository": "Memorithm/NoiseLab",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "01ca101bfe370c35f97b9eab4a8e650b68a15eb5",
-      "tree_sha": "2aca1403897912c300bace95ef4c590f1d89fe25",
+      "current_head": "d5d831a446cd93b45fc916455293f6af7cb5b680",
+      "tree_sha": null,
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": "exact tree SHA not exposed by the available connector; main identity and changed source blob were verified",
+      "observed_at": "2026-10-01T19:53:00+02:00"
     },
     {
       "repository": "Memorithm/PAPERS-AGENT",
@@ -5501,16 +5566,27 @@
         "Rendre les paramètres privés ou revalider à chaque frontière publique; vérifier les sorties et retourner une erreur typée pour dépassement numérique. Ajouter des regressions contournant volontairement le constructeur.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "8b1ba211cf655dde2715779a5188943697a015fd",
+      "status": "waiting_ci",
+      "current_head": "d5d831a446cd93b45fc916455293f6af7cb5b680",
       "default_branch": "main",
       "audit_head": "8b1ba211cf655dde2715779a5188943697a015fd",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "finding reproduced on exact main 01ca101bfe370c35f97b9eab4a8e650b68a15eb5; PR 74 merged as d5d831a446cd93b45fc916455293f6af7cb5b680; main and the integrated changed blob match, but exact target push checks remain to be observed",
+      "policy_review": "root AGENTS.md, LICENSE, LICENSE.md and mandatory .agent/NOISELAB_ECOSYSTEM_ROADMAP.yaml from origin/agent/ecosystem-roadmap read before modification",
+      "prs": [
+        {
+          "number": 74,
+          "url": "https://github.com/Memorithm/NoiseLab/pull/74",
+          "head_sha": "f38c39e25a3461445991a00bae38f20d587b749a",
+          "merge_sha": "d5d831a446cd93b45fc916455293f6af7cb5b680"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/NoiseLab-74-B-NL-01.json",
+        "candidate CI 36901966517 and Research report smoke 36901966436 succeeded on f38c39e25a3461445991a00bae38f20d587b749a",
+        "main points to d5d831a446cd93b45fc916455293f6af7cb5b680 and changed source blob d4b4af45d2f0792da336f63669a9ec5ce6da9fa3 equals the candidate"
+      ],
+      "last_observed_at": "2026-10-01T19:53:00+02:00",
+      "next_action": "Observe and record exact push validations on d5d831a446cd93b45fc916455293f6af7cb5b680; close only after success."
     },
     {
       "id": "B-NL-02",
@@ -5987,14 +6063,14 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261001T1807",
-    "acquired_at": "2026-10-01T16:09:29.000Z",
-    "expires_at": "2026-10-01T18:00:00.000Z",
-    "released_at": "2026-10-01T16:22:29.000Z",
+    "owner": "codex-audit-20261001T1912",
+    "acquired_at": "2026-10-01T17:13:30.000Z",
+    "expires_at": "2026-10-01T18:30:00.000Z",
+    "released_at": "2026-10-01T17:54:30.000Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "next_action": "Reacquire by blob-SHA CAS, reconcile issue #81 and registry, then continue the next independent priority item."
+    "next_action": "Reacquire by blob-SHA CAS, observe exact target push checks for NoiseLab PR 74 merge d5d831a446cd93b45fc916455293f6af7cb5b680, and close B-NL-01 only if they succeeded."
   },
   "capabilities": [
     {
