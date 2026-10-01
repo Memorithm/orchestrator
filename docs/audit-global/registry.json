@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T07:43:47.179+02:00",
+  "updated_at": "2026-10-01T08:23:53+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 8,
     "remaining": 93,
-    "merged_prs": 9
+    "merged_prs": 10
   },
   "batches": [
     {
@@ -81,6 +81,11 @@
           "repository": "Memorithm/SciRust-Verify",
           "number": 36,
           "merge_sha": "229066c0465d70269f715a62f66e9d8c9af89f34"
+        },
+        {
+          "repository": "Memorithm/scirust",
+          "number": 1519,
+          "merge_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce"
         }
       ]
     }
@@ -1429,7 +1434,7 @@
       "base": "master",
       "base_sha": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
       "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
-      "status": "open_waiting_ci",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "RT-SCI-02"
       ],
@@ -1494,8 +1499,8 @@
         {
           "id": 36820189063,
           "name": "CI",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
           "url": "https://github.com/Memorithm/scirust/actions/runs/36820189063"
         }
@@ -1504,7 +1509,47 @@
         "head": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
         "result": "no_major_issues_after_overlap_fix",
         "completed_at": "2026-10-01T05:37:40Z"
-      }
+      },
+      "merge_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+      "merged_at": "2026-10-01T06:23:03Z",
+      "merge_method": "squash",
+      "tested_merge_sha": "6e9c7e3589bcbd1fc822afc997594009c46ae9ab",
+      "validated_tree": "d9cebe5bf42da160eec962126c63d5f875f8be40",
+      "exact_tree_match": true,
+      "check_summary": {
+        "workflow_runs": 8,
+        "check_runs": 35,
+        "ci_jobs": 28,
+        "all_success": true,
+        "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e"
+      },
+      "target_head": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+      "target_checks": [
+        {
+          "id": 36824485281,
+          "name": "CI",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485281"
+        },
+        {
+          "id": 36824485282,
+          "name": "FLAT Elastic contextual advisory",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485282"
+        },
+        {
+          "id": 36824485216,
+          "name": "API function lexicon",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/36824485216"
+        }
+      ]
     }
   ],
   "repository_observations": [
@@ -1882,11 +1927,11 @@
         "Lire longueur/header en streaming avec quota total configurable et validation taille attendue avant allocation; qualifier import de fichier énorme/rejet.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
-      "current_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+      "status": "waiting_target_ci",
+      "current_head": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
       "default_branch": "master",
       "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
-      "head_reconciliation": "unchanged_since_audit; remediation PR head 082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
+      "head_reconciliation": "merged on master 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce; tree d9cebe5bf42da160eec962126c63d5f875f8be40 exactly matches tested merge preview",
       "policy_review": "AGENTS.md, CLAUDE.md, CONTRIBUTING.md, PolyForm Noncommercial 1.0.0, ecosystem roadmap 31b1e5668cec842fbba45af5a30a14e4c7ead2ad and ML overlay 041bfe655055e7aa90cda847909cae3746583953 read",
       "prs": [
         {
@@ -1895,7 +1940,8 @@
           "base": "master",
           "base_sha": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
           "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
-          "status": "draft_waiting_ci"
+          "status": "merged_waiting_target_ci",
+          "merge_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce"
         }
       ],
       "resolution_evidence": [
@@ -1903,10 +1949,11 @@
         "Sorted tensor spans must cover the payload contiguously; overlaps and gaps fail before payload or decoded tensor allocation.",
         "Regression tests cover oversized sparse files, declared/file-size mismatch, custom header quotas, and overlapping tensor spans.",
         "Exact-head review for 082bdc85c7fa5f48526b66ef2e5202f61ebe439e completed with no major issues after its P1 overlap finding was fixed.",
-        "Exact-head fast checks green: rustfmt diagnostic 190, API function lexicon 447, Core API documentation 71, Tensor Parity 388, SOUP 551, FLAT 639, Workspace Rustdoc 1117. Full CI 4653 remains in progress."
+        "Exact-head validation complete: 8 workflows and 35 check runs successful; CI 4653 completed 28/28 jobs, including MSRV, Clippy, format, tests, platforms, coverage, Miri shards, fuzz/security and documentation.",
+        "Squash 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce is master and has tree d9cebe5bf42da160eec962126c63d5f875f8be40, exactly matching tested merge preview 6e9c7e3589bcbd1fc822afc997594009c46ae9ab."
       ],
-      "last_observed_at": "2026-10-01T07:43:47.179+02:00",
-      "next_action": "Wait for full CI run 4653 on exact head 082bdc85c7fa5f48526b66ef2e5202f61ebe439e; if all jobs pass, reread roadmap/ML overlay, revalidate base/head/diff/threads, mark ready and squash-merge with expected_head_sha."
+      "last_observed_at": "2026-10-01T08:23:53+02:00",
+      "next_action": "Wait for all push workflows on master 76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce; close only if every target check succeeds."
     },
     {
       "id": "RT-SCI-03",
