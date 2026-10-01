@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "id": "RT-SCI-02",
+  "repository": "Memorithm/scirust",
+  "pr": "https://github.com/Memorithm/scirust/pull/1519",
+  "base_branch": "master",
+  "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+  "head": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
+  "merged_commit": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+  "tree": "d9cebe5bf42da160eec962126c63d5f875f8be40",
+  "exact_tree_match": true,
+  "source_file": {
+    "path": "scirust-core/src/io/safetensors.rs",
+    "blob": "cf82789019e04c8cb39b4e4b3e3afe7f80b8f467"
+  },
+  "change_summary": [
+    "file-backed safetensors loaders read only the 8-byte length prefix and a bounded header before considering payload allocation",
+    "caller-configurable header and total byte quotas are enforced against the opened descriptor's exact declared size",
+    "payload and decoded tensor allocations use fallible reservations and exact bounded reads",
+    "file growth during the operation is detected",
+    "sorted tensor data_offsets must form one contiguous, non-overlapping coverage of the payload before allocation"
+  ],
+  "regressions": [
+    "oversized sparse file rejected before payload allocation",
+    "declared size inconsistent with descriptor size rejected",
+    "custom header quota enforced",
+    "overlapping tensor spans rejected"
+  ],
+  "review": {
+    "initial_finding": {
+      "priority": "P1",
+      "finding": "overlapping data_offsets could amplify decoded allocations"
+    },
+    "resolution": "require sorted contiguous non-overlapping coverage",
+    "exact_head_result": "completed with no further major issue",
+    "completed_at": "2026-10-01T05:37:40Z"
+  },
+  "premerge_validation": {
+    "head_sha": "082bdc85c7fa5f48526b66ef2e5202f61ebe439e",
+    "workflow_runs": 8,
+    "check_runs": 35,
+    "ci_run": 36820189063,
+    "ci_jobs": 28,
+    "conclusion": "success"
+  },
+  "postmerge_validation": {
+    "head_sha": "76c57b2ffbaf2d24fdb4169aa1f0cf0f1076fcce",
+    "workflows": [
+      {
+        "id": 36824485216,
+        "name": "API function lexicon",
+        "conclusion": "success"
+      },
+      {
+        "id": 36824485281,
+        "name": "CI 4654",
+        "conclusion": "success",
+        "jobs": 28
+      },
+      {
+        "id": 36824485267,
+        "name": "Core API documentation",
+        "conclusion": "success"
+      },
+      {
+        "id": 36824485289,
+        "name": "SOUP symbolic reward",
+        "conclusion": "success"
+      },
+      {
+        "id": 36824485229,
+        "name": "Workspace Rustdoc",
+        "conclusion": "success"
+      },
+      {
+        "id": 36824485282,
+        "name": "FLAT Elastic contextual advisory",
+        "conclusion": "success"
+      },
+      {
+        "id": 36824485219,
+        "name": "Tensor Parity Validation",
+        "conclusion": "success"
+      }
+    ],
+    "last_job": {
+      "id": 110247001369,
+      "name": "Miri shard (numeric-a)",
+      "conclusion": "success",
+      "completed_at": "2026-10-01T07:11:09Z"
+    }
+  },
+  "current_head_reconciliation": {
+    "observed_head": "09cc3954f128a41ba105b36114a8df4c0645812e",
+    "relation_to_merge": "ahead by one commit",
+    "comparison_status": "ahead",
+    "changed_paths_since_merge": [
+      "scirust-sciagent/AGENTS.md",
+      "scirust-sciagent/CORPUS_SPECIALIZATION.md",
+      "scirust-sciagent/src/bin/sciagent-corpus-check.rs",
+      "scirust-sciagent/src/train/corpus_manifest.rs",
+      "scirust-sciagent/src/train/mod.rs",
+      "scirust-sciagent/tests/corpus_manifest.rs"
+    ],
+    "safetensors_file_unchanged": true,
+    "safetensors_blob": "cf82789019e04c8cb39b4e4b3e3afe7f80b8f467",
+    "note": "The newer SciAgent commit does not touch the remediated loader. Its own push CI was still in progress at observation time and is not claimed as RT-SCI-02 validation."
+  },
+  "acceptance": [
+    "all file-backed loaders apply header and total quotas before payload allocation",
+    "exact declared length and tensor coverage are validated before allocation",
+    "the exact integrated tree passed all target workflows, including 28/28 CI jobs and both Miri numeric shards",
+    "the current repository head preserves the exact remediated safetensors blob"
+  ],
+  "closed_at": "2026-10-01T10:15:00+02:00",
+  "limitations": [
+    "This qualification covers file-backed safetensors import behavior and does not claim memory safety for unrelated loaders.",
+    "CUDA jobs in CI are compile/lint fallback checks unless a hardware runtime is explicitly present; no hardware qualification is inferred."
+  ]
+}
