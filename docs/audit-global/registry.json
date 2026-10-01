@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-01T12:23:00+02:00",
+  "updated_at": "2026-10-01T12:28:36+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -5462,11 +5462,11 @@
     "owner": "codex-audit-20261001T1210",
     "acquired_at": "2026-10-01T10:10:30.000Z",
     "expires_at": "2026-10-01T12:00:00.000Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-01T10:28:36.000Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "next_action": "Continue priority-3 execution_guard consumer remediation from the qualified scirust-hub owner without duplicating supervision logic."
+    "next_action": "Reacquire with blob-SHA CAS, reconcile issue #81 and registry, then continue priority-3 execution_guard consumer remediation from the qualified scirust-hub owner."
   },
   "capabilities": [
     {
