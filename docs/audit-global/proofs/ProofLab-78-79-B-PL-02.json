@@ -1,6 +1,8 @@
 {
   "schema": 1,
-  "ids": ["B-PL-02"],
+  "ids": [
+    "B-PL-02"
+  ],
   "repository": "Memorithm/ProofLab",
   "base_branch": "main",
   "pr": {
@@ -22,7 +24,10 @@
   "premerge_validation": {
     "head_sha": "36dd7b225ad76108cecd1c12e6189187ce97c791",
     "workflow_run": 37046885846,
-    "jobs": [110970416150, 110970416536],
+    "jobs": [
+      110970416150,
+      110970416536
+    ],
     "conclusion": "success",
     "review": "Exact diff inspected; GitHub reviews and review_threads were empty. This is not an independent third-party approval.",
     "successful_steps": [
@@ -47,7 +52,10 @@
     "workflow_run": 37047757327,
     "event": "push",
     "branch": "main",
-    "jobs": [110973289241, 110973288884],
+    "jobs": [
+      110973289241,
+      110973288884
+    ],
     "conclusion": "success",
     "successful_steps": [
       "cargo +1.98.1 fmt --all -- --check",
@@ -69,7 +77,10 @@
     "premerge_workflow_run": 36942854570,
     "premerge_conclusion": "success",
     "postmerge_workflow_run": 36948913856,
-    "postmerge_jobs": [110657228560, 110657228738],
+    "postmerge_jobs": [
+      110657228560,
+      110657228738
+    ],
     "postmerge_conclusion": "success",
     "note": "Already merged before this session; absent from the last 26-PR registry snapshot. Reconciliation is not a new merge performed in this session."
   },
@@ -91,19 +102,27 @@
     "no_gate_reduced": true,
     "no_holdout_or_license_changed": true,
     "excluded_repositories_modified": [],
-    "lease_owner": "chatgpt-audit-global-20261002T1804"
+    "lease_owner": "chatgpt-audit-global-20261002T1804",
+    "registry_reconciled_by_lease_owner": "codex-audit-20261002T2112"
   },
   "registry_reconciliation": {
     "path": "docs/audit-global/registry.json",
     "observed_blob_sha": "056c6bb86065ad97fe70b6080eab705993084571",
     "observed_merged_count": 26,
-    "missing_unique_prs": ["Memorithm/ProofLab#78", "Memorithm/ProofLab#79"],
-    "finding_counts_unchanged": {"closed": 24, "remaining": 77},
-    "status": "pending_canonical_json_update",
+    "missing_unique_prs": [],
+    "finding_counts_unchanged": {
+      "closed": 24,
+      "remaining": 77
+    },
+    "status": "completed_canonical_json_update",
     "verified_unique_merged_total": 28,
     "new_merge_in_this_session": 1,
     "prior_merge_reconciled_in_this_session": 1,
-    "rule": "Re-read canonical registry, lease and exact GitHub states; append each missing unique PR at most once, recompute counts from unique validated entries and preserve all 101 finding records. This evidence file is not a replacement registry."
+    "rule": "Re-read canonical registry, lease and exact GitHub states; append each missing unique PR at most once, recompute counts from unique validated entries and preserve all 101 finding records. This evidence file is not a replacement registry.",
+    "completed_at": "2026-10-02T23:13:00+02:00",
+    "canonical_registry_blob": "dc8e92a2cfca7623650c5c370ab08e30163b1344",
+    "canonical_registry_commit": "c3c49bb1343f61aed166080ef807d40680e9844f",
+    "canonical_merged_count": 28
   },
   "local_note": "No local Rust/Lean execution claimed; terminal connector returned HTTP 404 and the scratch runtime had no Rust toolchain. Existing GitHub CI supplied the executable validation.",
   "observed_at": "2026-10-02T18:34:47+00:00"
