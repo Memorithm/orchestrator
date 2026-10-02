@@ -1,8 +1,8 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 26/50 ; cumul fusionné : 26 ; clos : 24 ; restants : 77.
+101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 28/50 ; cumul fusionné : 28 ; clos : 24 ; restants : 77.
 
-Observation réconciliée du 2 octobre 2026 à 20:34 Europe/Paris : **28/50 PR techniques fusionnées et validées**, **24/101 constats clos**, **77 restants**. La PR ProofLab #78 était déjà fusionnée sans être inscrite; #79 a été fusionnée pendant ce passage. **La mise à jour du registre JSON canonique reste à appliquer**, sans doublon et sans clôture de B-PL-02. Voir la [preuve exacte](proofs/ProofLab-78-79-B-PL-02.json) et le [journal du passage](journal/2026-10-02.md). Les commits de suivi ne comptent pas comme PR correctives.
+État réconcilié du 2 octobre 2026 à 23:13 Europe/Paris : **28/50 PR techniques fusionnées et validées**, **24/101 constats clos**, **77 restants**. ProofLab #78 et #79 sont désormais inscrites une seule fois dans le registre canonique; B-PL-02 reste en cours. Voir la [preuve exacte](proofs/ProofLab-78-79-B-PL-02.json) et le [journal du passage](journal/2026-10-02.md). Les commits de suivi ne comptent pas comme PR correctives.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
