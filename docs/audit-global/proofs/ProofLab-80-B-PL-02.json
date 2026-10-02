@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "ids": [
+    "B-PL-02"
+  ],
+  "repository": "Memorithm/ProofLab",
+  "base_branch": "main",
+  "pr": {
+    "number": 80,
+    "url": "https://github.com/Memorithm/ProofLab/pull/80",
+    "base_sha": "d8ecc59f367d50672eaf3eba7c04eb9386bc999d",
+    "head_sha": "99bd891cc3572558e77eca3e535599f289964abc",
+    "merge_sha": "60baeb53aa62a12ffbe801ce7c89ed7d253758cd",
+    "tree": "6dfa71ff50f2a4fddf264865942e16a76d05d414",
+    "merge_mode": "automatic_rebase_style_integration_observed_after_green_checks; no duplicate merge call",
+    "merged_at": "2026-10-02T22:25:41Z"
+  },
+  "change_summary": [
+    "Add a non-zero max_source_bytes budget (8 MiB default) to the isolated invocation contract v3 and reject oversized untrusted sources before allocation and again before process launch.",
+    "Bind max_lean_threads into the isolation contract and launch pinned Lean with an explicit single worker by default.",
+    "Resolve the pinned Lake binary before entering the network-disabled sandbox and qualify one accepted and one rejected theorem through the isolated Rust API.",
+    "Keep the trusted verify_file path unchanged and preserve the exact sealed source bytes passed to Bubblewrap."
+  ],
+  "premerge_validation": {
+    "head_sha": "99bd891cc3572558e77eca3e535599f289964abc",
+    "tree": "6dfa71ff50f2a4fddf264865942e16a76d05d414",
+    "workflow_run": 37071954879,
+    "jobs": [
+      111053206858,
+      111053207172
+    ],
+    "conclusion": "success",
+    "review": "Exact six-file diff inspected; one outdated thread about the actual Lake binary was resolved after elan which lake was implemented. No independent third-party approval is claimed.",
+    "successful_steps": [
+      "cargo +1.98.1 fmt --all -- --check",
+      "cargo +1.98.1 clippy --workspace --all-targets -- -D warnings",
+      "cargo +1.98.1 test --workspace",
+      "Real Bubblewrap/prlimit isolation E2E",
+      "Pinned Lean build and leanchecker --fresh ProofLab",
+      "Rust-to-Lean trust-boundary integration",
+      "Accepted and rejected pinned Lean through the isolated Rust API"
+    ]
+  },
+  "discarded_attempts": [
+    {
+      "run": 37068661188,
+      "head_sha": "4f6ac21c30a3668f5315a5a6c1598a9bee1602bd",
+      "reason": "Rust passed; final isolated Lean API gate failed with failed to create thread. This run is diagnostic only."
+    },
+    {
+      "run": 37071401096,
+      "head_sha": "ccccf736154b432689ce5042ec52fa59a4c911f1",
+      "reason": "Adding Lean -j 1 preserved all gates but the final real-Lean isolation test still failed to create a thread."
+    }
+  ],
+  "postmerge_validation": {
+    "head_sha": "60baeb53aa62a12ffbe801ce7c89ed7d253758cd",
+    "tree": "6dfa71ff50f2a4fddf264865942e16a76d05d414",
+    "same_tree_as_candidate": true,
+    "workflow_run": 37072434685,
+    "event": "push",
+    "branch": "main",
+    "jobs": [
+      111054748151,
+      111054748532
+    ],
+    "conclusion": "success",
+    "successful_steps": [
+      "Rust format, Clippy and workspace tests",
+      "Real Bubblewrap/prlimit isolation E2E",
+      "Pinned Lean dependency resolution and build",
+      "leanchecker --fresh ProofLab",
+      "Rust-to-Lean trust-boundary integration",
+      "Accepted and rejected pinned Lean through the isolated Rust API"
+    ]
+  },
+  "acceptance_met": [
+    "All untrusted source entrypoints enforce a pre-allocation input budget and recheck before isolated launch.",
+    "The isolated contract binds source bytes, maximum input size and Lean worker count; legacy v2 receipts fail closed.",
+    "A pinned real Lean toolchain is accepted/rejected through the isolated Rust API on the candidate and exact integrated main tree."
+  ],
+  "acceptance_pending": [
+    "Define and qualify aggregate host/cgroup CPU, memory and PID policy for hostile concurrent workloads; per-process prlimit is not evidence of aggregate host enforcement."
+  ],
+  "finding_status": "in_progress",
+  "governance": {
+    "observed_main_protected": false,
+    "rulesets": [],
+    "all_configured_checks_required_by_campaign": true,
+    "no_gate_reduced": true,
+    "no_holdout_or_license_changed": true,
+    "excluded_repositories_modified": [],
+    "lease_owner": "codex-audit-20261002T2211"
+  },
+  "registry_reconciliation": {
+    "path": "docs/audit-global/registry.json",
+    "observed_blob_sha": "dc8e92a2cfca7623650c5c370ab08e30163b1344",
+    "observed_merged_count": 28,
+    "verified_unique_merged_total": 29,
+    "new_merge_recorded": 1,
+    "finding_counts_unchanged": {
+      "closed": 24,
+      "remaining": 77
+    },
+    "rule": "Append each unique validated PR at most once and keep partial findings open."
+  },
+  "local_note": "Only git diff --check was executed locally; all Rust/Lean functional validation cited here ran in GitHub Actions on the exact candidate and integrated trees.",
+  "observed_at": "2026-10-03T00:32:00+02:00"
+}

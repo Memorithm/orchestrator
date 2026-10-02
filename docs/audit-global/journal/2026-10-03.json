@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-03",
+  "timezone": "Europe/Paris",
+  "entries": [
+    {
+      "observed_at": "2026-10-03T00:32:00+02:00",
+      "hour": "2026-10-03T00:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 29,
+        "target": 50
+      },
+      "total_merged": 29,
+      "closed": 24,
+      "remaining": 77,
+      "actions": [
+        "B-PL-02 revérifié sur ProofLab main d8ecc59f367d50672eaf3eba7c04eb9386bc999d; instructions et licence déjà relues pour le chantier.",
+        "Les échecs réels de création de thread ont conduit à lier max_lean_threads au contrat, puis à qualifier un profil explicite 8 GiB/1024 PIDs/1 worker sans modifier les défauts 2 GiB/128 PIDs/1 worker.",
+        "PR #80 validée au HEAD exact 99bd891cc3572558e77eca3e535599f289964abc puis intégrée automatiquement; aucune seconde fusion n'a été tentée.",
+        "La branche cible main 60baeb53aa62a12ffbe801ce7c89ed7d253758cd a repassé les jobs Rust et Lean complets sur l'arbre exact intégré."
+      ],
+      "executed_checks": [
+        "Local: git diff --check réussi; aucune exécution Rust/Lean locale revendiquée.",
+        "Run candidat 37071954879: Rust 111053206858 et Lean 111053207172 réussis.",
+        "Run cible push 37072434685: Rust 111054748151 et Lean 111054748532 réussis.",
+        "Arbre candidat et arbre intégré identiques: 6dfa71ff50f2a4fddf264865942e16a76d05d414.",
+        "Revues: diff exact inspecté; fil obsolète Lake résolu; aucune protection/ruleset observée, tous les checks configurés imposés par la campagne."
+      ],
+      "waiting": [
+        "B-PL-02 reste en cours: la politique agrégée hôte/cgroup n'est pas qualifiée et ne peut pas être déduite des plafonds prlimit par processus."
+      ],
+      "work_items": [
+        {
+          "id": "B-PL-02",
+          "repository": "Memorithm/ProofLab",
+          "status": "in_progress",
+          "actions": "Ingestion non fiable bornée avant allocation; contrat v3; worker Lean lié; vrai Lean accepté/rejeté via API isolée.",
+          "results": "PR #80 intégrée au SHA 60baeb53aa62a12ffbe801ce7c89ed7d253758cd; CI candidat et cible complètes vertes sur l'arbre exact.",
+          "pr": [
+            {
+              "number": 80,
+              "url": "https://github.com/Memorithm/ProofLab/pull/80",
+              "head_sha": "99bd891cc3572558e77eca3e535599f289964abc",
+              "merge_sha": "60baeb53aa62a12ffbe801ce7c89ed7d253758cd"
+            }
+          ],
+          "head": "60baeb53aa62a12ffbe801ce7c89ed7d253758cd",
+          "checks": [
+            37071954879,
+            37072434685
+          ],
+          "dependencies": [],
+          "next_action": "Qualifier une politique de budget agrégé hôte/cgroup pour charges hostiles, distincte des limites par processus."
+        }
+      ]
+    }
+  ]
+}
