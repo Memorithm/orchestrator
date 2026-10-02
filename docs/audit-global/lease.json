@@ -3,13 +3,19 @@
   "owner": "chatgpt-audit-global-20261002T1804",
   "acquired_at": "2026-10-02T18:07:16Z",
   "expires_at": "2026-10-02T19:42:00Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-02T18:40:50Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
   "acquisition_commit": "26c1a27474e2eca6dd3f1523efe157061950287e",
   "timestamp_correction": "acquired_at now uses the observed acquisition commit creation time, replacing the incorrectly entered 18:12 timestamp",
   "previous_owner": "codex-audit-20261002T0107",
   "previous_expiry": "2026-10-02T00:38:00.000Z",
-  "next_action": "Reconcile merged ProofLab PR78 and fix shared runtime-root admission and immutable staged Lean source under B-PL-02; require exact-head hosted CI."
+  "completed_action": "ProofLab #79 merged with expected_head_sha; candidate 36dd7b225ad76108cecd1c12e6189187ce97c791 and main d8ecc59f367d50672eaf3eba7c04eb9386bc999d both passed complete Rust/Lean CI (37046885846 and 37047757327), with identical tree. Previously merged #78 reconciled. Evidence, daily Markdown/JSON journal, backlog and issue81 comment5958959060 published. B-PL-02 remains in_progress.",
+  "evidence_path": "docs/audit-global/proofs/ProofLab-78-79-B-PL-02.json",
+  "verified_merged_prs": 28,
+  "canonical_registry_merged_prs": 26,
+  "closed_findings": 24,
+  "remaining_findings": 77,
+  "next_action": "Acquire lease, re-read the complete canonical registry and reconcile ProofLab #78/#79 exactly once using the published proof; current registry blob 056c6bb86065ad97fe70b6080eab705993084571 still reports 26, while verified total is 28/50. Preserve all 101 findings and do not count documentary commits. Then bound ProofLab source ingestion before allocation and qualify actual pinned Lean accepted/rejected through the existing isolated API. Do not recreate supervision/isolation already merged in #77/#78/#79. RSI COG-RSI-001 also remains statically present; no RSI edit or unsafe-pointer execution was performed."
 }
