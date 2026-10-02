@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-03T00:32:00+02:00",
+  "updated_at": "2026-10-03T00:34:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -6761,19 +6761,19 @@
     "owner": "codex-audit-20261002T2211",
     "acquired_at": "2026-10-02T22:12:22.272Z",
     "expires_at": "2026-10-02T23:42:22.272Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-02T22:34:00Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
     "previous_owner": "codex-audit-20261002T2112",
     "previous_expiry": "2026-10-02T22:42:15.667Z",
-    "completed_action": "Lease acquired to diagnose and complete ProofLab #80 without weakening CI.",
-    "evidence_path": "docs/audit-global/journal/2026-10-03.md",
-    "verified_merged_prs": 28,
-    "canonical_registry_merged_prs": 28,
+    "completed_action": "ProofLab #80 reconciled exactly once after candidate and post-merge target CI success; durable proof, 2026-10-03 journal and issue #81 update published.",
+    "evidence_path": "docs/audit-global/proofs/ProofLab-80-B-PL-02.json",
+    "verified_merged_prs": 29,
+    "canonical_registry_merged_prs": 29,
     "closed_findings": 24,
     "remaining_findings": 77,
-    "next_action": "Record ProofLab #80, publish the observed journal and issue update, then release this lease. B-PL-02 remains open for aggregate host/cgroup policy."
+    "next_action": "Continue B-PL-02 by defining and qualifying aggregate host/cgroup resource policy for hostile concurrent workloads; do not infer this from per-process prlimit."
   },
   "capabilities": [
     {
