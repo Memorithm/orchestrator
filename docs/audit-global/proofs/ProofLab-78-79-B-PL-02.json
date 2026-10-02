@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "ids": ["B-PL-02"],
+  "repository": "Memorithm/ProofLab",
+  "base_branch": "main",
+  "pr": {
+    "number": 79,
+    "url": "https://github.com/Memorithm/ProofLab/pull/79",
+    "base_sha": "b25b9d3acf50dff97db11a0d64f4c07cefc49f0b",
+    "head_sha": "36dd7b225ad76108cecd1c12e6189187ce97c791",
+    "merge_sha": "d8ecc59f367d50672eaf3eba7c04eb9386bc999d",
+    "tree": "2986b29c03ec66d44f320a5acba7d74754590c17",
+    "merge_mode": "squash with expected_head_sha",
+    "merged_at": "2026-10-02T18:29:13Z"
+  },
+  "change_summary": [
+    "Use shared canonical runtime-root validation in both invocation contract and direct command construction; reject filesystem root and aliases before executable resolution.",
+    "Reject a root Lake project and zero isolation budgets before launch.",
+    "Stage sealed proof-source bytes with --ro-bind-data so the sandbox destination cannot be overwritten, replaced or unlinked.",
+    "Bind isolation v2 and source=readonly_bind_data into job identity and explicitly reject legacy v1 replay without changing the supervised trusted contract."
+  ],
+  "premerge_validation": {
+    "head_sha": "36dd7b225ad76108cecd1c12e6189187ce97c791",
+    "workflow_run": 37046885846,
+    "jobs": [110970416150, 110970416536],
+    "conclusion": "success",
+    "review": "Exact diff inspected; GitHub reviews and review_threads were empty. This is not an independent third-party approval.",
+    "successful_steps": [
+      "cargo +1.98.1 fmt --all -- --check",
+      "cargo +1.98.1 clippy --workspace --all-targets -- -D warnings",
+      "cargo +1.98.1 test --workspace",
+      "Explicit real Bubblewrap/prlimit isolation E2E including overwrite, replacement, unlink and exact-byte preservation",
+      "Pinned Lean build, leanchecker --fresh ProofLab and Rust-to-Lean trust-boundary integration"
+    ]
+  },
+  "discarded_attempts": [
+    {
+      "run": 37046165089,
+      "head_sha": "a7126294e16cd9022b955d12b2dcb736dc627202",
+      "reason": "Existing lib.rs contract test still expected v1. The assertion was updated to v2 and legacy-replay rejection was added; no gate was removed."
+    }
+  ],
+  "postmerge_validation": {
+    "head_sha": "d8ecc59f367d50672eaf3eba7c04eb9386bc999d",
+    "tree": "2986b29c03ec66d44f320a5acba7d74754590c17",
+    "same_tree_as_candidate": true,
+    "workflow_run": 37047757327,
+    "event": "push",
+    "branch": "main",
+    "jobs": [110973289241, 110973288884],
+    "conclusion": "success",
+    "successful_steps": [
+      "cargo +1.98.1 fmt --all -- --check",
+      "cargo +1.98.1 clippy --workspace --all-targets -- -D warnings",
+      "cargo +1.98.1 test --workspace",
+      "Explicit real Bubblewrap/prlimit isolation E2E including overwrite, replacement, unlink and exact-byte preservation",
+      "Pinned Lean build, leanchecker --fresh ProofLab and Rust-to-Lean trust-boundary integration"
+    ]
+  },
+  "reconciled_predecessor": {
+    "number": 78,
+    "url": "https://github.com/Memorithm/ProofLab/pull/78",
+    "base_sha": "790f3013a808f800ea6984452f809f43971b6642",
+    "head_sha": "4d216665f36fc5d64503936d0fda6f2125afcbde",
+    "merge_sha": "b25b9d3acf50dff97db11a0d64f4c07cefc49f0b",
+    "tree": "4d653cc41546912da3695eda08625a11a10e0f86",
+    "same_tree_as_candidate": true,
+    "merged_at": "2026-10-02T01:01:27Z",
+    "premerge_workflow_run": 36942854570,
+    "premerge_conclusion": "success",
+    "postmerge_workflow_run": 36948913856,
+    "postmerge_jobs": [110657228560, 110657228738],
+    "postmerge_conclusion": "success",
+    "note": "Already merged before this session; absent from the last 26-PR registry snapshot. Reconciliation is not a new merge performed in this session."
+  },
+  "acceptance_met": [
+    "The direct untrusted-file command cannot admit / through a runtime root or the project root.",
+    "Actual Linux isolation test rejects overwrite, rename replacement and unlink of the exact staged proof source.",
+    "The trusted supervised invocation stays unchanged; v1 isolated receipts cannot silently replay as v2."
+  ],
+  "acceptance_pending": [
+    "Qualify real pinned Lean acceptance/rejection through the isolated Rust entrypoints, not only the shell OS-boundary fixture and separate trusted Lean integration.",
+    "Bound source ingestion before allocation: the current public paths still use fs::read before OS-isolated process execution.",
+    "Complete evidence for the required hostile-workload resource policy; per-process prlimit and namespace checks must not be described as proof of aggregate host cgroup resource enforcement."
+  ],
+  "finding_status": "in_progress",
+  "governance": {
+    "observed_main_protected": false,
+    "rulesets": [],
+    "all_configured_checks_required_by_campaign": true,
+    "no_gate_reduced": true,
+    "no_holdout_or_license_changed": true,
+    "excluded_repositories_modified": [],
+    "lease_owner": "chatgpt-audit-global-20261002T1804"
+  },
+  "registry_reconciliation": {
+    "path": "docs/audit-global/registry.json",
+    "observed_blob_sha": "056c6bb86065ad97fe70b6080eab705993084571",
+    "observed_merged_count": 26,
+    "missing_unique_prs": ["Memorithm/ProofLab#78", "Memorithm/ProofLab#79"],
+    "finding_counts_unchanged": {"closed": 24, "remaining": 77},
+    "status": "pending_canonical_json_update",
+    "verified_unique_merged_total": 28,
+    "new_merge_in_this_session": 1,
+    "prior_merge_reconciled_in_this_session": 1,
+    "rule": "Re-read canonical registry, lease and exact GitHub states; append each missing unique PR at most once, recompute counts from unique validated entries and preserve all 101 finding records. This evidence file is not a replacement registry."
+  },
+  "local_note": "No local Rust/Lean execution claimed; terminal connector returned HTTP 404 and the scratch runtime had no Rust toolchain. Existing GitHub CI supplied the executable validation.",
+  "observed_at": "2026-10-02T18:34:47+00:00"
+}
