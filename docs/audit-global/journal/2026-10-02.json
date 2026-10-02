@@ -325,6 +325,64 @@
           "next_action": "Borner l'ingestion avant allocation puis qualifier un vrai Lean épinglé accepté/refusé dans l'isolation existante."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-02T23:46:00+02:00",
+      "hour": "2026-10-02T23:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 28,
+        "target": 50
+      },
+      "total_merged": 28,
+      "closed": 24,
+      "remaining": 77,
+      "actions": [
+        "B-PL-02 revérifié sur ProofLab main d8ecc59f367d50672eaf3eba7c04eb9386bc999d; instructions et licence relues.",
+        "PR #80 ouverte: budget max_source_bytes 8 MiB, lecture bornée avant allocation pour toutes les entrées non fiables, second contrôle avant lancement et contrat d'isolation v3.",
+        "Qualification réelle Lean révisée pour résoudre le Lake épinglé hors bac à sable et tester dans l'API isolée un théorème noyau accepté et un théorème invalide rejeté.",
+        "Les augmentations exploratoires de mémoire/PID ont été retirées; limites d'origine 2 GiB et 128 processus conservées."
+      ],
+      "executed_checks": [
+        "git diff --check réussi localement; aucune exécution Rust/Lean locale n'est revendiquée.",
+        "Run 37066095112: échec formatage identifié.",
+        "Run 37066177156: job Rust complet réussi; gate Lean isolé a détecté le proxy Elan réseau.",
+        "Runs 37066820882, 37067369995 et 37067973243: build/rejeu Lean réussis avant échec du fixture Mathlib isolé par création de thread; ces essais diagnostiques ne sont pas présentés comme qualification finale.",
+        "HEAD final 4f6ac21c30a3668f5315a5a6c1598a9bee1602bd: run 37068661188 créé, encore sans job alloué à l'heure observée."
+      ],
+      "waiting": [
+        "PR #80 non fusionnée: attendre Rust et Lean complets verts sur le HEAD exact 4f6ac21c30a3668f5315a5a6c1598a9bee1602bd.",
+        "Après succès, revoir diff, base, HEAD, commentaires, mergeabilité et protections puis fusionner avec expected_head_sha.",
+        "La politique de ressources agrégées hôte restera distincte des plafonds prlimit par processus."
+      ],
+      "work_items": [
+        {
+          "id": "B-PL-02",
+          "repository": "Memorithm/ProofLab",
+          "status": "waiting_ci",
+          "actions": "Ingestion non fiable bornée avant allocation; contrat v3; vrai Lean accepté/rejeté via l'API isolée.",
+          "results": "PR #80 ouverte au HEAD final 4f6ac21c30a3668f5315a5a6c1598a9bee1602bd; CI finale 37068661188 en attente, aucune fusion.",
+          "pr": [
+            {
+              "number": 80,
+              "url": "https://github.com/Memorithm/ProofLab/pull/80",
+              "head_sha": "4f6ac21c30a3668f5315a5a6c1598a9bee1602bd",
+              "merge_sha": null
+            }
+          ],
+          "head": "4f6ac21c30a3668f5315a5a6c1598a9bee1602bd",
+          "checks": [
+            37066095112,
+            37066177156,
+            37066820882,
+            37067369995,
+            37067973243,
+            37068661188
+          ],
+          "dependencies": [],
+          "next_action": "Attendre CI 37068661188; corriger tout échec sans réduire les gates, sinon fusion gardée puis validation de la branche cible."
+        }
+      ]
     }
   ]
 }
