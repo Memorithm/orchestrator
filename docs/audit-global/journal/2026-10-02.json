@@ -5,7 +5,11 @@
     {
       "observed_at": "2026-10-02T00:17:28+02:00",
       "hour": "2026-10-02T00:00:00+02:00",
-      "batch": {"number": 1, "merged": 26, "target": 50},
+      "batch": {
+        "number": 1,
+        "merged": 26,
+        "target": 50
+      },
       "total_merged": 26,
       "closed": 24,
       "remaining": 77,
@@ -38,11 +42,66 @@
           "actions": "Secret obligatoire, validation bornée, écoute brute limitée au loopback et exigence documentée d'un tunnel hôte chiffré/authentifié pour le distant.",
           "results": "PR #261 et #262 fusionnées; validations candidat et cible exactes vertes; constat clos.",
           "pr": [
-            {"number": 261, "url": "https://github.com/Memorithm/COGNO-1/pull/261", "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0", "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"},
-            {"number": 262, "url": "https://github.com/Memorithm/COGNO-1/pull/262", "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889", "merge_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5"}
+            {
+              "number": 261,
+              "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+              "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+              "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+            },
+            {
+              "number": 262,
+              "url": "https://github.com/Memorithm/COGNO-1/pull/262",
+              "head_sha": "c1283ee1ba5c27161d277d9d21ef0f8e2d073889",
+              "merge_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5"
+            }
           ],
           "head": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
-          "checks": [36932195966,110604028264,110604028369,110604028456,110604028475,110604028483,110604028531,36932198914,110604021909,36932196211,110604125656,36932618970,110605379626,110605379891,110605379906,110605379915,110605379925,110605380032,36932619016,110605378376,36932619011,110605378501,36933205728,110607391387,110607391602,110607391660,110607391715,110607391741,110607391815,36933205866,110607281726,36933205740,110607490159,36933674543,110608780680,110608780863,110608780950,110608780968,110608780978,110608781301,36933674514,110608779856,36933674451,110608781034],
+          "checks": [
+            36932195966,
+            110604028264,
+            110604028369,
+            110604028456,
+            110604028475,
+            110604028483,
+            110604028531,
+            36932198914,
+            110604021909,
+            36932196211,
+            110604125656,
+            36932618970,
+            110605379626,
+            110605379891,
+            110605379906,
+            110605379915,
+            110605379925,
+            110605380032,
+            36932619016,
+            110605378376,
+            36932619011,
+            110605378501,
+            36933205728,
+            110607391387,
+            110607391602,
+            110607391660,
+            110607391715,
+            110607391741,
+            110607391815,
+            36933205866,
+            110607281726,
+            36933205740,
+            110607490159,
+            36933674543,
+            110608780680,
+            110608780863,
+            110608780950,
+            110608780968,
+            110608780978,
+            110608781301,
+            36933674514,
+            110608779856,
+            36933674451,
+            110608781034
+          ],
           "dependencies": [],
           "next_action": "Clos; préserver le loopback fail-closed et ne pas présenter le secret applicatif comme substitut à TLS."
         },
@@ -53,10 +112,38 @@
           "actions": "Délais de lecture et d'écriture sur chaque socket accepté, configurables et plafonnés.",
           "results": "PR #261 fusionnée et qualifiée sur candidat puis cible.",
           "pr": [
-            {"number": 261, "url": "https://github.com/Memorithm/COGNO-1/pull/261", "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0", "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"}
+            {
+              "number": 261,
+              "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+              "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+              "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+            }
           ],
           "head": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
-          "checks": [36932195966,110604028264,110604028369,110604028456,110604028475,110604028483,110604028531,36932198914,110604021909,36932196211,110604125656,36932618970,110605379626,110605379891,110605379906,110605379915,110605379925,110605380032,36932619016,110605378376,36932619011,110605378501],
+          "checks": [
+            36932195966,
+            110604028264,
+            110604028369,
+            110604028456,
+            110604028475,
+            110604028483,
+            110604028531,
+            36932198914,
+            110604021909,
+            36932196211,
+            110604125656,
+            36932618970,
+            110605379626,
+            110605379891,
+            110605379906,
+            110605379915,
+            110605379925,
+            110605380032,
+            36932619016,
+            110605378376,
+            36932619011,
+            110605378501
+          ],
           "dependencies": [],
           "next_action": "Clos; conserver les délais positifs et plafonnés."
         },
@@ -67,11 +154,42 @@
           "actions": "Inbox atomique, synchronisation fichier/répertoires/index avant OK, idempotence reconstruite depuis les paquets vérifiés et échec de persistance fail-closed.",
           "results": "PR #261 fusionnée et qualifiée sur candidat puis cible; revue P1 corrigée.",
           "pr": [
-            {"number": 261, "url": "https://github.com/Memorithm/COGNO-1/pull/261", "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0", "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"}
+            {
+              "number": 261,
+              "url": "https://github.com/Memorithm/COGNO-1/pull/261",
+              "head_sha": "7513f016b74668b7cd8ffbaf0051235952fd28d0",
+              "merge_sha": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6"
+            }
           ],
           "head": "ed6b6e1f616b8abef2c7bec7c1fcd00bb8a63ac6",
-          "checks": [36932195966,110604028264,110604028369,110604028456,110604028475,110604028483,110604028531,36932198914,110604021909,36932196211,110604125656,36932618970,110605379626,110605379891,110605379906,110605379915,110605379925,110605380032,36932619016,110605378376,36932619011,110605378501],
-          "dependencies": ["COG-COGNO-001", "COG-COGNO-002"],
+          "checks": [
+            36932195966,
+            110604028264,
+            110604028369,
+            110604028456,
+            110604028475,
+            110604028483,
+            110604028531,
+            36932198914,
+            110604021909,
+            36932196211,
+            110604125656,
+            36932618970,
+            110605379626,
+            110605379891,
+            110605379906,
+            110605379915,
+            110605379925,
+            110605380032,
+            36932619016,
+            110605378376,
+            36932619011,
+            110605378501
+          ],
+          "dependencies": [
+            "COG-COGNO-001",
+            "COG-COGNO-002"
+          ],
           "next_action": "Clos; préserver la frontière de durabilité avant ACK."
         }
       ]
@@ -79,7 +197,11 @@
     {
       "observed_at": "2026-10-02T20:34:47+02:00",
       "hour": "2026-10-02T20:00:00+02:00",
-      "batch": {"number": 1, "merged": 28, "target": 50},
+      "batch": {
+        "number": 1,
+        "merged": 28,
+        "target": 50
+      },
       "total_merged": 28,
       "closed": 24,
       "remaining": 77,
@@ -114,13 +236,93 @@
           "actions": "Admission des racines et intégrité de la source isolée renforcées; contrat v2; tests OS et non-régression du rejeu v1.",
           "results": "PR #79 fusionnée et qualifiée sur candidat puis cible; #78 réconciliée; aucune clôture du constat.",
           "pr": [
-            {"number": 78, "url": "https://github.com/Memorithm/ProofLab/pull/78", "head_sha": "4d216665f36fc5d64503936d0fda6f2125afcbde", "merge_sha": "b25b9d3acf50dff97db11a0d64f4c07cefc49f0b"},
-            {"number": 79, "url": "https://github.com/Memorithm/ProofLab/pull/79", "head_sha": "36dd7b225ad76108cecd1c12e6189187ce97c791", "merge_sha": "d8ecc59f367d50672eaf3eba7c04eb9386bc999d"}
+            {
+              "number": 78,
+              "url": "https://github.com/Memorithm/ProofLab/pull/78",
+              "head_sha": "4d216665f36fc5d64503936d0fda6f2125afcbde",
+              "merge_sha": "b25b9d3acf50dff97db11a0d64f4c07cefc49f0b"
+            },
+            {
+              "number": 79,
+              "url": "https://github.com/Memorithm/ProofLab/pull/79",
+              "head_sha": "36dd7b225ad76108cecd1c12e6189187ce97c791",
+              "merge_sha": "d8ecc59f367d50672eaf3eba7c04eb9386bc999d"
+            }
           ],
           "head": "d8ecc59f367d50672eaf3eba7c04eb9386bc999d",
-          "checks": [36942854570,36948913856,110657228560,110657228738,37046885846,110970416150,110970416536,37047757327,110973289241,110973288884],
+          "checks": [
+            36942854570,
+            36948913856,
+            110657228560,
+            110657228738,
+            37046885846,
+            110970416150,
+            110970416536,
+            37047757327,
+            110973289241,
+            110973288884
+          ],
           "dependencies": [],
           "next_action": "Synchroniser le registre canonique sans doublon; borner l'ingestion avant allocation et qualifier le vrai Lean accepté/refusé dans l'isolation existante, sans nouveau moteur de confinement."
+        }
+      ]
+    },
+    {
+      "observed_at": "2026-10-02T23:13:00+02:00",
+      "hour": "2026-10-02T23:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 28,
+        "target": 50
+      },
+      "total_merged": 28,
+      "closed": 24,
+      "remaining": 77,
+      "actions": [
+        "Bail CAS acquis sur un état libéré; états GitHub, preuve et registre canonique relus.",
+        "ProofLab #78 et #79 ajoutées exactement une fois au registre canonique; compteur recalculé depuis 28 clés dépôt/PR uniques.",
+        "101 constats préservés; backlog et preuve de réconciliation alignés; B-PL-02 maintenu en cours."
+      ],
+      "executed_checks": [
+        "Invariant structurel: 101 enregistrements de constats conservés.",
+        "Invariant d'unicité: 28 entrées dépôt/PR uniques dans pull_requests et 28 dans le lot 1.",
+        "Preuves CI réutilisées sans nouvelle exécution: #78 runs 36942854570/36948913856; #79 runs 37046885846/37047757327."
+      ],
+      "waiting": [
+        "Borner l'ingestion de source avant allocation.",
+        "Qualifier le vrai Lean épinglé accepté/refusé via les points d'entrée isolés.",
+        "La politique de ressources agrégées hôte n'est pas prouvée par les seuls plafonds par processus."
+      ],
+      "work_items": [
+        {
+          "id": "B-PL-02",
+          "repository": "Memorithm/ProofLab",
+          "status": "in_progress",
+          "actions": "Réconciliation canonique sans doublon de #78/#79 et mise à jour des capacités d'isolation.",
+          "results": "Registre à 28/50; 24 clos; 77 restants; aucune nouvelle fusion ni clôture.",
+          "pr": [
+            {
+              "number": 78,
+              "url": "https://github.com/Memorithm/ProofLab/pull/78",
+              "head_sha": "4d216665f36fc5d64503936d0fda6f2125afcbde",
+              "merge_sha": "b25b9d3acf50dff97db11a0d64f4c07cefc49f0b"
+            },
+            {
+              "number": 79,
+              "url": "https://github.com/Memorithm/ProofLab/pull/79",
+              "head_sha": "36dd7b225ad76108cecd1c12e6189187ce97c791",
+              "merge_sha": "d8ecc59f367d50672eaf3eba7c04eb9386bc999d"
+            }
+          ],
+          "head": "d8ecc59f367d50672eaf3eba7c04eb9386bc999d",
+          "checks": [
+            36942854570,
+            36948913856,
+            37046885846,
+            37047757327
+          ],
+          "dependencies": [],
+          "next_action": "Borner l'ingestion avant allocation puis qualifier un vrai Lean épinglé accepté/refusé dans l'isolation existante."
         }
       ]
     }
