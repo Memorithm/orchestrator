@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-03T10:05:55+02:00",
+  "updated_at": "2026-10-03T11:23:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 36,
-    "remaining": 65,
-    "merged_prs": 43
+    "closed": 37,
+    "remaining": 64,
+    "merged_prs": 44
   },
   "batches": [
     {
@@ -251,6 +251,11 @@
           "repository": "Memorithm/octasoma",
           "number": 71,
           "merge_sha": "247a44721e91e9025ce9cae846c550427c84d0f5"
+        },
+        {
+          "repository": "Memorithm/TurboQuant",
+          "number": 15,
+          "merge_sha": "2df9b194997cb8526e76857374fe7f8acf619084"
         }
       ]
     }
@@ -3862,6 +3867,51 @@
       "target_checks": [],
       "target_validation": "No separate push workflow was emitted. PR #71 changed only src/hybrid.rs and candidate/integrated blobs are identical (b140ac08dc2774842d267edfaeb950003dcf6572); the exact-head CI therefore exercised the code actually integrated.",
       "finding_status": "resolved"
+    },
+    {
+      "repository": "Memorithm/TurboQuant",
+      "number": 15,
+      "url": "https://github.com/Memorithm/TurboQuant/pull/15",
+      "base": "main",
+      "base_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
+      "head_sha": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+      "merge_sha": "2df9b194997cb8526e76857374fe7f8acf619084",
+      "status": "merged_target_validated_exact_tree",
+      "ids": ["RT-TQ-06"],
+      "batch": 1,
+      "merged_at": "2026-10-03T09:19:00Z",
+      "merge_method": "automatic squash integration observed after green exact-head checks; no duplicate merge call",
+      "checks": [
+        {
+          "id": 37112418808,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37112418808",
+          "jobs": [111172754055, 111172754181, 111172754233, 111172754239, 111172754248, 111172754266, 111172754291, 111172754322, 111172754420, 111172754434]
+        },
+        {
+          "id": 37112418869,
+          "name": "Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37112418869",
+          "jobs": [111172754388, 111172754531, 111172754553, 111172754611]
+        }
+      ],
+      "review": {
+        "head": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+        "result": "exact diff inspected; no review submissions and no review threads",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "9b80667955ff7dc1bba2388a1ca88322edf165f2",
+      "exact_tree_match": true,
+      "target_head": "2df9b194997cb8526e76857374fe7f8acf619084",
+      "target_checks": [37112630084, 37112630076, 37112630091],
+      "target_validation": "The integrated squash commit has the exact candidate tree. CI, Tests and Docs push workflows all completed successfully on the integrated SHA.",
+      "finding_status": "resolved"
     }
   ],
   "repository_observations": [
@@ -4122,13 +4172,13 @@
       "repository": "Memorithm/TurboQuant",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
-      "tree_sha": "7db32942a4cb8588d82e7194d2f7c48600b176b5",
+      "current_head": "2df9b194997cb8526e76857374fe7f8acf619084",
+      "tree_sha": "9b80667955ff7dc1bba2388a1ca88322edf165f2",
       "protected": false,
       "required_checks": [],
       "error": null,
-      "last_observed_at": "2026-10-01T01:02:53+02:00",
-      "registered_pr": 14
+      "last_observed_at": "2026-10-03T11:23:00+02:00",
+      "registered_pr": 15
     },
     {
       "repository": "Memorithm/itd-simulator",
@@ -4696,16 +4746,45 @@
         "Valider représentabilité/non-zéro après conversion f16 ou conserver f32 dans le contrat; retour d'erreur explicite; cas overflow/underflow de scale et valeurs non finies.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
+      "status": "resolved",
+      "current_head": "2df9b194997cb8526e76857374fe7f8acf619084",
       "default_branch": "main",
       "audit_head": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
-      "head_reconciliation": "registered_remediation_merge",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "merged_target_validated_exact_tree",
+      "policy_review": "AGENTS_roadmap_ML_overlay_and_licenses_read",
+      "prs": [
+        {
+          "repository": "Memorithm/TurboQuant",
+          "number": 15,
+          "url": "https://github.com/Memorithm/TurboQuant/pull/15",
+          "base": "main",
+          "base_sha": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
+          "head_sha": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+          "merge_sha": "2df9b194997cb8526e76857374fe7f8acf619084",
+          "status": "merged_target_validated"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "pr": "https://github.com/Memorithm/TurboQuant/pull/15",
+          "head": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+          "merge": "2df9b194997cb8526e76857374fe7f8acf619084",
+          "tree": "9b80667955ff7dc1bba2388a1ca88322edf165f2",
+          "proof": "https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/docs/audit-global/proofs/TurboQuant-15-RT-TQ-06.json",
+          "validated_at": "2026-10-03T11:23:00+02:00",
+          "criteria_met": true,
+          "checks": [
+            {"name": "candidate CI", "run": 37112418808, "conclusion": "success"},
+            {"name": "candidate Tests", "run": 37112418869, "conclusion": "success"},
+            {"name": "target CI", "run": 37112630084, "conclusion": "success"},
+            {"name": "target Tests", "run": 37112630076, "conclusion": "success"},
+            {"name": "target Docs", "run": 37112630091, "conclusion": "success"}
+          ],
+          "scope": "FFI dequantization scale admission; explicit binary16 finite/non-zero validation with overflow, underflow, non-finite and boundary tests"
+        }
+      ],
+      "last_observed_at": "2026-10-03T11:23:00+02:00",
+      "next_action": "Clos sur version fusionnée et validée; conserver le rejet fail-closed des scales non représentables lors de toute évolution de l'ABI."
     },
     {
       "id": "RT-TQ-07",
@@ -7821,19 +7900,19 @@
       "owner": "codex-audit-20261003T0912",
       "acquired_at": "2026-10-03T09:12:00Z",
       "expires_at": "2026-10-03T10:42:00Z",
-      "released_at": null,
-      "status": "active",
+      "released_at": "2026-10-03T09:23:00Z",
+      "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
       "previous_owner": "codex-audit-20261003T0713",
       "previous_expiry": "2026-10-03T08:43:00Z",
-      "completed_action": null,
-      "evidence_path": null,
-    "verified_merged_prs": 43,
-    "canonical_registry_merged_prs": 43,
-    "closed_findings": 36,
-    "remaining_findings": 65,
-      "next_action": "RT-TQ-06 acquired: reconcile TurboQuant main 2a8c4650e1c040745a8720223d2a21ecf7719e6f, verify f32-to-f16 scale conversion safety, and remediate if still present."
+      "completed_action": "Closed RT-TQ-06 with TurboQuant #15; f32 scales that become zero or non-finite in binary16 now fail closed, with exact candidate and target CI evidence.",
+      "evidence_path": "docs/audit-global/proofs/TurboQuant-15-RT-TQ-06.json",
+    "verified_merged_prs": 44,
+    "canonical_registry_merged_prs": 44,
+    "closed_findings": 37,
+    "remaining_findings": 64,
+      "next_action": "Reconcile the next highest-priority independent open finding on its real default-branch HEAD before modification."
   },
   "capabilities": [
     {

@@ -692,6 +692,40 @@
           "next_action": "Clos; réconcilier le prochain constat prioritaire indépendant avant toute modification."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T11:23:00+02:00",
+      "hour": "2026-10-03T11:00:00+02:00",
+      "batch": {"number": 1, "merged": 44, "target": 50},
+      "total_merged": 44,
+      "closed": 37,
+      "remaining": 64,
+      "actions": [
+        "RT-TQ-06 revérifié présent sur TurboQuant main 2a8c4650e1c040745a8720223d2a21ecf7719e6f après lecture d'AGENTS.md, des roadmaps et de la licence.",
+        "TurboQuant #15 valide le scale après conversion f16, rejette zéro et non-fini, documente le contrat ABI et couvre overflow, underflow, non-finis et bornes représentables.",
+        "La PR a été intégrée automatiquement après les checks candidat; aucun second appel de fusion n'a été émis. Les workflows push du SHA intégré ont ensuite réussi."
+      ],
+      "executed_checks": [
+        "Local: git diff --check réussi; cargo/rustfmt absents, aucune exécution Rust locale revendiquée.",
+        "Candidat 34cc212f3bb2ecedd964ad960acde7460cfd888b: CI 37112418808 et Tests 37112418869 verts (14 jobs).",
+        "Cible 2df9b194997cb8526e76857374fe7f8acf619084: CI 37112630084, Tests 37112630076 et Docs 37112630091 verts (15 jobs).",
+        "Arbre candidat et intégré identique: 9b80667955ff7dc1bba2388a1ca88322edf165f2; aucune revue ni fil non résolu."
+      ],
+      "waiting": [],
+      "work_items": [
+        {
+          "id": "RT-TQ-06",
+          "repository": "Memorithm/TurboQuant",
+          "status": "resolved",
+          "actions": "Validation fail-closed du scale après conversion f16; documentation ABI et régressions numériques.",
+          "results": "PR #15 intégrée; main 2df9b194997cb8526e76857374fe7f8acf619084; CI candidat et cible vertes; arbre exact identique.",
+          "pr": [{"number": 15, "url": "https://github.com/Memorithm/TurboQuant/pull/15", "head_sha": "34cc212f3bb2ecedd964ad960acde7460cfd888b", "merge_sha": "2df9b194997cb8526e76857374fe7f8acf619084"}],
+          "head": "2df9b194997cb8526e76857374fe7f8acf619084",
+          "checks": [37112418808, 37112418869, 37112630084, 37112630076, 37112630091],
+          "dependencies": [],
+          "next_action": "Clos; conserver le rejet des scales non représentables et réconcilier le prochain constat prioritaire."
+        }
+      ]
     }
   ]
 }

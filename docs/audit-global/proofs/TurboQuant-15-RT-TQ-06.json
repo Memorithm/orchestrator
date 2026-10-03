@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "ids": ["RT-TQ-06"],
+  "repository": "Memorithm/TurboQuant",
+  "pr": "https://github.com/Memorithm/TurboQuant/pull/15",
+  "base": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
+  "head": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+  "merged_commit": "2df9b194997cb8526e76857374fe7f8acf619084",
+  "tree": "9b80667955ff7dc1bba2388a1ca88322edf165f2",
+  "exact_tree_match": true,
+  "merged_at": "2026-10-03T09:19:00Z",
+  "candidate_workflows": [
+    {
+      "id": 37112418808,
+      "name": "CI",
+      "head_sha": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+      "conclusion": "success",
+      "jobs": [
+        {"id": 111172754055, "name": "Security Audit", "conclusion": "success"},
+        {"id": 111172754181, "name": "Docs", "conclusion": "success"},
+        {"id": 111172754233, "name": "Clippy", "conclusion": "success"},
+        {"id": 111172754239, "name": "Check (ubuntu-22.04)", "conclusion": "success"},
+        {"id": 111172754248, "name": "Check (ubuntu-24.04)", "conclusion": "success"},
+        {"id": 111172754266, "name": "Test (ubuntu-24.04)", "conclusion": "success"},
+        {"id": 111172754291, "name": "Test (ubuntu-22.04)", "conclusion": "success"},
+        {"id": 111172754322, "name": "Format", "conclusion": "success"},
+        {"id": 111172754420, "name": "mdBook", "conclusion": "success"},
+        {"id": 111172754434, "name": "MSRV (1.83)", "conclusion": "success"}
+      ]
+    },
+    {
+      "id": 37112418869,
+      "name": "Tests",
+      "head_sha": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+      "conclusion": "success",
+      "jobs": [
+        {"id": 111172754388, "name": "test (3.11)", "conclusion": "success"},
+        {"id": 111172754531, "name": "test (3.10)", "conclusion": "success"},
+        {"id": 111172754553, "name": "test (3.13)", "conclusion": "success"},
+        {"id": 111172754611, "name": "test (3.12)", "conclusion": "success"}
+      ]
+    }
+  ],
+  "target_workflows": [
+    {
+      "id": 37112630084,
+      "name": "CI",
+      "head_sha": "2df9b194997cb8526e76857374fe7f8acf619084",
+      "conclusion": "success",
+      "jobs": [
+        {"id": 111173367076, "name": "Clippy", "conclusion": "success"},
+        {"id": 111173367137, "name": "MSRV (1.83)", "conclusion": "success"},
+        {"id": 111173367139, "name": "Test (ubuntu-24.04)", "conclusion": "success"},
+        {"id": 111173367150, "name": "Security Audit", "conclusion": "success"},
+        {"id": 111173367152, "name": "Docs", "conclusion": "success"},
+        {"id": 111173367166, "name": "Test (ubuntu-22.04)", "conclusion": "success"},
+        {"id": 111173367169, "name": "Check (ubuntu-22.04)", "conclusion": "success"},
+        {"id": 111173367173, "name": "Format", "conclusion": "success"},
+        {"id": 111173367179, "name": "Check (ubuntu-24.04)", "conclusion": "success"},
+        {"id": 111173367216, "name": "mdBook", "conclusion": "success"}
+      ]
+    },
+    {
+      "id": 37112630076,
+      "name": "Tests",
+      "head_sha": "2df9b194997cb8526e76857374fe7f8acf619084",
+      "conclusion": "success",
+      "jobs": [
+        {"id": 111173366941, "name": "test (3.11)", "conclusion": "success"},
+        {"id": 111173367064, "name": "test (3.13)", "conclusion": "success"},
+        {"id": 111173367069, "name": "test (3.12)", "conclusion": "success"},
+        {"id": 111173367088, "name": "test (3.10)", "conclusion": "success"}
+      ]
+    },
+    {
+      "id": 37112630091,
+      "name": "Docs",
+      "head_sha": "2df9b194997cb8526e76857374fe7f8acf619084",
+      "conclusion": "success",
+      "jobs": [{"id": 111173366901, "name": "Build & Deploy Docs", "conclusion": "success"}]
+    }
+  ],
+  "checks_really_executed": [
+    "cargo fmt --all --manifest-path rust/Cargo.toml -- --check",
+    "cargo clippy --locked --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings -W clippy::pedantic",
+    "cargo clippy production unwrap/expect gate",
+    "cargo check --locked --workspace on Ubuntu 22.04 and 24.04",
+    "cargo test --locked --workspace on Ubuntu 22.04 and 24.04",
+    "cargo check --locked --workspace --no-default-features on Rust 1.83",
+    "cargo doc --locked --workspace --no-deps with warnings denied",
+    "cargo build turboquant-core plus mdbook build/test",
+    "RustSec audit-check",
+    "Python pytest and pylint on Python 3.10, 3.11, 3.12 and 3.13",
+    "push documentation build and deployment"
+  ],
+  "local_validation": [
+    {"command": "git diff --check", "result": "success"},
+    {"command": "cargo test --locked --manifest-path rust/Cargo.toml -p turboquant-ffi", "result": "not_executed", "reason": "cargo absent from local execution environment; exact-head CI used instead"}
+  ],
+  "review": {
+    "head": "34cc212f3bb2ecedd964ad960acde7460cfd888b",
+    "reviews": 0,
+    "threads": 0,
+    "unresolved_threads": 0,
+    "diff_inspected": true
+  },
+  "acceptance": {
+    "binary16_conversion_revalidated": true,
+    "zero_after_underflow_rejected": true,
+    "non_finite_after_overflow_rejected": true,
+    "non_finite_inputs_rejected": true,
+    "smallest_subnormal_and_maximum_finite_accepted": true,
+    "explicit_error": "TQ_ERR_INVALID_ARGUMENT",
+    "target_sha_validated": true
+  },
+  "excluded_repositories_modified": []
+}

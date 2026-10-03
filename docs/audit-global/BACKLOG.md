@@ -1,8 +1,8 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 37/50 ; cumul fusionné : 37 ; clos : 31 ; restants : 70.
+101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 44/50 ; cumul fusionné : 44 ; clos : 37 ; restants : 64.
 
-État réconcilié du 3 octobre 2026 à 06:28 Europe/Paris : **37/50 PR techniques fusionnées**, **31/101 constats clos**, **70 restants**. `FORGE-01` et `FORGE-02` sont clos sur `main` au SHA `82df6c5bdeb60911be88cf3efd8b740133e9f9cc`. La PR [Forge #50](https://github.com/Memorithm/Forge/pull/50) impose l’admission stricte avant toute compilation/exécution native et refuse avant spawn tant qu’aucun backend conteneur ou plus fort ne satisfait réellement le contrat. Son arbre candidat vert est exactement l’arbre intégré. Voir la [preuve](proofs/Forge-50-FORGE-02.json), la [CI exacte](https://github.com/Memorithm/Forge/actions/runs/37096187524) et le [journal](journal/2026-10-03.md). Aucune qualification GPU matérielle n’est revendiquée.
+État réconcilié du 3 octobre 2026 à 11:23 Europe/Paris : **44/50 PR techniques fusionnées**, **37/101 constats clos**, **64 restants**. `RT-TQ-06` est clos sur TurboQuant `main` au SHA `2df9b194997cb8526e76857374fe7f8acf619084`. [TurboQuant #15](https://github.com/Memorithm/TurboQuant/pull/15) rejette les scales `f32` qui deviennent zéro ou non finies après conversion `f16`; l’arbre intégré est exactement l’arbre candidat et les CI candidat/cible sont vertes. Voir la [preuve](proofs/TurboQuant-15-RT-TQ-06.json) et le [journal](journal/2026-10-03.md). Aucun dépôt exclu n’a été modifié.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -14,7 +14,7 @@
 | RT-TQ-03 | Memorithm/TurboQuant | 9 | à faire |  |
 | RT-TQ-04 | Memorithm/TurboQuant | 9 | à faire |  |
 | RT-TQ-05 | Memorithm/TurboQuant | 8 | résolu |  |
-| RT-TQ-06 | Memorithm/TurboQuant | 5 | à faire |  |
+| RT-TQ-06 | Memorithm/TurboQuant | 5 | résolu | [preuve](proofs/TurboQuant-15-RT-TQ-06.json), [PR #15](https://github.com/Memorithm/TurboQuant/pull/15) |
 | RT-TQ-07 | Memorithm/TurboQuant | 8 | résolu |  |
 | RT-SLHA-01 | Memorithm/SLHAv2 | 9 | à faire |  |
 | RT-SLHA-02 | Memorithm/SLHAv2 | 9 | à faire |  |
