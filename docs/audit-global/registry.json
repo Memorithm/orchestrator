@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-03T00:34:00+02:00",
+  "updated_at": "2026-10-03T02:08:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 24,
-    "remaining": 77,
-    "merged_prs": 29
+    "closed": 25,
+    "remaining": 76,
+    "merged_prs": 31
   },
   "batches": [
     {
@@ -181,6 +181,16 @@
           "repository": "Memorithm/ProofLab",
           "number": 80,
           "merge_sha": "60baeb53aa62a12ffbe801ce7c89ed7d253758cd"
+        },
+        {
+          "repository": "Memorithm/ProofLab",
+          "number": 81,
+          "merge_sha": "a886ec2a3122fcaff7755a09ae5c899f0137976b"
+        },
+        {
+          "repository": "Memorithm/ProofLab",
+          "number": 82,
+          "merge_sha": "12d68bbb193a3fe3041f25aa51c44906bfc30c37"
         }
       ]
     }
@@ -2968,6 +2978,113 @@
       ],
       "target_validation": "candidate and exact integrated main commit passed complete Rust and Lean CI with identical tree; bounded pre-allocation ingestion and accepted/rejected pinned Lean through the isolated Rust API qualified",
       "finding_status": "in_progress: aggregate host/cgroup resource policy remains distinct from per-process limits"
+    },
+    {
+      "repository": "Memorithm/ProofLab",
+      "number": 81,
+      "url": "https://github.com/Memorithm/ProofLab/pull/81",
+      "base": "main",
+      "base_sha": "60baeb53aa62a12ffbe801ce7c89ed7d253758cd",
+      "head_sha": "a11cce50b3edf21df4166ed2b05670b36fb77562",
+      "merge_sha": "a886ec2a3122fcaff7755a09ae5c899f0137976b",
+      "status": "merged_target_validated_partial_finding_followup_required",
+      "ids": [
+        "B-PL-02"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-02T23:28:46Z",
+      "merge_method": "automatic_rebase_style_integration_observed_after_green_checks; no duplicate merge call",
+      "checks": [
+        {
+          "id": 37077228218,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a11cce50b3edf21df4166ed2b05670b36fb77562",
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/37077228218"
+        }
+      ],
+      "review": {
+        "head": "a11cce50b3edf21df4166ed2b05670b36fb77562",
+        "result": "two_post_merge_review_findings_addressed_by_followup_82_and_threads_resolved",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "3cb247edb292075e424aeb0da30d0f8bc8a9a54e",
+      "exact_tree_match": true,
+      "target_head": "a886ec2a3122fcaff7755a09ae5c899f0137976b",
+      "target_checks": [],
+      "target_validation": "No separate push run was emitted for the intermediate integrated SHA. PR #82 was based on that exact SHA and corrected both review findings before final target validation.",
+      "finding_status": "followup #82 required and completed"
+    },
+    {
+      "repository": "Memorithm/ProofLab",
+      "number": 82,
+      "url": "https://github.com/Memorithm/ProofLab/pull/82",
+      "base": "main",
+      "base_sha": "a886ec2a3122fcaff7755a09ae5c899f0137976b",
+      "head_sha": "9e791ac10ee09527ab2c611897080c66e8c97882",
+      "merge_sha": "12d68bbb193a3fe3041f25aa51c44906bfc30c37",
+      "status": "merged_target_validated",
+      "ids": [
+        "B-PL-02"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-02T23:53:06Z",
+      "merge_method": "automatic_rebase_style_integration_observed_after_green_checks; no duplicate merge call",
+      "checks": [
+        {
+          "id": 37079154977,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9e791ac10ee09527ab2c611897080c66e8c97882",
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/37079154977",
+          "jobs": [
+            111075943073,
+            111075943349
+          ]
+        }
+      ],
+      "previous_attempts": [
+        {
+          "run": 37078523254,
+          "status": "failed_clippy_corrected",
+          "reason": "unsafe pre_exec removed"
+        },
+        {
+          "run": 37078737493,
+          "status": "failed_rustfmt_corrected"
+        },
+        {
+          "run": 37078976003,
+          "status": "failed_source_transfer_corrected",
+          "reason": "truncated non-UTF-8 upload"
+        }
+      ],
+      "review": {
+        "head": "9e791ac10ee09527ab2c611897080c66e8c97882",
+        "result": "unsafe_attempt_removed; original_and_followup_threads_replied_and_resolved",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "375cb8a5ab3925ea4493e70af1ae61e4726147fe",
+      "exact_tree_match": true,
+      "target_head": "12d68bbb193a3fe3041f25aa51c44906bfc30c37",
+      "target_checks": [
+        {
+          "id": 37079650851,
+          "name": "CI push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "12d68bbb193a3fe3041f25aa51c44906bfc30c37",
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/37079650851",
+          "jobs": [
+            111077121942,
+            111077122018
+          ]
+        }
+      ],
+      "target_validation": "Candidate and exact integrated main commit passed complete Rust and Lean CI with identical tree; aggregate cgroup policy, launcher-failure classification and actual cgroup2 mount-root refusal qualified.",
+      "finding_status": "resolved"
     }
   ],
   "repository_observations": [
@@ -3134,11 +3251,11 @@
       "repository": "Memorithm/ProofLab",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
-      "tree_sha": "a5596ac681287aba20c3e19f4ad2f58313ce6189",
-      "protected": false,
+      "current_head": "12d68bbb193a3fe3041f25aa51c44906bfc30c37",
+      "tree_sha": "375cb8a5ab3925ea4493e70af1ae61e4726147fe",
+      "protected": null,
       "required_checks": [],
-      "error": null
+      "error": "Branch-protection endpoint unreadable with installed GitHub App; repository rulesets returned an empty list. No protection bypass is claimed."
     },
     {
       "repository": "Memorithm/ProspectEngine",
@@ -6002,11 +6119,11 @@
         "Avant de traiter du code Lean généré ou provenant d'un tiers, exécuter un environnement figé dans un runner isolé: arbre de processus, CPU/RAM/PIDs, réseau et fichiers, délai monotone et limite des sorties. Distinguer timeout, signal, erreur de lancement et rejet.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "in_progress",
-      "current_head": "60baeb53aa62a12ffbe801ce7c89ed7d253758cd",
+      "status": "resolved",
+      "current_head": "12d68bbb193a3fe3041f25aa51c44906bfc30c37",
       "default_branch": "main",
       "audit_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
-      "head_reconciliation": "process_supervision_true_OS_isolation_immutable_source_mount_bounded_preallocation_ingestion_and_real_pinned_Lean_isolated_accept_reject_merged_and_target_validated; aggregate_host_cgroup_policy_pending",
+      "head_reconciliation": "process supervision, true OS isolation, immutable source mounting, bounded ingestion, pinned Lean API and aggregate cgroup v2 memory/PID/CPU policy merged; launcher failures remain Unknown; actual cgroup2 mount roots refused; candidate and exact target CI passed",
       "policy_review": "AGENTS.md and PolyForm Noncommercial 1.0.0 read; off-main roadmap preserved",
       "prs": [
         {
@@ -6032,15 +6149,28 @@
           "url": "https://github.com/Memorithm/ProofLab/pull/80",
           "head_sha": "99bd891cc3572558e77eca3e535599f289964abc",
           "merge_sha": "60baeb53aa62a12ffbe801ce7c89ed7d253758cd"
+        },
+        {
+          "number": 81,
+          "url": "https://github.com/Memorithm/ProofLab/pull/81",
+          "head_sha": "a11cce50b3edf21df4166ed2b05670b36fb77562",
+          "merge_sha": "a886ec2a3122fcaff7755a09ae5c899f0137976b"
+        },
+        {
+          "number": 82,
+          "url": "https://github.com/Memorithm/ProofLab/pull/82",
+          "head_sha": "9e791ac10ee09527ab2c611897080c66e8c97882",
+          "merge_sha": "12d68bbb193a3fe3041f25aa51c44906bfc30c37"
         }
       ],
       "resolution_evidence": [
         "docs/audit-global/proofs/ProofLab-B-PL-02-process-supervision.json",
         "docs/audit-global/proofs/ProofLab-78-79-B-PL-02.json",
-        "docs/audit-global/proofs/ProofLab-80-B-PL-02.json"
+        "docs/audit-global/proofs/ProofLab-80-B-PL-02.json",
+        "docs/audit-global/proofs/ProofLab-81-82-B-PL-02.json"
       ],
-      "last_observed_at": "2026-10-03T00:32:00+02:00",
-      "next_action": "Définir et qualifier une politique de ressources agrégées hôte/cgroup pour charges hostiles; ne pas présenter les plafonds prlimit par processus comme une preuve de budget agrégé."
+      "last_observed_at": "2026-10-03T02:08:00+02:00",
+      "next_action": "Closed; preserve proof on merged SHA and re-open only if a target regression invalidates the qualified cgroup/Lean isolation contract."
     },
     {
       "id": "B-PL-03",
@@ -6758,22 +6888,22 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261002T2211",
-    "acquired_at": "2026-10-02T22:12:22.272Z",
-    "expires_at": "2026-10-02T23:42:22.272Z",
-    "released_at": "2026-10-02T22:34:00Z",
+    "owner": "codex-audit-20261002T2308",
+    "acquired_at": "2026-10-02T23:08:30.000Z",
+    "expires_at": "2026-10-03T00:38:30.000Z",
+    "released_at": "2026-10-03T00:08:00Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "previous_owner": "codex-audit-20261002T2112",
-    "previous_expiry": "2026-10-02T22:42:15.667Z",
-    "completed_action": "ProofLab #80 reconciled exactly once after candidate and post-merge target CI success; durable proof, 2026-10-03 journal and issue #81 update published.",
-    "evidence_path": "docs/audit-global/proofs/ProofLab-80-B-PL-02.json",
-    "verified_merged_prs": 29,
-    "canonical_registry_merged_prs": 29,
-    "closed_findings": 24,
-    "remaining_findings": 77,
-    "next_action": "Continue B-PL-02 by defining and qualifying aggregate host/cgroup resource policy for hostile concurrent workloads; do not infer this from per-process prlimit."
+    "previous_owner": "codex-audit-20261002T2211",
+    "previous_expiry": "2026-10-02T23:42:22.272Z",
+    "completed_action": "ProofLab #81 and #82 reconciled exactly once; B-PL-02 closed after candidate and exact integrated target CI qualified aggregate cgroup v2 policy and review fixes.",
+    "evidence_path": "docs/audit-global/proofs/ProofLab-81-82-B-PL-02.json",
+    "verified_merged_prs": 31,
+    "canonical_registry_merged_prs": 31,
+    "closed_findings": 25,
+    "remaining_findings": 76,
+    "next_action": "Reconcile the current HEAD for the highest-priority open finding, including B-PL-01 or another remaining isolation item, before modification."
   },
   "capabilities": [
     {
@@ -6791,10 +6921,10 @@
         "orchestrator",
         "PAPERS-AGENT"
       ],
-      "status": "owner_implemented_and_qualified_for_process_group_cleanup_bounded_capture_sanitized_spawn_errors_ProofLab_true_OS_isolation_bounded_ingestion_and_pinned_Lean_API",
+      "status": "owner_implemented_and_qualified_for_process_group_cleanup_bounded_capture_sanitized_spawn_errors_ProofLab_true_OS_isolation_bounded_ingestion_pinned_Lean_API_and_aggregate_cgroup_v2_policy",
       "owner": "Memorithm/scirust-hub/crates/hub-executor",
-      "proof": "docs/audit-global/proofs/scirust-hub-MEM-13-MEM-14.json",
-      "adoption": "SciCapsule and SciRust-Verify qualified compatible process-group and bounded-capture semantics. ProofLab additionally qualified true Bubblewrap/prlimit OS isolation, immutable source mounting, bounded pre-allocation source ingestion, and accepted/rejected pinned Lean through its isolated Rust API in PRs #78/#79/#80. Aggregate host/cgroup policy remains unqualified; other consumers require their own versioned contracts and tests.",
+      "proof": "docs/audit-global/proofs/ProofLab-81-82-B-PL-02.json",
+      "adoption": "SciCapsule and SciRust-Verify qualified compatible process-group and bounded-capture semantics. ProofLab additionally qualified Bubblewrap/prlimit OS isolation, immutable source mounting, bounded pre-allocation ingestion, accepted/rejected pinned Lean, and aggregate cgroup v2 memory/PID/CPU policy with bounded drain in PRs #78–#82. Other consumers require their own versioned contracts and tests.",
       "qualified_consumers": [
         "Memorithm/SciCapsule",
         "Memorithm/SciRust-Verify",
