@@ -1,8 +1,8 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 44/50 ; cumul fusionné : 44 ; clos : 37 ; restants : 64.
+101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 46/50 ; cumul fusionné : 46 ; clos : 38 ; restants : 63.
 
-État réconcilié du 3 octobre 2026 à 11:23 Europe/Paris : **44/50 PR techniques fusionnées**, **37/101 constats clos**, **64 restants**. `RT-TQ-06` est clos sur TurboQuant `main` au SHA `2df9b194997cb8526e76857374fe7f8acf619084`. [TurboQuant #15](https://github.com/Memorithm/TurboQuant/pull/15) rejette les scales `f32` qui deviennent zéro ou non finies après conversion `f16`; l’arbre intégré est exactement l’arbre candidat et les CI candidat/cible sont vertes. Voir la [preuve](proofs/TurboQuant-15-RT-TQ-06.json) et le [journal](journal/2026-10-03.md). Aucun dépôt exclu n’a été modifié.
+État réconcilié du 3 octobre 2026 à 12:42 Europe/Paris : **46/50 PR techniques fusionnées**, **38/101 constats clos**, **63 restants**. `B-RH-02` est clos sur riemann_ndim_bench `main` au SHA `b1f77ecca2a9b0fd227f91477a7ecbae70756176`. [#71](https://github.com/Memorithm/riemann_ndim_bench/pull/71) lie proposition, entrée, vérificateur, source et exécution; [#72](https://github.com/Memorithm/riemann_ndim_bench/pull/72) verrouille l’identité visée par les gates et ferme les reprises legacy/collisions d’exécution. L’arbre final `490ccc66a46d664caf0fc9a5300798e0c285e0bc` a réussi la CI cible. Voir la [preuve](proofs/riemann_ndim_bench-71-72-B-RH-02.json) et le [journal](journal/2026-10-03.md). Aucun dépôt exclu n’a été modifié.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -80,7 +80,7 @@
 | B-NR-01 | Périmètre privé — source interne | 8 | à faire |  |
 | B-NR-02 | Périmètre privé — source interne | 9 | à faire |  |
 | B-RH-01 | Memorithm/riemann_ndim_bench | 8 | à faire |  |
-| B-RH-02 | Memorithm/riemann_ndim_bench | 6 | à faire |  |
+| B-RH-02 | Memorithm/riemann_ndim_bench | 6 | résolu | [preuve](proofs/riemann_ndim_bench-71-72-B-RH-02.json), [PR #71](https://github.com/Memorithm/riemann_ndim_bench/pull/71), [PR #72](https://github.com/Memorithm/riemann_ndim_bench/pull/72), [CI cible](https://github.com/Memorithm/riemann_ndim_bench/actions/runs/37116970876) |
 | B-PL-01 | Memorithm/ProofLab | 6 | résolu | [preuve](proofs/ProofLab-83-B-PL-01.json), [PR #83](https://github.com/Memorithm/ProofLab/pull/83), [CI cible](https://github.com/Memorithm/ProofLab/actions/runs/37082869060) |
 | B-PL-02 | Memorithm/ProofLab | 3 | résolu | [preuves #77–#80](proofs/ProofLab-80-B-PL-02.json), [politique agrégée cgroup #81/#82](proofs/ProofLab-81-82-B-PL-02.json), [PR #81](https://github.com/Memorithm/ProofLab/pull/81), [PR #82](https://github.com/Memorithm/ProofLab/pull/82), [CI cible](https://github.com/Memorithm/ProofLab/actions/runs/37079650851) |
 | B-PL-03 | Memorithm/ProofLab | 9 | à faire | B-PL-01, B-PL-02 |

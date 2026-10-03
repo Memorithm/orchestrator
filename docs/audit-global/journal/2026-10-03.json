@@ -726,6 +726,44 @@
           "next_action": "Clos; conserver le rejet des scales non représentables et réconcilier le prochain constat prioritaire."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T12:42:00+02:00",
+      "hour": "2026-10-03T12:00:00+02:00",
+      "batch": {"number": 1, "merged": 46, "target": 50},
+      "total_merged": 46,
+      "closed": 38,
+      "remaining": 63,
+      "actions": [
+        "B-RH-02 revérifié présent sur riemann_ndim_bench main 90ef54177a878601185d34ef39c7d1f855b80032 après lecture d'AGENTS.md, des instructions Copilot et de la feuille de route écosystème hors branche par défaut.",
+        "La PR #71 a lié proposition, entrée, vérificateur, source, exécution, code de sortie et schéma, puis a été intégrée automatiquement après sa CI candidat verte.",
+        "La revue exacte de #71 a trouvé trois ambiguïtés valides. La PR #72 a verrouillé l'identité visée par les gates, rejeté les reprises legacy sans source et ajouté un nonce persistant par exécution fraîche.",
+        "La PR #72 a été intégrée automatiquement après sa CI candidat et sa revue sans constat; aucune seconde fusion n'a été tentée. La CI push de l'arbre intégré a ensuite réussi."
+      ],
+      "executed_checks": [
+        "Local: py_compile réussi; 27/27 tests unitaires proof_ledger/symbolic_dual_gate réussis; git diff --check réussi; Cargo absent, aucun test Rust local revendiqué.",
+        "PR #71 run 37116282883, job 111183621528: tous les steps verts au HEAD eff1fd733de2e5d1474b3a18ad791985089a1398.",
+        "PR #72 run 37116730447, job 111184879668: tous les steps verts au HEAD fc17d66b040df644a9fb34744f15168975f1d0c3; revue exacte sans constat ni fil.",
+        "Cible b1f77ecca2a9b0fd227f91477a7ecbae70756176: run 37116970876, job 111185543968 vert; arbre exact 490ccc66a46d664caf0fc9a5300798e0c285e0bc."
+      ],
+      "waiting": [],
+      "work_items": [
+        {
+          "id": "B-RH-02",
+          "repository": "Memorithm/riemann_ndim_bench",
+          "status": "resolved",
+          "actions": "Identités de preuve canoniques, cible de gate verrouillée, reprise fail-closed et espace d'exécution non collisionnant; distinction explicite entre exact vérifié par script et accepté par ProofLab.",
+          "results": "PR #71/#72 intégrées; main b1f77ecca2a9b0fd227f91477a7ecbae70756176; CI candidat et cible vertes sur l'arbre exact final.",
+          "pr": [
+            {"number": 71, "url": "https://github.com/Memorithm/riemann_ndim_bench/pull/71", "head_sha": "eff1fd733de2e5d1474b3a18ad791985089a1398", "merge_sha": "6b19764c116a2429139d0ddf56c63e85c6e29d95"},
+            {"number": 72, "url": "https://github.com/Memorithm/riemann_ndim_bench/pull/72", "head_sha": "fc17d66b040df644a9fb34744f15168975f1d0c3", "merge_sha": "b1f77ecca2a9b0fd227f91477a7ecbae70756176"}
+          ],
+          "head": "b1f77ecca2a9b0fd227f91477a7ecbae70756176",
+          "checks": [37116282883, 37116730447, 37116970876],
+          "dependencies": [],
+          "next_action": "Clos; préserver le verrou d'identité et les reprises fail-closed."
+        }
+      ]
     }
   ]
 }

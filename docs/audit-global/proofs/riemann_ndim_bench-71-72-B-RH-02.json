@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "ids": ["B-RH-02"],
+  "repository": "Memorithm/riemann_ndim_bench",
+  "default_branch": "main",
+  "audit_and_verified_base": "90ef54177a878601185d34ef39c7d1f855b80032",
+  "pull_requests": [
+    {
+      "number": 71,
+      "url": "https://github.com/Memorithm/riemann_ndim_bench/pull/71",
+      "base_sha": "90ef54177a878601185d34ef39c7d1f855b80032",
+      "head_sha": "eff1fd733de2e5d1474b3a18ad791985089a1398",
+      "merge_sha": "6b19764c116a2429139d0ddf56c63e85c6e29d95",
+      "tree_sha": "e6ec9e08d3a638c7956bc63ed2dce6a3bda29594",
+      "candidate_workflow": {
+        "run_id": 37116282883,
+        "job_ids": [111183621528],
+        "conclusion": "success"
+      },
+      "review": {
+        "exact_head": true,
+        "valid_findings": 3,
+        "result": "Corrected by PR #72 before closure: lock the production gate identity, reject legacy resume without source identity, and make fresh execution namespaces collision-resistant."
+      }
+    },
+    {
+      "number": 72,
+      "url": "https://github.com/Memorithm/riemann_ndim_bench/pull/72",
+      "base_sha": "6b19764c116a2429139d0ddf56c63e85c6e29d95",
+      "head_sha": "fc17d66b040df644a9fb34744f15168975f1d0c3",
+      "merge_sha": "b1f77ecca2a9b0fd227f91477a7ecbae70756176",
+      "tree_sha": "490ccc66a46d664caf0fc9a5300798e0c285e0bc",
+      "candidate_workflow": {
+        "run_id": 37116730447,
+        "job_ids": [111184879668],
+        "conclusion": "success"
+      },
+      "review": {
+        "exact_head": true,
+        "valid_findings": 0,
+        "unresolved_threads": 0,
+        "result": "completed_without_findings"
+      }
+    }
+  ],
+  "final_target": {
+    "sha": "b1f77ecca2a9b0fd227f91477a7ecbae70756176",
+    "tree_sha": "490ccc66a46d664caf0fc9a5300798e0c285e0bc",
+    "exact_tree_match": true,
+    "workflow": {
+      "run_id": 37116970876,
+      "job_ids": [111185543968],
+      "conclusion": "success"
+    }
+  },
+  "checks_really_executed": [
+    "Candidate #71: checkout, Rust toolchain, cargo fmt, Clippy, Rust tests, release smoke, Python setup, pinned Python dependencies, harness compilation and research regressions.",
+    "Candidate #72: checkout, Rust toolchain, cargo fmt, Clippy, Rust tests, release smoke, Python setup, pinned Python dependencies, harness compilation and research regressions.",
+    "Target main: checkout, Rust toolchain, cargo fmt, lint, Rust tests, release smoke, Python setup, pinned Python dependencies, harness compilation and research regressions."
+  ],
+  "local_validation": [
+    "python -m py_compile on changed Python modules: success",
+    "python -m unittest -v tools/test_proof_ledger.py tools/test_symbolic_dual_gate.py: 27/27 success",
+    "git diff --check: success",
+    "Cargo unavailable locally; no local Rust test is claimed"
+  ],
+  "acceptance": {
+    "canonical_proposition_identity_bound": true,
+    "canonical_input_identity_bound": true,
+    "verifier_filename_and_digest_bound": true,
+    "source_sha_bound": true,
+    "unique_execution_identity_bound": true,
+    "zero_exit_and_output_schema_required": true,
+    "gate_target_identity_locked": true,
+    "legacy_resume_without_source_rejected": true,
+    "fresh_run_nonce_persisted": true,
+    "script_verified_exact_distinct_from_prooflab_acceptance": true,
+    "exact_target_tree_validated": true
+  },
+  "automatic_integration": {
+    "observed": true,
+    "duplicate_merge_attempted": false
+  },
+  "excluded_repositories_modified": []
+}
