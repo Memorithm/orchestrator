@@ -636,7 +636,7 @@
       },
       "tested_merge_sha": "19ef234b43c91218400d17311c3ce23a9d816b40",
       "tree_sha": "6c7d88efe61b8486d80c413bb0ae4228eb42cf58",
-      "exact_tree_match": false,
+      "exact_tree_match": true,
       "postmerge_checks": [
         {
           "id": 110146339776,
