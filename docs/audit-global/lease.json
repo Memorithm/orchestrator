@@ -1,19 +1,17 @@
 {
   "schema_version": 1,
-  "owner": "codex-audit-20261003T0408",
-  "acquired_at": "2026-10-03T04:08:30.000Z",
-  "expires_at": "2026-10-03T05:38:30.000Z",
-  "released_at": "2026-10-03T04:28:00Z",
-  "status": "released",
+  "owner": "codex-audit-20261003T0513",
+  "acquired_at": "2026-10-03T05:15:00Z",
+  "expires_at": "2026-10-03T06:45:00Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "previous_owner": "codex-audit-20261003T0313",
-  "previous_expiry": "2026-10-03T04:43:30.000Z",
-  "completed_action": "Forge #50 integrated exactly once after green exact-head checks; FORGE-01 and FORGE-02 closed because current main has the identical tested tree.",
-  "evidence_path": "docs/audit-global/proofs/Forge-50-FORGE-02.json",
+  "previous_owner": "codex-audit-20261003T0408",
+  "previous_expiry": "2026-10-03T05:38:30.000Z",
+  "planned_action": "Reconcile and, if still applicable, remediate B-FL-01 on FieldLab current main with exact-head tests and merge safeguards.",
   "verified_merged_prs": 37,
   "canonical_registry_merged_prs": 37,
   "closed_findings": 31,
-  "remaining_findings": 70,
-  "next_action": "Reconcile the next highest-priority independent finding on its current default-branch HEAD before modification."
+  "remaining_findings": 70
 }
