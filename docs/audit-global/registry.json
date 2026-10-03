@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-03T02:03:30+02:00",
+  "updated_at": "2026-10-03T02:43:30+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 25,
-    "remaining": 76,
-    "merged_prs": 31
+    "closed": 26,
+    "remaining": 75,
+    "merged_prs": 32
   },
   "batches": [
     {
@@ -191,6 +191,11 @@
           "repository": "Memorithm/ProofLab",
           "number": 82,
           "merge_sha": "12d68bbb193a3fe3041f25aa51c44906bfc30c37"
+        },
+        {
+          "repository": "Memorithm/ProofLab",
+          "number": 83,
+          "merge_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2"
         }
       ]
     }
@@ -3085,6 +3090,92 @@
       ],
       "target_validation": "Candidate and exact integrated main commit passed complete Rust and Lean CI with identical tree; aggregate cgroup policy, launcher-failure classification and actual cgroup2 mount-root refusal qualified.",
       "finding_status": "resolved"
+    },
+    {
+      "repository": "Memorithm/ProofLab",
+      "number": 83,
+      "url": "https://github.com/Memorithm/ProofLab/pull/83",
+      "base": "main",
+      "base_sha": "12d68bbb193a3fe3041f25aa51c44906bfc30c37",
+      "head_sha": "8f89fc33af10e750094c8eedf2f4b1cfc2a2a2b8",
+      "merge_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+      "status": "merged_target_validated",
+      "ids": [
+        "B-PL-01"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-03T00:37:52Z",
+      "merge_method": "automatic_rebase_style_integration_observed_after_green_exact_head_checks; guarded merge stopped after target movement and no duplicate call was made",
+      "checks": [
+        {
+          "id": 37082560480,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "8f89fc33af10e750094c8eedf2f4b1cfc2a2a2b8",
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/37082560480",
+          "jobs": [
+            111086110926,
+            111086110810
+          ]
+        }
+      ],
+      "previous_attempts": [
+        {
+          "run_id": 37081373807,
+          "result": "failed_format",
+          "reason": "initial candidate formatting corrected"
+        },
+        {
+          "run_id": 37081588958,
+          "result": "failed_format",
+          "reason": "remaining formatting corrected"
+        },
+        {
+          "run_id": 37082244588,
+          "result": "failed_tests",
+          "reason": "three historical tests updated to the new explicit theorem-policy contract"
+        },
+        {
+          "head_sha": "aae4dc",
+          "result": "compile_failure_corrected",
+          "reason": "Read::by_ref ambiguity caused by Write import"
+        },
+        {
+          "head_sha": "5f096b",
+          "result": "clippy_docs_failure_corrected",
+          "reason": "missing error docs and closure lint corrected"
+        },
+        {
+          "head_sha": "d858f",
+          "result": "format_failure_corrected",
+          "reason": "final rustfmt applied before the exact-head green run"
+        }
+      ],
+      "review": {
+        "head": "8f89fc33af10e750094c8eedf2f4b1cfc2a2a2b8",
+        "result": "obsolete-head P1 spoofing finding corrected, replied and resolved; exact final diff inspected",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "57ca1604286203bc33117b97fc635316147bf305",
+      "exact_tree_match": true,
+      "target_head": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+      "target_checks": [
+        {
+          "id": 37082869060,
+          "name": "CI push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/37082869060",
+          "jobs": [
+            111086983634,
+            111086983843
+          ]
+        }
+      ],
+      "target_validation": "Candidate and exact integrated main commit passed complete Rust and Lean CI with identical tree; theorem identity, axiom allowlist, sorry/unauthorized-axiom rejection and fresh pinned replay qualified.",
+      "finding_status": "resolved"
     }
   ],
   "repository_observations": [
@@ -3251,8 +3342,8 @@
       "repository": "Memorithm/ProofLab",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "12d68bbb193a3fe3041f25aa51c44906bfc30c37",
-      "tree_sha": "375cb8a5ab3925ea4493e70af1ae61e4726147fe",
+      "current_head": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+      "tree_sha": "57ca1604286203bc33117b97fc635316147bf305",
       "protected": null,
       "required_checks": [],
       "error": "Branch-protection endpoint unreadable with installed GitHub App; repository rulesets returned an empty list. No protection bypass is claimed."
@@ -6094,16 +6185,25 @@
         "Exiger un nom de théorème et un audit de ses dépendances/axiomes (allowlist explicite), refuser sorryAx et axiomes additionnels non autorisés; ajouter des contrôles négatifs par sorry, axiom False et preuve dépendant d'un import incomplet. Rejouer le théorème dans une vérification fraîche de l'environnement verrouillé.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
+      "status": "resolved",
+      "current_head": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
       "default_branch": "main",
       "audit_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "Explicit theorem policy, axiom allowlist, fresh exact-source re-elaboration, sorryAx/unauthorized-axiom refusal and ambiguous-report fail-closed behavior merged; candidate and exact target CI passed on identical tree.",
+      "policy_review": "AGENTS.md and PolyForm Noncommercial 1.0.0 read; trust-boundary fail-closed requirements preserved.",
+      "prs": [
+        {
+          "number": 83,
+          "url": "https://github.com/Memorithm/ProofLab/pull/83",
+          "head_sha": "8f89fc33af10e750094c8eedf2f4b1cfc2a2a2b8",
+          "merge_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/ProofLab-83-B-PL-01.json"
+      ],
+      "last_observed_at": "2026-10-03T02:43:30+02:00",
+      "next_action": "Closed; preserve proof on merged SHA and re-open only if a target regression invalidates the theorem/axiom trust boundary."
     },
     {
       "id": "B-PL-02",
@@ -6888,22 +6988,22 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261003T0003",
-    "acquired_at": "2026-10-03T00:03:01.906Z",
-    "expires_at": "2026-10-03T00:23:01.906Z",
-    "released_at": "2026-10-03T00:03:30.000Z",
+    "owner": "codex-audit-20261003T0008",
+    "acquired_at": "2026-10-03T00:08:48.779Z",
+    "expires_at": "2026-10-03T01:38:48.779Z",
+    "released_at": "2026-10-03T00:43:30Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "previous_owner": "codex-audit-20261002T2308",
-    "previous_expiry": "2026-10-03T00:38:30.000Z",
-    "completed_action": "ProofLab #81 and #82 reconciled exactly once; B-PL-02 closed after candidate and exact integrated target CI qualified aggregate cgroup v2 policy and both review fixes. Short reconciliation lease aligned registry and lease metadata.",
-    "evidence_path": "docs/audit-global/proofs/ProofLab-81-82-B-PL-02.json",
-    "verified_merged_prs": 31,
-    "canonical_registry_merged_prs": 31,
-    "closed_findings": 25,
-    "remaining_findings": 76,
-    "next_action": "Reconcile the current HEAD for the highest-priority open finding, including B-PL-01 or another remaining isolation item, before modification."
+    "previous_owner": "codex-audit-20261003T0003",
+    "previous_expiry": "2026-10-03T00:23:01.906Z",
+    "completed_action": "ProofLab #83 reconciled exactly once; B-PL-01 closed after explicit theorem/axiom policy, obsolete-head spoofing review correction, candidate CI and exact integrated target CI all qualified.",
+    "evidence_path": "docs/audit-global/proofs/ProofLab-83-B-PL-01.json",
+    "verified_merged_prs": 32,
+    "canonical_registry_merged_prs": 32,
+    "closed_findings": 26,
+    "remaining_findings": 75,
+    "next_action": "Reconcile the current HEAD for the highest-priority open finding, starting with COG-RSI-001/002 or the next independent priority item, before modification."
   },
   "capabilities": [
     {

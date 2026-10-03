@@ -1,0 +1,142 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-03T02:43:30+02:00",
+  "finding": {
+    "id": "B-PL-01",
+    "repository": "Memorithm/ProofLab",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#B-PL-01"
+  },
+  "acceptance": {
+    "result": "qualified",
+    "summary": "Proof promotion now binds an explicit Lean declaration and explicit axiom allowlist into the content-addressed invocation, re-elaborates the exact source in a fresh pinned Lean process, rejects sorryAx and every unauthorized axiom, and fails closed on absent or ambiguous reports before any ProofArtifact can be emitted.",
+    "coverage": [
+      "explicit theorem name and sorted explicit axiom allowlist bound to invocation contract",
+      "legacy jobs without theorem policy fail closed",
+      "fresh exact-source re-elaboration with appended #print axioms",
+      "untrusted immutable memfd/Bubblewrap/cgroup path and trusted unique create-new staging",
+      "negative controls for sorry, axiom False, incomplete import, and spoofed or duplicate reports",
+      "audit report propagated through verification, evidence, and reproduction outcomes"
+    ],
+    "limitations": [
+      "Branch-protection API was not readable with the installed GitHub App; repository rulesets returned an empty list. No protection bypass is claimed.",
+      "No local Rust or Lean execution is claimed because the local environment lacked those toolchains; local git diff --check succeeded.",
+      "The automated P1 review was produced on obsolete head 4366e4bbcb21d89cb7b3b9af9c56d90701308ac1; the final implementation corrected it, the thread was replied to and resolved, and both candidate and target CI passed."
+    ]
+  },
+  "pull_requests": [
+    {
+      "number": 83,
+      "url": "https://github.com/Memorithm/ProofLab/pull/83",
+      "base": "main",
+      "base_sha": "12d68bbb193a3fe3041f25aa51c44906bfc30c37",
+      "head_sha": "8f89fc33af10e750094c8eedf2f4b1cfc2a2a2b8",
+      "merge_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+      "candidate_tree": "57ca1604286203bc33117b97fc635316147bf305",
+      "integrated_tree": "57ca1604286203bc33117b97fc635316147bf305",
+      "merged_at": "2026-10-03T00:37:52Z",
+      "integration": "automatic rebase-style integration observed after green exact-head checks; the guarded manual merge was not repeated after detecting target movement",
+      "status": "merged_target_validated",
+      "candidate_validation": {
+        "run_id": 37082560480,
+        "url": "https://github.com/Memorithm/ProofLab/actions/runs/37082560480",
+        "head_sha": "8f89fc33af10e750094c8eedf2f4b1cfc2a2a2b8",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 111086110926,
+            "name": "Rust",
+            "conclusion": "success"
+          },
+          {
+            "id": 111086110810,
+            "name": "Lean",
+            "conclusion": "success"
+          }
+        ],
+        "coverage": [
+          "Rust format",
+          "Clippy",
+          "workspace tests",
+          "Bubblewrap installation",
+          "aggregate cgroup delegation",
+          "untrusted Lean OS isolation qualification",
+          "pinned Lean build",
+          "fresh-kernel replay",
+          "Rust-to-Lean trust-boundary integration",
+          "isolated Rust API qualification"
+        ]
+      },
+      "target_validation": {
+        "run_id": 37082869060,
+        "url": "https://github.com/Memorithm/ProofLab/actions/runs/37082869060",
+        "head_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 111086983634,
+            "name": "Rust",
+            "conclusion": "success"
+          },
+          {
+            "id": 111086983843,
+            "name": "Lean",
+            "conclusion": "success"
+          }
+        ],
+        "exact_tree_match": true
+      },
+      "review": {
+        "result": "The P1 output-spoofing finding on obsolete head 4366e4 was corrected before merge by requiring exactly one consistent report; mixed no-axiom/axiom and duplicate reports fail closed.",
+        "thread": "PRRT_kwDOUTVcg86oh_cQ",
+        "reply_comment_id": 4170957919,
+        "resolved": true,
+        "unresolved_threads": 0
+      }
+    }
+  ],
+  "diagnostic_attempts": [
+    {
+      "run_id": 37081373807,
+      "result": "failed_format",
+      "reason": "initial candidate formatting corrected"
+    },
+    {
+      "run_id": 37081588958,
+      "result": "failed_format",
+      "reason": "remaining formatting corrected"
+    },
+    {
+      "run_id": 37082244588,
+      "result": "failed_tests",
+      "reason": "three historical tests updated to the new explicit theorem-policy contract"
+    },
+    {
+      "head_sha": "aae4dc",
+      "result": "compile_failure_corrected",
+      "reason": "Read::by_ref ambiguity caused by Write import"
+    },
+    {
+      "head_sha": "5f096b",
+      "result": "clippy_docs_failure_corrected",
+      "reason": "missing error docs and closure lint corrected"
+    },
+    {
+      "head_sha": "d858f",
+      "result": "format_failure_corrected",
+      "reason": "final rustfmt applied before the exact-head green run"
+    }
+  ],
+  "final_repository_state": {
+    "branch": "main",
+    "sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+    "tree": "57ca1604286203bc33117b97fc635316147bf305"
+  },
+  "counting": {
+    "batch": 1,
+    "pr_index": 32,
+    "merged_total": 32,
+    "closed_findings": 26,
+    "remaining_findings": 75
+  }
+}

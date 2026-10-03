@@ -126,6 +126,88 @@
           "next_action": "Clos; reprendre B-PL-01 ou le prochain constat prioritaire après réconciliation du HEAD."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T02:43:30+02:00",
+      "hour": "2026-10-03T02:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 32,
+        "target": 50
+      },
+      "total_merged": 32,
+      "closed": 26,
+      "remaining": 75,
+      "actions": [
+        "B-PL-01 revérifié sur ProofLab main 12d68bbb193a3fe3041f25aa51c44906bfc30c37 puis corrigé par une politique explicite de théorème et d’axiomes.",
+        "La PR #83 lie le nom du théorème et l’allowlist au contrat adressé par contenu, rejoue la source exacte dans un Lean frais, refuse sorryAx, axiomes non autorisés et rapports absents ou ambigus.",
+        "Le constat P1 de revue sur l’usurpation de sortie, émis sur le HEAD obsolète 4366e4, a été corrigé, couvert par test, répondu et résolu.",
+        "La PR a été intégrée automatiquement pendant le garde de fusion; le changement de cible a été détecté et aucune seconde fusion n’a été tentée."
+      ],
+      "executed_checks": [
+        "Local: git diff --check réussi; aucune exécution Rust/Lean locale revendiquée.",
+        "Run candidat 37082560480 au HEAD 8f89fc33af10e750094c8eedf2f4b1cfc2a2a2b8: Rust 111086110926 et Lean 111086110810 réussis.",
+        "Run cible push 37082869060 au SHA 674a1f1d8a32bf6c097a7b75765845aa30af3cc2: Rust 111086983634 et Lean 111086983843 réussis.",
+        "Arbre candidat et arbre intégré identiques: 57ca1604286203bc33117b97fc635316147bf305.",
+        "Couverture réelle: format, Clippy, tests workspace, isolation Bubblewrap/cgroup, build Lean épinglé, rejeu fresh-kernel, frontière Rust→Lean et API isolée."
+      ],
+      "diagnostic_attempts": [
+        {
+          "run_id": 37081373807,
+          "result": "failed_format",
+          "reason": "initial candidate formatting corrected"
+        },
+        {
+          "run_id": 37081588958,
+          "result": "failed_format",
+          "reason": "remaining formatting corrected"
+        },
+        {
+          "run_id": 37082244588,
+          "result": "failed_tests",
+          "reason": "three historical tests updated to the new explicit theorem-policy contract"
+        },
+        {
+          "head_sha": "aae4dc",
+          "result": "compile_failure_corrected",
+          "reason": "Read::by_ref ambiguity caused by Write import"
+        },
+        {
+          "head_sha": "5f096b",
+          "result": "clippy_docs_failure_corrected",
+          "reason": "missing error docs and closure lint corrected"
+        },
+        {
+          "head_sha": "d858f",
+          "result": "format_failure_corrected",
+          "reason": "final rustfmt applied before the exact-head green run"
+        }
+      ],
+      "waiting": [],
+      "work_items": [
+        {
+          "id": "B-PL-01",
+          "repository": "Memorithm/ProofLab",
+          "status": "resolved",
+          "actions": "Nom de théorème et allowlist explicites; audit #print axioms frais; refus sorryAx/axiomes non autorisés; ambiguïtés et sorties usurpées fail-closed.",
+          "results": "PR #83 intégrée sous 674a1f1d8a32bf6c097a7b75765845aa30af3cc2; CI candidat et cible complètes vertes sur l’arbre exact.",
+          "pr": [
+            {
+              "number": 83,
+              "url": "https://github.com/Memorithm/ProofLab/pull/83",
+              "head_sha": "8f89fc33af10e750094c8eedf2f4b1cfc2a2a2b8",
+              "merge_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2"
+            }
+          ],
+          "head": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+          "checks": [
+            37082560480,
+            37082869060
+          ],
+          "dependencies": [],
+          "next_action": "Clos; reprendre COG-RSI-001/002 ou le prochain constat prioritaire après réconciliation du HEAD."
+        }
+      ]
     }
   ]
 }
