@@ -1,8 +1,8 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 28/50 ; cumul fusionné : 28 ; clos : 24 ; restants : 77.
+101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 31/50 ; cumul fusionné : 31 ; clos : 25 ; restants : 76.
 
-État réconcilié du 2 octobre 2026 à 23:13 Europe/Paris : **28/50 PR techniques fusionnées et validées**, **24/101 constats clos**, **77 restants**. ProofLab #78 et #79 sont désormais inscrites une seule fois dans le registre canonique; B-PL-02 reste en cours. Voir la [preuve exacte](proofs/ProofLab-78-79-B-PL-02.json) et le [journal du passage](journal/2026-10-02.md). Les commits de suivi ne comptent pas comme PR correctives.
+État réconcilié du 3 octobre 2026 à 02:00 Europe/Paris : **31/50 PR techniques fusionnées et validées**, **25/101 constats clos**, **76 restants**. ProofLab #81 et #82 sont inscrites une seule fois; `B-PL-02` est clos sur le SHA intégré `12d68bbb193a3fe3041f25aa51c44906bfc30c37`. Voir la [preuve exacte](proofs/ProofLab-81-82-B-PL-02.json) et le [journal du passage](journal/2026-10-03.md). Les commits de suivi ne comptent pas comme PR correctives.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -82,7 +82,7 @@
 | B-RH-01 | Memorithm/riemann_ndim_bench | 8 | à faire |  |
 | B-RH-02 | Memorithm/riemann_ndim_bench | 6 | à faire |  |
 | B-PL-01 | Memorithm/ProofLab | 6 | à faire |  |
-| B-PL-02 | Memorithm/ProofLab | 3 | en cours | [supervision #77](proofs/ProofLab-B-PL-02-process-supervision.json), [isolation #78/#79](proofs/ProofLab-78-79-B-PL-02.json), [ingestion bornée et Lean isolé #80](proofs/ProofLab-80-B-PL-02.json), [PR #80](https://github.com/Memorithm/ProofLab/pull/80); politique agrégée hôte restante |
+| B-PL-02 | Memorithm/ProofLab | 3 | résolu | [preuves #77–#80](proofs/ProofLab-80-B-PL-02.json), [politique agrégée cgroup #81/#82](proofs/ProofLab-81-82-B-PL-02.json), [PR #81](https://github.com/Memorithm/ProofLab/pull/81), [PR #82](https://github.com/Memorithm/ProofLab/pull/82), [CI cible](https://github.com/Memorithm/ProofLab/actions/runs/37079650851) |
 | B-PL-03 | Memorithm/ProofLab | 9 | à faire | B-PL-01, B-PL-02 |
 | B-FL-01 | Memorithm/FieldLab | 5 | à faire |  |
 | B-FL-02 | Memorithm/FieldLab | 9 | à faire |  |
