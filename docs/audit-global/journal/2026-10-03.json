@@ -53,6 +53,79 @@
           "next_action": "Qualifier une politique de budget agrégé hôte/cgroup pour charges hostiles, distincte des limites par processus."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T02:00:00+02:00",
+      "hour": "2026-10-03T02:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 31,
+        "target": 50
+      },
+      "total_merged": 31,
+      "closed": 25,
+      "remaining": 76,
+      "actions": [
+        "B-PL-02 revérifié et clos sur ProofLab main 12d68bbb193a3fe3041f25aa51c44906bfc30c37 après politique agrégée cgroup v2 et correction des deux constats de revue.",
+        "PR #81 validée au HEAD exact a11cce50b3edf21df4166ed2b05670b36fb77562 puis intégrée automatiquement; aucun run push séparé n'existe et aucune validation cible n'est inventée.",
+        "PR #82 validée au HEAD exact 9e791ac10ee09527ab2c611897080c66e8c97882 puis intégrée automatiquement; aucune seconde fusion n'a été tentée.",
+        "La branche cible main 12d68bbb193a3fe3041f25aa51c44906bfc30c37 a repassé les jobs Rust et Lean complets sur l'arbre exact intégré."
+      ],
+      "executed_checks": [
+        "Local: git diff --check réussi; cargo indisponible, aucune exécution Rust/Lean locale revendiquée.",
+        "Run candidat #81 37077228218: CI Rust et Lean complète réussie au HEAD a11cce50b3edf21df4166ed2b05670b36fb77562.",
+        "Run candidat #82 37079154977: Rust 111075943073 et Lean 111075943349 réussis.",
+        "Run cible push 37079650851: Rust 111077121942 et Lean 111077122018 réussis.",
+        "Arbre candidat #82 et arbre intégré identiques: 375cb8a5ab3925ea4493e70af1ae61e4726147fe.",
+        "Revues: trois fils répondus/résolus; tentative unsafe retirée; classification launcher et égalité aux mounts cgroup2 couvertes."
+      ],
+      "diagnostic_attempts": [
+        {
+          "run_id": 37078523254,
+          "result": "failed_clippy_corrected",
+          "reason": "unsafe pre_exec removed"
+        },
+        {
+          "run_id": 37078737493,
+          "result": "failed_rustfmt_corrected"
+        },
+        {
+          "run_id": 37078976003,
+          "result": "failed_truncated_non_utf8_transfer_corrected"
+        }
+      ],
+      "waiting": [],
+      "work_items": [
+        {
+          "id": "B-PL-02",
+          "repository": "Memorithm/ProofLab",
+          "status": "resolved",
+          "actions": "Politique agrégée cgroup v2 mémoire/PIDs/CPU; lecture de confirmation; entrée de la charge entière; drainage/nettoyage bornés; échecs launcher Unknown; refus de tous les mounts cgroup2 réels.",
+          "results": "PR #81 intégrée sous a886ec2a3122fcaff7755a09ae5c899f0137976b; PR #82 intégrée sous 12d68bbb193a3fe3041f25aa51c44906bfc30c37; CI candidat et cible complètes vertes.",
+          "pr": [
+            {
+              "number": 81,
+              "url": "https://github.com/Memorithm/ProofLab/pull/81",
+              "head_sha": "a11cce50b3edf21df4166ed2b05670b36fb77562",
+              "merge_sha": "a886ec2a3122fcaff7755a09ae5c899f0137976b"
+            },
+            {
+              "number": 82,
+              "url": "https://github.com/Memorithm/ProofLab/pull/82",
+              "head_sha": "9e791ac10ee09527ab2c611897080c66e8c97882",
+              "merge_sha": "12d68bbb193a3fe3041f25aa51c44906bfc30c37"
+            }
+          ],
+          "head": "12d68bbb193a3fe3041f25aa51c44906bfc30c37",
+          "checks": [
+            37077228218,
+            37079154977,
+            37079650851
+          ],
+          "dependencies": [],
+          "next_action": "Clos; reprendre B-PL-01 ou le prochain constat prioritaire après réconciliation du HEAD."
+        }
+      ]
     }
   ]
 }
