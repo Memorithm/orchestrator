@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-10-03T05:28:00+02:00",
+  "observed_at": "2026-10-03T06:28:00+02:00",
   "finding_id": "FORGE-01",
   "repository": "Memorithm/Forge",
-  "status": "waiting_ci",
+  "status": "resolved",
   "source": {
     "audit_ref": "libfile_6e12d363113c8191886a6e694ff69a13#FORGE-01",
     "audit_commit": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
@@ -87,28 +87,34 @@
     ]
   },
   "integration": {
-    "target_head": "ae383a6af7aa0917d365edcee1d159e41f32702a",
-    "target_tree_sha": "53f661b4bbe5eac6e01b677742ab57ea58059bd4",
-    "exact_tree_match": true,
+    "target_head": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
+    "target_tree_sha": "a150bed2f17a801cb8dbde65a1c06436ccaa6220",
+    "exact_tree_match": false,
     "merge_guard": "The merge endpoint reported an in-progress merge; merged state was then observed and no duplicate merge request was sent.",
     "target_workflow_runs": [],
     "target_combined_statuses": [],
-    "target_validation": "pending",
-    "reason": "No workflow run or combined status was observable for the exact integrated SHA after repeated polling."
+    "target_validation": "resolved_by_exact_tested_successor_tree",
+    "reason": "The original FORGE-01 candidate tree differs from current main because FORGE-02 was added later. Forge #50 exact-head CI exercised that full successor tree containing FORGE-01. Git object comparison proves that green candidate tree a150bed2f17a801cb8dbde65a1c06436ccaa6220 exactly equals current main tree at 82df6c5bdeb60911be88cf3efd8b740133e9f9cc.",
+    "successor_validation": {
+      "head_sha": "a02b242628db8cd30cd6b5836b8a3fab43ff948d",
+      "tree_sha": "a150bed2f17a801cb8dbde65a1c06436ccaa6220",
+      "runs": [37096187524, 37096187570, 37096187529],
+      "proof": "docs/audit-global/proofs/Forge-50-FORGE-02.json"
+    }
   },
   "claim_boundaries": [
     "Candidate CI validated source-level Rust tests and workspace checks for the exact PR head.",
     "CUDA regression execution is conditional on NVCC; no GPU hardware qualification is claimed.",
-    "FORGE-01 is not closed until relevant validation is observed on the exact integrated SHA.",
+    "FORGE-01 is closed because later exact-head CI tested the exact current main tree containing this change.",
     "FORGE-02 was not remediated in this change."
   ],
   "counters": {
     "batch": 1,
-    "merged_in_batch": 36,
+    "merged_in_batch": 37,
     "batch_target": 50,
-    "total_merged": 36,
-    "closed_findings": 29,
-    "remaining_findings": 72
+    "total_merged": 37,
+    "closed_findings": 31,
+    "remaining_findings": 70
   },
   "exclusions_untouched": [
     "CHECKUPAUTO.FR",

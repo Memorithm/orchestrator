@@ -447,6 +447,89 @@
           "next_action": "Concevoir une isolation réelle ou un refus fail-closed compatible avec les invariants Forge."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T06:28:00+02:00",
+      "hour": "2026-10-03T06:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 37,
+        "target": 50
+      },
+      "total_merged": 37,
+      "closed": 31,
+      "remaining": 70,
+      "actions": [
+        "FORGE-01 recontrôlé sur le successeur exact de main; FORGE-02 revérifié sur le HEAD courant avant modification, avec AGENTS.md, licence PolyForm Noncommercial 1.0.0 et roadmaps applicables relus.",
+        "Forge #50 route toutes les phases natives SIMD, CUDA et low-rank par run_untrusted_candidate et CandidateExecutionEnvelope::untrusted_generated_code.",
+        "Le backend POSIX supervisé ne satisfaisant ni isolation conteneur ni réseau deny-all, l'admission refuse avant spawn; un test à marqueur prouve l'absence de lancement.",
+        "Les attentes historiques d'exécution native des tests low-rank/SIMD/CUDA ont été remplacées par des assertions fail-closed, sans relâcher les gates.",
+        "La PR #50 a été intégrée automatiquement après les checks verts; aucune seconde fusion n'a été tentée. La revue du HEAD exact s'est achevée sans constat majeur ni fil.",
+        "L'arbre candidat vert et l'arbre main intégré sont identiques; cette validation du successeur exact clôt également FORGE-01."
+      ],
+      "executed_checks": [
+        "Local: git diff --check réussi; Cargo/rustfmt absents, aucune exécution Rust locale revendiquée.",
+        "PR #50 HEAD a02b242628db8cd30cd6b5836b8a3fab43ff948d, CI 37096187524 réussie: NNIS adapter 111126494994 et workspace 111126495099.",
+        "PR #50 HEAD exact, SML topology 37096187570 / job 111126525731 réussi.",
+        "PR #50 HEAD exact, Scientific ask-tell 37096187529 / job 111126519510 réussi.",
+        "Revue Codex terminée sur a02b242628 sans constat majeur; zéro fil non résolu.",
+        "Comparaison Git: arbre candidat a150bed2f17a801cb8dbde65a1c06436ccaa6220 identique à main 82df6c5bdeb60911be88cf3efd8b740133e9f9cc."
+      ],
+      "diagnostic_attempts": [
+        {
+          "head": "75ac12d9971fb868a8b356456f003ae055e8e374",
+          "result": "rustfmt_failed_corrected"
+        },
+        {
+          "head": "eaa67b05a990006195191449b70c4a0a5d9dee80",
+          "result": "legacy_low_rank_expectations_failed_corrected"
+        },
+        {
+          "head": "c7e17894e7c8995dd9d3e150f421e2d01023c7f6",
+          "result": "legacy_SIMD_expectation_failed_corrected"
+        }
+      ],
+      "waiting": [],
+      "work_items": [
+        {
+          "id": "FORGE-01",
+          "repository": "Memorithm/Forge",
+          "status": "resolved",
+          "actions": "Réconciliation avec le successeur exact validé de main.",
+          "results": "Le code #49 est inclus dans l'arbre exact vert de #50, identique à main.",
+          "pr": [
+            {
+              "number": 49,
+              "url": "https://github.com/Memorithm/Forge/pull/49",
+              "head_sha": "8e0bb462adf5647dc4dfc20a8de0ecb70533d2ab",
+              "merge_sha": "ae383a6af7aa0917d365edcee1d159e41f32702a"
+            }
+          ],
+          "head": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
+          "checks": [37096187524, 37096187570, 37096187529],
+          "dependencies": [],
+          "next_action": "Clos; maintenir les régressions numériques."
+        },
+        {
+          "id": "FORGE-02",
+          "repository": "Memorithm/Forge",
+          "status": "resolved",
+          "actions": "Admission stricte mutualisée et refus avant spawn de tout candidat natif sur backend insuffisant.",
+          "results": "PR #50 intégrée; arbre exact validé, revue sans constat majeur, aucun fil non résolu.",
+          "pr": [
+            {
+              "number": 50,
+              "url": "https://github.com/Memorithm/Forge/pull/50",
+              "head_sha": "a02b242628db8cd30cd6b5836b8a3fab43ff948d",
+              "merge_sha": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc"
+            }
+          ],
+          "head": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
+          "checks": [37096187524, 37096187570, 37096187529],
+          "dependencies": [],
+          "next_action": "Clos; conserver le refus fail-closed jusqu'à qualification d'un backend conteneur ou plus fort."
+        }
+      ]
     }
   ]
 }

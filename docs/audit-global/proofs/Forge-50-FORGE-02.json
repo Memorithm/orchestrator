@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-03T06:28:00+02:00",
+  "finding_id": "FORGE-02",
+  "repository": "Memorithm/Forge",
+  "status": "resolved",
+  "source": {
+    "audit_ref": "libfile_6e12d363113c8191886a6e694ff69a13#FORGE-02",
+    "audit_commit": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
+    "starting_base": "ae383a6af7aa0917d365edcee1d159e41f32702a"
+  },
+  "pull_request": {
+    "number": 50,
+    "url": "https://github.com/Memorithm/Forge/pull/50",
+    "base": "main",
+    "head_sha": "a02b242628db8cd30cd6b5836b8a3fab43ff948d",
+    "merged_at": "2026-10-03T04:22:31Z",
+    "merge_sha": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
+    "merge_method": "automatic rebase integration observed; no duplicate merge request sent"
+  },
+  "changes": {
+    "files": [
+      "forge-core/src/isolation.rs",
+      "forge-core/src/lib.rs",
+      "forge-core/src/domains/simd_kernel.rs",
+      "forge-core/src/domains/cuda_kernel.rs",
+      "forge-core/src/domains/low_rank.rs",
+      "forge-core/tests/simd_cheat_test.rs",
+      "forge-core/tests/cuda_cheat_test.rs",
+      "forge-core/tests/low_rank_tests.rs",
+      "docs/AX_TASK_ISOLATION_BOOTSTRAP.md"
+    ],
+    "behavior": [
+      "Route every SIMD, CUDA and low-rank candidate compilation/execution phase through run_untrusted_candidate.",
+      "Build CandidateExecutionEnvelope::untrusted_generated_code with container-class isolation and deny-all networking requirements.",
+      "Reject before spawn on the current POSIX supervised backend because it cannot satisfy that security contract.",
+      "Prove with a marker test that a rejected command is not spawned and prevent native domains from calling legacy timeout/rlimit runners."
+    ]
+  },
+  "instructions_and_license": [
+    "AGENTS.md",
+    "PolyForm Noncommercial 1.0.0",
+    ".agent/FORGE_ECOSYSTEM_ROADMAP.yaml",
+    ".agent/ML_MATURITY_5_OF_5.yaml",
+    ".agent/KERNEL_AGENT_PROGRAM.yaml",
+    "docs/AX_TASK_ISOLATION_BOOTSTRAP.md"
+  ],
+  "candidate_validation": {
+    "head_sha": "a02b242628db8cd30cd6b5836b8a3fab43ff948d",
+    "tree_sha": "a150bed2f17a801cb8dbde65a1c06436ccaa6220",
+    "checks": [
+      {
+        "id": 37096187570,
+        "name": "SML topology",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": [111126525731],
+        "url": "https://github.com/Memorithm/Forge/actions/runs/37096187570"
+      },
+      {
+        "id": 37096187529,
+        "name": "Scientific ask-tell",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": [111126519510],
+        "url": "https://github.com/Memorithm/Forge/actions/runs/37096187529"
+      },
+      {
+        "id": 37096187524,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": [111126494994, 111126495099],
+        "url": "https://github.com/Memorithm/Forge/actions/runs/37096187524",
+        "executed": [
+          "cargo fmt --check",
+          "cargo check",
+          "cargo clippy -D warnings",
+          "workspace tests including 70 forge-core unit tests and native-domain fail-closed regressions",
+          "bandit tests and LLM/bandit Clippy",
+          "NNIS adapter format, check, Clippy and host-gate tests"
+        ]
+      }
+    ],
+    "review": {
+      "head": "a02b242628db8cd30cd6b5836b8a3fab43ff948d",
+      "result": "completed_no_major_issues",
+      "unresolved_threads": 0,
+      "url": "https://github.com/Memorithm/Forge/pull/50#issuecomment-5965507560"
+    },
+    "local": [
+      "git diff --check: success",
+      "Cargo/rustfmt unavailable locally; no local Rust execution claimed"
+    ]
+  },
+  "diagnostic_attempts": [
+    {
+      "head_sha": "75ac12d9971fb868a8b356456f003ae055e8e374",
+      "result": "rustfmt_failed_corrected"
+    },
+    {
+      "head_sha": "eaa67b05a990006195191449b70c4a0a5d9dee80",
+      "result": "legacy_low_rank_expectations_failed_corrected"
+    },
+    {
+      "head_sha": "c7e17894e7c8995dd9d3e150f421e2d01023c7f6",
+      "result": "legacy_SIMD_baseline_expectation_failed_corrected"
+    }
+  ],
+  "integration": {
+    "target_head": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
+    "target_tree_sha": "a150bed2f17a801cb8dbde65a1c06436ccaa6220",
+    "exact_tree_match": true,
+    "target_workflow_runs": [],
+    "target_validation": "No separate push workflow was emitted. Git object comparison proves the exact current main tree equals the green PR head tree."
+  },
+  "claim_boundaries": [
+    "The current POSIX supervised backend is explicitly not claimed as a sandbox or security boundary.",
+    "Native candidate execution is intentionally fail-closed until a truthful container-or-stronger backend exists.",
+    "CUDA tests self-skip without NVCC; no GPU hardware qualification is claimed."
+  ],
+  "counters": {
+    "batch": 1,
+    "merged_in_batch": 37,
+    "batch_target": 50,
+    "total_merged": 37,
+    "closed_findings": 31,
+    "remaining_findings": 70
+  },
+  "exclusions_untouched": [
+    "CHECKUPAUTO.FR",
+    "RemoteOps",
+    "SoulSystem",
+    "scirust-automotive"
+  ]
+}
