@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 35/50 ; cumul fusionné : 35 ; clos : 29 ; restants : 72.
+101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 36/50 ; cumul fusionné : 36 ; clos : 29 ; restants : 72.
 
 État réconcilié du 3 octobre 2026 à 04:49 Europe/Paris : **35/50 PR techniques fusionnées et validées**, **29/101 constats clos**, **72 restants**. `COG-RSI-003` est clos après les PR [RSI #59](https://github.com/Memorithm/RSI/pull/59) et [RSI #61](https://github.com/Memorithm/RSI/pull/61), intégrées jusqu’au SHA cible `5e27df08bc63afbf8af08c06b9adb7ce11e4c255`. La seconde PR corrige les deux constats de revue post-fusion de #59 : limites cgroup v2 agrégées et montage de la racine complète du snapshot. Voir la [preuve exacte](proofs/RSI-59-61-COG-RSI-003.json), la [CI candidat finale](https://github.com/Memorithm/RSI/actions/runs/37090480423), la [CI cible](https://github.com/Memorithm/RSI/actions/runs/37090780952) et le [journal du passage](journal/2026-10-03.md). La PR #60, divergente, a été fermée sans fusion et n’est pas comptée; les commits de suivi ne comptent pas comme PR correctives.
 
@@ -60,7 +60,7 @@
 | COG-SML-001 | Périmètre privé — source interne | 9 | à faire |  |
 | COG-SML-002 | Périmètre privé — source interne | 8 | à faire |  |
 | COG-SML-003 | Périmètre privé — source interne | 9 | à faire |  |
-| FORGE-01 | Memorithm/Forge | 5 | à faire |  |
+| FORGE-01 | Memorithm/Forge | 5 | attente CI | [Forge #49](https://github.com/Memorithm/Forge/pull/49) fusionnée ; revalider le SHA cible exact avant clôture |
 | FORGE-02 | Memorithm/Forge | 7 | à faire |  |
 | FORGE-03 | Memorithm/Forge | 9 | à faire |  |
 | FORGE-04 | Memorithm/Forge | 3 | résolu | [preuve](proofs/Forge-48-FORGE-04.json), [PR #48](https://github.com/Memorithm/Forge/pull/48) |

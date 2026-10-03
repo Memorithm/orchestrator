@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-03T05:28:00+02:00",
+  "finding_id": "FORGE-01",
+  "repository": "Memorithm/Forge",
+  "status": "waiting_ci",
+  "source": {
+    "audit_ref": "libfile_6e12d363113c8191886a6e694ff69a13#FORGE-01",
+    "audit_commit": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
+    "starting_base": "6e75489c51a65ac0e3abcdbd79f04f133a52c00f"
+  },
+  "pull_request": {
+    "number": 49,
+    "url": "https://github.com/Memorithm/Forge/pull/49",
+    "base": "main",
+    "head_sha": "8e0bb462adf5647dc4dfc20a8de0ecb70533d2ab",
+    "merged_at": "2026-10-03T03:22:23Z",
+    "merge_sha": "ae383a6af7aa0917d365edcee1d159e41f32702a"
+  },
+  "changes": {
+    "files": [
+      "forge-core/src/domains/simd_kernel.rs",
+      "forge-core/src/domains/cuda_kernel.rs",
+      "forge-core/tests/simd_cheat_test.rs",
+      "forge-core/tests/cuda_cheat_test.rs"
+    ],
+    "behavior": [
+      "Reject non-finite reference, output and difference values in generated SIMD/CUDA verification harnesses.",
+      "Preinitialize CUDA output with a finite sentinel before launch so empty and partially written kernels fail deterministically.",
+      "Exercise NaN, infinity, empty-kernel and partial-output regressions."
+    ]
+  },
+  "instructions_and_license": [
+    "AGENTS.md",
+    "PolyForm Noncommercial 1.0.0",
+    ".agent/FORGE_ECOSYSTEM_ROADMAP.yaml",
+    ".agent/ML_MATURITY_5_OF_5.yaml",
+    ".agent/KERNEL_AGENT_PROGRAM.yaml",
+    "docs/AX_TASK_ISOLATION_BOOTSTRAP.md"
+  ],
+  "candidate_validation": {
+    "head_sha": "8e0bb462adf5647dc4dfc20a8de0ecb70533d2ab",
+    "tree_sha": "53f661b4bbe5eac6e01b677742ab57ea58059bd4",
+    "checks": [
+      {
+        "id": 37092839826,
+        "name": "SML topology",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "8e0bb462adf5647dc4dfc20a8de0ecb70533d2ab",
+        "url": "https://github.com/Memorithm/Forge/actions/runs/37092839826",
+        "jobs": [
+          111116633178
+        ]
+      },
+      {
+        "id": 37092839931,
+        "name": "Scientific ask-tell",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "8e0bb462adf5647dc4dfc20a8de0ecb70533d2ab",
+        "url": "https://github.com/Memorithm/Forge/actions/runs/37092839931",
+        "jobs": [
+          111116634001
+        ]
+      },
+      {
+        "id": 37092839955,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "8e0bb462adf5647dc4dfc20a8de0ecb70533d2ab",
+        "url": "https://github.com/Memorithm/Forge/actions/runs/37092839955",
+        "jobs": [
+          111116633910,
+          111116634176
+        ]
+      }
+    ],
+    "review": {
+      "result": "completed_no_findings",
+      "unresolved_threads": 0
+    },
+    "local": [
+      "git diff --check: success",
+      "Cargo/rustfmt unavailable; no local Rust execution claimed"
+    ]
+  },
+  "integration": {
+    "target_head": "ae383a6af7aa0917d365edcee1d159e41f32702a",
+    "target_tree_sha": "53f661b4bbe5eac6e01b677742ab57ea58059bd4",
+    "exact_tree_match": true,
+    "merge_guard": "The merge endpoint reported an in-progress merge; merged state was then observed and no duplicate merge request was sent.",
+    "target_workflow_runs": [],
+    "target_combined_statuses": [],
+    "target_validation": "pending",
+    "reason": "No workflow run or combined status was observable for the exact integrated SHA after repeated polling."
+  },
+  "claim_boundaries": [
+    "Candidate CI validated source-level Rust tests and workspace checks for the exact PR head.",
+    "CUDA regression execution is conditional on NVCC; no GPU hardware qualification is claimed.",
+    "FORGE-01 is not closed until relevant validation is observed on the exact integrated SHA.",
+    "FORGE-02 was not remediated in this change."
+  ],
+  "counters": {
+    "batch": 1,
+    "merged_in_batch": 36,
+    "batch_target": 50,
+    "total_merged": 36,
+    "closed_findings": 29,
+    "remaining_findings": 72
+  },
+  "exclusions_untouched": [
+    "CHECKUPAUTO.FR",
+    "RemoteOps",
+    "SoulSystem",
+    "scirust-automotive"
+  ]
+}

@@ -370,6 +370,83 @@
           "next_action": "Clos; conserver le mode TrustedHost comme opt-in explicite et maintenir la qualification cgroup/Bubblewrap sur les runners."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T05:28:00+02:00",
+      "hour": "2026-10-03T05:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 36,
+        "target": 50
+      },
+      "total_merged": 36,
+      "closed": 29,
+      "remaining": 72,
+      "actions": [
+        "FORGE-01 revérifié sur Forge main 6e75489c51a65ac0e3abcdbd79f04f133a52c00f; AGENTS.md, licence PolyForm Noncommercial 1.0.0 et roadmaps applicables relus avant modification.",
+        "Les harnais SIMD et CUDA rejettent désormais explicitement toute référence, sortie ou différence non finie; le harnais CUDA préinitialise la sortie par une sentinelle finie pour détecter les kernels vides ou partiels de façon déterministe.",
+        "Des régressions couvrent NaN, infini, kernel vide et sortie partielle; le test CUDA reste conditionné à la présence de NVCC et aucune qualification matériel GPU n’est revendiquée.",
+        "La PR Forge #49 a été fusionnée après trois workflows verts sur le HEAD exact; l’appel de fusion a signalé une fusion déjà en cours, puis l’état fusionné a été observé sans nouvel appel.",
+        "L’arbre candidat et l’arbre intégré sont identiques. Aucun workflow ni statut de commit n’étant observable sur le SHA cible exact après sondages répétés, FORGE-01 reste en attente CI et n’est pas clos.",
+        "FORGE-02 a été relu mais non modifié : l’execution_guard mutualisé supervise processus/IO/délais et ne constitue pas une isolation de sécurité; l’écart reste à faire."
+      ],
+      "executed_checks": [
+        "Local: git diff --check réussi; Cargo/rustfmt absents, aucune exécution Rust locale revendiquée.",
+        "PR #49 HEAD 8e0bb462adf5647dc4dfc20a8de0ecb70533d2ab, SML topology run 37092839826 / job 111116633178 réussi.",
+        "PR #49 HEAD exact, Scientific ask-tell run 37092839931 / job 111116634001 réussi.",
+        "PR #49 HEAD exact, CI run 37092839955 : NNIS adapter 111116633910 et workspace format/check/Clippy/tests 111116634176 réussis.",
+        "Diff, branche cible, mergeability, revue et arbre inspectés; arbre candidat et arbre intégré identiques. Aucun check cible n’est revendiqué."
+      ],
+      "diagnostic_attempts": [],
+      "waiting": [
+        {
+          "id": "FORGE-01",
+          "reason": "Aucune exécution GitHub Actions ni statut combiné observable sur le SHA intégré exact ae383a6af7aa0917d365edcee1d159e41f32702a après sondages répétés.",
+          "dependency": "CI cible Forge",
+          "next_action": "Recontrôler le SHA exact et clore uniquement si les validations pertinentes sont vertes."
+        }
+      ],
+      "work_items": [
+        {
+          "id": "FORGE-01",
+          "repository": "Memorithm/Forge",
+          "status": "waiting_ci",
+          "actions": "Durcissement des harnais SIMD/CUDA et tests de régression non-finis/vides/partiels.",
+          "results": "PR #49 intégrée sous ae383a6af7aa0917d365edcee1d159e41f32702a; CI candidat verte et arbre exact, CI cible non observable.",
+          "pr": [
+            {
+              "number": 49,
+              "url": "https://github.com/Memorithm/Forge/pull/49",
+              "head_sha": "8e0bb462adf5647dc4dfc20a8de0ecb70533d2ab",
+              "merge_sha": "ae383a6af7aa0917d365edcee1d159e41f32702a"
+            }
+          ],
+          "head": "ae383a6af7aa0917d365edcee1d159e41f32702a",
+          "checks": [
+            37092839826,
+            37092839931,
+            37092839955
+          ],
+          "dependencies": [
+            "CI cible Forge"
+          ],
+          "next_action": "Revalider le SHA cible exact; ne clore qu’après CI cible pertinente verte."
+        },
+        {
+          "id": "FORGE-02",
+          "repository": "Memorithm/Forge",
+          "status": "to_do",
+          "actions": "Relecture du constat et des capacités d’exécution existantes, sans mutation.",
+          "results": "La supervision partagée n’apporte pas l’enveloppe OS stricte exigée; aucune résolution revendiquée.",
+          "pr": [],
+          "head": "ae383a6af7aa0917d365edcee1d159e41f32702a",
+          "checks": [],
+          "dependencies": [
+            "backend d’isolation OS ou refus fail-closed"
+          ],
+          "next_action": "Concevoir une isolation réelle ou un refus fail-closed compatible avec les invariants Forge."
+        }
+      ]
     }
   ]
 }
