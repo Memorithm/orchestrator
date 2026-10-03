@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-03T08:29:00+02:00",
+  "updated_at": "2026-10-03T10:05:55+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 35,
-    "remaining": 66,
-    "merged_prs": 40
+    "closed": 36,
+    "remaining": 65,
+    "merged_prs": 43
   },
   "batches": [
     {
@@ -236,6 +236,21 @@
           "repository": "Memorithm/GOT",
           "number": 6,
           "merge_sha": "47af9d844b9541f50e44de327b853b6e0d577381"
+        },
+        {
+          "repository": "Memorithm/octasoma",
+          "number": 69,
+          "merge_sha": "1daba81f868d4d099e0f064497d805362680fc15"
+        },
+        {
+          "repository": "Memorithm/octasoma",
+          "number": 70,
+          "merge_sha": "f4b7202eee7ddd6708e15d7e5b3432c312eba2a4"
+        },
+        {
+          "repository": "Memorithm/octasoma",
+          "number": 71,
+          "merge_sha": "247a44721e91e9025ce9cae846c550427c84d0f5"
         }
       ]
     }
@@ -3740,6 +3755,113 @@
       "target_checks": [37102958303],
       "target_validation": "The integrated tree exactly matches the successful candidate tree and the integrated SHA passed its push CI.",
       "finding_status": "resolved"
+    },
+    {
+      "repository": "Memorithm/octasoma",
+      "number": 69,
+      "url": "https://github.com/Memorithm/octasoma/pull/69",
+      "base": "master",
+      "base_sha": "646be5834ca7cfe2d334af5382595977f361fc0b",
+      "head_sha": "a0cad23ba579235f830bd37aab1153edc4620e54",
+      "merge_sha": "1daba81f868d4d099e0f064497d805362680fc15",
+      "status": "merged_followups_completed",
+      "ids": ["COG-OCTA-001"],
+      "batch": 1,
+      "merged_at": "2026-10-03T07:31:29Z",
+      "merge_method": "automatic rebase integration observed after green exact-head checks; no duplicate merge call",
+      "checks": [
+        {
+          "id": 37106318216,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "a0cad23ba579235f830bd37aab1153edc4620e54",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/37106318216",
+          "jobs": [111155439489, 111155439568, 111155439602, 111155439612, 111155439652, 111155439658, 111155439665, 111155439689]
+        }
+      ],
+      "review": {
+        "result": "post-merge review findings corrected by #70 and #71",
+        "unresolved_threads": 0
+      },
+      "target_checks": [],
+      "target_validation": "No push workflow emitted; complete successor tree was revalidated by #70 and final #71.",
+      "finding_status": "resolved_by_followups"
+    },
+    {
+      "repository": "Memorithm/octasoma",
+      "number": 70,
+      "url": "https://github.com/Memorithm/octasoma/pull/70",
+      "base": "master",
+      "base_sha": "1daba81f868d4d099e0f064497d805362680fc15",
+      "head_sha": "6c9e0bbb87b031d6308894a73a47480e7136fc7a",
+      "merge_sha": "f4b7202eee7ddd6708e15d7e5b3432c312eba2a4",
+      "status": "merged_followup_completed",
+      "ids": ["COG-OCTA-001"],
+      "batch": 1,
+      "merged_at": "2026-10-03T07:44:14Z",
+      "merge_method": "automatic rebase integration observed after green exact-head checks; no duplicate merge call",
+      "checks": [
+        {
+          "id": 37106946601,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6c9e0bbb87b031d6308894a73a47480e7136fc7a",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/37106946601",
+          "jobs": [111157220256, 111157220329, 111157220350, 111157220388, 111157220410, 111157220428, 111157220463, 111157220465]
+        }
+      ],
+      "review": {
+        "result": "two valid post-merge concurrency findings corrected by #71",
+        "unresolved_threads": 0
+      },
+      "target_checks": [],
+      "target_validation": "No push workflow emitted; final #71 exact-head CI exercised the complete successor tree.",
+      "finding_status": "resolved_by_followup"
+    },
+    {
+      "repository": "Memorithm/octasoma",
+      "number": 71,
+      "url": "https://github.com/Memorithm/octasoma/pull/71",
+      "base": "master",
+      "base_sha": "f4b7202eee7ddd6708e15d7e5b3432c312eba2a4",
+      "head_sha": "cf7620e2d0499602c8eee976ed66c81c5abe6204",
+      "merge_sha": "247a44721e91e9025ce9cae846c550427c84d0f5",
+      "status": "merged_target_validated_exact_tree",
+      "ids": ["COG-OCTA-001"],
+      "batch": 1,
+      "merged_at": "2026-10-03T08:02:59Z",
+      "merge_method": "automatic rebase integration observed after green exact-head checks; no duplicate merge call",
+      "checks": [
+        {
+          "id": 37108016483,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "cf7620e2d0499602c8eee976ed66c81c5abe6204",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/37108016483",
+          "jobs": [111160240056, 111160240152, 111160240191, 111160240193, 111160240199, 111160240205, 111160240221, 111160240243]
+        }
+      ],
+      "previous_attempts": [
+        {"run_id": 37107437192, "result": "rustfmt_failed_corrected"},
+        {"run_id": 37107580734, "result": "rustfmt_failed_corrected"},
+        {"run_id": 37107630590, "result": "superseded_after_review"},
+        {"run_id": 37107875306, "result": "rustfmt_failed_corrected"},
+        {"run_id": 37107944313, "result": "rustfmt_failed_corrected"}
+      ],
+      "review": {
+        "head": "cf7620e2d0499602c8eee976ed66c81c5abe6204",
+        "result": "all material findings fixed and covered; two threads resolved; automatic integration completed before the requested second automated review returned",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "f79db03a2567f87c86acfcd2efa18d773133c8a8",
+      "exact_tree_match": true,
+      "target_head": "247a44721e91e9025ce9cae846c550427c84d0f5",
+      "target_checks": [],
+      "target_validation": "No separate push workflow was emitted. PR #71 changed only src/hybrid.rs and candidate/integrated blobs are identical (b140ac08dc2774842d267edfaeb950003dcf6572); the exact-head CI therefore exercised the code actually integrated.",
+      "finding_status": "resolved"
     }
   ],
   "repository_observations": [
@@ -4028,8 +4150,8 @@
       "repository": "Memorithm/octasoma",
       "visibility": "public",
       "default_branch": "master",
-      "current_head": "646be5834ca7cfe2d334af5382595977f361fc0b",
-      "tree_sha": "2859953aa89192301164886b8b38866046b5e326",
+      "current_head": "247a44721e91e9025ce9cae846c550427c84d0f5",
+      "tree_sha": "f79db03a2567f87c86acfcd2efa18d773133c8a8",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -6109,16 +6231,47 @@
         "Publier une génération globale immutable contenant manifeste exact de références de générations et records, puis basculer un CURRENT unique par rename+fsync. Utiliser des identités stables de régions plutôt que l'indice de tri. Tester interruptions à toutes les phases et ajout de région en tête.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
+      "status": "resolved",
+      "current_head": "247a44721e91e9025ce9cae846c550427c84d0f5",
       "default_branch": "master",
       "audit_head": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "remediated_and_validated_on_exact_integrated_tree",
+      "policy_review": "AGENTS.md, ecosystem roadmap and PolyForm Noncommercial 1.0.0 license read; Rust ownership, attribution and persistence compatibility preserved",
+      "prs": [
+        {
+          "number": 69,
+          "url": "https://github.com/Memorithm/octasoma/pull/69",
+          "base": "master",
+          "head_sha": "a0cad23ba579235f830bd37aab1153edc4620e54",
+          "merge_sha": "1daba81f868d4d099e0f064497d805362680fc15",
+          "status": "merged_followups_completed"
+        },
+        {
+          "number": 70,
+          "url": "https://github.com/Memorithm/octasoma/pull/70",
+          "base": "master",
+          "head_sha": "6c9e0bbb87b031d6308894a73a47480e7136fc7a",
+          "merge_sha": "f4b7202eee7ddd6708e15d7e5b3432c312eba2a4",
+          "status": "merged_followup_completed"
+        },
+        {
+          "number": 71,
+          "url": "https://github.com/Memorithm/octasoma/pull/71",
+          "base": "master",
+          "head_sha": "cf7620e2d0499602c8eee976ed66c81c5abe6204",
+          "merge_sha": "247a44721e91e9025ce9cae846c550427c84d0f5",
+          "status": "merged_target_validated_exact_tree"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/octasoma-69-70-71-COG-OCTA-001.json",
+        "https://github.com/Memorithm/octasoma/pull/69",
+        "https://github.com/Memorithm/octasoma/pull/70",
+        "https://github.com/Memorithm/octasoma/pull/71",
+        "https://github.com/Memorithm/octasoma/actions/runs/37108016483"
+      ],
+      "last_observed_at": "2026-10-03T10:05:55+02:00",
+      "next_action": "Clos; conserver la publication globale immutable, le pointeur CURRENT unique et les tests d'interruption lors des évolutions de persistance."
     },
     {
       "id": "COG-OCTA-002",
@@ -7668,19 +7821,19 @@
       "owner": "codex-audit-20261003T0713",
       "acquired_at": "2026-10-03T07:13:00Z",
       "expires_at": "2026-10-03T08:43:00Z",
-      "released_at": null,
-      "status": "active",
+      "released_at": "2026-10-03T08:05:55Z",
+      "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
       "previous_owner": "codex-audit-20261003T0609",
       "previous_expiry": "2026-10-03T07:39:00Z",
-      "completed_action": null,
-      "evidence_path": null,
-    "verified_merged_prs": 40,
-    "canonical_registry_merged_prs": 40,
-    "closed_findings": 35,
-    "remaining_findings": 66,
-      "next_action": "COG-OCTA-001 acquired: reconcile octasoma master 646be5834ca7cfe2d334af5382595977f361fc0b, verify immutable-generation publication and remediate if still present."
+      "completed_action": "Closed COG-OCTA-001 with octasoma #69/#70/#71; immutable global generations, unambiguous legacy migration, exact candidate CI and integrated-tree identity.",
+      "evidence_path": "docs/audit-global/proofs/octasoma-69-70-71-COG-OCTA-001.json",
+    "verified_merged_prs": 43,
+    "canonical_registry_merged_prs": 43,
+    "closed_findings": 36,
+    "remaining_findings": 65,
+      "next_action": "Reconcile the next highest-priority independent open finding on its real default-branch HEAD before modification."
   },
   "capabilities": [
     {

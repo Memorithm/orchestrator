@@ -1,0 +1,165 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "COG-OCTA-001"
+  ],
+  "repository": "Memorithm/octasoma",
+  "default_branch": "master",
+  "audit_head": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
+  "reconciled_base_sha": "646be5834ca7cfe2d334af5382595977f361fc0b",
+  "pull_requests": [
+    {
+      "number": 69,
+      "url": "https://github.com/Memorithm/octasoma/pull/69",
+      "validated_head_sha": "a0cad23ba579235f830bd37aab1153edc4620e54",
+      "merge_sha": "1daba81f868d4d099e0f064497d805362680fc15",
+      "merged_at": "2026-10-03T07:31:29Z",
+      "role": "immutable global v3 generation, stable region identities, single CURRENT commit point, interruption coverage and MCP reopen"
+    },
+    {
+      "number": 70,
+      "url": "https://github.com/Memorithm/octasoma/pull/70",
+      "validated_head_sha": "6c9e0bbb87b031d6308894a73a47480e7136fc7a",
+      "merge_sha": "f4b7202eee7ddd6708e15d7e5b3432c312eba2a4",
+      "merged_at": "2026-10-03T07:44:14Z",
+      "role": "caller manifest budget and initial stale-legacy fail-closed follow-up"
+    },
+    {
+      "number": 71,
+      "url": "https://github.com/Memorithm/octasoma/pull/71",
+      "validated_head_sha": "cf7620e2d0499602c8eee976ed66c81c5abe6204",
+      "validated_tree_sha": "f79db03a2567f87c86acfcd2efa18d773133c8a8",
+      "merge_sha": "247a44721e91e9025ce9cae846c550427c84d0f5",
+      "integrated_tree_sha": "f79db03a2567f87c86acfcd2efa18d773133c8a8",
+      "tree_identity": true,
+      "merged_at": "2026-10-03T08:02:59Z",
+      "role": "unambiguous legacy-to-v3 switch, no fallible post-commit cleanup, fail-closed pointer loss and legacy-aware pruning"
+    }
+  ],
+  "change": [
+    "ShardedHybrid publishes every region, records.recs and a versioned manifest inside an immutable sharded-generation-NNN directory before one fsynced CURRENT rename makes the snapshot authoritative.",
+    "Region directory identities use the full SHA-256 of the logical region name; adding an earlier-sorting region cannot retarget an existing path.",
+    "The v3 manifest binds each nested HybridMemory CURRENT hash and the records hash, while the root CURRENT binds the global generation and manifest hash.",
+    "Migration from v1/v2 first publishes generation=legacy, builds v3 without changing authority, then performs one atomic switch. Legacy bytes remain for readers already engaged before the switch.",
+    "If CURRENT is lost after any v3 global generation exists, reopen, save and pruning fail closed rather than republishing legacy.",
+    "Global pruning retains the published generation; a legacy-target CURRENT continues to use per-shard pruning.",
+    "LoadLimits.max_file_bytes bounds global manifest resolution, and the MCP consumer validates any non-empty store rather than assuming a root manifest."
+  ],
+  "interruption_tests": [
+    "after first shard",
+    "after records",
+    "after manifest",
+    "after generation rename",
+    "before CURRENT rename",
+    "legacy migration before v3 switch",
+    "CURRENT loss after v3 publication",
+    "legacy-target pruning",
+    "stable region path after inserting an earlier-sorting region"
+  ],
+  "candidate_validations": [
+    {
+      "pull_request": 69,
+      "run_id": 37106318216,
+      "head_sha": "a0cad23ba579235f830bd37aab1153edc4620e54",
+      "conclusion": "success",
+      "jobs": [
+        111155439489,
+        111155439568,
+        111155439602,
+        111155439612,
+        111155439652,
+        111155439658,
+        111155439665,
+        111155439689
+      ]
+    },
+    {
+      "pull_request": 70,
+      "run_id": 37106946601,
+      "head_sha": "6c9e0bbb87b031d6308894a73a47480e7136fc7a",
+      "conclusion": "success",
+      "jobs": [
+        111157220256,
+        111157220329,
+        111157220350,
+        111157220388,
+        111157220410,
+        111157220428,
+        111157220463,
+        111157220465
+      ]
+    },
+    {
+      "pull_request": 71,
+      "run_id": 37108016483,
+      "head_sha": "cf7620e2d0499602c8eee976ed66c81c5abe6204",
+      "conclusion": "success",
+      "jobs": [
+        111160240056,
+        111160240152,
+        111160240191,
+        111160240193,
+        111160240199,
+        111160240205,
+        111160240221,
+        111160240243
+      ],
+      "gates": [
+        "cargo fmt and Clippy with warnings denied across default, mcp, simd, gpu and all-features",
+        "release tests on Linux default, mcp, simd and all-features",
+        "declared MSRV 1.89 check and release tests",
+        "macOS and Windows default, mcp and simd tests"
+      ]
+    }
+  ],
+  "target_validation": {
+    "separate_push_runs": [],
+    "statement": "No push workflow was emitted for the three automatic rebase integrations. PR #71 changed only src/hybrid.rs over target f4b7202e; candidate and integrated blobs are identical (b140ac08dc2774842d267edfaeb950003dcf6572), establishing tree identity f79db03a2567f87c86acfcd2efa18d773133c8a8. The final exact-head run therefore exercised the code actually integrated, including the complete #69/#70 predecessor state."
+  },
+  "review": {
+    "resolved_threads": [
+      "PRRT_kwDOS_F8JM6olNRm",
+      "PRRT_kwDOS_F8JM6olNRo"
+    ],
+    "fixed_findings": [
+      "P1 refuse legacy republish after a v3 generation exists and CURRENT is absent",
+      "P2 retain per-shard pruning while CURRENT targets legacy",
+      "P2 avoid fallible legacy cleanup after the authoritative switch",
+      "P2 retain immutable legacy bytes for concurrently opening readers"
+    ],
+    "final_status": "all material review findings fixed and covered; final exact-head diff inspected, but automatic rebase integration completed before the requested second automated review returned"
+  },
+  "diagnostic_attempts": [
+    {
+      "run_id": 37107437192,
+      "result": "rustfmt_failed_corrected"
+    },
+    {
+      "run_id": 37107580734,
+      "result": "rustfmt_failed_corrected"
+    },
+    {
+      "run_id": 37107630590,
+      "result": "superseded_after_successful_format_and_partial_matrix",
+      "reason": "review findings required a new exact head"
+    },
+    {
+      "run_id": 37107875306,
+      "result": "rustfmt_failed_corrected"
+    },
+    {
+      "run_id": 37107944313,
+      "result": "rustfmt_failed_corrected"
+    }
+  ],
+  "local_validation": {
+    "git_diff_check": "success",
+    "rust_toolchain": "unavailable; no local Rust test claimed"
+  },
+  "branch_state_after_validation": {
+    "observed_head": "247a44721e91e9025ce9cae846c550427c84d0f5",
+    "observed_at": "2026-10-03T10:05:55+02:00",
+    "required_checks": [],
+    "protection_claimed": false
+  }
+}

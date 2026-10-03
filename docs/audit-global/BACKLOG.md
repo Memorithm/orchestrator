@@ -54,7 +54,7 @@
 | COG-RSI-001 | Memorithm/RSI | 4 | résolu | [preuve](proofs/RSI-58-COG-RSI-001-002.json), [PR #58](https://github.com/Memorithm/RSI/pull/58) |
 | COG-RSI-002 | Memorithm/RSI | 4 | résolu | [preuve](proofs/RSI-58-COG-RSI-001-002.json), [PR #58](https://github.com/Memorithm/RSI/pull/58) |
 | COG-RSI-003 | Memorithm/RSI | 7 | résolu | [RSI #59](https://github.com/Memorithm/RSI/pull/59), [RSI #61](https://github.com/Memorithm/RSI/pull/61), [preuve](proofs/RSI-59-61-COG-RSI-003.json) |
-| COG-OCTA-001 | Memorithm/octasoma | 6 | à faire |  |
+| COG-OCTA-001 | Memorithm/octasoma | 6 | résolu | [preuve](proofs/octasoma-69-70-71-COG-OCTA-001.json), [PR #69](https://github.com/Memorithm/octasoma/pull/69), [PR #70](https://github.com/Memorithm/octasoma/pull/70), [PR #71](https://github.com/Memorithm/octasoma/pull/71) |
 | COG-OCTA-002 | Memorithm/octasoma | 1 | résolu | [preuve](proofs/octasoma-68-COG-OCTA-002.json), [PR #68](https://github.com/Memorithm/octasoma/pull/68) |
 | COG-OCTA-003 | Memorithm/octasoma | 9 | à faire |  |
 | COG-SML-001 | Périmètre privé — source interne | 9 | à faire |  |

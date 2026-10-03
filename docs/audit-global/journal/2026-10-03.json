@@ -650,6 +650,48 @@
           "next_action": "Clos; conserver les épingles et le test du contrat positional."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T10:05:55+02:00",
+      "hour": "2026-10-03T10:00:00+02:00",
+      "batch": {"number": 1, "merged": 43, "target": 50},
+      "total_merged": 43,
+      "closed": 36,
+      "remaining": 65,
+      "actions": [
+        "COG-OCTA-001 revérifié présent sur octasoma master 646be5834ca7cfe2d334af5382595977f361fc0b après lecture d'AGENTS.md, de la feuille de route et de la licence PolyForm Noncommercial 1.0.0.",
+        "octasoma #69 introduit une génération globale immutable, des identités stables de régions, un CURRENT unique et des tests d'interruption; le MCP rouvre désormais tout store non vide via le chargeur validant.",
+        "octasoma #70 applique le budget du caller au manifeste global. La revue post-intégration a imposé une migration legacy sans nettoyage fallible après commit.",
+        "octasoma #71 publie d'abord generation=legacy, bascule une fois vers v3, échoue fermé si CURRENT disparaît après une génération v3 et conserve l'élagage per-shard tant que legacy est publié.",
+        "Les trois PR ont été intégrées automatiquement après leurs checks; aucune seconde fusion n'a été tentée. Les quatre constats matériels de revue ont été corrigés et les deux fils #71 résolus."
+      ],
+      "executed_checks": [
+        "Local: git diff --check réussi; cargo/rustfmt absents, aucune exécution Rust locale revendiquée.",
+        "PR #69 run 37106318216: huit jobs verts (fmt/Clippy, MSRV 1.89, Linux default/mcp/simd/all-features, macOS, Windows).",
+        "PR #70 run 37106946601: même matrice de huit jobs verte au HEAD exact 6c9e0bbb87b031d6308894a73a47480e7136fc7a.",
+        "PR #71 run final 37108016483: même matrice de huit jobs verte au HEAD exact cf7620e2d0499602c8eee976ed66c81c5abe6204.",
+        "Aucun workflow push séparé n'a été émis. Le blob src/hybrid.rs candidat et intégré est identique (b140ac08dc2774842d267edfaeb950003dcf6572), donc l'arbre final f79db03a2567f87c86acfcd2efa18d773133c8a8 est le code réellement testé et intégré.",
+        "Les runs 37107437192, 37107580734, 37107875306 et 37107944313 sont des échecs rustfmt corrigés; 37107630590 a été remplacé après les constats de revue."
+      ],
+      "waiting": [],
+      "work_items": [
+        {
+          "id": "COG-OCTA-001",
+          "repository": "Memorithm/octasoma",
+          "status": "resolved",
+          "actions": "Générations globales immutables, CURRENT atomique et fsync, identités SHA-256 de régions, migration legacy univoque, budgets et tests d'interruption.",
+          "results": "PR #69/#70/#71 intégrées; master 247a44721e91e9025ce9cae846c550427c84d0f5; matrice exacte finale verte et arbre intégré identique.",
+          "pr": [
+            {"number": 69, "url": "https://github.com/Memorithm/octasoma/pull/69", "head_sha": "a0cad23ba579235f830bd37aab1153edc4620e54", "merge_sha": "1daba81f868d4d099e0f064497d805362680fc15"},
+            {"number": 70, "url": "https://github.com/Memorithm/octasoma/pull/70", "head_sha": "6c9e0bbb87b031d6308894a73a47480e7136fc7a", "merge_sha": "f4b7202eee7ddd6708e15d7e5b3432c312eba2a4"},
+            {"number": 71, "url": "https://github.com/Memorithm/octasoma/pull/71", "head_sha": "cf7620e2d0499602c8eee976ed66c81c5abe6204", "merge_sha": "247a44721e91e9025ce9cae846c550427c84d0f5"}
+          ],
+          "head": "247a44721e91e9025ce9cae846c550427c84d0f5",
+          "checks": [37106318216, 37106946601, 37108016483],
+          "dependencies": [],
+          "next_action": "Clos; réconcilier le prochain constat prioritaire indépendant avant toute modification."
+        }
+      ]
     }
   ]
 }
