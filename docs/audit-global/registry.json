@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-03T02:08:00+02:00",
+  "updated_at": "2026-10-03T02:03:30+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -6888,16 +6888,16 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261002T2308",
-    "acquired_at": "2026-10-02T23:08:30.000Z",
-    "expires_at": "2026-10-03T00:38:30.000Z",
-    "released_at": "2026-10-03T00:08:00Z",
+    "owner": "codex-audit-20261003T0003",
+    "acquired_at": "2026-10-03T00:03:01.906Z",
+    "expires_at": "2026-10-03T00:23:01.906Z",
+    "released_at": "2026-10-03T00:03:30.000Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "previous_owner": "codex-audit-20261002T2211",
-    "previous_expiry": "2026-10-02T23:42:22.272Z",
-    "completed_action": "ProofLab #81 and #82 reconciled exactly once; B-PL-02 closed after candidate and exact integrated target CI qualified aggregate cgroup v2 policy and review fixes.",
+    "previous_owner": "codex-audit-20261002T2308",
+    "previous_expiry": "2026-10-03T00:38:30.000Z",
+    "completed_action": "ProofLab #81 and #82 reconciled exactly once; B-PL-02 closed after candidate and exact integrated target CI qualified aggregate cgroup v2 policy and both review fixes. Short reconciliation lease aligned registry and lease metadata.",
     "evidence_path": "docs/audit-global/proofs/ProofLab-81-82-B-PL-02.json",
     "verified_merged_prs": 31,
     "canonical_registry_merged_prs": 31,
