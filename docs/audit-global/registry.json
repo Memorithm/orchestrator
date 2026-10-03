@@ -7818,22 +7818,22 @@
   ],
   "lease": {
     "schema_version": 1,
-      "owner": "codex-audit-20261003T0713",
-      "acquired_at": "2026-10-03T07:13:00Z",
-      "expires_at": "2026-10-03T08:43:00Z",
-      "released_at": "2026-10-03T08:05:55Z",
-      "status": "released",
+      "owner": "codex-audit-20261003T0912",
+      "acquired_at": "2026-10-03T09:12:00Z",
+      "expires_at": "2026-10-03T10:42:00Z",
+      "released_at": null,
+      "status": "active",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-      "previous_owner": "codex-audit-20261003T0609",
-      "previous_expiry": "2026-10-03T07:39:00Z",
-      "completed_action": "Closed COG-OCTA-001 with octasoma #69/#70/#71; immutable global generations, unambiguous legacy migration, exact candidate CI and integrated-tree identity.",
-      "evidence_path": "docs/audit-global/proofs/octasoma-69-70-71-COG-OCTA-001.json",
+      "previous_owner": "codex-audit-20261003T0713",
+      "previous_expiry": "2026-10-03T08:43:00Z",
+      "completed_action": null,
+      "evidence_path": null,
     "verified_merged_prs": 43,
     "canonical_registry_merged_prs": 43,
     "closed_findings": 36,
     "remaining_findings": 65,
-      "next_action": "Reconcile the next highest-priority independent open finding on its real default-branch HEAD before modification."
+      "next_action": "RT-TQ-06 acquired: reconcile TurboQuant main 2a8c4650e1c040745a8720223d2a21ecf7719e6f, verify f32-to-f16 scale conversion safety, and remediate if still present."
   },
   "capabilities": [
     {
