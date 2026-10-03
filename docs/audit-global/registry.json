@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-03T02:43:30+02:00",
+  "updated_at": "2026-10-03T03:28:47+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 26,
-    "remaining": 75,
-    "merged_prs": 32
+    "closed": 28,
+    "remaining": 73,
+    "merged_prs": 33
   },
   "batches": [
     {
@@ -196,6 +196,11 @@
           "repository": "Memorithm/ProofLab",
           "number": 83,
           "merge_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2"
+        },
+        {
+          "repository": "Memorithm/RSI",
+          "number": 58,
+          "merge_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15"
         }
       ]
     }
@@ -3176,6 +3181,71 @@
       ],
       "target_validation": "Candidate and exact integrated main commit passed complete Rust and Lean CI with identical tree; theorem identity, axiom allowlist, sorry/unauthorized-axiom rejection and fresh pinned replay qualified.",
       "finding_status": "resolved"
+    },
+    {
+      "repository": "Memorithm/RSI",
+      "number": 58,
+      "url": "https://github.com/Memorithm/RSI/pull/58",
+      "base": "main",
+      "base_sha": "a8884ea152ff02869ec380a06d3d85f04cb6707c",
+      "head_sha": "30244e958148c2f401052c65514d386ce80130b0",
+      "merge_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+      "status": "merged_target_validated",
+      "ids": [
+        "COG-RSI-001",
+        "COG-RSI-002"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-03T01:21:42Z",
+      "merge_method": "automatic squash integration observed after green exact-head checks; guarded merge stopped after detecting the already-integrated target and no duplicate call was made",
+      "checks": [
+        {
+          "id": 37085495292,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "30244e958148c2f401052c65514d386ce80130b0",
+          "url": "https://github.com/Memorithm/RSI/actions/runs/37085495292",
+          "jobs": [
+            111094803008,
+            111094803086,
+            111094803131
+          ]
+        }
+      ],
+      "previous_attempts": [
+        {
+          "run_id": 37085363994,
+          "head_sha": "1167e8480f95983700218c83ec561793fdcba1d3",
+          "result": "failed_clippy_corrected",
+          "reason": "drop_non_drop in the memory-preservation test was replaced by a lexical scope; Miri had already succeeded"
+        }
+      ],
+      "review": {
+        "head": "30244e958148c2f401052c65514d386ce80130b0",
+        "result": "exact final diff inspected; no inline review threads and no unresolved discussion",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "ad6a0996421bd9204278e7b587f6a40c1b93deba",
+      "exact_tree_match": true,
+      "target_head": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+      "target_checks": [
+        {
+          "id": 37085796172,
+          "name": "CI push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+          "url": "https://github.com/Memorithm/RSI/actions/runs/37085796172",
+          "jobs": [
+            111095711096,
+            111095711276,
+            111095711420
+          ]
+        }
+      ],
+      "target_validation": "Candidate and exact integrated main commit passed default/public/all-feature Clippy and tests, MSRV 1.89, Docker build/smoke and pinned strict-provenance Miri on the identical tree.",
+      "finding_status": "resolved"
     }
   ],
   "repository_observations": [
@@ -3362,8 +3432,8 @@
       "repository": "Memorithm/RSI",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "a8884ea152ff02869ec380a06d3d85f04cb6707c",
-      "tree_sha": "6e04e950133f9e4683f2e55fd340676a913cd44d",
+      "current_head": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+      "tree_sha": "ad6a0996421bd9204278e7b587f6a40c1b93deba",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -5409,16 +5479,33 @@
         "Rendre les champs privés, encapsuler ownership/lifetime, supprimer Sync tant que la synchronisation native n'est pas prouvée, remplacer le chemin de démonstration par un backend fallible ou une feature laboratoire. Ajouter tests Miri sur le wrapper sûr; ne pas exécuter de pointeurs invalides en audit.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "a8884ea152ff02869ec380a06d3d85f04cb6707c",
+      "status": "resolved",
+      "current_head": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
       "default_branch": "main",
       "audit_head": "a8884ea152ff02869ec380a06d3d85f04cb6707c",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "Finding reproduced unchanged at audit head a8884ea, then resolved by RSI #58 and target-qualified on integrated main 59b5bde5 with identical tree ad6a099.",
+      "policy_review": "Root AGENTS.md, PolyForm Noncommercial 1.0.0 license, docs/ROADMAP.md and off-main agent/ecosystem-roadmap RSI_ECOSYSTEM_ROADMAP.yaml read and reread before merge; loop, checkpoint, observer, veto and promotion invariants preserved.",
+      "prs": [
+        {
+          "number": 58,
+          "url": "https://github.com/Memorithm/RSI/pull/58",
+          "base": "main",
+          "base_sha": "a8884ea152ff02869ec380a06d3d85f04cb6707c",
+          "head_sha": "30244e958148c2f401052c65514d386ce80130b0",
+          "status": "merged_target_validated",
+          "merge_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15"
+        }
+      ],
+      "resolution_evidence": [
+        "Raw FFI fields are private NonNull handles; the KV buffer remains an exclusive mutable borrow for the wrapper lifetime.",
+        "The laboratory wrapper is deliberately !Send + !Sync and is absent from default production builds behind llama-ffi-lab.",
+        "Safe LlmClient methods never dereference either handle and return typed Unsupported until a real backend is qualified.",
+        "Pinned Miri with -Zmiri-strict-provenance passed on the exact candidate and integrated target SHAs without fabricated invalid pointers.",
+        "Exact candidate and target CI passed default/public/all-feature tests and Clippy, MSRV 1.89, Docker smoke and Miri with identical tree ad6a0996421bd9204278e7b587f6a40c1b93deba.",
+        "Proof: docs/audit-global/proofs/RSI-58-COG-RSI-001-002.json"
+      ],
+      "last_observed_at": "2026-10-03T03:28:47+02:00",
+      "next_action": "Closed and target-qualified; retain the lifetime, !Send/!Sync and no-dereference boundary until a real llama.cpp backend receives independent end-to-end qualification."
     },
     {
       "id": "COG-RSI-002",
@@ -5434,16 +5521,33 @@
         "Sortir ce client de l'API de production, le nommer explicitement démo et renvoyer Unsupported tant que tokenisation/décodage/génération réels ne sont pas branchés. Qualifier le backend réel contre un modèle connu avant toute claim zéro-copie.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "a8884ea152ff02869ec380a06d3d85f04cb6707c",
+      "status": "resolved",
+      "current_head": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
       "default_branch": "main",
       "audit_head": "a8884ea152ff02869ec380a06d3d85f04cb6707c",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "Finding reproduced unchanged at audit head a8884ea, then resolved by RSI #58 and target-qualified on integrated main 59b5bde5 with identical tree ad6a099.",
+      "policy_review": "Root AGENTS.md, PolyForm Noncommercial 1.0.0 license, docs/ROADMAP.md and off-main agent/ecosystem-roadmap RSI_ECOSYSTEM_ROADMAP.yaml read and reread before merge; loop, checkpoint, observer, veto and promotion invariants preserved.",
+      "prs": [
+        {
+          "number": 58,
+          "url": "https://github.com/Memorithm/RSI/pull/58",
+          "base": "main",
+          "base_sha": "a8884ea152ff02869ec380a06d3d85f04cb6707c",
+          "head_sha": "30244e958148c2f401052c65514d386ce80130b0",
+          "status": "merged_target_validated",
+          "merge_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15"
+        }
+      ],
+      "resolution_evidence": [
+        "The fabricated propose strings, fabricated completion and sentinel KV write were removed.",
+        "The client is absent from default production builds and explicitly named LlamaKVCacheFFILabClient behind llama-ffi-lab.",
+        "Both propose and complete_raw fail closed with typed Unsupported until tokenization, decode and generation are qualified against a known model.",
+        "Memory-preservation regression and strict-provenance Miri passed on candidate and integrated target SHAs.",
+        "Exact candidate and target CI passed default/public/all-feature tests and Clippy, MSRV 1.89, Docker smoke and Miri with identical tree ad6a0996421bd9204278e7b587f6a40c1b93deba.",
+        "Proof: docs/audit-global/proofs/RSI-58-COG-RSI-001-002.json"
+      ],
+      "last_observed_at": "2026-10-03T03:28:47+02:00",
+      "next_action": "Closed and target-qualified; keep returning Unsupported until independent real-model end-to-end qualification exists."
     },
     {
       "id": "COG-RSI-003",
@@ -6988,22 +7092,22 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261003T0008",
-    "acquired_at": "2026-10-03T00:08:48.779Z",
-    "expires_at": "2026-10-03T01:38:48.779Z",
-    "released_at": "2026-10-03T00:43:30Z",
+    "owner": "codex-audit-20261003T0112",
+    "acquired_at": "2026-10-03T01:12:20.000Z",
+    "expires_at": "2026-10-03T02:42:20.000Z",
+    "released_at": "2026-10-03T01:28:47Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "previous_owner": "codex-audit-20261003T0003",
-    "previous_expiry": "2026-10-03T00:23:01.906Z",
-    "completed_action": "ProofLab #83 reconciled exactly once; B-PL-01 closed after explicit theorem/axiom policy, obsolete-head spoofing review correction, candidate CI and exact integrated target CI all qualified.",
-    "evidence_path": "docs/audit-global/proofs/ProofLab-83-B-PL-01.json",
-    "verified_merged_prs": 32,
-    "canonical_registry_merged_prs": 32,
-    "closed_findings": 26,
-    "remaining_findings": 75,
-    "next_action": "Reconcile the current HEAD for the highest-priority open finding, starting with COG-RSI-001/002 or the next independent priority item, before modification."
+    "previous_owner": "codex-audit-20261003T0008",
+    "previous_expiry": "2026-10-03T01:38:48.779Z",
+    "completed_action": "RSI #58 reconciled exactly once; COG-RSI-001/002 closed after safe lifetime-bound !Send/!Sync laboratory FFI boundary, fabricated inference removal, exact-head candidate CI and exact integrated target CI all qualified.",
+    "evidence_path": "docs/audit-global/proofs/RSI-58-COG-RSI-001-002.json",
+    "verified_merged_prs": 33,
+    "canonical_registry_merged_prs": 33,
+    "closed_findings": 28,
+    "remaining_findings": 73,
+    "next_action": "Reconcile the current HEAD for the highest-priority open finding, starting with COG-RSI-003 or the next independent priority item, before modification."
   },
   "capabilities": [
     {

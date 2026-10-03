@@ -208,6 +208,87 @@
           "next_action": "Clos; reprendre COG-RSI-001/002 ou le prochain constat prioritaire après réconciliation du HEAD."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T03:28:47+02:00",
+      "hour": "2026-10-03T03:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 33,
+        "target": 50
+      },
+      "total_merged": 33,
+      "closed": 28,
+      "remaining": 73,
+      "actions": [
+        "COG-RSI-001 et COG-RSI-002 revérifiés inchangés sur RSI main a8884ea152ff02869ec380a06d3d85f04cb6707c; AGENTS.md, licence PolyForm Noncommercial, roadmap publiée et roadmap écosystème hors main lues puis relues avant fusion.",
+        "La PR #58 retire le client FFI fabriqué de la production, borne le wrapper au feature llama-ffi-lab, rend les handles privés, conserve l’emprunt mutable KV, force !Send + !Sync et renvoie Unsupported sans déréférencement.",
+        "Le premier HEAD 1167e848 a réussi Miri mais échoué Clippy drop_non_drop; le test a été corrigé par une portée lexicale, sans affaiblir le gate.",
+        "Le HEAD final 30244e958148c2f401052c65514d386ce80130b0 a réussi toute la CI candidat puis a été intégré automatiquement; le garde de fusion a détecté la cible déplacée et n’a effectué aucun doublon.",
+        "La branche cible main 59b5bde5c368682d441c60e1163f5a50f2a51e15 a repassé toute la CI sur l’arbre identique ad6a0996421bd9204278e7b587f6a40c1b93deba."
+      ],
+      "executed_checks": [
+        "Local: git diff --check et parsing YAML réussis; Cargo absent, aucune exécution Rust locale revendiquée.",
+        "Run candidat 37085495292: build/test/Clippy 111094803008, Miri strict 111094803086 et Docker 111094803131 réussis.",
+        "Run cible push 37085796172: build/test/Clippy 111095711096, Docker 111095711276 et Miri strict 111095711420 réussis.",
+        "Couverture Rust réelle: Clippy et tests défaut/features publiques/toutes features, doctests, MSRV 1.89; Miri nightly-2026-07-02 avec -Zmiri-strict-provenance; image musl et smoke rsi-demo.",
+        "Diff final inspecté; PR mergeable avant intégration; aucun fil de revue en ligne et aucun fil non résolu; branche main non protégée observée et aucun gate contourné."
+      ],
+      "diagnostic_attempts": [
+        {
+          "run_id": 37085363994,
+          "head_sha": "1167e8480f95983700218c83ec561793fdcba1d3",
+          "result": "failed_clippy_corrected",
+          "reason": "drop_non_drop remplacé par une portée lexicale; Miri était déjà vert"
+        }
+      ],
+      "waiting": [],
+      "work_items": [
+        {
+          "id": "COG-RSI-001",
+          "repository": "Memorithm/RSI",
+          "status": "resolved",
+          "actions": "Handles privés NonNull, lifetime KV exclusif, !Send + !Sync, feature laboratoire, aucune déréférence par l’API sûre, Miri strict.",
+          "results": "PR #58 intégrée sous 59b5bde5c368682d441c60e1163f5a50f2a51e15; CI candidat et cible complètes vertes sur l’arbre exact.",
+          "pr": [
+            {
+              "number": 58,
+              "url": "https://github.com/Memorithm/RSI/pull/58",
+              "head_sha": "30244e958148c2f401052c65514d386ce80130b0",
+              "merge_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15"
+            }
+          ],
+          "head": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+          "checks": [
+            37085495292,
+            37085796172
+          ],
+          "dependencies": [],
+          "next_action": "Clos; conserver cette frontière jusqu’à qualification réelle du backend llama.cpp."
+        },
+        {
+          "id": "COG-RSI-002",
+          "repository": "Memorithm/RSI",
+          "status": "resolved",
+          "actions": "Suppression des propositions/completions fabriquées et de l’écriture sentinelle; API laboratoire explicitement Unsupported jusqu’à qualification réelle.",
+          "results": "PR #58 intégrée sous 59b5bde5c368682d441c60e1163f5a50f2a51e15; régression mémoire inchangée, Miri, matrices Rust, MSRV et Docker verts sur candidat et cible.",
+          "pr": [
+            {
+              "number": 58,
+              "url": "https://github.com/Memorithm/RSI/pull/58",
+              "head_sha": "30244e958148c2f401052c65514d386ce80130b0",
+              "merge_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15"
+            }
+          ],
+          "head": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+          "checks": [
+            37085495292,
+            37085796172
+          ],
+          "dependencies": [],
+          "next_action": "Clos; ne revendiquer aucune inférence llama.cpp avant qualification bout en bout sur modèle connu."
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,131 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-03T03:28:47+02:00",
+  "findings": [
+    {
+      "id": "COG-RSI-001",
+      "repository": "Memorithm/RSI",
+      "status": "resolved",
+      "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#COG-RSI-001"
+    },
+    {
+      "id": "COG-RSI-002",
+      "repository": "Memorithm/RSI",
+      "status": "resolved",
+      "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#COG-RSI-002"
+    }
+  ],
+  "acceptance": {
+    "result": "qualified",
+    "summary": "The production surface no longer exposes a fabricated llama.cpp client. The opt-in laboratory wrapper keeps handles private, carries the exclusive KV borrow lifetime, is deliberately !Send + !Sync, never dereferences either handle, and returns typed Unsupported until real tokenization, decode and generation are independently qualified.",
+    "coverage": [
+      "private NonNull context and KV handles",
+      "exclusive mutable KV lifetime retained by the wrapper type",
+      "explicit !Send and !Sync marker with compile-fail coverage",
+      "laboratory-only llama-ffi-lab feature absent from default builds",
+      "typed fail-closed Unsupported for proposal and completion",
+      "memory-preservation regression without invalid pointers",
+      "pinned strict-provenance Miri qualification",
+      "default, public-feature and all-feature tests and Clippy",
+      "MSRV 1.89 check and Docker build/smoke"
+    ],
+    "limitations": [
+      "No real llama.cpp inference is claimed; the backend intentionally remains Unsupported until known-model end-to-end qualification.",
+      "No local Cargo execution is claimed because Cargo was unavailable; local git diff --check and workflow YAML parsing succeeded.",
+      "The initial candidate failed only Clippy drop_non_drop in the regression test; the final exact head uses a lexical scope and all candidate and target gates passed."
+    ]
+  },
+  "pull_requests": [
+    {
+      "number": 58,
+      "url": "https://github.com/Memorithm/RSI/pull/58",
+      "base": "main",
+      "base_sha": "a8884ea152ff02869ec380a06d3d85f04cb6707c",
+      "head_sha": "30244e958148c2f401052c65514d386ce80130b0",
+      "merge_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+      "candidate_tree": "ad6a0996421bd9204278e7b587f6a40c1b93deba",
+      "integrated_tree": "ad6a0996421bd9204278e7b587f6a40c1b93deba",
+      "merged_at": "2026-10-03T01:21:42Z",
+      "integration": "automatic squash integration observed after green exact-head checks; the guarded manual merge was not repeated after detecting the already-integrated target",
+      "status": "merged_target_validated",
+      "candidate_validation": {
+        "run_id": 37085495292,
+        "url": "https://github.com/Memorithm/RSI/actions/runs/37085495292",
+        "head_sha": "30244e958148c2f401052c65514d386ce80130b0",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 111094803008,
+            "name": "build · test · clippy",
+            "conclusion": "success"
+          },
+          {
+            "id": 111094803086,
+            "name": "miri · FFI lab wrapper",
+            "conclusion": "success"
+          },
+          {
+            "id": 111094803131,
+            "name": "docker build",
+            "conclusion": "success"
+          }
+        ],
+        "coverage": [
+          "Clippy default/public/all features with zero warnings",
+          "workspace tests and doctests default/public/all features",
+          "MSRV 1.89 cargo check",
+          "pinned nightly-2026-07-02 Miri with -Zmiri-strict-provenance",
+          "Docker musl image build and rsi-demo smoke"
+        ]
+      },
+      "target_validation": {
+        "run_id": 37085796172,
+        "url": "https://github.com/Memorithm/RSI/actions/runs/37085796172",
+        "head_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 111095711096,
+            "name": "build · test · clippy",
+            "conclusion": "success"
+          },
+          {
+            "id": 111095711420,
+            "name": "miri · FFI lab wrapper",
+            "conclusion": "success"
+          },
+          {
+            "id": 111095711276,
+            "name": "docker build",
+            "conclusion": "success"
+          }
+        ],
+        "exact_tree_match": true
+      },
+      "review": {
+        "result": "Exact final diff inspected after the lexical-scope fix; no inline review threads and no unresolved discussion.",
+        "unresolved_threads": 0
+      }
+    }
+  ],
+  "diagnostic_attempts": [
+    {
+      "run_id": 37085363994,
+      "head_sha": "1167e8480f95983700218c83ec561793fdcba1d3",
+      "result": "failed_clippy_corrected",
+      "reason": "drop_non_drop in the memory-preservation test was replaced by a lexical scope; strict-provenance Miri had already succeeded"
+    }
+  ],
+  "final_repository_state": {
+    "branch": "main",
+    "sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+    "tree": "ad6a0996421bd9204278e7b587f6a40c1b93deba"
+  },
+  "counting": {
+    "batch": 1,
+    "pr_index": 33,
+    "merged_total": 33,
+    "closed_findings": 28,
+    "remaining_findings": 73
+  }
+}

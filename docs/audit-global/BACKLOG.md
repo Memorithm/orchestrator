@@ -1,8 +1,8 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 32/50 ; cumul fusionné : 32 ; clos : 26 ; restants : 75.
+101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 33/50 ; cumul fusionné : 33 ; clos : 28 ; restants : 73.
 
-État réconcilié du 3 octobre 2026 à 02:43 Europe/Paris : **32/50 PR techniques fusionnées et validées**, **26/101 constats clos**, **75 restants**. ProofLab #83 est inscrite une seule fois; `B-PL-01` est clos sur le SHA intégré `674a1f1d8a32bf6c097a7b75765845aa30af3cc2`. Voir la [preuve exacte](proofs/ProofLab-83-B-PL-01.json), la [PR #83](https://github.com/Memorithm/ProofLab/pull/83), la [CI cible](https://github.com/Memorithm/ProofLab/actions/runs/37082869060) et le [journal du passage](journal/2026-10-03.md). Les commits de suivi ne comptent pas comme PR correctives.
+État réconcilié du 3 octobre 2026 à 03:28 Europe/Paris : **33/50 PR techniques fusionnées et validées**, **28/101 constats clos**, **73 restants**. RSI #58 est inscrite une seule fois; `COG-RSI-001` et `COG-RSI-002` sont clos sur le SHA intégré `59b5bde5c368682d441c60e1163f5a50f2a51e15`. Voir la [preuve exacte](proofs/RSI-58-COG-RSI-001-002.json), la [PR #58](https://github.com/Memorithm/RSI/pull/58), la [CI cible](https://github.com/Memorithm/RSI/actions/runs/37085796172) et le [journal du passage](journal/2026-10-03.md). Les commits de suivi ne comptent pas comme PR correctives.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -51,8 +51,8 @@
 | COG-COGNO-002 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) |
 | COG-COGNO-003 | Memorithm/COGNO-1 | 9 | à faire |  |
 | COG-COGNO-004 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) |
-| COG-RSI-001 | Memorithm/RSI | 4 | à faire |  |
-| COG-RSI-002 | Memorithm/RSI | 4 | à faire |  |
+| COG-RSI-001 | Memorithm/RSI | 4 | résolu | [preuve](proofs/RSI-58-COG-RSI-001-002.json), [PR #58](https://github.com/Memorithm/RSI/pull/58) |
+| COG-RSI-002 | Memorithm/RSI | 4 | résolu | [preuve](proofs/RSI-58-COG-RSI-001-002.json), [PR #58](https://github.com/Memorithm/RSI/pull/58) |
 | COG-RSI-003 | Memorithm/RSI | 7 | à faire |  |
 | COG-OCTA-001 | Memorithm/octasoma | 6 | à faire |  |
 | COG-OCTA-002 | Memorithm/octasoma | 1 | résolu | [preuve](proofs/octasoma-68-COG-OCTA-002.json), [PR #68](https://github.com/Memorithm/octasoma/pull/68) |
