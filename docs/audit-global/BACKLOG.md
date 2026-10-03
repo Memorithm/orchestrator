@@ -84,7 +84,7 @@
 | B-PL-01 | Memorithm/ProofLab | 6 | résolu | [preuve](proofs/ProofLab-83-B-PL-01.json), [PR #83](https://github.com/Memorithm/ProofLab/pull/83), [CI cible](https://github.com/Memorithm/ProofLab/actions/runs/37082869060) |
 | B-PL-02 | Memorithm/ProofLab | 3 | résolu | [preuves #77–#80](proofs/ProofLab-80-B-PL-02.json), [politique agrégée cgroup #81/#82](proofs/ProofLab-81-82-B-PL-02.json), [PR #81](https://github.com/Memorithm/ProofLab/pull/81), [PR #82](https://github.com/Memorithm/ProofLab/pull/82), [CI cible](https://github.com/Memorithm/ProofLab/actions/runs/37079650851) |
 | B-PL-03 | Memorithm/ProofLab | 9 | à faire | B-PL-01, B-PL-02 |
-| B-FL-01 | Memorithm/FieldLab | 5 | à faire |  |
+| B-FL-01 | Memorithm/FieldLab | 5 | résolu | [#56](https://github.com/Memorithm/FieldLab/pull/56), `975db6bc`, [preuve](proofs/FieldLab-56-B-FL-01.json) |
 | B-FL-02 | Memorithm/FieldLab | 9 | à faire |  |
 | B-FL-03 | Memorithm/FieldLab | 8 | à faire |  |
 | B-NO-01 | Memorithm/NeuralOperator | 9 | à faire |  |

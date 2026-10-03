@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-03T06:28:00+02:00",
+  "updated_at": "2026-10-03T07:24:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 31,
-    "remaining": 70,
-    "merged_prs": 37
+    "closed": 32,
+    "remaining": 69,
+    "merged_prs": 38
   },
   "batches": [
     {
@@ -221,6 +221,11 @@
           "repository": "Memorithm/Forge",
           "number": 50,
           "merge_sha": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc"
+        },
+        {
+          "repository": "Memorithm/FieldLab",
+          "number": 56,
+          "merge_sha": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d"
         }
       ]
     }
@@ -3519,6 +3524,124 @@
       "target_checks": [],
       "target_validation": "No separate push workflow was emitted. The rebase-integrated main tree exactly equals the green exact-head candidate tree, so the code actually integrated is the code tested.",
       "finding_status": "resolved"
+    },
+    {
+      "repository": "Memorithm/FieldLab",
+      "number": 56,
+      "url": "https://github.com/Memorithm/FieldLab/pull/56",
+      "base": "main",
+      "base_sha": "2879ed2fe91adb025e35e9b836cd41d46b9d0684",
+      "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+      "merge_sha": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
+      "status": "merged_target_validated_exact_tree",
+      "ids": [
+        "B-FL-01"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-03T05:22:20Z",
+      "merge_method": "automatic rebase-style integration observed after all exact-head workflows succeeded; no duplicate merge call sent",
+      "checks": [
+        {
+          "id": 37099429597,
+          "name": "FieldLab CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429597",
+          "jobs": [111135884032, 111135949794, 111135949836, 111135949853, 111136201346, 111136248076, 111136298231]
+        },
+        {
+          "id": 37099429603,
+          "name": "FieldLab FL-4B Validation",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429603",
+          "jobs": [111135884073]
+        },
+        {
+          "id": 37099429636,
+          "name": "FieldLab FL-B1 Boolean observability qualification",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429636",
+          "jobs": [111135884358]
+        },
+        {
+          "id": 37099429613,
+          "name": "FieldLab FL-E1 Validation",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429613",
+          "jobs": [111135884063]
+        },
+        {
+          "id": 37099429621,
+          "name": "FieldLab FL-E2 Validation",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429621",
+          "jobs": [111135884140]
+        },
+        {
+          "id": 37099429606,
+          "name": "FieldLab FL-5G qualification",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429606",
+          "jobs": [111135884115]
+        },
+        {
+          "id": 37099429720,
+          "name": "FieldLab FL-4C External CCOS Replay",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429720",
+          "jobs": [111135884395]
+        },
+        {
+          "id": 37099429618,
+          "name": "FieldLab FL-4D Native CCOS Temporal Trace",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429618",
+          "jobs": [111135884127]
+        },
+        {
+          "id": 37099429641,
+          "name": "FieldLab FL-4E External Focus Hysteresis",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429641",
+          "jobs": [111135884327]
+        }
+      ],
+      "previous_attempts": [
+        {
+          "head": "fa67bd2f35dda79099a92fc31a623d32aefff65c",
+          "run_ids": [37099319061, 37099319085, 37099319091],
+          "result": "rustfmt_failed_corrected",
+          "reason": "the format gate required a one-line condition layout change; no functional gate was bypassed"
+        }
+      ],
+      "review": {
+        "head": "ee930463b77c7c420eae87b2d008562bbecf880f",
+        "result": "Codex exact-head review completed without major issue; no inline review threads",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "2d9e20bc769a9d348db3877288b80360b3b23fd5",
+      "exact_tree_match": true,
+      "target_head": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
+      "target_checks": [],
+      "target_validation": "No separate push workflow was emitted when observed. The rebase-integrated main tree exactly equals the candidate tree validated by all nine exact-head workflows, so the code integrated is the code tested.",
+      "finding_status": "resolved"
     }
   ],
   "repository_observations": [
@@ -3604,11 +3727,11 @@
       "repository": "Memorithm/FieldLab",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "2879ed2fe91adb025e35e9b836cd41d46b9d0684",
-      "tree_sha": "4cb89ea6b1fd04e984643795f49bfdf246193dd9",
+      "current_head": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
+      "tree_sha": "2d9e20bc769a9d348db3877288b80360b3b23fd5",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": "branch-protection detail endpoint inaccessible to integration (403); all configured exact-head workflows were required by the campaign and succeeded"
     },
     {
       "repository": "Memorithm/Forge",
@@ -6749,16 +6872,31 @@
         "Utiliser une norme mise à l'échelle (ou hypot stable), rejeter tout résultat non fini et revérifier l'invariant de norme unitaire; couvrir les amplitudes extrêmes, NaN/Inf, sous-normaux et zéro.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "2879ed2fe91adb025e35e9b836cd41d46b9d0684",
+      "status": "resolved",
+      "current_head": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
       "default_branch": "main",
       "audit_head": "2879ed2fe91adb025e35e9b836cd41d46b9d0684",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "remediated_and_validated_on_exact_current_tree",
+      "policy_review": "AGENTS.md, ecosystem roadmap and PolyForm Noncommercial 1.0.0 license read; FieldLab scientific ownership and evidence boundaries preserved",
+      "prs": [
+        {
+          "number": 56,
+          "url": "https://github.com/Memorithm/FieldLab/pull/56",
+          "base": "main",
+          "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+          "merge_sha": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
+          "status": "merged_target_validated_exact_tree"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/FieldLab-56-B-FL-01.json",
+        "https://github.com/Memorithm/FieldLab/pull/56",
+        "https://github.com/Memorithm/FieldLab/actions/runs/37099429597",
+        "https://github.com/Memorithm/FieldLab/actions/runs/37099429636",
+        "https://github.com/Memorithm/FieldLab/actions/runs/37099429606"
+      ],
+      "last_observed_at": "2026-10-03T07:24:00+02:00",
+      "next_action": "Clos; conserver les tests extrêmes, sous-normaux et non finis lors des évolutions de NodeState."
     },
     {
       "id": "B-FL-02",
@@ -7423,21 +7561,21 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "codex-audit-20261003T0408",
-    "acquired_at": "2026-10-03T04:08:30.000Z",
-    "expires_at": "2026-10-03T05:38:30.000Z",
-    "released_at": "2026-10-03T04:28:00Z",
+    "owner": "codex-audit-20261003T0513",
+    "acquired_at": "2026-10-03T05:15:00Z",
+    "expires_at": "2026-10-03T06:45:00Z",
+    "released_at": "2026-10-03T05:24:00Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "previous_owner": "codex-audit-20261003T0313",
-    "previous_expiry": "2026-10-03T04:43:30.000Z",
-    "completed_action": "Forge #50 integrated exactly once after green exact-head checks; FORGE-01 and FORGE-02 closed because current main has the identical tested tree.",
-    "evidence_path": "docs/audit-global/proofs/Forge-50-FORGE-02.json",
-    "verified_merged_prs": 37,
-    "canonical_registry_merged_prs": 37,
-    "closed_findings": 31,
-    "remaining_findings": 70,
+    "previous_owner": "codex-audit-20261003T0408",
+    "previous_expiry": "2026-10-03T05:38:30.000Z",
+    "completed_action": "FieldLab #56 integrated exactly once after nine green exact-head workflows; B-FL-01 closed because current main has the identical tested tree.",
+    "evidence_path": "docs/audit-global/proofs/FieldLab-56-B-FL-01.json",
+    "verified_merged_prs": 38,
+    "canonical_registry_merged_prs": 38,
+    "closed_findings": 32,
+    "remaining_findings": 69,
     "next_action": "Reconcile the next highest-priority independent finding on its current default-branch HEAD before modification."
   },
   "capabilities": [
@@ -7478,9 +7616,9 @@
         "FieldLab",
         "NoiseLab"
       ],
-      "status": "Forge_FORGE-01_resolved_on_exact_tested_current_tree; broader reusable-owner inventory remains open",
-      "proof": "docs/audit-global/proofs/Forge-49-FORGE-01.json",
-      "adoption": "Forge SIMD/CUDA verification harnesses reject non-finite reference, output and difference values; CUDA uses a deterministic unwritten-output sentinel. Current main exactly matches the later green Forge #50 candidate tree. This is not yet a reusable cross-repository contract and does not qualify GPU hardware."
+      "status": "Forge_FORGE-01_and_FieldLab_B-FL-01_resolved_on_exact_tested_current_trees; broader reusable-owner inventory remains open",
+      "proof": "docs/audit-global/proofs/FieldLab-56-B-FL-01.json",
+      "adoption": "Forge SIMD/CUDA verification harnesses reject non-finite reference, output and difference values; CUDA uses a deterministic unwritten-output sentinel. FieldLab normalizes finite extremes and subnormals with scaled compensated sum-of-squares and rechecks unit norm. Both current main trees exactly match their green candidates. This is not yet a reusable cross-repository contract and does not qualify GPU hardware."
     },
     {
       "name": "evidence_provenance",

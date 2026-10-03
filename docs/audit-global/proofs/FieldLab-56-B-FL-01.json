@@ -1,0 +1,150 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": ["B-FL-01"],
+  "repository": "Memorithm/FieldLab",
+  "default_branch": "main",
+  "audit_head": "2879ed2fe91adb025e35e9b836cd41d46b9d0684",
+  "pull_request": {
+    "number": 56,
+    "url": "https://github.com/Memorithm/FieldLab/pull/56",
+    "base_sha_at_open": "2879ed2fe91adb025e35e9b836cd41d46b9d0684",
+    "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+    "merge_sha": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
+    "merged_at": "2026-10-03T05:22:20Z",
+    "merge_method": "automatic rebase-style integration observed after green exact-head workflows; no duplicate merge call sent"
+  },
+  "change": {
+    "path": "crates/field-core/src/lib.rs",
+    "summary": [
+      "Scale finite components by their maximum magnitude before computing a norm, preventing square overflow and subnormal underflow.",
+      "Use compensated scaled sum-of-squares for construction and postcondition verification.",
+      "Reject exact zero and all non-finite inputs fail-closed.",
+      "Recheck the unit-norm invariant before constructing NodeState."
+    ],
+    "regressions": [
+      "two f64::MAX components",
+      "smallest positive subnormal",
+      "signed zero",
+      "NaN",
+      "positive infinity",
+      "negative infinity"
+    ]
+  },
+  "candidate_validation": {
+    "head_sha": "ee930463b77c7c420eae87b2d008562bbecf880f",
+    "tree_sha": "2d9e20bc769a9d348db3877288b80360b3b23fd5",
+    "runs": [
+      {
+        "id": 37099429597,
+        "name": "FieldLab CI",
+        "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429597",
+        "conclusion": "success",
+        "jobs": [111135884032, 111135949794, 111135949836, 111135949853, 111136201346, 111136248076, 111136298231],
+        "executed": ["rustfmt check", "Clippy workspace all targets -D warnings", "workspace tests", "FL-0", "FL-1", "FL-2", "FL-3", "FL-4A", "FL-5E", "FL-5F"]
+      },
+      {
+        "id": 37099429603,
+        "name": "FieldLab FL-4B Validation",
+        "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429603",
+        "conclusion": "success",
+        "jobs": [111135884073],
+        "executed": ["FL-4B hysteretic bounded working-set campaign"]
+      },
+      {
+        "id": 37099429636,
+        "name": "FieldLab FL-B1 Boolean observability qualification",
+        "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429636",
+        "conclusion": "success",
+        "jobs": [111135884358],
+        "executed": ["format", "Clippy", "qualification unit tests", "two frozen campaign executions", "protocol evidence validation"]
+      },
+      {
+        "id": 37099429613,
+        "name": "FieldLab FL-E1 Validation",
+        "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429613",
+        "conclusion": "success",
+        "jobs": [111135884063],
+        "executed": ["FL-E1 conservative model campaign"]
+      },
+      {
+        "id": 37099429621,
+        "name": "FieldLab FL-E2 Validation",
+        "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429621",
+        "conclusion": "success",
+        "jobs": [111135884140],
+        "executed": ["FL-E2 relational transport and composition campaign"]
+      },
+      {
+        "id": 37099429606,
+        "name": "FieldLab FL-5G qualification",
+        "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429606",
+        "conclusion": "success",
+        "jobs": [111135884115],
+        "executed": ["format", "Clippy", "qualification unit tests", "full repeated FL-5G campaign", "protocol validity assertion"]
+      },
+      {
+        "id": 37099429720,
+        "name": "FieldLab FL-4C External CCOS Replay",
+        "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429720",
+        "conclusion": "success",
+        "jobs": [111135884395],
+        "executed": ["pinned CCOS build", "two external probes", "external evidence validation"]
+      },
+      {
+        "id": 37099429618,
+        "name": "FieldLab FL-4D Native CCOS Temporal Trace",
+        "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429618",
+        "conclusion": "success",
+        "jobs": [111135884127],
+        "executed": ["pinned CCOS build", "two native temporal acquisitions", "temporal evidence validation"]
+      },
+      {
+        "id": 37099429641,
+        "name": "FieldLab FL-4E External Focus Hysteresis",
+        "url": "https://github.com/Memorithm/FieldLab/actions/runs/37099429641",
+        "conclusion": "success",
+        "jobs": [111135884327],
+        "executed": ["pinned CCOS build", "two frozen native workloads", "holdout calibration and evaluation"]
+      }
+    ],
+    "local": {
+      "git_diff_check": "success",
+      "rust_execution": "not_run",
+      "reason": "cargo and rustfmt were unavailable in the automation runner"
+    },
+    "previous_attempts": [
+      {
+        "head_sha": "fa67bd2f35dda79099a92fc31a623d32aefff65c",
+        "run_ids": [37099319061, 37099319085, 37099319091],
+        "result": "format_failed_corrected",
+        "reason": "rustfmt required the unit-norm condition on one line"
+      }
+    ]
+  },
+  "review": {
+    "first_reviewed_head": "fa67bd2f35dda79099a92fc31a623d32aefff65c",
+    "first_review_result": "completed without inline finding",
+    "exact_head": "ee930463b77c7c420eae87b2d008562bbecf880f",
+    "exact_head_review": "completed at 2026-10-03T05:24:19Z without major issue",
+    "unresolved_threads_at_integration": 0
+  },
+  "target_validation": {
+    "head_sha": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
+    "tree_sha": "2d9e20bc769a9d348db3877288b80360b3b23fd5",
+    "candidate_tree_sha": "2d9e20bc769a9d348db3877288b80360b3b23fd5",
+    "exact_tree_match": true,
+    "push_workflows_observed": [],
+    "qualification": "The exact integrated tree is byte-for-byte the tree exercised by all nine successful candidate workflow runs. No separate push workflow was emitted when observed."
+  },
+  "branch_controls": {
+    "protection_detail": "inaccessible to integration (403)",
+    "bypass_performed": false,
+    "configured_exact_head_workflows_required_by_campaign": 9,
+    "configured_exact_head_workflows_successful": 9
+  },
+  "result": {
+    "status": "resolved",
+    "reason": "The merged code uses scaled compensated normalization, rejects invalid inputs, rechecks unit norm and is covered by extreme/subnormal/non-finite regressions on the exact validated tree."
+  },
+  "observed_at": "2026-10-03T07:24:00+02:00"
+}
