@@ -289,6 +289,87 @@
           "next_action": "Clos; ne revendiquer aucune inférence llama.cpp avant qualification bout en bout sur modèle connu."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T04:49:00+02:00",
+      "hour": "2026-10-03T04:00:00+02:00",
+      "batch": {
+        "number": 1,
+        "merged": 35,
+        "target": 50
+      },
+      "total_merged": 35,
+      "closed": 29,
+      "remaining": 72,
+      "actions": [
+        "COG-RSI-003 revérifié sur RSI main 59b5bde5c368682d441c60e1163f5a50f2a51e15; AGENTS.md, licence PolyForm Noncommercial, roadmap publiée et roadmap écosystème hors main relues avant modification.",
+        "La PR #59 remplace l’exécution Cargo hôte par une politique IsolatedUntrusted fail-closed : Bubblewrap, namespaces, réseau coupé, environnement nettoyé, Cargo offline, HOME/CARGO_HOME/TMPDIR isolés, runtime en lecture seule et snapshot jetable.",
+        "La revue post-fusion de #59 a identifié deux écarts réels : budget uniquement par processus et montage limité au sous-répertoire du package. La PR #61 monte la racine complète du snapshot et applique/observe les budgets agrégés via cgroup v2 (memory.max, memory.swap.max=0, pids.max, cpu.max et cpu.stat/usage_usec).",
+        "Le superviseur CI migre d’abord dans une feuille déléguée en root puis abandonne immédiatement UID/GID avant Rust et le sandbox candidat; les tests dynamiques couvrent secret hôte, environnement, réseau, écriture hors snapshot et dépassement CPU multi-processus.",
+        "Les PR #59 et #61 ont été fusionnées automatiquement après validation de leur HEAD exact; la PR divergente #60 a été fermée sans fusion et n’est pas comptée. Les quatre fils de revue de #59/#61 ont été résolus avec preuve.",
+        "La branche cible main 5e27df08bc63afbf8af08c06b9adb7ce11e4c255 a repassé toute la CI sur l’arbre intégré exact 5d986085769fc4c16d9ae7e8052997b379c57813."
+      ],
+      "executed_checks": [
+        "Local: git diff --check réussi; Cargo absent, aucune exécution Rust locale revendiquée.",
+        "PR #59 HEAD 135affdb17bffdc5a4dc0c6c4993ff39a82e98ac, run 37089333100 : sandbox 111106152580, build/test/Clippy 111106152723, Docker 111106152732 et Miri 111106152734 réussis.",
+        "PR #61 HEAD final c14f0826506e253a0377163dc42970b49d7acbbd, run 37090480423 : Miri 111109567146, sandbox 111109567372, Docker 111109567373 et build/test/Clippy 111109567446 réussis.",
+        "Branche cible main 5e27df08bc63afbf8af08c06b9adb7ce11e4c255, run push 37090780952 : Docker 111110462983, build/test/Clippy 111110463068, sandbox 111110463098 et Miri 111110463134 réussis.",
+        "Diffs et arbres inspectés; arbres candidats identiques aux arbres intégrés; états mergeable vérifiés; tous les fils de revue résolus. Main observée non protégée et aucun ruleset visible; endpoint administratif de protection inaccessible (403), sans contournement de gate."
+      ],
+      "diagnostic_attempts": [
+        {
+          "run_id": 37089921836,
+          "result": "failed_corrected",
+          "reason": "Clippy et délégation cgroup initiale corrigés"
+        },
+        {
+          "run_id": 37090100764,
+          "result": "failed_corrected",
+          "reason": "migration non privilégiée dans le cgroup parent refusée; superviseur root puis drop UID/GID"
+        },
+        {
+          "run_id": 37090192286,
+          "result": "superseded",
+          "reason": "probe runtime corrigée, puis correction étendue après revue du budget CPU agrégé"
+        },
+        {
+          "run_id": 37090386172,
+          "result": "superseded",
+          "reason": "HEAD remplacé par le commit de roadmap final avant achèvement"
+        }
+      ],
+      "waiting": [],
+      "work_items": [
+        {
+          "id": "COG-RSI-003",
+          "repository": "Memorithm/RSI",
+          "status": "resolved",
+          "actions": "Isolation fail-closed Bubblewrap, snapshot racine jetable, environnement/réseau coupés, cgroup v2 agrégé, kill cgroup/session et drains bornés; tests dynamiques CI.",
+          "results": "PR #59 intégrée sous ab5b779759091a47ddb7f9fef671b57801e1660a puis corrections de revue #61 intégrées sous 5e27df08bc63afbf8af08c06b9adb7ce11e4c255; CI candidat et cible complètes vertes.",
+          "pr": [
+            {
+              "number": 59,
+              "url": "https://github.com/Memorithm/RSI/pull/59",
+              "head_sha": "135affdb17bffdc5a4dc0c6c4993ff39a82e98ac",
+              "merge_sha": "ab5b779759091a47ddb7f9fef671b57801e1660a"
+            },
+            {
+              "number": 61,
+              "url": "https://github.com/Memorithm/RSI/pull/61",
+              "head_sha": "c14f0826506e253a0377163dc42970b49d7acbbd",
+              "merge_sha": "5e27df08bc63afbf8af08c06b9adb7ce11e4c255"
+            }
+          ],
+          "head": "5e27df08bc63afbf8af08c06b9adb7ce11e4c255",
+          "checks": [
+            37089333100,
+            37090480423,
+            37090780952
+          ],
+          "dependencies": [],
+          "next_action": "Clos; conserver le mode TrustedHost comme opt-in explicite et maintenir la qualification cgroup/Bubblewrap sur les runners."
+        }
+      ]
     }
   ]
 }

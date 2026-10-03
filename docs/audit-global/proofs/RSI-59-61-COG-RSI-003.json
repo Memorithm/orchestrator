@@ -1,0 +1,202 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-03T04:49:00+02:00",
+  "findings": [
+    {
+      "id": "COG-RSI-003",
+      "repository": "Memorithm/RSI",
+      "status": "resolved",
+      "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#COG-RSI-003"
+    }
+  ],
+  "acceptance": {
+    "result": "qualified",
+    "summary": "CargoEvaluator now defaults to fail-closed untrusted execution in a disposable snapshot under Bubblewrap and a delegated cgroup v2. The host network and environment are removed, runtime mounts are read-only, the full snapshot root remains available for Cargo workspaces, aggregate memory/PID/CPU-time budgets apply to the entire descendant tree, timeouts kill the process group, and TrustedHost remains an explicit opt-in for trusted code and dependencies.",
+    "coverage": [
+      "Bubblewrap user, mount, PID, IPC, UTS, cgroup and network namespaces with no host-network route",
+      "cleared environment, isolated HOME/CARGO_HOME/TMPDIR and offline Cargo",
+      "read-only runtime mounts with only the disposable snapshot writable",
+      "full snapshot-root bind with package_subdir used only as chdir for workspace and sibling path-dependency compatibility",
+      "delegated cgroup v2 memory.max, memory.swap.max, pids.max and cpu.max",
+      "aggregate max_cpu_seconds enforced from cpu.stat/usage_usec across multiple workers",
+      "pre-exec cgroup attachment, process-session kill, cgroup.kill teardown and bounded output drains",
+      "explicit TrustedHost compatibility mode",
+      "default/public/all-feature Clippy and tests, doctests, MSRV 1.89, Miri and Docker on exact candidate and integrated target",
+      "dynamic CI probe exercised secret isolation, absent network route, missing /etc/passwd and aggregate multi-process CPU exhaustion"
+    ],
+    "limitations": [
+      "This qualifies Linux Bubblewrap plus cgroup v2 containment, not a formal proof of the kernel, Bubblewrap or mounted toolchain.",
+      "Untrusted mode requires an explicitly delegated cgroup v2 root and pre-provisioned offline dependencies; missing capabilities fail closed.",
+      "No local Rust execution is claimed because Cargo was unavailable in the automation worker; local git diff --check passed and GitHub exact-head CI is authoritative.",
+      "GitHub branch-protection administration was inaccessible to the integration; the branch endpoint reported protected=false and repository rulesets were empty. No configured CI gate was weakened or bypassed."
+    ]
+  },
+  "pull_requests": [
+    {
+      "number": 59,
+      "url": "https://github.com/Memorithm/RSI/pull/59",
+      "base": "main",
+      "base_sha": "59b5bde5c368682d441c60e1163f5a50f2a51e15",
+      "head_sha": "135affdb17bffdc5a4dc0c6c4993ff39a82e98ac",
+      "merge_sha": "ab5b779759091a47ddb7f9fef671b57801e1660a",
+      "candidate_tree": "219932407f8f6b35def568d5d7a620f84b41919e",
+      "integrated_tree": "219932407f8f6b35def568d5d7a620f84b41919e",
+      "merged_at": "2026-10-03T02:23:42Z",
+      "integration": "automatic rebase-style integration observed after exact-head CI success; no duplicate merge call",
+      "status": "merged_followup_required_and_completed",
+      "candidate_validation": {
+        "run_id": 37089333100,
+        "url": "https://github.com/Memorithm/RSI/actions/runs/37089333100",
+        "head_sha": "135affdb17bffdc5a4dc0c6c4993ff39a82e98ac",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 111106152580,
+            "name": "cargo sandbox · no host secret/network",
+            "conclusion": "success"
+          },
+          {
+            "id": 111106152723,
+            "name": "build · test · clippy",
+            "conclusion": "success"
+          },
+          {
+            "id": 111106152732,
+            "name": "docker build",
+            "conclusion": "success"
+          },
+          {
+            "id": 111106152734,
+            "name": "miri · FFI lab wrapper",
+            "conclusion": "success"
+          }
+        ]
+      },
+      "target_validation": "The exact integrated tree matched the candidate. Two valid post-merge review findings required PR #61 before COG-RSI-003 could close.",
+      "review": {
+        "result": "Aggregate resource limits and snapshot-root mounting findings corrected by #61; both original threads resolved after exact-head proof.",
+        "unresolved_threads": 0
+      }
+    },
+    {
+      "number": 61,
+      "url": "https://github.com/Memorithm/RSI/pull/61",
+      "base": "main",
+      "base_sha": "ab5b779759091a47ddb7f9fef671b57801e1660a",
+      "head_sha": "c14f0826506e253a0377163dc42970b49d7acbbd",
+      "merge_sha": "5e27df08bc63afbf8af08c06b9adb7ce11e4c255",
+      "candidate_tree": "5d986085769fc4c16d9ae7e8052997b379c57813",
+      "integrated_tree": "5d986085769fc4c16d9ae7e8052997b379c57813",
+      "merged_at": "2026-10-03T02:43:17Z",
+      "integration": "automatic rebase-style integration observed after all exact-head checks and review corrections succeeded; no duplicate merge call",
+      "status": "merged_target_validated",
+      "candidate_validation": {
+        "run_id": 37090480423,
+        "url": "https://github.com/Memorithm/RSI/actions/runs/37090480423",
+        "head_sha": "c14f0826506e253a0377163dc42970b49d7acbbd",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 111109567446,
+            "name": "build · test · clippy",
+            "conclusion": "success"
+          },
+          {
+            "id": 111109567372,
+            "name": "cargo sandbox · no host secret/network",
+            "conclusion": "success"
+          },
+          {
+            "id": 111109567373,
+            "name": "docker build",
+            "conclusion": "success"
+          },
+          {
+            "id": 111109567146,
+            "name": "miri · FFI lab wrapper",
+            "conclusion": "success"
+          }
+        ],
+        "coverage": [
+          "Clippy and workspace tests for default, public and all features plus doctests",
+          "MSRV 1.89 cargo check",
+          "dynamic Bubblewrap and cgroup v2 probe including multi-process cumulative CPU exhaustion",
+          "pinned Miri laboratory boundary",
+          "Docker musl build and rsi-demo smoke"
+        ]
+      },
+      "target_validation": {
+        "run_id": 37090780952,
+        "url": "https://github.com/Memorithm/RSI/actions/runs/37090780952",
+        "head_sha": "5e27df08bc63afbf8af08c06b9adb7ce11e4c255",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 111110463068,
+            "name": "build · test · clippy",
+            "conclusion": "success"
+          },
+          {
+            "id": 111110463098,
+            "name": "cargo sandbox · no host secret/network",
+            "conclusion": "success"
+          },
+          {
+            "id": 111110462983,
+            "name": "docker build",
+            "conclusion": "success"
+          },
+          {
+            "id": 111110463134,
+            "name": "miri · FFI lab wrapper",
+            "conclusion": "success"
+          }
+        ],
+        "exact_tree_match": true
+      },
+      "review": {
+        "result": "All four original/follow-up inline findings corrected; delegated-runner topology and cumulative cpu.stat enforcement dynamically qualified; all threads resolved.",
+        "unresolved_threads": 0
+      }
+    }
+  ],
+  "diagnostic_attempts": [
+    {
+      "run_id": 37089921836,
+      "result": "failed_corrected",
+      "reason": "initial cgroup follow-up exposed Clippy issues and the delegated-tree migration requirement"
+    },
+    {
+      "run_id": 37090100764,
+      "result": "failed_sandbox_corrected",
+      "reason": "nonprivileged process could not migrate from the runner root into the delegated subtree"
+    },
+    {
+      "run_id": 37090192286,
+      "result": "superseded_after_dynamic_success",
+      "reason": "privileged supervisor migration fixed the runtime probe; aggregate cumulative CPU review then required cpu.stat enforcement"
+    },
+    {
+      "pull_request": 60,
+      "url": "https://github.com/Memorithm/RSI/pull/60",
+      "result": "closed_unmerged_not_counted",
+      "reason": "divergent ancestry detected; replaced by clean follow-up #61 based directly on integrated main"
+    }
+  ],
+  "policy_review": {
+    "result": "satisfied",
+    "evidence": "AGENTS.md, PolyForm Noncommercial 1.0.0, docs/ROADMAP.md and agent/ecosystem-roadmap:.agent/RSI_ECOSYSTEM_ROADMAP.yaml were read and reread before merge. The published roadmap was reconciled; the off-main roadmap was not merged. Loop stop, checkpoint/replay, observer/veto and deterministic adoption invariants remain unchanged."
+  },
+  "final_repository_state": {
+    "branch": "main",
+    "sha": "5e27df08bc63afbf8af08c06b9adb7ce11e4c255",
+    "tree": "5d986085769fc4c16d9ae7e8052997b379c57813"
+  },
+  "counting": {
+    "batch": 1,
+    "pr_index": 35,
+    "merged_total": 35,
+    "closed_findings": 29,
+    "remaining_findings": 72
+  }
+}

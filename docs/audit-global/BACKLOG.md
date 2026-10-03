@@ -1,8 +1,8 @@
 # Backlog de remédiation — 30 septembre 2026
 
-101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 33/50 ; cumul fusionné : 33 ; clos : 28 ; restants : 73.
+101 IDs ; 12 positifs conservés. Dernier état inscrit dans `registry.json` : lot 1 à 35/50 ; cumul fusionné : 35 ; clos : 29 ; restants : 72.
 
-État réconcilié du 3 octobre 2026 à 03:28 Europe/Paris : **33/50 PR techniques fusionnées et validées**, **28/101 constats clos**, **73 restants**. RSI #58 est inscrite une seule fois; `COG-RSI-001` et `COG-RSI-002` sont clos sur le SHA intégré `59b5bde5c368682d441c60e1163f5a50f2a51e15`. Voir la [preuve exacte](proofs/RSI-58-COG-RSI-001-002.json), la [PR #58](https://github.com/Memorithm/RSI/pull/58), la [CI cible](https://github.com/Memorithm/RSI/actions/runs/37085796172) et le [journal du passage](journal/2026-10-03.md). Les commits de suivi ne comptent pas comme PR correctives.
+État réconcilié du 3 octobre 2026 à 04:49 Europe/Paris : **35/50 PR techniques fusionnées et validées**, **29/101 constats clos**, **72 restants**. `COG-RSI-003` est clos après les PR [RSI #59](https://github.com/Memorithm/RSI/pull/59) et [RSI #61](https://github.com/Memorithm/RSI/pull/61), intégrées jusqu’au SHA cible `5e27df08bc63afbf8af08c06b9adb7ce11e4c255`. La seconde PR corrige les deux constats de revue post-fusion de #59 : limites cgroup v2 agrégées et montage de la racine complète du snapshot. Voir la [preuve exacte](proofs/RSI-59-61-COG-RSI-003.json), la [CI candidat finale](https://github.com/Memorithm/RSI/actions/runs/37090480423), la [CI cible](https://github.com/Memorithm/RSI/actions/runs/37090780952) et le [journal du passage](journal/2026-10-03.md). La PR #60, divergente, a été fermée sans fusion et n’est pas comptée; les commits de suivi ne comptent pas comme PR correctives.
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
@@ -53,7 +53,7 @@
 | COG-COGNO-004 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) |
 | COG-RSI-001 | Memorithm/RSI | 4 | résolu | [preuve](proofs/RSI-58-COG-RSI-001-002.json), [PR #58](https://github.com/Memorithm/RSI/pull/58) |
 | COG-RSI-002 | Memorithm/RSI | 4 | résolu | [preuve](proofs/RSI-58-COG-RSI-001-002.json), [PR #58](https://github.com/Memorithm/RSI/pull/58) |
-| COG-RSI-003 | Memorithm/RSI | 7 | à faire |  |
+| COG-RSI-003 | Memorithm/RSI | 7 | résolu | [RSI #59](https://github.com/Memorithm/RSI/pull/59), [RSI #61](https://github.com/Memorithm/RSI/pull/61), [preuve](proofs/RSI-59-61-COG-RSI-003.json) |
 | COG-OCTA-001 | Memorithm/octasoma | 6 | à faire |  |
 | COG-OCTA-002 | Memorithm/octasoma | 1 | résolu | [preuve](proofs/octasoma-68-COG-OCTA-002.json), [PR #68](https://github.com/Memorithm/octasoma/pull/68) |
 | COG-OCTA-003 | Memorithm/octasoma | 9 | à faire |  |
