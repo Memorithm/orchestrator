@@ -69,9 +69,9 @@
 | PAPERS-02 | Memorithm/PAPERS-AGENT | 7 | à faire |  |
 | PAPERS-03 | Memorithm/PAPERS-AGENT | 9 | à faire |  |
 | PAPERS-04 | Memorithm/PAPERS-AGENT | 9 | à faire |  |
-| GOT-01 | Memorithm/GOT | 5 | à faire |  |
-| GOT-02 | Memorithm/GOT | 5 | à faire |  |
-| GOT-03 | Memorithm/GOT | 5 | à faire | GOT-01, GOT-02 |
+| GOT-01 | Memorithm/GOT | 5 | résolu | [preuve](proofs/GOT-5-6-GOT-01-02-03.json), [PR #5](https://github.com/Memorithm/GOT/pull/5) |
+| GOT-02 | Memorithm/GOT | 5 | résolu | [preuve](proofs/GOT-5-6-GOT-01-02-03.json), [PR #5](https://github.com/Memorithm/GOT/pull/5) |
+| GOT-03 | Memorithm/GOT | 5 | résolu | [preuve](proofs/GOT-5-6-GOT-01-02-03.json), [PR #5](https://github.com/Memorithm/GOT/pull/5), [PR #6](https://github.com/Memorithm/GOT/pull/6) |
 | B-TDI-01 | Memorithm/TDI | 9 | à faire |  |
 | B-TDI-02 | Memorithm/TDI | 9 | à faire |  |
 | B-ITD-01 | Memorithm/itd-simulator | 9 | à faire |  |

@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-03T07:24:00+02:00",
+  "updated_at": "2026-10-03T08:29:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 32,
-    "remaining": 69,
-    "merged_prs": 38
+    "closed": 35,
+    "remaining": 66,
+    "merged_prs": 40
   },
   "batches": [
     {
@@ -226,6 +226,16 @@
           "repository": "Memorithm/FieldLab",
           "number": 56,
           "merge_sha": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d"
+        },
+        {
+          "repository": "Memorithm/GOT",
+          "number": 5,
+          "merge_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b"
+        },
+        {
+          "repository": "Memorithm/GOT",
+          "number": 6,
+          "merge_sha": "47af9d844b9541f50e44de327b853b6e0d577381"
         }
       ]
     }
@@ -3642,6 +3652,94 @@
       "target_checks": [],
       "target_validation": "No separate push workflow was emitted when observed. The rebase-integrated main tree exactly equals the candidate tree validated by all nine exact-head workflows, so the code integrated is the code tested.",
       "finding_status": "resolved"
+    },
+    {
+      "repository": "Memorithm/GOT",
+      "number": 5,
+      "url": "https://github.com/Memorithm/GOT/pull/5",
+      "base": "main",
+      "base_sha": "d50b31e1004df6b04401084af5c6b3fcb4635ff2",
+      "head_sha": "b9f54e3113ffc06bc210879675e91c701cf23fae",
+      "merge_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b",
+      "status": "merged_target_validated",
+      "ids": ["GOT-01", "GOT-02", "GOT-03"],
+      "batch": 1,
+      "merged_at": "2026-10-03T06:22:06Z",
+      "merge_method": "integrated after exact-head checks; no duplicate merge call sent",
+      "checks": [
+        {
+          "id": 37102639589,
+          "name": "candidate CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b9f54e3113ffc06bc210879675e91c701cf23fae",
+          "url": "https://github.com/Memorithm/GOT/actions/runs/37102639589",
+          "jobs": [111145042210]
+        },
+        {
+          "id": 37102820158,
+          "name": "target CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b",
+          "url": "https://github.com/Memorithm/GOT/actions/runs/37102820158",
+          "jobs": [111145551609]
+        }
+      ],
+      "review": {
+        "head": "b9f54e3113ffc06bc210879675e91c701cf23fae",
+        "result": "P1 positional seed compatibility finding corrected by follow-up PR #6",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "cd5c94a8df1394633d970d0d5fc3edc6130800eb",
+      "exact_tree_match": true,
+      "target_head": "e00fe7a33180670455c6ed0b763da4b573282e1b",
+      "target_checks": [37102820158],
+      "target_validation": "The integrated tree exactly matches the successful candidate tree and the integrated SHA passed its push CI. The later compatibility correction is recorded in PR #6.",
+      "finding_status": "resolved_with_follow_up"
+    },
+    {
+      "repository": "Memorithm/GOT",
+      "number": 6,
+      "url": "https://github.com/Memorithm/GOT/pull/6",
+      "base": "main",
+      "base_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b",
+      "head_sha": "7e3ca1f87c429fdf75738cd6f07c604f2d1ac0b8",
+      "merge_sha": "47af9d844b9541f50e44de327b853b6e0d577381",
+      "status": "merged_target_validated",
+      "ids": ["GOT-03"],
+      "batch": 1,
+      "merged_at": "2026-10-03T06:24:38Z",
+      "merge_method": "automatic integration observed after exact-head checks; no duplicate merge call sent",
+      "checks": [
+        {
+          "id": 37102910636,
+          "name": "candidate CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7e3ca1f87c429fdf75738cd6f07c604f2d1ac0b8",
+          "url": "https://github.com/Memorithm/GOT/actions/runs/37102910636"
+        },
+        {
+          "id": 37102958303,
+          "name": "target CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "47af9d844b9541f50e44de327b853b6e0d577381",
+          "url": "https://github.com/Memorithm/GOT/actions/runs/37102958303"
+        }
+      ],
+      "review": {
+        "head": "7e3ca1f87c429fdf75738cd6f07c604f2d1ac0b8",
+        "result": "Codex exact-head review completed without findings; original PR #5 P1 thread replied to and resolved",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "aefa7f1129343bdf896c792bb6d1fb0385e934e3",
+      "exact_tree_match": true,
+      "target_head": "47af9d844b9541f50e44de327b853b6e0d577381",
+      "target_checks": [37102958303],
+      "target_validation": "The integrated tree exactly matches the successful candidate tree and the integrated SHA passed its push CI.",
+      "finding_status": "resolved"
     }
   ],
   "repository_observations": [
@@ -3747,8 +3845,8 @@
       "repository": "Memorithm/GOT",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "d50b31e1004df6b04401084af5c6b3fcb4635ff2",
-      "tree_sha": "6caef5061011e0349986b5ed84def53633a5e719",
+      "current_head": "47af9d844b9541f50e44de327b853b6e0d577381",
+      "tree_sha": "aefa7f1129343bdf896c792bb6d1fb0385e934e3",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -6440,16 +6538,19 @@
         "Bloquer immédiatement l'usage de ces IC/p-values comme preuve; conserver uniquement effets descriptifs explicitement synthetic. Enregistrer répétitions réellement indépendantes, oracle empirique/agent réel, préenregistrement puis calcul vérifiable. Porter les statistiques en Rust via SciRust sans recopier des faux résultats.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "d50b31e1004df6b04401084af5c6b3fcb4635ff2",
+      "status": "resolved",
+      "current_head": "47af9d844b9541f50e44de327b853b6e0d577381",
       "default_branch": "main",
       "audit_head": "d50b31e1004df6b04401084af5c6b3fcb4635ff2",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "confirmed_present_on_audit_head_then_resolved_on_integrated_47af9d844b9541f50e44de327b853b6e0d577381",
+      "policy_review": "AGENTS.md and .agent/GOT_ECOSYSTEM_ROADMAP.yaml read; no repository LICENSE file present and no license change made",
+      "prs": [
+        {"repository": "Memorithm/GOT", "number": 5, "url": "https://github.com/Memorithm/GOT/pull/5", "head_sha": "b9f54e3113ffc06bc210879675e91c701cf23fae", "merge_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b", "status": "merged_target_validated"},
+        {"repository": "Memorithm/GOT", "number": 6, "url": "https://github.com/Memorithm/GOT/pull/6", "head_sha": "7e3ca1f87c429fdf75738cd6f07c604f2d1ac0b8", "merge_sha": "47af9d844b9541f50e44de327b853b6e0d577381", "status": "merged_target_validated"}
+      ],
+      "resolution_evidence": ["docs/audit-global/proofs/GOT-5-6-GOT-01-02-03.json", "https://github.com/Memorithm/GOT/actions/runs/37102639589", "https://github.com/Memorithm/GOT/actions/runs/37102820158", "https://github.com/Memorithm/GOT/actions/runs/37102910636", "https://github.com/Memorithm/GOT/actions/runs/37102958303"],
+      "last_observed_at": "2026-10-03T08:29:00+02:00",
+      "next_action": "Clos; conserver la frontière descriptive/empirique et les observations brutes."
     },
     {
       "id": "GOT-02",
@@ -6465,16 +6566,16 @@
         "Supprimer/refuser l'ANOVA sans observations par groupes. Ajouter validations contre références et invariance/contre-exemples; présenter effect sizes descriptifs quand le plan ne permet pas de test.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "d50b31e1004df6b04401084af5c6b3fcb4635ff2",
+      "status": "resolved",
+      "current_head": "47af9d844b9541f50e44de327b853b6e0d577381",
       "default_branch": "main",
       "audit_head": "d50b31e1004df6b04401084af5c6b3fcb4635ff2",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "confirmed_present_on_audit_head_then_resolved_on_integrated_47af9d844b9541f50e44de327b853b6e0d577381",
+      "policy_review": "AGENTS.md and .agent/GOT_ECOSYSTEM_ROADMAP.yaml read; no repository LICENSE file present and no license change made",
+      "prs": [{"repository": "Memorithm/GOT", "number": 5, "url": "https://github.com/Memorithm/GOT/pull/5", "head_sha": "b9f54e3113ffc06bc210879675e91c701cf23fae", "merge_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b", "status": "merged_target_validated"}],
+      "resolution_evidence": ["docs/audit-global/proofs/GOT-5-6-GOT-01-02-03.json", "https://github.com/Memorithm/GOT/actions/runs/37102639589", "https://github.com/Memorithm/GOT/actions/runs/37102820158"],
+      "last_observed_at": "2026-10-03T08:29:00+02:00",
+      "next_action": "Clos; ANOVA uniquement sur groupes empiriques avec observations et eta carré calculé sur les sommes de carrés réelles."
     },
     {
       "id": "GOT-03",
@@ -6493,16 +6594,19 @@
         "Ajouter manifeste/env verrouillé et smoke CI --help/import plus tests de benchmark; injecter un RNG explicite dérivé des identités de campagne/candidat dans chaque composant. Prioriser remplacement des statistiques invalides avant croissance du banc.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "d50b31e1004df6b04401084af5c6b3fcb4635ff2",
+      "status": "resolved",
+      "current_head": "47af9d844b9541f50e44de327b853b6e0d577381",
       "default_branch": "main",
       "audit_head": "d50b31e1004df6b04401084af5c6b3fcb4635ff2",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "confirmed_present_on_audit_head_then_resolved_on_integrated_47af9d844b9541f50e44de327b853b6e0d577381",
+      "policy_review": "AGENTS.md and .agent/GOT_ECOSYSTEM_ROADMAP.yaml read; no repository LICENSE file present and no license change made",
+      "prs": [
+        {"repository": "Memorithm/GOT", "number": 5, "url": "https://github.com/Memorithm/GOT/pull/5", "head_sha": "b9f54e3113ffc06bc210879675e91c701cf23fae", "merge_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b", "status": "merged_target_validated"},
+        {"repository": "Memorithm/GOT", "number": 6, "url": "https://github.com/Memorithm/GOT/pull/6", "head_sha": "7e3ca1f87c429fdf75738cd6f07c604f2d1ac0b8", "merge_sha": "47af9d844b9541f50e44de327b853b6e0d577381", "status": "merged_target_validated"}
+      ],
+      "resolution_evidence": ["docs/audit-global/proofs/GOT-5-6-GOT-01-02-03.json", "https://github.com/Memorithm/GOT/actions/runs/37102639589", "https://github.com/Memorithm/GOT/actions/runs/37102820158", "https://github.com/Memorithm/GOT/actions/runs/37102910636", "https://github.com/Memorithm/GOT/actions/runs/37102958303"],
+      "last_observed_at": "2026-10-03T08:29:00+02:00",
+      "next_action": "Clos; conserver RNG privés dérivés, verrou Python 3.12, actions épinglées et tests fonctionnels CI."
     },
     {
       "id": "B-TDI-01",
@@ -7564,19 +7668,19 @@
       "owner": "codex-audit-20261003T0609",
       "acquired_at": "2026-10-03T06:09:00Z",
       "expires_at": "2026-10-03T07:39:00Z",
-      "released_at": null,
-      "status": "active",
+      "released_at": "2026-10-03T06:29:00Z",
+      "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
       "previous_owner": "codex-audit-20261003T0513",
       "previous_expiry": "2026-10-03T06:45:00Z",
-      "completed_action": null,
-      "evidence_path": null,
-    "verified_merged_prs": 38,
-    "canonical_registry_merged_prs": 38,
-    "closed_findings": 32,
-    "remaining_findings": 69,
-      "next_action": "Reconcile GOT-01/GOT-02/GOT-03 on the current Memorithm/GOT default-branch HEAD; avoid duplicate PRs; remediate and validate if still present."
+      "completed_action": "Closed GOT-01/GOT-02/GOT-03 with GOT #5 and compatibility follow-up #6; exact candidate and target CI green; original P1 review thread resolved.",
+      "evidence_path": "docs/audit-global/proofs/GOT-5-6-GOT-01-02-03.json",
+    "verified_merged_prs": 40,
+    "canonical_registry_merged_prs": 40,
+    "closed_findings": 35,
+    "remaining_findings": 66,
+      "next_action": "Reconcile COG-OCTA-001 on the current Memorithm/octasoma default-branch HEAD; avoid duplicate PRs and preserve generation atomicity evidence."
   },
   "capabilities": [
     {

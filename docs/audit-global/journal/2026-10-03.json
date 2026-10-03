@@ -589,6 +589,67 @@
           "next_action": "Clos; réconcilier ensuite le prochain constat prioritaire indépendant, notamment les statistiques GOT ou l'atomicité octasoma."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-03T08:29:00+02:00",
+      "hour": "2026-10-03T08:00:00+02:00",
+      "batch": {"number": 1, "merged": 40, "target": 50},
+      "total_merged": 40,
+      "closed": 35,
+      "remaining": 66,
+      "actions": [
+        "GOT-01/GOT-02/GOT-03 revérifiés présents sur GOT main d50b31e1004df6b04401084af5c6b3fcb4635ff2; AGENTS.md et .agent/GOT_ECOSYSTEM_ROADMAP.yaml relus; aucun fichier LICENSE présent et aucune licence modifiée.",
+        "GOT #5 supprime les statistiques fabriquées, conserve les observations et leur provenance, limite l'inférence aux données empiriques et remplace l'ANOVA dégénérée par un calcul sur groupes réels.",
+        "Les RNG deviennent privés et dérivés des identités stables; les répétitions sont séparées des cycles; le runtime Python 3.12 et les Actions sont épinglés; la CI exécute imports, CLI et tests fonctionnels.",
+        "La revue de #5 a détecté une régression P1 de compatibilité positionnelle; GOT #6 restaure TaguchiHarness(iterations, seed), ajoute un test et ferme le fil d'origine.",
+        "Les deux PR ont été intégrées une seule fois; les arbres candidat/intégré correspondent et les CI cible exactes sont vertes."
+      ],
+      "executed_checks": [
+        "Local final: 8 tests unitaires/fonctionnels, compileall, CLI --help, benchmark synthétique complet 96 causes/2 répétitions, pip dry-run du lock, parsing YAML et git diff --check réussis.",
+        "PR #5 candidat 37102639589, job 111145042210: installation verrouillée, compilation, imports/CLI et tests fonctionnels réussis.",
+        "PR #5 cible 37102820158, job 111145551609: mêmes validations réussies sur e00fe7a33180670455c6ed0b763da4b573282e1b.",
+        "PR #6 candidat 37102910636 et cible 37102958303: validations réussies sur l'arbre aefa7f1129343bdf896c792bb6d1fb0385e934e3.",
+        "Revue #6 terminée sans constat; fil P1 #5 répondu puis résolu."
+      ],
+      "waiting": [],
+      "work_items": [
+        {
+          "id": "GOT-01",
+          "repository": "Memorithm/GOT",
+          "status": "resolved",
+          "actions": "Frontière descriptive/empirique explicite, observations appariées conservées, aucune statistique inférentielle fabriquée.",
+          "results": "PR #5 intégrée; CI candidat et cible vertes; correction de compatibilité #6 également validée.",
+          "pr": [{"number": 5, "url": "https://github.com/Memorithm/GOT/pull/5", "head_sha": "b9f54e3113ffc06bc210879675e91c701cf23fae", "merge_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b"}, {"number": 6, "url": "https://github.com/Memorithm/GOT/pull/6", "head_sha": "7e3ca1f87c429fdf75738cd6f07c604f2d1ac0b8", "merge_sha": "47af9d844b9541f50e44de327b853b6e0d577381"}],
+          "head": "47af9d844b9541f50e44de327b853b6e0d577381",
+          "checks": [37102639589, 37102820158, 37102910636, 37102958303],
+          "dependencies": [],
+          "next_action": "Clos; maintenir la frontière de preuve et les observations brutes."
+        },
+        {
+          "id": "GOT-02",
+          "repository": "Memorithm/GOT",
+          "status": "resolved",
+          "actions": "ANOVA et eta carré calculés uniquement depuis des observations empiriques groupées; sortie descriptive sinon.",
+          "results": "PR #5 intégrée et validée sur candidat/cible exacts.",
+          "pr": [{"number": 5, "url": "https://github.com/Memorithm/GOT/pull/5", "head_sha": "b9f54e3113ffc06bc210879675e91c701cf23fae", "merge_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b"}],
+          "head": "47af9d844b9541f50e44de327b853b6e0d577381",
+          "checks": [37102639589, 37102820158],
+          "dependencies": [],
+          "next_action": "Clos; maintenir les contre-exemples et le refus sans observations."
+        },
+        {
+          "id": "GOT-03",
+          "repository": "Memorithm/GOT",
+          "status": "resolved",
+          "actions": "RNG privés dérivés, répétitions explicites, lock complet, Actions SHA et CI fonctionnelle; compatibilité positionnelle corrigée après revue.",
+          "results": "PR #5 et #6 intégrées; CI candidat/cible vertes; fil P1 résolu.",
+          "pr": [{"number": 5, "url": "https://github.com/Memorithm/GOT/pull/5", "head_sha": "b9f54e3113ffc06bc210879675e91c701cf23fae", "merge_sha": "e00fe7a33180670455c6ed0b763da4b573282e1b"}, {"number": 6, "url": "https://github.com/Memorithm/GOT/pull/6", "head_sha": "7e3ca1f87c429fdf75738cd6f07c604f2d1ac0b8", "merge_sha": "47af9d844b9541f50e44de327b853b6e0d577381"}],
+          "head": "47af9d844b9541f50e44de327b853b6e0d577381",
+          "checks": [37102639589, 37102820158, 37102910636, 37102958303],
+          "dependencies": ["GOT-01", "GOT-02"],
+          "next_action": "Clos; conserver les épingles et le test du contrat positional."
+        }
+      ]
     }
   ]
 }
