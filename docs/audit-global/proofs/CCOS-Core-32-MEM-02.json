@@ -1,0 +1,83 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-04T08:01:17Z",
+  "finding": {
+    "id": "MEM-02",
+    "repository": "Memorithm/CCOS-Core",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#MEM-02"
+  },
+  "pr": {
+    "number": 32,
+    "url": "https://github.com/Memorithm/CCOS-Core/pull/32",
+    "base": "main",
+    "base_sha": "de650435ffb8fb7abc95902dd4e1d3bf27d818b8",
+    "head_sha": "4c12277278757c9e74ea010cc302ccdfa539eedf",
+    "merge_sha": "e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb",
+    "candidate_tree": "3279ab819f355860347eed7940c4d04bf42e4e59",
+    "integrated_tree": "3279ab819f355860347eed7940c4d04bf42e4e59",
+    "merged_at": "2026-10-03T18:40:59Z",
+    "integration": "Already merged before this session. This reconciliation is not a new merge and must not be counted twice."
+  },
+  "acceptance": {
+    "result": "qualified",
+    "summary": "KernelSnapshot::save now uses the shared durable publication primitive rather than truncating the destination. Private exclusive temporary creation, pre-rename file sync, Unix directory/ancestor sync and explicit failure semantics are integrated and tested.",
+    "source_files": {
+      "src/persist.rs": "08e859c57721bfe99cde3fd4fe7cb414f1e817f5"
+    },
+    "verified_properties": [
+      "JSON snapshot format and bounded no-follow loads remain unchanged.",
+      "Temporary sibling uses create_new and Unix mode(0600) at open, before writing contents.",
+      "File contents and metadata are synchronized before rename; Unix parent and ancestor directory sync failures propagate.",
+      "An injected partial write preserves the old complete target and cleans the temporary file; retry succeeds.",
+      "An injected directory-sync failure after publication returns an error without claiming rollback or confirmed durability.",
+      "Snapshots replace existing files with a new private inode; interrupted-attempt debris and non-regular outputs are covered."
+    ],
+    "limitations": [
+      "Fault injection and stale temporary files are not hardware power-cut qualification.",
+      "The parent namespace must be trusted; this primitive is neither a path sandbox nor a replacement CAS.",
+      "Directory sync remains best-effort outside Unix; no universal power-loss durability is claimed.",
+      "CCOS-Enterprise's vendored copy was not synchronized by this PR; MEM-08 remains open."
+    ]
+  },
+  "candidate_validation": {
+    "head_sha": "4c12277278757c9e74ea010cc302ccdfa539eedf",
+    "runs": [37144718992, 37144718978, 37144718968],
+    "names": ["CI", "Security Audit", "Strict BEIR import"],
+    "conclusion": "success"
+  },
+  "target_validation": {
+    "head_sha": "e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb",
+    "runs": [37145123451, 37145123533, 37145123547],
+    "conclusion": "success",
+    "jobs": [111267355884,111267356003,111267356021,111267356026,111267356037,111267356050,111267356066,111267356071,111267356104,111267356108,111267356118,111267356508,111267356674,111267356408],
+    "job_count": 14,
+    "coverage": [
+      "debug and release tests, doctests, Rust 1.89 MSRV",
+      "format, strict Clippy, feature build matrix, author/hygiene checks",
+      "cognitive tests, replay equivalence, snapshot differential/roundtrip and schema compatibility",
+      "documentation build, dependency/license/SBOM checks, secret detection",
+      "strict BEIR parser/CLI and genuinely enabled LLM harness tests"
+    ],
+    "exact_tree_match": true
+  },
+  "review": {
+    "threads": ["PRRT_kwDOTkLq_s6om8wA", "PRRT_kwDOTkLq_s6om8wE"],
+    "all_resolved": true,
+    "corrections": ["directory-sync failure propagation", "private permissions at temporary-file creation"]
+  },
+  "policy": {
+    "AGENTS_blob": "6ec3b4cfe6451aabbf62263f2625a7cdd8f4ae38",
+    "off_main_roadmap_blob": "ef69a7ce1e370c4433a995494e6274423843e8e2",
+    "source_and_policy_read_before_closure": true,
+    "no_source_or_license_change_by_this_reconciliation": true,
+    "cross_product_sync_claimed": false
+  },
+  "counting": {
+    "batch": 1,
+    "was_missing_from_registry_blob": "0c474c71834186661bb9832740541e00d9a556f5",
+    "registry_update_required": true,
+    "unique_key": "Memorithm/CCOS-Core#32",
+    "rule": "Append this already merged PR once only; do not count the evidence commit as a technical PR."
+  }
+}
