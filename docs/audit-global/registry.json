@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-04T08:08:13.141Z",
+  "updated_at": "2026-10-04T09:01:38Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 40,
-    "remaining": 61,
-    "merged_prs": 48
+    "closed": 41,
+    "remaining": 60,
+    "merged_prs": 49
   },
   "batches": [
     {
@@ -276,6 +276,11 @@
           "repository": "Memorithm/orchestrator",
           "number": 82,
           "merge_sha": "47a0d66729cf37bb6545e06afc38152853b9e17f"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 6,
+          "merge_sha": "712b35fe88f7bb25b4758b8c9cbac3091533e75c"
         }
       ]
     }
@@ -4233,6 +4238,49 @@
       "proof": "docs/audit-global/proofs/orchestrator-82-ORCH-01.json",
       "finding_status": "resolved",
       "reconciled_at": "2026-10-04T08:08:13.141Z"
+    },
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 6,
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/6",
+      "base": "master",
+      "base_sha": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
+      "head_sha": "55317ceb442685cc28d5fdc4e123e148ab274dc7",
+      "merge_sha": "712b35fe88f7bb25b4758b8c9cbac3091533e75c",
+      "status": "merged_target_validated_exact_tree",
+      "ids": [
+        "PAPERS-02"
+      ],
+      "batch": 1,
+      "merged_at": "2026-10-04T08:56:04Z",
+      "merge_method": "Automatic integration observed after exact-head CI; no duplicate merge call issued in this reconciliation.",
+      "checks": [
+        {
+          "id": 37190199494,
+          "name": "CI candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "55317ceb442685cc28d5fdc4e123e148ab274dc7",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/37190199494"
+        },
+        {
+          "id": 37190518056,
+          "name": "CI target",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "712b35fe88f7bb25b4758b8c9cbac3091533e75c",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/37190518056"
+        }
+      ],
+      "validated_tree": "8d417233bf8baa674e29a7306f08100cc74055f4",
+      "exact_tree_match": true,
+      "target_head": "712b35fe88f7bb25b4758b8c9cbac3091533e75c",
+      "target_checks": [
+        37190518056
+      ],
+      "proof": "docs/audit-global/proofs/PAPERS-AGENT-6-PAPERS-02.json",
+      "finding_status": "resolved",
+      "reconciled_at": "2026-10-04T09:01:38Z"
     }
   ],
   "repository_observations": [
@@ -4389,8 +4437,8 @@
       "repository": "Memorithm/PAPERS-AGENT",
       "visibility": "public",
       "default_branch": "master",
-      "current_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
-      "tree_sha": "50446ae5eb60bbabd16285113df4364f5bf143a6",
+      "current_head": "712b35fe88f7bb25b4758b8c9cbac3091533e75c",
+      "tree_sha": "8d417233bf8baa674e29a7306f08100cc74055f4",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -7054,16 +7102,25 @@
         "Exiger un point d'entrée/ABI et un oracle spécifique à la tâche; séparer compile/execute/validate/structure dans les types. Ne pas utiliser ce score comme mesure empirique. Inverser ou remplacer le critère fuel par une métrique validée.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
+      "status": "resolved",
+      "current_head": "712b35fe88f7bb25b4758b8c9cbac3091533e75c",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "merged_candidate_and_target_validated_exact_tree",
+      "policy_review": "Root AGENTS, SECURITY and mandatory off-main roadmap read; no merged workflow, licence or holdout change.",
+      "prs": [
+        {
+          "number": 6,
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/6",
+          "head_sha": "55317ceb442685cc28d5fdc4e123e148ab274dc7",
+          "merge_sha": "712b35fe88f7bb25b4758b8c9cbac3091533e75c"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/PAPERS-AGENT-6-PAPERS-02.json"
+      ],
+      "last_observed_at": "2026-10-04T09:01:38Z",
+      "next_action": "Clos; conserver l'autorite task_oracle explicite et les diagnostics runtime/structurels non promotionnels. PAPERS-01 reste ouvert pour l'isolation et les limites de ressources."
     },
     {
       "id": "PAPERS-03",
@@ -8335,11 +8392,11 @@
     "previous_owner": "chatgpt-audit-20261003T182304",
     "previous_expiry": "2026-10-03T19:53:04Z",
     "next_action": "Poursuivre les constats restants; le fichier lease.json externe reste autorite de coordination.",
-    "snapshot_at": "2026-10-04T08:08:13.141Z",
-    "verified_merged_prs": 48,
-    "canonical_registry_merged_prs": 48,
-    "closed_findings": 40,
-    "remaining_findings": 61
+    "snapshot_at": "2026-10-04T09:01:38Z",
+    "verified_merged_prs": 49,
+    "canonical_registry_merged_prs": 49,
+    "closed_findings": 41,
+    "remaining_findings": 60
   },
   "capabilities": [
     {
