@@ -193,9 +193,6 @@ impl PolicySnapshot {
         let Some(rule) = selected else {
             return Ok(MergeEvidenceEligibility::Inherit);
         };
-        if rule.required == MergeEvidenceClass::PortableCi {
-            return Ok(MergeEvidenceEligibility::PortableCi);
-        }
         if rule.schema_version == 2 {
             if rule.required != MergeEvidenceClass::HardwareRequired {
                 return Err("merge evidence schema v2 is reserved for hardware_required".to_owned());
@@ -206,6 +203,9 @@ impl PolicySnapshot {
             return Ok(MergeEvidenceEligibility::HardwareRequired(
                 HardwareEvidenceRequirement { requirement_id },
             ));
+        }
+        if rule.required == MergeEvidenceClass::PortableCi {
+            return Ok(MergeEvidenceEligibility::PortableCi);
         }
         Ok(MergeEvidenceEligibility::Deferred(PolicyDenial {
             item_id: format!("evidence:{}", rule.required.as_str()),
