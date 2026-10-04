@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "ids": [
+    "PAPERS-01"
+  ],
+  "repository": "Memorithm/PAPERS-AGENT",
+  "base_branch": "master",
+  "pr": {
+    "number": 7,
+    "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/7",
+    "base_sha": "712b35fe88f7bb25b4758b8c9cbac3091533e75c",
+    "head_sha": "5996497060cbc01bc21fb6209e10d73799d2ea0a",
+    "merge_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+    "candidate_tree": "e54f4a3169995ac97863aac261b4b8d41785508d",
+    "integrated_tree": "e54f4a3169995ac97863aac261b4b8d41785508d",
+    "exact_tree_match": true,
+    "merged_at": "2026-10-04T09:33:56Z"
+  },
+  "change_summary": [
+    "Generated/third-party Rust execution fails closed before local rustc and names SciRust-Hub/RemoteOps as the required external OS-isolated boundary.",
+    "Local rustc and local Wasmtime execution are explicitly named trusted-only escape hatches.",
+    "Rust source and WASM module byte budgets are enforced before compilation/JIT allocation paths.",
+    "Wasmtime StoreLimits bound linear memory, table elements, instances, memories and tables for the local trusted diagnostic path.",
+    "Trusted local rustc uses a separate compile timeout, drains stderr concurrently, retains a bounded diagnostic prefix and bounds the produced module before reading it.",
+    "Security and scientific documentation stop describing in-process Wasmtime as a hostile-code OS sandbox."
+  ],
+  "candidate_validation": {
+    "head_sha": "5996497060cbc01bc21fb6209e10d73799d2ea0a",
+    "workflow_run": 37192432540,
+    "jobs": [
+      111407261714,
+      111407261830
+    ],
+    "conclusion": "success",
+    "checks": [
+      "changed-file rustfmt",
+      "cargo test --all-targets",
+      "cargo clippy --all-targets -- -D warnings",
+      "cargo doc --no-deps",
+      "cargo audit"
+    ],
+    "reviews": [],
+    "review_threads": []
+  },
+  "discarded_attempts": [
+    {
+      "workflow_run": 37192292517,
+      "head_sha": "11ee430866cf32aa793f12840c836b3b9f90f2d2",
+      "reason": "Three test callsites retained the pre-rename execute method. They were updated to execute_trusted_wasm; no security limit or gate was weakened."
+    }
+  ],
+  "target_validation": {
+    "head_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+    "workflow_run": 37192568570,
+    "jobs": [
+      111407669799,
+      111407669849
+    ],
+    "conclusion": "success",
+    "completed_at": "2026-10-04T09:36:00Z",
+    "checks": [
+      "changed-file rustfmt",
+      "cargo test --all-targets",
+      "cargo clippy --all-targets -- -D warnings",
+      "cargo doc --no-deps",
+      "cargo audit"
+    ]
+  },
+  "acceptance_met": [
+    "Untrusted Rust no longer launches local rustc through the public PAPERS path.",
+    "Source/module bytes, Wasmtime Store memory/table/instance counts, compile timeout and compiler diagnostics are bounded on the local trusted diagnostic path.",
+    "The exact integrated tree equals the candidate tree that passed the full repository CI."
+  ],
+  "acceptance_pending": [
+    "Wire generated Rust/WASM JIT execution to a concretely qualified SciRust-Hub/RemoteOps backend with stronger-than-process OS isolation, default-deny network and enforceable resource budgets.",
+    "Retain evidence that the selected backend actually enforces the requested isolation/resource/network policy; a declarative TaskSpec or detected sandbox binary alone is insufficient.",
+    "The local StoreLimits are not evidence that all Wasmtime engine/JIT memory is globally bounded."
+  ],
+  "finding_status": "in_progress",
+  "batch": {
+    "number": 1,
+    "ordinal": 50,
+    "target": 50,
+    "note": "This PR completes the 50-PR remediation batch but does not close PAPERS-01."
+  },
+  "governance": {
+    "lease_owner": "chatgpt-audit-20261004T082746",
+    "excluded_repositories_modified": [],
+    "workflows_changed": false,
+    "license_changed": false,
+    "holdouts_changed": false,
+    "no_duplicate_merge_call": true
+  },
+  "observed_at": "2026-10-04T09:36:00Z"
+}
