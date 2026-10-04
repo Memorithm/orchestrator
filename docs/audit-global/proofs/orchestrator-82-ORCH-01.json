@@ -1,0 +1,98 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-04T08:01:17Z",
+  "finding": {
+    "id": "ORCH-01",
+    "repository": "Memorithm/orchestrator",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#ORCH-01"
+  },
+  "pr": {
+    "number": 82,
+    "url": "https://github.com/Memorithm/orchestrator/pull/82",
+    "base": "main",
+    "base_sha": "198a80e59ca3a5d419788bfba57b678218aa1837",
+    "head_sha": "bab442753644ec1a7f92ed95bf3a45360f6127df",
+    "merge_sha": "47a0d66729cf37bb6545e06afc38152853b9e17f",
+    "candidate_tree": "710bc13f0d3f69efbaeeceee8e23932488a992fc",
+    "integrated_tree": "710bc13f0d3f69efbaeeceee8e23932488a992fc",
+    "merged_at": "2026-10-04T07:51:37Z",
+    "integration": "Automatic rebase integration observed after successful checks; this session did not issue a merge call or claim an expected_head_sha guard for that external integration.",
+    "changed_files": 5
+  },
+  "correction": [
+    "PolicySnapshot::portable_validation_plan selects an explicit plan or returns an error; it never returns Ok(None).",
+    "The actual caller propagates the error before its legacy direct host-side Cargo branch, including full validation and recovery.",
+    "Existing declared plans still use validation-sandbox, exact-worktree identity, terminal attempt evidence and existing replay rules.",
+    "No new sandbox, workflow, credentials, dependency, merge gate or hardware-authority rule is introduced."
+  ],
+  "compatibility": [
+    "All candidate validation now requires an explicit plan, including documentation-only candidates. This is intentional fail-closed behavior, not preservation of the old diff-only success path.",
+    "Read-only policy loading, inspection and triage remain available without a validation plan.",
+    "The internal Option-shaped interface and historical fallback source remain, but missing-plan execution cannot reach that branch.",
+    "Repository policy owners must list actual required commands; the README example is not automatically adopted."
+  ],
+  "candidate_validation": {
+    "head_sha": "bab442753644ec1a7f92ed95bf3a45360f6127df",
+    "ci_run": 37186997839,
+    "ci_job": 111390937272,
+    "author_policy_run": 37186997864,
+    "conclusion": "success",
+    "actual_checkout_from_job_log": "98b86b10635200c08bfc3614d4344f58c3a37792",
+    "workspace_test_groups": [46, 182, 9, 16],
+    "workspace_test_total": 253,
+    "explicit_root_portable_tests": 16,
+    "root_build_probe": "portable_validation_real_build_script_cannot_read_host_secret_or_connect",
+    "root_build_probe_executed": true,
+    "coverage": [
+      "shell/runtime/watchdog/reaping tests and existing agent-sandbox integration",
+      "format, cargo check, workspace tests, strict Clippy",
+      "real entrypoint denial for missing plans in normal/full and initial/recovery modes",
+      "documentation-only, directory and dangling-manifest denial",
+      "diff check remains before plan selection",
+      "real Cargo build.rs executes inside isolation and cannot read host sentinel, inherit synthetic parent GITHUB_TOKEN or reach a confirmed host loopback listener"
+    ]
+  },
+  "target_validation": {
+    "head_sha": "47a0d66729cf37bb6545e06afc38152853b9e17f",
+    "ci_run": 37187072688,
+    "ci_job": 111391165081,
+    "author_policy_run": 37187072670,
+    "author_policy_job": 111391165091,
+    "conclusion": "success",
+    "all_steps_successful": true,
+    "includes_explicit_root_portable_integration": true,
+    "exact_tree_match": true
+  },
+  "review": {
+    "full_diff_reviewed": true,
+    "github_reviews": 0,
+    "unresolved_threads": 0,
+    "independent_approval_claimed": false,
+    "transcription_error": "An unintended hardware-gate ordering change in an intermediate branch commit was caught and restored before PR creation; the final hardware/merge policy diff is empty."
+  },
+  "policy": {
+    "AGENTS_blob": "146e06734c7cf3d060f23d0c962d43ccab70a55b",
+    "roadmap_read_blob": "7e7e0ed945aab442def6ea614ffd550cca0a2274",
+    "roadmap_update_commit": "4731669992c463f3b547b759158c45848d22d0df",
+    "roadmap_update_blob": "6483a1c853a9c350fdb5bfcbc07c9f033fe97688",
+    "roadmap_branch": "agent/ecosystem-roadmap",
+    "roadmap_not_merged_into_main": true,
+    "branch_protection_details": "GitHub integration returned 403; no admin bypass was attempted.",
+    "rulesets_observed": [],
+    "merge_methods_observed": ["rebase"]
+  },
+  "limitations": [
+    "No local Rust execution is claimed; executable validation came from existing hosted CI.",
+    "Ordinary non-root test success is not treated as OS isolation qualification; the explicit root CI step executed the build probe.",
+    "This change closes the unplanned validation fallback, not every possible host-isolation or resource-budget issue in the organization.",
+    "A separate preparation branch was abandoned; its proposed privileged publication workflow was blocked and was not created or retried. Its helper files are not in the product PR."
+  ],
+  "excluded_repositories_modified": [],
+  "counting": {
+    "batch": 1,
+    "corrective_prs": 1,
+    "registry_update_required": true,
+    "rule": "Count Memorithm/orchestrator#82 once only after reconciliation; documentary commits do not count."
+  }
+}
