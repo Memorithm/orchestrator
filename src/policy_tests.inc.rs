@@ -428,7 +428,13 @@ fn validation_plan_is_not_inferred_from_free_text() {
     let snapshot = snapshot_with_policy_documents(&[r#"notes: >-
   validation_plan: cargo test --workspace
 "#]);
-    assert!(snapshot.portable_validation_plan().unwrap().is_none());
+    assert!(parse_validation_plan(&snapshot.documents[0]).unwrap().is_none());
+    assert!(
+        snapshot
+            .portable_validation_plan()
+            .unwrap_err()
+            .contains("portable validation plan required")
+    );
 }
 
 #[test]
