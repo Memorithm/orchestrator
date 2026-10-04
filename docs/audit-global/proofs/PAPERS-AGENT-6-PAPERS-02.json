@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "ids": [
+    "PAPERS-02"
+  ],
+  "repository": "Memorithm/PAPERS-AGENT",
+  "base_branch": "master",
+  "pr": {
+    "number": 6,
+    "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/6",
+    "base_sha": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
+    "head_sha": "55317ceb442685cc28d5fdc4e123e148ab274dc7",
+    "merge_sha": "712b35fe88f7bb25b4758b8c9cbac3091533e75c",
+    "candidate_tree": "8d417233bf8baa674e29a7306f08100cc74055f4",
+    "integrated_tree": "8d417233bf8baa674e29a7306f08100cc74055f4",
+    "exact_tree_match": true,
+    "merged_at": "2026-10-04T08:56:04Z"
+  },
+  "change_summary": [
+    "Reject helper-only Rust source instead of manufacturing an empty exported main.",
+    "Carry explicit evaluation authority: task_oracle, wasm_runtime_diagnostic, structural_diagnostic.",
+    "Keep Wasmtime success and fuel consumption diagnostic-only; runtime execution produces zero empirical fitness.",
+    "Require task-oracle authority before advanced evolution can promote/select a candidate.",
+    "Preserve evaluation authority in analyzer feedback and scientific-interchange documentation.",
+    "Upgrade and lock Wasmtime from 48.0.1 to 48.0.5 after the existing cargo-audit gate exposed newly published RustSec advisories."
+  ],
+  "candidate_validation": {
+    "head_sha": "55317ceb442685cc28d5fdc4e123e148ab274dc7",
+    "workflow_run": 37190199494,
+    "jobs": [
+      111400588239,
+      111400588408
+    ],
+    "conclusion": "success",
+    "checks": [
+      "changed-file rustfmt",
+      "cargo test --all-targets",
+      "cargo clippy --all-targets -- -D warnings",
+      "cargo doc --no-deps",
+      "cargo audit"
+    ],
+    "reviews": [],
+    "review_threads": []
+  },
+  "target_validation": {
+    "head_sha": "712b35fe88f7bb25b4758b8c9cbac3091533e75c",
+    "workflow_run": 37190518056,
+    "jobs": [
+      111401524804,
+      111401524821
+    ],
+    "conclusion": "success",
+    "checks": [
+      "changed-file rustfmt",
+      "cargo test --all-targets",
+      "cargo clippy --all-targets -- -D warnings",
+      "cargo doc --no-deps",
+      "cargo audit"
+    ],
+    "completed_at": "2026-10-04T09:01:38Z"
+  },
+  "diagnostic_attempt": {
+    "pr_number": 5,
+    "merged": false,
+    "status": "closed_superseded_not_counted",
+    "purpose": "Temporarily materialized Cargo's exact Wasmtime 48.0.5 lockfile diff after cargo audit exposed pre-existing advisories.",
+    "note": "The workflow-modifying diagnostic PR was closed and is not counted as remediation."
+  },
+  "acceptance_met": [
+    "An explicit candidate entrypoint is required.",
+    "Runtime and structural diagnostics are typed separately from empirical authority.",
+    "Fuel consumption is no longer a positive fitness reward.",
+    "Promotion in the advanced evolution loop requires explicit task-oracle authority.",
+    "The exact integrated tree is the same tree validated on the candidate and passed target CI."
+  ],
+  "finding_status": "resolved",
+  "scope_limit": [
+    "PAPERS-01 remains open: rustc/JIT isolation, source/module byte bounds, Store limits and host resource enforcement are separate.",
+    "No claim is made that Wasmtime runtime completion proves task or scientific correctness."
+  ],
+  "governance": {
+    "lease_owner": "chatgpt-audit-20261004T082746",
+    "excluded_repositories_modified": [],
+    "workflows_changed_in_merged_pr": false,
+    "license_changed": false,
+    "holdouts_changed": false
+  },
+  "observed_at": "2026-10-04T09:01:38Z"
+}
