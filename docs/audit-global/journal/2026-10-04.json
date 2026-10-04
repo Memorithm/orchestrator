@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-04",
+  "timezone": "Europe/Paris",
+  "entries": [
+    {
+      "observed_at": "2026-10-04T10:21:46.255+02:00",
+      "observed_session_start": "2026-10-04T09:30:25+02:00",
+      "lease_owner": "chatgpt-audit-20261004T073025",
+      "qualified_counts": {"batch":1,"target":50,"merged_prs":48,"closed_findings":40,"remaining_findings":61},
+      "canonical_registry_counts": {"merged_prs":46,"closed_findings":38,"remaining_findings":63},
+      "canonical_registry_blob": "0c474c71834186661bb9832740541e00d9a556f5",
+      "canonical_registry_updated": false,
+      "new_product_prs_integrated": 1,
+      "previous_product_prs_reconciled": 1,
+      "work_items": [
+        {
+          "id":"ORCH-01","repository":"Memorithm/orchestrator","status":"resolved_with_evidence_registry_update_pending",
+          "pr":82,"head_sha":"bab442753644ec1a7f92ed95bf3a45360f6127df","merge_sha":"47a0d66729cf37bb6545e06afc38152853b9e17f","tree":"710bc13f0d3f69efbaeeceee8e23932488a992fc",
+          "merged_at":"2026-10-04T09:51:37+02:00","integration":"automatic rebase observed; no duplicate merge call",
+          "candidate_runs":[37186997839,37186997864],"target_runs":[37187072688,37187072670],"validation":"all successful; exact candidate and target tree match",
+          "candidate_workspace_tests":253,"explicit_root_portable_tests":16,
+          "real_build_script_isolation_test_executed":true,
+          "compatibility":"Every candidate, including documentation-only and recovery, requires an explicit portable plan. Read-only policy inspection remains available.",
+          "proof":"docs/audit-global/proofs/orchestrator-82-ORCH-01.json",
+          "roadmap_commit":"4731669992c463f3b547b759158c45848d22d0df"
+        },
+        {
+          "id":"MEM-02","repository":"Memorithm/CCOS-Core","status":"resolved_with_evidence_registry_update_pending",
+          "pr":32,"head_sha":"4c12277278757c9e74ea010cc302ccdfa539eedf","merge_sha":"e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb","tree":"3279ab819f355860347eed7940c4d04bf42e4e59",
+          "merged_at":"2026-10-03T20:40:59+02:00","integration":"prior merge only reconciled, not a new merge in this session",
+          "candidate_runs":[37144718992,37144718978,37144718968],"target_runs":[37145123451,37145123533,37145123547],"target_jobs":14,
+          "validation":"all successful; exact candidate and target tree match; both review findings resolved",
+          "limitations":["Not hardware power-cut qualification","Parent namespace must be trusted","Non-Unix directory sync best-effort","Enterprise vendor propagation remains MEM-08"],
+          "proof":"docs/audit-global/proofs/CCOS-Core-32-MEM-02.json"
+        }
+      ],
+      "registry_reconciliation": {
+        "status":"prepared_published_readback_validated_not_applied",
+        "path":"docs/audit-global/reconciliation/2026-10-04-MEM-02-ORCH-01.json",
+        "publication_commit":"e6d931c25c7396407722d14f7426347670fb6d4d",
+        "operation_count":17,
+        "published_patch_sha256":"253254fa3735842b212ce9e493320be1304a5b64b769d6ec6ac54c67f8e8a060",
+        "candidate_sha256":"3226d3ba9e9ea8c516aad9708be5be60f712d31a9cfd4f53e37440d11e656b5a",
+        "candidate_blob":"0850b11533f1f7d9623e0920fcb825ab60cd3e54",
+        "historical_prs_preserved":46,"untouched_findings_preserved":99,"unique_findings":101,"unique_prs":48,
+        "next_action":"Acquire live lease, reconcile registry and GitHub, apply to matching baseline with CAS, read back and recompute. Embedded lease is only a dated snapshot; external lease.json remains authoritative. Do not count PRs or documentary commits twice."
+      },
+      "remaining_priorities":["PAPERS-01","PAPERS-02","MEM-08"],
+      "local_rust_tests_claimed":false,
+      "excluded_repositories_modified":[],
+      "workflows_changed":false,
+      "holdouts_or_licenses_changed":false
+    }
+  ]
+}
