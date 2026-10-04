@@ -193,6 +193,9 @@ impl PolicySnapshot {
         let Some(rule) = selected else {
             return Ok(MergeEvidenceEligibility::Inherit);
         };
+        if rule.required == MergeEvidenceClass::PortableCi {
+            return Ok(MergeEvidenceEligibility::PortableCi);
+        }
         if rule.schema_version == 2 {
             if rule.required != MergeEvidenceClass::HardwareRequired {
                 return Err("merge evidence schema v2 is reserved for hardware_required".to_owned());
@@ -203,9 +206,6 @@ impl PolicySnapshot {
             return Ok(MergeEvidenceEligibility::HardwareRequired(
                 HardwareEvidenceRequirement { requirement_id },
             ));
-        }
-        if rule.required == MergeEvidenceClass::PortableCi {
-            return Ok(MergeEvidenceEligibility::PortableCi);
         }
         Ok(MergeEvidenceEligibility::Deferred(PolicyDenial {
             item_id: format!("evidence:{}", rule.required.as_str()),
@@ -218,6 +218,12 @@ impl PolicySnapshot {
         }))
     }
 
+    /// Resolve an explicit plan for candidate execution, never implicit host authority.
+    ///
+    /// The historical Option-shaped interface is retained for callers, but success
+    /// always contains a plan. Absence is an error, propagated before the caller's
+    /// legacy Cargo fallback. Policy inspection itself remains available without a
+    /// plan; only requesting executable validation requires one.
     pub(crate) fn portable_validation_plan(
         &self,
     ) -> Result<Option<PortableValidationPlan>, String> {
@@ -232,7 +238,10 @@ impl PolicySnapshot {
                 );
             }
         }
-        Ok(selected)
+        selected.map(Some).ok_or_else(|| {
+            "portable validation plan required; unplanned host-side validation is forbidden"
+                .to_owned()
+        })
     }
 
     pub(crate) fn base_branch(&self) -> &str {
