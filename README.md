@@ -66,26 +66,54 @@ The agent is allowed to inspect code, edit the working tree, run tests and use r
 
 ## Validation
 
-Before Orchestrator commits agent changes it always runs:
+Before Orchestrator commits agent changes it always runs `git diff --check`.
+Candidate validation then requires an explicit portable `validation_plan` in a
+mandatory repository policy document. Every declared command runs through the
+existing `scripts/validation-sandbox`, with exact-worktree evidence and recovery
+reuse bound to the plan, policy, base and candidate identities.
 
-```text
-git diff --check
+**Migration from the historical fallback:** an absent plan now fails closed for
+all candidates, including documentation-only repositories. Initial validation,
+full validation and recovery all reject it before the legacy host-side Cargo
+branch can run. A missing, dangling or non-regular `Cargo.toml` cannot turn plan
+absence into successful validation. Read-only policy loading, inspection and
+triage remain available without a plan.
+
+`ORCHESTRATOR_FULL_VALIDATION=1` cannot authorize unplanned host commands. Put all
+required formatting, compilation, lint and test commands in the versioned plan;
+there is no automatic addition of `cargo test` outside that plan. For example,
+a repository-specific policy may declare the following after checking that its
+cached dependencies and toolchain support these commands offline:
+
+```yaml
+validation_plan:
+  schema_version: 1
+  class: portable
+  steps:
+    - id: format
+      argv: [cargo, fmt, --all, --, --check]
+      timeout_seconds: 120
+    - id: check
+      argv: [cargo, check, --workspace, --locked, --offline]
+      timeout_seconds: 300
+    - id: lint
+      argv: [cargo, clippy, --workspace, --all-targets, --locked, --offline, --, -D, warnings]
+      timeout_seconds: 300
+    - id: tests
+      argv: [cargo, test, --workspace, --locked, --offline]
+      timeout_seconds: 300
 ```
 
-For a repository with a root `Cargo.toml`, it additionally runs:
+This example is not automatically adopted for any repository and does not
+replace its hardware, scientific or exact-head CI requirements. A worker's
+self-reported tests never substitute for the parent-owned validation evidence.
 
-```text
-cargo fmt --all -- --check
-cargo check --workspace
-```
-
-Set `ORCHESTRATOR_FULL_VALIDATION=1` to also require:
-
-```text
-cargo test --workspace
-```
-
-The agent is separately instructed to run repository-specific tests relevant to its task.
+Audit regressions exercise missing-plan refusal in normal/full/recovery modes,
+including documentation-only and malformed-manifest candidates. A real Cargo
+`build.rs` fixture in the existing root sandbox CI step must execute while being
+unable to read a host sentinel, inherit the synthetic parent GitHub token, or
+connect to a host loopback listener. Non-root unit tests alone do not qualify
+that operating-system boundary.
 
 ## State and isolation
 
