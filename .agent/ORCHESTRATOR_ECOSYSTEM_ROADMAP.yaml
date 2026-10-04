@@ -1,7 +1,7 @@
 schema_version: 1
 kind: memorithm_orchestrator_ecosystem_agent_roadmap
 status: active
-last_updated: "2026-09-02"
+last_updated: "2026-10-04"
 repository: Memorithm/orchestrator
 intended_consumer: autonomous_coding_agent
 merge_policy: never_merge_this_file_to_default_branch_unless_user_explicitly_requests
@@ -28,7 +28,9 @@ verified_current_facts:
   - OpenCode_currently_runs_under_a_restrictive_inline_policy_and_only_local_Ollama_is_accepted_for_autonomous_runs
   - Orchestrator_itself_owns_commit_push_PR_creation_and_optional_merge_mutations
   - resource_admission_and_managed_workspace_cleanup_are_bounded_and_fail_conservatively
-  - current_validation_always_runs_git_diff_check_and_basic_Rust_workspace_checks_when_a_root_Cargo_manifest_exists
+  - current_validation_runs_git_diff_check_then_requires_an_explicit_portable_plan_for_every_candidate
+  - missing_plan_fails_before_legacy_host_Cargo_fallback_in_initial_full_and_recovery_validation
+  - read_only_policy_loading_and_inspection_do_not_require_a_validation_plan
   - ORCH0_PR_35_merged_at_main_35ee35f1_with_exact_base_and_exact_head_green_CI
   - actionable_issue_CI_repair_publication_recovery_and_merge_paths_now_bind_to_parent_resolved_repository_policy_snapshots
   - publication_state_v3_binds_resumable_publication_to_policy_identity_and_legacy_unbound_resume_fails_closed
@@ -81,6 +83,7 @@ invariants:
   - hardware_or_human_evidence_requirement_cannot_be_satisfied_by_portable_compile_only_evidence
   - partial_or_interrupted_validation_step_evidence_must_never_be_interpreted_as_a_complete_plan_success
   - hardware_evidence_must_not_be_inferred_from_check_names_runner_labels_emulation_or_repository_controlled_prose
+  - absent_validation_plan_never_authorizes_host_side_candidate_execution
 
 ownership:
   role: organization_GitHub_development_control_plane
@@ -246,6 +249,23 @@ roadmap:
           - deterministic_ordered_plan_and_exact_policy_base_HEAD_tree_work_item_binding
           - recovery_only_exact_pass_reuse_without_new_step_execution_or_step_evidence
           - no_review_threads_open_at_merge_and_no_staging_artifacts_in_product_branch
+      - id: ORCH2c
+        name: Explicit-plan admission without host-side Cargo fallback
+        status: complete
+        audit_finding: ORCH-01
+        completion_evidence:
+          - PR_82_integrated_as_47a0d66729cf37bb6545e06afc38152853b9e17f
+          - exact_candidate_bab442753644ec1a7f92ed95bf3a45360f6127df_and_integrated_tree_710bc13f0d3f69efbaeeceee8e23932488a992fc_match
+          - candidate_CI_37186997839_and_author_policy_37186997864_succeeded
+          - integrated_CI_37187072688_and_author_policy_37187072670_succeeded
+          - candidate_workspace_suite_253_tests_and_explicit_root_portable_suite_16_tests_passed
+          - actual_Cargo_build_script_cannot_read_host_sentinel_inherit_parent_token_or_connect_to_host_loopback
+        compatibility:
+          - every_candidate_including_documentation_only_requires_a_declared_portable_validation_plan
+          - full_validation_and_recovery_do_not_authorize_an_implicit_host_fallback
+          - read_only_policy_loading_and_inspection_remain_available
+          - internal_Option_interface_retained_but_absence_returns_error_before_legacy_fallback
+          - repository_owners_must_declare_actual_required_commands_without_weakening_hardware_or_scientific_gates
     goals:
       - derive_required_validation_from_versioned_repository_policy_not_only_root_Cargo_detection
       - distinguish_portable_CI_hardware_required_and_human_only_gates
