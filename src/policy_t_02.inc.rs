@@ -3,4 +3,5 @@ mod tests {
     use super::*;
     use std::time::{SystemTime, UNIX_EPOCH};
     include!("policy_tests.inc.rs");
+    include!("policy_validation_admission_tests.inc.rs");
 }
