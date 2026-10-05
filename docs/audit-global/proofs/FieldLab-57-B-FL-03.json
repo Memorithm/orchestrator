@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "ids": [
+    "B-FL-03"
+  ],
+  "repository": "Memorithm/FieldLab",
+  "base_branch": "main",
+  "pr": {
+    "number": 57,
+    "url": "https://github.com/Memorithm/FieldLab/pull/57",
+    "base_sha": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
+    "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+    "merge_sha": "996841a27b0ece7d677eb707e6e16ca22090d1e0",
+    "candidate_tree": "262ca14f91c6c1c40d296284ca7669cb7731e073",
+    "integrated_tree": "262ca14f91c6c1c40d296284ca7669cb7731e073",
+    "exact_tree_match": true,
+    "merged_at": "2026-10-05T09:18:41Z",
+    "merge_method": "squash with expected_head_sha"
+  },
+  "lock": {
+    "path": "Cargo.lock",
+    "generated_from_base": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
+    "toolchain": "nightly-2026-07-02",
+    "sha256": "140bb83a3ba9d42191628f7d04e9e66b709d9defe03b04dd3f08c7b0183e0741",
+    "bytes": 5424,
+    "generation_note": "Generated with Cargo in a temporary C:\\Temp workspace on authorized PC-CENTRE using temporary CARGO_HOME/RUSTUP_HOME; no system-wide PATH modification and no scientific code execution. Temporary workspace removed after publication."
+  },
+  "change_summary": [
+    "Versioned the workspace Cargo.lock for the executable benchmark surface.",
+    "Every Cargo build/test/clippy/run command in the nine campaign workflows now uses --locked; cargo fmt remains resolution-free.",
+    "Added scripts/capture_reproducibility.sh to record source revision, Cargo.lock SHA-256, pinned FieldLab toolchain, rustc identity and Cargo identity.",
+    "Every campaign retains results/ci/reproducibility.txt in its primary evidence artifact.",
+    "Scientific hypotheses, thresholds, seeds, result interpretation, external CCOS pin and licence are unchanged."
+  ],
+  "candidate_validation": {
+    "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+    "workflows": [
+      {
+        "id": 37288286556,
+        "name": "FieldLab CI",
+        "conclusion": "success",
+        "jobs": [
+          111692360390,
+          111692638216,
+          111692638235,
+          111692638309,
+          111693195800,
+          111693417618,
+          111693582126
+        ]
+      },
+      {
+        "id": 37288286649,
+        "name": "FieldLab FL-4B Validation",
+        "conclusion": "success",
+        "jobs": [
+          111692360364
+        ]
+      },
+      {
+        "id": 37288286607,
+        "name": "FieldLab FL-4C External CCOS Replay",
+        "conclusion": "success",
+        "jobs": [
+          111692360012
+        ]
+      },
+      {
+        "id": 37288286581,
+        "name": "FieldLab FL-4D Native CCOS Temporal Trace",
+        "conclusion": "success",
+        "jobs": [
+          111692360248
+        ]
+      },
+      {
+        "id": 37288286672,
+        "name": "FieldLab FL-4E External Focus Hysteresis",
+        "conclusion": "success",
+        "jobs": [
+          111692360238
+        ]
+      },
+      {
+        "id": 37288286740,
+        "name": "FieldLab FL-5G qualification",
+        "conclusion": "success",
+        "jobs": [
+          111692363720
+        ]
+      },
+      {
+        "id": 37288286689,
+        "name": "FieldLab FL-B1 Boolean observability qualification",
+        "conclusion": "success",
+        "jobs": [
+          111692360980
+        ]
+      },
+      {
+        "id": 37288286663,
+        "name": "FieldLab FL-E1 Validation",
+        "conclusion": "success",
+        "jobs": [
+          111692362378
+        ]
+      },
+      {
+        "id": 37288286659,
+        "name": "FieldLab FL-E2 Validation",
+        "conclusion": "success",
+        "jobs": [
+          111692360391
+        ]
+      }
+    ],
+    "review_submissions": [],
+    "review_threads": []
+  },
+  "target_validation": {
+    "head_sha": "996841a27b0ece7d677eb707e6e16ca22090d1e0",
+    "exact_tree_match": true,
+    "workflows": [
+      {
+        "id": 37289197369,
+        "name": "FieldLab CI",
+        "conclusion": "success",
+        "jobs": [
+          111695327295,
+          111695529580,
+          111695529586,
+          111695529588,
+          111696011150,
+          111696251471,
+          111696413903
+        ]
+      },
+      {
+        "id": 37289197280,
+        "name": "FieldLab FL-4B Validation",
+        "conclusion": "success",
+        "jobs": [
+          111695326814
+        ]
+      },
+      {
+        "id": 37289197381,
+        "name": "FieldLab FL-4C External CCOS Replay",
+        "conclusion": "success",
+        "jobs": [
+          111695327706
+        ]
+      },
+      {
+        "id": 37289197312,
+        "name": "FieldLab FL-4D Native CCOS Temporal Trace",
+        "conclusion": "success",
+        "jobs": [
+          111695327056
+        ]
+      },
+      {
+        "id": 37289197188,
+        "name": "FieldLab FL-4E External Focus Hysteresis",
+        "conclusion": "success",
+        "jobs": [
+          111695326695
+        ]
+      },
+      {
+        "id": 37289197198,
+        "name": "FieldLab FL-5G qualification",
+        "conclusion": "success",
+        "jobs": [
+          111695326417
+        ]
+      },
+      {
+        "id": 37289197217,
+        "name": "FieldLab FL-B1 Boolean observability qualification",
+        "conclusion": "success",
+        "jobs": [
+          111695326679
+        ]
+      },
+      {
+        "id": 37289197251,
+        "name": "FieldLab FL-E1 Validation",
+        "conclusion": "success",
+        "jobs": [
+          111695326439
+        ]
+      },
+      {
+        "id": 37289197208,
+        "name": "FieldLab FL-E2 Validation",
+        "conclusion": "success",
+        "jobs": [
+          111695326601
+        ]
+      }
+    ],
+    "completed_at": "2026-10-05T09:22:29Z"
+  },
+  "artifact_evidence": {
+    "sampled_candidate_artifacts": [
+      {
+        "workflow_run": 37288286689,
+        "artifact_id": 11335845193,
+        "name": "fieldlab-flb1-4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb"
+      },
+      {
+        "workflow_run": 37288286663,
+        "artifact_id": 11335645839,
+        "name": "fieldlab-fle1-4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb"
+      }
+    ],
+    "note": "Workflow definitions explicitly include results/ci/reproducibility.txt and upload steps succeeded on candidate and target; artifact contents were not separately downloaded."
+  },
+  "policy": {
+    "agents_read": true,
+    "roadmap_ref": "agent/ecosystem-roadmap:.agent/FIELDLAB_ECOSYSTEM_ROADMAP.yaml",
+    "roadmap_status": "active",
+    "roadmap_merged_to_main": false,
+    "scientific_claim_changed": false
+  },
+  "acceptance_met": [
+    "A versioned workspace lock fixes registry dependency resolution for the executable benchmark surface.",
+    "All campaign build/test/lint/run Cargo commands use --locked.",
+    "Campaign artifacts retain lock hash and exact toolchain/source identity.",
+    "All nine candidate workflows and all nine target workflows passed, and target tree equals candidate tree."
+  ],
+  "finding_status": "resolved",
+  "observed_at": "2026-10-05T09:22:29Z"
+}
