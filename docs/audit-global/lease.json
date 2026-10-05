@@ -10,20 +10,25 @@
   "previous_owner": "chatgpt-audit-20261004T093600-observed",
   "previous_expiry": "2026-10-04T11:06:00Z",
   "canonical_counts": {
-    "merged_prs": 50,
-    "closed_findings": 41,
-    "remaining_findings": 60,
+    "merged_prs": 52,
+    "closed_findings": 43,
+    "remaining_findings": 58,
     "backlog": 101
   },
   "batch": {
     "number": 2,
-    "starting_merged_prs": 50
+    "merged_prs": 2,
+    "target": 50
   },
   "adopted_work": {
-    "repository": "Memorithm/riemann_ndim_bench",
-    "pr": 73,
-    "finding": "B-RH-01",
-    "reason": "Prior audit passage merged PR #73 after the previous lease acquisition but did not reconcile it into the canonical registry before the lease expired."
+    "repository": "Memorithm/CCOS-Core",
+    "finding": "MEM-05",
+    "base": "e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb",
+    "reason": "Highest-severity independent priority-8 finding after B-RH-01 and B-FL-03 closure; no existing MEM-05 PR observed."
   },
-  "next_action": "Validate riemann_ndim_bench #73 candidate and integrated target exactly, reconcile B-RH-01 once if acceptance is met, then continue the next independent priority without reopening PAPERS-01."
+  "next_action": "Repair CCOS-Core periodic security validation: pin dedicated fuzz toolchain and cargo-fuzz version, remove forced fuzz success, retain corpus/crash artifacts, explicitly build --features llm --bin ccos for reproducibility; execute the workflow on exact candidate if dispatch is available and require exact-head repository CI before merge.",
+  "verified_merged_prs": 52,
+  "canonical_registry_merged_prs": 52,
+  "closed_findings": 43,
+  "remaining_findings": 58
 }
