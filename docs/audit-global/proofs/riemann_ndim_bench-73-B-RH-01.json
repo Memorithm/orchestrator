@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "ids": [
+    "B-RH-01"
+  ],
+  "repository": "Memorithm/riemann_ndim_bench",
+  "base_branch": "main",
+  "pr": {
+    "number": 73,
+    "url": "https://github.com/Memorithm/riemann_ndim_bench/pull/73",
+    "base_sha": "b1f77ecca2a9b0fd227f91477a7ecbae70756176",
+    "head_sha": "7e600845d67753b74672b71e9254dd244f64f362",
+    "merge_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+    "candidate_tree": "bb2fd8d319af26fe43cf5ea3970ac17ffe22884d",
+    "integrated_tree": "bb2fd8d319af26fe43cf5ea3970ac17ffe22884d",
+    "exact_tree_match": true,
+    "merged_at": "2026-10-04T09:49:15Z"
+  },
+  "change_summary": [
+    "GitHub Actions checkout/setup-python are pinned to immutable SHAs.",
+    "The runner reference is ubuntu-24.04; Rust is pinned to 1.98.1 in CI and rust-toolchain.toml; Python is pinned to 3.12.14.",
+    "The workflow declares permissions contents:read and timeout-minutes:20.",
+    "Cargo lint/test/release-smoke commands use --locked while preserving Cargo.lock.",
+    "Toolchain identities are printed into CI evidence; scientific code and mathematical claims are unchanged."
+  ],
+  "candidate_validation": {
+    "workflow_run": 37193138335,
+    "job": 111409363963,
+    "conclusion": "success",
+    "steps": [
+      "checkout pinned SHA",
+      "Rust 1.98.1",
+      "toolchain identity",
+      "rustfmt",
+      "clippy --locked",
+      "cargo test --locked",
+      "release smoke --locked",
+      "setup-python pinned SHA",
+      "Python identity",
+      "research harness compile",
+      "research harness regression tests"
+    ]
+  },
+  "target_validation": {
+    "workflow_run": 37193369605,
+    "job": 111410052824,
+    "conclusion": "success",
+    "head_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+    "completed_at": "2026-10-04T09:53:25Z",
+    "exact_tree_match": true
+  },
+  "review": {
+    "reviews": [],
+    "review_threads": [],
+    "note": "No independent review submission or inline thread was present; no approval is claimed."
+  },
+  "policy": {
+    "agents_read": true,
+    "roadmap_ref": "agent/ecosystem-roadmap:.agent/RIEMANN_NDIM_ECOSYSTEM_ROADMAP.yaml",
+    "roadmap_status": "active",
+    "mathematical_claim_changed": false,
+    "roadmap_merged_to_main": false
+  },
+  "acceptance_met": [
+    "Actions and Rust/Python toolchains are pinned.",
+    "contents:read and job timeout are explicit.",
+    "Cargo resolution/build commands are locked to Cargo.lock.",
+    "The exact integrated tree passed the same substantive CI gates as the candidate."
+  ],
+  "finding_status": "resolved",
+  "observed_at": "2026-10-05T09:00:12Z"
+}
