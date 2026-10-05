@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-05T09:00:12Z",
+  "updated_at": "2026-10-05T09:22:29Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 42,
-    "remaining": 59,
-    "merged_prs": 51
+    "closed": 43,
+    "remaining": 58,
+    "merged_prs": 52
   },
   "batches": [
     {
@@ -297,6 +297,11 @@
           "repository": "Memorithm/riemann_ndim_bench",
           "number": 73,
           "merge_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938"
+        },
+        {
+          "repository": "Memorithm/FieldLab",
+          "number": 57,
+          "merge_sha": "996841a27b0ece7d677eb707e6e16ca22090d1e0"
         }
       ]
     }
@@ -4393,6 +4398,108 @@
       "proof": "docs/audit-global/proofs/riemann_ndim_bench-73-B-RH-01.json",
       "finding_status": "resolved",
       "reconciled_at": "2026-10-05T09:00:12Z"
+    },
+    {
+      "repository": "Memorithm/FieldLab",
+      "number": 57,
+      "url": "https://github.com/Memorithm/FieldLab/pull/57",
+      "base": "main",
+      "base_sha": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
+      "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+      "merge_sha": "996841a27b0ece7d677eb707e6e16ca22090d1e0",
+      "status": "merged_target_validated_exact_tree",
+      "ids": [
+        "B-FL-03"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-05T09:18:41Z",
+      "merge_method": "squash with expected_head_sha guard",
+      "checks": [
+        {
+          "id": 37288286556,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37288286556"
+        },
+        {
+          "id": 37288286649,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37288286649"
+        },
+        {
+          "id": 37288286607,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37288286607"
+        },
+        {
+          "id": 37288286581,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37288286581"
+        },
+        {
+          "id": 37288286672,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37288286672"
+        },
+        {
+          "id": 37288286740,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37288286740"
+        },
+        {
+          "id": 37288286689,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37288286689"
+        },
+        {
+          "id": 37288286663,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37288286663"
+        },
+        {
+          "id": 37288286659,
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "url": "https://github.com/Memorithm/FieldLab/actions/runs/37288286659"
+        }
+      ],
+      "review": {
+        "result": "no submitted reviews or inline threads observed; no independent approval claimed",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "262ca14f91c6c1c40d296284ca7669cb7731e073",
+      "exact_tree_match": true,
+      "target_head": "996841a27b0ece7d677eb707e6e16ca22090d1e0",
+      "target_checks": [
+        37289197369,
+        37289197280,
+        37289197381,
+        37289197312,
+        37289197188,
+        37289197198,
+        37289197217,
+        37289197251,
+        37289197208
+      ],
+      "proof": "docs/audit-global/proofs/FieldLab-57-B-FL-03.json",
+      "finding_status": "resolved",
+      "reconciled_at": "2026-10-05T09:22:29Z"
     }
   ],
   "repository_observations": [
@@ -4478,8 +4585,8 @@
       "repository": "Memorithm/FieldLab",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "975db6bc8c1aecaeb7bd38371745fcd9d64f8d7d",
-      "tree_sha": "2d9e20bc769a9d348db3877288b80360b3b23fd5",
+      "current_head": "996841a27b0ece7d677eb707e6e16ca22090d1e0",
+      "tree_sha": "262ca14f91c6c1c40d296284ca7669cb7731e073",
       "protected": false,
       "required_checks": [],
       "error": "branch-protection detail endpoint inaccessible to integration (403); all configured exact-head workflows were required by the campaign and succeeded"
@@ -7887,16 +7994,25 @@
         "Versionner un lock de la surface exécutable et utiliser --locked pour les campagnes CI/reproduction; inclure hash du lock et toolchain dans les artefacts.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "2879ed2fe91adb025e35e9b836cd41d46b9d0684",
+      "status": "resolved",
+      "current_head": "996841a27b0ece7d677eb707e6e16ca22090d1e0",
       "default_branch": "main",
       "audit_head": "2879ed2fe91adb025e35e9b836cd41d46b9d0684",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "merged_candidate_and_target_validated_exact_tree",
+      "policy_review": "Root AGENTS and mandatory off-main FieldLab roadmap read; reproducibility-only workflow/lock change with scientific hypotheses, thresholds, seeds, CCOS pin and licence unchanged.",
+      "prs": [
+        {
+          "number": 57,
+          "url": "https://github.com/Memorithm/FieldLab/pull/57",
+          "head_sha": "4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb",
+          "merge_sha": "996841a27b0ece7d677eb707e6e16ca22090d1e0"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/FieldLab-57-B-FL-03.json"
+      ],
+      "last_observed_at": "2026-10-05T09:22:29Z",
+      "next_action": "Clos; conserver Cargo.lock versionné, --locked sur les campagnes et l'identité source/lock/toolchain dans les artefacts."
     },
     {
       "id": "B-NO-01",
@@ -8522,11 +8638,11 @@
     "previous_owner": "chatgpt-audit-20261003T182304",
     "previous_expiry": "2026-10-03T19:53:04Z",
     "next_action": "Poursuivre les constats restants; le fichier lease.json externe reste autorite de coordination.",
-    "snapshot_at": "2026-10-05T09:00:12Z",
-    "verified_merged_prs": 51,
-    "canonical_registry_merged_prs": 51,
-    "closed_findings": 42,
-    "remaining_findings": 59
+    "snapshot_at": "2026-10-05T09:22:29Z",
+    "verified_merged_prs": 52,
+    "canonical_registry_merged_prs": 52,
+    "closed_findings": 43,
+    "remaining_findings": 58
   },
   "capabilities": [
     {
