@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-04T09:36:00Z",
+  "updated_at": "2026-10-05T09:00:12Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 41,
-    "remaining": 60,
-    "merged_prs": 50
+    "closed": 42,
+    "remaining": 59,
+    "merged_prs": 51
   },
   "batches": [
     {
@@ -286,6 +286,17 @@
           "repository": "Memorithm/PAPERS-AGENT",
           "number": 7,
           "merge_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "target": 50,
+      "merged_prs": [
+        {
+          "repository": "Memorithm/riemann_ndim_bench",
+          "number": 73,
+          "merge_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938"
         }
       ]
     }
@@ -4329,6 +4340,59 @@
       "proof": "docs/audit-global/proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json",
       "finding_status": "in_progress",
       "reconciled_at": "2026-10-04T09:36:00Z"
+    },
+    {
+      "repository": "Memorithm/riemann_ndim_bench",
+      "number": 73,
+      "url": "https://github.com/Memorithm/riemann_ndim_bench/pull/73",
+      "base": "main",
+      "base_sha": "b1f77ecca2a9b0fd227f91477a7ecbae70756176",
+      "head_sha": "7e600845d67753b74672b71e9254dd244f64f362",
+      "merge_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+      "status": "merged_target_validated_exact_tree",
+      "ids": [
+        "B-RH-01"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-04T09:49:15Z",
+      "merge_method": "Automatic integration observed before this reconciliation; no duplicate merge call issued.",
+      "checks": [
+        {
+          "id": 37193138335,
+          "name": "CI candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "7e600845d67753b74672b71e9254dd244f64f362",
+          "url": "https://github.com/Memorithm/riemann_ndim_bench/actions/runs/37193138335",
+          "jobs": [
+            111409363963
+          ]
+        },
+        {
+          "id": 37193369605,
+          "name": "CI target",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+          "url": "https://github.com/Memorithm/riemann_ndim_bench/actions/runs/37193369605",
+          "jobs": [
+            111410052824
+          ]
+        }
+      ],
+      "review": {
+        "result": "no submitted reviews or inline threads observed; no independent approval claimed",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "bb2fd8d319af26fe43cf5ea3970ac17ffe22884d",
+      "exact_tree_match": true,
+      "target_head": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+      "target_checks": [
+        37193369605
+      ],
+      "proof": "docs/audit-global/proofs/riemann_ndim_bench-73-B-RH-01.json",
+      "finding_status": "resolved",
+      "reconciled_at": "2026-10-05T09:00:12Z"
     }
   ],
   "repository_observations": [
@@ -4640,8 +4704,8 @@
       "repository": "Memorithm/riemann_ndim_bench",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "90ef54177a878601185d34ef39c7d1f855b80032",
-      "tree_sha": "78b90b47ba86bb363660c7d79197a9a345f1da59",
+      "current_head": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+      "tree_sha": "bb2fd8d319af26fe43cf5ea3970ac17ffe22884d",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -7555,16 +7619,25 @@
         "Épingler actions et toolchain, contents:read, timeout-minutes et --locked; conserver un environnement de référence et des variantes de compatibilité séparées.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "90ef54177a878601185d34ef39c7d1f855b80032",
+      "status": "resolved",
+      "current_head": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
       "default_branch": "main",
       "audit_head": "90ef54177a878601185d34ef39c7d1f855b80032",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "merged_candidate_and_target_validated_exact_tree",
+      "policy_review": "Root AGENTS and mandatory off-main Riemann roadmap read; workflow-only/toolchain reproducibility change, no mathematical claim or licence change.",
+      "prs": [
+        {
+          "number": 73,
+          "url": "https://github.com/Memorithm/riemann_ndim_bench/pull/73",
+          "head_sha": "7e600845d67753b74672b71e9254dd244f64f362",
+          "merge_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/riemann_ndim_bench-73-B-RH-01.json"
+      ],
+      "last_observed_at": "2026-10-05T09:00:12Z",
+      "next_action": "Clos; conserver l'environnement de référence épinglé et des variantes de compatibilité explicitement séparées si elles sont ajoutées ultérieurement."
     },
     {
       "id": "B-RH-02",
@@ -8449,11 +8522,11 @@
     "previous_owner": "chatgpt-audit-20261003T182304",
     "previous_expiry": "2026-10-03T19:53:04Z",
     "next_action": "Poursuivre les constats restants; le fichier lease.json externe reste autorite de coordination.",
-    "snapshot_at": "2026-10-04T09:36:00Z",
-    "verified_merged_prs": 50,
-    "canonical_registry_merged_prs": 50,
-    "closed_findings": 41,
-    "remaining_findings": 60
+    "snapshot_at": "2026-10-05T09:00:12Z",
+    "verified_merged_prs": 51,
+    "canonical_registry_merged_prs": 51,
+    "closed_findings": 42,
+    "remaining_findings": 59
   },
   "capabilities": [
     {
