@@ -1,15 +1,14 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-20261004T093600-observed",
-  "acquired_at": "2026-10-04T09:36:00Z",
-  "expires_at": "2026-10-04T11:06:00Z",
+  "owner": "chatgpt-audit-20261005T090012",
+  "acquired_at": "2026-10-05T09:00:12Z",
+  "expires_at": "2026-10-05T10:30:12Z",
   "released_at": null,
   "status": "active",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "timestamp_basis": "acquired_at uses the latest verified GitHub UTC event observed immediately before acquisition (PAPERS target CI completion); it is a conservative coordination timestamp, not an independent wall-clock measurement",
-  "previous_owner": "chatgpt-audit-20261004T082746",
-  "previous_expiry": "2026-10-04T09:57:46Z",
+  "previous_owner": "chatgpt-audit-20261004T093600-observed",
+  "previous_expiry": "2026-10-04T11:06:00Z",
   "canonical_counts": {
     "merged_prs": 50,
     "closed_findings": 41,
@@ -20,5 +19,11 @@
     "number": 2,
     "starting_merged_prs": 50
   },
-  "next_action": "Reconcile B-RH-01 on current riemann_ndim_bench main, read repository policy/license, repair reproducibility and CI hardening without weakening existing gates, validate exact candidate and target, then record as batch-2 work. PAPERS-01 remains in_progress pending qualified external isolation."
+  "adopted_work": {
+    "repository": "Memorithm/riemann_ndim_bench",
+    "pr": 73,
+    "finding": "B-RH-01",
+    "reason": "Prior audit passage merged PR #73 after the previous lease acquisition but did not reconcile it into the canonical registry before the lease expired."
+  },
+  "next_action": "Validate riemann_ndim_bench #73 candidate and integrated target exactly, reconcile B-RH-01 once if acceptance is met, then continue the next independent priority without reopening PAPERS-01."
 }
