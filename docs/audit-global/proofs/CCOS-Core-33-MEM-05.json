@@ -1,0 +1,120 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-06T20:31:12Z",
+  "finding": {
+    "id": "MEM-05",
+    "repository": "Memorithm/CCOS-Core",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#MEM-05",
+    "audit_sha": "d56f5f5fba96a6d3971d7600e8033c01c1e29657"
+  },
+  "pr": {
+    "number": 33,
+    "url": "https://github.com/Memorithm/CCOS-Core/pull/33",
+    "base": "main",
+    "base_sha": "e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb",
+    "head_sha": "ae928fcfe357f98587250da21e428ee87a57bed5",
+    "merge_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
+    "merged_at": "2026-10-06T20:22:58Z",
+    "method": "squash with expected_head_sha"
+  },
+  "acceptance": {
+    "result": "qualified",
+    "summary": "The periodic security workflow now pins cargo-fuzz and its dedicated nightly, fails closed, preserves corpus and crash artifacts, separates bounded compilation and fuzz-runtime deadlines, and builds the required ccos binary explicitly under Rust 1.89 for reproducibility.",
+    "verified_properties": [
+      "cargo-fuzz 0.13.2 is installed with --locked under nightly-2026-09-28.",
+      "The fuzz crate is an explicit independent workspace with its dedicated toolchain and lockfile.",
+      "No forced-success operator remains; crash, finding, launch error, compile timeout or runtime timeout fails the job.",
+      "Fuzz-target compilation is bounded at 300 seconds and the 60-second libFuzzer campaign has an independent 90-second outer deadline.",
+      "Corpus and crash paths are retained for 30 days even when the fuzz step fails.",
+      "Reproducibility builds use Rust 1.89.0 and --features llm --bin ccos twice from clean state, then compare hashes.",
+      "Workflow actions introduced or touched by the remediation are pinned to full commit SHAs."
+    ],
+    "limitations": [
+      "The 60-second smoke campaign is bounded regression evidence, not exhaustive fuzzing or production qualification.",
+      "GitHub-hosted Ubuntu execution does not qualify other operating systems or specialized hardware.",
+      "No product boundary, replay semantics, storage format, license or excluded repository was changed."
+    ]
+  },
+  "failure_history": [
+    {
+      "head_sha": "c77c97125a4ee35ba807f4e4e4ac115886948611",
+      "run": 37517530258,
+      "result": "failure_corrected",
+      "reason": "The fuzz manifest was below the root workspace without membership or an independent workspace."
+    },
+    {
+      "head_sha": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
+      "run": 37518164305,
+      "result": "failure_corrected",
+      "reason": "A single 120-second outer timeout included approximately 103 seconds of compilation and interrupted the nominal 60-second campaign after approximately 17 seconds with exit code 124.",
+      "artifact": 11439226387
+    }
+  ],
+  "candidate_validation": {
+    "head_sha": "ae928fcfe357f98587250da21e428ee87a57bed5",
+    "runs": [
+      {"id": 37524938443, "name": "CI", "conclusion": "success"},
+      {"id": 37524938440, "name": "Periodic Security Validation", "conclusion": "success"},
+      {"id": 37524938507, "name": "Security Audit", "conclusion": "success"},
+      {"id": 37524938478, "name": "Strict BEIR import", "conclusion": "success"}
+    ],
+    "periodic_jobs": [112479438243, 112479438389],
+    "fuzz_result": {
+      "executions": 6927648,
+      "terminal_marker": "DONE",
+      "artifact": 11442381541
+    }
+  },
+  "target_validation": {
+    "head_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
+    "runs": [
+      {"id": 37526016554, "name": "CI", "event": "push", "conclusion": "success"},
+      {"id": 37526016539, "name": "Periodic Security Validation", "event": "push", "conclusion": "success"},
+      {"id": 37526016759, "name": "Security Audit", "event": "push", "conclusion": "success"},
+      {"id": 37526016597, "name": "Strict BEIR import", "event": "push", "conclusion": "success"}
+    ],
+    "jobs": [
+      112483095533,
+      112483095928,
+      112483095929,
+      112483095945,
+      112483095964,
+      112483096004,
+      112483096052,
+      112483096139,
+      112483096151,
+      112483096209,
+      112483096231,
+      112483097821,
+      112483098035,
+      112483095948,
+      112483096634,
+      112483095195
+    ],
+    "periodic_fuzz_result": {
+      "executions": 7268685,
+      "terminal_marker": "DONE",
+      "artifact": 11441729026
+    },
+    "reproducibility_compare": "success"
+  },
+  "review": {
+    "thread": "PRRT_kwDOTkLq_s6pn48Q",
+    "all_resolved": true,
+    "correction": "Explicit independent fuzz workspace."
+  },
+  "policy": {
+    "AGENTS_blob": "6ec3b4cfe6451aabbf62263f2625a7cdd8f4ae38",
+    "off_main_roadmap_blob": "ef69a7ce1e370c4433a995494e6274423843e8e2",
+    "source_and_policy_read_before_merge": true,
+    "product_boundary_preserved": true
+  },
+  "counting": {
+    "batch": 2,
+    "unique_key": "Memorithm/CCOS-Core#33",
+    "merged_pr_increment": 1,
+    "finding_closed_increment": 1,
+    "rule": "Count the technical PR exactly once; do not count tracker-only evidence commits."
+  }
+}

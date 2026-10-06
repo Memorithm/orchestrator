@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-06T19:24:17Z",
+  "updated_at": "2026-10-06T20:31:12Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 43,
-    "remaining": 58,
-    "merged_prs": 52
+    "closed": 44,
+    "remaining": 57,
+    "merged_prs": 53
   },
   "batches": [
     {
@@ -302,6 +302,11 @@
           "repository": "Memorithm/FieldLab",
           "number": 57,
           "merge_sha": "996841a27b0ece7d677eb707e6e16ca22090d1e0"
+        },
+        {
+          "repository": "Memorithm/CCOS-Core",
+          "number": 33,
+          "merge_sha": "155a35ee7a356b44b2910c91df5e22817a892c22"
         }
       ]
     }
@@ -6159,24 +6164,34 @@
         "Épingler la version/outillage fuzz compatible avec toolchain dédiée, retirer le succès forcé et archiver corpus/crash; construire explicitement --features llm --bin ccos pour reproductibilité.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
-      "current_head": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
+      "status": "resolved",
+      "current_head": "155a35ee7a356b44b2910c91df5e22817a892c22",
       "default_branch": "main",
       "audit_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
-      "head_reconciliation": "audit_defect_confirmed_on_default_head_e992fa351cdd; candidate_open_on_exact_base",
+      "head_reconciliation": "resolved_on_integrated_main_155a35ee7a35_with_exact_candidate_and_target_validation",
       "policy_review": "Root AGENTS, mandatory off-main roadmap and PolyForm notices read before modification; Core product boundary, deterministic replay and licenses unchanged.",
       "prs": [
         {
           "number": 33,
           "url": "https://github.com/Memorithm/CCOS-Core/pull/33",
           "base_sha": "e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb",
-          "head_sha": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
-          "status": "waiting_ci"
+          "head_sha": "ae928fcfe357f98587250da21e428ee87a57bed5",
+          "status": "merged",
+          "merge_sha": "155a35ee7a356b44b2910c91df5e22817a892c22"
         }
       ],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-06T21:24:17+02:00",
-      "next_action": "Attendre les runs exacts 37518164982, 37518164305, 37518164460 et 37518164532 sur e17c7603; inspecter tout échec et les revues, puis fusionner uniquement si tous les gates sont réellement réussis."
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/CCOS-Core-33-MEM-05.json",
+          "candidate_head": "ae928fcfe357f98587250da21e428ee87a57bed5",
+          "candidate_runs": [37524938443, 37524938440, 37524938507, 37524938478],
+          "merge_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
+          "target_runs": [37526016554, 37526016539, 37526016759, 37526016597],
+          "status": "qualified"
+        }
+      ],
+      "last_observed_at": "2026-10-06T22:31:12+02:00",
+      "next_action": "Clos sur main au SHA 155a35ee7a356b44b2910c91df5e22817a892c22 après succès des quatre workflows exacts de la PR et des quatre workflows push de la branche cible."
     },
     {
       "id": "MEM-06",

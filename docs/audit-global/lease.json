@@ -3,33 +3,33 @@
   "owner": "chatgpt-audit-20261006T201250",
   "acquired_at": "2026-10-06T20:12:50Z",
   "expires_at": "2026-10-06T21:42:50Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-06T20:31:12Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
   "previous_owner": "chatgpt-audit-20261006T192859-review",
   "previous_expiry": "2026-10-06T20:58:59Z",
   "canonical_counts": {
-    "merged_prs": 52,
-    "closed_findings": 43,
-    "remaining_findings": 58,
+    "merged_prs": 53,
+    "closed_findings": 44,
+    "remaining_findings": 57,
     "backlog": 101
   },
   "batch": {
     "number": 2,
-    "merged_prs": 2,
+    "merged_prs": 3,
     "target": 50
   },
   "adopted_work": {
     "repository": "Memorithm/CCOS-Core",
     "finding": "MEM-05",
     "pull_request": 33,
-    "head": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
-    "reason": "Adopted the failed exact-head periodic validation to correct its independent build and fuzz runtime deadlines without masking failures."
+    "head": "155a35ee7a356b44b2910c91df5e22817a892c22",
+    "reason": "Corrected the independent fuzz build/runtime deadlines, merged exact-head candidate ae928fcf, and qualified the integrated main SHA with four successful push workflows."
   },
-  "next_action": "Correct CCOS-Core #33 so the compilation deadline and the 60-second libFuzzer campaign have independent bounded envelopes; require all workflows again on the new exact head.",
-  "verified_merged_prs": 52,
-  "canonical_registry_merged_prs": 52,
-  "closed_findings": 43,
-  "remaining_findings": 58
+  "next_action": "MEM-05 is closed with proof docs/audit-global/proofs/CCOS-Core-33-MEM-05.json. Reconcile the next unresolved priority against its current default-branch HEAD before adoption.",
+  "verified_merged_prs": 53,
+  "canonical_registry_merged_prs": 53,
+  "closed_findings": 44,
+  "remaining_findings": 57
 }
