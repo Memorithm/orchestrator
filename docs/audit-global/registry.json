@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-06T21:18:58Z",
+  "updated_at": "2026-10-06T21:24:58Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 46,
-    "remaining": 55,
+    "closed": 47,
+    "remaining": 54,
     "merged_prs": 55
   },
   "batches": [
@@ -7569,12 +7569,12 @@
         "Isoler rustc et compilation JIT sous utilisateur dédié et quotas OS; limiter octets source/module, mémoire/table WASM via StoreLimits/ResourceLimiter et durée de compilation séparée; drainer stderr pendant compilation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "in_progress",
+      "status": "blocked_external",
       "current_head": "86b3dc2b84e98e3468448cb44395aeca3f989460",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
       "head_reconciliation": "integrated_bounded_local_slice_validated_exact_tree_external_isolation_pending",
-      "policy_review": "Root AGENTS, SECURITY and mandatory off-main roadmap read; no workflow, licence or holdout change. Existing SciRust-Hub/RemoteOps ownership boundary preserved.",
+      "policy_review": "Root AGENTS, SECURITY and mandatory off-main roadmap read; PAPERS boundary preserved and no RemoteOps/scirust-hub modification attempted.",
       "prs": [
         {
           "number": 7,
@@ -7586,8 +7586,12 @@
       "resolution_evidence": [
         "docs/audit-global/proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json"
       ],
-      "last_observed_at": "2026-10-04T09:36:00Z",
-      "next_action": "Wire generated Rust/WASM execution to a qualified SciRust-Hub/RemoteOps backend proving stronger-than-process OS isolation, default-deny network and enforced CPU/memory/time limits; retain exact backend qualification evidence. Do not treat StoreLimits or a detected runtime binary as closure."
+      "last_observed_at": "2026-10-06T21:24:58Z",
+      "next_action": "Wait for a versioned SciRust-Hub/RemoteOps qualified backend and then wire PAPERS execution to its typed API; do not relabel the current fail-closed local path as resolution.",
+      "blockers": [
+        "SciRust-Hub main explicitly states that its configured local and remote process executors are not an OS sandbox; AXH-5 container-class backend remains active and RemoteOps owns concrete isolation enforcement.",
+        "No qualified backend evidence currently exists that proves stronger-than-process isolation, default-deny network and enforced CPU/RAM/time limits for this PAPERS workload."
+      ]
     },
     {
       "id": "PAPERS-02",
@@ -8850,16 +8854,38 @@
         "Ajouter un cargo check/tests des features stables supportées avec Rust 1.89; maintenir la feature nightly explicitement séparée.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9",
+      "status": "resolved",
+      "current_head": "df125c7e5d061030332da01d90a377d9db353a6d",
       "default_branch": "main",
       "audit_head": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "resolved_on_integrated_main_df125c7e5d061030332da01d90a377d9db353a6d_with_exact_msrv_ci_and_local_check",
+      "policy_review": "Root AGENTS, mandatory off-main BooleanLab/ElasticXxx overlays and PolyForm notices read; experimental boundary preserved.",
+      "prs": [
+        {
+          "number": 135,
+          "url": "https://github.com/Memorithm/BooleanLab/pull/135",
+          "base_sha": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9",
+          "head_sha": "7c088ec186ce28b8c6d3ec81b1adb8c976a867c3",
+          "status": "merged",
+          "merge_sha": "df125c7e5d061030332da01d90a377d9db353a6d"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/BooleanLab-135-BF-BL-02.json",
+          "candidate_head": "7c088ec186ce28b8c6d3ec81b1adb8c976a867c3",
+          "candidate_runs": [
+            37531936203
+          ],
+          "merge_sha": "df125c7e5d061030332da01d90a377d9db353a6d",
+          "target_runs": [
+            37532123927
+          ],
+          "status": "qualified"
+        }
+      ],
+      "last_observed_at": "2026-10-06T21:24:58Z",
+      "next_action": "Clos par BooleanLab #135 et le job exact Rust 1.89.0; surveiller que les futures CI conservent ce MSRV gate."
     },
     {
       "id": "BF-EE-04",
@@ -8953,22 +8979,22 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-20261006210311",
-    "acquired_at": "2026-10-06T21:03:11.183Z",
-    "expires_at": "2026-10-06T22:33:11.183Z",
-    "released_at": "2026-10-06T21:18:58Z",
-    "status": "released",
+    "owner": "chatgpt-audit-20261006232000",
+    "acquired_at": "2026-10-06T21:20:00Z",
+    "expires_at": "2026-10-06T22:50:00Z",
+    "released_at": null,
+    "status": "active",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "timestamp_basis": "session UTC observation 2026-10-04T07:30:25Z; lease commit records the exact publication timestamp",
-    "previous_owner": "chatgpt-audit-20261003T182304",
-    "previous_expiry": "2026-10-03T19:53:04Z",
-    "next_action": "BF-BL-01 clos avec preuve; reprendre le prochain constat non résolu après relecture source/politiques.",
-    "snapshot_at": "2026-10-06T21:18:58Z",
+    "timestamp_basis": "session UTC observation 2026-10-06T21:20:00Z; lease commit records the exact publication timestamp",
+    "previous_owner": "chatgpt-audit-20261006210311",
+    "previous_expiry": "2026-10-06T22:33:11.183Z",
+    "next_action": "PAPERS-01 bloqué en attente de backend externe qualifié; BF-BL-02 clos avec preuve; sélectionner ensuite un chantier autonome.",
+    "snapshot_at": "2026-10-06T21:24:58Z",
     "verified_merged_prs": 55,
     "canonical_registry_merged_prs": 55,
-    "closed_findings": 46,
-    "remaining_findings": 55
+    "closed_findings": 47,
+    "remaining_findings": 54
   },
   "capabilities": [
     {

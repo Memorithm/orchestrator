@@ -382,11 +382,89 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-06T23:24:58+02:00",
+      "observed_session_start": "2026-10-06T23:18:58+02:00",
+      "lease_owner": "chatgpt-audit-20261006232000",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 5,
+        "batch_target": 50,
+        "merged_prs": 55,
+        "closed_findings": 47,
+        "remaining_findings": 54,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "base_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+          "actions": [
+            "Re-read PAPERS-AGENT AGENTS.md, SECURITY.md and the mandatory off-main ecosystem roadmap.",
+            "Reconciled the current PAPERS master HEAD and inspected the existing bounded local Wasmtime path and trusted-only rustc helper.",
+            "Compared the required isolation claim with SciRust-Hub current integration documents: process supervision is explicitly not an OS sandbox and AXH-5 container-class qualification remains owned by RemoteOps.",
+            "Kept the public generated-source path fail-closed; no RemoteOps or excluded repository was modified."
+          ],
+          "checks": [
+            "PAPERS-AGENT master HEAD 86b3dc2b84e98e3468448cb44395aeca3f989460",
+            "SciRust-Hub main c53ecd84af0a8bf17b595296004539c0252582d2",
+            "docs/AX_TASK_RUNTIME_ROADMAP.md and docs/AX_TASK_ADMISSION_BRIDGE.md read"
+          ],
+          "dependencies": [
+            "Versioned SciRust-Hub/RemoteOps backend qualification proving stronger-than-process isolation, default-deny network and enforced CPU/RAM/time limits"
+          ],
+          "reason_for_block": "The available Hub process and remote executors explicitly disclaim OS-sandbox semantics; claiming PAPERS-01 resolved would overstate evidence.",
+          "next_action": "Revisit when a qualified external backend contract and immutable evidence reference are available; wire only through the typed Hub API."
+        },
+        {
+          "id": "BF-BL-02",
+          "repository": "Memorithm/BooleanLab",
+          "status": "resolved",
+          "base_sha": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9",
+          "pr": 135,
+          "url": "https://github.com/Memorithm/BooleanLab/pull/135",
+          "candidate_head_sha": "7c088ec186ce28b8c6d3ec81b1adb8c976a867c3",
+          "merge_sha": "df125c7e5d061030332da01d90a377d9db353a6d",
+          "actions": [
+            "Reconciled the finding against the integrated main checkout and the exact qualified BooleanLab #135 CI.",
+            "Confirmed Cargo.toml rust-version 1.89 and the main/BL-BE5 jobs using Rust 1.89.0 with locked workspace checks/tests.",
+            "Ran local cargo check --locked --workspace --all-targets and git diff --check."
+          ],
+          "candidate_checks": [
+            {
+              "id": 37531936203,
+              "name": "CI",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ],
+          "target_checks": [
+            {
+              "id": 37532123927,
+              "name": "CI",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ],
+          "local_checks": [
+            "cargo check --locked --workspace --all-targets",
+            "git diff --check"
+          ],
+          "dependencies": [],
+          "proof": "docs/audit-global/proofs/BooleanLab-135-BF-BL-02.json",
+          "next_action": "Clos; retain the explicit Rust 1.89.0 MSRV gate in future CI."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "merged_prs_added": 3,
-    "findings_closed_added": 3,
+    "findings_closed_added": 4,
     "pull_requests_opened": [
       "Memorithm/CCOS-Core#33",
       "Memorithm/NoiseLab#75",
@@ -394,7 +472,7 @@
     ],
     "current_batch": "5/50",
     "total_merged_prs": 55,
-    "closed_findings": 46,
-    "remaining_findings": 55
+    "closed_findings": 47,
+    "remaining_findings": 54
   }
 }
