@@ -1,0 +1,112 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_id": "RT-FLAT-01",
+  "repository": "Memorithm/FLAT-ATTENTION",
+  "default_branch": "main",
+  "reconciled_at": "2026-10-07T01:17:00+02:00",
+  "audit": {
+    "source_sha": "ad1634fc922f6223dd3a83ac84154a82b1a35562",
+    "workflow": ".github/workflows/m53-thor-qualification.yml",
+    "run_id": 36765646926,
+    "url": "https://github.com/Memorithm/FLAT-ATTENTION/actions/runs/36765646926",
+    "conclusion": "failure",
+    "jobs_created": 0,
+    "diagnosis": "workflow validation failed before execution; job-level env referenced runner.temp"
+  },
+  "fix": {
+    "commit": "bad0f943d046b7a1e7f1cc421ae7e8f9e1db61c7",
+    "url": "https://github.com/Memorithm/FLAT-ATTENTION/commit/bad0f943d046b7a1e7f1cc421ae7e8f9e1db61c7",
+    "message": "fix(ci): initialize M53 toolchain env at step scope",
+    "changes": [
+      "remove runner.temp expressions from job-level env",
+      "create mode-0700 temporary CARGO_HOME and RUSTUP_HOME at step scope",
+      "export toolchain paths through GITHUB_ENV/GITHUB_PATH",
+      "remove isolated toolchain directory during cleanup"
+    ],
+    "pr": 337,
+    "pr_url": "https://github.com/Memorithm/FLAT-ATTENTION/pull/337",
+    "merge_commit": "26690c7c467db24ae5fc3bebe235c1f0310f4f2a",
+    "counting": "pre-existing repository merge; evidence only, not added to remediation batch totals"
+  },
+  "executions": [
+    {
+      "run_id": 37513743891,
+      "job_id": 112441230399,
+      "url": "https://github.com/Memorithm/FLAT-ATTENTION/actions/runs/37513743891",
+      "head_sha": "bad0f943d046b7a1e7f1cc421ae7e8f9e1db61c7",
+      "conclusion": "success",
+      "successful_steps": [
+        "checkout exact source",
+        "prepare isolated Rust toolchain directories",
+        "install pinned Rust toolchain",
+        "require persistent physical Thor runner",
+        "prepare isolated build directories",
+        "build M53 sweep",
+        "exclusive physical Thor M53 sweep",
+        "cleanup isolated directories"
+      ],
+      "qualification_status": "deferred_gpu_busy",
+      "performance_claim": "none"
+    },
+    {
+      "run_id": 37543032527,
+      "job_id": 112540322751,
+      "url": "https://github.com/Memorithm/FLAT-ATTENTION/actions/runs/37543032527",
+      "head_sha": "3595eab7bc914204aab9494f7bc466badba17a7d",
+      "tree_sha": "f3ca32eef184ced5fe2f740eaf2dfe0144dd667d",
+      "conclusion": "success",
+      "qualification_status": "deferred_gpu_busy",
+      "performance_claim": "none"
+    }
+  ],
+  "integrated_target": {
+    "head_sha": "bff0fa4f74f86c64073c376a11c60b6d5b227c49",
+    "tree_sha": "f3ca32eef184ced5fe2f740eaf2dfe0144dd667d",
+    "tree_matches_validated_candidate": true,
+    "observed_successful_workflows": [
+      {
+        "id": 37543690456,
+        "name": "ci"
+      },
+      {
+        "id": 37543690397,
+        "name": "codeql"
+      },
+      {
+        "id": 37543690440,
+        "name": "supply-chain"
+      },
+      {
+        "id": 37543690421,
+        "name": "semver"
+      },
+      {
+        "id": 37543690462,
+        "name": "FLAT Vulkan Linux qualification"
+      },
+      {
+        "id": 37543690470,
+        "name": "FLAT Metal qualification"
+      },
+      {
+        "id": 37543690432,
+        "name": "FLAT Direct3D 12 Windows qualification"
+      },
+      {
+        "id": 37543690403,
+        "name": "FLAT PVP3b Thor qualification"
+      }
+    ]
+  },
+  "acceptance": {
+    "workflow_validity_diagnosed": true,
+    "workflow_corrected": true,
+    "qualification_relaunched_on_corrected_source": true,
+    "integrated_tree_verified": true,
+    "physical_measurement_completed": false,
+    "physical_measurement_limit": "Thor busy; run safely deferred",
+    "release_or_performance_claim_authorized": false,
+    "closure_rationale": "RT-FLAT-01 concerns the failing workflow. The corrected workflow now validates and executes through bounded build/runner/cleanup steps on the integrated tree. The audit recommendation also requires affected claims to remain blocked until proof; the successful relaunch does so explicitly with performance_claim=none. A physical M53 result is not claimed."
+  },
+  "excluded_repositories_modified": []
+}

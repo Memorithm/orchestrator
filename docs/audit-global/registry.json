@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-06T23:13:00Z",
+  "updated_at": "2026-10-06T23:17:00Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 49,
-    "remaining": 52,
+    "closed": 50,
+    "remaining": 51,
     "merged_prs": 57
   },
   "batches": [
@@ -4986,11 +4986,12 @@
       "repository": "Memorithm/FLAT-ATTENTION",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "ad1634fc922f6223dd3a83ac84154a82b1a35562",
-      "tree_sha": "ff5d9c288d907450a6802602164eda9ae8213d08",
+      "current_head": "bff0fa4f74f86c64073c376a11c60b6d5b227c49",
+      "tree_sha": "f3ca32eef184ced5fe2f740eaf2dfe0144dd667d",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": null,
+      "last_observed_at": "2026-10-07T01:17:00+02:00"
     },
     {
       "repository": "Memorithm/FieldLab",
@@ -6039,16 +6040,36 @@
         "Diagnostiquer validité workflow puis corriger et relancer la qualification m53 au commit corrigé; conserver release/claims concernés bloqués jusqu'à preuve.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "ad1634fc922f6223dd3a83ac84154a82b1a35562",
+      "status": "resolved",
+      "current_head": "bff0fa4f74f86c64073c376a11c60b6d5b227c49",
       "default_branch": "main",
       "audit_head": "ad1634fc922f6223dd3a83ac84154a82b1a35562",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "The audit run 36765646926 failed workflow validation before any job. Commit bad0f943d046b7a1e7f1cc421ae7e8f9e1db61c7 moved runner-temporary Rust homes from job-level context into a bounded setup step and was integrated by PR #337 as 26690c7c467db24ae5fc3bebe235c1f0310f4f2a. Corrected M53 runs 37513743891 and 37543032527 completed successfully; the latter validated tree f3ca32eef184ced5fe2f740eaf2dfe0144dd667d, exactly equal to integrated main bff0fa4f74f86c64073c376a11c60b6d5b227c49. Both safely deferred physical measurement while Thor was busy and emitted performance_claim=none.",
+      "policy_review": "Read current AGENTS.md, LICENSE, LICENSE.md, ROADMAP.md and the applicable off-main ecosystem and ML-maturity overlays; preserved the no-performance-claim boundary.",
+      "prs": [
+        {
+          "repository": "Memorithm/FLAT-ATTENTION",
+          "number": 337,
+          "url": "https://github.com/Memorithm/FLAT-ATTENTION/pull/337",
+          "base": "main",
+          "base_sha": "28199e51b8442f913172e8255596b9c1830f2ed7",
+          "head_sha": "bad0f943d046b7a1e7f1cc421ae7e8f9e1db61c7",
+          "merge_sha": "26690c7c467db24ae5fc3bebe235c1f0310f4f2a",
+          "status": "pre_existing_merge_reconciled_not_counted_in_remediation_batch"
+        }
+      ],
+      "resolution_evidence": [
+        "Audit run 36765646926 failed before jobs were created, isolating the defect to workflow validity rather than an M53 test result.",
+        "Fix commit bad0f943d046b7a1e7f1cc421ae7e8f9e1db61c7 removes runner.temp from job-level env, creates isolated CARGO_HOME/RUSTUP_HOME directories at step scope, exports them through GITHUB_ENV/GITHUB_PATH, and cleans them up.",
+        "PR #337 integrated the fix on main as merge commit 26690c7c467db24ae5fc3bebe235c1f0310f4f2a.",
+        "Corrected M53 run 37513743891/job 112441230399 succeeded on the exact fix head; checkout, isolated toolchain setup, Rust install, physical-runner validation, build, bounded M53 step and cleanup all completed.",
+        "Corrected M53 run 37543032527/job 112540322751 succeeded on 3595eab7bc914204aab9494f7bc466badba17a7d; that commit tree f3ca32eef184ced5fe2f740eaf2dfe0144dd667d exactly matches integrated main bff0fa4f74f86c64073c376a11c60b6d5b227c49.",
+        "The hardware step deferred because Thor was busy and explicitly emitted qualification_status=deferred_gpu_busy and performance_claim=none. No benchmark result or performance claim is inferred.",
+        "Current main workflows observed after integration were green for CI, CodeQL, supply-chain, semver, Vulkan, Metal, Direct3D 12 and PVP3b Thor qualification.",
+        "Proof: docs/audit-global/proofs/FLAT-ATTENTION-337-RT-FLAT-01.json"
+      ],
+      "last_observed_at": "2026-10-07T01:17:00+02:00",
+    "next_action": "Closed for the failed workflow/relaunch criterion. Keep every M53 release or performance claim blocked until a later non-deferred, exact-source physical run provides admissible evidence."
     },
     {
       "id": "RT-ELASTIC-01",
@@ -9164,19 +9185,19 @@
     "owner": "chatgpt-audit-20261007011300",
     "acquired_at": "2026-10-06T23:13:00Z",
     "expires_at": "2026-10-07T00:43:00Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-06T23:17:00Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
     "timestamp_basis": "session UTC observation 2026-10-06T23:13:00Z; lease commit records the exact publication timestamp",
     "previous_owner": "chatgpt-audit-20261007000605",
     "previous_expiry": "2026-10-06T23:36:05Z",
-    "next_action": "Traiter le prochain constat autonome de priorité 8; PAPERS-01 reste bloqué externe.",
-    "snapshot_at": "2026-10-06T23:13:00Z",
+    "next_action": "RT-FLAT-01 clos avec limite de preuve explicite; traiter le prochain constat autonome de priorité 8, PAPERS-01 restant bloqué externe.",
+    "snapshot_at": "2026-10-06T23:17:00Z",
     "verified_merged_prs": 57,
     "canonical_registry_merged_prs": 57,
-    "closed_findings": 49,
-    "remaining_findings": 52,
+    "closed_findings": 50,
+    "remaining_findings": 51,
     "batch": 2,
     "batch_merged_prs": 7
   },
