@@ -1,7 +1,48 @@
-Warning: truncated output (original token count: 601)
-Total output lines: 48
-
 {
-  "schema": "memor…591 tokens truncated…al PR twice."
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-06T21:24:58Z",
+  "finding": {
+    "id": "BF-BL-02",
+    "repository": "Memorithm/BooleanLab",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#BF-BL-02",
+    "audit_sha": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9",
+    "current_base_before_change": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9"
+  },
+  "resolution": {
+    "pr": "https://github.com/Memorithm/BooleanLab/pull/135",
+    "merge_sha": "df125c7e5d061030332da01d90a377d9db353a6d",
+    "status": "covered_by_qualified_BF-BL-01_change",
+    "summary": "The qualified BooleanLab #135 CI change added an exact Rust 1.89.0 campaign job for the declared MSRV boundary; its workspace tests and checks are now executed under that toolchain on every required CI path."
+  },
+  "acceptance": {
+    "result": "qualified",
+    "verified_properties": [
+      "Cargo.toml declares rust-version = 1.89.",
+      "The main CI rust job installs rust-toolchain with toolchain 1.89.0 and runs cargo test --locked --workspace plus clippy --locked across all targets.",
+      "The BL-BE5 CI job also uses Rust 1.89.0 and runs locked tests and Clippy.",
+      "The exact integrated main SHA df125c7e5d061030332da01d90a377d9db353a6d passed the CI push workflow 37532123927.",
+      "Local cargo check --locked --workspace --all-targets passed on the integrated main checkout."
+    ],
+    "limitation": "The separate BL-14 development workflows intentionally use their own pinned Rust 1.98.1 experimental toolchain; they are not the MSRV qualification job and do not change the declared stable MSRV boundary."
+  },
+  "validation": {
+    "candidate_head": "7c088ec186ce28b8c6d3ec81b1adb8c976a867c3",
+    "candidate_run": 37531936203,
+    "candidate_conclusion": "success",
+    "target_head": "df125c7e5d061030332da01d90a377d9db353a6d",
+    "target_run": 37532123927,
+    "target_conclusion": "success",
+    "local_checks": ["cargo check --locked --workspace --all-targets", "git diff --check"]
+  },
+  "policy": {
+    "source_and_policy_read_before_closure": true,
+    "experimental_boundary_preserved": true,
+    "excluded_repositories_modified": []
+  },
+  "counting": {
+    "technical_pr_increment": 0,
+    "finding_closed_increment": 1,
+    "rule": "A finding may be closed by a previously merged qualified PR; do not count the same technical PR twice."
   }
 }

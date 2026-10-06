@@ -1,7 +1,77 @@
-Warning: truncated output (original token count: 944)
-Total output lines: 77
-
 {
-  "schema": "memor…934 tokens truncated…not counted."
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-06T21:44:27Z",
+  "finding": {
+    "id": "B-NO-02",
+    "repository": "Memorithm/NeuralOperator",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#B-NO-02",
+    "audit_sha": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
+    "current_base_before_change": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce"
+  },
+  "pr": {
+    "number": 34,
+    "url": "https://github.com/Memorithm/NeuralOperator/pull/34",
+    "base": "main",
+    "base_sha": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
+    "head_sha": "8a944faaf69130a06fa3aeceb169e00ed4ac4bee",
+    "merge_sha": "4d61af7ad0428cc6a5c1793f417c901dd10b1de8",
+    "merged_at": "2026-10-06T21:40:06Z",
+    "method": "squash with expected_head_sha"
+  },
+  "acceptance": {
+    "result": "qualified",
+    "summary": "NeuralOperator now uses hash-locked Python 3.12/Linux environments, immutable GitHub Actions, exact-head provenance manifests and complete autodiff workflow coverage.",
+    "verified_properties": [
+      "requirements-py312-linux.lock and requirements-autodiff-py312-linux.lock enforce hashes with --require-hashes.",
+      "checkout, setup-python and upload-artifact actions are pinned by full commit SHA and Python 3.12.8 is explicit.",
+      "The reproducibility manifest records the pull-request head SHA through SOURCE_HEAD_SHA, checkout SHA, platform, interpreter and lock hash, with explicit dataset/checkpoint hash fields.",
+      "The optional autodiff workflow no longer has path filters that could skip code, script, test or lockfile changes.",
+      "AGENTS.md, the mandatory NeuralOperator ecosystem roadmap and license notices were read; scientific claims remain bounded by the repository documentation."
+    ],
+    "limitations": [
+      "The locks qualify the declared Python 3.12/Linux reference environments; other interpreters, operating systems or hardware require their own locks and runs.",
+      "Dataset and checkpoint hashes are explicit not-provided fields until concrete immutable inputs are supplied."
+    ]
+  },
+  "candidate_validation": {
+    "head_sha": "8a944faaf69130a06fa3aeceb169e00ed4ac4bee",
+    "runs": [
+      {"id": 37535120498, "name": "Tests", "conclusion": "success", "job_ids": [112513975128]},
+      {"id": 37535120590, "name": "Optional autodiff backend", "conclusion": "success", "job_ids": [112513975133]}
+    ],
+    "local_checks": [
+      "PYTHONPATH=src python3 -m unittest discover -s tests -v (85 tests, 28 optional PyTorch skips)",
+      "uv pip install --system --dry-run --require-hashes -r requirements-py312-linux.lock",
+      "YAML parsing for both workflows",
+      "scripts/write_repro_manifest.py --lock requirements-py312-linux.lock",
+      "git diff --check"
+    ]
+  },
+  "target_validation": {
+    "head_sha": "4d61af7ad0428cc6a5c1793f417c901dd10b1de8",
+    "runs": [
+      {"id": 37535497618, "name": "Tests", "event": "push", "conclusion": "success"},
+      {"id": 37535497621, "name": "Optional autodiff backend", "event": "push", "conclusion": "success"}
+    ],
+    "target_branch": "main",
+    "head_matches_merge_sha": true
+  },
+  "review": {
+    "thread": "PRRT_kwDOUij-DM6pqqNO",
+    "all_resolved": true,
+    "correction": "The manifest workflows now pass github.event.pull_request.head.sha for PR qualification, with github.sha as the push fallback."
+  },
+  "policy": {
+    "source_and_policy_read_before_merge": true,
+    "product_boundary_preserved": true,
+    "excluded_repositories_modified": []
+  },
+  "counting": {
+    "batch": 2,
+    "unique_key": "Memorithm/NeuralOperator#34",
+    "merged_pr_increment": 1,
+    "finding_closed_increment": 1,
+    "rule": "Count the technical PR exactly once; tracker commits are not counted."
   }
 }
