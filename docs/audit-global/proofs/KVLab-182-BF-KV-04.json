@@ -1,0 +1,123 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-06T22:20:29Z",
+  "finding": {
+    "id": "BF-KV-04",
+    "repository": "Memorithm/KVLab",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#BF-KV-04",
+    "audit_sha": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+    "current_base_before_change": "bcea29a5ad13e93816220dd5b0502dae4d04437d"
+  },
+  "pr": {
+    "number": 182,
+    "url": "https://github.com/Memorithm/KVLab/pull/182",
+    "base": "main",
+    "base_sha": "bcea29a5ad13e93816220dd5b0502dae4d04437d",
+    "head_sha": "898cd795d5034d3b63eaf9b20253c01c5f44ba9f",
+    "merge_sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+    "merged_at": "2026-10-06T22:18:44Z",
+    "method": "squash with expected_head_sha"
+  },
+  "acceptance": {
+    "result": "qualified",
+    "summary": "KVLab now uses a checked-in Cargo lock, Rust 1.89.0, --locked execution and exact-SHA actions, while retaining the resolved graph and hashes for candidate and target campaigns.",
+    "verified_properties": [
+      "rust/bkv_scan/Cargo.lock is checked in and was generated with Cargo 1.89.0.",
+      "CI, fleet qualification and retained campaign scripts use --locked; the three affected workflows select Rust 1.89.0.",
+      "actions/upload-artifact is pinned to the full SHA ea165f8d65b6e75b540449e92b4886f43607fa02.",
+      "Candidate and target workflows retain Cargo.lock, cargo metadata --locked and SHA-256 manifests bound to the exact source SHA.",
+      "AGENTS.md, mandatory off-main roadmap and license notices were read; the EWW smoke remains a structural check and is not represented as hardware or scientific qualification."
+    ],
+    "limitations": [
+      "The dependency evidence qualifies the declared Rust 1.89.0 graph; it does not prove physical memory traffic, GPU performance or cross-hardware reproducibility.",
+      "Future dependency updates must change the checked-in lockfile and rerun the same exact-head qualification."
+    ]
+  },
+  "candidate_validation": {
+    "head_sha": "898cd795d5034d3b63eaf9b20253c01c5f44ba9f",
+    "runs": [
+      {
+        "id": 37539568191,
+        "name": "CI",
+        "conclusion": "success",
+        "job_ids": [
+          112528952646,
+          112528952966
+        ]
+      },
+      {
+        "id": 37539568122,
+        "name": "EWW structural campaign smoke",
+        "conclusion": "success",
+        "job_ids": [
+          112528952380
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 11448092442,
+        "name": "kvlab-dependencies-898cd795d5034d3b63eaf9b20253c01c5f44ba9f",
+        "digest": "sha256:d9b7ea41bee3402913b7848bb06658279e9ac0e07745bebf10f95b3ce28759ca"
+      },
+      {
+        "id": 11448375973,
+        "name": "eww-structural-898cd795d5034d3b63eaf9b20253c01c5f44ba9f",
+        "digest": "sha256:484ae255e7cd98787814b312d18bd2ce9483a4760bd2ae2712343fa3d3c2ca2a"
+      }
+    ],
+    "local_checks": [
+      "cargo fmt --manifest-path rust/bkv_scan/Cargo.toml -- --check",
+      "cargo clippy --locked --manifest-path rust/bkv_scan/Cargo.toml --all-targets -- -D warnings",
+      "cargo test --locked --manifest-path rust/bkv_scan/Cargo.toml",
+      "python3 -m pytest (571 passed)",
+      "cargo metadata --locked --manifest-path rust/bkv_scan/Cargo.toml --format-version 1",
+      "YAML parse of three workflows; bash -n on modified scripts; locked EWW structural smoke; git diff --check"
+    ],
+    "lock_sha256": "53f367cc1d85ac2354e5be311742aef37d444b35d1d062b67e91a0731eb3ce19",
+    "metadata_sha256": "8607d6003a77cf3c7b1b79202b2e45e497107c6695c75d5ead81e141a821226b"
+  },
+  "target_validation": {
+    "head_sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+    "tree_sha": "7916cefcccd7f7ccaf57549f0f73a9bbc18d29d8",
+    "runs": [
+      {
+        "id": 37539771579,
+        "name": "Memorithm fleet main CI",
+        "event": "push",
+        "conclusion": "success",
+        "job_ids": [
+          112529638491,
+          112529638819
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 11448446051,
+        "name": "kvlab-main-dependencies-d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+        "digest": "sha256:74764f1736dd62d365a42ab204b185c374b5c3316adfb86df414fb6472029fb3"
+      }
+    ],
+    "target_branch": "main",
+    "head_matches_merge_sha": true
+  },
+  "review": {
+    "submitted_reviews": 0,
+    "unresolved_threads": 0,
+    "all_clear": true
+  },
+  "policy": {
+    "source_and_policy_read_before_merge": true,
+    "product_boundary_preserved": true,
+    "excluded_repositories_modified": []
+  },
+  "counting": {
+    "batch": 2,
+    "unique_key": "Memorithm/KVLab#182",
+    "merged_pr_increment": 1,
+    "finding_closed_increment": 1,
+    "rule": "Count the technical PR exactly once; tracker commits are not counted."
+  }
+}

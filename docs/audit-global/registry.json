@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-06T21:44:27Z",
+  "updated_at": "2026-10-06T22:20:29Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 48,
-    "remaining": 53,
-    "merged_prs": 56
+    "closed": 49,
+    "remaining": 52,
+    "merged_prs": 57
   },
   "batches": [
     {
@@ -322,6 +322,11 @@
           "repository": "Memorithm/NeuralOperator",
           "number": 34,
           "merge_sha": "4d61af7ad0428cc6a5c1793f417c901dd10b1de8"
+        },
+        {
+          "repository": "Memorithm/KVLab",
+          "number": 182,
+          "merge_sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5"
         }
       ]
     }
@@ -4831,6 +4836,81 @@
         "scripts/write_repro_manifest.py --lock requirements-py312-linux.lock",
         "git diff --check"
       ]
+    },
+    {
+      "repository": "Memorithm/KVLab",
+      "number": 182,
+      "url": "https://github.com/Memorithm/KVLab/pull/182",
+      "base": "main",
+      "base_sha": "bcea29a5ad13e93816220dd5b0502dae4d04437d",
+      "head_sha": "898cd795d5034d3b63eaf9b20253c01c5f44ba9f",
+      "merge_sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+      "status": "merged_target_validated_exact_sha",
+      "ids": [
+        "BF-KV-04"
+      ],
+      "merged_at": "2026-10-06T22:18:44Z",
+      "merge_method": "squash with expected_head_sha guard",
+      "checks": [
+        {
+          "id": 37539568191,
+          "name": "CI",
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "898cd795d5034d3b63eaf9b20253c01c5f44ba9f",
+          "url": "https://github.com/Memorithm/KVLab/actions/runs/37539568191",
+          "jobs": [
+            112528952646,
+            112528952966
+          ]
+        },
+        {
+          "id": 37539568122,
+          "name": "EWW structural campaign smoke",
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "898cd795d5034d3b63eaf9b20253c01c5f44ba9f",
+          "url": "https://github.com/Memorithm/KVLab/actions/runs/37539568122",
+          "jobs": [
+            112528952380
+          ]
+        },
+        {
+          "id": 37539771579,
+          "name": "Memorithm fleet main CI",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+          "url": "https://github.com/Memorithm/KVLab/actions/runs/37539771579",
+          "jobs": [
+            112529638491,
+            112529638819
+          ]
+        }
+      ],
+      "review": {
+        "submitted_reviews": 0,
+        "unresolved_threads": 0
+      },
+      "validated_tree": "7916cefcccd7f7ccaf57549f0f73a9bbc18d29d8",
+      "target_head": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+      "target_checks": [
+        37539771579
+      ],
+      "proof": "docs/audit-global/proofs/KVLab-182-BF-KV-04.json",
+      "finding_status": "resolved",
+      "reconciled_at": "2026-10-06T22:20:29Z",
+      "local_checks": [
+        "cargo fmt --manifest-path rust/bkv_scan/Cargo.toml -- --check",
+        "cargo clippy --locked --manifest-path rust/bkv_scan/Cargo.toml --all-targets -- -D warnings",
+        "cargo test --locked --manifest-path rust/bkv_scan/Cargo.toml",
+        "python3 -m pytest (571 passed)",
+        "cargo metadata --locked --manifest-path rust/bkv_scan/Cargo.toml --format-version 1",
+        "YAML parse of three workflows; bash -n on modified scripts; locked EWW structural smoke; git diff --check"
+      ]
     }
   ],
   "repository_observations": [
@@ -4946,8 +5026,8 @@
       "repository": "Memorithm/KVLab",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "7916cb004911fad6e8192d792976a33a356d1924",
-      "tree_sha": "920aebaaa91f08d7ed7f87e24c9f2241a13bb5a3",
+      "current_head": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+      "tree_sha": "7916cefcccd7f7ccaf57549f0f73a9bbc18d29d8",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -8845,16 +8925,23 @@
         "Commiter le lock de ce banc exécutable, utiliser --locked et figer toolchain/actions par versions/SHA; archiver lock et empreinte du graphe avec chaque campagne.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+      "status": "resolved",
+      "current_head": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
       "default_branch": "main",
       "audit_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "advanced_since_audit_then_resolved_on_current_head",
+      "policy_review": "AGENTS.md, mandatory off-main roadmap and licenses read",
+      "prs": [
+        "https://github.com/Memorithm/KVLab/pull/182"
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/KVLab-182-BF-KV-04.json",
+        "https://github.com/Memorithm/KVLab/actions/runs/37539568191",
+        "https://github.com/Memorithm/KVLab/actions/runs/37539568122",
+        "https://github.com/Memorithm/KVLab/actions/runs/37539771579"
+      ],
+      "last_observed_at": "2026-10-07T00:20:29+02:00",
+      "next_action": "Clos; conserver Cargo.lock, Rust 1.89.0, --locked et les artefacts de graphe pour toute campagne future."
     },
     {
       "id": "BF-KV-05",
@@ -9077,19 +9164,21 @@
     "owner": "chatgpt-audit-20261007000605",
     "acquired_at": "2026-10-06T22:06:05Z",
     "expires_at": "2026-10-06T23:36:05Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-06T22:20:29Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
     "timestamp_basis": "session UTC observation 2026-10-06T22:06:05Z; lease commit records the exact publication timestamp",
     "previous_owner": "chatgpt-audit-20261006232000",
     "previous_expiry": "2026-10-06T22:50:00Z",
-    "next_action": "Traiter un constat autonome de priorité 8 pendant que PAPERS-01 reste bloqué par le backend externe.",
-    "snapshot_at": "2026-10-06T22:06:05Z",
-    "verified_merged_prs": 56,
-    "canonical_registry_merged_prs": 56,
-    "closed_findings": 48,
-    "remaining_findings": 53
+    "next_action": "BF-KV-04 clos; sélectionner le prochain constat autonome, PAPERS-01 restant bloqué externe.",
+    "snapshot_at": "2026-10-06T22:20:29Z",
+    "verified_merged_prs": 57,
+    "canonical_registry_merged_prs": 57,
+    "closed_findings": 49,
+    "remaining_findings": 52,
+    "batch": 2,
+    "batch_merged_prs": 7
   },
   "capabilities": [
     {
