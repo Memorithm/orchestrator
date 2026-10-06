@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-05T09:22:29Z",
+  "updated_at": "2026-10-06T19:24:17Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -4500,6 +4500,64 @@
       "proof": "docs/audit-global/proofs/FieldLab-57-B-FL-03.json",
       "finding_status": "resolved",
       "reconciled_at": "2026-10-05T09:22:29Z"
+    },
+    {
+      "repository": "Memorithm/CCOS-Core",
+      "number": 33,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/33",
+      "base": "main",
+      "base_sha": "e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb",
+      "head_sha": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
+      "merge_sha": null,
+      "status": "waiting_ci",
+      "ids": [
+        "MEM-05"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 37518164982,
+          "name": "CI",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37518164982"
+        },
+        {
+          "id": 37518164305,
+          "name": "Periodic Security Validation",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37518164305"
+        },
+        {
+          "id": 37518164460,
+          "name": "Security Audit",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37518164460"
+        },
+        {
+          "id": 37518164532,
+          "name": "Strict BEIR import",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37518164532"
+        }
+      ],
+      "previous_attempts": [
+        {
+          "head_sha": "c77c97125a4ee35ba807f4e4e4ac115886948611",
+          "run": 37517530258,
+          "status": "failed_corrected",
+          "reason": "cargo-fuzz installed under the pinned nightly, then exposed fuzz/Cargo.toml as an undeclared root-workspace member; the harness is now an explicit standalone workspace"
+        }
+      ],
+      "finding_status": "waiting_ci",
+      "last_observed_at": "2026-10-06T19:24:17Z"
     }
   ],
   "repository_observations": [
@@ -6101,16 +6159,24 @@
         "Épingler la version/outillage fuzz compatible avec toolchain dédiée, retirer le succès forcé et archiver corpus/crash; construire explicitement --features llm --bin ccos pour reproductibilité.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+      "status": "waiting_ci",
+      "current_head": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
       "default_branch": "main",
       "audit_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
+      "head_reconciliation": "audit_defect_confirmed_on_default_head_e992fa351cdd; candidate_open_on_exact_base",
+      "policy_review": "Root AGENTS, mandatory off-main roadmap and PolyForm notices read before modification; Core product boundary, deterministic replay and licenses unchanged.",
+      "prs": [
+        {
+          "number": 33,
+          "url": "https://github.com/Memorithm/CCOS-Core/pull/33",
+          "base_sha": "e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb",
+          "head_sha": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
+          "status": "waiting_ci"
+        }
+      ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "last_observed_at": "2026-10-06T21:24:17+02:00",
+      "next_action": "Attendre les runs exacts 37518164982, 37518164305, 37518164460 et 37518164532 sur e17c7603; inspecter tout échec et les revues, puis fusionner uniquement si tous les gates sont réellement réussis."
     },
     {
       "id": "MEM-06",

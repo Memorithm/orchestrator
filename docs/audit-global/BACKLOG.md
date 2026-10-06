@@ -32,7 +32,7 @@
 | MEM-02 | Memorithm/CCOS-Core | 6 | résolu | [preuve](proofs/CCOS-Core-32-MEM-02.json), [PR #32](https://github.com/Memorithm/CCOS-Core/pull/32) |
 | MEM-03 | Memorithm/CCOS-Core | 1 | résolu | [preuve](proofs/CCOS-Core-MEM-03-bounded-persistence.json), [PR #31](https://github.com/Memorithm/CCOS-Core/pull/31) |
 | MEM-04 | Memorithm/CCOS-Core | 2 | résolu |  |
-| MEM-05 | Memorithm/CCOS-Core | 8 | à faire |  |
+| MEM-05 | Memorithm/CCOS-Core | 8 | attente CI | [PR #33](https://github.com/Memorithm/CCOS-Core/pull/33), HEAD `e17c7603c7859ece60cdb3d767b6a7cf5472a934` |
 | MEM-06 | Memorithm/CCOS-Core | 9 | à faire |  |
 | MEM-07 | Memorithm/CCOS-Enterprise | 9 | à faire |  |
 | MEM-08 | Memorithm/CCOS-Enterprise | 9 | à faire | MEM-02, MEM-03, MEM-04 |
