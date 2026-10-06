@@ -41,8 +41,15 @@
             {"id": 37518164982, "name": "CI", "status": "queued", "conclusion": null},
             {"id": 37518164305, "name": "Periodic Security Validation", "status": "queued", "conclusion": null},
             {"id": 37518164460, "name": "Security Audit", "status": "queued", "conclusion": null},
-            {"id": 37518164532, "name": "Strict BEIR import", "status": "queued", "conclusion": null}
+            {"id": 37518164532, "name": "Strict BEIR import", "status": "completed", "conclusion": "success"}
           ],
+          "review": {
+            "thread": "PRRT_kwDOTkLq_s6pn48Q",
+            "source_head": "c77c97125a4ee35ba807f4e4e4ac115886948611",
+            "finding": "fuzz manifest lacked an explicit root-workspace membership or independent workspace",
+            "fixed_head": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
+            "status": "replied_and_resolved"
+          },
           "local_checks": ["YAML parse", "git diff --check", "static workflow pin and command inspection"],
           "local_rust_tests_claimed": false,
           "reason_for_wait": "All exact-head workflow runs are queued; no stale run can qualify the candidate.",

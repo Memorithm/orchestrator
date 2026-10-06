@@ -3,8 +3,8 @@
   "owner": "chatgpt-audit-20261006T192859-review",
   "acquired_at": "2026-10-06T19:28:59Z",
   "expires_at": "2026-10-06T20:58:59Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-06T19:29:48Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
   "previous_owner": "chatgpt-audit-20261006T190701",
@@ -25,9 +25,9 @@
     "finding": "MEM-05",
     "pull_request": 33,
     "head": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
-    "reason": "Resolve the exact automated review thread after the candidate commit corrected the independently reproduced fuzz workspace failure."
+    "reason": "Resolved the exact automated review thread after the candidate commit corrected the independently reproduced fuzz workspace failure."
   },
-  "next_action": "Reply with exact correction and run evidence, resolve the review thread, then release the lease while exact-head CI continues.",
+  "next_action": "Reconcile CCOS-Core #33 and exact-head runs 37518164982, 37518164305 and 37518164460; Strict BEIR import 37518164532 is already successful. Merge only after every remaining gate succeeds and no unresolved review thread exists, then validate the target branch.",
   "verified_merged_prs": 52,
   "canonical_registry_merged_prs": 52,
   "closed_findings": 43,
