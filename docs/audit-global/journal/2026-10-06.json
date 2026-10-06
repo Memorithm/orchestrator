@@ -38,10 +38,30 @@
             "reason": "fuzz/Cargo.toml was interpreted as part of the root workspace without being declared"
           },
           "checks": [
-            {"id": 37518164982, "name": "CI", "status": "queued", "conclusion": null},
-            {"id": 37518164305, "name": "Periodic Security Validation", "status": "queued", "conclusion": null},
-            {"id": 37518164460, "name": "Security Audit", "status": "queued", "conclusion": null},
-            {"id": 37518164532, "name": "Strict BEIR import", "status": "completed", "conclusion": "success"}
+            {
+              "id": 37518164982,
+              "name": "CI",
+              "status": "queued",
+              "conclusion": null
+            },
+            {
+              "id": 37518164305,
+              "name": "Periodic Security Validation",
+              "status": "queued",
+              "conclusion": null
+            },
+            {
+              "id": 37518164460,
+              "name": "Security Audit",
+              "status": "queued",
+              "conclusion": null
+            },
+            {
+              "id": 37518164532,
+              "name": "Strict BEIR import",
+              "status": "completed",
+              "conclusion": "success"
+            }
           ],
           "review": {
             "thread": "PRRT_kwDOTkLq_s6pn48Q",
@@ -50,10 +70,18 @@
             "fixed_head": "e17c7603c7859ece60cdb3d767b6a7cf5472a934",
             "status": "replied_and_resolved"
           },
-          "local_checks": ["YAML parse", "git diff --check", "static workflow pin and command inspection"],
+          "local_checks": [
+            "YAML parse",
+            "git diff --check",
+            "static workflow pin and command inspection"
+          ],
           "local_rust_tests_claimed": false,
           "reason_for_wait": "All exact-head workflow runs are queued; no stale run can qualify the candidate.",
-          "dependencies": ["GitHub Actions runner availability", "exact-head CI conclusions", "review threads"],
+          "dependencies": [
+            "GitHub Actions runner availability",
+            "exact-head CI conclusions",
+            "review threads"
+          ],
           "next_action": "Inspect every exact-head run and review; correct failures and rerun, or merge with exact-head guard only after complete success, then validate the target SHA."
         }
       ],
@@ -91,16 +119,60 @@
             "Merged PR 33 by squash with expected_head_sha, then validated all push-triggered workflows on the integrated main SHA."
           ],
           "candidate_checks": [
-            {"id": 37524938443, "name": "CI", "status": "completed", "conclusion": "success"},
-            {"id": 37524938440, "name": "Periodic Security Validation", "status": "completed", "conclusion": "success"},
-            {"id": 37524938507, "name": "Security Audit", "status": "completed", "conclusion": "success"},
-            {"id": 37524938478, "name": "Strict BEIR import", "status": "completed", "conclusion": "success"}
+            {
+              "id": 37524938443,
+              "name": "CI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37524938440,
+              "name": "Periodic Security Validation",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37524938507,
+              "name": "Security Audit",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37524938478,
+              "name": "Strict BEIR import",
+              "status": "completed",
+              "conclusion": "success"
+            }
           ],
           "target_checks": [
-            {"id": 37526016554, "name": "CI", "event": "push", "status": "completed", "conclusion": "success"},
-            {"id": 37526016539, "name": "Periodic Security Validation", "event": "push", "status": "completed", "conclusion": "success"},
-            {"id": 37526016759, "name": "Security Audit", "event": "push", "status": "completed", "conclusion": "success"},
-            {"id": 37526016597, "name": "Strict BEIR import", "event": "push", "status": "completed", "conclusion": "success"}
+            {
+              "id": 37526016554,
+              "name": "CI",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37526016539,
+              "name": "Periodic Security Validation",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37526016759,
+              "name": "Security Audit",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37526016597,
+              "name": "Strict BEIR import",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            }
           ],
           "fuzz_evidence": {
             "candidate_executions": 6927648,
@@ -113,7 +185,10 @@
             "thread": "PRRT_kwDOTkLq_s6pn48Q",
             "status": "resolved"
           },
-          "local_checks": ["git diff --check", "static workflow pin, deadline and command inspection"],
+          "local_checks": [
+            "git diff --check",
+            "static workflow pin, deadline and command inspection"
+          ],
           "local_rust_tests_claimed": false,
           "dependencies": [],
           "next_action": "Closed with versioned proof; select the next unresolved priority after source and policy reconciliation."
@@ -152,33 +227,174 @@
             "Revalidated the final exact candidate head, resolved the lockfile provenance review thread, merged PR 75 by squash with expected_head_sha, and verified both target push workflows on the integrated main SHA."
           ],
           "candidate_checks": [
-            {"id": 37529942380, "name": "CI", "status": "completed", "conclusion": "success"},
-            {"id": 37529942679, "name": "Research report smoke contracts", "status": "completed", "conclusion": "success"}
+            {
+              "id": 37529942380,
+              "name": "CI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37529942679,
+              "name": "Research report smoke contracts",
+              "status": "completed",
+              "conclusion": "success"
+            }
           ],
           "target_checks": [
-            {"id": 37530257420, "name": "Research report smoke contracts", "event": "push", "status": "completed", "conclusion": "success"},
-            {"id": 37530257496, "name": "CI", "event": "push", "status": "completed", "conclusion": "success"}
+            {
+              "id": 37530257420,
+              "name": "Research report smoke contracts",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37530257496,
+              "name": "CI",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            }
           ],
           "review": {
             "thread": "PRRT_kwDOUVwLDs6pp3Y9",
             "status": "replied_and_resolved"
           },
           "proof": "docs/audit-global/proofs/NoiseLab-75-B-NL-03.json",
-          "local_checks": ["cargo fmt --all -- --check", "cargo check --locked --all-targets", "cargo clippy --locked --all-targets -- -D warnings", "cargo test --locked", "git diff --check"],
+          "local_checks": [
+            "cargo fmt --all -- --check",
+            "cargo check --locked --all-targets",
+            "cargo clippy --locked --all-targets -- -D warnings",
+            "cargo test --locked",
+            "git diff --check"
+          ],
           "dependencies": [],
           "next_action": "Select the next unresolved priority after source and policy reconciliation; retain NoiseLab lockfile provenance on future dependency updates."
+        }
+      ],
+      "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-06T23:18:58+02:00",
+      "observed_session_start": "2026-10-06T23:05:20+02:00",
+      "lease_owner": "chatgpt-audit-20261006210311",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 5,
+        "batch_target": 50,
+        "merged_prs": 55,
+        "closed_findings": 46,
+        "remaining_findings": 55,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "BF-BL-01",
+          "repository": "Memorithm/BooleanLab",
+          "status": "resolved",
+          "base_sha": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9",
+          "pr": 135,
+          "url": "https://github.com/Memorithm/BooleanLab/pull/135",
+          "candidate_head_sha": "7c088ec186ce28b8c6d3ec81b1adb8c976a867c3",
+          "merge_sha": "df125c7e5d061030332da01d90a377d9db353a6d",
+          "actions": [
+            "Reconciled the Library finding and current BooleanLab main HEAD; confirmed the floating action references, unlocked dependency resolution and missing root Cargo.lock.",
+            "Read root AGENTS.md, the mandatory off-main BooleanLab and ElasticXxx overlays and PolyForm notices before changing the experimental bench.",
+            "Generated and committed Cargo.lock with Cargo 1.89.0, pinned workflow actions by full SHA, changed cargo operations to --locked, and required the checked-in lockfile instead of regenerating it.",
+            "Corrected the first candidate failure by pinning the explicit Rust 1.89.0 campaign toolchain after stable CI advanced to Rust 1.99 and exposed existing assert-is-empty Clippy errors.",
+            "Merged PR 135 by squash with expected_head_sha and validated the exact integrated main SHA with every push-scoped required workflow."
+          ],
+          "candidate_checks": [
+            {
+              "id": 37531936203,
+              "name": "CI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37531936253,
+              "name": "BL-BE5 Elastic profile evidence",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37531936510,
+              "name": "BL-14 structured ReLU development",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37531936152,
+              "name": "BL-14 relational ReLU development",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37531936183,
+              "name": "BL-14 matched topology budget",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ],
+          "target_checks": [
+            {
+              "id": 37532123927,
+              "name": "CI",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37532123873,
+              "name": "BL-14 structured ReLU development",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37532123841,
+              "name": "BL-14 matched topology budget",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 37532123762,
+              "name": "BL-14 relational ReLU development",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ],
+          "review": {
+            "unresolved_threads": 0,
+            "status": "no unresolved review threads observed"
+          },
+          "local_checks": [
+            "cargo fmt --all -- --check",
+            "cargo check --locked --workspace --all-targets",
+            "cargo clippy --locked --workspace --all-targets -- -D warnings",
+            "cargo test --locked --workspace",
+            "git diff --check"
+          ],
+          "dependencies": [],
+          "next_action": "Sélectionner le prochain constat non résolu après relecture de sa source et des politiques du dépôt; conserver le lockfile et les pins SHA dans toute évolution future."
         }
       ],
       "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "merged_prs_added": 2,
-    "findings_closed_added": 2,
-    "pull_requests_opened": ["Memorithm/CCOS-Core#33", "Memorithm/NoiseLab#75"],
-    "current_batch": "4/50",
-    "total_merged_prs": 54,
-    "closed_findings": 45,
-    "remaining_findings": 56
+    "merged_prs_added": 3,
+    "findings_closed_added": 3,
+    "pull_requests_opened": [
+      "Memorithm/CCOS-Core#33",
+      "Memorithm/NoiseLab#75",
+      "Memorithm/BooleanLab#135"
+    ],
+    "current_batch": "5/50",
+    "total_merged_prs": 55,
+    "closed_findings": 46,
+    "remaining_findings": 55
   }
 }

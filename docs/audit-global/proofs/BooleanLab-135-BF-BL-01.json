@@ -1,0 +1,83 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-06T21:18:58Z",
+  "finding": {
+    "id": "BF-BL-01",
+    "repository": "Memorithm/BooleanLab",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#BF-BL-01",
+    "audit_sha": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9",
+    "current_base_before_change": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9"
+  },
+  "pr": {
+    "number": 135,
+    "url": "https://github.com/Memorithm/BooleanLab/pull/135",
+    "base": "main",
+    "base_sha": "936a3b475b4a158ea5e9ad880910cdf7ac79f4d9",
+    "head_sha": "7c088ec186ce28b8c6d3ec81b1adb8c976a867c3",
+    "merge_sha": "df125c7e5d061030332da01d90a377d9db353a6d",
+    "merged_at": "2026-10-06T21:11:45Z",
+    "method": "squash with expected_head_sha"
+  },
+  "acceptance": {
+    "result": "qualified",
+    "summary": "BooleanLab now carries a versioned Cargo.lock, uses --locked dependency resolution in CI, pins workflow actions by immutable commit SHA, and records the explicit Rust 1.89 campaign toolchain.",
+    "verified_properties": [
+      "Root Cargo.lock was generated with Cargo 1.89.0 and committed for the workspace dependency graph.",
+      "CI, BL-14 and BL-BE5 cargo operations use --locked where dependency resolution is required.",
+      "Workflow actions touched by the remediation are pinned to full commit SHAs.",
+      "The campaign toolchain is explicitly pinned to Rust 1.89.0, matching the declared MSRV campaign boundary.",
+      "The workflow no longer regenerates the lockfile; it requires the versioned lockfile to exist.",
+      "AGENTS.md, the mandatory off-main BooleanLab and ElasticXxx overlays, and PolyForm notices were read before merge; the experimental bench boundary is preserved."
+    ],
+    "limitations": [
+      "The checked-in lockfile freezes the dependency graph for this source revision; intentional future updates require review and a new qualified lockfile.",
+      "The CI runs on GitHub-hosted runners and does not qualify other operating systems or hardware."
+    ]
+  },
+  "candidate_validation": {
+    "head_sha": "7c088ec186ce28b8c6d3ec81b1adb8c976a867c3",
+    "runs": [
+      {"id": 37531936203, "name": "CI", "conclusion": "success"},
+      {"id": 37531936253, "name": "BL-BE5 Elastic profile evidence", "conclusion": "success"},
+      {"id": 37531936510, "name": "BL-14 structured ReLU development", "conclusion": "success"},
+      {"id": 37531936152, "name": "BL-14 relational ReLU development", "conclusion": "success"},
+      {"id": 37531936183, "name": "BL-14 matched topology budget", "conclusion": "success"}
+    ],
+    "local_checks": [
+      "cargo fmt --all -- --check",
+      "cargo check --locked --workspace --all-targets",
+      "cargo clippy --locked --workspace --all-targets -- -D warnings",
+      "cargo test --locked --workspace",
+      "git diff --check"
+    ]
+  },
+  "target_validation": {
+    "head_sha": "df125c7e5d061030332da01d90a377d9db353a6d",
+    "runs": [
+      {"id": 37532123927, "name": "CI", "event": "push", "conclusion": "success"},
+      {"id": 37532123873, "name": "BL-14 structured ReLU development", "event": "push", "conclusion": "success"},
+      {"id": 37532123841, "name": "BL-14 matched topology budget", "event": "push", "conclusion": "success"},
+      {"id": 37532123762, "name": "BL-14 relational ReLU development", "event": "push", "conclusion": "success"}
+    ],
+    "target_branch": "main",
+    "head_matches_merge_sha": true,
+    "note": "The BL-BE5 workflow is pull-request scoped and therefore has no separate push run; its exact candidate run is retained above."
+  },
+  "review": {
+    "unresolved_threads": 0,
+    "all_resolved": true
+  },
+  "policy": {
+    "source_and_policy_read_before_merge": true,
+    "experimental_boundary_preserved": true,
+    "excluded_repositories_modified": []
+  },
+  "counting": {
+    "batch": 2,
+    "unique_key": "Memorithm/BooleanLab#135",
+    "merged_pr_increment": 1,
+    "finding_closed_increment": 1,
+    "rule": "Count the technical PR exactly once; tracker commits are not counted."
+  }
+}
