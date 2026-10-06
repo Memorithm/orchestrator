@@ -11,8 +11,8 @@
   "previous_expiry": "2026-10-06T22:15:15.612Z",
   "canonical_counts": {
     "merged_prs": 55,
-    "closed_findings": 46,
-    "remaining_findings": 55,
+    "closed_findings": 47,
+    "remaining_findings": 54,
     "backlog": 101
   },
   "batch": {
@@ -20,9 +20,9 @@
     "merged_prs": 5,
     "target": 50
   },
-  "next_action": "Traiter PAPERS-01 sur le HEAD actuel après lecture des instructions, licences et limites d'exécution.",
+  "next_action": "PAPERS-01 reste bloqué en attente de backend externe qualifié; sélectionner le prochain chantier autonome.",
   "verified_merged_prs": 55,
   "canonical_registry_merged_prs": 55,
-  "closed_findings": 46,
-  "remaining_findings": 55
+  "closed_findings": 47,
+  "remaining_findings": 54
 }
