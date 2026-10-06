@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-20261005T090012",
-  "acquired_at": "2026-10-05T09:00:12Z",
-  "expires_at": "2026-10-05T10:30:12Z",
+  "owner": "chatgpt-audit-20261006T190701",
+  "acquired_at": "2026-10-06T19:07:01Z",
+  "expires_at": "2026-10-06T20:37:01Z",
   "released_at": null,
   "status": "active",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "previous_owner": "chatgpt-audit-20261004T093600-observed",
-  "previous_expiry": "2026-10-04T11:06:00Z",
+  "previous_owner": "chatgpt-audit-20261005T090012",
+  "previous_expiry": "2026-10-05T10:30:12Z",
   "canonical_counts": {
     "merged_prs": 52,
     "closed_findings": 43,
@@ -24,9 +24,9 @@
     "repository": "Memorithm/CCOS-Core",
     "finding": "MEM-05",
     "base": "e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb",
-    "reason": "Highest-severity independent priority-8 finding after B-RH-01 and B-FL-03 closure; no existing MEM-05 PR observed."
+    "reason": "Resume the highest-severity adopted finding after the prior lease expired; no MEM-05 pull request exists and the defect remains on the current default-branch HEAD."
   },
-  "next_action": "Repair CCOS-Core periodic security validation: pin dedicated fuzz toolchain and cargo-fuzz version, remove forced fuzz success, retain corpus/crash artifacts, explicitly build --features llm --bin ccos for reproducibility; execute the workflow on exact candidate if dispatch is available and require exact-head repository CI before merge.",
+  "next_action": "Repair periodic security validation on an isolated branch, validate exact-head CI, then merge only if all applicable checks and review gates succeed.",
   "verified_merged_prs": 52,
   "canonical_registry_merged_prs": 52,
   "closed_findings": 43,
