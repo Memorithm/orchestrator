@@ -1,14 +1,12 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-20261007160952",
-  "acquired_at": "2026-10-07T14:12:00Z",
-  "expires_at": "2026-10-07T15:42:00Z",
-  "released_at": "2026-10-07T14:48:01Z",
-  "status": "released",
+  "owner": "chatgpt-audit-20261007165250",
+  "acquired_at": "2026-10-07T14:54:08Z",
+  "expires_at": "2026-10-07T16:24:08Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
-  "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-  "previous_owner": "chatgpt-audit-20261007151147",
-  "previous_expiry": "2026-10-07T14:42:00Z",
+  "previous_owner": "chatgpt-audit-20261007160952",
   "canonical_counts": {
     "merged_prs": 71,
     "closed_findings": 61,
@@ -19,10 +17,5 @@
     "merged_prs": 21,
     "target": 50
   },
-  "next_action": "Réconcilier la CI de CCOS-Core #34 sur e0d268c5a704a5e6a9b424724ecbcbfa423809ca, puis fusionner si verte; réconcilier aussi les CI cibles scirust-hub #84 et TurboQuant #17.",
-  "verified_merged_prs": 71,
-  "canonical_registry_merged_prs": 71,
-  "closed_findings": 61,
-  "remaining_findings": 40,
-  "batch_merged_prs": 21
+  "rule": "CAS branch head, verify owner/expiry before mutations"
 }
