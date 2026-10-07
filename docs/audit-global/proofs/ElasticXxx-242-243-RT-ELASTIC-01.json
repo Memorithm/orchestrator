@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "finding": "RT-ELASTIC-01",
+  "repository": "Memorithm/ElasticXxx",
+  "default_branch": "main",
+  "audit_head": "109d62c06a98b064ee6a7286bb986a860bada53e",
+  "observed_base": "13c41a88c0ff3775c948b0fe6fae9e01735fa1a7",
+  "policy": {
+    "visibility": "public",
+    "pull_request_creation": "collaborators_only",
+    "license": "PolyForm Noncommercial 1.0.0",
+    "interpretation": "La politique collaborateurs_only est un contexte, pas une preuve d'exposition publique ni de compromission. La correction empêche néanmoins tout head de fork de réserver les runners persistants et lui fournit une validation portable hébergée."
+  },
+  "pull_requests": [
+    {
+      "number": 242,
+      "url": "https://github.com/Memorithm/ElasticXxx/pull/242",
+      "head_sha": "238c18de8258fb1c54f1f4aec730afeb5a66855d",
+      "merge_sha": "96fe65735b9e668bdd8daf2711c615a5cf4c8096",
+      "tree_sha": "dbd3c4e829dcb832025975485914ca469d43585d",
+      "merge_method": "squash_with_expected_head_sha",
+      "purpose": "Installer depuis la branche par défaut les définitions pull_request_target, les gardes same-repository avant allocation persistante et le fallback hosted complet.",
+      "review": "Codex exact-head completed without major issue; zero unresolved threads",
+      "bootstrap_limit": "Les nouvelles définitions pull_request_target ne pouvaient pas s'exécuter avant leur installation sur main; la PR #243 constitue la qualification installée."
+    },
+    {
+      "number": 243,
+      "url": "https://github.com/Memorithm/ElasticXxx/pull/243",
+      "head_sha": "e492fc3619933fa5cc8d53f8fe46de1c183b71e4",
+      "merge_sha": "958ce6301730ceeec4bb1252ff12222e5bb7d431",
+      "tree_sha": "cfb6a112b0f526515681daed38f75c18a36cbeb3",
+      "merge_method": "squash_with_expected_head_sha",
+      "purpose": "Documenter la frontière et déclencher les quatorze définitions installées sur un HEAD exact same-repository.",
+      "review": "Codex exact-head completed without major issue; zero unresolved threads"
+    }
+  ],
+  "candidate_runs_pr_243": [
+    {"id": 37554468053, "name": "ci", "conclusion": "success"},
+    {"id": 37554468052, "name": "packageability", "conclusion": "success"},
+    {"id": 37554468009, "name": "release-candidate-prepublication", "conclusion": "success"},
+    {"id": 37554468081, "name": "BE13 retained evidence integrity", "conclusion": "success"},
+    {"id": 37554468008, "name": "BE13 portable Boolean benchmark smoke", "conclusion": "success"},
+    {"id": 37554468011, "name": "BE14e representation admission benchmark smoke", "conclusion": "success"},
+    {"id": 37554468016, "name": "BE14f kernel realization benchmark smoke", "conclusion": "success"},
+    {"id": 37554468019, "name": "BE14g batch device benchmark smoke", "conclusion": "success"},
+    {"id": 37554468135, "name": "BE14h thermal energy benchmark smoke", "conclusion": "success"},
+    {"id": 37554468041, "name": "BE14h real thermal power observer", "conclusion": "success"},
+    {"id": 37554468088, "name": "ELANG7 CPU-only reference", "conclusion": "success"},
+    {"id": 37554468024, "name": "ELANG7 Linux CPU observer", "conclusion": "success"},
+    {"id": 37554468015, "name": "External adapter v1 conformance", "conclusion": "success"},
+    {"id": 37554468029, "name": "continuous-hardening", "conclusion": "success"}
+  ],
+  "candidate_head": "e492fc3619933fa5cc8d53f8fe46de1c183b71e4",
+  "candidate_tree": "cfb6a112b0f526515681daed38f75c18a36cbeb3",
+  "target_head": "958ce6301730ceeec4bb1252ff12222e5bb7d431",
+  "target_tree": "cfb6a112b0f526515681daed38f75c18a36cbeb3",
+  "exact_tree_match": true,
+  "target_runs": [
+    {"id": 37555115338, "name": "packageability", "conclusion": "success"},
+    {"id": 37555115414, "name": "release-candidate-prepublication", "conclusion": "success"},
+    {"id": 37555115416, "name": "BE13 retained evidence integrity", "conclusion": "success"},
+    {"id": 37555115339, "name": "BE13 portable Boolean benchmark smoke", "conclusion": "success"},
+    {"id": 37555115473, "name": "BE14e representation admission benchmark smoke", "conclusion": "success"},
+    {"id": 37555115365, "name": "BE14f kernel realization benchmark smoke", "conclusion": "success"},
+    {"id": 37555115383, "name": "BE14g batch device benchmark smoke", "conclusion": "success"},
+    {"id": 37555115426, "name": "BE14h thermal energy benchmark smoke", "conclusion": "success"},
+    {"id": 37555115421, "name": "BE14h real thermal power observer", "conclusion": "success"},
+    {"id": 37555115520, "name": "ELANG7 CPU-only reference", "conclusion": "success"},
+    {"id": 37555115342, "name": "ELANG7 Linux CPU observer", "conclusion": "success"},
+    {"id": 37555115302, "name": "External adapter v1 conformance", "conclusion": "success"},
+    {"id": 37555115382, "name": "Memorithm fleet main CI", "conclusion": "success"}
+  ],
+  "validation_notes": [
+    "Les 14 workflows pull_request_target ont tous produit un run success sur le HEAD exact de #243.",
+    "Le job CI same-repository a exécuté le chemin persistant; le fork-validation mutuellement exclusif est réservé aux forks.",
+    "continuous-hardening a compilé les cibles fuzz et réussi ELANG9 exact-head hardening; ses étapes de fuzz prolongé et son job miri nocturne restent conditionnés aux événements non-PR et ne sont pas présentés comme exécutés.",
+    "Les 13 workflows push applicables ont réussi sur le SHA final intégré; CI et continuous-hardening n'ont pas de déclencheur push.",
+    "Le fallback hosted couvre tous les contrôles portables; la qualification thermique/INA238 reste un vrai contrôle matériel same-repository, pas un mock."
+  ],
+  "local_checks": [
+    "YAML parse of all 15 workflow files",
+    "structural policy: 14 pull_request_target workflows, zero pull_request workflows",
+    "exact PR repository/SHA checkout with persist-credentials:false",
+    "same-repository guard on all 11 persistent PR jobs",
+    "git diff --check",
+    "Stage B self-test",
+    "BooleanLab BE15a and TDI-9.3 BE15b fixture provenance",
+    "BE13 retained evidence validation and shell syntax",
+    "C process_metrics helper compilation"
+  ],
+  "local_limit": "Le runtime local ne contenait ni cargo ni rustc; aucune exécution Rust locale n'est revendiquée. Les commandes Rust ont été exécutées par GitHub Actions.",
+  "resolved_at": "2026-10-07T03:05:47+02:00"
+}

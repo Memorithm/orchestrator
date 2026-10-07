@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T00:15:04Z",
+  "updated_at": "2026-10-07T01:05:47Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 50,
-    "remaining": 51,
-    "merged_prs": 57
+    "closed": 51,
+    "remaining": 50,
+    "merged_prs": 59
   },
   "batches": [
     {
@@ -327,6 +327,16 @@
           "repository": "Memorithm/KVLab",
           "number": 182,
           "merge_sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5"
+        },
+        {
+          "repository": "Memorithm/ElasticXxx",
+          "number": 242,
+          "merge_sha": "96fe65735b9e668bdd8daf2711c615a5cf4c8096"
+        },
+        {
+          "repository": "Memorithm/ElasticXxx",
+          "number": 243,
+          "merge_sha": "958ce6301730ceeec4bb1252ff12222e5bb7d431"
         }
       ]
     }
@@ -4911,6 +4921,47 @@
         "cargo metadata --locked --manifest-path rust/bkv_scan/Cargo.toml --format-version 1",
         "YAML parse of three workflows; bash -n on modified scripts; locked EWW structural smoke; git diff --check"
       ]
+    },
+    {
+      "repository": "Memorithm/ElasticXxx",
+      "number": 242,
+      "url": "https://github.com/Memorithm/ElasticXxx/pull/242",
+      "base": "main",
+      "base_sha": "13c41a88c0ff3775c948b0fe6fae9e01735fa1a7",
+      "head_sha": "238c18de8258fb1c54f1f4aec730afeb5a66855d",
+      "merge_sha": "96fe65735b9e668bdd8daf2711c615a5cf4c8096",
+      "status": "merged_bootstrap_validated_by_followup",
+      "ids": ["RT-ELASTIC-01"],
+      "batch": 2,
+      "merged_at": "2026-10-07T00:52:21Z",
+      "merge_method": "squash with expected_head_sha guard",
+      "review": {"result": "exact-head clean", "unresolved_threads": 0},
+      "target_head": "96fe65735b9e668bdd8daf2711c615a5cf4c8096",
+      "target_checks": [37554218328, 37554218351, 37554218364, 37554218394, 37554218390, 37554218400, 37554218383, 37554218375, 37554218396, 37554218355, 37554218382, 37554218290, 37554218392],
+      "proof": "docs/audit-global/proofs/ElasticXxx-242-243-RT-ELASTIC-01.json",
+      "finding_status": "resolved_after_followup_243"
+    },
+    {
+      "repository": "Memorithm/ElasticXxx",
+      "number": 243,
+      "url": "https://github.com/Memorithm/ElasticXxx/pull/243",
+      "base": "main",
+      "base_sha": "96fe65735b9e668bdd8daf2711c615a5cf4c8096",
+      "head_sha": "e492fc3619933fa5cc8d53f8fe46de1c183b71e4",
+      "merge_sha": "958ce6301730ceeec4bb1252ff12222e5bb7d431",
+      "status": "merged_target_validated_exact_tree",
+      "ids": ["RT-ELASTIC-01"],
+      "batch": 2,
+      "merged_at": "2026-10-07T01:02:46Z",
+      "merge_method": "squash with expected_head_sha guard",
+      "checks": [37554468053, 37554468052, 37554468009, 37554468081, 37554468008, 37554468011, 37554468016, 37554468019, 37554468135, 37554468041, 37554468088, 37554468024, 37554468015, 37554468029],
+      "review": {"result": "exact-head clean", "unresolved_threads": 0},
+      "validated_tree": "cfb6a112b0f526515681daed38f75c18a36cbeb3",
+      "target_head": "958ce6301730ceeec4bb1252ff12222e5bb7d431",
+      "target_checks": [37555115338, 37555115414, 37555115416, 37555115339, 37555115473, 37555115365, 37555115383, 37555115426, 37555115421, 37555115520, 37555115342, 37555115302, 37555115382],
+      "proof": "docs/audit-global/proofs/ElasticXxx-242-243-RT-ELASTIC-01.json",
+      "finding_status": "resolved",
+      "reconciled_at": "2026-10-07T01:05:47Z"
     }
   ],
   "repository_observations": [
@@ -4968,11 +5019,12 @@
       "repository": "Memorithm/ElasticXxx",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "109d62c06a98b064ee6a7286bb986a860bada53e",
-      "tree_sha": "c164bdb0061d10b323de8b623936fa02d4396aed",
+      "current_head": "958ce6301730ceeec4bb1252ff12222e5bb7d431",
+      "tree_sha": "cfb6a112b0f526515681daed38f75c18a36cbeb3",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": null,
+      "observed_at": "2026-10-07T03:05:47+02:00"
     },
     {
       "repository": "Memorithm/ExtremEngine",
@@ -6085,16 +6137,44 @@
         "Garde head.repo==github.repository immédiatement; contributions externes sur hosted/runner éphémère isolé. Réduire permissions et secrets host; vérifier les autres workflows self-hosted avant adoption.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "109d62c06a98b064ee6a7286bb986a860bada53e",
+      "status": "resolved",
+      "current_head": "958ce6301730ceeec4bb1252ff12222e5bb7d431",
       "default_branch": "main",
       "audit_head": "109d62c06a98b064ee6a7286bb986a860bada53e",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "Le défaut persistait sur la base 13c41a88c0ff3775c948b0fe6fae9e01735fa1a7. #242 a installé les définitions trusted-base et les gardes; #243 a exercé ces définitions installées sur son HEAD exact puis intégré le même arbre validé.",
+      "policy_review": "AGENTS.md, roadmaps obligatoires et PolyForm Noncommercial 1.0.0 relus. La politique collaborators_only n'est pas présentée comme exposition publique ni preuve de compromission.",
+      "prs": [
+        {
+          "repository": "Memorithm/ElasticXxx",
+          "number": 242,
+          "url": "https://github.com/Memorithm/ElasticXxx/pull/242",
+          "base": "main",
+          "base_sha": "13c41a88c0ff3775c948b0fe6fae9e01735fa1a7",
+          "head_sha": "238c18de8258fb1c54f1f4aec730afeb5a66855d",
+          "merge_sha": "96fe65735b9e668bdd8daf2711c615a5cf4c8096",
+          "status": "merged_bootstrap_validated_by_followup"
+        },
+        {
+          "repository": "Memorithm/ElasticXxx",
+          "number": 243,
+          "url": "https://github.com/Memorithm/ElasticXxx/pull/243",
+          "base": "main",
+          "base_sha": "96fe65735b9e668bdd8daf2711c615a5cf4c8096",
+          "head_sha": "e492fc3619933fa5cc8d53f8fe46de1c183b71e4",
+          "merge_sha": "958ce6301730ceeec4bb1252ff12222e5bb7d431",
+          "status": "merged_target_validated_exact_tree"
+        }
+      ],
+      "resolution_evidence": [
+        "All 14 PR-capable workflows now use pull_request_target from the trusted default branch; zero pull_request workflow definitions remain.",
+        "All 11 persistent-runner PR jobs require the head repository to equal Memorithm/ElasticXxx before allocation and checkout the exact PR repository/SHA without persisted credentials.",
+        "Fork heads receive a GitHub-hosted fallback containing every portable workspace, release, packaging, evidence and benchmark gate; Thor thermal/INA238 remains an actual same-repository hardware qualification.",
+        "PR #243 exact head e492fc3619933fa5cc8d53f8fe46de1c183b71e4 passed all 14 installed pull_request_target workflows and exact-head Codex review with zero unresolved threads.",
+        "Final main 958ce6301730ceeec4bb1252ff12222e5bb7d431 has tree cfb6a112b0f526515681daed38f75c18a36cbeb3, identical to the validated candidate tree; all 13 applicable push workflows passed.",
+        "Proof: docs/audit-global/proofs/ElasticXxx-242-243-RT-ELASTIC-01.json"
+      ],
+      "last_observed_at": "2026-10-07T03:05:47+02:00",
+      "next_action": "Clos et target-qualified; conserver la définition trusted-base, le refus des forks sur runners persistants et le fallback hosted complet lors de toute évolution."
     },
     {
       "id": "RT-NNIS-01",
@@ -9185,21 +9265,21 @@
     "owner": "chatgpt-audit-20261007021504",
     "acquired_at": "2026-10-07T00:15:04Z",
     "expires_at": "2026-10-07T01:45:04Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-07T01:07:50Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
     "timestamp_basis": "session UTC observation 2026-10-07T00:15:04Z; lease commit records the exact publication timestamp",
     "previous_owner": "chatgpt-audit-20261007011300",
     "previous_expiry": "2026-10-07T00:43:00Z",
-    "next_action": "Traiter le prochain constat autonome de priorité 8; PAPERS-01 reste bloqué externe.",
-    "snapshot_at": "2026-10-07T00:15:04Z",
-    "verified_merged_prs": 57,
-    "canonical_registry_merged_prs": 57,
-    "closed_findings": 50,
-    "remaining_findings": 51,
+    "next_action": "Traiter le prochain constat autonome; RT-ELASTIC-01 est clos et PAPERS-01 reste bloqué externe.",
+    "snapshot_at": "2026-10-07T01:07:50Z",
+    "verified_merged_prs": 59,
+    "canonical_registry_merged_prs": 59,
+    "closed_findings": 51,
+    "remaining_findings": 50,
     "batch": 2,
-    "batch_merged_prs": 7
+    "batch_merged_prs": 9
   },
   "capabilities": [
     {
