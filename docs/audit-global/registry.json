@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T09:19:45+02:00",
+  "updated_at": "2026-10-07T10:21:49+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 54,
     "remaining": 47,
-    "merged_prs": 66
+    "merged_prs": 67
   },
   "batches": [
     {
@@ -372,6 +372,11 @@
           "repository": "Memorithm/KVLab",
           "number": 185,
           "merge_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7"
+        },
+        {
+          "repository": "Memorithm/KVLab",
+          "number": 186,
+          "merge_sha": "b6793546d27998f5122a449b3841f147b4214dba"
         }
       ]
     }
@@ -5234,40 +5239,46 @@
       "url": "https://github.com/Memorithm/KVLab/pull/186",
       "base": "main",
       "base_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
-      "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
-      "status": "waiting_ci",
+      "head_sha": "3c582b09a1489911508504db4d5a9a46d7d194e4",
+      "merge_sha": "b6793546d27998f5122a449b3841f147b4214dba",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "BF-KV-05"
       ],
       "batch": 2,
-      "validated_tree": "87f2a44f09ce76bc43750bf2f23d303310692e6d",
+      "merged_at": "2026-10-07T08:20:48Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "validated_tree": "1d9c1bd216ecc5eb8baedf10528eb65b243ee6aa",
+      "target_tree": "1d9c1bd216ecc5eb8baedf10528eb65b243ee6aa",
       "checks": [
         {
-          "id": 37586384266,
+          "id": 37592871594,
           "name": "CI",
-          "status": "queued",
-          "conclusion": null,
-          "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "3c582b09a1489911508504db4d5a9a46d7d194e4",
           "jobs": [
-            112677358551,
-            112677358861
+            112698315142,
+            112698315279
           ]
         },
         {
-          "id": 37586384412,
+          "id": 37592871592,
           "name": "EWW structural campaign smoke",
-          "status": "queued",
-          "conclusion": null,
-          "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "3c582b09a1489911508504db4d5a9a46d7d194e4",
           "jobs": [
-            112677359040
+            112698313988
           ]
         }
       ],
       "review": {
-        "result": "aucun fil de revue observé",
+        "result": "aucun avis soumis ni fil de revue; revalidé sur le HEAD exact avant fusion",
         "unresolved_threads": 0
       },
+      "target_checks": [],
+      "target_validation": "pending: no Memorithm fleet main CI run attached to b6793546d27998f5122a449b3841f147b4214dba after reconciliation",
       "finding_status": "waiting_ci",
       "proof": "docs/audit-global/proofs/KVLab-186-BF-KV-05-waiting-ci.json"
     }
@@ -9379,7 +9390,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+      "current_head": "b6793546d27998f5122a449b3841f147b4214dba",
       "default_branch": "main",
       "audit_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
       "head_reconciliation": "candidate_green_and_merged_with_expected_head_sha; subsequent main head retains the qualified tree plus BF-KV-02 and BF-KV-03; target_push_ci_not_observed",
@@ -9426,7 +9437,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+      "current_head": "b6793546d27998f5122a449b3841f147b4214dba",
       "default_branch": "main",
       "audit_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
       "head_reconciliation": "historical_proxy_claim_withdrawn; paired common-timer protocol merged with exact candidate CI; target push CI not observed",
@@ -9472,7 +9483,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+      "current_head": "b6793546d27998f5122a449b3841f147b4214dba",
       "default_branch": "main",
       "audit_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
       "head_reconciliation": "unsafe_recursive_delete_confirmed_on_reconciled_base; confined fail-closed replacement merged after exact candidate CI and review fixes; target push CI not observed",
@@ -9551,34 +9562,38 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+      "current_head": "b6793546d27998f5122a449b3841f147b4214dba",
       "default_branch": "main",
       "audit_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
-      "head_reconciliation": "finding_confirmed_on_main_9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7; bounded_budget_candidate_open_waiting_exact_head_ci",
+      "head_reconciliation": "finding_confirmed_on_main_9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7; candidate_green_and_merged_with_expected_head_sha; exact integrated tree matches; target CI absent",
       "policy_review": "Root AGENTS.md, four mandatory programme documents, off-main ecosystem roadmap and PolyForm Noncommercial notices read; deterministic scientific and no-performance-claim boundaries preserved.",
       "prs": [
         {
           "number": 186,
           "url": "https://github.com/Memorithm/KVLab/pull/186",
           "base_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
-          "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
-          "status": "waiting_ci"
+          "head_sha": "3c582b09a1489911508504db4d5a9a46d7d194e4",
+          "merge_sha": "b6793546d27998f5122a449b3841f147b4214dba",
+          "status": "merged_waiting_target_ci"
         }
       ],
       "resolution_evidence": [
         {
           "proof": "docs/audit-global/proofs/KVLab-186-BF-KV-05-waiting-ci.json",
-          "candidate_head": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
-          "candidate_tree": "87f2a44f09ce76bc43750bf2f23d303310692e6d",
+          "candidate_head": "3c582b09a1489911508504db4d5a9a46d7d194e4",
+          "candidate_tree": "1d9c1bd216ecc5eb8baedf10528eb65b243ee6aa",
           "candidate_runs": [
-            37586384266,
-            37586384412
+            37592871594,
+            37592871592
           ],
-          "status": "waiting_candidate_ci"
+          "merge_sha": "b6793546d27998f5122a449b3841f147b4214dba",
+          "target_tree": "1d9c1bd216ecc5eb8baedf10528eb65b243ee6aa",
+          "target_runs": [],
+          "status": "waiting_target_ci"
         }
       ],
-      "last_observed_at": "2026-10-07T09:19:45+02:00",
-      "next_action": "Attendre la fin des jobs Rust, Python et EWW sur le HEAD exact; corriger tout échec, puis revalider diff, base, HEAD, revues et mergeabilité avant fusion."
+      "last_observed_at": "2026-10-07T10:21:49+02:00",
+      "next_action": "Réconcilier Memorithm fleet main CI sur b6793546d27998f5122a449b3841f147b4214dba; clore uniquement après succès exact de la branche cible."
     },
     {
       "id": "BF-BL-01",

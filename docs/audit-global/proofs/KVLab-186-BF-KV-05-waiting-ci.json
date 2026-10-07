@@ -10,8 +10,8 @@
   "pull_request": {
     "number": 186,
     "url": "https://github.com/Memorithm/KVLab/pull/186",
-    "candidate_head": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
-    "candidate_tree": "87f2a44f09ce76bc43750bf2f23d303310692e6d",
+    "candidate_head": "3c582b09a1489911508504db4d5a9a46d7d194e4",
+    "candidate_tree": "1d9c1bd216ecc5eb8baedf10528eb65b243ee6aa",
     "changed_files": 4,
     "unresolved_review_threads": 0
   },
@@ -31,32 +31,67 @@
       "git diff --check"
     ],
     "local_limit": "Cargo and rustfmt were unavailable; no local Rust execution is claimed.",
-    "candidate": [
+    "superseded_candidate_failures": [
       {
         "run_id": 37586384266,
         "name": "CI",
-        "status": "queued",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "failure",
         "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+        "failed_step": "rust-bkv / Format",
+        "correction": "Rustfmt exact diff applied in 1bf8a40c2e7f38973723770aee928ac67847a8f8"
+      },
+      {
+        "run_id": 37592683341,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "failure",
+        "head_sha": "1bf8a40c2e7f38973723770aee928ac67847a8f8",
+        "failed_step": "rust-bkv / Clippy",
+        "correction": "obsolete test locals removed in 3c582b09a1489911508504db4d5a9a46d7d194e4"
+      }
+    ],
+    "candidate": [
+      {
+        "run_id": 37592871594,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "3c582b09a1489911508504db4d5a9a46d7d194e4",
         "jobs": [
-          112677358551,
-          112677358861
+          112698315142,
+          112698315279
+        ],
+        "executed": [
+          "cargo fmt --check",
+          "cargo clippy --locked --all-targets -- -D warnings",
+          "cargo test --locked",
+          "locked dependency graph retention",
+          "Python compile and 586 tests"
         ]
       },
       {
-        "run_id": 37586384412,
+        "run_id": 37592871592,
         "name": "EWW structural campaign smoke",
-        "status": "queued",
-        "conclusion": null,
-        "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "3c582b09a1489911508504db4d5a9a46d7d194e4",
         "jobs": [
-          112677359040
+          112698313988
         ]
       }
     ]
   },
-  "status": "waiting_candidate_ci",
-  "reason_for_wait": "All three exact-head jobs remain queued; no required Rust validation has executed yet.",
-  "next_action": "Reconcile CI, correct failures if any, then revalidate exact base/head, diff, review threads, mergeability and required checks before merge.",
-  "observed_at": "2026-10-07T09:19:45+02:00"
+  "merge": {
+    "method": "squash_with_expected_head_sha",
+    "merged_at": "2026-10-07T10:20:48+02:00",
+    "merge_sha": "b6793546d27998f5122a449b3841f147b4214dba",
+    "target_tree": "1d9c1bd216ecc5eb8baedf10528eb65b243ee6aa",
+    "tree_identity": "candidate_equals_target"
+  },
+  "target_checks": [],
+  "status": "waiting_target_ci",
+  "reason_for_wait": "No Memorithm fleet main CI run is attached to the exact integrated SHA after reconciliation; a green candidate does not substitute for target validation.",
+  "next_action": "Reconcile the fleet main workflow on b6793546d27998f5122a449b3841f147b4214dba and close only after exact target success.",
+  "observed_at": "2026-10-07T10:21:49+02:00"
 }

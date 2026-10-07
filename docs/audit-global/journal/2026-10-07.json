@@ -1061,11 +1061,123 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T10:21:49+02:00",
+      "observed_session_start": "2026-10-07T10:13:53+02:00",
+      "lease_owner": "chatgpt-audit-20261007101353",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 17,
+        "batch_target": 50,
+        "merged_prs": 67,
+        "closed_findings": 54,
+        "remaining_findings": 47,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "BF-KV-05",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "base_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+          "pr": 186,
+          "candidate_head": "3c582b09a1489911508504db4d5a9a46d7d194e4",
+          "candidate_tree": "1d9c1bd216ecc5eb8baedf10528eb65b243ee6aa",
+          "merge_sha": "b6793546d27998f5122a449b3841f147b4214dba",
+          "target_tree": "1d9c1bd216ecc5eb8baedf10528eb65b243ee6aa",
+          "actions": [
+            "Réconcilié le premier CI: Python et EWW verts, mais Rustfmt en échec sur le HEAD ca719a52579617ed9a72a63d9e779f1b907be1b1.",
+            "Appliqué uniquement le diff Rustfmt et publié 1bf8a40c2e7f38973723770aee928ac67847a8f8 par mise à jour CAS.",
+            "Réconcilié le second CI: format et Python verts, mais Clippy strict signalait deux variables de test inutiles.",
+            "Supprimé les variables obsolètes sans changer le comportement et publié 3c582b09a1489911508504db4d5a9a46d7d194e4 par mise à jour CAS.",
+            "Relu les politiques obligatoires KVLab et Orchestrator, les roadmaps, HOLDOUTS et licences avant la décision.",
+            "Revalidé quatre fichiers, base et HEAD exacts, mergeabilité, absence de revue et de fil, puis fusionné par squash avec expected_head_sha.",
+            "Vérifié que l'arbre intégré est identique au candidat; aucun workflow fleet main n'est encore attaché au SHA intégré."
+          ],
+          "checks": {
+            "local": [
+              "586 tests Python après chaque correction",
+              "compileall Python",
+              "git diff --check"
+            ],
+            "candidate_runs": [
+              {
+                "id": 37592871594,
+                "name": "CI",
+                "status": "completed",
+                "conclusion": "success",
+                "jobs": [
+                  112698315142,
+                  112698315279
+                ]
+              },
+              {
+                "id": 37592871592,
+                "name": "EWW structural campaign smoke",
+                "status": "completed",
+                "conclusion": "success",
+                "jobs": [
+                  112698313988
+                ]
+              }
+            ],
+            "target_runs": []
+          },
+          "reason_for_wait": "Aucun run Memorithm fleet main CI n'est attaché au SHA intégré exact; la CI candidate ne remplace pas la qualification cible.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur b6793546d27998f5122a449b3841f147b4214dba"
+          ],
+          "proof": "docs/audit-global/proofs/KVLab-186-BF-KV-05-waiting-ci.json",
+          "next_action": "Réconcilier la CI cible et clore uniquement après succès exact."
+        },
+        {
+          "id": "BF-KV-01/BF-KV-02/BF-KV-03",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "current_main": "b6793546d27998f5122a449b3841f147b4214dba",
+          "actions": [
+            "Réconcilié le nouveau HEAD main cumulatif; aucun workflow fleet main n'est attaché."
+          ],
+          "reason_for_wait": "Validation cible toujours absente.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur le HEAD intégré exact"
+          ],
+          "next_action": "Ne clore les trois constats qu'après CI cible verte."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-05 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Restriction selected-workflow du runner group Thor non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor au workflow push de confiance et probe sûr de refus"
+          ],
+          "next_action": "Reprendre après preuve de restriction; ne pas clore avant."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-05 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps"
+          ],
+          "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": "2 — 16/50",
-    "merged_prs": 66,
+    "batch": "2 — 17/50",
+    "merged_prs": 67,
     "closed_findings": 54,
     "remaining_findings": 47,
     "newly_resolved": [
@@ -1087,6 +1199,6 @@
       "BF-KV-03",
       "BF-KV-05"
     ],
-    "next_action": "Réconcilier les jobs candidats de KVLab #186 et la CI fleet main; fusionner BF-KV-05 uniquement après succès exact-head, et ne clore BF-KV-01/02/03 qu'après succès cible."
+    "next_action": "Réconcilier la CI fleet main de KVLab sur b6793546d27998f5122a449b3841f147b4214dba et ne clore BF-KV-01/02/03/05 qu'après succès cible exact."
   }
 }
