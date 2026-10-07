@@ -1,0 +1,79 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "BF-KV-03"
+  ],
+  "repository": "Memorithm/KVLab",
+  "default_branch": "main",
+  "audit_revision": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+  "reconciled_base": "d7a60fc93556bd67c312614e6c3731df98c7b314",
+  "pull_request": {
+    "number": 185,
+    "url": "https://github.com/Memorithm/KVLab/pull/185",
+    "candidate_head": "aeee1e90ba5b6461accf0bff86053e7a3ef35ca0",
+    "candidate_tree": "211760d1cbf4efe90ecd717660e1122136908999",
+    "changed_files": 4,
+    "resolved_review_threads": 2,
+    "unresolved_review_threads": 0,
+    "merge_method": "squash_with_expected_head_sha",
+    "merge_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+    "target_tree": "211760d1cbf4efe90ecd717660e1122136908999"
+  },
+  "result": {
+    "unsafe_behavior_removed": "the EWW script no longer recursively deletes EWW_EVIDENCE_DIR",
+    "confinement": "only repository-relative descendants of target/ are accepted after canonicalization",
+    "preservation": "pre-existing paths, symlink components, traversal, target/ itself and control-character paths fail closed without deletion",
+    "ownership": "new evidence directories contain .kvlab-eww-evidence-owner",
+    "workflow_binding": "the EWW structural workflow now triggers when the confinement helper changes"
+  },
+  "review_fixes": [
+    {
+      "severity": "P1",
+      "thread": "PRRT_kwDOUTpDbc6pyCy9",
+      "result": "resolved on exact candidate head; LF, CR, tab and DEL regression verifies the trimmed sibling remains untouched"
+    },
+    {
+      "severity": "P2",
+      "thread": "PRRT_kwDOUTpDbc6pyCzC",
+      "result": "resolved on exact candidate head; helper path added to EWW workflow filters"
+    }
+  ],
+  "checks": {
+    "local": [
+      "python3 -m unittest tests.test_evidence_directory -v: 9 passed",
+      "python3 -m unittest discover -s tests -p 'test_*.py' -v: 586 passed",
+      "python3 -m compileall -q kvlab tests",
+      "bash -n scripts/run-eww-campaign-smoke.sh",
+      "YAML parse of .github/workflows/eww-structural-smoke.yml",
+      "git diff --check"
+    ],
+    "candidate": [
+      {
+        "run_id": 37581414275,
+        "name": "CI",
+        "conclusion": "success",
+        "head_sha": "aeee1e90ba5b6461accf0bff86053e7a3ef35ca0",
+        "jobs": [
+          112661707970,
+          112661708986
+        ],
+        "coverage": "Python compile and 586 tests; Rust format, Clippy, locked tests, locked dependency graph and retained artifact"
+      },
+      {
+        "run_id": 37581414409,
+        "name": "EWW structural campaign smoke",
+        "conclusion": "success",
+        "head_sha": "aeee1e90ba5b6461accf0bff86053e7a3ef35ca0",
+        "jobs": [
+          112661708743
+        ],
+        "coverage": "preregistered Rust EWW structural smoke and retained runner-local evidence"
+      }
+    ],
+    "target": []
+  },
+  "status": "waiting_target_ci",
+  "reason_for_wait": "No Memorithm fleet main CI run is attached to 9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7 after reconciliation.",
+  "next_action": "Observe a successful target run on the exact integrated SHA before closing BF-KV-03; the same run can qualify retained BF-KV-01 and BF-KV-02 changes.",
+  "observed_at": "2026-10-07T08:28:18+02:00"
+}

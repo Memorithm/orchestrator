@@ -806,11 +806,155 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T08:28:18+02:00",
+      "observed_session_start": "2026-10-07T08:14:52+02:00",
+      "lease_owner": "chatgpt-audit-20261007081452",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 16,
+        "batch_target": 50,
+        "merged_prs": 66,
+        "closed_findings": 54,
+        "remaining_findings": 47,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "BF-KV-03",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "base_sha": "d7a60fc93556bd67c312614e6c3731df98c7b314",
+          "pr": 185,
+          "candidate_head": "aeee1e90ba5b6461accf0bff86053e7a3ef35ca0",
+          "candidate_tree": "211760d1cbf4efe90ecd717660e1122136908999",
+          "merge_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+          "actions": [
+            "Revérifié sur main que EWW_EVIDENCE_DIR alimentait directement rm -rf sans confinement.",
+            "Remplacé la suppression par la création fail-closed d'un descendant neuf de target/ avec marqueur de propriété; refus des chemins absolus, traversants, préexistants, symlinkés ou contenant des caractères de contrôle.",
+            "Ajouté le helper au filtre du workflow EWW pour qualifier toute évolution future.",
+            "Corrigé les retours de revue P1 newline et P2 filtre de workflow, répondu aux fils et résolu les deux fils avant fusion.",
+            "Requalifié le nouveau HEAD exact par CI Python/Rust et smoke EWW, puis fusionné par squash avec expected_head_sha.",
+            "Confirmé l'identité des arbres candidat et cible; aucun run push cible n'est attaché au SHA intégré."
+          ],
+          "checks": {
+            "local": [
+              "9 tests ciblés",
+              "586 tests Python",
+              "compileall Python",
+              "bash -n",
+              "parse YAML du workflow",
+              "git diff --check"
+            ],
+            "candidate_runs": [
+              {
+                "id": 37581414275,
+                "name": "CI",
+                "conclusion": "success",
+                "jobs": [
+                  112661707970,
+                  112661708986
+                ]
+              },
+              {
+                "id": 37581414409,
+                "name": "EWW structural campaign smoke",
+                "conclusion": "success",
+                "jobs": [
+                  112661708743
+                ]
+              }
+            ],
+            "target_runs": []
+          },
+          "reason_for_wait": "Aucun run Memorithm fleet main CI n'est attaché à 9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7; la clôture attend la validation cible.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur le SHA intégré exact"
+          ],
+          "proof": "docs/audit-global/proofs/KVLab-185-BF-KV-03-waiting-target-ci.json",
+          "next_action": "Réconcilier le run cible et clore uniquement après succès."
+        },
+        {
+          "id": "BF-KV-01",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "current_main": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+          "actions": [
+            "Réconcilié le nouveau HEAD main qui conserve le changement de provenance; aucun workflow push cible n'est attaché."
+          ],
+          "reason_for_wait": "La validation de la branche cible reste absente.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur le HEAD main courant"
+          ],
+          "next_action": "Clore uniquement après CI cible verte."
+        },
+        {
+          "id": "BF-KV-02",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "current_main": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+          "actions": [
+            "Réconcilié le nouveau HEAD main qui conserve le protocole apparié; aucun workflow push cible n'est attaché."
+          ],
+          "reason_for_wait": "La validation de la branche cible reste absente.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur le HEAD main courant",
+            "Rerun matériel T430 v2 avant toute nouvelle promotion de performance"
+          ],
+          "next_action": "Clore uniquement après CI cible verte sans relâcher la frontière de revendication matérielle."
+        },
+        {
+          "id": "TRACKER-INTEGRITY",
+          "repository": "Memorithm/orchestrator",
+          "status": "resolved",
+          "actions": [
+            "Détecté que registry.json avait été remplacé au commit précédent par une sortie d'affichage tronquée non JSON.",
+            "Restauré la dernière version Git valide 7f76dce3493a03c6c166d5ef7e9591dba40f7b7d, puis réappliqué BF-KV-02 depuis sa preuve durable et réconcilié BF-KV-03.",
+            "Validé le JSON, les 101 IDs uniques, les compteurs et les tailles de lots avant publication."
+          ],
+          "checks": [
+            "parse JSON de registry.json",
+            "101 constats",
+            "lot 1: 50 PR uniques",
+            "lot 2: 16 PR uniques"
+          ],
+          "dependencies": [],
+          "next_action": "Conserver les gros blobs via lecture segmentée afin d'éviter toute troncature de transport."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-03 et l'intégrité du registre ont avancé indépendamment."
+          ],
+          "reason_for_wait": "Restriction selected-workflow du runner group Thor non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor au workflow push de confiance et probe sûr de refus"
+          ],
+          "next_action": "Reprendre après preuve de restriction; ne pas clore avant."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-03 et l'intégrité du registre ont avancé indépendamment."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps"
+          ],
+          "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": "2 — 15/50",
-    "merged_prs": 65,
+    "batch": "2 — 16/50",
+    "merged_prs": 66,
     "closed_findings": 54,
     "remaining_findings": 47,
     "newly_resolved": [
@@ -828,8 +972,9 @@
     "excluded_repositories_modified": [],
     "waiting_ci": [
       "BF-KV-01",
-      "BF-KV-02"
+      "BF-KV-02",
+      "BF-KV-03"
     ],
-    "next_action": "Réconcilier la CI fleet main de KVLab sur d7a60fc93556bd67c312614e6c3731df98c7b314, puis clore BF-KV-01 et BF-KV-02 uniquement après succès cible; poursuivre en parallèle les constats autonomes."
+    "next_action": "Réconcilier la CI fleet main de KVLab sur 9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7, puis clore BF-KV-01, BF-KV-02 et BF-KV-03 uniquement après succès cible; poursuivre en parallèle les constats autonomes."
   }
 }
