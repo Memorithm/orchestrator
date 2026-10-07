@@ -2172,6 +2172,97 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T17:21:57.068+02:00",
+      "observed_session_start": "2026-10-07T17:05:10+02:00",
+      "lease_owner": "chatgpt-audit-20261007170510",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 22,
+        "batch_target": 50,
+        "merged_prs": 72,
+        "closed_findings": 63,
+        "remaining_findings": 38,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-04",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "pr": 8,
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/8",
+          "candidate_head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
+          "merge_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
+          "actions": [
+            "CI candidat verte, 208 tests logiciels passés (dont 5 nouveaux tests arXiv), Clippy/doc/audit réussis.",
+            "Contrôles diff/base/HEAD/mergeable/branche non protégée/rulesets/revues puis fusion autorisée avec expected_head_sha; tree intégré identique."
+          ],
+          "candidate_checks": [
+            37641497816
+          ],
+          "target_checks": [
+            37642823135
+          ],
+          "proof": "docs/audit-global/proofs/PAPERS-AGENT-8-PAPERS-04-integrated-20261007.json",
+          "reason_for_wait": "CI exacte master intégré en cours; aucune clôture prématurée.",
+          "dependencies": [],
+          "next_action": "Réconcilier CI cible 37642823135 au SHA intégré 4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4; clore seulement si tests/gates complets réussis."
+        },
+        {
+          "id": "PAPERS-03",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "pr": 9,
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/9",
+          "candidate_head_sha": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
+          "base_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
+          "actions": [
+            "Vérifié le POST LabClient sur le HEAD actuel; corrigé retry/redirect/accusés inconnus.",
+            "Publié CLI GET de réconciliation et tests bornés; aucune idempotence serveur inventée.",
+            "13 tests ciblés exécutés dans un crate fixture temporaire bwrap sans réseau externe, environnement effacé, limites CPU/RAM/temps; blobs source vérifiés.",
+            "PR ouverte puis synchronisée avec master intégré pour relancer la CI sur nouveau HEAD."
+          ],
+          "local_checks": [
+            "rustfmt 1.9.0 edition2021",
+            "git diff --check",
+            "cargo test --offline --all-targets (fixture minimal, 13 passed, exit0; pas validation globale du dépôt)"
+          ],
+          "candidate_checks": [
+            37643001078
+          ],
+          "proof": "docs/audit-global/proofs/PAPERS-AGENT-9-PAPERS-03-waiting-ci.json",
+          "reason_for_wait": "CI complète nouveau HEAD queued; première exécution antérieure ne qualifie pas la nouvelle base.",
+          "dependencies": [],
+          "next_action": "Réconcilier CI exacte 37643001078 au HEAD aca2ec92e560de21a6fa06d7b0429f75414299ae; corriger tout échec; revalider base/HEAD/diff avant fusion."
+        },
+        {
+          "id": "MEM-01",
+          "repository": "Memorithm/CCOS-Core",
+          "status": "waiting_ci",
+          "pr": 34,
+          "candidate_head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+          "actions": [
+            "Réconciliation des 4 workflows du HEAD correctif; tous restent queued."
+          ],
+          "candidate_checks": [
+            37640972818,
+            37640972858,
+            37640972734,
+            37640973073
+          ],
+          "reason_for_wait": "Attente réelle GitHub Actions; pas de nouveau résultat fonctionnel cette période.",
+          "dependencies": [],
+          "next_action": "Attendre CI complète exacte, ne pas fusionner en attente."
+        }
+      ],
+      "external_obstacles": [
+        "Erreurs Internal error intermittentes create_blob/create_pull_request/merge/add_comment. Alternative autorisée create_tree avec contenu UTF-8 réussie; ouverture PR sans optional draft et fusion avec méthode par défaut autorisée réussies, toujours expected_head_sha.",
+        "Lecture admin branch protection indisponible (403); métadonnées protected=false et rulesets=[] vérifiées sans bypass.",
+        "Échecs sandbox fixture initiaux avant test (unpack cache readonly, cc symlink); configuration cache privée et linker explicite corrigées sans installation ni modification dépôt hôte."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -2206,5 +2297,14 @@
       "PAPERS-04"
     ],
     "next_action": "Réconcilier les deux PR ouvertes sur leurs HEAD exacts; fusionner seulement après gates vertes puis qualification cible."
+  },
+  "latest_counts": {
+    "batch": 2,
+    "batch_merged_prs": 22,
+    "batch_target": 50,
+    "merged_prs": 72,
+    "closed_findings": 63,
+    "remaining_findings": 38,
+    "backlog": 101
   }
 }

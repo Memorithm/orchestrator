@@ -8,15 +8,15 @@
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-20261007165250",
   "canonical_counts": {
-    "merged_prs": 71,
+    "merged_prs": 72,
     "closed_findings": 63,
     "remaining_findings": 38
   },
   "batch": {
     "number": 2,
-    "merged_prs": 21,
+    "merged_prs": 22,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "PAPERS-03 independent correction while exact-head candidate CI for PAPERS-04 and MEM-01 is queued."
+  "next_action": "Exact-head CI for PAPERS-AGENT #9, integrated CI for #8 and queued CCOS-Core #34; no double count."
 }

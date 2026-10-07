@@ -1,0 +1,362 @@
+{
+  "finding": "PAPERS-03",
+  "repository": "Memorithm/PAPERS-AGENT",
+  "pr": 9,
+  "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/9",
+  "base_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
+  "initial_head": "5ae900b9cf2d754349bec403890510573057c99f",
+  "head": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
+  "tree": "483fc5de3c13487a166fdf88d2eba3b7328d97bb",
+  "status": "open_waiting_ci",
+  "candidate_runs": [
+    {
+      "id": 37643001078,
+      "name": "CI",
+      "node_id": "WFR_kwLOS8iSH88AAAAIw7Kc9g",
+      "head_branch": "audit/papers-03-post-outcome",
+      "head_sha": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
+      "path": ".github/workflows/ci.yml",
+      "display_title": "fix(lab): prevent submission replay [PAPERS-03]",
+      "run_number": 79,
+      "event": "pull_request",
+      "status": "queued",
+      "conclusion": null,
+      "workflow_id": 332363561,
+      "check_suite_id": 101974717404,
+      "check_suite_node_id": "CS_kwDOS8iSH88AAAAXviqz3A",
+      "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078",
+      "html_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/37643001078",
+      "pull_requests": [
+        {
+          "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/pulls/9",
+          "id": 4774647333,
+          "number": 9,
+          "head": {
+            "ref": "audit/papers-03-post-outcome",
+            "sha": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
+            "repo": {
+              "id": 1271435807,
+              "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT",
+              "name": "PAPERS-AGENT"
+            }
+          },
+          "base": {
+            "ref": "master",
+            "sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
+            "repo": {
+              "id": 1271435807,
+              "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT",
+              "name": "PAPERS-AGENT"
+            }
+          }
+        }
+      ],
+      "created_at": "2026-10-07T15:19:56Z",
+      "updated_at": "2026-10-07T15:19:56Z",
+      "actor": {
+        "login": "CHECKUPAUTO",
+        "id": 194770978,
+        "node_id": "U_kgDOC5v4Ig",
+        "avatar_url": "https://avatars.githubusercontent.com/u/194770978?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/CHECKUPAUTO",
+        "html_url": "https://github.com/CHECKUPAUTO",
+        "followers_url": "https://api.github.com/users/CHECKUPAUTO/followers",
+        "following_url": "https://api.github.com/users/CHECKUPAUTO/following{/other_user}",
+        "gists_url": "https://api.github.com/users/CHECKUPAUTO/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/CHECKUPAUTO/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/CHECKUPAUTO/subscriptions",
+        "organizations_url": "https://api.github.com/users/CHECKUPAUTO/orgs",
+        "repos_url": "https://api.github.com/users/CHECKUPAUTO/repos",
+        "events_url": "https://api.github.com/users/CHECKUPAUTO/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/CHECKUPAUTO/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "run_attempt": 1,
+      "referenced_workflows": [],
+      "run_started_at": "2026-10-07T15:19:56Z",
+      "triggering_actor": {
+        "login": "CHECKUPAUTO",
+        "id": 194770978,
+        "node_id": "U_kgDOC5v4Ig",
+        "avatar_url": "https://avatars.githubusercontent.com/u/194770978?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/CHECKUPAUTO",
+        "html_url": "https://github.com/CHECKUPAUTO",
+        "followers_url": "https://api.github.com/users/CHECKUPAUTO/followers",
+        "following_url": "https://api.github.com/users/CHECKUPAUTO/following{/other_user}",
+        "gists_url": "https://api.github.com/users/CHECKUPAUTO/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/CHECKUPAUTO/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/CHECKUPAUTO/subscriptions",
+        "organizations_url": "https://api.github.com/users/CHECKUPAUTO/orgs",
+        "repos_url": "https://api.github.com/users/CHECKUPAUTO/repos",
+        "events_url": "https://api.github.com/users/CHECKUPAUTO/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/CHECKUPAUTO/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "jobs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/jobs",
+      "logs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/logs",
+      "check_suite_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/check-suites/101974717404",
+      "artifacts_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/artifacts",
+      "cancel_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/cancel",
+      "rerun_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/rerun",
+      "previous_attempt_url": null,
+      "workflow_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/workflows/332363561",
+      "head_commit": {
+        "id": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
+        "tree_id": "483fc5de3c13487a166fdf88d2eba3b7328d97bb",
+        "message": "Merge current master for exact integrated-base qualification [PAPERS-03]",
+        "timestamp": "2026-10-07T15:19:45Z",
+        "author": {
+          "name": "MEMOPERF",
+          "email": "contact@checkupauto.fr"
+        },
+        "committer": {
+          "name": "MEMOPERF",
+          "email": "contact@checkupauto.fr"
+        }
+      },
+      "repository": {
+        "id": 1271435807,
+        "node_id": "R_kgDOS8iSHw",
+        "name": "PAPERS-AGENT",
+        "full_name": "Memorithm/PAPERS-AGENT",
+        "private": false,
+        "owner": {
+          "login": "Memorithm",
+          "id": 282079659,
+          "node_id": "O_kgDOENAxqw",
+          "avatar_url": "https://avatars.githubusercontent.com/u/282079659?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/Memorithm",
+          "html_url": "https://github.com/Memorithm",
+          "followers_url": "https://api.github.com/users/Memorithm/followers",
+          "following_url": "https://api.github.com/users/Memorithm/following{/other_user}",
+          "gists_url": "https://api.github.com/users/Memorithm/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/Memorithm/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/Memorithm/subscriptions",
+          "organizations_url": "https://api.github.com/users/Memorithm/orgs",
+          "repos_url": "https://api.github.com/users/Memorithm/repos",
+          "events_url": "https://api.github.com/users/Memorithm/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/Memorithm/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/Memorithm/PAPERS-AGENT",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT",
+        "forks_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/forks",
+        "keys_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/teams",
+        "hooks_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/hooks",
+        "issue_events_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/events",
+        "assignees_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/tags",
+        "blobs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/languages",
+        "stargazers_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/stargazers",
+        "contributors_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/contributors",
+        "subscribers_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/subscribers",
+        "subscription_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/subscription",
+        "commits_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/merges",
+        "archive_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/downloads",
+        "issues_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/labels{/name}",
+        "releases_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/deployments"
+      },
+      "head_repository": {
+        "id": 1271435807,
+        "node_id": "R_kgDOS8iSHw",
+        "name": "PAPERS-AGENT",
+        "full_name": "Memorithm/PAPERS-AGENT",
+        "private": false,
+        "owner": {
+          "login": "Memorithm",
+          "id": 282079659,
+          "node_id": "O_kgDOENAxqw",
+          "avatar_url": "https://avatars.githubusercontent.com/u/282079659?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/Memorithm",
+          "html_url": "https://github.com/Memorithm",
+          "followers_url": "https://api.github.com/users/Memorithm/followers",
+          "following_url": "https://api.github.com/users/Memorithm/following{/other_user}",
+          "gists_url": "https://api.github.com/users/Memorithm/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/Memorithm/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/Memorithm/subscriptions",
+          "organizations_url": "https://api.github.com/users/Memorithm/orgs",
+          "repos_url": "https://api.github.com/users/Memorithm/repos",
+          "events_url": "https://api.github.com/users/Memorithm/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/Memorithm/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/Memorithm/PAPERS-AGENT",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT",
+        "forks_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/forks",
+        "keys_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/teams",
+        "hooks_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/hooks",
+        "issue_events_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/events",
+        "assignees_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/tags",
+        "blobs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/languages",
+        "stargazers_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/stargazers",
+        "contributors_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/contributors",
+        "subscribers_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/subscribers",
+        "subscription_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/subscription",
+        "commits_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/merges",
+        "archive_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/downloads",
+        "issues_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/labels{/name}",
+        "releases_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/deployments"
+      }
+    }
+  ],
+  "changes": [
+    "No automatic POST replay, including 5xx/transport/redirect",
+    "explicit unknown_outcome for incomplete acknowledgments",
+    "GET retries retained",
+    "read-only papers-lab reconcile CLI"
+  ],
+  "acceptance_choice": "no automatic POST retry alternative; no unsupported server idempotency claim",
+  "limits": [
+    "Unknown experiment ID requires server lookup; without lookup outcome stays unknown",
+    "Minimal fixture crate test is not full repository/Cargo.lock validation or empirical Research Lab qualification"
+  ],
+  "focused_validation": {
+    "exit_code": 0,
+    "passed": 13,
+    "failed": 0,
+    "runtime_seconds": 38.25,
+    "compiler_runtime_seconds": 37.61,
+    "files": [
+      {
+        "path": "docs/LAB_SUBMISSION_RECONCILIATION.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c5bc95c01024fc436b829ad1672ae0e8b55e2c51",
+        "size": 2346,
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs/c5bc95c01024fc436b829ad1672ae0e8b55e2c51"
+      },
+      {
+        "path": "papers_core/Cargo.toml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "266ca3f5aa000b15db7dd0ff90456c3aee913d0b",
+        "size": 1897,
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs/266ca3f5aa000b15db7dd0ff90456c3aee913d0b"
+      },
+      {
+        "path": "papers_core/src/bin/papers_lab.rs",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d9724d01ca085d92d7aada9ce007991457c4a183",
+        "size": 1826,
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs/d9724d01ca085d92d7aada9ce007991457c4a183"
+      },
+      {
+        "path": "papers_core/src/ccos.rs",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d0c141495b1f6eb97ecb08ef24044a2a103270b2",
+        "size": 18902,
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs/d0c141495b1f6eb97ecb08ef24044a2a103270b2"
+      },
+      {
+        "path": "papers_core/tests/lab_reconciliation_cli.rs",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "eada88184c01843a81bf43b62985d7873ec1b5d7",
+        "size": 2881,
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs/eada88184c01843a81bf43b62985d7873ec1b5d7"
+      }
+    ],
+    "scope": "standalone fixture crate using exact changed ccos/CLI/integration test blobs; minimal manifest and offline cache-resolved dependencies, NOT full repository lock/CI/empirical backend validation",
+    "command": "timeout --kill-after=5s 180s prlimit --as=4294967296 --cpu=120 --nproc=256 --nofile=512 bwrap --unshare-all --die-with-parent --new-session --clearenv --ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /root/.rustup/toolchains/stable-aarch64-unknown-linux-gnu /toolchain --bind /tmp/memorithm-papers03-test-iQCvZvnB /work --tmpfs /cargo --dir /cargo/registry --ro-bind /root/.cargo/registry/index /cargo/registry/index --ro-bind /root/.cargo/registry/cache /cargo/registry/cache --dir /cargo/registry/src --proc /proc --dev /dev --tmpfs /tmp --setenv PATH /toolchain/bin:/usr/bin --setenv CARGO_HOME /cargo --setenv RUSTC /toolchain/bin/rustc --setenv CARGO_BUILD_JOBS 2 --setenv CC /usr/bin/aarch64-linux-gnu-gcc-13 --setenv CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER /usr/bin/aarch64-linux-gnu-gcc-13 --chdir /work /toolchain/bin/cargo test --offline --all-targets",
+    "output_hashes": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Process started with PID 2335207 (shell: /bin/bash)\nInitial output:\nd0c141495b1f6eb97ecb08ef24044a2a103270b2\nd9724d01ca085d92d7aada9ce007991457c4a183\neada88184c01843a81bf43b62985d7873ec1b5d7\n0959294474fa505e3ab7127d99744e257472288e16b1167a054e8545d7927273  /tmp/memorithm-papers03-test-iQCvZvnB/Cargo.toml\n6dbb3f66c560e65f505326676461fd9a3148df2c1ba661bcab3ea175e5bfc116  /tmp/memorithm-papers03-test-iQCvZvnB/Cargo.lock\n"
+        },
+        {
+          "type": "text",
+          "text": "\n[executed on device: tarek (fa986a59-0105-42b8-b1db-7cddadcd871f)]"
+        }
+      ],
+      "isError": false
+    },
+    "runtime_isolation": "bwrap unshare-all, clearenv, private proc/dev/tmp, network namespace; only /usr /lib toolchain/cache read-only and temporary fixture /work writable",
+    "bounds": {
+      "wall_seconds": 180,
+      "kill_grace_seconds": 5,
+      "address_space_bytes": 4294967296,
+      "cpu_seconds": 120,
+      "nproc": 256,
+      "nofile": 512,
+      "cargo_jobs": 2
+    },
+    "attempts": [
+      "first offline mount failed due cache unpack read-only, no tests executed",
+      "second writable private unpack tree failed due sandbox cc symlink absent, no tests executed",
+      "explicit aarch64 gcc linker: 13 tests passed, exit 0"
+    ]
+  },
+  "checks_before_publish": [
+    "rustfmt 1.9.0 edition2021 on three Rust files",
+    "git diff --check passed"
+  ],
+  "transient_errors": [
+    "create_blob Internal error; Git create_tree inline UTF-8 alternative succeeded",
+    "PR creation with draft:false failed; minimal call without optional draft succeeded",
+    "merge with optional squash failed; authorized default merge with expected head succeeded for #8",
+    "add_comment connector still Internal error"
+  ],
+  "observed_at": "2026-10-07T15:21:30.496Z"
+}
