@@ -3,26 +3,26 @@
   "owner": "chatgpt-audit-20261007060736",
   "acquired_at": "2026-10-07T04:08:22Z",
   "expires_at": "2026-10-07T05:38:22Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-07T04:19:43Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
   "previous_owner": "chatgpt-audit-20261007050518",
   "previous_expiry": "2026-10-07T04:37:37Z",
   "canonical_counts": {
-    "merged_prs": 63,
+    "merged_prs": 64,
     "closed_findings": 54,
     "remaining_findings": 47
   },
   "batch": {
     "number": 2,
-    "merged_prs": 13,
+    "merged_prs": 14,
     "target": 50
   },
-  "next_action": "Revérifier BF-KV-01 sur le HEAD actuel de KVLab, corriger l'identité de révision exécutée, qualifier le candidat et la branche cible.",
-  "verified_merged_prs": 63,
-  "canonical_registry_merged_prs": 63,
+  "next_action": "Réconcilier la CI fleet main de KVLab sur le SHA intégré; clore BF-KV-01 uniquement après succès cible, tout en poursuivant les chantiers autonomes.",
+  "verified_merged_prs": 64,
+  "canonical_registry_merged_prs": 64,
   "closed_findings": 54,
   "remaining_findings": 47,
-  "batch_merged_prs": 13
+  "batch_merged_prs": 14
 }

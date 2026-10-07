@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "finding_id": "BF-KV-01",
+  "repository": "Memorithm/KVLab",
+  "status": "waiting_ci",
+  "observed_at": "2026-10-07T06:19:43+02:00",
+  "audit_snapshot": {
+    "sha": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+    "finding": "Les CSV EWW attribuaient au champ flat_revision des révisions historiques différentes de la dépendance FLAT directe réellement verrouillée."
+  },
+  "current_base": {
+    "branch": "main",
+    "sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+    "tree_sha": "7916cefcccd7f7ccaf57549f0f73a9bbc18d29d8"
+  },
+  "candidate": {
+    "pull_request": 183,
+    "url": "https://github.com/Memorithm/KVLab/pull/183",
+    "head_sha": "c7913d4520b03f94c0366a794ca9588b308ceb3f",
+    "tree_sha": "5f8b500eb0447bbd8c86d8d89602b720a6b2e322",
+    "changed_files": 10,
+    "additions": 209,
+    "deletions": 20,
+    "review": {
+      "unresolved_threads": 0,
+      "submitted_reviews": 0,
+      "note": "La revue Codex automatique initiale est restée affichée en cours sur le premier HEAD; elle n'était pas une protection requise et aucun fil n'a été créé."
+    },
+    "workflows": [
+      {
+        "id": 37570574348,
+        "name": "CI",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 112628018638,
+            "name": "python",
+            "conclusion": "success",
+            "checks": ["compileall", "571 unit tests"]
+          },
+          {
+            "id": 112628018851,
+            "name": "rust-bkv",
+            "conclusion": "success",
+            "checks": ["rustfmt", "clippy --locked --all-targets -D warnings", "cargo test --locked", "locked dependency graph artifact"]
+          }
+        ]
+      },
+      {
+        "id": 37570574340,
+        "name": "EWW structural campaign smoke",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 112628018710,
+            "name": "eww-structural-smoke",
+            "conclusion": "success",
+            "checks": ["five CSV provenance contracts", "runner-local evidence artifact"]
+          }
+        ]
+      }
+    ],
+    "local_checks": [
+      "python3 -m unittest discover -s tests -v: 571 passed",
+      "python3 -m compileall -q kvlab tests: success",
+      "bash -n scripts/run-eww-campaign-smoke.sh: success",
+      "git diff --check: success",
+      "manifest/lock/full-SHA static checks: success"
+    ]
+  },
+  "merge": {
+    "method": "squash",
+    "expected_head_sha": "c7913d4520b03f94c0366a794ca9588b308ceb3f",
+    "merge_sha": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
+    "merged": true,
+    "main_head_verified": true
+  },
+  "closure_performed": false,
+  "wait_reason": "Le workflow push Memorithm fleet main CI applicable au chemin rust/bkv_scan/** n'est pas encore attaché au SHA intégré après plusieurs réconciliations; aucune preuve de validation cible n'est donc disponible.",
+  "scientific_boundary": [
+    "Les révisions d'origine historique sont conservées sans réattribution rétroactive.",
+    "Le smoke EWW est structurel et runner-local; aucune qualification matérielle, performance ou qualité modèle n'est revendiquée."
+  ],
+  "next_action": "Réconcilier les runs du SHA intégré 0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1; clore BF-KV-01 uniquement après succès de la CI fleet main sur ce SHA."
+}

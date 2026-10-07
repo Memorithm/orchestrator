@@ -608,11 +608,106 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T06:19:43+02:00",
+      "observed_session_start": "2026-10-07T06:07:36+02:00",
+      "lease_owner": "chatgpt-audit-20261007060736",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 14,
+        "batch_target": 50,
+        "merged_prs": 64,
+        "closed_findings": 54,
+        "remaining_findings": 47,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "BF-KV-01",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "base_sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+          "pr": 183,
+          "candidate_head": "c7913d4520b03f94c0366a794ca9588b308ceb3f",
+          "merge_sha": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
+          "actions": [
+            "Relu AGENTS.md, les quatre roadmaps obligatoires dont la roadmap écosystème hors main, et les licences; revérifié le constat sur le HEAD courant.",
+            "Séparé contract_origin_revision et executed_dependency_revision dans cinq contrats CSV EWW, dérivé la révision exécutée du Cargo.toml et vérifié sa source exacte dans Cargo.lock en mode fail-closed.",
+            "Étendu le smoke EWW pour vérifier les cinq paires origine/exécution et conserver la révision exécutée dans le manifeste d'artefact; documenté la conservation non rétroactive.",
+            "Corrigé les deux écarts rustfmt du premier run, puis obtenu CI et smoke EWW verts sur le nouveau HEAD exact.",
+            "Revérifié base, fichiers, absence de fil, mergeabilité et SHA; fusionné #183 par squash avec expected_head_sha.",
+            "Confirmé que le SHA intégré est le HEAD courant de main; aucun run push applicable n'est encore attaché à ce SHA."
+          ],
+          "checks": {
+            "local": [
+              "571 tests Python",
+              "compileall Python",
+              "bash -n",
+              "git diff --check",
+              "contrôles statiques manifest/lock/SHA"
+            ],
+            "candidate_runs": [
+              {
+                "id": 37570574348,
+                "name": "CI",
+                "conclusion": "success",
+                "jobs": [
+                  112628018638,
+                  112628018851
+                ]
+              },
+              {
+                "id": 37570574340,
+                "name": "EWW structural campaign smoke",
+                "conclusion": "success",
+                "jobs": [
+                  112628018710
+                ]
+              }
+            ],
+            "target_runs": []
+          },
+          "reason_for_wait": "Le workflow push Memorithm fleet main CI attendu pour rust/bkv_scan/** n'est pas encore attaché au SHA intégré; le constat ne peut pas être clos sans validation cible.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur 0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1"
+          ],
+          "proof": "docs/audit-global/proofs/KVLab-183-BF-KV-01-waiting-target-ci.json",
+          "next_action": "Réconcilier le SHA intégré et ses runs; clore BF-KV-01 uniquement après succès de la CI cible."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-01 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Restriction selected-workflow du runner group Thor non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor au workflow push de confiance et probe sûr de refus"
+          ],
+          "next_action": "Reprendre après preuve de restriction; ne pas clore avant."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-01 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps"
+          ],
+          "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": "2 — 13/50",
-    "merged_prs": 63,
+    "batch": "2 — 14/50",
+    "merged_prs": 64,
     "closed_findings": 54,
     "remaining_findings": 47,
     "newly_resolved": [
@@ -628,7 +723,9 @@
       "PAPERS-01"
     ],
     "excluded_repositories_modified": [],
-    "waiting_ci": [],
-    "next_action": "Poursuivre un constat autonome de priorité 8; conserver MEM-11 et PAPERS-01 comme blocages externes tant que leurs dépendances ne sont pas prouvées."
+    "waiting_ci": [
+      "BF-KV-01"
+    ],
+    "next_action": "Réconcilier la CI fleet main de KVLab sur le SHA intégré, puis clore BF-KV-01 uniquement après succès cible; poursuivre en parallèle les constats autonomes."
   }
 }

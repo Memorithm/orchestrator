@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T05:51:31+02:00",
+  "updated_at": "2026-10-07T06:19:43+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 54,
     "remaining": 47,
-    "merged_prs": 63
+    "merged_prs": 64
   },
   "batches": [
     {
@@ -357,6 +357,11 @@
           "repository": "Memorithm/riemann_ndim_bench",
           "number": 73,
           "merge_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938"
+        },
+        {
+          "repository": "Memorithm/KVLab",
+          "number": 183,
+          "merge_sha": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1"
         }
       ]
     }
@@ -5163,6 +5168,55 @@
         }
       ],
       "target_validation": "format, ML adapter contracts, catalog integrity, strict Clippy, workspace build/tests and rustdoc passed on the exact signed target commit"
+    },
+    {
+      "repository": "Memorithm/KVLab",
+      "number": 183,
+      "url": "https://github.com/Memorithm/KVLab/pull/183",
+      "base": "main",
+      "base_sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+      "head_sha": "c7913d4520b03f94c0366a794ca9588b308ceb3f",
+      "merge_sha": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
+      "status": "merged_waiting_target_ci",
+      "ids": [
+        "BF-KV-01"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-07T04:17:15Z",
+      "merge_method": "squash with expected_head_sha",
+      "checks": [
+        {
+          "id": 37570574348,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "c7913d4520b03f94c0366a794ca9588b308ceb3f",
+          "jobs": [
+            112628018638,
+            112628018851
+          ]
+        },
+        {
+          "id": 37570574340,
+          "name": "EWW structural campaign smoke",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "c7913d4520b03f94c0366a794ca9588b308ceb3f",
+          "jobs": [
+            112628018710
+          ]
+        }
+      ],
+      "review": {
+        "result": "no submitted review or inline thread observed; automated review display remained in progress on superseded first head",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "5f8b500eb0447bbd8c86d8d89602b720a6b2e322",
+      "target_head": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
+      "target_checks": [],
+      "target_validation": "pending: no Memorithm fleet main CI run attached to the integrated SHA after repeated reconciliation",
+      "finding_status": "waiting_ci",
+      "proof": "docs/audit-global/proofs/KVLab-183-BF-KV-01-waiting-target-ci.json"
     }
   ],
   "repository_observations": [
@@ -9271,16 +9325,38 @@
         "Séparer contract_origin_revision de executed_dependency_revision; dériver la seconde du graphe Cargo/lock et figer l'environnement exact dans les artefacts. Ajouter un contrôle de divergence. Conserver les anciennes preuves sous leur SHA original, sans réattribution rétroactive.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+      "status": "waiting_ci",
+      "current_head": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
       "default_branch": "main",
       "audit_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "candidate_green_and_merged_with_expected_head_sha; target_main_head_verified; target_push_ci_not_observed",
+      "policy_review": "Root AGENTS.md, four mandatory roadmaps including the off-main ecosystem roadmap, and PolyForm Noncommercial notices read; historical evidence and non-performance claim boundary preserved.",
+      "prs": [
+        {
+          "number": 183,
+          "url": "https://github.com/Memorithm/KVLab/pull/183",
+          "base_sha": "d5b63bcf53a2e6485942799ab9b5bc7da8e20fa5",
+          "head_sha": "c7913d4520b03f94c0366a794ca9588b308ceb3f",
+          "status": "merged_waiting_target_ci",
+          "merge_sha": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/KVLab-183-BF-KV-01-waiting-target-ci.json",
+          "candidate_head": "c7913d4520b03f94c0366a794ca9588b308ceb3f",
+          "candidate_tree": "5f8b500eb0447bbd8c86d8d89602b720a6b2e322",
+          "candidate_runs": [
+            37570574348,
+            37570574340
+          ],
+          "merge_sha": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
+          "target_runs": [],
+          "status": "waiting_target_ci"
+        }
+      ],
+      "last_observed_at": "2026-10-07T06:19:43+02:00",
+      "next_action": "Réconcilier la CI fleet main sur le SHA intégré exact 0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1; ne clore qu'après succès cible."
     },
     {
       "id": "BF-KV-02",
@@ -9582,31 +9658,31 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-20261007050518",
-    "acquired_at": "2026-10-07T03:07:37Z",
-    "expires_at": "2026-10-07T04:37:37Z",
-    "released_at": "2026-10-07T03:51:31Z",
+    "owner": "chatgpt-audit-20261007060736",
+    "acquired_at": "2026-10-07T04:08:22Z",
+    "expires_at": "2026-10-07T05:38:22Z",
+    "released_at": "2026-10-07T04:19:43Z",
     "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "previous_owner": "chatgpt-audit-20261007041205",
-    "previous_expiry": "2026-10-07T03:42:50Z",
+    "previous_owner": "chatgpt-audit-20261007050518",
+    "previous_expiry": "2026-10-07T04:37:37Z",
     "canonical_counts": {
-      "merged_prs": 63,
+      "merged_prs": 64,
       "closed_findings": 54,
       "remaining_findings": 47
     },
     "batch": {
       "number": 2,
-      "merged_prs": 13,
+      "merged_prs": 14,
       "target": 50
     },
-    "next_action": "Poursuivre un constat autonome de priorité 8; MEM-11 et PAPERS-01 restent bloqués par leurs dépendances externes documentées.",
-    "verified_merged_prs": 63,
-    "canonical_registry_merged_prs": 63,
+    "next_action": "Réconcilier la CI fleet main de KVLab sur le SHA intégré; clore BF-KV-01 uniquement après succès cible, tout en poursuivant les chantiers autonomes.",
+    "verified_merged_prs": 64,
+    "canonical_registry_merged_prs": 64,
     "closed_findings": 54,
     "remaining_findings": 47,
-    "batch_merged_prs": 13
+    "batch_merged_prs": 14
   },
   "capabilities": [
     {
