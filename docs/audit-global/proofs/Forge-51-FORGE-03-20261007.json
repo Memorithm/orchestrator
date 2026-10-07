@@ -1,14 +1,14 @@
 {
   "id": "FORGE-03",
   "repository": "Memorithm/Forge",
-  "status": "waiting_ci",
+  "status": "resolved",
   "pr": 51,
   "url": "https://github.com/Memorithm/Forge/pull/51",
   "base_sha": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
   "candidate_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
   "tree": "15bfad4f8fcd72867f1b6c7f4432f01ce48fe062",
-  "observed_at": "2026-10-07T15:51:55.980Z",
-  "policy_commit": "253fa87441536ca80f950ac20cc5b277c1241c6f",
+  "observed_at": "2026-10-07T16:00:17.762Z",
+  "policy_commit": "c0dbb1a109fa72cb54269505813bcaec3fe0dfe5",
   "policy_branch": "agent/ecosystem-roadmap",
   "policy_not_merged_to_main": true,
   "local_validation": {
@@ -46,16 +46,16 @@
       "id": 37647081484,
       "name": "SML topology domain",
       "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081484"
     },
     {
       "id": 37647081213,
       "name": "Scientific ask tell process qualification",
       "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
-      "status": "queued",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081213"
     }
   ],
@@ -125,9 +125,217 @@
   "checks_skipped_are_not_passes": true,
   "hardware_qualification": false,
   "limitations": [
-    "Still awaits SML topology and Scientific process workflow checks; no merge before all exact-head validations.",
-    "mTLS does not imply execution attestation or campaign replay protection.",
-    "Strict native isolation refusal retained."
+    "Authentication does not prove execution attestation or measurement honesty.",
+    "Campaign-wide replay/duplicate registry is a separate roadmap gate.",
+    "Strict native isolation refusal retained; portable TLS/TCP regressions are not hardware qualification.",
+    "Existing ignored native/hardware tests are not claimed; SML holdout smoke explicitly ran in its dedicated job."
   ],
-  "next_action": "Observe remaining exact-head checks/reviews; merge with expected_head_sha only after full qualification; validate integrated main."
+  "next_action": "Closed with actual exact integrated target CI and fixture transport regressions; continue remaining backlog and preserve trust/isolation limits.",
+  "merge_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+  "merged_at": "2026-10-07T15:55:48Z",
+  "merge_method": "merge",
+  "target_tree": "15bfad4f8fcd72867f1b6c7f4432f01ce48fe062",
+  "exact_tree_match": true,
+  "premerge_checks": [
+    {
+      "id": 112880557334,
+      "name": "workspace",
+      "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 112880557061,
+      "name": "nnis-adapter",
+      "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 112880556417,
+      "name": "sml-topology",
+      "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 112880553648,
+      "name": "process",
+      "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "source_blobs": {
+    "forge-worker/src/admission.rs": "1c112d24b7a82e7dafe633aea29ee53ba1acfe83",
+    "forge-worker/src/main.rs": "90bbc54ef0de8c17717b5893159b5d5bfb50b4ed",
+    "forge-worker/src/tls.rs": "7fbd8e956ec7e7b7a54a4df2be58472b9bcdf72a",
+    "forge-worker/tests/worker_admission.rs": "70207b080de24762e56bffd355405b41342be4d4",
+    "forge-core/src/tls.rs": "1092bbe458d13953b0cd425d0c8074de70249af4",
+    "forge-core/src/protocol.rs": "feb9100152e6ce00e630438c50e259b69cb45e6b",
+    "README.md": "a317d06037ccfa435024ba08f7c18238ef856d8e",
+    "SECURITY.md": "a0438cfe88a11af9e2dc907aab48918fadf1d8ee",
+    "docs/WORKER_TRANSPORT.md": "851e3a66f3ca86395fc2474831e78597f3b78439"
+  },
+  "protections": {
+    "branch_protected": false,
+    "rulesets": [],
+    "expected_head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+    "review_changes_requested": false
+  },
+  "target_runs": [
+    {
+      "id": 37647966395,
+      "name": "SML topology domain",
+      "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647966395"
+    },
+    {
+      "id": 37647966423,
+      "name": "CI",
+      "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647966423"
+    },
+    {
+      "id": 37647966617,
+      "name": "Scientific ask tell process qualification",
+      "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647966617"
+    }
+  ],
+  "target_checks": [
+    {
+      "id": 112883566211,
+      "name": "process",
+      "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 112883565588,
+      "name": "sml-topology",
+      "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 112883564974,
+      "name": "workspace",
+      "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 112883564448,
+      "name": "nnis-adapter",
+      "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "actual_target_logs": [
+    {
+      "job_id": 112883564448,
+      "software_test_pass_occurrences": 47,
+      "excerpt": [
+        "2026-10-07T15:56:39.8437277Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 30.08s",
+        "2026-10-07T15:56:39.8715367Z ##[group]Run cargo clippy --manifest-path adapters/forge-nnis/Cargo.toml --all-targets -- -D warnings",
+        "2026-10-07T15:56:39.8716158Z \u001b[36;1mcargo clippy --manifest-path adapters/forge-nnis/Cargo.toml --all-targets -- -D warnings\u001b[0m",
+        "2026-10-07T15:56:40.3237219Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 0.41s",
+        "2026-10-07T15:57:10.4613705Z \u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 30.10s",
+        "2026-10-07T15:57:10.4688921Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4701943Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4717709Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4728106Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4745262Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4774990Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4793672Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4816248Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4831063Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4847257Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4863830Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:10.4881327Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "job_id": 112883564974,
+      "software_test_pass_occurrences": 263,
+      "excerpt": [
+        "2026-10-07T15:56:23.1137758Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 12.21s",
+        "2026-10-07T15:56:23.1330591Z ##[group]Run cargo clippy --workspace --all-targets -- -D warnings",
+        "2026-10-07T15:56:23.1331174Z \u001b[36;1mcargo clippy --workspace --all-targets -- -D warnings\u001b[0m",
+        "2026-10-07T15:56:27.9092000Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 4.66s",
+        "2026-10-07T15:56:40.2482179Z \u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 12.29s",
+        "2026-10-07T15:56:40.2612031Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:40.2760045Z test result: ok. 45 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "2026-10-07T15:56:40.2779972Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.0549323Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.78s",
+        "2026-10-07T15:56:52.0572993Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.0585763Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.1579670Z test result: ok. 70 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s",
+        "2026-10-07T15:56:52.1622860Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.1646895Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.1667630Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.2507529Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s",
+        "2026-10-07T15:56:52.4879730Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.23s",
+        "2026-10-07T15:56:52.4908581Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.5963548Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s",
+        "2026-10-07T15:56:52.6020694Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.6195195Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "2026-10-07T15:56:52.6210363Z test bounded_campaign_executes_independent_holdout ... ignored, writes Forge legacy checkpoint; dedicated CI runs this sequentially",
+        "2026-10-07T15:56:52.6212045Z test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.6234398Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.6270471Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.6294983Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:52.6659702Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+        "2026-10-07T15:56:54.5545344Z test actual_worker_enforces_identity_quota_and_total_transport_deadlines ... ok",
+        "2026-10-07T15:56:54.5546530Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.89s",
+        "2026-10-07T15:56:56.5862648Z \u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 1.99s",
+        "2026-10-07T15:56:56.6784466Z test result: ok. 81 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s",
+        "2026-10-07T15:56:56.6890173Z ##[group]Run cargo clippy -p forge-core --all-targets --features bandit -- -D warnings",
+        "2026-10-07T15:56:56.6891341Z \u001b[36;1mcargo clippy -p forge-core --all-targets --features bandit -- -D warnings\u001b[0m",
+        "2026-10-07T15:56:57.8691423Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 1.13s"
+      ]
+    },
+    {
+      "job_id": 112883565588,
+      "software_test_pass_occurrences": 6,
+      "excerpt": [
+        "2026-10-07T15:56:29.1862351Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 25.10s",
+        "2026-10-07T15:56:29.2743144Z ##[group]Run cargo clippy -p forge-domains --all-targets -- -D warnings",
+        "2026-10-07T15:56:29.2744361Z \u001b[36;1mcargo clippy -p forge-domains --all-targets -- -D warnings\u001b[0m",
+        "2026-10-07T15:56:30.2751614Z \u001b[1m\u001b[92m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 0.95s",
+        "2026-10-07T15:56:46.3516235Z \u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 16.02s",
+        "2026-10-07T15:56:46.3754186Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:46.3759764Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s",
+        "2026-10-07T15:56:46.4831629Z \u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 0.07s",
+        "2026-10-07T15:56:46.5146756Z test bounded_campaign_executes_independent_holdout ... ok",
+        "2026-10-07T15:56:46.5147467Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s"
+      ]
+    },
+    {
+      "job_id": 112883566211,
+      "software_test_pass_occurrences": 58,
+      "excerpt": [
+        "2026-10-07T15:57:12.1782630Z \u001b[1m\u001b[32m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 1m 07s",
+        "2026-10-07T15:57:12.2217943Z test result: ok. 45 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "2026-10-07T15:57:12.2241002Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:23.7356619Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.51s",
+        "2026-10-07T15:57:23.7384026Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "2026-10-07T15:57:23.7483090Z ##[group]Run cargo clippy --locked -p forge-bridge --all-targets -- -D warnings",
+        "2026-10-07T15:57:23.7483692Z \u001b[36;1mcargo clippy --locked -p forge-bridge --all-targets -- -D warnings\u001b[0m",
+        "2026-10-07T15:57:59.7312352Z \u001b[1m\u001b[32m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 35.93s",
+        "2026-10-07T15:58:00.8965046Z \u001b[1m\u001b[32m    Finished\u001b[0m `dev` profile [unoptimized + debuginfo] target(s) in 1.12s",
+        "2026-10-07T15:58:01.6873329Z Forge process: deterministic replay, exact duplicates, nested closed schema, u64 seed and input bounds passed",
+        "2026-10-07T15:58:01.6874759Z Adaptive TPE and SciRust GP: explicit version identity and replay passed",
+        "2026-10-07T15:58:01.6876248Z Persistent session: exact replay projection, receipt identity, framing and stale sequence rejection passed"
+      ]
+    }
+  ]
 }

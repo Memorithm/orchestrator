@@ -2302,16 +2302,16 @@
       "lease_released_at": "2026-10-07T15:32:26.705Z"
     },
     {
-      "observed_at": "2026-10-07T17:51:55.982+02:00",
+      "observed_at": "2026-10-07T18:00:17.767+02:00",
       "observed_session_start": "2026-10-07T17:37:36.943+02:00",
       "lease_owner": "chatgpt-audit-202610071735",
       "counts": {
         "batch": 2,
-        "batch_merged_prs": 24,
+        "batch_merged_prs": 25,
         "batch_target": 50,
-        "merged_prs": 74,
-        "closed_findings": 66,
-        "remaining_findings": 35,
+        "merged_prs": 75,
+        "closed_findings": 67,
+        "remaining_findings": 34,
         "backlog": 101
       },
       "work_items": [
@@ -2339,51 +2339,101 @@
         {
           "id": "FORGE-03",
           "repository": "Memorithm/Forge",
-          "status": "waiting_ci",
+          "status": "resolved",
           "actions": [
             "Implemented mTLS CA verification + exact master leaf allowlist and master credential consumer.",
             "Added IP admission, bounded permits before spawn, total handshake/frame IO deadlines; preserved native isolation refusal.",
             "4 unit + 1 real binary TLS/TCP regression corpus, 70 core tests and Clippy passed in bounded network-isolated temporary workspace.",
-            "Published PR #51 and updated required off-main trust roadmap with CAS, no default-branch policy merge."
+            "Published PR #51 and updated required off-main trust roadmap with CAS, no default-branch policy merge.",
+            "Four exact-head checks green; diff/blob/base/protection/reviews/lease revalidated, merged with expected_head_sha.",
+            "Integrated main has the exact candidate tree. All target workflows and actual job logs qualified."
           ],
           "pr": "https://github.com/Memorithm/Forge/pull/51",
           "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
           "checks": [
             {
-              "id": 37647081885,
-              "name": "CI",
+              "id": 112880557334,
+              "name": "workspace",
               "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
               "status": "completed",
-              "conclusion": "success",
-              "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081885"
+              "conclusion": "success"
             },
             {
-              "id": 37647081484,
-              "name": "SML topology domain",
+              "id": 112880557061,
+              "name": "nnis-adapter",
               "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
-              "status": "in_progress",
-              "conclusion": null,
-              "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081484"
+              "status": "completed",
+              "conclusion": "success"
             },
             {
-              "id": 37647081213,
-              "name": "Scientific ask tell process qualification",
+              "id": 112880556417,
+              "name": "sml-topology",
               "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
-              "status": "queued",
-              "conclusion": null,
-              "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081213"
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "id": 112880553648,
+              "name": "process",
+              "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+              "status": "completed",
+              "conclusion": "success"
             }
           ],
-          "reason_for_wait": "SML topology in progress and Scientific process queued; no stale/aggregate-only qualification.",
+          "reason_for_wait": null,
           "dependencies": [],
-          "next_action": "Observe remaining exact-head checks/reviews; merge with expected_head_sha only after full qualification; validate integrated main.",
-          "proof": "docs/audit-global/proofs/Forge-51-FORGE-03-20261007.json"
+          "next_action": "Clos sur SHA intégré avec workflows et régressions réseau effectivement exécutés; conserver les limites d’attestation/replay/isolation.",
+          "proof": "docs/audit-global/proofs/Forge-51-FORGE-03-20261007.json",
+          "merge_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+          "target_checks": [
+            {
+              "id": 37647966395,
+              "name": "SML topology domain",
+              "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+              "status": "completed",
+              "conclusion": "success",
+              "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647966395"
+            },
+            {
+              "id": 37647966423,
+              "name": "CI",
+              "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+              "status": "completed",
+              "conclusion": "success",
+              "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647966423"
+            },
+            {
+              "id": 37647966617,
+              "name": "Scientific ask tell process qualification",
+              "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+              "status": "completed",
+              "conclusion": "success",
+              "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647966617"
+            }
+          ]
+        },
+        {
+          "id": "MEM-12",
+          "repository": "Memorithm/SciCapsule",
+          "status": "in_progress",
+          "head_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+          "actions": [
+            "Read current source, security model, required bootstrap and roadmap/overlay; confirmed finding persists."
+          ],
+          "checks": [],
+          "reason_for_wait": "Implementation of versioned expiry/revocation and controlled update is still required; no resolution/PR/test claimed from diagnosis.",
+          "dependencies": [
+            "Versioned trust-policy compatibility across verify-trusted/run/hub/provenance consumers; preserve canonical capsule bytes and distinct signer thresholds."
+          ],
+          "next_action": "Implement versioned validity/revocation policy, pinned digest/revision and controlled local updates with actual expiry/revocation/rollback/threshold/consumer tests; qualify exact candidate/integrated HEAD before closure.",
+          "proof": "docs/audit-global/proofs/SciCapsule-MEM-12-current-head-20261007.json"
         }
       ],
       "external_obstacles": [
         "Initial missing offline pinned dependency and missing OpenSSL host config were resolved before rerun; they are not outstanding blockers."
       ],
-      "excluded_repositories_modified": []
+      "excluded_repositories_modified": [],
+      "lease_released_at": "2026-10-07T16:00:17.767Z"
     }
   ],
   "daily_summary": {
@@ -2421,11 +2471,11 @@
   },
   "latest_counts": {
     "batch": 2,
-    "batch_merged_prs": 24,
+    "batch_merged_prs": 25,
     "batch_target": 50,
-    "merged_prs": 74,
-    "closed_findings": 66,
-    "remaining_findings": 35,
+    "merged_prs": 75,
+    "closed_findings": 67,
+    "remaining_findings": 34,
     "backlog": 101
   }
 }

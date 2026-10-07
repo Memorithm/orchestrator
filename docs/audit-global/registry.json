@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T17:51:55.982+02:00",
+  "updated_at": "2026-10-07T18:00:17.767+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 66,
-    "remaining": 35,
-    "merged_prs": 74
+    "closed": 67,
+    "remaining": 34,
+    "merged_prs": 75
   },
   "batches": [
     {
@@ -412,6 +412,11 @@
           "repository": "Memorithm/CCOS-Core",
           "number": 34,
           "merge_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec"
+        },
+        {
+          "repository": "Memorithm/Forge",
+          "number": 51,
+          "merge_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4"
         }
       ]
     }
@@ -5943,36 +5948,73 @@
       "ids": [
         "FORGE-03"
       ],
-      "status": "waiting_ci",
+      "status": "merged_target_validated_exact_tree",
       "batch": 2,
       "checks": [
         {
-          "id": 37647081885,
-          "name": "CI",
+          "id": 112880557334,
+          "name": "workspace",
           "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
           "status": "completed",
-          "conclusion": "success",
-          "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081885"
+          "conclusion": "success"
         },
         {
-          "id": 37647081484,
-          "name": "SML topology domain",
+          "id": 112880557061,
+          "name": "nnis-adapter",
           "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
-          "status": "in_progress",
-          "conclusion": null,
-          "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081484"
+          "status": "completed",
+          "conclusion": "success"
         },
         {
-          "id": 37647081213,
-          "name": "Scientific ask tell process qualification",
+          "id": 112880556417,
+          "name": "sml-topology",
           "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
-          "status": "queued",
-          "conclusion": null,
-          "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081213"
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 112880553648,
+          "name": "process",
+          "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+          "status": "completed",
+          "conclusion": "success"
         }
       ],
       "proof": "docs/audit-global/proofs/Forge-51-FORGE-03-20261007.json",
-      "reason_for_wait": "SML topology running; Scientific ask/tell queued; full CI already actually passed on exact candidate."
+      "reason_for_wait": null,
+      "finding_status": "resolved",
+      "merge_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "merge_method": "merge",
+      "merged_at": "2026-10-07T15:55:48Z",
+      "target_checks": [
+        {
+          "id": 37647966395,
+          "name": "SML topology domain",
+          "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647966395"
+        },
+        {
+          "id": 37647966423,
+          "name": "CI",
+          "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647966423"
+        },
+        {
+          "id": 37647966617,
+          "name": "Scientific ask tell process qualification",
+          "head_sha": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647966617"
+        }
+      ],
+      "target_head": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "validated_tree": "15bfad4f8fcd72867f1b6c7f4432f01ce48fe062",
+      "exact_tree_match": true
     }
   ],
   "repository_observations": [
@@ -6000,12 +6042,12 @@
       "repository": "Memorithm/CCOS-Core",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "155a35ee7a356b44b2910c91df5e22817a892c22",
-      "tree_sha": "3279ab819f355860347eed7940c4d04bf42e4e59",
+      "current_head": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+      "tree_sha": "829ffccfd9ec1f541b01e3a4a24aa8b5068b16c6",
       "protected": false,
       "required_checks": [],
       "error": null,
-      "last_observed_at": "2026-10-07T17:03:22+02:00"
+      "last_observed_at": "2026-10-07T18:00:17.767+02:00"
     },
     {
       "repository": "Memorithm/CCOS-Enterprise",
@@ -6072,11 +6114,12 @@
       "repository": "Memorithm/Forge",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
-      "tree_sha": "a150bed2f17a801cb8dbde65a1c06436ccaa6220",
+      "current_head": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
+      "tree_sha": "15bfad4f8fcd72867f1b6c7f4432f01ce48fe062",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": null,
+      "last_observed_at": "2026-10-07T18:00:17.767+02:00"
     },
     {
       "repository": "Memorithm/GOT",
@@ -6204,7 +6247,8 @@
       "tree_sha": "4f538ff69ae1cf48c82a9a97072756850a34a23e",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": null,
+      "last_observed_at": "2026-10-07T18:00:17.767+02:00"
     },
     {
       "repository": "Memorithm/SciRust-Verify",
@@ -8039,16 +8083,18 @@
         "Pour capsules durables, ajouter version policy/digest, fenêtre validité, liste révocations et mécanisme de mise à jour contrôlé; garder signature distincte d'autorisation d'exécution.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
+      "status": "in_progress",
+      "current_head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
       "default_branch": "main",
       "audit_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
+      "head_reconciliation": "confirmed_present_on_current_main_in_read_only_diagnosis",
+      "policy_review": "AGENTS.md; off-main SciCapsule roadmap and ML overlay read; trust lifecycle remains v1.",
       "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "resolution_evidence": [
+        "docs/audit-global/proofs/SciCapsule-MEM-12-current-head-20261007.json"
+      ],
+      "last_observed_at": "2026-10-07T18:00:17.767+02:00",
+      "next_action": "Implement versioned validity/revocation policy, pinned digest/revision and controlled local updates with actual expiry/revocation/rollback/threshold/consumer tests; qualify exact candidate/integrated HEAD before closure."
     },
     {
       "id": "MEM-13",
@@ -8989,11 +9035,11 @@
         "Imposer authentification du client/mTLS ou tunnel authentifié, liste de pairs autorisés, quotas de concurrence et délai handshake/lecture. Refuser l'écoute non-loopback non authentifiée par défaut.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
-      "current_head": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+      "status": "resolved",
+      "current_head": "8df26b891d87eeabb3e7102ce3c43de7546fd0f4",
       "default_branch": "main",
       "audit_head": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
-      "head_reconciliation": "confirmed_current_main_and_corrected_in_open_pr",
+      "head_reconciliation": "resolved_on_integrated_exact_tree_and_actual_target_CI",
       "policy_review": "AGENTS.md; .agent/FORGE_ECOSYSTEM_ROADMAP.yaml off-main (579 lines); .agent/ML_MATURITY_5_OF_5.yaml off-main (100 lines); docs/AX_TASK_ISOLATION_BOOTSTRAP.md; LICENSE; LICENSE.md; LICENSING.md",
       "prs": [
         "https://github.com/Memorithm/Forge/pull/51"
@@ -9002,8 +9048,8 @@
         "docs/audit-global/proofs/Forge-FORGE-03-current-head-20261007.json",
         "docs/audit-global/proofs/Forge-51-FORGE-03-20261007.json"
       ],
-      "last_observed_at": "2026-10-07T17:51:55.982+02:00",
-      "next_action": "Observe remaining exact-head checks/reviews; merge with expected_head_sha only after full qualification; validate integrated main."
+      "last_observed_at": "2026-10-07T18:00:17.767+02:00",
+      "next_action": "Clos sur SHA intégré avec workflows et régressions réseau effectivement exécutés; conserver les limites d’attestation/replay/isolation."
     },
     {
       "id": "FORGE-04",
@@ -10732,22 +10778,22 @@
     "owner": "chatgpt-audit-202610071735",
     "acquired_at": "2026-10-07T15:37:36.943Z",
     "expires_at": "2026-10-07T17:07:36.943Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-07T16:00:17.767Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-20261007170510",
     "canonical_counts": {
-      "merged_prs": 74,
-      "closed_findings": 66,
-      "remaining_findings": 35
+      "merged_prs": 75,
+      "closed_findings": 67,
+      "remaining_findings": 34
     },
     "batch": {
       "number": 2,
-      "merged_prs": 24,
+      "merged_prs": 25,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Qualify integrated CCOS-Core #34 at 445782c5bcaaffef51b1d37dfbdf170bb667d2ec and implement confirmed FORGE-03 authenticated bounded worker policies; no duplicate PR/merge count."
+    "next_action": "Implement confirmed MEM-12 trust lifecycle (validity/revocation/policy digest and controlled updates) with consumer qualification; reconcile durable registry first; 34 findings remain."
   },
   "capabilities": [
     {

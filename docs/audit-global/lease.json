@@ -3,20 +3,20 @@
   "owner": "chatgpt-audit-202610071735",
   "acquired_at": "2026-10-07T15:37:36.943Z",
   "expires_at": "2026-10-07T17:07:36.943Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-07T16:00:17.767Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-20261007170510",
   "canonical_counts": {
-    "merged_prs": 74,
-    "closed_findings": 66,
-    "remaining_findings": 35
+    "merged_prs": 75,
+    "closed_findings": 67,
+    "remaining_findings": 34
   },
   "batch": {
     "number": 2,
-    "merged_prs": 24,
+    "merged_prs": 25,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Qualify integrated CCOS-Core #34 at 445782c5bcaaffef51b1d37dfbdf170bb667d2ec and implement confirmed FORGE-03 authenticated bounded worker policies; no duplicate PR/merge count."
+  "next_action": "Implement confirmed MEM-12 trust lifecycle (validity/revocation/policy digest and controlled updates) with consumer qualification; reconcile durable registry first; 34 findings remain."
 }

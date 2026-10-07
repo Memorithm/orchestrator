@@ -1,0 +1,38 @@
+{
+  "id": "MEM-12",
+  "repository": "Memorithm/SciCapsule",
+  "status": "in_progress",
+  "observed_at": "2026-10-07T15:57:21.867Z",
+  "current_head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+  "default_branch": "main",
+  "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#MEM-12",
+  "read_only_diagnosis": {
+    "trust_source": {
+      "path": "src/trust.rs",
+      "blob": "5f63503bd6b88f4edad44db33fa9467ebb182e25",
+      "evidence": "TRUST_POLICY_VERSION = 1; TrustPolicy fields are version, algorithm, minimum_signatures and trusted_keys. Verification enforces distinct signers but has no validity or revocation metadata."
+    },
+    "security_document": {
+      "path": "docs/SECURITY_MODEL.md",
+      "blob": "a94fca6f24fbf53a6956d31b862188a2b8e3c6d6",
+      "evidence": "Explicit v1 non-guarantee for revocation/expiration/time/provenance retained."
+    },
+    "policy_read": [
+      "AGENTS.md (bb6b903325bfc3d1819a8c0aed915e84e995a797)",
+      "off-main SCICAPSULE_ECOSYSTEM_ROADMAP.yaml (ba89e06dd6b74d0ffc25b750d4646cfec4a0f153)",
+      "off-main ML_MATURITY_5_OF_5.yaml (93af7678a35c285a4f0de661a1439b75aa4ac9cc)"
+    ],
+    "canonical_schema_owner": "Memorithm/scirust; trust sidecars stay owned by SciCapsule"
+  },
+  "actions_executed": [
+    "Read current source, security model, required bootstrap and roadmap/overlay; confirmed finding persists."
+  ],
+  "code_modified": false,
+  "pr_created": false,
+  "tests_executed": [],
+  "dependencies": [
+    "Versioned trust-policy compatibility across verify-trusted/run/hub/provenance consumers; preserve canonical capsule bytes and distinct signer thresholds."
+  ],
+  "next_action": "Implement versioned validity/revocation policy, pinned digest/revision and controlled local updates with actual expiry/revocation/rollback/threshold/consumer tests; qualify exact candidate/integrated HEAD before closure.",
+  "no_resolution_claim": true
+}
