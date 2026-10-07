@@ -1322,20 +1322,196 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T12:34:07+02:00",
+      "observed_session_start": "2026-10-07T12:05:21+02:00",
+      "lease_owner": "chatgpt-audit-20261007120521",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 19,
+        "batch_target": 50,
+        "merged_prs": 69,
+        "closed_findings": 56,
+        "remaining_findings": 45,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "RT-TQ-02/RT-TQ-03",
+          "repository": "Memorithm/TurboQuant",
+          "status": "resolved",
+          "base_sha": "2df9b194997cb8526e76857374fe7f8acf619084",
+          "pr": 16,
+          "candidate_head": "6cf1763d009325ed2dac3ba812d75bed2dfc3fb8",
+          "candidate_tree": "cbc7fd579bfea940f2ac9d2e30f714124b5843fd",
+          "merge_sha": "e26f7e1afa6962a603147a4487112f720db46c84",
+          "target_tree": "cbc7fd579bfea940f2ac9d2e30f714124b5843fd",
+          "actions": [
+            "Relu AGENTS.md, LICENSE, LICENSE.md, LICENSING.md et les roadmaps obligatoires avant modification; préservé la licence PolyForm Noncommercial et les attributions.",
+            "Confirmé sur main le canal et le cache debounce non bornés, les tâches spawn_blocking non suivies et les collisions de sortie/temporaire par seul file_stem.",
+            "Installé limites validées, canal borné/coalescé, sémaphore et JoinSet drainé au shutdown, cache debounce borné et budget GGUF explicite.",
+            "Qualifié les sorties par identité source et block_size, ajouté temporaires exclusifs, verrou flock récupérable après crash, manifeste de provenance et refus fail-closed des destinations incohérentes.",
+            "Ajouté les tests de charge 10000 événements, dépassement de budget, homonymes inter-dossiers, récupération du verrou et préservation du dernier artefact valide.",
+            "Traité les deux constats de revue, répondu et résolu les fils; corrigé les écarts format/Clippy uniquement sur des HEAD supersédés.",
+            "Revalidé base, HEAD, arbre, diff, mergeabilité et validations exact-head, puis fusionné par squash avec expected_head_sha.",
+            "Vérifié main et l'égalité exacte des arbres candidat/intégré; les trois workflows push sont verts sur le merge SHA."
+          ],
+          "checks": {
+            "local": [
+              "git diff --check"
+            ],
+            "local_limit": "Cargo, rustc et rustfmt absents localement; aucune exécution Rust locale revendiquée.",
+            "candidate_runs": [
+              {
+                "id": 37607476522,
+                "name": "CI",
+                "status": "completed",
+                "conclusion": "success",
+                "jobs": [
+                  112746393983,
+                  112746394247,
+                  112746394257,
+                  112746394309,
+                  112746394334,
+                  112746394364,
+                  112746394457,
+                  112746394462,
+                  112746394503,
+                  112746394513
+                ]
+              },
+              {
+                "id": 37607476663,
+                "name": "Tests",
+                "status": "completed",
+                "conclusion": "success",
+                "jobs": [
+                  112746395281,
+                  112746395457,
+                  112746395482,
+                  112746395559
+                ]
+              }
+            ],
+            "target_runs": [
+              {
+                "id": 37607934717,
+                "name": "CI",
+                "status": "completed",
+                "conclusion": "success",
+                "jobs": [
+                  112747891822,
+                  112747892019,
+                  112747892042,
+                  112747892055,
+                  112747892093,
+                  112747892120,
+                  112747892137,
+                  112747892139,
+                  112747892165,
+                  112747892271
+                ]
+              },
+              {
+                "id": 37607934585,
+                "name": "Tests",
+                "status": "completed",
+                "conclusion": "success",
+                "jobs": [
+                  112747890892,
+                  112747891189,
+                  112747891275,
+                  112747891292
+                ]
+              },
+              {
+                "id": 37607934629,
+                "name": "Docs",
+                "status": "completed",
+                "conclusion": "success",
+                "jobs": [
+                  112747891115
+                ]
+              }
+            ]
+          },
+          "dependencies": [],
+          "proof": "docs/audit-global/proofs/TurboQuant-16-RT-TQ-02-03.json",
+          "next_action": "Clos; surveiller uniquement les régressions sur les bornes, la publication atomique et la provenance."
+        },
+        {
+          "id": "B-FL-02",
+          "repository": "Memorithm/FieldLab",
+          "status": "waiting_ci",
+          "current_main": "a1b8010df4822948fee8df6cef993e8b01c68959",
+          "actions": [
+            "Réconcilié le SHA intégré: aucun workflow ni statut cible observé; aucun changement de statut."
+          ],
+          "reason_for_wait": "Aucun workflow cible ni statut n'est attaché au SHA intégré exact.",
+          "dependencies": [
+            "Succès d'une validation cible sur a1b8010df4822948fee8df6cef993e8b01c68959"
+          ],
+          "next_action": "Réconcilier la CI cible et clore uniquement après succès exact."
+        },
+        {
+          "id": "BF-KV-01/BF-KV-02/BF-KV-03/BF-KV-05",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "current_main": "b6793546d27998f5122a449b3841f147b4214dba",
+          "actions": [
+            "Réconcilié le SHA intégré: aucun workflow ni statut fleet main observé; aucun changement de statut."
+          ],
+          "reason_for_wait": "Validation fleet main absente sur le SHA intégré exact.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur b6793546d27998f5122a449b3841f147b4214dba"
+          ],
+          "next_action": "Ne clore les quatre constats qu'après CI cible verte."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; RT-TQ-02/03 ont avancé indépendamment."
+          ],
+          "reason_for_wait": "Restriction selected-workflow du runner group Thor non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor au workflow push de confiance et probe sûr de refus"
+          ],
+          "next_action": "Reprendre après preuve de restriction; ne pas clore avant."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; RT-TQ-02/03 ont avancé indépendamment."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps"
+          ],
+          "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": "2 — 18/50",
-    "merged_prs": 68,
-    "closed_findings": 54,
-    "remaining_findings": 47,
+    "batch": "2 — 19/50",
+    "merged_prs": 69,
+    "closed_findings": 56,
+    "remaining_findings": 45,
     "newly_resolved": [
       "B-NR-01",
       "BF-KV-04",
       "COG-SML-002",
       "RT-ELASTIC-01",
       "RT-FLAT-01",
-      "RT-NNIS-05"
+      "RT-NNIS-05",
+      "RT-TQ-02",
+      "RT-TQ-03"
     ],
     "blocked": [
       "MEM-11",
@@ -1349,6 +1525,6 @@
       "BF-KV-05",
       "B-FL-02"
     ],
-    "next_action": "Réconcilier les CI cibles FieldLab et KVLab sur leurs SHA intégrés exacts, sans clore les constats avant succès, et poursuivre les chantiers autonomes."
+    "next_action": "Réconcilier les CI cibles FieldLab et KVLab sur leurs SHA intégrés exacts, puis poursuivre le prochain constat autonome prioritaire sans clôture prématurée."
   }
 }
