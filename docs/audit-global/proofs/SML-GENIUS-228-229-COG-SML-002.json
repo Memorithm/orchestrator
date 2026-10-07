@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "finding_id": "COG-SML-002",
+  "repository": "Memorithm/SML-GENIUS",
+  "status": "resolved",
+  "observed_at": "2026-10-07T05:32:49+02:00",
+  "audit_snapshot": {
+    "sha": "22c9196bb6d059afa46b2dcf3fec1a424a4c4613",
+    "path": ".github/workflows/ci.yml",
+    "finding": "pull_request/main et push/main partageaient un job runs-on [self-hosted], sans frontière OS fiable pour le code candidat"
+  },
+  "reconciled_base": {
+    "branch": "main",
+    "sha": "17fcbdbf7775f060f4403bcba56256fb650dd40b",
+    "visibility": "private",
+    "workflow_blob": "9604dddbceb18c0bfec7780bc7daf029ffbcadc2"
+  },
+  "bootstrap": {
+    "pull_request": 228,
+    "url": "https://github.com/Memorithm/SML-GENIUS/pull/228",
+    "head_sha": "0e30522107b03bd697bd41efb7f2bed068cf4851",
+    "tree_sha": "09a729bbbfd644ac45f580a0277f65bb063a96aa",
+    "merge_sha": "e78a0d73ece6a0c70a1cdf764fd372aa38c6c9a1",
+    "merge_tree_sha": "09a729bbbfd644ac45f580a0277f65bb063a96aa",
+    "candidate_run": {
+      "id": 37565876426,
+      "event": "pull_request",
+      "job_id": 112613346011,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0e30522107b03bd697bd41efb7f2bed068cf4851",
+      "runner_name": "GitHub Actions 1000206269",
+      "runner_group": "GitHub Actions",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "steps": {
+        "total": 65,
+        "success": 34,
+        "skipped": 31,
+        "failed": 0
+      }
+    },
+    "review": {
+      "head_sha": "0e30522107b03bd697bd41efb7f2bed068cf4851",
+      "status": "completed_clean",
+      "unresolved_threads": 0
+    },
+    "target_run": {
+      "id": 37566304029,
+      "event": "push",
+      "job_id": 112614697208,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e78a0d73ece6a0c70a1cdf764fd372aa38c6c9a1",
+      "runner_name": "memorithm-thor-light-02",
+      "labels": [
+        "self-hosted"
+      ]
+    },
+    "purpose": "install pull_request_target while retaining a hosted pull_request trigger only long enough to validate the bootstrap exact head"
+  },
+  "installed_qualification": {
+    "pull_request": 229,
+    "url": "https://github.com/Memorithm/SML-GENIUS/pull/229",
+    "head_sha": "87433f4f0318c8a9e1251dd0cf8cdd08d5cd6523",
+    "tree_sha": "06b26d8a53621c67f1c4dde37ca7ea9a6a78100c",
+    "merge_sha": "013741325d02cd35eabc0086383b1d050c7ab1e8",
+    "merge_tree_sha": "06b26d8a53621c67f1c4dde37ca7ea9a6a78100c",
+    "candidate_run": {
+      "id": 37566649979,
+      "event": "pull_request_target",
+      "job_id": 112615787161,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "87433f4f0318c8a9e1251dd0cf8cdd08d5cd6523",
+      "runner_name": "GitHub Actions 1000206271",
+      "runner_group": "GitHub Actions",
+      "labels": [
+        "ubuntu-24.04"
+      ]
+    },
+    "review": {
+      "head_sha": "87433f4f0318c8a9e1251dd0cf8cdd08d5cd6523",
+      "status": "completed_clean_after_scope_correction",
+      "resolved_threads": 1,
+      "unresolved_threads": 0,
+      "note": "P1 premised on public visibility was addressed by verified private visibility and a documented future-public contingency."
+    },
+    "target_run": {
+      "id": 37567118009,
+      "event": "push",
+      "job_id": 112617250342,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "013741325d02cd35eabc0086383b1d050c7ab1e8",
+      "runner_name": "memorithm-thor-light-02",
+      "runner_group": "thor-general",
+      "labels": [
+        "self-hosted"
+      ],
+      "steps": {
+        "total": 65,
+        "success": 34,
+        "skipped": 31,
+        "failed": 0
+      }
+    }
+  },
+  "enforced_boundary": [
+    "The workflow definition for pull requests is evaluated from main via pull_request_target.",
+    "Candidate code runs on ubuntu-24.04, not the persistent self-hosted runner.",
+    "Checkout is pinned to the exact candidate repository and SHA with persist-credentials false.",
+    "Workflow permissions remain contents read and no repository secret is supplied.",
+    "The persistent self-hosted runner is reserved for trusted pushes already integrated into main."
+  ],
+  "policy_limit": {
+    "github_notice": "GitHub documents a November 2, 2026 default block for pull_request_target in public repositories.",
+    "official_url": "https://docs.github.com/en/actions/how-tos/administer/control-workflow-execution",
+    "current_scope": "private repository; the announced public-repository default does not apply at qualification time",
+    "future_condition": "before any public visibility change, verify an Actions-policy exception or restore an unprivileged GitHub-hosted pull_request path",
+    "not_claimed": [
+      "branch-protection configuration",
+      "runner-group selected-workflow restriction"
+    ]
+  },
+  "closure_basis": "Two-step installed qualification proves the final workflow definition runs the exact PR head on a GitHub-hosted runner and the integrated exact tree passes target main CI."
+}

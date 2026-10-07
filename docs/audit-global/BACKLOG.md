@@ -1,8 +1,8 @@
 # Backlog de remédiation — 30 septembre 2026
 
-État réconcilié du 7 octobre 2026 : **59 PR techniques fusionnées au total**, **51/101 constats clos**, **50 restants** ; lot 2 à **9/50**. `RT-ELASTIC-01` est clos par [ElasticXxx #242](https://github.com/Memorithm/ElasticXxx/pull/242) et la qualification installée [#243](https://github.com/Memorithm/ElasticXxx/pull/243) : quatorze workflows exact-head verts sur le candidat, treize workflows push verts sur l'arbre final identique `cfb6a112b0f526515681daed38f75c18a36cbeb3`. [Preuve](proofs/ElasticXxx-242-243-RT-ELASTIC-01.json). `RT-FLAT-01` reste clos par réconciliation de [FLAT-ATTENTION #337](https://github.com/Memorithm/FLAT-ATTENTION/pull/337), sans revendication performance M53. [Preuve](proofs/FLAT-ATTENTION-337-RT-FLAT-01.json).
+État réconcilié du 7 octobre 2026 : **63 PR techniques fusionnées au total**, **54/101 constats clos**, **47 restants** ; lot 2 à **13/50**. `COG-SML-002` est clos par [SML-GENIUS #228](https://github.com/Memorithm/SML-GENIUS/pull/228) et la qualification installée [#229](https://github.com/Memorithm/SML-GENIUS/pull/229) : le code candidat exact s’exécute sur `ubuntu-24.04`, tandis que le runner persistant reste réservé aux pushes intégrés. [Preuve](proofs/SML-GENIUS-228-229-COG-SML-002.json). `B-NR-01` est clos par [nonlocal-relativity-v2 #59](https://github.com/Memorithm/nonlocal-relativity-v2/pull/59) après succès des trois workflows candidats puis des trois workflows de la branche cible, dont les 22/22 jobs CI ; [#58](https://github.com/Memorithm/nonlocal-relativity-v2/pull/58) a été fermée sans fusion comme remplacée. [Preuve](proofs/nonlocal-relativity-v2-59-B-NR-01.json).
 
-101 IDs ; 12 positifs conservés. État canonique actuel : lot 1 terminé à 50/50 ; lot 2 à 9/50 ; cumul fusionné : 59 ; clos : 51 ; restants : 50.
+101 IDs ; 12 positifs conservés. État canonique actuel : lot 1 terminé à 50/50 ; lot 2 à 13/50 ; cumul fusionné : 63 ; clos : 54 ; restants : 47.
 
 État réconcilié du 5 octobre 2026 après FieldLab : **52 PR techniques fusionnées au total**, **43/101 constats clos**, **58 restants** ; lot 2 à **2/50**. `B-FL-03` est clos par [FieldLab #57](https://github.com/Memorithm/FieldLab/pull/57), candidat `4c7bc18426edb80cc0a1d7f23784ef96e88e8ddb`, cible `996841a27b0ece7d677eb707e6e16ca22090d1e0`, arbre commun `262ca14f91c6c1c40d296284ca7669cb7731e073`. Les neuf workflows candidats et les neuf workflows cible sont verts ; le lock de référence SHA-256 est `140bb83a3ba9d42191628f7d04e9e66b709d9defe03b04dd3f08c7b0183e0741`. [Preuve](proofs/FieldLab-57-B-FL-03.json).\n\nÉtat réconcilié du 5 octobre 2026 : **51 PR techniques fusionnées au total**, **42/101 constats clos**, **59 restants** ; lot 2 à **1/50**. `B-RH-01` est clos par [riemann_ndim_bench #73](https://github.com/Memorithm/riemann_ndim_bench/pull/73), candidat `7e600845d67753b74672b71e9254dd244f64f362`, cible `d7f0b70feb515a3f3a80cd681d820510bc2ed938`, arbre commun `bb2fd8d319af26fe43cf5ea3970ac17ffe22884d`. Les CI candidat `37193138335` et cible `37193369605` sont vertes. [Preuve](proofs/riemann_ndim_bench-73-B-RH-01.json).\n\nÉtat réconcilié du 4 octobre 2026 : **50/50 PR techniques fusionnées**, **41/101 constats clos**, **60 restants**. Le premier lot de 50 PR est complet. `PAPERS-01` reste **en cours** après [PAPERS-AGENT #7](https://github.com/Memorithm/PAPERS-AGENT/pull/7), candidat `5996497060cbc01bc21fb6209e10d73799d2ea0a`, cible `86b3dc2b84e98e3468448cb44395aeca3f989460`, arbre commun `e54f4a3169995ac97863aac261b4b8d41785508d`; la tranche borne les diagnostics locaux et refuse la compilation Rust non fiable sur l’hôte, mais la qualification du backend OS externe reste à faire. [Preuve](proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json). `PAPERS-02` est clos par [PAPERS-AGENT #6](https://github.com/Memorithm/PAPERS-AGENT/pull/6), candidat `55317ceb442685cc28d5fdc4e123e148ab274dc7`, cible `712b35fe88f7bb25b4758b8c9cbac3091533e75c`, arbre commun `8d417233bf8baa674e29a7306f08100cc74055f4`, avec CI candidat et cible vertes et [preuve](proofs/PAPERS-AGENT-6-PAPERS-02.json). `MEM-02` est clos par [CCOS-Core #32](https://github.com/Memorithm/CCOS-Core/pull/32) avec cible `e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb` et preuve `proofs/CCOS-Core-32-MEM-02.json`. `ORCH-01` est clos par [orchestrator #82](https://github.com/Memorithm/orchestrator/pull/82), cible `47a0d66729cf37bb6545e06afc38152853b9e17f`, avec CI candidat et cible vertes et preuve `proofs/orchestrator-82-ORCH-01.json`. Le premier lot a été réconcilié sans doublon : 50 identités PR uniques et 101 constats uniques.
 
@@ -28,7 +28,7 @@
 | RT-NNIS-01 | Memorithm/NNIS | 9 | à faire |  |
 | RT-NNIS-02 | Memorithm/NNIS | 2 | résolu | [preuve](proofs/NNIS-253-RT-NNIS-02.json), [PR #253](https://github.com/Memorithm/NNIS/pull/253) |
 | RT-NNIS-03 | Memorithm/NNIS | 9 | à faire |  |
-| RT-NNIS-05 | Memorithm/NNIS | 9 | à faire |  |
+| RT-NNIS-05 | Memorithm/NNIS | 9 | résolu | [preuve](proofs/NNIS-260-RT-NNIS-05.json), [PR #260](https://github.com/Memorithm/NNIS/pull/260) |
 | RT-NNIS-06 | Memorithm/NNIS | 1 | résolu |  |
 | MEM-01 | Memorithm/CCOS-Core | 9 | à faire |  |
 | MEM-02 | Memorithm/CCOS-Core | 6 | résolu | [preuve](proofs/CCOS-Core-32-MEM-02.json), [PR #32](https://github.com/Memorithm/CCOS-Core/pull/32) |
@@ -62,7 +62,7 @@
 | COG-OCTA-002 | Memorithm/octasoma | 1 | résolu | [preuve](proofs/octasoma-68-COG-OCTA-002.json), [PR #68](https://github.com/Memorithm/octasoma/pull/68) |
 | COG-OCTA-003 | Memorithm/octasoma | 9 | à faire |  |
 | COG-SML-001 | Périmètre privé — source interne | 9 | à faire |  |
-| COG-SML-002 | Périmètre privé — source interne | 8 | à faire |  |
+| COG-SML-002 | Memorithm/SML-GENIUS | 8 | résolu | [preuve](proofs/SML-GENIUS-228-229-COG-SML-002.json), [PR #228](https://github.com/Memorithm/SML-GENIUS/pull/228), [PR #229](https://github.com/Memorithm/SML-GENIUS/pull/229) |
 | COG-SML-003 | Périmètre privé — source interne | 9 | à faire |  |
 | FORGE-01 | Memorithm/Forge | 5 | résolu | [Forge #49](https://github.com/Memorithm/Forge/pull/49), [preuve](proofs/Forge-49-FORGE-01.json), revalidé dans l’arbre exact vert de [Forge #50](https://github.com/Memorithm/Forge/pull/50) |
 | FORGE-02 | Memorithm/Forge | 7 | résolu | [Forge #50](https://github.com/Memorithm/Forge/pull/50), [preuve](proofs/Forge-50-FORGE-02.json) |
@@ -81,7 +81,7 @@
 | B-ITD-01 | Memorithm/itd-simulator | 9 | à faire |  |
 | B-ITD-02 | Memorithm/itd-simulator | 9 | à faire |  |
 | B-ITD-03 | Memorithm/itd-simulator | 9 | à faire | B-NO-03 |
-| B-NR-01 | Périmètre privé — source interne | 8 | à faire |  |
+| B-NR-01 | Memorithm/nonlocal-relativity-v2 | 8 | résolu | [preuve](proofs/nonlocal-relativity-v2-59-B-NR-01.json), [PR #59](https://github.com/Memorithm/nonlocal-relativity-v2/pull/59) ; [PR #58](https://github.com/Memorithm/nonlocal-relativity-v2/pull/58) fermée sans fusion comme remplacée |
 | B-NR-02 | Périmètre privé — source interne | 9 | à faire |  |
 | B-RH-01 | Memorithm/riemann_ndim_bench | 8 | résolu | [preuve](proofs/riemann_ndim_bench-73-B-RH-01.json), [PR #73](https://github.com/Memorithm/riemann_ndim_bench/pull/73) |
 | B-RH-02 | Memorithm/riemann_ndim_bench | 6 | résolu | [preuve](proofs/riemann_ndim_bench-71-72-B-RH-02.json), [PR #71](https://github.com/Memorithm/riemann_ndim_bench/pull/71), [PR #72](https://github.com/Memorithm/riemann_ndim_bench/pull/72), [CI cible](https://github.com/Memorithm/riemann_ndim_bench/actions/runs/37116970876) |
@@ -92,12 +92,12 @@
 | B-FL-02 | Memorithm/FieldLab | 9 | à faire |  |
 | B-FL-03 | Memorithm/FieldLab | 8 | résolu | [preuve](proofs/FieldLab-57-B-FL-03.json), [PR #57](https://github.com/Memorithm/FieldLab/pull/57) |
 | B-NO-01 | Memorithm/NeuralOperator | 9 | à faire |  |
-| B-NO-02 | Memorithm/NeuralOperator | 8 | à faire |  |
+| B-NO-02 | Memorithm/NeuralOperator | 8 | résolu | [preuve](proofs/NeuralOperator-34-B-NO-02.json), [PR #34](https://github.com/Memorithm/NeuralOperator/pull/34) |
 | B-NO-03 | Memorithm/NeuralOperator | 9 | à faire |  |
 | B-NO-04 | Memorithm/NeuralOperator | 9 | à faire |  |
 | B-NL-01 | Memorithm/NoiseLab | 5 | résolu | [PR 74](https://github.com/Memorithm/NoiseLab/pull/74), [preuve](proofs/NoiseLab-74-B-NL-01.json), [CI cible](https://github.com/Memorithm/NoiseLab/actions/runs/36902249415), [smoke cible](https://github.com/Memorithm/NoiseLab/actions/runs/36902249479) |
 | B-NL-02 | Memorithm/NoiseLab | 1 | résolu | [PR 73](https://github.com/Memorithm/NoiseLab/pull/73), [preuve](proofs/NoiseLab-73-B-NL-02.json) |
-| B-NL-03 | Memorithm/NoiseLab | 8 | à faire |  |
+| B-NL-03 | Memorithm/NoiseLab | 8 | résolu | [preuve](proofs/NoiseLab-75-B-NL-03.json), [PR #75](https://github.com/Memorithm/NoiseLab/pull/75) |
 | BF-EE-01 | Memorithm/ExtremEngine | 1 | résolu |  |
 | BF-EE-02 | Memorithm/ExtremEngine | 1 | résolu |  |
 | BF-EE-03 | Memorithm/ExtremEngine | 1 | résolu |  |
@@ -106,8 +106,8 @@
 | BF-KV-03 | Memorithm/KVLab | 9 | à faire |  |
 | BF-KV-04 | Memorithm/KVLab | 8 | résolu | [preuve](proofs/KVLab-182-BF-KV-04.json), [PR #182](https://github.com/Memorithm/KVLab/pull/182) |
 | BF-KV-05 | Memorithm/KVLab | 9 | à faire |  |
-| BF-BL-01 | Memorithm/BooleanLab | 8 | à faire |  |
-| BF-BL-02 | Memorithm/BooleanLab | 8 | à faire |  |
+| BF-BL-01 | Memorithm/BooleanLab | 8 | résolu | [preuve](proofs/BooleanLab-135-BF-BL-01.json), [PR #135](https://github.com/Memorithm/BooleanLab/pull/135) |
+| BF-BL-02 | Memorithm/BooleanLab | 8 | résolu | [preuve](proofs/BooleanLab-135-BF-BL-02.json), [PR #135](https://github.com/Memorithm/BooleanLab/pull/135) |
 | BF-EE-04 | Memorithm/ExtremEngine | 9 | à faire |  |
 | BF-EE-05 | Memorithm/ExtremEngine | 9 | à faire |  |
 | BF-EE-06 | Memorithm/ExtremEngine | 9 | à faire |  |

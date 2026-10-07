@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "finding_id": "B-NR-01",
+  "repository": "Memorithm/nonlocal-relativity-v2",
+  "status": "resolved",
+  "observed_at": "2026-10-07T05:51:31+02:00",
+  "audit_snapshot": {
+    "sha": "857a893accada29637630312df9ecd254c713b47",
+    "finding": "CI et Nonlocal Relativity échouaient; Native ARM64 réussissait; trois PR ouvertes."
+  },
+  "candidate": {
+    "pull_request": 59,
+    "url": "https://github.com/Memorithm/nonlocal-relativity-v2/pull/59",
+    "base_sha": "f44158e5371494713f710b0255137b599c24a111",
+    "head_sha": "01fc228e994e638ff841fe274ecd2fa9cedebe72",
+    "tree_sha": "9498c45b515f3721cd7401e9e848f68b9ebe1974",
+    "review": {
+      "status": "completed_clean",
+      "unresolved_threads": 0
+    },
+    "runs": [
+      {
+        "id": 37561031472,
+        "name": "Nonlocal Relativity",
+        "conclusion": "success"
+      },
+      {
+        "id": 37561031558,
+        "name": "CI",
+        "conclusion": "success",
+        "jobs": 22,
+        "successful_jobs": 22,
+        "miri_job": 112598091292
+      },
+      {
+        "id": 37561031576,
+        "name": "Native ARM64",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "merge": {
+    "method": "squash with expected_head_sha guard",
+    "merge_sha": "2c11a00b88357aae7950f40c6e6ae466713ec0f5",
+    "target_tree_sha": "9498c45b515f3721cd7401e9e848f68b9ebe1974",
+    "exact_tree_match": true
+  },
+  "superseded_pull_request": {
+    "number": 58,
+    "url": "https://github.com/Memorithm/nonlocal-relativity-v2/pull/58",
+    "head_sha": "d9cdd4c536f14a5ca3e9eba626c7dbf8e7f5222b",
+    "disposition": "closed_without_merge_as_superseded_cumulative_branch"
+  },
+  "target": {
+    "branch": "main",
+    "head_sha": "2c11a00b88357aae7950f40c6e6ae466713ec0f5",
+    "tree_sha": "9498c45b515f3721cd7401e9e848f68b9ebe1974",
+    "runs": [
+      {
+        "id": 37565325178,
+        "name": "Nonlocal Relativity",
+        "conclusion": "success"
+      },
+      {
+        "id": 37565325106,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "successful_jobs": 22,
+        "total_jobs": 22,
+        "miri_job": {
+          "id": 112611586282,
+          "name": "Miri (memory safety and numeric crates)",
+          "conclusion": "success"
+        }
+      },
+      {
+        "id": 37565325108,
+        "name": "Native ARM64",
+        "conclusion": "success",
+        "job": 112611585932
+      }
+    ]
+  },
+  "scientific_boundary": [
+    "Numerical diagnostic only.",
+    "No adaptive accept/reject decision.",
+    "No claim of covariance or coordinate invariance.",
+    "Cross-chart acceptance and curved-space validation remain separate work."
+  ],
+  "closure_performed": true,
+  "closure_basis": "Les trois workflows candidats et les trois workflows de la branche cible ont réussi sur des arbres exactement identiques; la CI cible comprend 22/22 jobs réussis, dont Miri.",
+  "next_action": "Clos; préserver la limite de diagnostic numérique et requalifier tout changement futur sur le SHA intégré exact."
+}

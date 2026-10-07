@@ -498,27 +498,137 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T05:51:31+02:00",
+      "observed_session_start": "2026-10-07T05:05:18+02:00",
+      "lease_owner": "chatgpt-audit-20261007050518",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 13,
+        "batch_target": 50,
+        "merged_prs": 63,
+        "closed_findings": 54,
+        "remaining_findings": 47,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "B-NR-01",
+          "repository": "Memorithm/nonlocal-relativity-v2",
+          "status": "resolved",
+          "pr": 59,
+          "candidate_head": "01fc228e994e638ff841fe274ecd2fa9cedebe72",
+          "merge_sha": "2c11a00b88357aae7950f40c6e6ae466713ec0f5",
+          "actions": [
+            "Réconcilié les trois workflows candidats: Nonlocal Relativity, CI 22/22 jobs et Native ARM64 réussis sur le HEAD exact.",
+            "Revérifié la revue exacte sans constat, la base et la mergeabilité puis fusionné #59 par squash avec expected_head_sha.",
+            "Vérifié que l'arbre intégré est identique à l'arbre candidat; fermé #58 sans fusion comme branche cumulative remplacée.",
+            "Qualifié Nonlocal Relativity et Native ARM64 sur main; 21/22 jobs de la CI cible sont réussis.",
+            "Le job Miri cible 112611586282 a terminé avec succès; la CI cible est désormais verte à 22/22 jobs sur le SHA intégré exact."
+          ],
+          "candidate_runs": [
+            37561031472,
+            37561031558,
+            37561031576
+          ],
+          "target_runs": [
+            37565325178,
+            37565325106,
+            37565325108
+          ],
+          "proof": "docs/audit-global/proofs/nonlocal-relativity-v2-59-B-NR-01.json",
+          "next_action": "Clos; préserver la limite scientifique et requalifier tout changement futur sur le SHA intégré exact.",
+          "dependencies": []
+        },
+        {
+          "id": "COG-SML-002",
+          "repository": "Memorithm/SML-GENIUS",
+          "status": "resolved",
+          "prs": [
+            228,
+            229
+          ],
+          "candidate_heads": [
+            "0e30522107b03bd697bd41efb7f2bed068cf4851",
+            "87433f4f0318c8a9e1251dd0cf8cdd08d5cd6523"
+          ],
+          "merge_shas": [
+            "e78a0d73ece6a0c70a1cdf764fd372aa38c6c9a1",
+            "013741325d02cd35eabc0086383b1d050c7ab1e8"
+          ],
+          "actions": [
+            "Relu les instructions, la roadmap obligatoire hors main et la licence; revérifié le constat sur le HEAD privé courant.",
+            "Créé #228 pour installer une frontière trusted-base: code candidat exact sur ubuntu-24.04, checkout sans credentials, runner persistant réservé aux pushes intégrés.",
+            "Qualifié le HEAD exact par le run PR 37565876426, obtenu une revue propre, fusionné avec expected_head_sha puis qualifié le push 37566304029.",
+            "Créé #229 pour tester la définition pull_request_target réellement installée et retirer le trigger pull_request transitoire.",
+            "Qualifié le HEAD exact par 37566649979 sur GitHub-hosted, résolu le fil de revue lié au futur cas public, fusionné avec expected_head_sha puis qualifié main par 37567118009 sur le runner persistant."
+          ],
+          "candidate_runs": [
+            37565876426,
+            37566649979
+          ],
+          "target_runs": [
+            37566304029,
+            37567118009
+          ],
+          "proof": "docs/audit-global/proofs/SML-GENIUS-228-229-COG-SML-002.json",
+          "limits": [
+            "La politique de protection de branche et la restriction selected-workflow du runner group n'étaient pas lisibles; elles ne sont pas revendiquées.",
+            "Avant toute visibilité publique future, vérifier l'exception Actions pull_request_target ou restaurer une voie pull_request hosted non privilégiée."
+          ],
+          "dependencies": [],
+          "next_action": "Clos; préserver la frontière hosted pour les PR et le plan de transition avant tout changement de visibilité."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; B-NR-01 et COG-SML-002 ont avancé indépendamment."
+          ],
+          "reason_for_wait": "Restriction selected-workflow du runner group Thor non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor au workflow push de confiance et probe sûr de refus"
+          ],
+          "next_action": "Reprendre après preuve de restriction; ne pas clore avant."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; B-NR-01 et COG-SML-002 ont avancé indépendamment."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps"
+          ],
+          "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": "2 — 10/50",
-    "merged_prs": 60,
-    "closed_findings": 52,
-    "remaining_findings": 49,
+    "batch": "2 — 13/50",
+    "merged_prs": 63,
+    "closed_findings": 54,
+    "remaining_findings": 47,
     "newly_resolved": [
+      "B-NR-01",
       "BF-KV-04",
-      "RT-FLAT-01",
+      "COG-SML-002",
       "RT-ELASTIC-01",
+      "RT-FLAT-01",
       "RT-NNIS-05"
     ],
     "blocked": [
-      "PAPERS-01",
-      "MEM-11"
+      "MEM-11",
+      "PAPERS-01"
     ],
     "excluded_repositories_modified": [],
-    "waiting_ci": [
-      "B-NR-01"
-    ],
-    "next_action": "Reprendre B-NR-01 sur #59 dès la fin de Miri; fusionner seulement après qualification exacte."
+    "waiting_ci": [],
+    "next_action": "Poursuivre un constat autonome de priorité 8; conserver MEM-11 et PAPERS-01 comme blocages externes tant que leurs dépendances ne sont pas prouvées."
   }
 }
