@@ -1,0 +1,53 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "BF-KV-02"
+  ],
+  "repository": "Memorithm/KVLab",
+  "default_branch": "main",
+  "audit_revision": "7e02edc1e3ac3b53cfb352cfad560db439755a0f",
+  "reconciled_base": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
+  "pull_request": {
+    "number": 184,
+    "url": "https://github.com/Memorithm/KVLab/pull/184",
+    "candidate_head": "5b0a8f5c3db245f4b30cf8932972f67f6aeef15e",
+    "candidate_tree": "54124f4c2447b99e1d2b1925c942bbe9e02f48d9",
+    "changed_files": 6,
+    "unresolved_review_threads": 0,
+    "merge_method": "squash_with_expected_head_sha",
+    "merge_sha": "d7a60fc93556bd67c312614e6c3731df98c7b314",
+    "target_tree": "54124f4c2447b99e1d2b1925c942bbe9e02f48d9"
+  },
+  "result": {
+    "historical_correctness": "retained: 2283 merged candidate IDs exactly matched the monolithic oracle",
+    "historical_performance": "withdrawn: max of independent shard medians is an estimate, not a paired end-to-end median",
+    "v2_protocol": "alternated monolithic/dual and shard launch order; common wall clock includes both processes and deterministic merge; raw samples retained; exact equality required every repetition; tracked-dirty and reused-output runs rejected",
+    "claim_boundary": "no new T430 performance claim exists until a clean v2 hardware campaign is executed"
+  },
+  "checks": {
+    "local": [
+      "bash -n scripts/run_t430_bkv_k4_distinct_shards.sh",
+      "python3 -m unittest discover -s tests -v: 577 passed",
+      "python3 -m compileall -q kvlab tests",
+      "git diff --check"
+    ],
+    "candidate": [
+      {
+        "run_id": 37575334277,
+        "name": "CI",
+        "conclusion": "success",
+        "head_sha": "5b0a8f5c3db245f4b30cf8932972f67f6aeef15e",
+        "jobs": [
+          112642839172,
+          112642839494
+        ],
+        "coverage": "Python compile and 577 tests; Rust format, Clippy, locked tests, locked dependency graph and retained artifact"
+      }
+    ],
+    "target": []
+  },
+  "status": "waiting_target_ci",
+  "reason_for_wait": "No Memorithm fleet main CI run is attached to d7a60fc93556bd67c312614e6c3731df98c7b314 after repeated reconciliation.",
+  "next_action": "Observe a successful target run on the exact integrated SHA before closing BF-KV-02; a hardware rerun remains required before any new performance promotion.",
+  "observed_at": "2026-10-07T07:18:04+02:00"
+}

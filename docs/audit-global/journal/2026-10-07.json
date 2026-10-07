@@ -703,11 +703,114 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T07:18:04+02:00",
+      "observed_session_start": "2026-10-07T07:08:13+02:00",
+      "lease_owner": "chatgpt-audit-20261007070813",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 15,
+        "batch_target": 50,
+        "merged_prs": 65,
+        "closed_findings": 54,
+        "remaining_findings": 47,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "BF-KV-02",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "base_sha": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
+          "pr": 184,
+          "candidate_head": "5b0a8f5c3db245f4b30cf8932972f67f6aeef15e",
+          "candidate_tree": "54124f4c2447b99e1d2b1925c942bbe9e02f48d9",
+          "merge_sha": "d7a60fc93556bd67c312614e6c3731df98c7b314",
+          "actions": [
+            "Revérifié sur main que la latence de paire historique était le maximum de deux médianes indépendantes et que le merge n'était pas chronométré.",
+            "Retiré la qualification de performance historique tout en conservant l'égalité exacte des candidats comme preuve de correction.",
+            "Installé un protocole v2 apparié avec chronomètre commun incluant fusion, ordres alternés, échantillons bruts, inventaire SHA-256 et validations fail-closed.",
+            "Exécuté bash -n, compileall, git diff --check et 577 tests Python localement.",
+            "Qualifié le HEAD exact par CI Python et Rust, revérifié les six fichiers et l'absence de fil, puis fusionné par squash avec expected_head_sha.",
+            "Confirmé l'identité des arbres candidat et cible; aucun run push cible n'est encore attaché au SHA intégré."
+          ],
+          "checks": {
+            "local": [
+              "bash -n",
+              "577 tests Python",
+              "compileall Python",
+              "git diff --check"
+            ],
+            "candidate_runs": [
+              {
+                "id": 37575334277,
+                "name": "CI",
+                "conclusion": "success",
+                "jobs": [
+                  112642839172,
+                  112642839494
+                ]
+              }
+            ],
+            "target_runs": []
+          },
+          "reason_for_wait": "Aucun run Memorithm fleet main CI n'est attaché à d7a60fc93556bd67c312614e6c3731df98c7b314; la clôture attend la validation cible.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur le SHA intégré exact",
+            "Rerun matériel T430 v2 avant toute nouvelle promotion de performance"
+          ],
+          "proof": "docs/audit-global/proofs/KVLab-184-BF-KV-02-waiting-target-ci.json",
+          "next_action": "Réconcilier le run cible; clore après succès tout en maintenant la frontière de revendication matérielle."
+        },
+        {
+          "id": "BF-KV-01",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "merge_sha": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
+          "current_main": "d7a60fc93556bd67c312614e6c3731df98c7b314",
+          "actions": [
+            "Réconcilié le nouveau HEAD main qui conserve BF-KV-01 et ajoute l'arbre qualifié de #184; aucun workflow push cible n'est attaché."
+          ],
+          "reason_for_wait": "La validation de la branche cible reste absente.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur le HEAD main courant"
+          ],
+          "next_action": "Clore uniquement après CI cible verte."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-02 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Restriction selected-workflow du runner group Thor non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor au workflow push de confiance et probe sûr de refus"
+          ],
+          "next_action": "Reprendre après preuve de restriction; ne pas clore avant."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-02 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps"
+          ],
+          "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": "2 — 14/50",
-    "merged_prs": 64,
+    "batch": "2 — 15/50",
+    "merged_prs": 65,
     "closed_findings": 54,
     "remaining_findings": 47,
     "newly_resolved": [
@@ -724,8 +827,9 @@
     ],
     "excluded_repositories_modified": [],
     "waiting_ci": [
-      "BF-KV-01"
+      "BF-KV-01",
+      "BF-KV-02"
     ],
-    "next_action": "Réconcilier la CI fleet main de KVLab sur le SHA intégré, puis clore BF-KV-01 uniquement après succès cible; poursuivre en parallèle les constats autonomes."
+    "next_action": "Réconcilier la CI fleet main de KVLab sur d7a60fc93556bd67c312614e6c3731df98c7b314, puis clore BF-KV-01 et BF-KV-02 uniquement après succès cible; poursuivre en parallèle les constats autonomes."
   }
 }
