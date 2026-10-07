@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-20261007165250",
-  "acquired_at": "2026-10-07T14:54:08Z",
-  "expires_at": "2026-10-07T16:24:08Z",
-  "released_at": "2026-10-07T15:05:06Z",
-  "status": "released",
+  "owner": "chatgpt-audit-20261007170510",
+  "acquired_at": "2026-10-07T15:05:58Z",
+  "expires_at": "2026-10-07T16:35:58Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
-  "previous_owner": "chatgpt-audit-20261007160952",
+  "previous_owner": "chatgpt-audit-20261007165250",
   "canonical_counts": {
     "merged_prs": 71,
     "closed_findings": 63,
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Réconcilier les deux PR ouvertes sur leurs HEAD exacts; fusionner seulement après gates vertes puis qualification cible."
+  "next_action": "PAPERS-03 independent correction while exact-head candidate CI for PAPERS-04 and MEM-01 is queued."
 }
