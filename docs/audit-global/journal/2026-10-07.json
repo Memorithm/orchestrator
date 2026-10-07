@@ -1844,6 +1844,140 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T16:48:01+02:00",
+      "observed_session_start": "2026-10-07T16:09:52+02:00",
+      "lease_owner": "chatgpt-audit-20261007160952",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 21,
+        "batch_target": 50,
+        "merged_prs": 71,
+        "closed_findings": 61,
+        "remaining_findings": 40,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "MEM-01",
+          "repository": "Memorithm/CCOS-Core",
+          "status": "waiting_ci",
+          "base_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
+          "pr": 34,
+          "candidate_head": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+          "actions": [
+            "Reconciled the obsolete fused-product claim against current main and confirmed it persisted.",
+            "Read AGENTS.md, the mandatory ecosystem roadmap and the PolyForm-Noncommercial license in an isolated worktree.",
+            "Replaced false fused capabilities with an explicit Core/Research boundary and a Cargo-manifest-derived capability matrix.",
+            "Added a Rust contract comparing the complete non-default manifest feature set with the matrix and rejecting retired fused feature names.",
+            "Corrected the initial exact-section parsing failure; then addressed both valid review findings and resolved their threads.",
+            "Revalidated the open PR base, exact head, mergeability and zero unresolved threads; withheld merge while full CI remains queued."
+          ],
+          "checks": {
+            "local": [
+              "git diff --check",
+              "complete structural comparison of Cargo features and matrix rows",
+              "commit author policy"
+            ],
+            "local_limit": "cargo, rustc and rustfmt unavailable locally; no local Rust execution claimed",
+            "current_head_runs": [
+              {
+                "id": 37637241839,
+                "name": "Strict BEIR import",
+                "conclusion": "success",
+                "jobs": [
+                  112846562626
+                ]
+              },
+              {
+                "id": 37637241803,
+                "name": "Security Audit",
+                "conclusion": "success",
+                "jobs": [
+                  112846562306,
+                  112846563095
+                ]
+              },
+              {
+                "id": 37637241781,
+                "name": "Periodic Security Validation",
+                "conclusion": "success",
+                "jobs": [
+                  112846562522,
+                  112846562955
+                ]
+              },
+              {
+                "id": 37637241786,
+                "name": "CI",
+                "status": "queued",
+                "conclusion": null
+              }
+            ]
+          },
+          "reason_for_wait": "The complete CI workflow is still queued on the exact current head; no merge or closure is permitted yet.",
+          "dependencies": [
+            "Successful completion of CI 37637241786 on e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+            "Post-merge validation on the exact integrated main SHA"
+          ],
+          "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-waiting-ci.json",
+          "next_action": "Reconcile CI, recheck base/head/diff/reviews, merge with expected_head_sha if green, then require target-branch validation before closing."
+        },
+        {
+          "id": "MEM-15",
+          "repository": "Memorithm/scirust-hub",
+          "status": "waiting_ci",
+          "actions": [
+            "Reconciled the exact integrated SHA at session start; no target workflow was attached."
+          ],
+          "reason_for_wait": "No target workflow is attached to exact merge SHA 01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f.",
+          "dependencies": [
+            "Successful target CI on the exact integrated SHA"
+          ],
+          "next_action": "Reconcile target validation; do not close prematurely."
+        },
+        {
+          "id": "RT-TQ-04",
+          "repository": "Memorithm/TurboQuant",
+          "status": "waiting_ci",
+          "actions": [
+            "Reconciled the exact integrated SHA at session start; no target workflow was attached."
+          ],
+          "reason_for_wait": "No target CI/Tests run is attached to exact merge SHA fb4f99364ea86ae86366431ab433726f1cf21367.",
+          "dependencies": [
+            "Successful target CI and Tests on the exact integrated SHA"
+          ],
+          "next_action": "Reconcile target validations; do not close prematurely."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "No mutation; MEM-01 advanced independently."
+          ],
+          "reason_for_wait": "Thor runner-group selected-workflow restriction is not observable/configurable through the available connection.",
+          "dependencies": [
+            "Thor restriction to trusted push workflow and safe refusal probe"
+          ],
+          "next_action": "Resume after restriction evidence exists."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "No mutation; MEM-01 advanced independently."
+          ],
+          "reason_for_wait": "No qualified external OS-sandbox backend is available.",
+          "dependencies": [
+            "Versioned evidence for a stronger-isolation backend"
+          ],
+          "next_action": "Resume only when immutable backend evidence exists."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -1872,9 +2006,10 @@
     ],
     "excluded_repositories_modified": [],
     "waiting_ci": [
+      "MEM-01",
       "MEM-15",
       "RT-TQ-04"
     ],
-    "next_action": "Réconcilier les CI cibles exactes de scirust-hub #84 et TurboQuant #17, puis poursuivre un chantier autonome sans clôture prématurée."
+    "next_action": "Réconcilier la CI exacte de CCOS-Core #34 puis fusionner seulement si elle est verte; réconcilier aussi les CI cibles de scirust-hub #84 et TurboQuant #17."
   }
 }

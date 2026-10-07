@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T15:20:22+02:00",
+  "updated_at": "2026-10-07T16:48:01+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -5702,6 +5702,79 @@
       "target_validation": "pending: no workflow run attached to the exact integrated SHA after repeated reconciliation",
       "finding_status": "waiting_ci",
       "proof": "docs/audit-global/proofs/scirust-hub-84-MEM-15-waiting-target-ci.json"
+    },
+    {
+      "repository": "Memorithm/CCOS-Core",
+      "number": 34,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/34",
+      "base": "main",
+      "base_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
+      "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+      "status": "open_waiting_ci",
+      "ids": [
+        "MEM-01"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 37637241839,
+          "name": "Strict BEIR import",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+          "jobs": [
+            112846562626
+          ]
+        },
+        {
+          "id": 37637241803,
+          "name": "Security Audit",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+          "jobs": [
+            112846562306,
+            112846563095
+          ]
+        },
+        {
+          "id": 37637241781,
+          "name": "Periodic Security Validation",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+          "jobs": [
+            112846562522,
+            112846562955
+          ]
+        },
+        {
+          "id": 37637241786,
+          "name": "CI",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca"
+        }
+      ],
+      "prior_attempts": [
+        {
+          "head_sha": "37c2569a0282d174c8b41ba9af9360ae48c9fe4a",
+          "run_id": 37635536188,
+          "result": "contract_test_failed_corrected_not_counted"
+        },
+        {
+          "head_sha": "3858c9d060fe42ef4954de26b98203bf6733f7fc",
+          "result": "all_ci_success_but_review_findings_required_new_head_not_counted"
+        }
+      ],
+      "review": {
+        "result": "two valid findings fixed and replied to; both threads resolved and outdated",
+        "unresolved_threads": 0
+      },
+      "candidate_tree": "9a127f7701db5194181d0563dfa09c746a64d6c9",
+      "finding_status": "waiting_ci",
+      "reason_for_wait": "The complete CI workflow remains queued on the exact current head; merge is withheld.",
+      "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-waiting-ci.json"
     }
   ],
   "repository_observations": [
@@ -7257,16 +7330,20 @@
         "Supprimer ou réattribuer cette section au dépôt propriétaire réel; produire une matrice des capacités dérivée des manifests Cargo et tests de contrat.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+      "status": "waiting_ci",
+      "current_head": "155a35ee7a356b44b2910c91df5e22817a892c22",
       "default_branch": "main",
       "audit_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "persisted_on_current_main_and_corrected_in_open_pr",
+      "policy_review": "AGENTS.md, ecosystem roadmap and PolyForm-Noncommercial license read",
+      "prs": [
+        "https://github.com/Memorithm/CCOS-Core/pull/34"
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/CCOS-Core-34-MEM-01-waiting-ci.json"
+      ],
+      "last_observed_at": "2026-10-07T16:48:01+02:00",
+      "next_action": "Attendre la CI complète du HEAD exact e0d268c5a704a5e6a9b424724ecbcbfa423809ca; revalider puis fusionner avec garde SHA sans clore avant la CI de branche cible."
     },
     {
       "id": "MEM-02",
@@ -10408,8 +10485,8 @@
     "owner": "chatgpt-audit-20261007160952",
     "acquired_at": "2026-10-07T14:12:00Z",
     "expires_at": "2026-10-07T15:42:00Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-07T14:48:01Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
     "previous_owner": "chatgpt-audit-20261007151147",
@@ -10424,7 +10501,7 @@
       "merged_prs": 21,
       "target": 50
     },
-    "next_action": "Réconcilier les CI cibles scirust-hub #84 et TurboQuant #17; MEM-11 et PAPERS-01 restent bloqués externes.",
+    "next_action": "Réconcilier la CI de CCOS-Core #34 sur e0d268c5a704a5e6a9b424724ecbcbfa423809ca, puis fusionner si verte; réconcilier aussi les CI cibles scirust-hub #84 et TurboQuant #17.",
     "verified_merged_prs": 71,
     "canonical_registry_merged_prs": 71,
     "closed_findings": 61,

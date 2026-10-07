@@ -1,0 +1,141 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-07T16:48:01+02:00",
+  "finding_ids": [
+    "MEM-01"
+  ],
+  "repository": "Memorithm/CCOS-Core",
+  "default_branch": "main",
+  "base_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
+  "pull_request": {
+    "number": 34,
+    "url": "https://github.com/Memorithm/CCOS-Core/pull/34",
+    "state": "open",
+    "mergeable": true,
+    "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca"
+  },
+  "candidate_tree": "9a127f7701db5194181d0563dfa09c746a64d6c9",
+  "candidate_blobs": {
+    "README.md": "b824b5ddb49f2eb2096079db5ab2d3a5e8c3aaca",
+    "docs/ARCHITECTURE.md": "b2ed40e7a0622c85529b57371f238e506150f8f2",
+    "docs/CORE_CAPABILITIES.md": "39f572da5e6fcc4b4f523b84f011391cc02ec96a",
+    "docs/DEPLOYMENT.md": "35b88f7f35780ba2ea606890c55b6e7c6d4e52b3",
+    "docs/MEMORY_INTERFACE.md": "077bf9b4214aae2bb472f0f6b6557cc456b32d0a",
+    "tests/capability_matrix_contract.rs": "2a36bba635752c0d5b11b1bb376272796d507063"
+  },
+  "policy": {
+    "instructions": [
+      "AGENTS.md",
+      ".agent/CCOS_CORE_ECOSYSTEM_ROADMAP.yaml from agent/ecosystem-roadmap"
+    ],
+    "license": "PolyForm-Noncommercial",
+    "excluded_repositories_modified": []
+  },
+  "local_checks": [
+    {
+      "command": "git diff --check",
+      "conclusion": "success"
+    },
+    {
+      "command": "complete structural comparison of non-default Cargo [features] and capability-matrix rows",
+      "conclusion": "success"
+    },
+    {
+      "command": "commit author policy",
+      "conclusion": "success"
+    }
+  ],
+  "local_limit": "cargo, rustc and rustfmt were unavailable locally; no local Rust execution is claimed",
+  "prior_attempts": [
+    {
+      "head_sha": "37c2569a0282d174c8b41ba9af9360ae48c9fe4a",
+      "run_id": 37635536188,
+      "job_id": 112840645840,
+      "conclusion": "failure",
+      "reason": "contract test selected a prose occurrence of [features]; corrected to require the exact TOML section header"
+    },
+    {
+      "head_sha": "3858c9d060fe42ef4954de26b98203bf6733f7fc",
+      "conclusion": "superseded_after_successful_ci",
+      "reason": "two valid review findings required a new head and fresh validation",
+      "successful_runs": [
+        37636196060,
+        37636196068,
+        37636196007,
+        37636196162
+      ]
+    }
+  ],
+  "review": {
+    "reviewed_head": "37c2569a0282d174c8b41ba9af9360ae48c9fe4a",
+    "findings_addressed_on_head": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+    "threads": [
+      {
+        "id": "PRRT_kwDOTkLq_s6p8q7t",
+        "comment_id": 4208059886,
+        "resolution": "contract now compares the complete manifest and matrix feature sets, excluding default",
+        "resolved": true
+      },
+      {
+        "id": "PRRT_kwDOTkLq_s6p8q74",
+        "comment_id": 4208059903,
+        "resolution": "unsupported doctor-output line removed from the deployment example",
+        "resolved": true
+      }
+    ],
+    "unresolved_threads": 0
+  },
+  "current_head_checks": [
+    {
+      "id": 37637241839,
+      "name": "Strict BEIR import",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        112846562626
+      ]
+    },
+    {
+      "id": 37637241803,
+      "name": "Security Audit",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        112846562306,
+        112846563095
+      ]
+    },
+    {
+      "id": 37637241781,
+      "name": "Periodic Security Validation",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        112846562522,
+        112846562955
+      ]
+    },
+    {
+      "id": 37637241786,
+      "name": "CI",
+      "status": "queued",
+      "conclusion": null,
+      "jobs": [
+        112846562146,
+        112846562415,
+        112846562482,
+        112846562649,
+        112846562713,
+        112846562723,
+        112846562759,
+        112846562820,
+        112846562940,
+        112846562959,
+        112846563240
+      ]
+    }
+  ],
+  "status": "waiting_ci",
+  "reason_for_wait": "The complete CI workflow remains queued on the exact current head; merge is intentionally withheld.",
+  "next_action": "Reconcile CI on e0d268c5a704a5e6a9b424724ecbcbfa423809ca, recheck base/head/diff/reviews and merge with expected_head_sha only if every required job succeeds."
+}
