@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "finding_id": "MEM-11",
+  "repository": "Memorithm/SciCapsule",
+  "audit": {
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#MEM-11",
+    "audit_sha": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82"
+  },
+  "reconciliation": {
+    "main_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+    "result": "finding reproduced on current main"
+  },
+  "pull_request": {
+    "number": 32,
+    "url": "https://github.com/Memorithm/SciCapsule/pull/32",
+    "base_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+    "head_sha": "300a9de21d416ec24dbffd21184bf393d9c2ca5a",
+    "status": "open_do_not_merge"
+  },
+  "candidate": {
+    "tree_sha": "f26afb2f94971e95fcabc3d6ae1f9ea412c9d730",
+    "run_id": 37556515479,
+    "job": {
+      "id": 112583921398,
+      "name": "quality-and-msrv",
+      "runner_group": "GitHub Actions",
+      "runner_label": "ubuntu-24.04-arm",
+      "conclusion": "success",
+      "steps": [
+        "format",
+        "cargo check --locked",
+        "clippy",
+        "tests",
+        "MSRV 1.89"
+      ]
+    }
+  },
+  "review": {
+    "open_p1_thread": "PRRT_kwDOUDjsNs6puGX8",
+    "comment_id": 4202107200,
+    "finding": "Workflow separation does not itself restrict Thor runner assignment; future PR workflow can request ordinary labels."
+  },
+  "blocker": {
+    "type": "external_configuration",
+    "required_restriction": "Memorithm/SciCapsule/.github/workflows/internal-ci.yml@refs/heads/main",
+    "available_connection_can_administer_runner_groups": false,
+    "required_probe": "safe workflow-access denial probe"
+  },
+  "status": "blocked_external_not_resolved",
+  "validated_at": "2026-10-07T01:32:08Z"
+}

@@ -150,7 +150,10 @@
           "repository": "Memorithm/ElasticXxx",
           "status": "resolved",
           "base_sha": "13c41a88c0ff3775c948b0fe6fae9e01735fa1a7",
-          "prs": [242, 243],
+          "prs": [
+            242,
+            243
+          ],
           "candidate_heads": [
             "238c18de8258fb1c54f1f4aec730afeb5a66855d",
             "e492fc3619933fa5cc8d53f8fe46de1c183b71e4"
@@ -167,8 +170,37 @@
             "Créé #243 pour qualifier les définitions installées; les quatorze workflows pull_request_target ont réussi sur e492fc3619933fa5cc8d53f8fe46de1c183b71e4 et la revue exacte n'a remonté aucun constat.",
             "Fusionné #243 avec expected_head_sha puis qualifié l'arbre identique sur main par treize workflows push réussis."
           ],
-          "candidate_checks": [37554468053, 37554468052, 37554468009, 37554468081, 37554468008, 37554468011, 37554468016, 37554468019, 37554468135, 37554468041, 37554468088, 37554468024, 37554468015, 37554468029],
-          "target_checks": [37555115338, 37555115414, 37555115416, 37555115339, 37555115473, 37555115365, 37555115383, 37555115426, 37555115421, 37555115520, 37555115342, 37555115302, 37555115382],
+          "candidate_checks": [
+            37554468053,
+            37554468052,
+            37554468009,
+            37554468081,
+            37554468008,
+            37554468011,
+            37554468016,
+            37554468019,
+            37554468135,
+            37554468041,
+            37554468088,
+            37554468024,
+            37554468015,
+            37554468029
+          ],
+          "target_checks": [
+            37555115338,
+            37555115414,
+            37555115416,
+            37555115339,
+            37555115473,
+            37555115365,
+            37555115383,
+            37555115426,
+            37555115421,
+            37555115520,
+            37555115342,
+            37555115302,
+            37555115382
+          ],
           "proof": "docs/audit-global/proofs/ElasticXxx-242-243-RT-ELASTIC-01.json",
           "limits": [
             "La politique collaborators_only n'est pas une preuve d'exposition publique ou de compromission.",
@@ -181,9 +213,102 @@
           "id": "PAPERS-01",
           "repository": "Memorithm/PAPERS-AGENT",
           "status": "blocked_external",
-          "actions": ["Aucune modification cette heure; RT-ELASTIC-01 a avancé indépendamment."],
+          "actions": [
+            "Aucune modification cette heure; RT-ELASTIC-01 a avancé indépendamment."
+          ],
           "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
-          "dependencies": ["Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps."],
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps."
+          ],
+          "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
+        }
+      ],
+      "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T03:32:08+02:00",
+      "observed_session_start": "2026-10-07T03:12:45+02:00",
+      "lease_owner": "chatgpt-audit-20261007031438",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 10,
+        "batch_target": 50,
+        "merged_prs": 60,
+        "closed_findings": 52,
+        "remaining_findings": 49,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "current_head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+          "pr": 32,
+          "candidate_head": "300a9de21d416ec24dbffd21184bf393d9c2ca5a",
+          "actions": [
+            "Relu les instructions, roadmaps hors branche et métadonnées de licence; revérifié le constat sur main.",
+            "Créé #32 en séparant la qualification PR hosted ARM64 du workflow Thor push-only et conservé le checkout exact sans credentials.",
+            "Exécuté format, check --locked, clippy, tests et MSRV 1.89 sur le HEAD exact hosted.",
+            "Maintenu la PR ouverte et non fusionnée après la revue P1: la séparation des workflows ne restreint pas à elle seule l'affectation du runner Thor."
+          ],
+          "checks": [
+            37556515479,
+            112583921398
+          ],
+          "reason_for_wait": "La restriction selected-workflow du runner group Thor est une configuration externe non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor à Memorithm/SciCapsule/.github/workflows/internal-ci.yml@refs/heads/main",
+            "Probe sûr prouvant le refus depuis tout autre workflow"
+          ],
+          "proof": "docs/audit-global/proofs/SciCapsule-32-MEM-11-blocked.json",
+          "next_action": "Après preuve de restriction, revalider #32 puis exécuter la qualification du trigger installé; ne pas clore avant."
+        },
+        {
+          "id": "RT-NNIS-05",
+          "repository": "Memorithm/NNIS",
+          "status": "resolved",
+          "base_sha": "7304b389d94e04ae3fdbc7e2c00f70c80d91d29e",
+          "pr": 260,
+          "candidate_head": "c45e2e570bacba68260521651196c5a29de3f328",
+          "merge_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+          "actions": [
+            "Relu AGENTS.md et la roadmap souveraineté obligatoire; préservé Rust 1.77.",
+            "Épinglé les trois checkout sur le SHA complet 34e114876b0b11c390a56381ad16ebd13914f8d5.",
+            "Ajouté --locked aux contrôles stable, MSRV, tests CPU et parité WGPU.",
+            "Qualifié le HEAD exact, obtenu une revue Codex propre sans fil, puis fusionné avec expected_head_sha.",
+            "Qualifié la branche cible sur l'arbre identique avec les trois jobs push réussis."
+          ],
+          "candidate_run": 37557052686,
+          "candidate_jobs": [
+            112585584897,
+            112585585059,
+            112585585072
+          ],
+          "target_run": 37557297569,
+          "target_jobs": [
+            112586364059,
+            112586364230,
+            112586364358
+          ],
+          "proof": "docs/audit-global/proofs/NNIS-260-RT-NNIS-05.json",
+          "limits": [
+            "La parité WGPU utilise lavapipe: correction logicielle, pas qualification matérielle."
+          ],
+          "dependencies": [],
+          "next_action": "Clos; préserver pins SHA, --locked et MSRV 1.77."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune modification cette heure; NNIS a avancé indépendamment et MEM-11 a été borné sans fausse résolution."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps."
+          ],
           "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
         }
       ],
@@ -191,17 +316,19 @@
     }
   ],
   "daily_summary": {
-    "batch": "2 — 9/50",
-    "merged_prs": 59,
-    "closed_findings": 51,
-    "remaining_findings": 50,
+    "batch": "2 — 10/50",
+    "merged_prs": 60,
+    "closed_findings": 52,
+    "remaining_findings": 49,
     "newly_resolved": [
       "BF-KV-04",
       "RT-FLAT-01",
-      "RT-ELASTIC-01"
+      "RT-ELASTIC-01",
+      "RT-NNIS-05"
     ],
     "blocked": [
-      "PAPERS-01"
+      "PAPERS-01",
+      "MEM-11"
     ],
     "excluded_repositories_modified": []
   }

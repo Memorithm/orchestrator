@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "finding_id": "RT-NNIS-05",
+  "repository": "Memorithm/NNIS",
+  "audit": {
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#RT-NNIS-05",
+    "audit_sha": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0"
+  },
+  "reconciliation": {
+    "base_sha": "7304b389d94e04ae3fdbc7e2c00f70c80d91d29e",
+    "result": "finding reproduced on current base"
+  },
+  "pull_request": {
+    "number": 260,
+    "url": "https://github.com/Memorithm/NNIS/pull/260",
+    "head_sha": "c45e2e570bacba68260521651196c5a29de3f328",
+    "merge_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+    "merge_method": "squash",
+    "expected_head_guard": true
+  },
+  "change": {
+    "files": [
+      ".github/workflows/ci.yml"
+    ],
+    "checkout_sha": "34e114876b0b11c390a56381ad16ebd13914f8d5",
+    "locked_commands": [
+      "cargo check --locked --workspace --all-targets",
+      "cargo clippy --locked --workspace --all-targets -- -D warnings",
+      "cargo test --locked --workspace --all-targets",
+      "cargo +1.77.0 check --locked --workspace --all-targets",
+      "cargo +stable test --locked -p nnis-wgpu --test pvp_parity -- --nocapture"
+    ],
+    "preserved": [
+      "exact PR-head checkout",
+      "persist-credentials: false",
+      "Rust 1.77 MSRV"
+    ]
+  },
+  "candidate": {
+    "head_sha": "c45e2e570bacba68260521651196c5a29de3f328",
+    "tree_sha": "3e81209d3b2d1351c67b216cda4dfb6892a0287b",
+    "run_id": 37557052686,
+    "jobs": [
+      {
+        "id": 112585584897,
+        "name": "PVP WGPU parity (lavapipe)",
+        "conclusion": "success"
+      },
+      {
+        "id": 112585585059,
+        "name": "Rust 1.77 check",
+        "conclusion": "success"
+      },
+      {
+        "id": 112585585072,
+        "name": "Rust quality (CPU)",
+        "conclusion": "success"
+      }
+    ],
+    "review": {
+      "codex_exact_head": "completed_clean",
+      "unresolved_threads": 0
+    },
+    "mergeability": "clean"
+  },
+  "target": {
+    "head_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+    "tree_sha": "3e81209d3b2d1351c67b216cda4dfb6892a0287b",
+    "exact_tree_match": true,
+    "run_id": 37557297569,
+    "event": "push",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 112586364059,
+        "name": "PVP WGPU parity (lavapipe)",
+        "conclusion": "success"
+      },
+      {
+        "id": 112586364230,
+        "name": "Rust 1.77 check",
+        "conclusion": "success"
+      },
+      {
+        "id": 112586364358,
+        "name": "Rust quality (CPU)",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "limits": [
+    "Lavapipe establishes software-adapter correctness only; no hardware qualification is claimed."
+  ],
+  "status": "resolved",
+  "validated_at": "2026-10-07T01:32:08Z"
+}

@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T01:14:38Z",
+  "updated_at": "2026-10-07T01:32:08Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 51,
-    "remaining": 50,
-    "merged_prs": 59
+    "closed": 52,
+    "remaining": 49,
+    "merged_prs": 60
   },
   "batches": [
     {
@@ -337,6 +337,11 @@
           "repository": "Memorithm/ElasticXxx",
           "number": 243,
           "merge_sha": "958ce6301730ceeec4bb1252ff12222e5bb7d431"
+        },
+        {
+          "repository": "Memorithm/NNIS",
+          "number": 260,
+          "merge_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01"
         }
       ]
     }
@@ -5015,6 +5020,41 @@
       "proof": "docs/audit-global/proofs/ElasticXxx-242-243-RT-ELASTIC-01.json",
       "finding_status": "resolved",
       "reconciled_at": "2026-10-07T01:05:47Z"
+    },
+    {
+      "repository": "Memorithm/NNIS",
+      "number": 260,
+      "url": "https://github.com/Memorithm/NNIS/pull/260",
+      "base": "main",
+      "base_sha": "7304b389d94e04ae3fdbc7e2c00f70c80d91d29e",
+      "head_sha": "c45e2e570bacba68260521651196c5a29de3f328",
+      "merge_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+      "status": "merged_target_validated_exact_tree",
+      "ids": [
+        "RT-NNIS-05"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-07T01:28:44Z",
+      "merge_method": "squash with expected_head_sha guard",
+      "checks": [
+        112585584897,
+        112585585059,
+        112585585072
+      ],
+      "review": {
+        "result": "exact-head clean",
+        "unresolved_threads": 0
+      },
+      "validated_tree": "3e81209d3b2d1351c67b216cda4dfb6892a0287b",
+      "target_head": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+      "target_checks": [
+        112586364059,
+        112586364230,
+        112586364358
+      ],
+      "proof": "docs/audit-global/proofs/NNIS-260-RT-NNIS-05.json",
+      "finding_status": "resolved",
+      "reconciled_at": "2026-10-07T01:32:08Z"
     }
   ],
   "repository_observations": [
@@ -5142,8 +5182,8 @@
       "repository": "Memorithm/NNIS",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "8a4b3187eb5faf766704a90059bcd6d7675e7ae4",
-      "tree_sha": "50c27b36183876d4d8669b364b88bc866f87010a",
+      "current_head": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+      "tree_sha": "3e81209d3b2d1351c67b216cda4dfb6892a0287b",
       "protected": false,
       "required_checks": [],
       "error": null
@@ -6332,16 +6372,47 @@
         "Épingler actions SHA et --locked; conserver MSRV1.77 séparé des autres dépôts.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
+      "status": "resolved",
+      "current_head": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
       "default_branch": "main",
       "audit_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "reproduced_on_current_base_7304b389d94e04ae3fdbc7e2c00f70c80d91d29e_then_resolved_on_integrated_main_ee48a8caf89fce43307ab4b9798becc0eda9ea01_with_exact_tree_and_target_validation",
+      "policy_review": "Root AGENTS.md and mandatory off-main .agent/NNIS_SOVEREIGNTY_ROADMAP.yaml read before modification and merge; Rust 1.77 MSRV and evidence-sovereignty invariants preserved.",
+      "prs": [
+        {
+          "number": 260,
+          "url": "https://github.com/Memorithm/NNIS/pull/260",
+          "base_sha": "7304b389d94e04ae3fdbc7e2c00f70c80d91d29e",
+          "head_sha": "c45e2e570bacba68260521651196c5a29de3f328",
+          "status": "merged",
+          "merge_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/NNIS-260-RT-NNIS-05.json",
+          "candidate_head": "c45e2e570bacba68260521651196c5a29de3f328",
+          "candidate_tree": "3e81209d3b2d1351c67b216cda4dfb6892a0287b",
+          "candidate_run": 37557052686,
+          "candidate_jobs": [
+            112585584897,
+            112585585059,
+            112585585072
+          ],
+          "merge_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+          "target_tree": "3e81209d3b2d1351c67b216cda4dfb6892a0287b",
+          "target_run": 37557297569,
+          "target_jobs": [
+            112586364059,
+            112586364230,
+            112586364358
+          ],
+          "exact_tree_match": true,
+          "status": "qualified"
+        }
+      ],
+      "last_observed_at": "2026-10-07T03:32:08+02:00",
+      "next_action": "Clos sur main; préserver les actions épinglées, --locked et le contrôle MSRV 1.77 séparé."
     },
     {
       "id": "RT-NNIS-06",
@@ -6865,16 +6936,39 @@
         "Router PR externes sur runner éphémère isolé sans credentials/ressources internes; réserver Thor interne à commits approuvés après qualification; ne pas considérer permissions contents:read comme isolation système.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
+      "status": "blocked_external",
+      "current_head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
       "default_branch": "main",
       "audit_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "finding_reproduced_on_current_main; hosted_ARM64_candidate_green_but_external_runner_group_selected_workflow_restriction_unverified",
+      "policy_review": "Root AGENTS.md, mandatory off-main SciCapsule roadmaps and manifest licensing metadata read; collaborator-only policy treated as context, not proof of public exploitation.",
+      "prs": [
+        {
+          "number": 32,
+          "url": "https://github.com/Memorithm/SciCapsule/pull/32",
+          "base_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+          "head_sha": "300a9de21d416ec24dbffd21184bf393d9c2ca5a",
+          "status": "open_blocked_do_not_merge"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/SciCapsule-32-MEM-11-blocked.json",
+          "candidate_head": "300a9de21d416ec24dbffd21184bf393d9c2ca5a",
+          "candidate_tree": "f26afb2f94971e95fcabc3d6ae1f9ea412c9d730",
+          "candidate_run": 37556515479,
+          "candidate_job": 112583921398,
+          "result": "Hosted ARM64 format/check/clippy/tests/MSRV 1.89 succeeded; evidence is insufficient to prove Thor isolation.",
+          "status": "blocked_not_resolved"
+        }
+      ],
+      "last_observed_at": "2026-10-07T03:32:08+02:00",
+      "next_action": "Restrict Thor's runner group to Memorithm/SciCapsule/.github/workflows/internal-ci.yml@refs/heads/main, verify with a safe probe, then re-review and merge #32 followed by an installed-trigger qualification PR.",
+      "blockers": [
+        "The available GitHub connection cannot read or change organization/repository runner-group administration.",
+        "A future PR can request the ordinary Thor labels unless the runner group is externally restricted to the trusted main-pinned workflow.",
+        "Open P1 review thread PRRT_kwDOUDjsNs6puGX8 remains intentionally unresolved."
+      ]
     },
     {
       "id": "MEM-12",
@@ -9318,26 +9412,28 @@
     "owner": "chatgpt-audit-20261007031438",
     "acquired_at": "2026-10-07T01:14:38Z",
     "expires_at": "2026-10-07T02:44:38Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-07T01:32:08Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
     "previous_owner": "chatgpt-audit-20261007021504",
     "previous_expiry": "2026-10-07T01:45:04Z",
     "canonical_counts": {
-      "merged_prs": 59,
-      "closed_findings": 51,
-      "remaining_findings": 50
+      "merged_prs": 60,
+      "closed_findings": 52,
+      "remaining_findings": 49
     },
-    "batch": 2,
-    "next_action": "Vérifier puis traiter MEM-11 dans Memorithm/SciCapsule sur le HEAD courant, sans modifier les dépôts exclus.",
-    "verified_merged_prs": 59,
-    "canonical_registry_merged_prs": 59,
-    "closed_findings": 51,
-    "remaining_findings": 50,
-    "batch_merged_prs": 9,
-    "timestamp_basis": "UTC observé le 2026-10-07T01:14:38Z; l’acquisition est publiée par CAS",
-    "snapshot_at": "2026-10-07T01:14:38Z"
+    "batch": {
+      "number": 2,
+      "merged_prs": 10,
+      "target": 50
+    },
+    "next_action": "Poursuivre le prochain constat autonome de priorité 8; reprendre MEM-11 uniquement après restriction vérifiée du runner group Thor.",
+    "verified_merged_prs": 60,
+    "canonical_registry_merged_prs": 60,
+    "closed_findings": 52,
+    "remaining_findings": 49,
+    "batch_merged_prs": 10
   },
   "capabilities": [
     {
