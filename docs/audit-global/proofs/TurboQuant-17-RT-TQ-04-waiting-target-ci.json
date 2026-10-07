@@ -1,0 +1,37 @@
+{
+  "finding": "RT-TQ-04",
+  "repository": "Memorithm/TurboQuant",
+  "pull_request": 17,
+  "url": "https://github.com/Memorithm/TurboQuant/pull/17",
+  "base_sha": "e26f7e1afa6962a603147a4487112f720db46c84",
+  "candidate_head": "dd9f999db12e1fec81ede140adba8a3238b237a5",
+  "merge_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+  "changed_blob_identity": {
+    ".github/workflows/release.yml": "ad430253340111d269ed3f643620a691766c67ae",
+    "rust/crates/turboquant-daemon/Cargo.toml": "0aea26d151e66105441e783153a634c4854d7547",
+    "rust/crates/turboquant-daemon/src/runtime.rs": "e2837070a470ca86c12272791826965e5ac2002f",
+    "candidate_and_target_equal": true
+  },
+  "local_checks": [
+    "git diff --check on the three changed files",
+    "PyYAML structural validation of the three-platform matrix, exact archive paths, release tag guard and shipped-package build command"
+  ],
+  "candidate_runs": [
+    {"id": 37620489129, "name": "Release", "status": "completed", "conclusion": "success", "jobs": [112789213743, 112789213744, 112789213824, 112790113245]},
+    {"id": 37620489082, "name": "CI", "status": "completed", "conclusion": "success", "jobs": [112789213726, 112789214040, 112789214121, 112789214168, 112789214171, 112789214213, 112789214329, 112789214448, 112789214551, 112789214597]},
+    {"id": 37620489354, "name": "Tests", "status": "completed", "conclusion": "success", "jobs": [112789213457, 112789213681, 112789213742, 112789213835]}
+  ],
+  "superseded_failure": {
+    "run": 37619998768,
+    "result": "revealed pre-existing cross-platform release defects",
+    "remediation": "build only shipped binaries; scope sd-notify to Unix; guard systemd calls; rerun all three platforms"
+  },
+  "review": {
+    "thread": "PRRT_kwDOR0nSOM6p5eDN",
+    "status": "resolved_and_outdated",
+    "reason": "an accidental extra awk escape was removed before the exact green candidate head"
+  },
+  "target_runs": [],
+  "status": "merged_waiting_target_ci",
+  "observed_at": "2026-10-07T14:27:27+02:00"
+}

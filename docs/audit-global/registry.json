@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T13:13:00+02:00",
+  "updated_at": "2026-10-07T14:27:27+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 61,
     "remaining": 40,
-    "merged_prs": 69
+    "merged_prs": 70
   },
   "batches": [
     {
@@ -387,6 +387,11 @@
           "repository": "Memorithm/TurboQuant",
           "number": 16,
           "merge_sha": "e26f7e1afa6962a603147a4487112f720db46c84"
+        },
+        {
+          "repository": "Memorithm/TurboQuant",
+          "number": 17,
+          "merge_sha": "fb4f99364ea86ae86366431ab433726f1cf21367"
         }
       ]
     }
@@ -5579,6 +5584,78 @@
       "target_validation": "success on exact integrated SHA",
       "finding_status": "resolved",
       "proof": "docs/audit-global/proofs/TurboQuant-16-RT-TQ-02-03.json"
+    },
+    {
+      "repository": "Memorithm/TurboQuant",
+      "number": 17,
+      "url": "https://github.com/Memorithm/TurboQuant/pull/17",
+      "base": "main",
+      "base_sha": "e26f7e1afa6962a603147a4487112f720db46c84",
+      "head_sha": "dd9f999db12e1fec81ede140adba8a3238b237a5",
+      "merge_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+      "status": "merged_waiting_target_ci",
+      "ids": [
+        "RT-TQ-04"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-07T12:26:00Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "checks": [
+        {
+          "id": 37620489129,
+          "name": "Release",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "dd9f999db12e1fec81ede140adba8a3238b237a5",
+          "jobs": [
+            112789213743,
+            112789213744,
+            112789213824,
+            112790113245
+          ]
+        },
+        {
+          "id": 37620489082,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "dd9f999db12e1fec81ede140adba8a3238b237a5",
+          "jobs": [
+            112789213726,
+            112789214040,
+            112789214121,
+            112789214168,
+            112789214171,
+            112789214213,
+            112789214329,
+            112789214448,
+            112789214551,
+            112789214597
+          ]
+        },
+        {
+          "id": 37620489354,
+          "name": "Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "dd9f999db12e1fec81ede140adba8a3238b237a5",
+          "jobs": [
+            112789213457,
+            112789213681,
+            112789213742,
+            112789213835
+          ]
+        }
+      ],
+      "review": {
+        "result": "one superseded P1 fixed; thread replied and resolved; no open thread",
+        "unresolved_threads": 0
+      },
+      "target_head": "fb4f99364ea86ae86366431ab433726f1cf21367",
+      "target_checks": [],
+      "target_validation": "pending: no CI or Tests run attached to the exact integrated SHA after repeated reconciliation",
+      "finding_status": "waiting_ci",
+      "proof": "docs/audit-global/proofs/TurboQuant-17-RT-TQ-04-waiting-target-ci.json"
     }
   ],
   "repository_observations": [
@@ -5842,13 +5919,13 @@
       "repository": "Memorithm/TurboQuant",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "e26f7e1afa6962a603147a4487112f720db46c84",
-      "tree_sha": "cbc7fd579bfea940f2ac9d2e30f714124b5843fd",
+      "current_head": "fb4f99364ea86ae86366431ab433726f1cf21367",
+      "tree_sha": null,
       "protected": false,
       "required_checks": [],
       "error": null,
-      "last_observed_at": "2026-10-07T12:34:07+02:00",
-      "registered_pr": 16
+      "last_observed_at": "2026-10-07T14:27:27+02:00",
+      "registered_pr": 17
     },
     {
       "repository": "Memorithm/itd-simulator",
@@ -6344,16 +6421,36 @@
         "Uploader ZIP et tar.gz; if-no-files-found:error; vérifier les trois plateformes dans une qualification de release.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "2a8c4650e1c040745a8720223d2a21ecf7719e6f",
+      "status": "waiting_ci",
+      "current_head": "fb4f99364ea86ae86366431ab433726f1cf21367",
       "default_branch": "main",
       "audit_head": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
-      "head_reconciliation": "registered_remediation_merge",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "remediated_merged_candidate_green_exact_blobs_equal_target_target_push_ci_not_observed",
+      "policy_review": "AGENTS.md, agent/ecosystem-roadmap and PolyForm Noncommercial LICENSE.md read before edit and merge",
+      "prs": [
+        {
+          "number": 17,
+          "url": "https://github.com/Memorithm/TurboQuant/pull/17",
+          "base_sha": "e26f7e1afa6962a603147a4487112f720db46c84",
+          "head_sha": "dd9f999db12e1fec81ede140adba8a3238b237a5",
+          "merge_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "status": "merged_waiting_target_ci"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/TurboQuant-17-RT-TQ-04-waiting-target-ci.json",
+          "candidate_runs": [
+            37620489129,
+            37620489082,
+            37620489354
+          ],
+          "target_runs": [],
+          "status": "waiting_target_ci"
+        }
+      ],
+      "last_observed_at": "2026-10-07T14:27:27+02:00",
+      "next_action": "Réconcilier CI et Tests sur le SHA intégré exact fb4f99364ea86ae86366431ab433726f1cf21367; clore uniquement après succès cible."
     },
     {
       "id": "RT-TQ-05",
@@ -10247,28 +10344,28 @@
     "owner": "chatgpt-audit-20261007141332",
     "acquired_at": "2026-10-07T12:14:00Z",
     "expires_at": "2026-10-07T13:44:00Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-07T12:27:27Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
     "previous_owner": "chatgpt-audit-20261007131151",
     "previous_expiry": "2026-10-07T12:42:20Z",
     "canonical_counts": {
-      "merged_prs": 69,
+      "merged_prs": 70,
       "closed_findings": 61,
       "remaining_findings": 40
     },
     "batch": {
       "number": 2,
-      "merged_prs": 19,
+      "merged_prs": 20,
       "target": 50
     },
-    "next_action": "Poursuivre le prochain constat autonome prioritaire; MEM-11 et PAPERS-01 restent bloqués externes.",
-    "verified_merged_prs": 69,
-    "canonical_registry_merged_prs": 69,
+    "next_action": "Réconcilier la CI cible TurboQuant #17 puis poursuivre un constat autonome; MEM-11 et PAPERS-01 restent bloqués externes.",
+    "verified_merged_prs": 70,
+    "canonical_registry_merged_prs": 70,
     "closed_findings": 61,
     "remaining_findings": 40,
-    "batch_merged_prs": 19
+    "batch_merged_prs": 20
   },
   "capabilities": [
     {
