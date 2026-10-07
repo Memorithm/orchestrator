@@ -950,6 +950,117 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T09:19:45+02:00",
+      "observed_session_start": "2026-10-07T09:10:26+02:00",
+      "lease_owner": "chatgpt-audit-20261007091026",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 16,
+        "batch_target": 50,
+        "merged_prs": 66,
+        "closed_findings": 54,
+        "remaining_findings": 47,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "BF-KV-05",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "base_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+          "pr": 186,
+          "candidate_head": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+          "candidate_tree": "87f2a44f09ce76bc43750bf2f23d303310692e6d",
+          "actions": [
+            "Relu AGENTS.md, les quatre documents de programme obligatoires, la roadmap écosystème hors main et les licences PolyForm Noncommercial.",
+            "Revérifié le constat sur main: le nombre de threads restait min(workers,pages) sans limite métier et scope.spawn ne permettait pas de retourner un échec de création.",
+            "Introduit ScanExecutionBudget avec cap caller configurable et plafond dépôt de 64 threads; le caller ne peut plus omettre le budget.",
+            "Remplacé les trois chemins de création de workers par Builder::spawn_scoped, avec erreur contrôlée et drainage de tous les workers déjà créés.",
+            "Conservé les shards contigus et la fusion dans l'ordre de création; migré le banc principal et les deux bancs qui réimplémentaient le pool.",
+            "Ouvert KVLab #186 et observé les deux workflows exact-head, encore en file."
+          ],
+          "checks": {
+            "local": [
+              "586 tests Python",
+              "compileall Python",
+              "parse YAML de tous les workflows",
+              "git diff --check"
+            ],
+            "local_limit": "Cargo et rustfmt absents; aucune exécution Rust locale revendiquée.",
+            "candidate_runs": [
+              {
+                "id": 37586384266,
+                "name": "CI",
+                "status": "queued",
+                "conclusion": null,
+                "jobs": [
+                  112677358551,
+                  112677358861
+                ]
+              },
+              {
+                "id": 37586384412,
+                "name": "EWW structural campaign smoke",
+                "status": "queued",
+                "conclusion": null,
+                "jobs": [
+                  112677359040
+                ]
+              }
+            ]
+          },
+          "reason_for_wait": "Les trois jobs exact-head sont en file; aucun gate Rust requis n'a encore été exécuté.",
+          "dependencies": [
+            "Succès exact-head des jobs Rust, Python et EWW",
+            "Revalidation de la base, du HEAD, du diff, des revues et de la mergeabilité"
+          ],
+          "proof": "docs/audit-global/proofs/KVLab-186-BF-KV-05-waiting-ci.json",
+          "next_action": "Réconcilier la CI; corriger tout échec puis fusionner uniquement après tous les gates exact-head."
+        },
+        {
+          "id": "BF-KV-01/BF-KV-02/BF-KV-03",
+          "repository": "Memorithm/KVLab",
+          "status": "waiting_ci",
+          "current_main": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+          "actions": [
+            "Réconcilié à nouveau le SHA intégré: aucun run Memorithm fleet main CI n'est attaché."
+          ],
+          "reason_for_wait": "Validation cible toujours absente.",
+          "dependencies": [
+            "Succès de Memorithm fleet main CI sur le HEAD intégré exact"
+          ],
+          "next_action": "Ne clore les trois constats qu'après CI cible verte."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-05 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Restriction selected-workflow du runner group Thor non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor au workflow push de confiance et probe sûr de refus"
+          ],
+          "next_action": "Reprendre après preuve de restriction; ne pas clore avant."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; BF-KV-05 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps"
+          ],
+          "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -973,8 +1084,9 @@
     "waiting_ci": [
       "BF-KV-01",
       "BF-KV-02",
-      "BF-KV-03"
+      "BF-KV-03",
+      "BF-KV-05"
     ],
-    "next_action": "Réconcilier la CI fleet main de KVLab sur 9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7, puis clore BF-KV-01, BF-KV-02 et BF-KV-03 uniquement après succès cible; poursuivre en parallèle les constats autonomes."
+    "next_action": "Réconcilier les jobs candidats de KVLab #186 et la CI fleet main; fusionner BF-KV-05 uniquement après succès exact-head, et ne clore BF-KV-01/02/03 qu'après succès cible."
   }
 }

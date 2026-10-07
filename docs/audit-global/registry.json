@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T09:12:31+02:00",
+  "updated_at": "2026-10-07T09:19:45+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -5227,6 +5227,49 @@
       "target_validation": "pending: no Memorithm fleet main CI run attached to the integrated SHA after repeated reconciliation",
       "finding_status": "waiting_ci",
       "proof": "docs/audit-global/proofs/KVLab-183-BF-KV-01-waiting-target-ci.json"
+    },
+    {
+      "repository": "Memorithm/KVLab",
+      "number": 186,
+      "url": "https://github.com/Memorithm/KVLab/pull/186",
+      "base": "main",
+      "base_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+      "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+      "status": "waiting_ci",
+      "ids": [
+        "BF-KV-05"
+      ],
+      "batch": 2,
+      "validated_tree": "87f2a44f09ce76bc43750bf2f23d303310692e6d",
+      "checks": [
+        {
+          "id": 37586384266,
+          "name": "CI",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+          "jobs": [
+            112677358551,
+            112677358861
+          ]
+        },
+        {
+          "id": 37586384412,
+          "name": "EWW structural campaign smoke",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+          "jobs": [
+            112677359040
+          ]
+        }
+      ],
+      "review": {
+        "result": "aucun fil de revue observé",
+        "unresolved_threads": 0
+      },
+      "finding_status": "waiting_ci",
+      "proof": "docs/audit-global/proofs/KVLab-186-BF-KV-05-waiting-ci.json"
     }
   ],
   "repository_observations": [
@@ -9507,16 +9550,35 @@
         "Exiger un budget exécution validé, cap configurable et pool borné; garder l'ordre déterministe des shards et ajouter un échec contrôlé si la création de worker échoue.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+      "status": "waiting_ci",
+      "current_head": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
       "default_branch": "main",
       "audit_head": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "finding_confirmed_on_main_9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7; bounded_budget_candidate_open_waiting_exact_head_ci",
+      "policy_review": "Root AGENTS.md, four mandatory programme documents, off-main ecosystem roadmap and PolyForm Noncommercial notices read; deterministic scientific and no-performance-claim boundaries preserved.",
+      "prs": [
+        {
+          "number": 186,
+          "url": "https://github.com/Memorithm/KVLab/pull/186",
+          "base_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+          "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+          "status": "waiting_ci"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/KVLab-186-BF-KV-05-waiting-ci.json",
+          "candidate_head": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+          "candidate_tree": "87f2a44f09ce76bc43750bf2f23d303310692e6d",
+          "candidate_runs": [
+            37586384266,
+            37586384412
+          ],
+          "status": "waiting_candidate_ci"
+        }
+      ],
+      "last_observed_at": "2026-10-07T09:19:45+02:00",
+      "next_action": "Attendre la fin des jobs Rust, Python et EWW sur le HEAD exact; corriger tout échec, puis revalider diff, base, HEAD, revues et mergeabilité avant fusion."
     },
     {
       "id": "BF-BL-01",
@@ -9714,8 +9776,8 @@
     "owner": "chatgpt-audit-20261007091026",
     "acquired_at": "2026-10-07T07:12:31Z",
     "expires_at": "2026-10-07T08:42:31Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-07T07:19:45Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
     "previous_owner": "chatgpt-audit-20261007081452",
@@ -9730,7 +9792,7 @@
       "merged_prs": 16,
       "target": 50
     },
-    "next_action": "Réconcilier la CI cible KVLab puis traiter BF-KV-05 sur le HEAD courant après lecture des politiques et validation locale bornée.",
+    "next_action": "Réconcilier les runs candidats de KVLab #186 sur ca719a52579617ed9a72a63d9e779f1b907be1b1; fusionner uniquement après succès exact-head et revues résolues.",
     "verified_merged_prs": 66,
     "canonical_registry_merged_prs": 66,
     "closed_findings": 54,

@@ -105,7 +105,7 @@
 | BF-KV-02 | Memorithm/KVLab | 9 | attente CI | [preuve d’attente](proofs/KVLab-184-BF-KV-02-waiting-target-ci.json), [PR #184](https://github.com/Memorithm/KVLab/pull/184) — validation `main` non observée |
 | BF-KV-03 | Memorithm/KVLab | 9 | attente CI | [preuve d’attente](proofs/KVLab-185-BF-KV-03-waiting-target-ci.json), [PR #185](https://github.com/Memorithm/KVLab/pull/185) — validation `main` non observée |
 | BF-KV-04 | Memorithm/KVLab | 8 | résolu | [preuve](proofs/KVLab-182-BF-KV-04.json), [PR #182](https://github.com/Memorithm/KVLab/pull/182) |
-| BF-KV-05 | Memorithm/KVLab | 9 | à faire |  |
+| BF-KV-05 | Memorithm/KVLab | 9 | attente CI | [preuve d’attente](proofs/KVLab-186-BF-KV-05-waiting-ci.json), [PR #186](https://github.com/Memorithm/KVLab/pull/186) — jobs candidat en file |
 | BF-BL-01 | Memorithm/BooleanLab | 8 | résolu | [preuve](proofs/BooleanLab-135-BF-BL-01.json), [PR #135](https://github.com/Memorithm/BooleanLab/pull/135) |
 | BF-BL-02 | Memorithm/BooleanLab | 8 | résolu | [preuve](proofs/BooleanLab-135-BF-BL-02.json), [PR #135](https://github.com/Memorithm/BooleanLab/pull/135) |
 | BF-EE-04 | Memorithm/ExtremEngine | 9 | à faire |  |

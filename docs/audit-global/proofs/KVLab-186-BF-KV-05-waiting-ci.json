@@ -1,0 +1,62 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "BF-KV-05"
+  ],
+  "repository": "Memorithm/KVLab",
+  "default_branch": "main",
+  "audit_revision": "265a2a65120b8f6f06c3cbb6604cf821ceda94d0",
+  "reconciled_base": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+  "pull_request": {
+    "number": 186,
+    "url": "https://github.com/Memorithm/KVLab/pull/186",
+    "candidate_head": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+    "candidate_tree": "87f2a44f09ce76bc43750bf2f23d303310692e6d",
+    "changed_files": 4,
+    "unresolved_review_threads": 0
+  },
+  "result": {
+    "explicit_budget": "parallel scan callers must construct a validated ScanExecutionBudget",
+    "hard_cap": 64,
+    "configurable_cap": "callers may select any lower non-zero max_threads and requested_threads must not exceed it",
+    "bounded_pool": "library, flat benchmark and distinct-shard benchmark create at most the validated worker count",
+    "spawn_failure": "Builder::spawn_scoped failures become controlled errors after already-created workers are joined",
+    "determinism": "contiguous shards and join-order merge preserve scalar page ordering"
+  },
+  "checks": {
+    "local": [
+      "python3 -m unittest discover -s tests -p 'test_*.py' -v: 586 passed",
+      "python3 -m compileall -q kvlab tests",
+      "YAML parse of all .github/workflows/*.yml",
+      "git diff --check"
+    ],
+    "local_limit": "Cargo and rustfmt were unavailable; no local Rust execution is claimed.",
+    "candidate": [
+      {
+        "run_id": 37586384266,
+        "name": "CI",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+        "jobs": [
+          112677358551,
+          112677358861
+        ]
+      },
+      {
+        "run_id": 37586384412,
+        "name": "EWW structural campaign smoke",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "ca719a52579617ed9a72a63d9e779f1b907be1b1",
+        "jobs": [
+          112677359040
+        ]
+      }
+    ]
+  },
+  "status": "waiting_candidate_ci",
+  "reason_for_wait": "All three exact-head jobs remain queued; no required Rust validation has executed yet.",
+  "next_action": "Reconcile CI, correct failures if any, then revalidate exact base/head, diff, review threads, mergeability and required checks before merge.",
+  "observed_at": "2026-10-07T09:19:45+02:00"
+}
