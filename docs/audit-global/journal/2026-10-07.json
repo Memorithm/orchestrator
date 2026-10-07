@@ -2300,6 +2300,90 @@
       ],
       "excluded_repositories_modified": [],
       "lease_released_at": "2026-10-07T15:32:26.705Z"
+    },
+    {
+      "observed_at": "2026-10-07T17:51:55.982+02:00",
+      "observed_session_start": "2026-10-07T17:37:36.943+02:00",
+      "lease_owner": "chatgpt-audit-202610071735",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 24,
+        "batch_target": 50,
+        "merged_prs": 74,
+        "closed_findings": 66,
+        "remaining_findings": 35,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "MEM-01",
+          "repository": "Memorithm/CCOS-Core",
+          "status": "resolved",
+          "actions": [
+            "Reconciled all four integrated target workflows and read actual debug/release/Clippy/MSRV/security/reproducibility logs.",
+            "Closed existing merged PR #34 finding; no duplicate PR or merge count."
+          ],
+          "pr": "https://github.com/Memorithm/CCOS-Core/pull/34",
+          "merge_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+          "checks": [
+            37644583636,
+            37644583571,
+            37644583527,
+            37644583807
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Closed with integrated evidence.",
+          "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-integrated-20261007.json"
+        },
+        {
+          "id": "FORGE-03",
+          "repository": "Memorithm/Forge",
+          "status": "waiting_ci",
+          "actions": [
+            "Implemented mTLS CA verification + exact master leaf allowlist and master credential consumer.",
+            "Added IP admission, bounded permits before spawn, total handshake/frame IO deadlines; preserved native isolation refusal.",
+            "4 unit + 1 real binary TLS/TCP regression corpus, 70 core tests and Clippy passed in bounded network-isolated temporary workspace.",
+            "Published PR #51 and updated required off-main trust roadmap with CAS, no default-branch policy merge."
+          ],
+          "pr": "https://github.com/Memorithm/Forge/pull/51",
+          "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+          "checks": [
+            {
+              "id": 37647081885,
+              "name": "CI",
+              "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+              "status": "completed",
+              "conclusion": "success",
+              "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081885"
+            },
+            {
+              "id": 37647081484,
+              "name": "SML topology domain",
+              "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+              "status": "in_progress",
+              "conclusion": null,
+              "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081484"
+            },
+            {
+              "id": 37647081213,
+              "name": "Scientific ask tell process qualification",
+              "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+              "status": "queued",
+              "conclusion": null,
+              "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081213"
+            }
+          ],
+          "reason_for_wait": "SML topology in progress and Scientific process queued; no stale/aggregate-only qualification.",
+          "dependencies": [],
+          "next_action": "Observe remaining exact-head checks/reviews; merge with expected_head_sha only after full qualification; validate integrated main.",
+          "proof": "docs/audit-global/proofs/Forge-51-FORGE-03-20261007.json"
+        }
+      ],
+      "external_obstacles": [
+        "Initial missing offline pinned dependency and missing OpenSSL host config were resolved before rerun; they are not outstanding blockers."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -2340,8 +2424,8 @@
     "batch_merged_prs": 24,
     "batch_target": 50,
     "merged_prs": 74,
-    "closed_findings": 65,
-    "remaining_findings": 36,
+    "closed_findings": 66,
+    "remaining_findings": 35,
     "backlog": 101
   }
 }

@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T17:32:31.484+02:00",
+  "updated_at": "2026-10-07T17:51:55.982+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 65,
-    "remaining": 36,
+    "closed": 66,
+    "remaining": 35,
     "merged_prs": 74
   },
   "batches": [
@@ -5763,7 +5763,7 @@
       "base": "main",
       "base_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
       "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated_exact_tree",
       "ids": [
         "MEM-01"
       ],
@@ -5819,17 +5819,45 @@
         "unresolved_threads": 0
       },
       "candidate_tree": "829ffccfd9ec1f541b01e3a4a24aa8b5068b16c6",
-      "finding_status": "waiting_ci",
-      "reason_for_wait": "All four post-merge workflows queued; keep finding open until actual integrated validations pass.",
+      "finding_status": "resolved",
+      "reason_for_wait": null,
       "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-integrated-20261007.json",
       "merge_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
       "merged_at": "2026-10-07T15:31:20Z",
       "merge_method": "merge",
       "target_checks": [
-        37644583527,
-        37644583636,
-        37644583571,
-        37644583807
+        {
+          "id": 37644583571,
+          "name": "Strict BEIR import",
+          "head_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37644583571"
+        },
+        {
+          "id": 37644583807,
+          "name": "Periodic Security Validation",
+          "head_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37644583807"
+        },
+        {
+          "id": 37644583527,
+          "name": "Security Audit",
+          "head_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37644583527"
+        },
+        {
+          "id": 37644583636,
+          "name": "CI",
+          "head_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37644583636"
+        }
       ],
       "target_head": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
       "validated_tree": "829ffccfd9ec1f541b01e3a4a24aa8b5068b16c6",
@@ -5904,6 +5932,47 @@
       ],
       "validated_tree": "52758e14e77e7e86c88b50d43c124b06ab13a74e",
       "exact_tree_match": true
+    },
+    {
+      "repository": "Memorithm/Forge",
+      "number": 51,
+      "url": "https://github.com/Memorithm/Forge/pull/51",
+      "base": "main",
+      "base_sha": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
+      "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+      "ids": [
+        "FORGE-03"
+      ],
+      "status": "waiting_ci",
+      "batch": 2,
+      "checks": [
+        {
+          "id": 37647081885,
+          "name": "CI",
+          "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081885"
+        },
+        {
+          "id": 37647081484,
+          "name": "SML topology domain",
+          "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+          "status": "in_progress",
+          "conclusion": null,
+          "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081484"
+        },
+        {
+          "id": 37647081213,
+          "name": "Scientific ask tell process qualification",
+          "head_sha": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
+          "status": "queued",
+          "conclusion": null,
+          "html_url": "https://github.com/Memorithm/Forge/actions/runs/37647081213"
+        }
+      ],
+      "proof": "docs/audit-global/proofs/Forge-51-FORGE-03-20261007.json",
+      "reason_for_wait": "SML topology running; Scientific ask/tell queued; full CI already actually passed on exact candidate."
     }
   ],
   "repository_observations": [
@@ -7470,7 +7539,7 @@
         "Supprimer ou réattribuer cette section au dépôt propriétaire réel; produire une matrice des capacités dérivée des manifests Cargo et tests de contrat.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
       "default_branch": "main",
       "audit_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
@@ -7485,8 +7554,8 @@
         "docs/audit-global/proofs/CCOS-Core-34-MEM-01-security-retry-20261007.json",
         "docs/audit-global/proofs/CCOS-Core-34-MEM-01-integrated-20261007.json"
       ],
-      "last_observed_at": "2026-10-07T17:32:31.484+02:00",
-      "next_action": "Qualifier les 4 workflows cible au SHA 445782c5bcaaffef51b1d37dfbdf170bb667d2ec; traiter toute régression et ne clore MEM-01 qu’après validations intégrées."
+      "last_observed_at": "2026-10-07T17:46:54.823+02:00",
+      "next_action": "Clos sur SHA intégré 445782c5bcaaffef51b1d37dfbdf170bb667d2ec avec 4 workflows verts et logs réels debug/release/MSRV/Clippy/sécurité/reproductibilité."
     },
     {
       "id": "MEM-02",
@@ -8920,18 +8989,21 @@
         "Imposer authentification du client/mTLS ou tunnel authentifié, liste de pairs autorisés, quotas de concurrence et délai handshake/lecture. Refuser l'écoute non-loopback non authentifiée par défaut.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "in_progress",
-      "current_head": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
+      "status": "waiting_ci",
+      "current_head": "aef06877b5630430b43d3f54a450dfe9b54a1dff",
       "default_branch": "main",
       "audit_head": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
-      "head_reconciliation": "confirmed_present_on_current_main_in_read_only_diagnosis",
+      "head_reconciliation": "confirmed_current_main_and_corrected_in_open_pr",
       "policy_review": "AGENTS.md; .agent/FORGE_ECOSYSTEM_ROADMAP.yaml off-main (579 lines); .agent/ML_MATURITY_5_OF_5.yaml off-main (100 lines); docs/AX_TASK_ISOLATION_BOOTSTRAP.md; LICENSE; LICENSE.md; LICENSING.md",
-      "prs": [],
-      "resolution_evidence": [
-        "docs/audit-global/proofs/Forge-FORGE-03-current-head-20261007.json"
+      "prs": [
+        "https://github.com/Memorithm/Forge/pull/51"
       ],
-      "last_observed_at": "2026-10-07T17:30:33.686+02:00",
-      "next_action": "Implement Rust authenticated mTLS/trust roots plus bounded peer/admission/handshake/read policies; actual fail-closed local/remote protocol regressions and exact candidate/target CI; update off-main roadmap as applicable without merging roadmap to main."
+      "resolution_evidence": [
+        "docs/audit-global/proofs/Forge-FORGE-03-current-head-20261007.json",
+        "docs/audit-global/proofs/Forge-51-FORGE-03-20261007.json"
+      ],
+      "last_observed_at": "2026-10-07T17:51:55.982+02:00",
+      "next_action": "Observe remaining exact-head checks/reviews; merge with expected_head_sha only after full qualification; validate integrated main."
     },
     {
       "id": "FORGE-04",
@@ -10657,17 +10729,17 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-20261007170510",
-    "acquired_at": "2026-10-07T15:05:58Z",
-    "expires_at": "2026-10-07T16:35:58Z",
-    "released_at": "2026-10-07T15:32:26.705Z",
-    "status": "released",
+    "owner": "chatgpt-audit-202610071735",
+    "acquired_at": "2026-10-07T15:37:36.943Z",
+    "expires_at": "2026-10-07T17:07:36.943Z",
+    "released_at": null,
+    "status": "active",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-20261007165250",
+    "previous_owner": "chatgpt-audit-20261007170510",
     "canonical_counts": {
       "merged_prs": 74,
-      "closed_findings": 65,
-      "remaining_findings": 36
+      "closed_findings": 66,
+      "remaining_findings": 35
     },
     "batch": {
       "number": 2,

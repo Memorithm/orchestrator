@@ -9,8 +9,8 @@
   "previous_owner": "chatgpt-audit-20261007170510",
   "canonical_counts": {
     "merged_prs": 74,
-    "closed_findings": 65,
-    "remaining_findings": 36
+    "closed_findings": 66,
+    "remaining_findings": 35
   },
   "batch": {
     "number": 2,
