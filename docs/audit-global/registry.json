@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T17:21:57.068+02:00",
+  "updated_at": "2026-10-07T17:26:20.458+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 63,
-    "remaining": 38,
+    "closed": 64,
+    "remaining": 37,
     "merged_prs": 72
   },
   "batches": [
@@ -5825,7 +5825,7 @@
       "base_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
       "head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
       "candidate_tree": "0642814c87f558016d95478082979dc3151aa364",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated_exact_tree",
       "ids": [
         "PAPERS-04"
       ],
@@ -5839,9 +5839,9 @@
           "conclusion": "success"
         }
       ],
-      "finding_status": "waiting_ci",
+      "finding_status": "resolved",
       "proof": "docs/audit-global/proofs/PAPERS-AGENT-8-PAPERS-04-integrated-20261007.json",
-      "reason_for_wait": "Exact integrated-target CI is in progress; no finding closure yet.",
+      "reason_for_wait": null,
       "merge_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
       "merged_at": "2026-10-07T15:18:32Z",
       "merge_method": "merge",
@@ -5858,8 +5858,8 @@
       "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/9",
       "base": "master",
       "base_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
-      "head_sha": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
-      "candidate_tree": "483fc5de3c13487a166fdf88d2eba3b7328d97bb",
+      "head_sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
+      "candidate_tree": "52758e14e77e7e86c88b50d43c124b06ab13a74e",
       "status": "open_waiting_ci",
       "ids": [
         "PAPERS-03"
@@ -5867,16 +5867,16 @@
       "batch": 2,
       "checks": [
         {
-          "id": 37643001078,
+          "id": 37643668669,
           "name": "CI",
-          "head_sha": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
-          "status": "queued",
+          "head_sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
+          "status": "in_progress",
           "conclusion": null
         }
       ],
       "finding_status": "waiting_ci",
       "proof": "docs/audit-global/proofs/PAPERS-AGENT-9-PAPERS-03-waiting-ci.json",
-      "reason_for_wait": "New exact HEAD includes current master; full repository CI queued. 13 focused fixture tests pass but are not full Cargo.lock qualification."
+      "reason_for_wait": "Full CI for corrective review head in progress. GET redirect regression fixed; 14 focused tests pass, not full repository CI."
     }
   ],
   "repository_observations": [
@@ -9075,15 +9075,15 @@
           "number": 9,
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/9",
           "base_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
-          "head_sha": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
+          "head_sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
           "status": "open_waiting_ci"
         }
       ],
       "resolution_evidence": [
         "docs/audit-global/proofs/PAPERS-AGENT-9-PAPERS-03-waiting-ci.json"
       ],
-      "last_observed_at": "2026-10-07T17:21:57.068+02:00",
-      "next_action": "Réconcilier CI exacte 37643001078 au HEAD aca2ec92e560de21a6fa06d7b0429f75414299ae; corriger tout échec; revalider base/HEAD/diff avant fusion."
+      "last_observed_at": "2026-10-07T17:26:20.458+02:00",
+      "next_action": "CI exacte 37643668669 sur ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9; revérifier gates avant fusion puis qualifier master intégré."
     },
     {
       "id": "PAPERS-04",
@@ -9099,7 +9099,7 @@
         "Utiliser HTTPS explicite, timeout/config client commun, plafond des octets et statut HTTP vérifié; documenter la provenance et tester réponses oversize/redirect.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
@@ -9111,7 +9111,7 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/8",
           "base_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
           "head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
-          "status": "merged_waiting_target_ci",
+          "status": "merged_target_validated_exact_tree",
           "merge_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4"
         }
       ],
@@ -9119,8 +9119,8 @@
         "docs/audit-global/proofs/PAPERS-AGENT-8-PAPERS-04-waiting-ci.json",
         "docs/audit-global/proofs/PAPERS-AGENT-8-PAPERS-04-integrated-20261007.json"
       ],
-      "last_observed_at": "2026-10-07T17:21:57.068+02:00",
-      "next_action": "Réconcilier CI cible 37642823135 au SHA intégré 4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4; clore seulement si tests/gates complets réussis."
+      "last_observed_at": "2026-10-07T17:26:20.458+02:00",
+      "next_action": "Clos sur SHA intégré exact, CI master verte; maintenir les limites ingestion/provenance documentées."
     },
     {
       "id": "GOT-01",
@@ -10634,8 +10634,8 @@
     "previous_owner": "chatgpt-audit-20261007165250",
     "canonical_counts": {
       "merged_prs": 72,
-      "closed_findings": 63,
-      "remaining_findings": 38
+      "closed_findings": 64,
+      "remaining_findings": 37
     },
     "batch": {
       "number": 2,
@@ -10643,7 +10643,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Exact-head CI for PAPERS-AGENT #9, integrated CI for #8 and queued CCOS-Core #34; no double count."
+    "next_action": "PAPERS-03 corrective exact-head CI and CCOS-Core security job retry; no additional findings closed without target evidence."
   },
   "capabilities": [
     {

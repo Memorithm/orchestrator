@@ -9,8 +9,8 @@
   "previous_owner": "chatgpt-audit-20261007165250",
   "canonical_counts": {
     "merged_prs": 72,
-    "closed_findings": 63,
-    "remaining_findings": 38
+    "closed_findings": 64,
+    "remaining_findings": 37
   },
   "batch": {
     "number": 2,
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Exact-head CI for PAPERS-AGENT #9, integrated CI for #8 and queued CCOS-Core #34; no double count."
+  "next_action": "PAPERS-03 corrective exact-head CI and CCOS-Core security job retry; no additional findings closed without target evidence."
 }

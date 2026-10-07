@@ -5,27 +5,27 @@
   "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/9",
   "base_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
   "initial_head": "5ae900b9cf2d754349bec403890510573057c99f",
-  "head": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
-  "tree": "483fc5de3c13487a166fdf88d2eba3b7328d97bb",
+  "head": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
+  "tree": "52758e14e77e7e86c88b50d43c124b06ab13a74e",
   "status": "open_waiting_ci",
   "candidate_runs": [
     {
-      "id": 37643001078,
+      "id": 37643668669,
       "name": "CI",
-      "node_id": "WFR_kwLOS8iSH88AAAAIw7Kc9g",
+      "node_id": "WFR_kwLOS8iSH88AAAAIw7zMvQ",
       "head_branch": "audit/papers-03-post-outcome",
-      "head_sha": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
+      "head_sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
       "path": ".github/workflows/ci.yml",
       "display_title": "fix(lab): prevent submission replay [PAPERS-03]",
-      "run_number": 79,
+      "run_number": 80,
       "event": "pull_request",
-      "status": "queued",
+      "status": "in_progress",
       "conclusion": null,
       "workflow_id": 332363561,
-      "check_suite_id": 101974717404,
-      "check_suite_node_id": "CS_kwDOS8iSH88AAAAXviqz3A",
-      "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078",
-      "html_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/37643001078",
+      "check_suite_id": 101976827676,
+      "check_suite_node_id": "CS_kwDOS8iSH88AAAAXvkrnHA",
+      "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643668669",
+      "html_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/37643668669",
       "pull_requests": [
         {
           "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/pulls/9",
@@ -33,7 +33,7 @@
           "number": 9,
           "head": {
             "ref": "audit/papers-03-post-outcome",
-            "sha": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
+            "sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
             "repo": {
               "id": 1271435807,
               "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT",
@@ -51,8 +51,8 @@
           }
         }
       ],
-      "created_at": "2026-10-07T15:19:56Z",
-      "updated_at": "2026-10-07T15:19:56Z",
+      "created_at": "2026-10-07T15:24:36Z",
+      "updated_at": "2026-10-07T15:24:41Z",
       "actor": {
         "login": "CHECKUPAUTO",
         "id": 194770978,
@@ -76,7 +76,7 @@
       },
       "run_attempt": 1,
       "referenced_workflows": [],
-      "run_started_at": "2026-10-07T15:19:56Z",
+      "run_started_at": "2026-10-07T15:24:36Z",
       "triggering_actor": {
         "login": "CHECKUPAUTO",
         "id": 194770978,
@@ -98,19 +98,19 @@
         "user_view_type": "public",
         "site_admin": false
       },
-      "jobs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/jobs",
-      "logs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/logs",
-      "check_suite_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/check-suites/101974717404",
-      "artifacts_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/artifacts",
-      "cancel_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/cancel",
-      "rerun_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643001078/rerun",
+      "jobs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643668669/jobs",
+      "logs_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643668669/logs",
+      "check_suite_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/check-suites/101976827676",
+      "artifacts_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643668669/artifacts",
+      "cancel_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643668669/cancel",
+      "rerun_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37643668669/rerun",
       "previous_attempt_url": null,
       "workflow_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/workflows/332363561",
       "head_commit": {
-        "id": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
-        "tree_id": "483fc5de3c13487a166fdf88d2eba3b7328d97bb",
-        "message": "Merge current master for exact integrated-base qualification [PAPERS-03]",
-        "timestamp": "2026-10-07T15:19:45Z",
+        "id": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
+        "tree_id": "52758e14e77e7e86c88b50d43c124b06ab13a74e",
+        "message": "fix(lab): preserve read-only GET redirects [PAPERS-03 review]",
+        "timestamp": "2026-10-07T15:24:30Z",
         "author": {
           "name": "MEMOPERF",
           "email": "contact@checkupauto.fr"
@@ -271,27 +271,11 @@
   ],
   "focused_validation": {
     "exit_code": 0,
-    "passed": 13,
+    "passed": 14,
     "failed": 0,
-    "runtime_seconds": 38.25,
-    "compiler_runtime_seconds": 37.61,
+    "runtime_seconds": 6.07,
+    "compiler_runtime_seconds": 5.4,
     "files": [
-      {
-        "path": "docs/LAB_SUBMISSION_RECONCILIATION.md",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "c5bc95c01024fc436b829ad1672ae0e8b55e2c51",
-        "size": 2346,
-        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs/c5bc95c01024fc436b829ad1672ae0e8b55e2c51"
-      },
-      {
-        "path": "papers_core/Cargo.toml",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "266ca3f5aa000b15db7dd0ff90456c3aee913d0b",
-        "size": 1897,
-        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs/266ca3f5aa000b15db7dd0ff90456c3aee913d0b"
-      },
       {
         "path": "papers_core/src/bin/papers_lab.rs",
         "mode": "100644",
@@ -304,9 +288,9 @@
         "path": "papers_core/src/ccos.rs",
         "mode": "100644",
         "type": "blob",
-        "sha": "d0c141495b1f6eb97ecb08ef24044a2a103270b2",
-        "size": 18902,
-        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs/d0c141495b1f6eb97ecb08ef24044a2a103270b2"
+        "sha": "7cca42a884d05e56ce6ffe490cb6f8e8285523a1",
+        "size": 22611,
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/blobs/7cca42a884d05e56ce6ffe490cb6f8e8285523a1"
       },
       {
         "path": "papers_core/tests/lab_reconciliation_cli.rs",
@@ -323,7 +307,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Process started with PID 2335207 (shell: /bin/bash)\nInitial output:\nd0c141495b1f6eb97ecb08ef24044a2a103270b2\nd9724d01ca085d92d7aada9ce007991457c4a183\neada88184c01843a81bf43b62985d7873ec1b5d7\n0959294474fa505e3ab7127d99744e257472288e16b1167a054e8545d7927273  /tmp/memorithm-papers03-test-iQCvZvnB/Cargo.toml\n6dbb3f66c560e65f505326676461fd9a3148df2c1ba661bcab3ea175e5bfc116  /tmp/memorithm-papers03-test-iQCvZvnB/Cargo.lock\n"
+          "text": "Process started with PID 2481930 (shell: /bin/bash)\nInitial output:\n7cca42a884d05e56ce6ffe490cb6f8e8285523a1\nd9724d01ca085d92d7aada9ce007991457c4a183\neada88184c01843a81bf43b62985d7873ec1b5d7\n"
         },
         {
           "type": "text",
@@ -346,7 +330,8 @@
       "first offline mount failed due cache unpack read-only, no tests executed",
       "second writable private unpack tree failed due sandbox cc symlink absent, no tests executed",
       "explicit aarch64 gcc linker: 13 tests passed, exit 0"
-    ]
+    ],
+    "head": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9"
   },
   "checks_before_publish": [
     "rustfmt 1.9.0 edition2021 on three Rust files",
@@ -358,5 +343,13 @@
     "merge with optional squash failed; authorized default merge with expected head succeeded for #8",
     "add_comment connector still Internal error"
   ],
-  "observed_at": "2026-10-07T15:21:30.496Z"
+  "review": {
+    "comment_id": 4208648786,
+    "thread": "PRRT_kwDOS8iSH86p-Epl",
+    "correction": "separate bounded default-redirect client for read-only GET, POST client redirects disabled",
+    "corrective_head": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
+    "reply_id": 4208683818,
+    "resolved": true,
+    "regression": "status_and_result_gets_preserve_redirects"
+  }
 }

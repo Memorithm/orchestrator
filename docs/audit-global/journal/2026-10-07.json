@@ -2174,7 +2174,7 @@
       "excluded_repositories_modified": []
     },
     {
-      "observed_at": "2026-10-07T17:21:57.068+02:00",
+      "observed_at": "2026-10-07T17:26:20.458+02:00",
       "observed_session_start": "2026-10-07T17:05:10+02:00",
       "lease_owner": "chatgpt-audit-20261007170510",
       "counts": {
@@ -2182,22 +2182,23 @@
         "batch_merged_prs": 22,
         "batch_target": 50,
         "merged_prs": 72,
-        "closed_findings": 63,
-        "remaining_findings": 38,
+        "closed_findings": 64,
+        "remaining_findings": 37,
         "backlog": 101
       },
       "work_items": [
         {
           "id": "PAPERS-04",
           "repository": "Memorithm/PAPERS-AGENT",
-          "status": "waiting_ci",
+          "status": "resolved",
           "pr": 8,
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/8",
           "candidate_head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
           "merge_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
           "actions": [
             "CI candidat verte, 208 tests logiciels passés (dont 5 nouveaux tests arXiv), Clippy/doc/audit réussis.",
-            "Contrôles diff/base/HEAD/mergeable/branche non protégée/rulesets/revues puis fusion autorisée avec expected_head_sha; tree intégré identique."
+            "Contrôles diff/base/HEAD/mergeable/branche non protégée/rulesets/revues puis fusion autorisée avec expected_head_sha; tree intégré identique.",
+            "CI master intégrée 37642823135 verte: tests/Clippy/doc/audit réellement exécutés, 208 tests passés; constat clos."
           ],
           "candidate_checks": [
             37641497816
@@ -2206,9 +2207,9 @@
             37642823135
           ],
           "proof": "docs/audit-global/proofs/PAPERS-AGENT-8-PAPERS-04-integrated-20261007.json",
-          "reason_for_wait": "CI exacte master intégré en cours; aucune clôture prématurée.",
+          "reason_for_wait": null,
           "dependencies": [],
-          "next_action": "Réconcilier CI cible 37642823135 au SHA intégré 4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4; clore seulement si tests/gates complets réussis."
+          "next_action": "Clos sur SHA intégré exact, CI master verte; maintenir les limites ingestion/provenance documentées."
         },
         {
           "id": "PAPERS-03",
@@ -2216,13 +2217,15 @@
           "status": "waiting_ci",
           "pr": 9,
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/9",
-          "candidate_head_sha": "aca2ec92e560de21a6fa06d7b0429f75414299ae",
+          "candidate_head_sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
           "base_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
           "actions": [
             "Vérifié le POST LabClient sur le HEAD actuel; corrigé retry/redirect/accusés inconnus.",
             "Publié CLI GET de réconciliation et tests bornés; aucune idempotence serveur inventée.",
             "13 tests ciblés exécutés dans un crate fixture temporaire bwrap sans réseau externe, environnement effacé, limites CPU/RAM/temps; blobs source vérifiés.",
-            "PR ouverte puis synchronisée avec master intégré pour relancer la CI sur nouveau HEAD."
+            "PR ouverte puis synchronisée avec master intégré pour relancer la CI sur nouveau HEAD.",
+            "Revue P2 corrigée: client POST sans redirect, client GET avec politique default bornée; test statut/résultat redirect ajouté.",
+            "Nouvelle fixture isolée: 14 tests passés, exit0; fil revue répondu/résolu."
           ],
           "local_checks": [
             "rustfmt 1.9.0 edition2021",
@@ -2230,12 +2233,12 @@
             "cargo test --offline --all-targets (fixture minimal, 13 passed, exit0; pas validation globale du dépôt)"
           ],
           "candidate_checks": [
-            37643001078
+            37643668669
           ],
           "proof": "docs/audit-global/proofs/PAPERS-AGENT-9-PAPERS-03-waiting-ci.json",
-          "reason_for_wait": "CI complète nouveau HEAD queued; première exécution antérieure ne qualifie pas la nouvelle base.",
+          "reason_for_wait": "CI complète relancée pour correction de revue; pas de fusion sur ancien vert.",
           "dependencies": [],
-          "next_action": "Réconcilier CI exacte 37643001078 au HEAD aca2ec92e560de21a6fa06d7b0429f75414299ae; corriger tout échec; revalider base/HEAD/diff avant fusion."
+          "next_action": "CI exacte 37643668669 sur ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9; revérifier gates avant fusion puis qualifier master intégré."
         },
         {
           "id": "MEM-01",
@@ -2244,7 +2247,8 @@
           "pr": 34,
           "candidate_head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
           "actions": [
-            "Réconciliation des 4 workflows du HEAD correctif; tous restent queued."
+            "Réconciliation des 4 workflows du HEAD correctif; tous restent queued.",
+            "Strict BEIR et Security Audit verts; build reproductible comparé vert; CI principale encore en cours. Job process-execution-policy en échec sans aucune étape, logs 404 BlobNotFound et aucun artefact; cause indéterminée, relance ciblée tentée sans changement de gate."
           ],
           "candidate_checks": [
             37640972818,
@@ -2252,7 +2256,7 @@
             37640972734,
             37640973073
           ],
-          "reason_for_wait": "Attente réelle GitHub Actions; pas de nouveau résultat fonctionnel cette période.",
+          "reason_for_wait": "Échec security job + tests debug en cours; fusion interdite tant que tous les gates non verts.",
           "dependencies": [],
           "next_action": "Attendre CI complète exacte, ne pas fusionner en attente."
         }
@@ -2303,8 +2307,8 @@
     "batch_merged_prs": 22,
     "batch_target": 50,
     "merged_prs": 72,
-    "closed_findings": 63,
-    "remaining_findings": 38,
+    "closed_findings": 64,
+    "remaining_findings": 37,
     "backlog": 101
   }
 }

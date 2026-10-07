@@ -261,8 +261,8 @@
     "display_title": "CI",
     "run_number": 78,
     "event": "push",
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "success",
     "workflow_id": 332363561,
     "check_suite_id": 101973990976,
     "check_suite_node_id": "CS_kwDOS8iSH88AAAAXvh-eQA",
@@ -270,7 +270,7 @@
     "html_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/37642823135",
     "pull_requests": [],
     "created_at": "2026-10-07T15:18:42Z",
-    "updated_at": "2026-10-07T15:18:57Z",
+    "updated_at": "2026-10-07T15:21:54Z",
     "actor": {
       "login": "CHECKUPAUTO",
       "id": 194770978,
@@ -475,7 +475,231 @@
       "deployments_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/deployments"
     }
   },
-  "status": "merged_waiting_target_ci",
+  "status": "resolved",
   "limits": "Only software protocol tests; no live arXiv empirical/provenance archival claim.",
-  "observed_at": "2026-10-07T15:21:30.496Z"
+  "target_jobs": [
+    {
+      "id": 112865448744,
+      "run_id": 37642823135,
+      "workflow_name": "CI",
+      "head_branch": "master",
+      "run_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37642823135",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOS8iSH88AAAAaR04TKA",
+      "head_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
+      "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/jobs/112865448744",
+      "html_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/37642823135/job/112865448744",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-07T15:18:42Z",
+      "started_at": "2026-10-07T15:18:54Z",
+      "completed_at": "2026-10-07T15:19:14Z",
+      "name": "audit",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-07T15:18:55Z",
+          "completed_at": "2026-10-07T15:18:56Z"
+        },
+        {
+          "name": "Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-07T15:18:56Z",
+          "completed_at": "2026-10-07T15:18:57Z"
+        },
+        {
+          "name": "Install Rust",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-07T15:18:57Z",
+          "completed_at": "2026-10-07T15:19:07Z"
+        },
+        {
+          "name": "Install cargo-audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-07T15:19:07Z",
+          "completed_at": "2026-10-07T15:19:07Z"
+        },
+        {
+          "name": "Security audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-07T15:19:07Z",
+          "completed_at": "2026-10-07T15:19:12Z"
+        },
+        {
+          "name": "Post Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-07T15:19:12Z",
+          "completed_at": "2026-10-07T15:19:12Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-07T15:19:12Z",
+          "completed_at": "2026-10-07T15:19:12Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/check-runs/112865448744",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000210204,
+      "runner_name": "GitHub Actions 1000210204",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 112865453580,
+      "run_id": 37642823135,
+      "workflow_name": "CI",
+      "head_branch": "master",
+      "run_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/runs/37642823135",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOS8iSH88AAAAaR04mDA",
+      "head_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
+      "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/actions/jobs/112865453580",
+      "html_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/37642823135/job/112865453580",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-07T15:18:43Z",
+      "started_at": "2026-10-07T15:18:56Z",
+      "completed_at": "2026-10-07T15:21:53Z",
+      "name": "rust",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-07T15:18:57Z",
+          "completed_at": "2026-10-07T15:18:58Z"
+        },
+        {
+          "name": "Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-07T15:18:58Z",
+          "completed_at": "2026-10-07T15:19:00Z"
+        },
+        {
+          "name": "Install Rust",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-07T15:19:00Z",
+          "completed_at": "2026-10-07T15:19:02Z"
+        },
+        {
+          "name": "Cache cargo registry and build artifacts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-07T15:19:02Z",
+          "completed_at": "2026-10-07T15:20:45Z"
+        },
+        {
+          "name": "Reject machine-local dependency paths",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-07T15:20:45Z",
+          "completed_at": "2026-10-07T15:20:46Z"
+        },
+        {
+          "name": "Format changed Rust files",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-07T15:20:46Z",
+          "completed_at": "2026-10-07T15:20:46Z"
+        },
+        {
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-07T15:20:46Z",
+          "completed_at": "2026-10-07T15:21:38Z"
+        },
+        {
+          "name": "Clippy",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-07T15:21:38Z",
+          "completed_at": "2026-10-07T15:21:45Z"
+        },
+        {
+          "name": "Doc",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-07T15:21:45Z",
+          "completed_at": "2026-10-07T15:21:51Z"
+        },
+        {
+          "name": "Post Cache cargo registry and build artifacts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-07T15:21:51Z",
+          "completed_at": "2026-10-07T15:21:51Z"
+        },
+        {
+          "name": "Post Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-10-07T15:21:51Z",
+          "completed_at": "2026-10-07T15:21:51Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-10-07T15:21:51Z",
+          "completed_at": "2026-10-07T15:21:52Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/check-runs/112865453580",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000210207,
+      "runner_name": "GitHub Actions 1000210207",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ],
+  "target_test_summaries": [
+    "2026-10-07T15:21:36.1453093Z test arxiv_http::tests::exact_limit_is_accepted_and_sentinel_is_rejected ... ok",
+    "2026-10-07T15:21:36.2063831Z test arxiv_http::tests::production_client_rejects_plain_http ... ok",
+    "2026-10-07T15:21:36.2658567Z test arxiv_http::tests::oversized_declared_and_chunked_bodies_are_rejected ... ok",
+    "2026-10-07T15:21:36.3156405Z test arxiv_http::tests::redirects_and_error_statuses_are_not_parsed_or_followed ... ok",
+    "2026-10-07T15:21:36.6990756Z test arxiv_http::tests::delayed_response_obeys_total_timeout ... ok",
+    "2026-10-07T15:21:38.1969256Z test result: ok. 186 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.06s",
+    "2026-10-07T15:21:38.2014227Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-10-07T15:21:38.2046654Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-10-07T15:21:38.2067517Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-10-07T15:21:38.3719325Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s",
+    "2026-10-07T15:21:38.3772869Z test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-10-07T15:21:38.3802711Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "2026-10-07T15:21:38.3836590Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
 }
