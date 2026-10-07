@@ -1729,11 +1729,126 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T15:20:22+02:00",
+      "observed_session_start": "2026-10-07T15:11:47+02:00",
+      "lease_owner": "chatgpt-audit-20261007151147",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 21,
+        "batch_target": 50,
+        "merged_prs": 71,
+        "closed_findings": 61,
+        "remaining_findings": 40,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "MEM-15",
+          "repository": "Memorithm/scirust-hub",
+          "status": "waiting_ci",
+          "base_sha": "c53ecd84af0a8bf17b595296004539c0252582d2",
+          "pr": 84,
+          "candidate_head": "9b9e197c9d3c223f42f4244c8fd09564bdf079e8",
+          "merge_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+          "actions": [
+            "Reconciled the audit finding against current main and confirmed SECURITY.md still denied shipped native TLS/principals while INTEGRATION_MODEL.md still marked remote/components as future seams.",
+            "Read AGENTS.md, ecosystem roadmap, ML maturity overlay and AX task-runtime bootstrap.",
+            "Updated security boundaries for legacy/full-control and versioned principals, inspect/control/metrics, 401/403, native TLS, and explicit no-tenancy/no-mTLS limits.",
+            "Replaced the obsolete topology and linked six qualified adapter-family Hub merge SHAs.",
+            "Revalidated the exact diff, mergeability, reviews and threads; merged by squash with expected_head_sha.",
+            "Verified both integrated blobs exactly equal the candidate blobs."
+          ],
+          "checks": {
+            "local": [
+              "git diff --check -- SECURITY.md docs/architecture/INTEGRATION_MODEL.md",
+              "structural documentation assertions: 6 distinct full commit links; obsolete labels absent; boundary terms present"
+            ],
+            "candidate_runs": [
+              {
+                "id": 37627218624,
+                "name": "CI",
+                "conclusion": "success",
+                "jobs": [
+                  112811967648
+                ],
+                "executed_steps": [
+                  "Format",
+                  "ML adapter contracts",
+                  "Org catalog integrity",
+                  "Clippy",
+                  "Build",
+                  "Test",
+                  "Doc"
+                ]
+              }
+            ],
+            "target_runs": []
+          },
+          "reason_for_wait": "No target-branch workflow is attached to exact merge SHA 01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f after repeated reconciliation.",
+          "dependencies": [
+            "Successful target CI on exact integrated SHA"
+          ],
+          "proof": "docs/audit-global/proofs/scirust-hub-84-MEM-15-waiting-target-ci.json",
+          "next_action": "Reconcile target CI; close only after exact integrated-SHA success."
+        },
+        {
+          "id": "RT-TQ-04",
+          "repository": "Memorithm/TurboQuant",
+          "status": "waiting_ci",
+          "pr": 17,
+          "merge_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "actions": [
+            "Reconciled the exact integrated SHA again while scirust-hub CI was running; no target workflow appeared."
+          ],
+          "checks": {
+            "candidate_runs": [
+              37620489129,
+              37620489082,
+              37620489354
+            ],
+            "target_runs": []
+          },
+          "reason_for_wait": "No target CI/Tests run is attached to the exact integrated SHA.",
+          "dependencies": [
+            "Successful target CI and Tests on fb4f99364ea86ae86366431ab433726f1cf21367"
+          ],
+          "next_action": "Reconcile target validations; do not close prematurely."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "No mutation; MEM-15 advanced independently."
+          ],
+          "reason_for_wait": "Thor runner-group selected-workflow restriction is not observable/configurable through the available connection.",
+          "dependencies": [
+            "Thor restriction to trusted push workflow and safe refusal probe"
+          ],
+          "next_action": "Resume after restriction evidence exists."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "No mutation; MEM-15 advanced independently."
+          ],
+          "reason_for_wait": "No qualified external OS-sandbox backend is available.",
+          "dependencies": [
+            "Versioned evidence for a stronger-isolation backend"
+          ],
+          "next_action": "Resume only when immutable backend evidence exists."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": "2 — 20/50",
-    "merged_prs": 70,
+    "batch": "2 — 21/50",
+    "merged_prs": 71,
     "closed_findings": 61,
     "remaining_findings": 40,
     "newly_resolved": [
@@ -1757,8 +1872,9 @@
     ],
     "excluded_repositories_modified": [],
     "waiting_ci": [
+      "MEM-15",
       "RT-TQ-04"
     ],
-    "next_action": "Réconcilier CI et Tests sur le SHA intégré exact de TurboQuant #17, puis poursuivre le prochain constat autonome."
+    "next_action": "Réconcilier les CI cibles exactes de scirust-hub #84 et TurboQuant #17, puis poursuivre un chantier autonome sans clôture prématurée."
   }
 }

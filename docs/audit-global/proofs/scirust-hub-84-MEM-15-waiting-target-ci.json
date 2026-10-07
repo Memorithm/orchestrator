@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "finding_ids": [
+    "MEM-15"
+  ],
+  "repository": "Memorithm/scirust-hub",
+  "pull_request": 84,
+  "pull_request_url": "https://github.com/Memorithm/scirust-hub/pull/84",
+  "default_branch": "main",
+  "base_sha": "c53ecd84af0a8bf17b595296004539c0252582d2",
+  "candidate_head_sha": "9b9e197c9d3c223f42f4244c8fd09564bdf079e8",
+  "merge_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+  "merge_method": "squash_with_expected_head_sha",
+  "changed_files": {
+    "SECURITY.md": {
+      "candidate_blob": "f836d2a5b11ada5dd080f5c53df89593ab619041",
+      "target_blob": "f836d2a5b11ada5dd080f5c53df89593ab619041"
+    },
+    "docs/architecture/INTEGRATION_MODEL.md": {
+      "candidate_blob": "282cc55f475b4dce01366c00cda1f7998e4bb869",
+      "target_blob": "282cc55f475b4dce01366c00cda1f7998e4bb869"
+    }
+  },
+  "policy_review": [
+    "AGENTS.md",
+    "agent/ecosystem-roadmap:.agent/SCIRUST_HUB_ECOSYSTEM_ROADMAP.yaml",
+    "agent/ecosystem-roadmap:.agent/ML_MATURITY_5_OF_5.yaml",
+    "docs/AX_TASK_RUNTIME_BOOTSTRAP.md"
+  ],
+  "local_checks": [
+    {
+      "command": "git diff --check -- SECURITY.md docs/architecture/INTEGRATION_MODEL.md",
+      "result": "success"
+    },
+    {
+      "command": "structural documentation assertions",
+      "result": "success: six distinct full Hub merge links, obsolete future/seams labels absent, current principal/TLS/mTLS boundaries present"
+    }
+  ],
+  "candidate_workflows": [
+    {
+      "id": 37627218624,
+      "name": "CI",
+      "run_number": 266,
+      "head_sha": "9b9e197c9d3c223f42f4244c8fd09564bdf079e8",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 112811967648,
+          "name": "fmt / clippy / build / test / doc",
+          "conclusion": "success",
+          "executed_steps": [
+            "Format",
+            "ML adapter contracts",
+            "Org catalog integrity",
+            "Clippy",
+            "Build",
+            "Test",
+            "Doc"
+          ]
+        }
+      ]
+    }
+  ],
+  "review": {
+    "diff_revalidated": true,
+    "mergeable_before_merge": true,
+    "reviews": [],
+    "review_threads": [],
+    "unresolved_threads": 0,
+    "automated_review_state_at_merge": "running_without_published_findings"
+  },
+  "target_workflows": [],
+  "status": "waiting_target_ci",
+  "reason_for_wait": "No workflow run is attached to the exact integrated SHA after repeated reconciliation; candidate CI is green and the integrated file blobs exactly match the candidate.",
+  "observed_at": "2026-10-07T15:20:22+02:00",
+  "next_action": "Reconcile target-branch CI on 01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f; close MEM-15 only after an exact integrated-SHA success."
+}
