@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T08:28:18+02:00",
+  "updated_at": "2026-10-07T09:12:31+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9711,15 +9711,15 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-20261007081452",
-    "acquired_at": "2026-10-07T06:16:06Z",
-    "expires_at": "2026-10-07T07:46:06Z",
-    "released_at": "2026-10-07T06:28:18Z",
-    "status": "released",
+    "owner": "chatgpt-audit-20261007091026",
+    "acquired_at": "2026-10-07T07:12:31Z",
+    "expires_at": "2026-10-07T08:42:31Z",
+    "released_at": null,
+    "status": "active",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "previous_owner": "chatgpt-audit-20261007070813",
-    "previous_expiry": "2026-10-07T06:38:47Z",
+    "previous_owner": "chatgpt-audit-20261007081452",
+    "previous_expiry": "2026-10-07T07:46:06Z",
     "canonical_counts": {
       "merged_prs": 66,
       "closed_findings": 54,
@@ -9730,7 +9730,7 @@
       "merged_prs": 16,
       "target": 50
     },
-    "next_action": "Réconcilier la CI fleet main de KVLab sur 9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7; clore BF-KV-01, BF-KV-02 et BF-KV-03 uniquement après succès cible.",
+    "next_action": "Réconcilier la CI cible KVLab puis traiter BF-KV-05 sur le HEAD courant après lecture des politiques et validation locale bornée.",
     "verified_merged_prs": 66,
     "canonical_registry_merged_prs": 66,
     "closed_findings": 54,
