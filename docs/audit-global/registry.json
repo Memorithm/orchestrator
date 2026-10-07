@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T02:12:50Z",
+  "updated_at": "2026-10-07T04:54:26+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -8357,27 +8357,51 @@
     },
     {
       "id": "B-NR-01",
-      "repository": null,
-      "source_scope": "restricted",
+      "repository": "Memorithm/nonlocal-relativity-v2",
+      "source_scope": "private",
       "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#B-NR-01",
-      "source_url": null,
-      "title": "Constat à accès restreint",
+      "source_url": "https://github.com/Memorithm/nonlocal-relativity-v2/blob/857a893accada29637630312df9ecd254c713b47/.github/workflows/nonlocal-relativity.yml#L63",
+      "title": "Main non qualifié et trois PR ouvertes au moment de l’audit",
       "severity": "haute",
       "priority_order": 8,
       "planned_dependencies": [],
       "acceptance_criteria": [
-        "Consulter les critères dans la source interne par ID ; conserver les preuves dans le dépôt privé."
+        "Réparer les causes exactes indiquées par les jobs échoués à partir des logs racine.",
+        "Requalifier les trois crates et l’expérience sur le SHA final.",
+        "Ne fusionner une PR qu’après résultats vérifiés sur son HEAD exact, revue propre et mergeabilité confirmée."
       ],
-      "status": "to_do",
-      "current_head": null,
-      "default_branch": null,
-      "audit_head": null,
-      "head_reconciliation": "not_published",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "status": "waiting_ci",
+      "current_head": "f44158e5371494713f710b0255137b599c24a111",
+      "default_branch": "main",
+      "audit_head": "857a893accada29637630312df9ecd254c713b47",
+      "head_reconciliation": "current_main_green; PR #55 and #57 merged and target-validated; cumulative PR #58 superseded by minimal PR #59; exact-head Miri still running",
+      "policy_review": "Root AGENTS.md, mandatory off-main ecosystem roadmap and PolyForm Noncommercial notices read; experimental claim boundary preserved.",
+      "prs": [
+        {
+          "number": 58,
+          "url": "https://github.com/Memorithm/nonlocal-relativity-v2/pull/58",
+          "head_sha": "d9cdd4c536f14a5ca3e9eba626c7dbf8e7f5222b",
+          "status": "open_superseded_cumulative"
+        },
+        {
+          "number": 59,
+          "url": "https://github.com/Memorithm/nonlocal-relativity-v2/pull/59",
+          "base_sha": "f44158e5371494713f710b0255137b599c24a111",
+          "head_sha": "01fc228e994e638ff841fe274ecd2fa9cedebe72",
+          "status": "waiting_ci"
+        }
+      ],
+      "resolution_evidence": [
+        "https://github.com/Memorithm/nonlocal-relativity-v2/actions/runs/36801980566",
+        "https://github.com/Memorithm/nonlocal-relativity-v2/actions/runs/36801980580",
+        "https://github.com/Memorithm/nonlocal-relativity-v2/actions/runs/36801980607",
+        "https://github.com/Memorithm/nonlocal-relativity-v2/actions/runs/37561031472",
+        "https://github.com/Memorithm/nonlocal-relativity-v2/actions/runs/37561031558",
+        "https://github.com/Memorithm/nonlocal-relativity-v2/actions/runs/37561031576",
+        "docs/audit-global/proofs/nonlocal-relativity-v2-59-B-NR-01-waiting-ci.json"
+      ],
+      "last_observed_at": "2026-10-07T04:54:26+02:00",
+      "next_action": "Attendre la fin de Miri sur le HEAD exact 01fc228e…; si succès, revérifier base/head/revue, fusionner #59 avec expected_head_sha, qualifier main puis fermer #58 comme remplacée. Sinon corriger l’échec et relancer."
     },
     {
       "id": "B-NR-02",
@@ -9412,8 +9436,8 @@
     "owner": "chatgpt-audit-20261007041205",
     "acquired_at": "2026-10-07T02:12:50Z",
     "expires_at": "2026-10-07T03:42:50Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-07T02:54:26Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
     "previous_owner": "chatgpt-audit-20261007031438",
@@ -9428,7 +9452,7 @@
       "merged_prs": 10,
       "target": 50
     },
-    "next_action": "Vérifier puis traiter B-NR-01 dans Memorithm/nonlocal-relativity-v2 sur le HEAD courant, sans modifier les dépôts exclus.",
+    "next_action": "Reprendre B-NR-01 sur PR #59; Miri était encore en cours sur 01fc228e… après 21/22 jobs CI réussis. Ne fusionner qu’après succès exact et qualification de main.",
     "verified_merged_prs": 60,
     "canonical_registry_merged_prs": 60,
     "closed_findings": 52,

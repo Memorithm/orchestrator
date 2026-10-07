@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "finding_id": "B-NR-01",
+  "repository": "Memorithm/nonlocal-relativity-v2",
+  "status": "waiting_ci",
+  "observed_at": "2026-10-07T04:54:26+02:00",
+  "audit_snapshot": {
+    "sha": "857a893accada29637630312df9ecd254c713b47",
+    "finding": "CI et Nonlocal Relativity échouaient; Native ARM64 réussissait; trois PR ouvertes."
+  },
+  "current_main": {
+    "branch": "main",
+    "sha": "f44158e5371494713f710b0255137b599c24a111",
+    "tree_sha": "08465ad5fa440b6b62c94f5aa5035048753c4a02",
+    "successful_runs": [
+      {
+        "id": 36801980566,
+        "name": "Native ARM64"
+      },
+      {
+        "id": 36801980580,
+        "name": "Nonlocal Relativity"
+      },
+      {
+        "id": 36801980607,
+        "name": "CI"
+      }
+    ]
+  },
+  "source_pull_request": {
+    "number": 58,
+    "url": "https://github.com/Memorithm/nonlocal-relativity-v2/pull/58",
+    "head_sha": "d9cdd4c536f14a5ca3e9eba626c7dbf8e7f5222b",
+    "status": "open_superseded_cumulative",
+    "commits": 36,
+    "changed_files": 17,
+    "disposition": "not_merged; minimal delta reconstructed with explicit provenance"
+  },
+  "candidate": {
+    "pull_request": 59,
+    "url": "https://github.com/Memorithm/nonlocal-relativity-v2/pull/59",
+    "base_sha": "f44158e5371494713f710b0255137b599c24a111",
+    "head_sha": "01fc228e994e638ff841fe274ecd2fa9cedebe72",
+    "tree_sha": "9498c45b515f3721cd7401e9e848f68b9ebe1974",
+    "changed_files": 3,
+    "additions": 483,
+    "deletions": 109,
+    "provenance_commit_message": true,
+    "review": {
+      "status": "completed_clean",
+      "unresolved_threads": 0
+    },
+    "workflows": [
+      {
+        "id": 37561031472,
+        "name": "Nonlocal Relativity",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 112598090132,
+            "name": "fmt / clippy / test / docs",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598090397,
+            "name": "run examples (release)",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 37561031576,
+        "name": "Native ARM64",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 112598090865,
+            "name": "Native ARM64 (Mac mini)",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 37561031558,
+        "name": "CI",
+        "status": "in_progress",
+        "conclusion": null,
+        "jobs": [
+          {
+            "id": 112598090775,
+            "name": "finmigrate GnuCOBOL Equivalence",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598090926,
+            "name": "Format Check",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091001,
+            "name": "Build & Test (nightly, x86_64)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091009,
+            "name": "Check opt-in network features",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091013,
+            "name": "Epsilon Audit (σ gate)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091030,
+            "name": "COBOL Corpus Integrity",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091058,
+            "name": "Code Coverage",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091071,
+            "name": "Cross-check (aarch64)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091177,
+            "name": "License & Security Audit",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091178,
+            "name": "Check (macOS ARM64 native, stable)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091179,
+            "name": "SBOM (CycloneDX)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091191,
+            "name": "GPU (wgpu / lavapipe)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091197,
+            "name": "Fuzz (Linux x86_64 ASan build)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091199,
+            "name": "Build & Test (nightly SIMD extensions)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091207,
+            "name": "GPU (CUDA no-runtime fallback)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091216,
+            "name": "Check (Windows MSVC target (Linux cross-check), stable)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091262,
+            "name": "Check (MSRV 1.89.0)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091272,
+            "name": "Build & Test (stable, x86_64)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091289,
+            "name": "Build & Test (portable-simd, nightly)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091292,
+            "name": "Miri (memory safety and numeric crates)",
+            "status": "in_progress",
+            "conclusion": null
+          },
+          {
+            "id": 112598091310,
+            "name": "Fuzz (Mac ARM64 ASan build and smoke)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 112598091567,
+            "name": "Clippy",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  "scientific_boundary": [
+    "Numerical diagnostic only.",
+    "No adaptive accept/reject decision.",
+    "No claim of covariance or coordinate invariance.",
+    "Cross-chart acceptance and curved-space validation remain separate work."
+  ],
+  "merge_performed": false,
+  "closure_performed": false,
+  "wait_reason": "Miri job 112598091292 remains in progress; 21 of 22 CI jobs succeeded.",
+  "next_action": "Reconcile exact head/base/review; merge #59 with expected_head_sha only after all required jobs succeed; qualify target main; close #58 as superseded."
+}

@@ -313,6 +313,191 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T04:54:26+02:00",
+      "observed_session_start": "2026-10-07T04:12:05+02:00",
+      "lease_owner": "chatgpt-audit-20261007041205",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 10,
+        "batch_target": 50,
+        "merged_prs": 60,
+        "closed_findings": 52,
+        "remaining_findings": 49,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "B-NR-01",
+          "repository": "Memorithm/nonlocal-relativity-v2",
+          "status": "waiting_ci",
+          "base_sha": "f44158e5371494713f710b0255137b599c24a111",
+          "pr": 59,
+          "candidate_head": "01fc228e994e638ff841fe274ecd2fa9cedebe72",
+          "supersedes": {
+            "pr": 58,
+            "head_sha": "d9cdd4c536f14a5ca3e9eba626c7dbf8e7f5222b",
+            "reason": "branche cumulative de 36 commits/17 fichiers recouvrant #55/#57 et des réparations CI déjà intégrées"
+          },
+          "actions": [
+            "Relu AGENTS.md, la roadmap obligatoire hors branche par défaut et les licences; revérifié le constat sur main.",
+            "Constaté les trois workflows push verts sur main et les PR #55/#57 déjà fusionnées; conservé #58 ouverte sans fusion en raison de son historique cumulatif.",
+            "Reconstruit le delta scientifique minimal de #58 sur main dans un commit de 3 fichiers avec trailers de provenance, puis ouvert #59.",
+            "La revue Codex du HEAD exact est terminée sans constat et aucun fil n'est ouvert.",
+            "Exécuté Nonlocal Relativity et Native ARM64 avec succès; dans CI générale, 21/22 jobs ont réussi et Miri reste en cours."
+          ],
+          "checks": {
+            "candidate_runs": [
+              37561031472,
+              37561031558,
+              37561031576
+            ],
+            "successful_jobs": [
+              {
+                "id": 112598090132,
+                "name": "fmt / clippy / test / docs"
+              },
+              {
+                "id": 112598090397,
+                "name": "run examples (release)"
+              },
+              {
+                "id": 112598090865,
+                "name": "Native ARM64 (Mac mini)"
+              },
+              {
+                "id": 112598090775,
+                "name": "finmigrate GnuCOBOL Equivalence"
+              },
+              {
+                "id": 112598090926,
+                "name": "Format Check"
+              },
+              {
+                "id": 112598091001,
+                "name": "Build & Test (nightly, x86_64)"
+              },
+              {
+                "id": 112598091009,
+                "name": "Check opt-in network features"
+              },
+              {
+                "id": 112598091013,
+                "name": "Epsilon Audit (σ gate)"
+              },
+              {
+                "id": 112598091030,
+                "name": "COBOL Corpus Integrity"
+              },
+              {
+                "id": 112598091058,
+                "name": "Code Coverage"
+              },
+              {
+                "id": 112598091071,
+                "name": "Cross-check (aarch64)"
+              },
+              {
+                "id": 112598091177,
+                "name": "License & Security Audit"
+              },
+              {
+                "id": 112598091178,
+                "name": "Check (macOS ARM64 native, stable)"
+              },
+              {
+                "id": 112598091179,
+                "name": "SBOM (CycloneDX)"
+              },
+              {
+                "id": 112598091191,
+                "name": "GPU (wgpu / lavapipe)"
+              },
+              {
+                "id": 112598091197,
+                "name": "Fuzz (Linux x86_64 ASan build)"
+              },
+              {
+                "id": 112598091199,
+                "name": "Build & Test (nightly SIMD extensions)"
+              },
+              {
+                "id": 112598091207,
+                "name": "GPU (CUDA no-runtime fallback)"
+              },
+              {
+                "id": 112598091216,
+                "name": "Check (Windows MSVC target (Linux cross-check), stable)"
+              },
+              {
+                "id": 112598091262,
+                "name": "Check (MSRV 1.89.0)"
+              },
+              {
+                "id": 112598091272,
+                "name": "Build & Test (stable, x86_64)"
+              },
+              {
+                "id": 112598091289,
+                "name": "Build & Test (portable-simd, nightly)"
+              },
+              {
+                "id": 112598091310,
+                "name": "Fuzz (Mac ARM64 ASan build and smoke)"
+              },
+              {
+                "id": 112598091567,
+                "name": "Clippy"
+              }
+            ],
+            "pending_jobs": [
+              {
+                "id": 112598091292,
+                "name": "Miri (memory safety and numeric crates)",
+                "status": "in_progress",
+                "conclusion": null
+              }
+            ]
+          },
+          "reason_for_wait": "Le job Miri 112598091292 est encore en cours sur le HEAD exact; une fusion anticipée violerait le critère de validation.",
+          "dependencies": [
+            "Succès final de Miri sur 01fc228e994e638ff841fe274ecd2fa9cedebe72",
+            "Revalidation base/head/revue avant merge",
+            "Qualification des workflows push sur le SHA intégré"
+          ],
+          "proof": "docs/audit-global/proofs/nonlocal-relativity-v2-59-B-NR-01-waiting-ci.json",
+          "next_action": "Au prochain passage, réconcilier #59 et le run 37561031558; fusionner avec expected_head_sha uniquement si tout est vert, puis qualifier main et clore #58 comme remplacée."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation cette heure; B-NR-01 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Restriction selected-workflow du runner group Thor non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor à Memorithm/SciCapsule/.github/workflows/internal-ci.yml@refs/heads/main",
+            "Probe sûr prouvant le refus depuis tout autre workflow"
+          ],
+          "next_action": "Reprendre après preuve de restriction; ne pas clore avant."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune modification cette heure; B-NR-01 a avancé indépendamment."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n'est disponible.",
+          "dependencies": [
+            "Preuve versionnée d'un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps."
+          ],
+          "next_action": "Reprendre uniquement lorsqu'une preuve immuable du backend existe; ne modifier aucun dépôt exclu."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -330,6 +515,10 @@
       "PAPERS-01",
       "MEM-11"
     ],
-    "excluded_repositories_modified": []
+    "excluded_repositories_modified": [],
+    "waiting_ci": [
+      "B-NR-01"
+    ],
+    "next_action": "Reprendre B-NR-01 sur #59 dès la fin de Miri; fusionner seulement après qualification exacte."
   }
 }
