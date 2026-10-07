@@ -1,0 +1,128 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-07T11:33:04+02:00",
+  "finding_ids": [
+    "B-FL-02"
+  ],
+  "repository": "Memorithm/FieldLab",
+  "default_branch": "main",
+  "base_sha": "996841a27b0ece7d677eb707e6e16ca22090d1e0",
+  "pull_request": {
+    "number": 58,
+    "url": "https://github.com/Memorithm/FieldLab/pull/58",
+    "head_sha": "927c31791b218f659eb56a2e619d464a5e8d6fa8",
+    "candidate_tree": "e7597fa550981eed67e4ee52d64318aa48eb55de",
+    "merge_sha": "a1b8010df4822948fee8df6cef993e8b01c68959",
+    "target_tree": "e7597fa550981eed67e4ee52d64318aa48eb55de",
+    "merge_method": "squash_with_expected_head_sha",
+    "merged_at": "2026-10-07T09:31:29Z",
+    "changed_files": [
+      "crates/field-ccos-map/src/lib.rs"
+    ],
+    "unresolved_review_threads": 0,
+    "submitted_reviews": 0
+  },
+  "resolution": {
+    "legacy_contract_preserved": true,
+    "strict_apis": [
+      "strict_reference_working_set",
+      "strict_field_working_set"
+    ],
+    "oversized_item_policy": "reject_entire_strict_assembly_with_typed_error",
+    "token_estimate": "non-empty content uses ceil(chars/4)",
+    "accumulation": "checked_add",
+    "claims": "No efficacy, performance, hardware or tokenizer-accuracy claim."
+  },
+  "local_checks": [
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "local_limits": [
+    "Cargo, rustc and rustfmt were unavailable locally; no local Rust execution is claimed."
+  ],
+  "superseded_attempts": [
+    {
+      "head_sha": "da560d6f0ce6d005a44fe816962eae84a002b749",
+      "run_id": 37599471829,
+      "job_id": 112720027675,
+      "result": "rustfmt_failed_then_corrected"
+    },
+    {
+      "head_sha": "08e2d2e1b54e18f9e5946479c7556f1190e9e2bc",
+      "run_ids": [
+        37600250669,
+        37600250446
+      ],
+      "job_ids": [
+        112722597037,
+        112722592669
+      ],
+      "result": "rustfmt_failed_then_corrected"
+    }
+  ],
+  "candidate_runs": [
+    {
+      "id": 37600519896,
+      "name": "FieldLab CI",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        112723473685,
+        112723811834,
+        112723811910,
+        112723811953,
+        112724466312,
+        112724854543,
+        112725097547
+      ]
+    },
+    {
+      "id": 37600519936,
+      "name": "FieldLab FL-E1 Validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37600519784,
+      "name": "FieldLab FL-E2 Validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37600519871,
+      "name": "FieldLab FL-4B Validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37600519922,
+      "name": "FieldLab FL-4C External CCOS Replay",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37600520082,
+      "name": "FieldLab FL-4D Native CCOS Temporal Trace",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37600519749,
+      "name": "FieldLab FL-4E External Focus Hysteresis",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37600519791,
+      "name": "FieldLab FL-5G qualification",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "target_runs": [],
+  "status": "waiting_ci",
+  "reason_for_wait": "No target-branch workflow or commit status is attached to the exact integrated SHA after reconciliation.",
+  "next_action": "Reconcile target CI on a1b8010df4822948fee8df6cef993e8b01c68959 and close B-FL-02 only after exact integrated validation succeeds."
+}
