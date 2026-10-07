@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-20261007170510",
-  "acquired_at": "2026-10-07T15:05:58Z",
-  "expires_at": "2026-10-07T16:35:58Z",
-  "released_at": "2026-10-07T15:32:26.705Z",
-  "status": "released",
+  "owner": "chatgpt-audit-202610071735",
+  "acquired_at": "2026-10-07T15:37:36.943Z",
+  "expires_at": "2026-10-07T17:07:36.943Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
-  "previous_owner": "chatgpt-audit-20261007165250",
+  "previous_owner": "chatgpt-audit-20261007170510",
   "canonical_counts": {
     "merged_prs": 74,
     "closed_findings": 65,
