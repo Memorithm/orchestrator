@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "finding_ids": [
+    "MEM-01"
+  ],
+  "repository": "Memorithm/CCOS-Core",
+  "pr": 34,
+  "url": "https://github.com/Memorithm/CCOS-Core/pull/34",
+  "base": "main",
+  "base_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
+  "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+  "candidate_tree": "829ffccfd9ec1f541b01e3a4a24aa8b5068b16c6",
+  "observed_at": "2026-10-07T15:03:22Z",
+  "status": "open_waiting_ci",
+  "superseded_failure": {
+    "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+    "run": 37637241786,
+    "failed_jobs": [
+      112846562482,
+      112846562649
+    ],
+    "reason": "Cargo feature parser incorrectly treated '# Default = ...' comment as a feature",
+    "production_unit_tests": "692 passed; contract failed",
+    "fix": "skip comments; normalize assignment key spacing; preserve complete deployment document tail"
+  },
+  "standalone_contract_validation": {
+    "command": "cd '/tmp/memorithm-mem01-test-X93L4mo8' && rustc --version && git hash-object Cargo.toml README.md docs/CORE_CAPABILITIES.md tests/capability_matrix_contract.rs && timeout 45 prlimit --as=1073741824 --cpu=30 -- rustc --edition 2021 --test tests/capability_matrix_contract.rs -o capability-contract-test && timeout 10 prlimit --as=268435456 --cpu=5 -- ./capability-contract-test --nocapture",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Process started with PID 2034110 (shell: /bin/bash)\nInitial output:\nrustc 1.98.0 (88d9e12ae 2026-08-18)\n820e8e86a0109b8f456d5d9251297cde7a8a2e6c\nb824b5ddb49f2eb2096079db5ab2d3a5e8c3aaca\n39f572da5e6fcc4b4f523b84f011391cc02ec96a\nda3e1967e6e5fb0bd8bc087b40ed136b4c7f35bf\n\nrunning 2 tests\ntest feature_parser_ignores_comments_and_default_but_keeps_new_features ... ok\ntest capability_matrix_matches_the_manifest_and_product_boundary ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n"
+        },
+        {
+          "type": "text",
+          "text": "\n[executed on device: tarek (fa986a59-0105-42b8-b1db-7cddadcd871f)]"
+        }
+      ],
+      "isError": false
+    },
+    "scope": "Only the two std-only capability contract tests; not the full product suite or OS sandbox qualification",
+    "exact_candidate_blobs": [
+      {
+        "path": "Cargo.toml",
+        "sha": "820e8e86a0109b8f456d5d9251297cde7a8a2e6c"
+      },
+      {
+        "path": "README.md",
+        "sha": "b824b5ddb49f2eb2096079db5ab2d3a5e8c3aaca"
+      },
+      {
+        "path": "docs/CORE_CAPABILITIES.md",
+        "sha": "39f572da5e6fcc4b4f523b84f011391cc02ec96a"
+      },
+      {
+        "path": "tests/capability_matrix_contract.rs",
+        "sha": "da3e1967e6e5fb0bd8bc087b40ed136b4c7f35bf"
+      }
+    ],
+    "result_summary": "rustc 1.98.0; git blob identities matched; 2 passed, 0 failed"
+  },
+  "candidate_runs": [
+    {
+      "id": 37640972818,
+      "name": "Strict BEIR import",
+      "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972818"
+    },
+    {
+      "id": 37640972858,
+      "name": "Periodic Security Validation",
+      "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972858"
+    },
+    {
+      "id": 37640972734,
+      "name": "Security Audit",
+      "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972734"
+    },
+    {
+      "id": 37640973073,
+      "name": "CI",
+      "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640973073"
+    }
+  ],
+  "next_action": "Require full exact-head CI, revalidate base/head/diff/reviews/protection, merge with expected_head_sha, then validate integrated target SHA."
+}

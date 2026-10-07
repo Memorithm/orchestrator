@@ -1978,13 +1978,207 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T17:03:22+02:00",
+      "observed_session_start": "2026-10-07T16:52:50+02:00",
+      "lease_owner": "chatgpt-audit-20261007165250",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 21,
+        "batch_target": 50,
+        "merged_prs": 71,
+        "closed_findings": 63,
+        "remaining_findings": 38,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "MEM-15",
+          "repository": "Memorithm/scirust-hub",
+          "status": "resolved",
+          "pr": 84,
+          "merge_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+          "actions": [
+            "CI cible push retrouvée par endpoint Actions tous événements; conclusion et étapes de tests vérifiées sur SHA intégré.",
+            "Corrigé le faux état attente du suivi, sans nouvelle fusion ni incrément de lot."
+          ],
+          "target_checks": [
+            {
+              "id": 37627593499,
+              "name": "CI",
+              "head_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/37627593499"
+            }
+          ],
+          "dependencies": [],
+          "next_action": "Clos avec preuves exactes."
+        },
+        {
+          "id": "RT-TQ-04",
+          "repository": "Memorithm/TurboQuant",
+          "status": "resolved",
+          "pr": 17,
+          "merge_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "actions": [
+            "CI cible push retrouvée par endpoint Actions tous événements; conclusion et étapes de tests vérifiées sur SHA intégré.",
+            "Corrigé le faux état attente du suivi, sans nouvelle fusion ni incrément de lot."
+          ],
+          "target_checks": [
+            {
+              "id": 37620967245,
+              "name": "CI",
+              "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245"
+            },
+            {
+              "id": 37620967393,
+              "name": "Tests",
+              "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967393"
+            },
+            {
+              "id": 37620967337,
+              "name": "Docs",
+              "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+              "event": "push",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967337"
+            }
+          ],
+          "dependencies": [],
+          "next_action": "Clos avec preuves exactes."
+        },
+        {
+          "id": "MEM-01",
+          "repository": "Memorithm/CCOS-Core",
+          "status": "waiting_ci",
+          "pr": 34,
+          "base_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
+          "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+          "actions": [
+            "Diagnostiqué les échecs debug/release du test de contrat: commentaire # Default = traité comme feature.",
+            "Publié parseur corrigé avec régression et restauré la fin du document de déploiement.",
+            "Compilé et exécuté les deux tests std-only dans un répertoire temporaire borné; blobs exacts vérifiés, 2/2 succès."
+          ],
+          "checks": [
+            {
+              "id": 37640972818,
+              "name": "Strict BEIR import",
+              "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+              "status": "queued",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972818"
+            },
+            {
+              "id": 37640972858,
+              "name": "Periodic Security Validation",
+              "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+              "status": "queued",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972858"
+            },
+            {
+              "id": 37640972734,
+              "name": "Security Audit",
+              "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+              "status": "queued",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972734"
+            },
+            {
+              "id": 37640973073,
+              "name": "CI",
+              "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+              "status": "queued",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640973073"
+            }
+          ],
+          "standalone_test": "rustc 1.98.0 --test; 2 passed, 0 failed",
+          "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-corrective-head-20261007.json",
+          "reason_for_wait": "Full CI queued on corrective exact head; standalone contract 2/2 success does not replace gates.",
+          "dependencies": [
+            "CI exacte verte",
+            "Validation cible après fusion"
+          ],
+          "next_action": "Réconcilier CI exacte sur 7a8e277d19401cfc0aacf173e46221177d3d149f; fusionner seulement si verte après revalidation, puis qualifier le SHA cible."
+        },
+        {
+          "id": "PAPERS-04",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "pr": 8,
+          "base_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+          "head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
+          "actions": [
+            "Revalidé le constat sur master courant et lu le bootstrap obligatoire.",
+            "Publié politique commune HTTPS/no redirects/délais/lecture 2MiB + sentinelle; statut et UTF-8 fail-closed.",
+            "Ajouté cinq tests Rust loopback/budget et documentation de provenance réelle."
+          ],
+          "checks_executed": [
+            "git diff --check success",
+            "rustfmt 1.9.0 via stdin on authorized device"
+          ],
+          "checks": [
+            {
+              "id": 37641497816,
+              "name": "CI",
+              "head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
+              "status": "queued",
+              "conclusion": null
+            }
+          ],
+          "functional_tests_executed": [],
+          "proof": "docs/audit-global/proofs/PAPERS-AGENT-8-PAPERS-04-waiting-ci.json",
+          "reason_for_wait": "Full candidate CI queued; no cargo test result yet.",
+          "dependencies": [
+            "CI candidate verte",
+            "CI cible intégrée"
+          ],
+          "next_action": "Réconcilier CI de PAPERS-AGENT #8; corriger les échecs et revues avant fusion; qualifier master intégré avant clôture."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation du blocage; avancé MEM-01 et PAPERS-04 indépendamment."
+          ],
+          "reason_for_wait": "Restriction Thor runner-group non observable/configurable.",
+          "dependencies": [],
+          "next_action": "Restrict Thor's runner group to Memorithm/SciCapsule/.github/workflows/internal-ci.yml@refs/heads/main, verify with a safe probe, then re-review and merge #32 followed by an installed-trigger qualification PR."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation du blocage; avancé MEM-01 et PAPERS-04 indépendamment."
+          ],
+          "reason_for_wait": "Backend OS-sandbox externe non qualifié.",
+          "dependencies": [],
+          "next_action": "Wait for a versioned SciRust-Hub/RemoteOps qualified backend and then wire PAPERS execution to its typed API; do not relabel the current fail-closed local path as resolution."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "batch": "2 — 21/50",
     "merged_prs": 71,
-    "closed_findings": 61,
-    "remaining_findings": 40,
+    "closed_findings": 63,
+    "remaining_findings": 38,
     "newly_resolved": [
       "B-FL-02",
       "B-NR-01",
@@ -1994,11 +2188,13 @@
       "BF-KV-04",
       "BF-KV-05",
       "COG-SML-002",
+      "MEM-15",
       "RT-ELASTIC-01",
       "RT-FLAT-01",
       "RT-NNIS-05",
       "RT-TQ-02",
-      "RT-TQ-03"
+      "RT-TQ-03",
+      "RT-TQ-04"
     ],
     "blocked": [
       "MEM-11",
@@ -2007,9 +2203,8 @@
     "excluded_repositories_modified": [],
     "waiting_ci": [
       "MEM-01",
-      "MEM-15",
-      "RT-TQ-04"
+      "PAPERS-04"
     ],
-    "next_action": "Réconcilier la CI exacte de CCOS-Core #34 puis fusionner seulement si elle est verte; réconcilier aussi les CI cibles de scirust-hub #84 et TurboQuant #17."
+    "next_action": "Réconcilier les deux PR ouvertes sur leurs HEAD exacts; fusionner seulement après gates vertes puis qualification cible."
   }
 }

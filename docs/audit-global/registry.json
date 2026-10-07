@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T16:48:01+02:00",
+  "updated_at": "2026-10-07T17:03:22+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 61,
-    "remaining": 40,
+    "closed": 63,
+    "remaining": 38,
     "merged_prs": 71
   },
   "batches": [
@@ -4942,7 +4942,7 @@
       "base_sha": "e26f7e1afa6962a603147a4487112f720db46c84",
       "head_sha": "dd9f999db12e1fec81ede140adba8a3238b237a5",
       "merge_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "RT-TQ-04"
       ],
@@ -5001,10 +5001,38 @@
         "unresolved_threads": 0
       },
       "target_head": "fb4f99364ea86ae86366431ab433726f1cf21367",
-      "target_checks": [],
-      "target_validation": "pending: no CI or Tests run attached to the exact integrated SHA after repeated reconciliation",
-      "finding_status": "waiting_ci",
-      "proof": "docs/audit-global/proofs/TurboQuant-17-RT-TQ-04-waiting-target-ci.json"
+      "target_checks": [
+        {
+          "id": 37620967245,
+          "name": "CI",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245"
+        },
+        {
+          "id": 37620967393,
+          "name": "Tests",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967393"
+        },
+        {
+          "id": 37620967337,
+          "name": "Docs",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967337"
+        }
+      ],
+      "target_validation": "All exact integrated-SHA push workflows successful; job steps inspected, functional tests executed, prior wrapper excluded push events.",
+      "finding_status": "resolved",
+      "proof": "docs/audit-global/proofs/TurboQuant-17-target-validated-20261007.json"
     },
     {
       "repository": "Memorithm/nonlocal-relativity-v2",
@@ -5670,7 +5698,7 @@
       "base_sha": "c53ecd84af0a8bf17b595296004539c0252582d2",
       "head_sha": "9b9e197c9d3c223f42f4244c8fd09564bdf079e8",
       "merge_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "MEM-15"
       ],
@@ -5698,10 +5726,20 @@
         "SECURITY.md": "f836d2a5b11ada5dd080f5c53df89593ab619041",
         "docs/architecture/INTEGRATION_MODEL.md": "282cc55f475b4dce01366c00cda1f7998e4bb869"
       },
-      "target_checks": [],
-      "target_validation": "pending: no workflow run attached to the exact integrated SHA after repeated reconciliation",
-      "finding_status": "waiting_ci",
-      "proof": "docs/audit-global/proofs/scirust-hub-84-MEM-15-waiting-target-ci.json"
+      "target_checks": [
+        {
+          "id": 37627593499,
+          "name": "CI",
+          "head_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/scirust-hub/actions/runs/37627593499"
+        }
+      ],
+      "target_validation": "All exact integrated-SHA push workflows successful; job steps inspected, functional tests executed, prior wrapper excluded push events.",
+      "finding_status": "resolved",
+      "proof": "docs/audit-global/proofs/scirust-hub-84-target-validated-20261007.json"
     },
     {
       "repository": "Memorithm/CCOS-Core",
@@ -5709,7 +5747,7 @@
       "url": "https://github.com/Memorithm/CCOS-Core/pull/34",
       "base": "main",
       "base_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
-      "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+      "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
       "status": "open_waiting_ci",
       "ids": [
         "MEM-01"
@@ -5717,43 +5755,36 @@
       "batch": 2,
       "checks": [
         {
-          "id": 37637241839,
+          "id": 37640972818,
           "name": "Strict BEIR import",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
-          "jobs": [
-            112846562626
-          ]
-        },
-        {
-          "id": 37637241803,
-          "name": "Security Audit",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
-          "jobs": [
-            112846562306,
-            112846563095
-          ]
-        },
-        {
-          "id": 37637241781,
-          "name": "Periodic Security Validation",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
-          "jobs": [
-            112846562522,
-            112846562955
-          ]
-        },
-        {
-          "id": 37637241786,
-          "name": "CI",
+          "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
           "status": "queued",
           "conclusion": null,
-          "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca"
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972818"
+        },
+        {
+          "id": 37640972858,
+          "name": "Periodic Security Validation",
+          "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972858"
+        },
+        {
+          "id": 37640972734,
+          "name": "Security Audit",
+          "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972734"
+        },
+        {
+          "id": 37640973073,
+          "name": "CI",
+          "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+          "status": "queued",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640973073"
         }
       ],
       "prior_attempts": [
@@ -5765,16 +5796,47 @@
         {
           "head_sha": "3858c9d060fe42ef4954de26b98203bf6733f7fc",
           "result": "all_ci_success_but_review_findings_required_new_head_not_counted"
+        },
+        {
+          "head_sha": "e0d268c5a704a5e6a9b424724ecbcbfa423809ca",
+          "run_id": 37637241786,
+          "result": "failed_contract_comment_parsing_corrected"
         }
       ],
       "review": {
         "result": "two valid findings fixed and replied to; both threads resolved and outdated",
         "unresolved_threads": 0
       },
-      "candidate_tree": "9a127f7701db5194181d0563dfa09c746a64d6c9",
+      "candidate_tree": "829ffccfd9ec1f541b01e3a4a24aa8b5068b16c6",
       "finding_status": "waiting_ci",
-      "reason_for_wait": "The complete CI workflow remains queued on the exact current head; merge is withheld.",
-      "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-waiting-ci.json"
+      "reason_for_wait": "Full CI queued on corrective exact head; standalone contract 2/2 success does not replace gates.",
+      "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-corrective-head-20261007.json"
+    },
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 8,
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/8",
+      "base": "master",
+      "base_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+      "head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
+      "candidate_tree": "0642814c87f558016d95478082979dc3151aa364",
+      "status": "open_waiting_ci",
+      "ids": [
+        "PAPERS-04"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 37641497816,
+          "name": "CI",
+          "head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
+          "status": "queued",
+          "conclusion": null
+        }
+      ],
+      "finding_status": "waiting_ci",
+      "proof": "docs/audit-global/proofs/PAPERS-AGENT-8-PAPERS-04-waiting-ci.json",
+      "reason_for_wait": "Full candidate CI queued; no cargo test result yet."
     }
   ],
   "repository_observations": [
@@ -5802,11 +5864,12 @@
       "repository": "Memorithm/CCOS-Core",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "e992fa351cdd0b421b28f3ab4ef4ea6706ee1ddb",
+      "current_head": "155a35ee7a356b44b2910c91df5e22817a892c22",
       "tree_sha": "3279ab819f355860347eed7940c4d04bf42e4e59",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": null,
+      "last_observed_at": "2026-10-07T17:03:22+02:00"
     },
     {
       "repository": "Memorithm/CCOS-Enterprise",
@@ -5938,7 +6001,8 @@
       "tree_sha": "e54f4a3169995ac97863aac261b4b8d41785508d",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": null,
+      "last_observed_at": "2026-10-07T17:03:22+02:00"
     },
     {
       "repository": "Memorithm/ProofLab",
@@ -6540,11 +6604,11 @@
         "Uploader ZIP et tar.gz; if-no-files-found:error; vérifier les trois plateformes dans une qualification de release.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "fb4f99364ea86ae86366431ab433726f1cf21367",
       "default_branch": "main",
       "audit_head": "391e727cf5a06b3be807f9ba8b9dc1e52197d79d",
-      "head_reconciliation": "remediated_merged_candidate_green_exact_blobs_equal_target_target_push_ci_not_observed",
+      "head_reconciliation": "integrated_default_head_exact_push_ci_success_reconciled_via_all_events_endpoint",
       "policy_review": "AGENTS.md, agent/ecosystem-roadmap and PolyForm Noncommercial LICENSE.md read before edit and merge",
       "prs": [
         {
@@ -6553,7 +6617,7 @@
           "base_sha": "e26f7e1afa6962a603147a4487112f720db46c84",
           "head_sha": "dd9f999db12e1fec81ede140adba8a3238b237a5",
           "merge_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
-          "status": "merged_waiting_target_ci"
+          "status": "merged_target_validated"
         }
       ],
       "resolution_evidence": [
@@ -6566,10 +6630,19 @@
           ],
           "target_runs": [],
           "status": "waiting_target_ci"
+        },
+        {
+          "proof": "docs/audit-global/proofs/TurboQuant-17-target-validated-20261007.json",
+          "target_runs": [
+            37620967245,
+            37620967393,
+            37620967337
+          ],
+          "status": "merged_target_validated"
         }
       ],
-      "last_observed_at": "2026-10-07T14:27:27+02:00",
-      "next_action": "Réconcilier CI et Tests sur le SHA intégré exact fb4f99364ea86ae86366431ab433726f1cf21367; clore uniquement après succès cible."
+      "last_observed_at": "2026-10-07T17:03:22+02:00",
+      "next_action": "Clos avec CI exécutée sur le SHA intégré; conserver la preuve de qualification."
     },
     {
       "id": "RT-TQ-05",
@@ -7340,10 +7413,11 @@
         "https://github.com/Memorithm/CCOS-Core/pull/34"
       ],
       "resolution_evidence": [
-        "docs/audit-global/proofs/CCOS-Core-34-MEM-01-waiting-ci.json"
+        "docs/audit-global/proofs/CCOS-Core-34-MEM-01-waiting-ci.json",
+        "docs/audit-global/proofs/CCOS-Core-34-MEM-01-corrective-head-20261007.json"
       ],
-      "last_observed_at": "2026-10-07T16:48:01+02:00",
-      "next_action": "Attendre la CI complète du HEAD exact e0d268c5a704a5e6a9b424724ecbcbfa423809ca; revalider puis fusionner avec garde SHA sans clore avant la CI de branche cible."
+      "last_observed_at": "2026-10-07T17:03:22+02:00",
+      "next_action": "Réconcilier CI exacte sur 7a8e277d19401cfc0aacf173e46221177d3d149f; fusionner seulement si verte après revalidation, puis qualifier le SHA cible."
     },
     {
       "id": "MEM-02",
@@ -7933,11 +8007,11 @@
         "Régénérer docs depuis surface CLI/auth/capabilities; décrire rôle global des permissions et absence de tenancy/mTLS; lier SHA qualification des adaptateurs.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
       "default_branch": "main",
       "audit_head": "7fb890925def77d5069e2e1f8d39ba4f7dedc40c",
-      "head_reconciliation": "remediated_merged_candidate_green_exact_blobs_equal_target_target_push_ci_not_observed",
+      "head_reconciliation": "integrated_default_head_exact_push_ci_success_reconciled_via_all_events_endpoint",
       "policy_review": "AGENTS.md, ecosystem roadmap, ML maturity overlay and AX task-runtime bootstrap read before edit and merge",
       "prs": [
         {
@@ -7946,7 +8020,7 @@
           "base_sha": "c53ecd84af0a8bf17b595296004539c0252582d2",
           "head_sha": "9b9e197c9d3c223f42f4244c8fd09564bdf079e8",
           "merge_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
-          "status": "merged_waiting_target_ci"
+          "status": "merged_target_validated"
         }
       ],
       "resolution_evidence": [
@@ -7957,10 +8031,17 @@
           ],
           "target_runs": [],
           "status": "waiting_target_ci"
+        },
+        {
+          "proof": "docs/audit-global/proofs/scirust-hub-84-target-validated-20261007.json",
+          "target_runs": [
+            37627593499
+          ],
+          "status": "merged_target_validated"
         }
       ],
-      "last_observed_at": "2026-10-07T15:20:22+02:00",
-      "next_action": "Réconcilier la CI cible sur le SHA intégré exact 01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f; clore uniquement après succès cible."
+      "last_observed_at": "2026-10-07T17:03:22+02:00",
+      "next_action": "Clos avec CI exécutée sur le SHA intégré; conserver la preuve de qualification."
     },
     {
       "id": "MEM-16",
@@ -8968,16 +9049,26 @@
         "Utiliser HTTPS explicite, timeout/config client commun, plafond des octets et statut HTTP vérifié; documenter la provenance et tester réponses oversize/redirect.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
+      "status": "waiting_ci",
+      "current_head": "86b3dc2b84e98e3468448cb44395aeca3f989460",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "confirmed_present_on_current_master_then_corrected_in_open_pr_8",
+      "policy_review": "AGENTS.md and mandatory ecosystem roadmap read; no LICENSE or package license field present; no license/attribution changed",
+      "prs": [
+        {
+          "number": 8,
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/8",
+          "base_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+          "head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
+          "status": "open_waiting_ci"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/PAPERS-AGENT-8-PAPERS-04-waiting-ci.json"
+      ],
+      "last_observed_at": "2026-10-07T17:03:22+02:00",
+      "next_action": "Réconcilier CI de PAPERS-AGENT #8; corriger les échecs et revues avant fusion; qualifier master intégré avant clôture."
     },
     {
       "id": "GOT-01",
@@ -10482,31 +10573,25 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-20261007160952",
-    "acquired_at": "2026-10-07T14:12:00Z",
-    "expires_at": "2026-10-07T15:42:00Z",
-    "released_at": "2026-10-07T14:48:01Z",
+    "owner": "chatgpt-audit-20261007165250",
+    "acquired_at": "2026-10-07T14:54:08Z",
+    "expires_at": "2026-10-07T16:24:08Z",
+    "released_at": "2026-10-07T15:05:06Z",
     "status": "released",
     "scope": "audit-global-remediation",
-    "rule": "compare-and-swap blob SHA; read and verify owner/expiry before every mutation; reclaim only expired or released lease; preserve other writers",
-    "previous_owner": "chatgpt-audit-20261007151147",
-    "previous_expiry": "2026-10-07T14:42:00Z",
+    "previous_owner": "chatgpt-audit-20261007160952",
     "canonical_counts": {
       "merged_prs": 71,
-      "closed_findings": 61,
-      "remaining_findings": 40
+      "closed_findings": 63,
+      "remaining_findings": 38
     },
     "batch": {
       "number": 2,
       "merged_prs": 21,
       "target": 50
     },
-    "next_action": "Réconcilier la CI de CCOS-Core #34 sur e0d268c5a704a5e6a9b424724ecbcbfa423809ca, puis fusionner si verte; réconcilier aussi les CI cibles scirust-hub #84 et TurboQuant #17.",
-    "verified_merged_prs": 71,
-    "canonical_registry_merged_prs": 71,
-    "closed_findings": 61,
-    "remaining_findings": 40,
-    "batch_merged_prs": 21
+    "rule": "CAS branch head, verify owner/expiry before mutations",
+    "next_action": "Réconcilier les deux PR ouvertes sur leurs HEAD exacts; fusionner seulement après gates vertes puis qualification cible."
   },
   "capabilities": [
     {

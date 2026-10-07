@@ -1,0 +1,1403 @@
+{
+  "schema_version": 1,
+  "finding_ids": [
+    "RT-TQ-04"
+  ],
+  "repository": "Memorithm/TurboQuant",
+  "pull_request": 17,
+  "merge_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+  "candidate_head": "dd9f999db12e1fec81ede140adba8a3238b237a5",
+  "current_default_head": "fb4f99364ea86ae86366431ab433726f1cf21367",
+  "observed_at": "2026-10-07 15:00:51 UTC",
+  "status": "merged_target_validated",
+  "prior_proof": "docs/audit-global/proofs/TurboQuant-17-RT-TQ-04-waiting-target-ci.json",
+  "reconciliation_correction": "Prior wrapper omitted push workflows. Generic Actions endpoint with exact head_sha returns successful push runs; no extra merge or duplicate batch increment.",
+  "target_runs": [
+    {
+      "id": 37620967245,
+      "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245",
+      "name": "CI",
+      "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-07T12:26:12Z",
+      "updated_at": "2026-10-07T12:29:26Z"
+    },
+    {
+      "id": 37620967393,
+      "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967393",
+      "name": "Tests",
+      "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-07T12:26:12Z",
+      "updated_at": "2026-10-07T12:27:15Z"
+    },
+    {
+      "id": 37620967337,
+      "url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967337",
+      "name": "Docs",
+      "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-07T12:26:12Z",
+      "updated_at": "2026-10-07T12:27:20Z"
+    }
+  ],
+  "target_jobs": [
+    {
+      "run_id": 37620967245,
+      "total": 11,
+      "jobs": [
+        {
+          "id": 112790844463,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu0Lw",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844463",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790844463",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:14Z",
+          "completed_at": "2026-10-07T12:26:25Z",
+          "name": "Format",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:15Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:23Z"
+            },
+            {
+              "name": "Run cargo fmt --all --manifest-path rust/Cargo.toml -- --check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:23Z",
+              "completed_at": "2026-10-07T12:26:23Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T12:26:23Z",
+              "completed_at": "2026-10-07T12:26:23Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-07T12:26:23Z",
+              "completed_at": "2026-10-07T12:26:23Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844463",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000208208,
+          "runner_name": "GitHub Actions 1000208208",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790844787,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu1cw",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844787",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790844787",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:14Z",
+          "completed_at": "2026-10-07T12:26:56Z",
+          "name": "Docs",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:18Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:18Z",
+              "completed_at": "2026-10-07T12:26:28Z"
+            },
+            {
+              "name": "Run cargo doc --locked --manifest-path rust/Cargo.toml --workspace --no-deps",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:28Z",
+              "completed_at": "2026-10-07T12:26:54Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T12:26:54Z",
+              "completed_at": "2026-10-07T12:26:54Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-07T12:26:54Z",
+              "completed_at": "2026-10-07T12:26:54Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844787",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000208209,
+          "runner_name": "GitHub Actions 1000208209",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790844825,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu1mQ",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844825",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790844825",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:27:18Z",
+          "name": "Test (ubuntu-24.04)",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:26Z"
+            },
+            {
+              "name": "Run cargo test --locked --manifest-path rust/Cargo.toml --workspace",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:26Z",
+              "completed_at": "2026-10-07T12:27:15Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T12:27:15Z",
+              "completed_at": "2026-10-07T12:27:16Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-07T12:27:16Z",
+              "completed_at": "2026-10-07T12:27:16Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844825",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000208210,
+          "runner_name": "GitHub Actions 1000208210",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790844845,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu1rQ",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844845",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790844845",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:14Z",
+          "completed_at": "2026-10-07T12:26:49Z",
+          "name": "Check (ubuntu-24.04)",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:24Z"
+            },
+            {
+              "name": "Run cargo check --locked --manifest-path rust/Cargo.toml --workspace",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:24Z",
+              "completed_at": "2026-10-07T12:26:47Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T12:26:47Z",
+              "completed_at": "2026-10-07T12:26:48Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-07T12:26:48Z",
+              "completed_at": "2026-10-07T12:26:48Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844845",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000208213,
+          "runner_name": "GitHub Actions 1000208213",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790844864,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu1wA",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844864",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790844864",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:26:40Z",
+          "name": "mdBook",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:19Z"
+            },
+            {
+              "name": "Run peaceiris/actions-mdbook@ee69d230fe19748b7abf22df32acaa93833fad08",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:19Z",
+              "completed_at": "2026-10-07T12:26:19Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:19Z",
+              "completed_at": "2026-10-07T12:26:27Z"
+            },
+            {
+              "name": "Run cargo build --locked -p turboquant-core --manifest-path rust/Cargo.toml",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-07T12:26:27Z",
+              "completed_at": "2026-10-07T12:26:36Z"
+            },
+            {
+              "name": "Run mdbook build rust/book",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-07T12:26:36Z",
+              "completed_at": "2026-10-07T12:26:36Z"
+            },
+            {
+              "name": "Run mdbook test rust/book -L rust/target/debug/deps",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-10-07T12:26:36Z",
+              "completed_at": "2026-10-07T12:26:37Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14,
+              "started_at": "2026-10-07T12:26:37Z",
+              "completed_at": "2026-10-07T12:26:37Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15,
+              "started_at": "2026-10-07T12:26:37Z",
+              "completed_at": "2026-10-07T12:26:37Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844864",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000208221,
+          "runner_name": "GitHub Actions 1000208221",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790844869,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu1xQ",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844869",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790844869",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:27:02Z",
+          "name": "Check (ubuntu-22.04)",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:26Z"
+            },
+            {
+              "name": "Run cargo check --locked --manifest-path rust/Cargo.toml --workspace",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:26Z",
+              "completed_at": "2026-10-07T12:26:59Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T12:26:59Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-07T12:27:00Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844869",
+          "labels": [
+            "ubuntu-22.04"
+          ],
+          "runner_id": 1000208215,
+          "runner_name": "GitHub Actions 1000208215",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790844880,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu10A",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844880",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790844880",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:14Z",
+          "completed_at": "2026-10-07T12:27:04Z",
+          "name": "Clippy",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:27Z"
+            },
+            {
+              "name": "Run cargo clippy --locked --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings -W clippy::pedantic",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:27Z",
+              "completed_at": "2026-10-07T12:26:58Z"
+            },
+            {
+              "name": "Public production unwrap/expect gate",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-07T12:26:58Z",
+              "completed_at": "2026-10-07T12:27:03Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-10-07T12:27:03Z",
+              "completed_at": "2026-10-07T12:27:03Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-10-07T12:27:03Z",
+              "completed_at": "2026-10-07T12:27:03Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844880",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000208211,
+          "runner_name": "GitHub Actions 1000208211",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790844882,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu10g",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844882",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790844882",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:27:24Z",
+          "name": "Test (ubuntu-22.04)",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:26Z"
+            },
+            {
+              "name": "Run cargo test --locked --manifest-path rust/Cargo.toml --workspace",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:26Z",
+              "completed_at": "2026-10-07T12:27:21Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T12:27:21Z",
+              "completed_at": "2026-10-07T12:27:22Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-07T12:27:22Z",
+              "completed_at": "2026-10-07T12:27:22Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844882",
+          "labels": [
+            "ubuntu-22.04"
+          ],
+          "runner_id": 1000208216,
+          "runner_name": "GitHub Actions 1000208216",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790844957,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu2HQ",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844957",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790844957",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:29:25Z",
+          "name": "Security Audit",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:18Z"
+            },
+            {
+              "name": "Run rustsec/audit-check@69366f33c96575abad1ee0dba8212993eecbe998",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:18Z",
+              "completed_at": "2026-10-07T12:29:23Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-07T12:29:23Z",
+              "completed_at": "2026-10-07T12:29:23Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-10-07T12:29:23Z",
+              "completed_at": "2026-10-07T12:29:23Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844957",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000208212,
+          "runner_name": "GitHub Actions 1000208212",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790845007,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu2Tw",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790845007",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967245/job/112790845007",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:27:02Z",
+          "name": "MSRV (1.83)",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:18Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@988ddcf7fb58c4c20118ea7bfd95f95d88c019f3",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:18Z",
+              "completed_at": "2026-10-07T12:26:26Z"
+            },
+            {
+              "name": "Run cargo check --locked --manifest-path rust/Cargo.toml --workspace --no-default-features",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:26Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            },
+            {
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T12:27:00Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-07T12:27:00Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790845007",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000208222,
+          "runner_name": "GitHub Actions 1000208222",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112792107726,
+          "run_id": 37620967245,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967245",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQu76zg",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112792107726",
+          "html_url": "https://github.com/Memorithm/TurboQuant/runs/112792107726",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:29:22Z",
+          "started_at": "2026-10-07T12:29:22Z",
+          "completed_at": "2026-10-07T12:29:22Z",
+          "name": "Security audit",
+          "steps": [],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112792107726",
+          "labels": [],
+          "runner_id": null,
+          "runner_name": null,
+          "runner_group_id": null,
+          "runner_group_name": null
+        }
+      ]
+    },
+    {
+      "run_id": 37620967393,
+      "total": 4,
+      "jobs": [
+        {
+          "id": 112790845692,
+          "run_id": 37620967393,
+          "workflow_name": "Tests",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967393",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu4_A",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790845692",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967393/job/112790845692",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:27:14Z",
+          "name": "test (3.12)",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Set up Python 3.12",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:18Z"
+            },
+            {
+              "name": "Install dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:18Z",
+              "completed_at": "2026-10-07T12:26:54Z"
+            },
+            {
+              "name": "Run tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-07T12:26:54Z",
+              "completed_at": "2026-10-07T12:26:57Z"
+            },
+            {
+              "name": "Lint with pylint",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-07T12:26:57Z",
+              "completed_at": "2026-10-07T12:27:11Z"
+            },
+            {
+              "name": "Post Set up Python 3.12",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-10-07T12:27:11Z",
+              "completed_at": "2026-10-07T12:27:11Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-10-07T12:27:11Z",
+              "completed_at": "2026-10-07T12:27:11Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-10-07T12:27:11Z",
+              "completed_at": "2026-10-07T12:27:11Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790845692",
+          "labels": [
+            "ubuntu-latest"
+          ],
+          "runner_id": 1000208217,
+          "runner_name": "GitHub Actions 1000208217",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790845872,
+          "run_id": 37620967393,
+          "workflow_name": "Tests",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967393",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu5sA",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790845872",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967393/job/112790845872",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:27:07Z",
+          "name": "test (3.13)",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Set up Python 3.13",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Install dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:49Z"
+            },
+            {
+              "name": "Run tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-07T12:26:49Z",
+              "completed_at": "2026-10-07T12:26:52Z"
+            },
+            {
+              "name": "Lint with pylint",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-07T12:26:52Z",
+              "completed_at": "2026-10-07T12:27:04Z"
+            },
+            {
+              "name": "Post Set up Python 3.13",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-10-07T12:27:04Z",
+              "completed_at": "2026-10-07T12:27:05Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-10-07T12:27:05Z",
+              "completed_at": "2026-10-07T12:27:05Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-10-07T12:27:05Z",
+              "completed_at": "2026-10-07T12:27:05Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790845872",
+          "labels": [
+            "ubuntu-latest"
+          ],
+          "runner_id": 1000208218,
+          "runner_name": "GitHub Actions 1000208218",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790845975,
+          "run_id": 37620967393,
+          "workflow_name": "Tests",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967393",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu6Fw",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790845975",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967393/job/112790845975",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:27:03Z",
+          "name": "test (3.10)",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Set up Python 3.10",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Install dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:50Z"
+            },
+            {
+              "name": "Run tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-07T12:26:50Z",
+              "completed_at": "2026-10-07T12:26:53Z"
+            },
+            {
+              "name": "Lint with pylint",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-07T12:26:53Z",
+              "completed_at": "2026-10-07T12:27:01Z"
+            },
+            {
+              "name": "Post Set up Python 3.10",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-10-07T12:27:01Z",
+              "completed_at": "2026-10-07T12:27:01Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-10-07T12:27:01Z",
+              "completed_at": "2026-10-07T12:27:02Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-10-07T12:27:02Z",
+              "completed_at": "2026-10-07T12:27:02Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790845975",
+          "labels": [
+            "ubuntu-latest"
+          ],
+          "runner_id": 1000208219,
+          "runner_name": "GitHub Actions 1000208219",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        },
+        {
+          "id": 112790846034,
+          "run_id": 37620967393,
+          "workflow_name": "Tests",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967393",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu6Ug",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790846034",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967393/job/112790846034",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:15Z",
+          "completed_at": "2026-10-07T12:27:02Z",
+          "name": "test (3.11)",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:16Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:16Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Set up Python 3.11",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Install dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:46Z"
+            },
+            {
+              "name": "Run tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-07T12:26:46Z",
+              "completed_at": "2026-10-07T12:26:48Z"
+            },
+            {
+              "name": "Lint with pylint",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-07T12:26:48Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            },
+            {
+              "name": "Post Set up Python 3.11",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-10-07T12:27:00Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-10-07T12:27:00Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-10-07T12:27:00Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790846034",
+          "labels": [
+            "ubuntu-latest"
+          ],
+          "runner_id": 1000208220,
+          "runner_name": "GitHub Actions 1000208220",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        }
+      ]
+    },
+    {
+      "run_id": 37620967337,
+      "total": 1,
+      "jobs": [
+        {
+          "id": 112790844617,
+          "run_id": 37620967337,
+          "workflow_name": "Docs",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/runs/37620967337",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOR0nSOM8AAAAaQtu0yQ",
+          "head_sha": "fb4f99364ea86ae86366431ab433726f1cf21367",
+          "url": "https://api.github.com/repos/Memorithm/TurboQuant/actions/jobs/112790844617",
+          "html_url": "https://github.com/Memorithm/TurboQuant/actions/runs/37620967337/job/112790844617",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-07T12:26:13Z",
+          "started_at": "2026-10-07T12:26:14Z",
+          "completed_at": "2026-10-07T12:27:19Z",
+          "name": "Build & Deploy Docs",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T12:26:15Z",
+              "completed_at": "2026-10-07T12:26:17Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T12:26:17Z",
+              "completed_at": "2026-10-07T12:26:18Z"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T12:26:18Z",
+              "completed_at": "2026-10-07T12:26:29Z"
+            },
+            {
+              "name": "Build rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T12:26:29Z",
+              "completed_at": "2026-10-07T12:26:58Z"
+            },
+            {
+              "name": "Run peaceiris/actions-mdbook@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-07T12:26:58Z",
+              "completed_at": "2026-10-07T12:26:58Z"
+            },
+            {
+              "name": "Build mdBook",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-07T12:26:58Z",
+              "completed_at": "2026-10-07T12:26:58Z"
+            },
+            {
+              "name": "Merge docs",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-10-07T12:26:58Z",
+              "completed_at": "2026-10-07T12:26:58Z"
+            },
+            {
+              "name": "Run actions/configure-pages@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T12:26:58Z",
+              "completed_at": "2026-10-07T12:26:59Z"
+            },
+            {
+              "name": "Run actions/upload-pages-artifact@v3",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-07T12:26:59Z",
+              "completed_at": "2026-10-07T12:27:00Z"
+            },
+            {
+              "name": "Run actions/deploy-pages@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-10-07T12:27:00Z",
+              "completed_at": "2026-10-07T12:27:17Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20,
+              "started_at": "2026-10-07T12:27:17Z",
+              "completed_at": "2026-10-07T12:27:17Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21,
+              "started_at": "2026-10-07T12:27:17Z",
+              "completed_at": "2026-10-07T12:27:17Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/Memorithm/TurboQuant/check-runs/112790844617",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000208214,
+          "runner_name": "GitHub Actions 1000208214",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        }
+      ]
+    }
+  ]
+}

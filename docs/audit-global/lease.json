@@ -3,19 +3,20 @@
   "owner": "chatgpt-audit-20261007165250",
   "acquired_at": "2026-10-07T14:54:08Z",
   "expires_at": "2026-10-07T16:24:08Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-07T15:05:06Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-20261007160952",
   "canonical_counts": {
     "merged_prs": 71,
-    "closed_findings": 61,
-    "remaining_findings": 40
+    "closed_findings": 63,
+    "remaining_findings": 38
   },
   "batch": {
     "number": 2,
     "merged_prs": 21,
     "target": 50
   },
-  "rule": "CAS branch head, verify owner/expiry before mutations"
+  "rule": "CAS branch head, verify owner/expiry before mutations",
+  "next_action": "Réconcilier les deux PR ouvertes sur leurs HEAD exacts; fusionner seulement après gates vertes puis qualification cible."
 }

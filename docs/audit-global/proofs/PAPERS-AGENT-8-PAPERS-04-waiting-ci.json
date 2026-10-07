@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "finding_ids": [
+    "PAPERS-04"
+  ],
+  "repository": "Memorithm/PAPERS-AGENT",
+  "pr": 8,
+  "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/8",
+  "base": "master",
+  "base_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+  "head_sha": "f0ad5859c60d3c0cf3be62c23015cfbfa5e7732f",
+  "candidate_tree": "0642814c87f558016d95478082979dc3151aa364",
+  "changed_blobs": [
+    {
+      "path": "papers_core/src/arxiv_http.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5541970549e360aad91b906b9a71e8c50b8ad0b9"
+    },
+    {
+      "path": "papers_core/src/extraction.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "76ef7f331573e7286c3b5e07bad6da50c68e0a69"
+    },
+    {
+      "path": "papers_core/src/lib.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9eff85340d0a99e6158de45e76fc32a1a5e386e9"
+    },
+    {
+      "path": "docs/ARXIV_INGESTION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eab26f4c09316924912c3dbc6c69d73cc66b1645"
+    }
+  ],
+  "observed_at": "2026-10-07 15:00:51 UTC",
+  "status": "open_waiting_ci",
+  "checks_executed": [
+    {
+      "command": "git diff --check",
+      "result": "success"
+    },
+    {
+      "command": "rustfmt --edition 2021 through stdin on authorized execution device",
+      "result": "success",
+      "version": "rustfmt 1.9.0-stable"
+    }
+  ],
+  "functional_checks_executed": [],
+  "pending_checks": [
+    "CI cargo test --all-targets",
+    "strict Clippy",
+    "docs",
+    "security audit",
+    "post-merge exact target tests"
+  ],
+  "test_coverage_added": [
+    "exact limit/sentinel/invalid UTF8",
+    "declared and chunked oversize",
+    "302 not followed and 503 refused",
+    "production HTTPS-only",
+    "loopback total timeout"
+  ],
+  "limitations": [
+    "No local Rust toolchain; no cargo test success claimed",
+    "No live arXiv qualification or raw-feed archival",
+    "No license file/package license field present; no license/attribution changed"
+  ],
+  "policy_read": [
+    "AGENTS.md",
+    "agent/ecosystem-roadmap:.agent/PAPERS_AGENT_ECOSYSTEM_ROADMAP.yaml"
+  ],
+  "next_action": "Reconcile exact-head CI and review; fix failures, merge only when checks and base/head verified; validate integrated SHA before closure"
+}
