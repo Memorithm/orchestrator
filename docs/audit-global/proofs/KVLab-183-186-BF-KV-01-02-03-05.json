@@ -1,0 +1,22 @@
+{
+  "findings": ["BF-KV-01", "BF-KV-02", "BF-KV-03", "BF-KV-05"],
+  "repository": "Memorithm/KVLab",
+  "pull_requests": [
+    {"number": 183, "head_sha": "c7913d4520b03f94c0366a794ca9588b308ceb3f", "merge_sha": "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1", "candidate_tree": "5f8b500eb0447bbd8c86d8d89602b720a6b2e322"},
+    {"number": 184, "head_sha": "5b0a8f5c3db245f4b30cf8932972f67f6aeef15e", "merge_sha": "d7a60fc93556bd67c312614e6c3731df98c7b314", "candidate_tree": "54124f4c2447b99e1d2b1925c942bbe9e02f48d9"},
+    {"number": 185, "head_sha": "aeee1e90ba5b6461accf0bff86053e7a3ef35ca0", "merge_sha": "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7", "candidate_tree": "211760d1cbf4efe90ecd717660e1122136908999"},
+    {"number": 186, "head_sha": "3c582b09a1489911508504db4d5a9a46d7d194e4", "merge_sha": "b6793546d27998f5122a449b3841f147b4214dba", "candidate_tree": "1d9c1bd216ecc5eb8baedf10528eb65b243ee6aa"}
+  ],
+  "target_validation": {
+    "scope": "cumulative exact latest integrated SHA containing PRs 183 through 186",
+    "head_sha": "b6793546d27998f5122a449b3841f147b4214dba",
+    "run": {"id": 37593156605, "name": "Memorithm fleet main CI", "status": "completed", "conclusion": "success"},
+    "jobs": [
+      {"id": 112699253481, "name": "python", "conclusion": "success"},
+      {"id": 112699253718, "name": "rust-bkv", "conclusion": "success"}
+    ]
+  },
+  "qualification_boundary": "BF-KV-02 closes the false historical promotion; any new performance claim still requires the documented clean T430 v2 hardware rerun.",
+  "result": "resolved",
+  "observed_at": "2026-10-07T13:13:00+02:00"
+}

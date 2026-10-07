@@ -1496,16 +1496,140 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-07T13:13:00+02:00",
+      "observed_session_start": "2026-10-07T13:11:51+02:00",
+      "lease_owner": "chatgpt-audit-20261007131151",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 19,
+        "batch_target": 50,
+        "merged_prs": 69,
+        "closed_findings": 61,
+        "remaining_findings": 40,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "B-FL-02",
+          "repository": "Memorithm/FieldLab",
+          "status": "resolved",
+          "pr": 58,
+          "candidate_head": "927c31791b218f659eb56a2e619d464a5e8d6fa8",
+          "merge_sha": "a1b8010df4822948fee8df6cef993e8b01c68959",
+          "actions": [
+            "Réconcilié les huit workflows push sur le SHA intégré exact; tous sont terminés avec succès.",
+            "Vérifié les quatorze jobs réellement exécutés couvrant CI workspace et campagnes FL spécialisées; clôturé le constat sans réutiliser une validation ancienne."
+          ],
+          "checks": {
+            "target_runs": [
+              37601209894,
+              37601209990,
+              37601209800,
+              37601209828,
+              37601209822,
+              37601209777,
+              37601209804,
+              37601209825
+            ],
+            "target_jobs": [
+              112725751441,
+              112726168181,
+              112726168228,
+              112726168282,
+              112726985920,
+              112727201579,
+              112727807399,
+              112725751403,
+              112725751237,
+              112725750805,
+              112725750323,
+              112725751109,
+              112725750057,
+              112725750479
+            ]
+          },
+          "dependencies": [],
+          "proof": "docs/audit-global/proofs/FieldLab-58-B-FL-02.json",
+          "next_action": "Clos; surveiller les régressions du contrat strict."
+        },
+        {
+          "id": "BF-KV-01/BF-KV-02/BF-KV-03/BF-KV-05",
+          "repository": "Memorithm/KVLab",
+          "status": "resolved",
+          "prs": [
+            183,
+            184,
+            185,
+            186
+          ],
+          "merge_shas": [
+            "0a7b49cf91cb1dbed6972de3dd4f98b52e5d09d1",
+            "d7a60fc93556bd67c312614e6c3731df98c7b314",
+            "9cd5bbd321d0e1d1760aae4cfc7e2e7a5ed6f4b7",
+            "b6793546d27998f5122a449b3841f147b4214dba"
+          ],
+          "actions": [
+            "Réconcilié Memorithm fleet main CI sur le SHA cumulatif intégré exact contenant les quatre PR.",
+            "Vérifié les jobs Python et rust-bkv réellement exécutés, tous deux verts; clôturé les quatre constats.",
+            "Conservé la limite BF-KV-02: aucune nouvelle revendication de performance sans rerun matériel T430 v2 propre."
+          ],
+          "checks": {
+            "target_run": 37593156605,
+            "target_jobs": [
+              112699253481,
+              112699253718
+            ],
+            "conclusion": "success"
+          },
+          "dependencies": [],
+          "proof": "docs/audit-global/proofs/KVLab-183-186-BF-KV-01-02-03-05.json",
+          "next_action": "Clos; conserver la frontière de qualification matérielle de BF-KV-02."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation; les validations FieldLab et KVLab ont avancé indépendamment."
+          ],
+          "reason_for_wait": "Restriction selected-workflow du runner group Thor non observable/configurable par la connexion disponible.",
+          "dependencies": [
+            "Restriction Thor au workflow push de confiance et probe sûr de refus"
+          ],
+          "next_action": "Reprendre après preuve de restriction; ne pas clore avant."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "Aucune mutation; les validations FieldLab et KVLab ont avancé indépendamment."
+          ],
+          "reason_for_wait": "Aucun backend OS-sandbox externe qualifié n’est disponible.",
+          "dependencies": [
+            "Preuve versionnée d’un backend à isolation renforcée, réseau default-deny et quotas CPU/RAM/temps"
+          ],
+          "next_action": "Reprendre uniquement lorsqu’une preuve immuable du backend existe."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "batch": "2 — 19/50",
     "merged_prs": 69,
-    "closed_findings": 56,
-    "remaining_findings": 45,
+    "closed_findings": 61,
+    "remaining_findings": 40,
     "newly_resolved": [
+      "B-FL-02",
       "B-NR-01",
+      "BF-KV-01",
+      "BF-KV-02",
+      "BF-KV-03",
       "BF-KV-04",
+      "BF-KV-05",
       "COG-SML-002",
       "RT-ELASTIC-01",
       "RT-FLAT-01",
@@ -1518,13 +1642,7 @@
       "PAPERS-01"
     ],
     "excluded_repositories_modified": [],
-    "waiting_ci": [
-      "BF-KV-01",
-      "BF-KV-02",
-      "BF-KV-03",
-      "BF-KV-05",
-      "B-FL-02"
-    ],
-    "next_action": "Réconcilier les CI cibles FieldLab et KVLab sur leurs SHA intégrés exacts, puis poursuivre le prochain constat autonome prioritaire sans clôture prématurée."
+    "waiting_ci": [],
+    "next_action": "Poursuivre le prochain constat autonome prioritaire; MEM-11 et PAPERS-01 restent bloqués externes."
   }
 }

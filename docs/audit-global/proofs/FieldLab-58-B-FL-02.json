@@ -1,0 +1,20 @@
+{
+  "finding": "B-FL-02",
+  "repository": "Memorithm/FieldLab",
+  "pull_request": 58,
+  "url": "https://github.com/Memorithm/FieldLab/pull/58",
+  "base_sha": "996841a27b0ece7d677eb707e6e16ca22090d1e0",
+  "candidate_head": "927c31791b218f659eb56a2e619d464a5e8d6fa8",
+  "candidate_tree": "e7597fa550981eed67e4ee52d64318aa48eb55de",
+  "merge_sha": "a1b8010df4822948fee8df6cef993e8b01c68959",
+  "target_tree": "e7597fa550981eed67e4ee52d64318aa48eb55de",
+  "target_validation": {
+    "head_sha": "a1b8010df4822948fee8df6cef993e8b01c68959",
+    "status": "completed",
+    "conclusion": "success",
+    "runs": [37601209894, 37601209990, 37601209800, 37601209828, 37601209822, 37601209777, 37601209804, 37601209825],
+    "jobs": [112725751441, 112726168181, 112726168228, 112726168282, 112726985920, 112727201579, 112727807399, 112725751403, 112725751237, 112725750805, 112725750323, 112725751109, 112725750057, 112725750479]
+  },
+  "result": "resolved",
+  "observed_at": "2026-10-07T13:13:00+02:00"
+}
