@@ -3,20 +3,20 @@
   "owner": "chatgpt-audit-20261007170510",
   "acquired_at": "2026-10-07T15:05:58Z",
   "expires_at": "2026-10-07T16:35:58Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-07T15:32:26.705Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-20261007165250",
   "canonical_counts": {
-    "merged_prs": 72,
-    "closed_findings": 64,
-    "remaining_findings": 37
+    "merged_prs": 74,
+    "closed_findings": 65,
+    "remaining_findings": 36
   },
   "batch": {
     "number": 2,
-    "merged_prs": 22,
+    "merged_prs": 24,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "PAPERS-03 corrective exact-head CI and CCOS-Core security job retry; no additional findings closed without target evidence."
+  "next_action": "Qualify integrated CCOS-Core #34 at 445782c5bcaaffef51b1d37dfbdf170bb667d2ec and implement confirmed FORGE-03 authenticated bounded worker policies; no duplicate PR/merge count."
 }

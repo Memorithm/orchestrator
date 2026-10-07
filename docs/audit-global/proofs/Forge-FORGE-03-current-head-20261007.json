@@ -1,0 +1,43 @@
+{
+  "finding": "FORGE-03",
+  "status": "in_progress",
+  "phase": "read_only_current_head_diagnosis",
+  "repository": "Memorithm/Forge",
+  "head": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
+  "tree": "a150bed2f17a801cb8dbde65a1c06436ccaa6220",
+  "observed_at": "2026-10-07T15:30:29.218Z",
+  "source_files": [
+    {
+      "path": "forge-worker/src/tls.rs",
+      "sha": "b3e528b70b1d78adb276c2e4a13431666fed397d",
+      "url": "https://github.com/Memorithm/Forge/blob/82df6c5bdeb60911be88cf3efd8b740133e9f9cc/forge-worker/src/tls.rs"
+    },
+    {
+      "path": "forge-worker/src/main.rs",
+      "sha": "7057b840e7af4925c1a91f6e85c1ff5343f4c376",
+      "url": "https://github.com/Memorithm/Forge/blob/82df6c5bdeb60911be88cf3efd8b740133e9f9cc/forge-worker/src/main.rs"
+    }
+  ],
+  "policy_read": [
+    "AGENTS.md",
+    ".agent/FORGE_ECOSYSTEM_ROADMAP.yaml off-main (579 lines)",
+    ".agent/ML_MATURITY_5_OF_5.yaml off-main (100 lines)",
+    "docs/AX_TASK_ISOLATION_BOOTSTRAP.md",
+    "LICENSE",
+    "LICENSE.md",
+    "LICENSING.md"
+  ],
+  "observed_gaps": [
+    "rustls server .with_no_client_auth() remains",
+    "FORGE_WORKER_ADDR may bind non-loopback without authenticated client",
+    "each accepted socket spawns task without admission semaphore",
+    "TLS handshake/read_frame have no independent timeout in worker"
+  ],
+  "constraints": [
+    "Default loopback binding is preserved existing safe context, not public exposure evidence",
+    "Generated native execution still fails closed on insufficient backend; do not relax this",
+    "No production PoC, no credentials read, no worker launched",
+    "No code change, new PR or tests claimed for this finding"
+  ],
+  "next_action": "Implement Rust authenticated mTLS/trust roots plus bounded peer/admission/handshake/read policies; actual fail-closed local/remote protocol regressions and exact candidate/target CI; update off-main roadmap as applicable without merging roadmap to main."
+}

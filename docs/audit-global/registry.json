@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-07T17:26:20.458+02:00",
+  "updated_at": "2026-10-07T17:32:31.484+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 64,
-    "remaining": 37,
-    "merged_prs": 72
+    "closed": 65,
+    "remaining": 36,
+    "merged_prs": 74
   },
   "batches": [
     {
@@ -402,6 +402,16 @@
           "repository": "Memorithm/PAPERS-AGENT",
           "number": 8,
           "merge_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 9,
+          "merge_sha": "19dfe00a67a9d9dd5c2528d493a19c80c458b044"
+        },
+        {
+          "repository": "Memorithm/CCOS-Core",
+          "number": 34,
+          "merge_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec"
         }
       ]
     }
@@ -5753,7 +5763,7 @@
       "base": "main",
       "base_sha": "155a35ee7a356b44b2910c91df5e22817a892c22",
       "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
-      "status": "open_waiting_ci",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "MEM-01"
       ],
@@ -5763,33 +5773,29 @@
           "id": 37640972818,
           "name": "Strict BEIR import",
           "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
-          "status": "queued",
-          "conclusion": null,
-          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972818"
-        },
-        {
-          "id": 37640972858,
-          "name": "Periodic Security Validation",
-          "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
-          "status": "queued",
-          "conclusion": null,
-          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972858"
+          "status": "completed",
+          "conclusion": "success"
         },
         {
           "id": 37640972734,
           "name": "Security Audit",
           "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
-          "status": "queued",
-          "conclusion": null,
-          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640972734"
+          "status": "completed",
+          "conclusion": "success"
         },
         {
           "id": 37640973073,
           "name": "CI",
           "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
-          "status": "queued",
-          "conclusion": null,
-          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/37640973073"
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 37640972858,
+          "name": "Periodic Security Validation",
+          "head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
+          "status": "completed",
+          "conclusion": "success"
         }
       ],
       "prior_attempts": [
@@ -5814,8 +5820,20 @@
       },
       "candidate_tree": "829ffccfd9ec1f541b01e3a4a24aa8b5068b16c6",
       "finding_status": "waiting_ci",
-      "reason_for_wait": "Full CI queued on corrective exact head; standalone contract 2/2 success does not replace gates.",
-      "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-corrective-head-20261007.json"
+      "reason_for_wait": "All four post-merge workflows queued; keep finding open until actual integrated validations pass.",
+      "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-integrated-20261007.json",
+      "merge_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+      "merged_at": "2026-10-07T15:31:20Z",
+      "merge_method": "merge",
+      "target_checks": [
+        37644583527,
+        37644583636,
+        37644583571,
+        37644583807
+      ],
+      "target_head": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+      "validated_tree": "829ffccfd9ec1f541b01e3a4a24aa8b5068b16c6",
+      "exact_tree_match": true
     },
     {
       "repository": "Memorithm/PAPERS-AGENT",
@@ -5860,7 +5878,7 @@
       "base_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
       "head_sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
       "candidate_tree": "52758e14e77e7e86c88b50d43c124b06ab13a74e",
-      "status": "open_waiting_ci",
+      "status": "merged_target_validated_exact_tree",
       "ids": [
         "PAPERS-03"
       ],
@@ -5868,15 +5886,24 @@
       "checks": [
         {
           "id": 37643668669,
-          "name": "CI",
           "head_sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
-          "status": "in_progress",
-          "conclusion": null
+          "status": "completed",
+          "conclusion": "success",
+          "name": "CI candidate (215 tests, Clippy/doc/audit)"
         }
       ],
-      "finding_status": "waiting_ci",
+      "finding_status": "resolved",
       "proof": "docs/audit-global/proofs/PAPERS-AGENT-9-PAPERS-03-waiting-ci.json",
-      "reason_for_wait": "Full CI for corrective review head in progress. GET redirect regression fixed; 14 focused tests pass, not full repository CI."
+      "reason_for_wait": null,
+      "merge_sha": "19dfe00a67a9d9dd5c2528d493a19c80c458b044",
+      "merged_at": "2026-10-07T15:28:04Z",
+      "merge_method": "merge",
+      "target_head": "19dfe00a67a9d9dd5c2528d493a19c80c458b044",
+      "target_checks": [
+        37644153414
+      ],
+      "validated_tree": "52758e14e77e7e86c88b50d43c124b06ab13a74e",
+      "exact_tree_match": true
     }
   ],
   "repository_observations": [
@@ -7444,7 +7471,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "155a35ee7a356b44b2910c91df5e22817a892c22",
+      "current_head": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
       "default_branch": "main",
       "audit_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
       "head_reconciliation": "persisted_on_current_main_and_corrected_in_open_pr",
@@ -7454,10 +7481,12 @@
       ],
       "resolution_evidence": [
         "docs/audit-global/proofs/CCOS-Core-34-MEM-01-waiting-ci.json",
-        "docs/audit-global/proofs/CCOS-Core-34-MEM-01-corrective-head-20261007.json"
+        "docs/audit-global/proofs/CCOS-Core-34-MEM-01-corrective-head-20261007.json",
+        "docs/audit-global/proofs/CCOS-Core-34-MEM-01-security-retry-20261007.json",
+        "docs/audit-global/proofs/CCOS-Core-34-MEM-01-integrated-20261007.json"
       ],
-      "last_observed_at": "2026-10-07T17:03:22+02:00",
-      "next_action": "Réconcilier CI exacte sur 7a8e277d19401cfc0aacf173e46221177d3d149f; fusionner seulement si verte après revalidation, puis qualifier le SHA cible."
+      "last_observed_at": "2026-10-07T17:32:31.484+02:00",
+      "next_action": "Qualifier les 4 workflows cible au SHA 445782c5bcaaffef51b1d37dfbdf170bb667d2ec; traiter toute régression et ne clore MEM-01 qu’après validations intégrées."
     },
     {
       "id": "MEM-02",
@@ -8891,16 +8920,18 @@
         "Imposer authentification du client/mTLS ou tunnel authentifié, liste de pairs autorisés, quotas de concurrence et délai handshake/lecture. Refuser l'écoute non-loopback non authentifiée par défaut.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
+      "status": "in_progress",
+      "current_head": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
       "default_branch": "main",
       "audit_head": "5b85f1944ce27fc7cad2c5713e4023e8c353cb62",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
+      "head_reconciliation": "confirmed_present_on_current_main_in_read_only_diagnosis",
+      "policy_review": "AGENTS.md; .agent/FORGE_ECOSYSTEM_ROADMAP.yaml off-main (579 lines); .agent/ML_MATURITY_5_OF_5.yaml off-main (100 lines); docs/AX_TASK_ISOLATION_BOOTSTRAP.md; LICENSE; LICENSE.md; LICENSING.md",
       "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "resolution_evidence": [
+        "docs/audit-global/proofs/Forge-FORGE-03-current-head-20261007.json"
+      ],
+      "last_observed_at": "2026-10-07T17:30:33.686+02:00",
+      "next_action": "Implement Rust authenticated mTLS/trust roots plus bounded peer/admission/handshake/read policies; actual fail-closed local/remote protocol regressions and exact candidate/target CI; update off-main roadmap as applicable without merging roadmap to main."
     },
     {
       "id": "FORGE-04",
@@ -9064,8 +9095,8 @@
         "Contrat client/serveur d'idempotence avec request_id/content hash durable, ou aucun retry automatique de POST; exposer unknown_outcome et une commande de réconciliation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
-      "current_head": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
+      "status": "resolved",
+      "current_head": "19dfe00a67a9d9dd5c2528d493a19c80c458b044",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
       "head_reconciliation": "confirmed_on_master_86b3dc2_then_corrected_in_pr9_synced_with_integrated_master",
@@ -9076,14 +9107,15 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/9",
           "base_sha": "4468c2e4e7d76b51f2e28bf5bf4b2b0c686206b4",
           "head_sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
-          "status": "open_waiting_ci"
+          "status": "merged_target_validated_exact_tree",
+          "merge_sha": "19dfe00a67a9d9dd5c2528d493a19c80c458b044"
         }
       ],
       "resolution_evidence": [
         "docs/audit-global/proofs/PAPERS-AGENT-9-PAPERS-03-waiting-ci.json"
       ],
-      "last_observed_at": "2026-10-07T17:26:20.458+02:00",
-      "next_action": "CI exacte 37643668669 sur ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9; revérifier gates avant fusion puis qualifier master intégré."
+      "last_observed_at": "2026-10-07T17:32:31.484+02:00",
+      "next_action": "Clos sur master exact 19dfe00a67a9d9dd5c2528d493a19c80c458b044 et CI 37644153414 verte (215 tests); préserver unknown_outcome et réconciliation GET."
     },
     {
       "id": "PAPERS-04",
@@ -10628,22 +10660,22 @@
     "owner": "chatgpt-audit-20261007170510",
     "acquired_at": "2026-10-07T15:05:58Z",
     "expires_at": "2026-10-07T16:35:58Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-07T15:32:26.705Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-20261007165250",
     "canonical_counts": {
-      "merged_prs": 72,
-      "closed_findings": 64,
-      "remaining_findings": 37
+      "merged_prs": 74,
+      "closed_findings": 65,
+      "remaining_findings": 36
     },
     "batch": {
       "number": 2,
-      "merged_prs": 22,
+      "merged_prs": 24,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "PAPERS-03 corrective exact-head CI and CCOS-Core security job retry; no additional findings closed without target evidence."
+    "next_action": "Qualify integrated CCOS-Core #34 at 445782c5bcaaffef51b1d37dfbdf170bb667d2ec and implement confirmed FORGE-03 authenticated bounded worker policies; no duplicate PR/merge count."
   },
   "capabilities": [
     {

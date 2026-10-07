@@ -2174,16 +2174,16 @@
       "excluded_repositories_modified": []
     },
     {
-      "observed_at": "2026-10-07T17:26:20.458+02:00",
+      "observed_at": "2026-10-07T17:32:31.484+02:00",
       "observed_session_start": "2026-10-07T17:05:10+02:00",
       "lease_owner": "chatgpt-audit-20261007170510",
       "counts": {
         "batch": 2,
-        "batch_merged_prs": 22,
+        "batch_merged_prs": 24,
         "batch_target": 50,
-        "merged_prs": 72,
-        "closed_findings": 64,
-        "remaining_findings": 37,
+        "merged_prs": 74,
+        "closed_findings": 65,
+        "remaining_findings": 36,
         "backlog": 101
       },
       "work_items": [
@@ -2214,7 +2214,7 @@
         {
           "id": "PAPERS-03",
           "repository": "Memorithm/PAPERS-AGENT",
-          "status": "waiting_ci",
+          "status": "resolved",
           "pr": 9,
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/9",
           "candidate_head_sha": "ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9",
@@ -2225,7 +2225,9 @@
             "13 tests ciblés exécutés dans un crate fixture temporaire bwrap sans réseau externe, environnement effacé, limites CPU/RAM/temps; blobs source vérifiés.",
             "PR ouverte puis synchronisée avec master intégré pour relancer la CI sur nouveau HEAD.",
             "Revue P2 corrigée: client POST sans redirect, client GET avec politique default bornée; test statut/résultat redirect ajouté.",
-            "Nouvelle fixture isolée: 14 tests passés, exit0; fil revue répondu/résolu."
+            "Nouvelle fixture isolée: 14 tests passés, exit0; fil revue répondu/résolu.",
+            "CI complète correctif verte:215 tests + Clippy/doc/audit; revalidation puis fusion avec expected_head_sha; tree intégré identique.",
+            "CI master intégrée 37644153414 verte:215 tests, Clippy/doc/audit; constat clos avec preuve versionnée."
           ],
           "local_checks": [
             "rustfmt 1.9.0 edition2021",
@@ -2236,9 +2238,13 @@
             37643668669
           ],
           "proof": "docs/audit-global/proofs/PAPERS-AGENT-9-PAPERS-03-waiting-ci.json",
-          "reason_for_wait": "CI complète relancée pour correction de revue; pas de fusion sur ancien vert.",
+          "reason_for_wait": null,
           "dependencies": [],
-          "next_action": "CI exacte 37643668669 sur ea2d7017e3f1d6bdb9e094d8d8d1a66bd6a527a9; revérifier gates avant fusion puis qualifier master intégré."
+          "next_action": "Clos sur master exact 19dfe00a67a9d9dd5c2528d493a19c80c458b044 et CI 37644153414 verte (215 tests); préserver unknown_outcome et réconciliation GET.",
+          "merge_sha": "19dfe00a67a9d9dd5c2528d493a19c80c458b044",
+          "target_checks": [
+            37644153414
+          ]
         },
         {
           "id": "MEM-01",
@@ -2248,7 +2254,10 @@
           "candidate_head_sha": "7a8e277d19401cfc0aacf173e46221177d3d149f",
           "actions": [
             "Réconciliation des 4 workflows du HEAD correctif; tous restent queued.",
-            "Strict BEIR et Security Audit verts; build reproductible comparé vert; CI principale encore en cours. Job process-execution-policy en échec sans aucune étape, logs 404 BlobNotFound et aucun artefact; cause indéterminée, relance ciblée tentée sans changement de gate."
+            "Strict BEIR et Security Audit verts; build reproductible comparé vert; CI principale encore en cours. Job process-execution-policy en échec sans aucune étape, logs 404 BlobNotFound et aucun artefact; cause indéterminée, relance ciblée tentée sans changement de gate.",
+            "Relance ciblée sécurité acceptée; CI principale au HEAD exact terminée success; job fuzz de retry réellement en cours.",
+            "Relance sécurité verte: 5500710 entrées fuzz en61s; tous les workflows candidats verts.",
+            "Diff/HEAD/base/revues/protections/mergeabilité revérifiés, fusion avec expected_head_sha; cible même tree exact."
           ],
           "candidate_checks": [
             37640972818,
@@ -2256,9 +2265,32 @@
             37640972734,
             37640973073
           ],
-          "reason_for_wait": "Échec security job + tests debug en cours; fusion interdite tant que tous les gates non verts.",
+          "reason_for_wait": "4 workflows post-merge queued; aucune clôture prématurée.",
           "dependencies": [],
-          "next_action": "Attendre CI complète exacte, ne pas fusionner en attente."
+          "next_action": "Qualifier les 4 workflows cible au SHA 445782c5bcaaffef51b1d37dfbdf170bb667d2ec; traiter toute régression et ne clore MEM-01 qu’après validations intégrées.",
+          "merge_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+          "target_checks": [
+            37644583527,
+            37644583636,
+            37644583571,
+            37644583807
+          ],
+          "proof": "docs/audit-global/proofs/CCOS-Core-34-MEM-01-integrated-20261007.json"
+        },
+        {
+          "id": "FORGE-03",
+          "repository": "Memorithm/Forge",
+          "status": "in_progress",
+          "current_head": "82df6c5bdeb60911be88cf3efd8b740133e9f9cc",
+          "actions": [
+            "Relu instructions, roadmap et overlay ML hors main, bootstrap isolation, licences.",
+            "Vérification source actuelle: TLS sans identité client, absence quota admissions/deadline handshake/lecture; défaut confirmé sans lancer worker/PoC."
+          ],
+          "checks_executed": [],
+          "pr": null,
+          "proof": "docs/audit-global/proofs/Forge-FORGE-03-current-head-20261007.json",
+          "dependencies": [],
+          "next_action": "Implement Rust authenticated mTLS/trust roots plus bounded peer/admission/handshake/read policies; actual fail-closed local/remote protocol regressions and exact candidate/target CI; update off-main roadmap as applicable without merging roadmap to main."
         }
       ],
       "external_obstacles": [
@@ -2266,7 +2298,8 @@
         "Lecture admin branch protection indisponible (403); métadonnées protected=false et rulesets=[] vérifiées sans bypass.",
         "Échecs sandbox fixture initiaux avant test (unpack cache readonly, cc symlink); configuration cache privée et linker explicite corrigées sans installation ni modification dépôt hôte."
       ],
-      "excluded_repositories_modified": []
+      "excluded_repositories_modified": [],
+      "lease_released_at": "2026-10-07T15:32:26.705Z"
     }
   ],
   "daily_summary": {
@@ -2304,11 +2337,11 @@
   },
   "latest_counts": {
     "batch": 2,
-    "batch_merged_prs": 22,
+    "batch_merged_prs": 24,
     "batch_target": 50,
-    "merged_prs": 72,
-    "closed_findings": 64,
-    "remaining_findings": 37,
+    "merged_prs": 74,
+    "closed_findings": 65,
+    "remaining_findings": 36,
     "backlog": 101
   }
 }
