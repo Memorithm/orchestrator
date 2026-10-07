@@ -1,0 +1,48 @@
+{
+  "id": "MEM-12",
+  "repository": "Memorithm/SciCapsule",
+  "status": "waiting_ci",
+  "observed_at": "2026-10-07T18:26:02.314+02:00",
+  "base_branch": "main",
+  "base_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+  "branch": "audit/mem-12-trust-lifecycle",
+  "head_sha": "3ca6d42c6933432903364fa6507b760cb26723ed",
+  "pr": {
+    "number": 33,
+    "url": "https://github.com/Memorithm/SciCapsule/pull/33",
+    "state": "open",
+    "changed_files": 11,
+    "additions": 792,
+    "deletions": 16
+  },
+  "implemented": [
+    "Lifecycle trust policy v2 with policy id, monotonic revision, canonical SHA-256 digest and predecessor digest link.",
+    "Inclusive valid-from and exclusive valid-until enforcement, cumulative key revocation and digest-guarded controlled updates.",
+    "Legacy v1 remains parseable for signature inspection, while run and hub-run require v2 execution authorization.",
+    "Execution and hub results bind policy digest and revision; documentation and consumer contracts were updated."
+  ],
+  "local_exact_head_validation": {
+    "blob_identity_verified": true,
+    "commands": [
+      "cargo fmt --all -- --check",
+      "cargo check --locked --all-targets",
+      "cargo clippy --locked --all-targets -- -D warnings",
+      "cargo test --locked --all-targets",
+      "cargo +1.89.0 check --locked --all-targets",
+      "git diff --check 425e4bfa6a724f8dda44e07ff62deeeb3dedd4db..3ca6d42c6933432903364fa6507b760cb26723ed"
+    ],
+    "results": {
+      "format": "passed",
+      "check": "passed",
+      "clippy": "passed",
+      "tests": "96 passed; 0 failed; 0 ignored",
+      "msrv_1_89": "passed",
+      "diff_check": "passed"
+    }
+  },
+  "github_checks": [],
+  "reason_for_wait": "No pull-request workflow run was attached to the exact head immediately after PR creation; local results do not replace required GitHub checks.",
+  "dependencies": [],
+  "next_action": "Reconcile required checks on the exact head; merge with expected_head_sha only after every gate is successful, then qualify the integrated main SHA before resolving MEM-12.",
+  "no_resolution_claim": true
+}

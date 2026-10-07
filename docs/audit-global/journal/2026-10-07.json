@@ -2434,13 +2434,57 @@
       ],
       "excluded_repositories_modified": [],
       "lease_released_at": "2026-10-07T16:00:17.767Z"
+    },
+    {
+      "observed_at": "2026-10-07T18:26:02.314+02:00",
+      "observed_session_start": "2026-10-07T18:11:51+02:00",
+      "lease_owner": "chatgpt-audit-202610071812",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 25,
+        "batch_target": 50,
+        "merged_prs": 75,
+        "closed_findings": 67,
+        "remaining_findings": 34,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "MEM-12",
+          "repository": "Memorithm/SciCapsule",
+          "status": "waiting_ci",
+          "base_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+          "head_sha": "3ca6d42c6933432903364fa6507b760cb26723ed",
+          "pr": "https://github.com/Memorithm/SciCapsule/pull/33",
+          "actions": [
+            "Implemented trust-policy lifecycle v2 with digest-linked revisions, validity windows, cumulative revocations and controlled exact-digest updates.",
+            "Kept signature verification separate from execution authorization: v1 remains inspectable, while run and hub-run require v2.",
+            "Bound execution and hub results to policy digest/revision; updated documentation and consumer contracts.",
+            "Published PR #33 from the audited base and verified the published blobs are byte-identical to the locally tested workspace."
+          ],
+          "checks": [
+            "cargo fmt --all -- --check — passed",
+            "cargo check --locked --all-targets — passed",
+            "cargo clippy --locked --all-targets -- -D warnings — passed",
+            "cargo test --locked --all-targets — 96 passed, 0 failed",
+            "cargo +1.89.0 check --locked --all-targets — passed",
+            "git diff --check — passed"
+          ],
+          "reason_for_wait": "Required GitHub checks have not yet completed on exact PR head 3ca6d42c6933432903364fa6507b760cb26723ed; local validation is not used as a substitute.",
+          "dependencies": [],
+          "next_action": "Reconcile exact-head CI, base, mergeability, reviews and protections; merge with expected_head_sha only when green, then qualify the integrated main SHA before closure.",
+          "proof": "docs/audit-global/proofs/SciCapsule-33-MEM-12-waiting-ci.json"
+        }
+      ],
+      "external_obstacles": [],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": "2 — 21/50",
-    "merged_prs": 71,
-    "closed_findings": 63,
-    "remaining_findings": 38,
+    "batch": "2 — 25/50",
+    "merged_prs": 75,
+    "closed_findings": 67,
+    "remaining_findings": 34,
     "newly_resolved": [
       "B-FL-02",
       "B-NR-01",
@@ -2464,10 +2508,9 @@
     ],
     "excluded_repositories_modified": [],
     "waiting_ci": [
-      "MEM-01",
-      "PAPERS-04"
+      "MEM-12"
     ],
-    "next_action": "Réconcilier les deux PR ouvertes sur leurs HEAD exacts; fusionner seulement après gates vertes puis qualification cible."
+    "next_action": "Réconcilier SciCapsule #33 sur son HEAD exact; fusionner seulement après gates vertes puis qualifier le SHA intégré avant clôture."
   },
   "latest_counts": {
     "batch": 2,
