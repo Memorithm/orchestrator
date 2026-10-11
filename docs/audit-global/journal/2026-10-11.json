@@ -50,33 +50,106 @@
         "Exact-head Codex rereview was quota-blocked; the previous reviewed head was clean and the only subsequent delta was the exact rustfmt change, independently covered by full exact-head CI."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-11T10:17:42.189+02:00",
+      "observed_session_start": "2026-10-11T10:06:29+02:00",
+      "lease_owner": "chatgpt-audit-202610111006",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 30,
+        "batch_target": 50,
+        "merged_prs": 80,
+        "closed_findings": 73,
+        "remaining_findings": 28,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "RT-SCI-01",
+          "repository": "Memorithm/scirust",
+          "status": "waiting_ci",
+          "base_sha": "dcb4d99d2eb1d837778267f46e4071fe323b0efc",
+          "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+          "merge_sha": null,
+          "pr": "https://github.com/Memorithm/scirust/pull/1611",
+          "actions": [
+            "Corrected review P2 so --demo always uses the public demo root.",
+            "Implemented a persistent locked OTS journal that refuses distinct-digest root/leaf reuse.",
+            "Required and generated a versioned published artifact record binding root, leaf and digest.",
+            "Required that production verification match the published record.",
+            "Added end-to-end production CLI coverage and updated the operations runbook.",
+            "Applied the exact pinned-rustfmt patch after CI diagnosis and requalified successor head."
+          ],
+          "checks": [
+            "CI 38123789820 on superseded head e3f15994: failed format only; not reused as acceptance evidence.",
+            "CI 38123925390 on exact head 9add2dae: format, Clippy, MSRV 1.89, hypermemory format/clippy/tests/docs, macOS and Windows checks passed; stable/nightly workspace functional tests still running.",
+            "Exact-head workflows 38123925397, 38123925392, 38123925398, 38123925408 and 38123925423 passed.",
+            "Merge-ref a3349e8d parents current master dcb4d99d and candidate 9add2dae; PR mergeable; sole material review thread resolved."
+          ],
+          "reason_for_wait": "Stable/nightly workspace build and functional tests plus the remaining CI jobs have not completed on the exact candidate head.",
+          "dependencies": [],
+          "next_action": "Merge with expected_head_sha only after every exact-head gate succeeds; then validate integrated master before closing.",
+          "proof": "docs/audit-global/proofs/scirust-1611-RT-SCI-01-waiting-ci.json"
+        },
+        {
+          "id": "B-ITD-01",
+          "repository": "Memorithm/itd-simulator",
+          "status": "blocked",
+          "head_sha": "5ae6953eed38b3586242375d44e23a70c2c82dff",
+          "merge_sha": null,
+          "pr": "https://github.com/Memorithm/itd-simulator/pull/70",
+          "actions": [
+            "No new repository state observed during this passage."
+          ],
+          "checks": [],
+          "reason_for_wait": "Mandatory repository roadmap still denies autonomous merge.",
+          "dependencies": [
+            "Policy-compliant integration path"
+          ],
+          "next_action": "Qualify integrated main if and when merged through an authorized path.",
+          "proof": "docs/audit-global/proofs/itd-simulator-70-B-ITD-01-waiting-policy.json"
+        }
+      ],
+      "external_obstacles": [
+        "B-ITD-01 remains blocked by the repository's explicit autonomous-merge deny policy."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "batch": 2,
-    "batch_merged_prs": 27,
+    "batch_merged_prs": 30,
     "batch_target": 50,
-    "merged_prs": 77,
-    "closed_findings": 68,
-    "remaining_findings": 33,
+    "merged_prs": 80,
+    "closed_findings": 73,
+    "remaining_findings": 28,
     "resolved_today": [
-      "MEM-12"
+      "MEM-12",
+      "B-NO-03",
+      "RT-SLHA-01",
+      "RT-SLHA-05",
+      "B-TDI-02",
+      "B-NO-04"
     ],
-    "waiting_ci": [],
+    "waiting_ci": [
+      "RT-SCI-01"
+    ],
     "blocked_external": [
       "MEM-11",
-      "PAPERS-01"
+      "PAPERS-01",
+      "B-ITD-01"
     ],
-    "next_action": "Select the next autonomous priority-9 finding from the reconciled registry.",
+    "next_action": "Complete exact-head CI for scirust PR #1611, merge if all gates pass, then validate the integrated master SHA.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {
     "batch": 2,
-    "batch_merged_prs": 27,
+    "batch_merged_prs": 30,
     "batch_target": 50,
-    "merged_prs": 77,
-    "closed_findings": 68,
-    "remaining_findings": 33,
+    "merged_prs": 80,
+    "closed_findings": 73,
+    "remaining_findings": 28,
     "backlog": 101
   }
 }

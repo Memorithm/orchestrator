@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T09:20:00+02:00",
+  "updated_at": "2026-10-11T10:17:42.189+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -6382,6 +6382,86 @@
         "decision": "deny",
         "rule": "V0 holdout — Orchestrator must not AUTO_MERGE this repository."
       }
+    },
+    {
+      "repository": "Memorithm/scirust",
+      "number": 1611,
+      "url": "https://github.com/Memorithm/scirust/pull/1611",
+      "base": "master",
+      "base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
+      "current_master_sha": "dcb4d99d2eb1d837778267f46e4071fe323b0efc",
+      "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+      "merge_ref_sha": "a3349e8da1dcec49f25c31d975d3ed926fa251f3",
+      "merge_sha": null,
+      "status": "waiting_exact_head_functional_ci",
+      "ids": [
+        "RT-SCI-01"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 38123925390,
+          "name": "CI",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38123925390",
+          "observed": [
+            "Format Check success",
+            "Clippy success",
+            "MSRV 1.89.0 success",
+            "hypermemory format/clippy/tests/docs success",
+            "macOS and Windows workspace checks success",
+            "stable/nightly workspace build and functional tests still in progress"
+          ]
+        },
+        {
+          "id": 38123925397,
+          "name": "FLAT Elastic contextual advisory",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38123925397"
+        },
+        {
+          "id": 38123925392,
+          "name": "SOUP symbolic reward",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38123925392"
+        },
+        {
+          "id": 38123925398,
+          "name": "Workspace Rustdoc",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38123925398"
+        },
+        {
+          "id": 38123925408,
+          "name": "PR rustfmt diagnostic",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38123925408"
+        },
+        {
+          "id": 38123925423,
+          "name": "API function lexicon",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38123925423"
+        }
+      ],
+      "review": {
+        "threads": 1,
+        "resolved_threads": 1,
+        "correction_sha": "4a7c4aa918ae0c6d3ccb01d811950f7f6cc9624c",
+        "finding": "P2 demo mode must remain tied to scirust_license::demo_root() after production root rotation"
+      }
     }
   ],
   "repository_observations": [
@@ -6763,37 +6843,39 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "3bc5a721107d963757274ad854d08ced23f62f84",
+      "current_head": "9add2daed658a95231a58d07662929331e186a36",
       "default_branch": "master",
       "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
-      "head_reconciliation": "gap_confirmed_on_master_4250b5b45a21e9ed5ec13d18bd37078fdbbb820b; production-root fail-closed slice implemented on PR head 3bc5a721107d963757274ad854d08ced23f62f84",
-      "policy_review": "Root AGENTS.md, mandatory off-main SCIRUST_ECOSYSTEM_ROADMAP.yaml and PolyForm Noncommercial notices read; provenance ownership retained in scirust; demo limitation not misrepresented as a secret leak.",
+      "head_reconciliation": "gap confirmed on audit/current master; all RT-SCI-01 acceptance slices implemented on PR head 9add2daed658a95231a58d07662929331e186a36; merge-ref a3349e8da1dcec49f25c31d975d3ed926fa251f3 validated against current master dcb4d99d2eb1d837778267f46e4071fe323b0efc",
+      "policy_review": "Root AGENTS.md, mandatory off-main SCIRUST_ECOSYSTEM_ROADMAP.yaml, ML overlay, and PolyForm Noncommercial notices reread; provenance remains SciRust-owned; demo limitation is not represented as a secret leak.",
       "prs": [
         {
           "number": 1611,
           "url": "https://github.com/Memorithm/scirust/pull/1611",
           "base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
-          "head_sha": "3bc5a721107d963757274ad854d08ced23f62f84",
-          "status": "waiting_exact_head_ci"
+          "current_master_sha": "dcb4d99d2eb1d837778267f46e4071fe323b0efc",
+          "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+          "merge_ref_sha": "a3349e8da1dcec49f25c31d975d3ed926fa251f3",
+          "status": "waiting_exact_head_functional_ci"
         }
       ],
       "resolution_evidence": [
         {
           "proof": "docs/audit-global/proofs/scirust-1611-RT-SCI-01-waiting-ci.json",
-          "candidate_head": "3bc5a721107d963757274ad854d08ced23f62f84",
+          "candidate_head": "9add2daed658a95231a58d07662929331e186a36",
           "candidate_runs": [
-            38120832114,
-            38120832037,
-            38120832052,
-            38120832054,
-            38120832107,
-            38120832135
+            38123925390,
+            38123925397,
+            38123925392,
+            38123925398,
+            38123925408,
+            38123925423
           ],
           "status": "waiting_ci"
         }
       ],
-      "last_observed_at": "2026-10-11T09:20:00+02:00",
-      "next_action": "Wait for every required check on exact head 3bc5a721107d963757274ad854d08ced23f62f84; fix any failure, then implement and qualify the durable OTS leaf journal plus published-artifact record before closing RT-SCI-01."
+      "last_observed_at": "2026-10-11T10:17:42.189+02:00",
+      "next_action": "Wait for stable/nightly workspace build and functional tests plus remaining exact-head CI on 9add2dae; correct any failure; merge with expected head only after every gate passes, then qualify the integrated master SHA."
     },
     {
       "id": "RT-SCI-02",
@@ -11233,13 +11315,13 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610110913",
-    "acquired_at": "2026-10-11T07:16:00.000Z",
-    "expires_at": "2026-10-11T08:46:00.000Z",
-    "released_at": "2026-10-11T07:20:00.000Z",
+    "owner": "chatgpt-audit-202610111006",
+    "acquired_at": "2026-10-11T08:13:38.197Z",
+    "expires_at": "2026-10-11T09:43:38.197Z",
+    "released_at": "2026-10-11T08:17:42.189Z",
     "status": "released",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-202610110805",
+    "previous_owner": "chatgpt-audit-202610110913",
     "canonical_counts": {
       "merged_prs": 80,
       "closed_findings": 73,
@@ -11251,7 +11333,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Qualify scirust PR #1611 on exact head 3bc5a721107d963757274ad854d08ced23f62f84, then complete RT-SCI-01 OTS journal and published-artifact acceptance slices."
+    "next_action": "Resume scirust PR #1611 at exact head 9add2daed658a95231a58d07662929331e186a36; wait for stable/nightly functional tests and all remaining gates, then merge and validate integrated master if green."
   },
   "capabilities": [
     {

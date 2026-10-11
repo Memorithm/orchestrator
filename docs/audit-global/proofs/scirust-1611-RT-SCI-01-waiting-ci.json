@@ -8,54 +8,102 @@
     "file": "Constats_Memorithm_2026-09-30.json",
     "source_sha": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
     "source_url": "https://github.com/Memorithm/scirust/blob/6a9287dc3b55576f54275edf3f30d58686e3ed57/scirust-provenance/src/lib.rs#L34-L69",
-    "observed": "Public demonstration root was the implicit CLI verifier default."
+    "observed": "The CLI implicitly trusted a public demonstration root; this was demo configuration, not a leaked secret."
   },
   "reconciliation": {
     "default_branch": "master",
-    "verified_base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
+    "audit_sha": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+    "opening_base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
+    "current_master_sha": "dcb4d99d2eb1d837778267f46e4071fe323b0efc",
     "status": "gap_confirmed"
   },
   "pull_request": {
     "number": 1611,
     "url": "https://github.com/Memorithm/scirust/pull/1611",
-    "base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
-    "head_sha": "3bc5a721107d963757274ad854d08ced23f62f84",
+    "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+    "merge_ref_sha": "a3349e8da1dcec49f25c31d975d3ed926fa251f3",
+    "merge_ref_parents": [
+      "dcb4d99d2eb1d837778267f46e4071fe323b0efc",
+      "9add2daed658a95231a58d07662929331e186a36"
+    ],
     "changed_files": [
+      "docs/PROVENANCE_OPERATIONS.md",
       "scirust-provenance/src/bin/prov.rs",
       "scirust-provenance/tests/integration.rs"
     ],
     "status": "open_waiting_ci"
   },
   "implemented": [
-    "Production CLI verification requires an explicit --root.",
-    "The public demo root is rejected in production mode.",
-    "The demo root is available only through explicit --demo with non-attribution semantics.",
-    "An end-to-end CLI test covers missing root, disguised demo root and explicit demo mode."
+    "Production verification requires an explicit non-demo root.",
+    "Explicit demo mode always uses the public demo root and warns that it is not attribution evidence.",
+    "Production signing requires a persistent journal and published record output.",
+    "The journal uses an atomic sibling lock, synchronized append, idempotent retry and distinct-digest OTS leaf-reuse refusal.",
+    "The published record version-binds root, leaf and digest; production verification refuses missing or mismatched records.",
+    "End-to-end CLI coverage exercises production signing, publication verification and OTS reuse refusal.",
+    "The operations runbook documents root, journal, record publication, retention and lock recovery."
   ],
+  "review": {
+    "threads": 1,
+    "resolved": 1,
+    "finding": "P2 --demo must remain bound to demo_root after EMIT_ROOT_HEX rotation",
+    "correction_sha": "4a7c4aa918ae0c6d3ccb01d811950f7f6cc9624c"
+  },
   "checks": [
     {
-      "head_sha": "219946d554d9f9af7ced5d96742c1a3a3a8f64b2",
-      "run_id": 38120773600,
+      "head_sha": "e3f15994f162b1e5bf5b59c5e66fda2de79b82a4",
+      "run_id": 38123789820,
       "result": "failed_format_only",
-      "detail": "cargo fmt detected one extra blank line; corrected in successor head; this run is not acceptance evidence."
+      "detail": "Pinned rustfmt emitted exact mechanical changes; corrected on successor head and old run excluded from acceptance."
     },
     {
-      "head_sha": "3bc5a721107d963757274ad854d08ced23f62f84",
-      "run_id": 38120832114,
-      "observed_at": "2026-10-11T09:20:00+02:00",
-      "results": [
-        "Format Check cargo fmt step succeeded; job cleanup was still in progress.",
-        "COBOL Corpus Integrity succeeded (executed but unrelated to provenance correctness).",
-        "Build & Test (stable, x86_64), Clippy and MSRV 1.89.0 were queued."
+      "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+      "run_id": 38123925390,
+      "result": "waiting",
+      "passed": [
+        "Format Check",
+        "Clippy workspace and feature variants",
+        "MSRV 1.89.0 workspace check",
+        "hypermemory format/clippy/tests/docs",
+        "macOS workspace check",
+        "Windows workspace check"
       ],
-      "result": "waiting"
+      "pending": [
+        "stable workspace build and functional tests",
+        "nightly workspace build and tests",
+        "remaining CI jobs"
+      ]
+    },
+    {
+      "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+      "run_id": 38123925397,
+      "result": "success"
+    },
+    {
+      "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+      "run_id": 38123925392,
+      "result": "success"
+    },
+    {
+      "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+      "run_id": 38123925398,
+      "result": "success"
+    },
+    {
+      "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+      "run_id": 38123925408,
+      "result": "success"
+    },
+    {
+      "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+      "run_id": 38123925423,
+      "result": "success"
     }
   ],
   "residual": [
-    "Durable non-reusable OTS leaf journal not yet implemented.",
-    "Published-artifact verification record not yet implemented.",
-    "Exact-head functional CI and all required checks not yet complete.",
-    "No merge or finding closure claimed."
+    "Stable and nightly functional test jobs have not completed on the exact head.",
+    "The PR has not been merged.",
+    "The integrated master SHA has not been validated.",
+    "RT-SCI-01 is not closed."
   ],
-  "recorded_at": "2026-10-11T09:20:00+02:00"
+  "recorded_at": "2026-10-11T10:17:42.189+02:00"
 }
