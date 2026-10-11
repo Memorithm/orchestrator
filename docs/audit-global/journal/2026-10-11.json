@@ -198,42 +198,97 @@
       ],
       "external_obstacles": [],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-11T17:06:38+02:00",
+      "observed_session_start": "2026-10-11T16:46:37+02:00",
+      "lease_owner": "chatgpt-audit-202610111607",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 35,
+        "batch_target": 50,
+        "merged_prs": 85,
+        "closed_findings": 78,
+        "remaining_findings": 23,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked_external",
+          "base_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+          "head_sha": "83d19a736b191ea2b253d461c280e4a99c149c3a",
+          "merge_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+          "pr": "https://github.com/Memorithm/NNIS/pull/262",
+          "actions": [
+            "Reconciled the audit finding against current NNIS main and confirmed the root LICENSE remains absent while workspace metadata declares MIT.",
+            "Implemented a versioned, explicitly non-relicensing provenance policy and fail-closed audit gate.",
+            "Inventoried all 12 Cargo manifests, 187 locked packages and 176 external package sources.",
+            "Pinned manifests, lockfile, notices, declared license-file targets and audit evidence by reviewed identities.",
+            "Corrected twelve exact-head review findings, including symlink, repository-boundary and resolution-loop cases.",
+            "Merged PR #262 with expected_head_sha and validated exact integrated main.",
+            "Updated the mandatory off-main NNIS roadmap with technical-gate and external-limit evidence."
+          ],
+          "checks": [
+            "Local provenance self-test — passed, including intentional metadata/content drift and self-referential symlink rejection.",
+            "Local repository policy validation — passed; Python compilation, JSON parse and git diff check passed.",
+            "Candidate CI 38149387485 on 83d19a736b191ea2b253d461c280e4a99c149c3a — 3/3 jobs success.",
+            "Exact-head Codex review — completed with no major issue after 12 corrected and resolved threads.",
+            "Integrated-main CI 38149749875 on 1c1e5b54a782fabed6f0f92b2d34c252236d1ce2 — 3/3 jobs success.",
+            "Roadmap commit 3325d4c6c2433cc229e6fef657e793593a52d2bb recorded on agent/sovereignty-roadmap."
+          ],
+          "reason_for_wait": "Contributor rights/consent, imported material, authoritative dependency license terms and required third-party notices need documented external review; the source-tree gate cannot decide or change legal rights.",
+          "dependencies": [
+            "Memorithm/NNIS#150 documented rights and provenance review"
+          ],
+          "next_action": "Keep the finding open as blocked_external; use the merged gate to reject unreviewed drift while the documented external rights review proceeds.",
+          "proof": "docs/audit-global/proofs/NNIS-262-RT-NNIS-03.json"
+        }
+      ],
+      "external_obstacles": [
+        "RT-NNIS-03 legal/provenance conclusion remains blocked on documented rights, consent, imported-material and dependency-license review; technical enforcement is merged and green."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "batch": 2,
-    "batch_merged_prs": 31,
+    "batch_merged_prs": 35,
     "batch_target": 50,
-    "merged_prs": 81,
-    "closed_findings": 74,
-    "remaining_findings": 27,
+    "merged_prs": 85,
+    "closed_findings": 78,
+    "remaining_findings": 23,
     "resolved_today": [
-      "MEM-12",
-      "B-NO-03",
+      "RT-SCI-01",
+      "RT-SCI-03",
       "RT-SLHA-01",
+      "RT-SLHA-02",
       "RT-SLHA-05",
+      "RT-NNIS-01",
+      "MEM-12",
+      "B-TDI-01",
       "B-TDI-02",
-      "B-NO-04",
-      "B-TDI-01"
+      "B-NO-03",
+      "B-NO-04"
     ],
-    "waiting_ci": [
-      "RT-SCI-01"
-    ],
+    "waiting_ci": [],
     "blocked_external": [
       "MEM-11",
       "PAPERS-01",
-      "B-ITD-01"
+      "B-ITD-01",
+      "RT-NNIS-03"
     ],
-    "next_action": "Continue autonomous priority-9 findings while scirust integrated-master Miri numeric-a completes; preserve all fail-closed containment boundaries.",
+    "next_action": "Continue autonomous priority-9 findings; keep RT-NNIS-03 open behind its merged fail-closed gate until documented external rights review is complete.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {
     "batch": 2,
-    "batch_merged_prs": 31,
+    "batch_merged_prs": 35,
     "batch_target": 50,
-    "merged_prs": 81,
-    "closed_findings": 74,
-    "remaining_findings": 27,
+    "merged_prs": 85,
+    "closed_findings": 78,
+    "remaining_findings": 23,
     "backlog": 101
   }
 }
