@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "id": "RT-SCI-03",
+  "repository": "Memorithm/scirust",
+  "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+  "candidate_head": "1aad1bae5776e673c4b1980327ade23f5f052a20",
+  "merge_sha": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9",
+  "pr": {
+    "number": 1614,
+    "url": "https://github.com/Memorithm/scirust/pull/1614",
+    "base": "master",
+    "merged_by": "CHECKUPAUTO"
+  },
+  "acceptance_state": "merged_waiting_target_ci",
+  "change": [
+    "versioned FLAT runtime/advisory consumer matrix",
+    "exact-MSRV manifest, lockfile, feature and resolved-graph validation",
+    "fail-closed rejection of every unqualified WGPU major.minor universe",
+    "future wgpu v31 negative fixture",
+    "no runtime repin"
+  ],
+  "candidate_validation": {
+    "runs": [
+      38134398900,
+      38134398944,
+      38134398905,
+      38134398901,
+      38134398895,
+      38134398890
+    ],
+    "ci": {
+      "run": 38134398890,
+      "status": "completed",
+      "conclusion": "success",
+      "jobs_total": 28,
+      "jobs_success": 28
+    },
+    "review": {
+      "threads": 1,
+      "resolved_threads": 1,
+      "correction_shas": [
+        "cc3341163fe604e0474d5fe40bbea3e30b095ed7",
+        "1aad1bae5776e673c4b1980327ade23f5f052a20"
+      ]
+    }
+  },
+  "target_validation": {
+    "current_head": "39a14bc4c78402d85a174590bda0326afe589ca6",
+    "ancestry": {
+      "status": "ahead",
+      "ahead_by": 1,
+      "behind_by": 0,
+      "merge_base": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9"
+    },
+    "intervening_commit": {
+      "scope": "scirust-solvers/src/roots/bisection.rs only",
+      "relation": "direct descendant; retains PR #1614 content"
+    },
+    "merge_sha_runs": [
+      {
+        "id": 38137717052,
+        "name": "FLAT Elastic contextual advisory",
+        "conclusion": "success"
+      },
+      {
+        "id": 38137717026,
+        "name": "SOUP symbolic reward",
+        "conclusion": "success"
+      },
+      {
+        "id": 38137717058,
+        "name": "FLAT consumer compatibility matrix",
+        "conclusion": "success"
+      },
+      {
+        "id": 38137717073,
+        "name": "Workspace Rustdoc",
+        "conclusion": "cancelled",
+        "reason": "superseded by newer master commit"
+      },
+      {
+        "id": 38137717040,
+        "name": "CI",
+        "conclusion": "cancelled",
+        "reason": "superseded by newer master commit"
+      }
+    ],
+    "current_head_runs": [
+      {
+        "id": 38137733629,
+        "name": "API function lexicon",
+        "conclusion": "success"
+      },
+      {
+        "id": 38137733616,
+        "name": "SOUP symbolic reward",
+        "conclusion": "success"
+      },
+      {
+        "id": 38137733641,
+        "name": "FLAT Elastic contextual advisory",
+        "conclusion": "success"
+      },
+      {
+        "id": 38137733614,
+        "name": "Workspace Rustdoc",
+        "conclusion": "success"
+      },
+      {
+        "id": 38137733647,
+        "name": "CI",
+        "status": "in_progress",
+        "jobs": {
+          "success": 21,
+          "total": 27,
+          "active": 6,
+          "failures": 0
+        }
+      }
+    ]
+  },
+  "limitations": [
+    "Lavapipe correctness is not physical GPU performance evidence."
+  ],
+  "observed_at": "2026-10-11T14:09:00+02:00",
+  "next_action": "Close only after all jobs in current descendant master CI 38137733647 succeed."
+}
