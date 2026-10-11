@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T15:18:00+02:00",
+  "updated_at": "2026-10-11T15:20:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 77,
-    "remaining": 24,
+    "closed": 78,
+    "remaining": 23,
     "merged_prs": 84
   },
   "batches": [
@@ -6772,7 +6772,7 @@
       "base": "main",
       "base_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
       "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "RT-NNIS-01"
       ],
@@ -6832,10 +6832,19 @@
           "id": 38142506246,
           "name": "CI",
           "event": "push",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
-          "url": "https://github.com/Memorithm/NNIS/actions/runs/38142506246"
+          "url": "https://github.com/Memorithm/NNIS/actions/runs/38142506246",
+          "jobs": {
+            "success": 3,
+            "total": 3,
+            "names": [
+              "Rust 1.77 check",
+              "Rust quality (CPU)",
+              "PVP WGPU parity (lavapipe)"
+            ]
+          }
         }
       ],
       "merge_gate": {
@@ -6843,7 +6852,8 @@
         "checks": "4/4",
         "conflicts": "none",
         "observed_at": "2026-10-11T15:18:00+02:00"
-      }
+      },
+      "proof": "docs/audit-global/proofs/NNIS-261-RT-NNIS-01-target-validated.json"
     }
   ],
   "repository_observations": [
@@ -8314,11 +8324,11 @@
         "Construire adaptateur explicite rebuild avec quiescence, budget mémoire de double résidence, sessions/KV reset/migration, vérification et rollback. Ne pas annoncer hot-switch avant qualification.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_target_ci",
+      "status": "resolved",
       "current_head": "6aa70523d5026c80021943aee38d5f1391a46664",
       "default_branch": "main",
       "audit_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "head_reconciliation": "Merged by squash on current main 6aa70523d5026c80021943aee38d5f1391a46664 after 4/4 exact-head checks and resolved review; closure waits for integrated-main CI.",
+      "head_reconciliation": "Resolved on integrated main 6aa70523d5026c80021943aee38d5f1391a46664 after exact candidate checks, resolved P1 review, guarded squash merge, and successful target CI 38142506246 (3/3 jobs).",
       "policy_review": "Read complete root AGENTS.md, mandatory agent/sovereignty-roadmap NNIS_SOVEREIGNTY_ROADMAP.yaml and ML_MATURITY_5_OF_5.yaml. Workspace declares MIT; missing root LICENSE is tracked separately as RT-NNIS-03. Roadmap retains no live-transition claim.",
       "prs": [
         {
@@ -8327,7 +8337,7 @@
           "base_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
           "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
           "merge_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
-          "status": "merged_waiting_target_ci"
+          "status": "merged_target_validated"
         }
       ],
       "resolution_evidence": [
@@ -8348,14 +8358,32 @@
             38142506246
           ],
           "status": "waiting_target_ci"
+        },
+        {
+          "proof": "docs/audit-global/proofs/NNIS-261-RT-NNIS-01-target-validated.json",
+          "candidate_head": "373fb0889f6aa9745528ad0d28c4de7380739915",
+          "candidate_runs": [
+            38142284585,
+            38142284556
+          ],
+          "merge_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+          "target_runs": [
+            38142506246
+          ],
+          "target_jobs": [
+            "Rust 1.77 check",
+            "Rust quality (CPU)",
+            "PVP WGPU parity (lavapipe)"
+          ],
+          "status": "resolved"
         }
       ],
-      "last_observed_at": "2026-10-11T15:18:00+02:00",
-      "next_action": "Wait for integrated-main CI run 38142506246 on merge SHA 6aa70523; close only if all target jobs pass.",
+      "last_observed_at": "2026-10-11T15:20:00+02:00",
+      "next_action": "Closed; preserve the fail-closed one-shot contract and requalify before any claim of live migration, physical VRAM residency, latency, availability, quality, or hardware performance.",
       "roadmap_evidence": {
         "branch": "agent/sovereignty-roadmap",
         "commit": "f8991422528dd22db26ed9ee1cca2ee85e5610bd",
-        "status": "merged_waiting_target_ci"
+        "status": "merged_target_validated"
       }
     },
     {
@@ -11824,8 +11852,8 @@
     "previous_owner": "chatgpt-audit-202610111407",
     "canonical_counts": {
       "merged_prs": 84,
-      "closed_findings": 77,
-      "remaining_findings": 24
+      "closed_findings": 78,
+      "remaining_findings": 23
     },
     "batch": {
       "number": 2,
@@ -11833,7 +11861,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Validate integrated-main CI run 38142506246 on merge SHA 6aa70523; close RT-NNIS-01 only if green."
+    "next_action": "Publish final NNIS evidence and journal, then select the next autonomous priority-9 finding."
   },
   "capabilities": [
     {
