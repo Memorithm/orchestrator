@@ -8,70 +8,81 @@
     "number": 1614,
     "url": "https://github.com/Memorithm/scirust/pull/1614",
     "base": "master",
-    "candidate_head": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c"
+    "base_sha": "b4d18463aa0e0770807754653392128e878a51a7",
+    "candidate_head": "1aad1bae5776e673c4b1980327ade23f5f052a20"
   },
   "change": [
     "versioned FLAT consumer matrix",
     "manifest and lockfile validator",
     "exact-MSRV Cargo graph workflow",
+    "reject every WGPU package outside the single qualified 0.20 type universe",
+    "future wgpu v31 negative fail-closed fixture",
     "candidate migration gates and evidence limits"
   ],
-  "local_validation": {
-    "json": "success",
-    "python_compile": "success",
-    "manifest_lock": "success",
-    "positive_graph_fixture": "success",
-    "negative_wgpu30_fixture": "rejected_as_expected",
-    "diff_check": "success",
-    "cargo": "not_available_locally"
-  },
   "acceptance_state": "waiting_ci",
-  "observed_at": "2026-10-11T12:20:00+02:00",
+  "observed_at": "2026-10-11T13:32:00+02:00",
   "roadmap": {
     "branch": "agent/ecosystem-roadmap",
-    "commit": "60b3a308424e53ac7c5e962f45242b34b1826389"
+    "commit": "e0a0f94b01691c35add0ce985d5c5edef39f8f62",
+    "status": "candidate_pending_exact_head_ci"
   },
   "exact_head_workflows": [
     {
-      "id": 38131354796,
+      "id": 38134398900,
       "name": "FLAT consumer compatibility matrix",
       "status": "completed",
-      "conclusion": "success"
+      "conclusion": "success",
+      "tests": "MSRV 1.89; manifest, lockfile, pins, features, resolved graphs; future wgpu v31 rejected"
     },
     {
-      "id": 38131354763,
+      "id": 38134398944,
       "name": "PR rustfmt diagnostic",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 38131354775,
+      "id": 38134398905,
       "name": "SOUP symbolic reward",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 38131354896,
+      "id": 38134398901,
       "name": "FLAT Elastic contextual advisory",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 38131354804,
+      "id": 38134398895,
       "name": "Workspace Rustdoc",
-      "status": "in_progress",
-      "conclusion": null
+      "status": "completed",
+      "conclusion": "success"
     },
     {
-      "id": 38131354840,
+      "id": 38134398890,
       "name": "CI",
       "status": "in_progress",
-      "conclusion": null
+      "conclusion": null,
+      "jobs": {
+        "success": 25,
+        "total": 27,
+        "remaining": [
+          "Miri shard (numeric-a)",
+          "Code Coverage"
+        ]
+      }
     }
   ],
   "review": {
-    "status": "in_progress",
-    "threads": 0,
-    "summary_comment": "https://github.com/Memorithm/scirust/pull/1614#issuecomment-6107979170"
-  }
+    "threads": 1,
+    "resolved_threads": 1,
+    "finding": "P2 reject every unqualified future WGPU version",
+    "correction_shas": [
+      "cc3341163fe604e0474d5fe40bbea3e30b095ed7",
+      "1aad1bae5776e673c4b1980327ade23f5f052a20"
+    ]
+  },
+  "limitations": [
+    "Lavapipe correctness is not physical GPU performance evidence."
+  ]
 }
