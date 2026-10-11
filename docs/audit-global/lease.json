@@ -3,20 +3,20 @@
   "owner": "chatgpt-audit-202610111109",
   "acquired_at": "2026-10-11T09:12:30.000Z",
   "expires_at": "2026-10-11T10:42:30.000Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-11T09:15:30.000Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-202610111006",
   "canonical_counts": {
-    "merged_prs": 80,
+    "merged_prs": 81,
     "closed_findings": 73,
     "remaining_findings": 28
   },
   "batch": {
     "number": 2,
-    "merged_prs": 30,
+    "merged_prs": 31,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Reconcile merged scirust PR #1611, qualify integrated master e2a51db7edcfa87997e6ceb9087084c080159af8, and record RT-SCI-01 state."
+  "next_action": "Complete integrated-master CI 38125552668 for scirust merge e2a51db7edcfa87997e6ceb9087084c080159af8; close RT-SCI-01 only when the remaining Miri numeric-a job passes."
 }

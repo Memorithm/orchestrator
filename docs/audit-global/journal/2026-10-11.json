@@ -115,13 +115,55 @@
         "B-ITD-01 remains blocked by the repository's explicit autonomous-merge deny policy."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-11T11:15:30+02:00",
+      "observed_session_start": "2026-10-11T11:09:51+02:00",
+      "lease_owner": "chatgpt-audit-202610111109",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 31,
+        "batch_target": 50,
+        "merged_prs": 81,
+        "closed_findings": 73,
+        "remaining_findings": 28,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "RT-SCI-01",
+          "repository": "Memorithm/scirust",
+          "status": "waiting_target_ci",
+          "base_sha": "dcb4d99d2eb1d837778267f46e4071fe323b0efc",
+          "head_sha": "9add2daed658a95231a58d07662929331e186a36",
+          "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+          "pr": "https://github.com/Memorithm/scirust/pull/1611",
+          "actions": [
+            "Reconciled the exact candidate head and confirmed every pull_request workflow passed.",
+            "Confirmed squash merge #1611 is current master and counted it once in batch 2.",
+            "Started target-branch qualification on the exact integrated master SHA."
+          ],
+          "checks": [
+            "Candidate CI 38123925390 — success, including stable/nightly functional tests, coverage, Miri, MSRV 1.89, security and platform jobs.",
+            "Candidate workflows 38123925397, 38123925392, 38123925398, 38123925408 and 38123925423 — success.",
+            "Integrated-master workflows 38125552675, 38125552666, 38125552739 and 38125552730 — success.",
+            "Integrated-master CI 38125552668 — 26 jobs success; Miri numeric-a still in progress."
+          ],
+          "reason_for_wait": "The exact integrated master CI still has one required Miri numeric-a job in progress.",
+          "dependencies": [],
+          "next_action": "Close RT-SCI-01 only after CI 38125552668 completes successfully on e2a51db7edcfa87997e6ceb9087084c080159af8.",
+          "proof": "docs/audit-global/proofs/scirust-1611-RT-SCI-01-merged-waiting-target-ci.json"
+        }
+      ],
+      "external_obstacles": [],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "batch": 2,
-    "batch_merged_prs": 30,
+    "batch_merged_prs": 31,
     "batch_target": 50,
-    "merged_prs": 80,
+    "merged_prs": 81,
     "closed_findings": 73,
     "remaining_findings": 28,
     "resolved_today": [
@@ -140,14 +182,14 @@
       "PAPERS-01",
       "B-ITD-01"
     ],
-    "next_action": "Complete exact-head CI for scirust PR #1611, merge if all gates pass, then validate the integrated master SHA.",
+    "next_action": "Complete integrated-master CI 38125552668 for scirust merge e2a51db7edcfa87997e6ceb9087084c080159af8; close RT-SCI-01 only after the remaining Miri job passes.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {
     "batch": 2,
-    "batch_merged_prs": 30,
+    "batch_merged_prs": 31,
     "batch_target": 50,
-    "merged_prs": 80,
+    "merged_prs": 81,
     "closed_findings": 73,
     "remaining_findings": 28,
     "backlog": 101

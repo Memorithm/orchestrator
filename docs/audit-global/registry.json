@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T10:17:42.189+02:00",
+  "updated_at": "2026-10-11T11:15:30+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 73,
     "remaining": 28,
-    "merged_prs": 80
+    "merged_prs": 81
   },
   "batches": [
     {
@@ -442,6 +442,11 @@
           "repository": "Memorithm/NeuralOperator",
           "number": 36,
           "merge_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0"
+        },
+        {
+          "repository": "Memorithm/scirust",
+          "number": 1611,
+          "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8"
         }
       ]
     }
@@ -6389,11 +6394,11 @@
       "url": "https://github.com/Memorithm/scirust/pull/1611",
       "base": "master",
       "base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
-      "current_master_sha": "dcb4d99d2eb1d837778267f46e4071fe323b0efc",
+      "current_master_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
       "head_sha": "9add2daed658a95231a58d07662929331e186a36",
       "merge_ref_sha": "a3349e8da1dcec49f25c31d975d3ed926fa251f3",
-      "merge_sha": null,
-      "status": "waiting_exact_head_functional_ci",
+      "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "RT-SCI-01"
       ],
@@ -6402,17 +6407,12 @@
         {
           "id": 38123925390,
           "name": "CI",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "9add2daed658a95231a58d07662929331e186a36",
           "url": "https://github.com/Memorithm/scirust/actions/runs/38123925390",
           "observed": [
-            "Format Check success",
-            "Clippy success",
-            "MSRV 1.89.0 success",
-            "hypermemory format/clippy/tests/docs success",
-            "macOS and Windows workspace checks success",
-            "stable/nightly workspace build and functional tests still in progress"
+            "Format, Clippy, stable/nightly workspace tests, coverage, Miri, MSRV, security, macOS/Windows and architecture jobs passed."
           ]
         },
         {
@@ -6454,6 +6454,49 @@
           "conclusion": "success",
           "head_sha": "9add2daed658a95231a58d07662929331e186a36",
           "url": "https://github.com/Memorithm/scirust/actions/runs/38123925423"
+        },
+        {
+          "id": 38125552668,
+          "name": "CI (integrated master)",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38125552668",
+          "observed": [
+            "26 jobs passed; Miri shard numeric-a remains in progress."
+          ]
+        },
+        {
+          "id": 38125552675,
+          "name": "FLAT Elastic contextual advisory (integrated master)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38125552675"
+        },
+        {
+          "id": 38125552666,
+          "name": "SOUP symbolic reward (integrated master)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38125552666"
+        },
+        {
+          "id": 38125552739,
+          "name": "Workspace Rustdoc (integrated master)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38125552739"
+        },
+        {
+          "id": 38125552730,
+          "name": "API function lexicon (integrated master)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38125552730"
         }
       ],
       "review": {
@@ -6842,21 +6885,20 @@
         "Introduire un mode production qui refuse la racine démo, configuration explicite de racine, journal OTS non réutilisable et vérification d'artefact publié.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
-      "current_head": "9add2daed658a95231a58d07662929331e186a36",
+      "status": "waiting_target_ci",
+      "current_head": "e2a51db7edcfa87997e6ceb9087084c080159af8",
       "default_branch": "master",
       "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
-      "head_reconciliation": "gap confirmed on audit/current master; all RT-SCI-01 acceptance slices implemented on PR head 9add2daed658a95231a58d07662929331e186a36; merge-ref a3349e8da1dcec49f25c31d975d3ed926fa251f3 validated against current master dcb4d99d2eb1d837778267f46e4071fe323b0efc",
+      "head_reconciliation": "PR #1611 exact candidate 9add2daed658a95231a58d07662929331e186a36 passed all six pull_request workflows including stable/nightly functional tests. Squash merge e2a51db7edcfa87997e6ceb9087084c080159af8 is current master. Integrated push workflows are green except CI 38125552668, whose sole remaining job is Miri shard numeric-a.",
       "policy_review": "Root AGENTS.md, mandatory off-main SCIRUST_ECOSYSTEM_ROADMAP.yaml, ML overlay, and PolyForm Noncommercial notices reread; provenance remains SciRust-owned; demo limitation is not represented as a secret leak.",
       "prs": [
         {
           "number": 1611,
           "url": "https://github.com/Memorithm/scirust/pull/1611",
           "base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
-          "current_master_sha": "dcb4d99d2eb1d837778267f46e4071fe323b0efc",
           "head_sha": "9add2daed658a95231a58d07662929331e186a36",
-          "merge_ref_sha": "a3349e8da1dcec49f25c31d975d3ed926fa251f3",
-          "status": "waiting_exact_head_functional_ci"
+          "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+          "status": "merged_waiting_target_ci"
         }
       ],
       "resolution_evidence": [
@@ -6872,10 +6914,31 @@
             38123925423
           ],
           "status": "waiting_ci"
+        },
+        {
+          "proof": "docs/audit-global/proofs/scirust-1611-RT-SCI-01-merged-waiting-target-ci.json",
+          "candidate_head": "9add2daed658a95231a58d07662929331e186a36",
+          "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+          "candidate_runs": [
+            38123925390,
+            38123925397,
+            38123925392,
+            38123925398,
+            38123925408,
+            38123925423
+          ],
+          "target_runs": [
+            38125552668,
+            38125552675,
+            38125552666,
+            38125552739,
+            38125552730
+          ],
+          "status": "waiting_target_ci"
         }
       ],
-      "last_observed_at": "2026-10-11T10:17:42.189+02:00",
-      "next_action": "Wait for stable/nightly workspace build and functional tests plus remaining exact-head CI on 9add2dae; correct any failure; merge with expected head only after every gate passes, then qualify the integrated master SHA."
+      "last_observed_at": "2026-10-11T11:15:30+02:00",
+      "next_action": "Wait only for integrated-master Miri numeric-a in CI 38125552668; close RT-SCI-01 after the exact merge SHA e2a51db7edcfa87997e6ceb9087084c080159af8 is fully green."
     },
     {
       "id": "RT-SCI-02",
@@ -11315,25 +11378,25 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610111006",
-    "acquired_at": "2026-10-11T08:13:38.197Z",
-    "expires_at": "2026-10-11T09:43:38.197Z",
-    "released_at": "2026-10-11T08:17:42.189Z",
+    "owner": "chatgpt-audit-202610111109",
+    "acquired_at": "2026-10-11T09:12:30.000Z",
+    "expires_at": "2026-10-11T10:42:30.000Z",
+    "released_at": "2026-10-11T09:15:30.000Z",
     "status": "released",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-202610110913",
+    "previous_owner": "chatgpt-audit-202610111006",
     "canonical_counts": {
-      "merged_prs": 80,
+      "merged_prs": 81,
       "closed_findings": 73,
       "remaining_findings": 28
     },
     "batch": {
       "number": 2,
-      "merged_prs": 30,
+      "merged_prs": 31,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Resume scirust PR #1611 at exact head 9add2daed658a95231a58d07662929331e186a36; wait for stable/nightly functional tests and all remaining gates, then merge and validate integrated master if green."
+    "next_action": "Complete integrated-master CI 38125552668 for scirust merge e2a51db7edcfa87997e6ceb9087084c080159af8; close RT-SCI-01 only when the remaining Miri numeric-a job passes."
   },
   "capabilities": [
     {

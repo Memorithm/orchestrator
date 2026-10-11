@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "RT-SCI-01",
+  "repository": "Memorithm/scirust",
+  "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+  "pr": {
+    "number": 1611,
+    "url": "https://github.com/Memorithm/scirust/pull/1611",
+    "candidate_head": "9add2daed658a95231a58d07662929331e186a36",
+    "merged_at": "2026-10-11T08:39:03Z",
+    "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+    "base": "master"
+  },
+  "acceptance_state": "waiting_target_ci",
+  "candidate_validation": {
+    "runs": [
+      38123925390,
+      38123925397,
+      38123925392,
+      38123925398,
+      38123925408,
+      38123925423
+    ],
+    "conclusion": "success",
+    "functional_evidence": [
+      "stable workspace tests success",
+      "nightly workspace tests success",
+      "coverage success",
+      "Miri shards success",
+      "MSRV 1.89 success",
+      "license and security audit success"
+    ]
+  },
+  "target_validation": {
+    "head_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+    "runs": [
+      38125552668,
+      38125552675,
+      38125552666,
+      38125552739,
+      38125552730
+    ],
+    "completed_success": [
+      38125552675,
+      38125552666,
+      38125552739,
+      38125552730
+    ],
+    "ci": {
+      "run": 38125552668,
+      "successful_jobs": 26,
+      "pending_jobs": [
+        "Miri shard (numeric-a)"
+      ]
+    }
+  },
+  "review": {
+    "threads": 1,
+    "resolved_threads": 1,
+    "correction_sha": "4a7c4aa918ae0c6d3ccb01d811950f7f6cc9624c"
+  },
+  "status": "waiting_target_ci",
+  "observed_at": "2026-10-11T11:15:30+02:00"
+}
