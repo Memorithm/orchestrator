@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T13:33:00+02:00",
+  "updated_at": "2026-10-11T14:09:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 76,
     "remaining": 25,
-    "merged_prs": 82
+    "merged_prs": 83
   },
   "batches": [
     {
@@ -452,6 +452,11 @@
           "repository": "Memorithm/SLHAv2",
           "number": 133,
           "merge_sha": "590a7135f23980ce1aac25d52abf34757b2cabea"
+        },
+        {
+          "repository": "Memorithm/scirust",
+          "number": 1614,
+          "merge_sha": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9"
         }
       ]
     }
@@ -6520,7 +6525,7 @@
       "base": "master",
       "base_sha": "b4d18463aa0e0770807754653392128e878a51a7",
       "head_sha": "1aad1bae5776e673c4b1980327ade23f5f052a20",
-      "status": "waiting_ci",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "RT-SCI-03"
       ],
@@ -6570,17 +6575,14 @@
         {
           "id": 38134398890,
           "name": "CI",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "1aad1bae5776e673c4b1980327ade23f5f052a20",
           "url": "https://github.com/Memorithm/scirust/actions/runs/38134398890",
           "jobs": {
-            "success": 25,
-            "total": 27,
-            "remaining": [
-              "Miri shard (numeric-a)",
-              "Code Coverage"
-            ]
+            "success": 28,
+            "total": 28,
+            "remaining": []
           }
         }
       ],
@@ -6602,6 +6604,89 @@
         "resolved_threads": 1,
         "correction_sha": "1aad1bae5776e673c4b1980327ade23f5f052a20",
         "finding": "P2 reject every unqualified future WGPU version"
+      },
+      "merge_sha": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9",
+      "merged_at": "2026-10-11T14:01:00+02:00",
+      "merged_by": "CHECKUPAUTO",
+      "target_branch": "master",
+      "target_head": "39a14bc4c78402d85a174590bda0326afe589ca6",
+      "merge_observation": "PR was already merged when this run revalidated it; no duplicate merge operation was issued. Current master is one direct descendant commit ahead of the merge SHA.",
+      "target_validation": {
+        "integrated_merge_sha": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9",
+        "current_descendant_head": "39a14bc4c78402d85a174590bda0326afe589ca6",
+        "ancestry": {
+          "status": "ahead",
+          "ahead_by": 1,
+          "behind_by": 0,
+          "merge_base": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9",
+          "intervening_commit_scope": "scirust-solvers/src/roots/bisection.rs only"
+        },
+        "superseded_merge_sha_runs": [
+          {
+            "id": 38137717052,
+            "name": "FLAT Elastic contextual advisory",
+            "conclusion": "success"
+          },
+          {
+            "id": 38137717026,
+            "name": "SOUP symbolic reward",
+            "conclusion": "success"
+          },
+          {
+            "id": 38137717058,
+            "name": "FLAT consumer compatibility matrix",
+            "conclusion": "success"
+          },
+          {
+            "id": 38137717073,
+            "name": "Workspace Rustdoc",
+            "conclusion": "cancelled",
+            "reason": "superseded by newer master commit"
+          },
+          {
+            "id": 38137717040,
+            "name": "CI",
+            "conclusion": "cancelled",
+            "reason": "superseded by newer master commit"
+          }
+        ],
+        "current_head_runs": [
+          {
+            "id": 38137733629,
+            "name": "API function lexicon",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 38137733616,
+            "name": "SOUP symbolic reward",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 38137733641,
+            "name": "FLAT Elastic contextual advisory",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 38137733614,
+            "name": "Workspace Rustdoc",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 38137733647,
+            "name": "CI",
+            "status": "in_progress",
+            "conclusion": null,
+            "jobs": {
+              "success": 21,
+              "total": 27,
+              "active": 6
+            }
+          }
+        ]
       }
     },
     {
@@ -7179,8 +7264,8 @@
         "Catalogue versionné des couples commit/ABI/features/wgpu; tests consommateurs sur pins actuels et candidat de migration; ne pas repin aveuglément.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
-      "current_head": "b4d18463aa0e0770807754653392128e878a51a7",
+      "status": "merged_waiting_target_ci",
+      "current_head": "39a14bc4c78402d85a174590bda0326afe589ca6",
       "default_branch": "master",
       "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
       "head_reconciliation": "Audit gap remains on current master: runtime FLAT c74a3806 uses wgpu 0.20 while host contextual FLAT 4529a207 and Elastic 9130a412 are intentionally separate but lacked one versioned, machine-checked consumer matrix. PR #1614 adds the matrix without repinning either runtime.",
@@ -7191,22 +7276,29 @@
           "url": "https://github.com/Memorithm/scirust/pull/1614",
           "base_sha": "b4d18463aa0e0770807754653392128e878a51a7",
           "head_sha": "1aad1bae5776e673c4b1980327ade23f5f052a20",
-          "status": "waiting_ci"
+          "merge_sha": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9",
+          "status": "merged_waiting_target_ci"
         }
       ],
       "resolution_evidence": [
         {
           "proof": "docs/audit-global/proofs/scirust-1614-RT-SCI-03-waiting-ci.json",
           "candidate_head": "1aad1bae5776e673c4b1980327ade23f5f052a20",
-          "status": "waiting_ci"
+          "status": "candidate_exact_head_validated"
+        },
+        {
+          "proof": "docs/audit-global/proofs/scirust-1614-RT-SCI-03-merged-waiting-target-ci.json",
+          "merge_sha": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9",
+          "target_head": "39a14bc4c78402d85a174590bda0326afe589ca6",
+          "status": "merged_waiting_target_ci"
         }
       ],
-      "last_observed_at": "2026-10-11T13:33:00+02:00",
-      "next_action": "CI 38134398890 is 25/27 green on exact head; wait for Miri numeric-a and Code Coverage, then revalidate base/head/protection and merge with expected_head_sha. Validate integrated master before closure.",
+      "last_observed_at": "2026-10-11T14:09:00+02:00",
+      "next_action": "Wait for current descendant master CI 38137733647 to finish (21/27 green, 6 active, no failures), then publish final target proof and close only if all target checks pass.",
       "roadmap_evidence": {
         "branch": "agent/ecosystem-roadmap",
-        "commit": "e0a0f94b01691c35add0ce985d5c5edef39f8f62",
-        "status": "candidate_pending_exact_head_ci"
+        "commit": "pending_current_update",
+        "status": "merged_waiting_target_ci"
       }
     },
     {
@@ -11608,25 +11700,24 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610111305",
-    "acquired_at": "2026-10-11T11:08:00.000Z",
-    "expires_at": "2026-10-11T12:38:00.000Z",
-    "released_at": "2026-10-11T11:33:00.000Z",
-    "status": "released",
+    "owner": "chatgpt-audit-202610111407",
+    "acquired_at": "2026-10-11T12:08:00.000Z",
+    "expires_at": "2026-10-11T13:38:00.000Z",
+    "released_at": null,
+    "status": "active",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-202610111206",
     "canonical_counts": {
-      "merged_prs": 82,
+      "merged_prs": 83,
       "closed_findings": 76,
       "remaining_findings": 25
     },
     "batch": {
       "number": 2,
-      "merged_prs": 32,
+      "merged_prs": 33,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Resume scirust PR #1614: CI 38134398890 is 25/27 green on exact head 1aad1bae; wait for Miri numeric-a and Code Coverage, then merge with expected_head_sha and validate integrated master."
+    "next_action": "Wait for current descendant master CI 38137733647 to finish (21/27 green, 6 active, no failures), then publish final target proof and close only if all target checks pass."
   },
   "capabilities": [
     {
