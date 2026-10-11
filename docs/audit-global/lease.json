@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Continue an independent priority-9 finding after closing RT-SCI-01 on exact integrated-master CI."
+  "next_action": "Observe exact-head CI for scirust PR #1614 and repair any failure before merge."
 }
