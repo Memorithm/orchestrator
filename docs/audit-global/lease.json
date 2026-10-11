@@ -3,8 +3,8 @@
   "owner": "chatgpt-audit-202610111206",
   "acquired_at": "2026-10-11T10:06:00.000Z",
   "expires_at": "2026-10-11T11:36:00.000Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-11T10:20:00.000Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-202610111118",
   "canonical_counts": {
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Observe exact-head CI for scirust PR #1614 and repair any failure before merge."
+  "next_action": "Resume scirust PR #1614: wait for CI, Rustdoc and review on exact head; repair failures; merge only after every gate is green."
 }
