@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T11:21:00+02:00",
+  "updated_at": "2026-10-11T12:10:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 74,
-    "remaining": 27,
+    "closed": 75,
+    "remaining": 26,
     "merged_prs": 81
   },
   "batches": [
@@ -6398,7 +6398,7 @@
       "head_sha": "9add2daed658a95231a58d07662929331e186a36",
       "merge_ref_sha": "a3349e8da1dcec49f25c31d975d3ed926fa251f3",
       "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "RT-SCI-01"
       ],
@@ -6458,12 +6458,12 @@
         {
           "id": 38125552668,
           "name": "CI (integrated master)",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
           "url": "https://github.com/Memorithm/scirust/actions/runs/38125552668",
           "observed": [
-            "26 jobs passed; Miri shard numeric-a remains in progress."
+            "28/28 jobs passed on the exact integrated master SHA, including stable/nightly functional tests, Miri shards and aggregate, coverage, MSRV 1.89, security, fuzz smoke, determinism and platform checks."
           ]
         },
         {
@@ -6504,7 +6504,9 @@
         "resolved_threads": 1,
         "correction_sha": "4a7c4aa918ae0c6d3ccb01d811950f7f6cc9624c",
         "finding": "P2 demo mode must remain tied to scirust_license::demo_root() after production root rotation"
-      }
+      },
+      "target_head": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+      "target_validation": "All five observed push workflows succeeded on the exact integrated master SHA; CI 38125552668 completed with 28/28 successful jobs."
     }
   ],
   "repository_observations": [
@@ -6885,11 +6887,11 @@
         "Introduire un mode production qui refuse la racine démo, configuration explicite de racine, journal OTS non réutilisable et vérification d'artefact publié.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_target_ci",
+      "status": "resolved",
       "current_head": "e2a51db7edcfa87997e6ceb9087084c080159af8",
       "default_branch": "master",
       "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
-      "head_reconciliation": "PR #1611 exact candidate 9add2daed658a95231a58d07662929331e186a36 passed all six pull_request workflows including stable/nightly functional tests. Squash merge e2a51db7edcfa87997e6ceb9087084c080159af8 is current master. Integrated push workflows are green except CI 38125552668, whose sole remaining job is Miri shard numeric-a.",
+      "head_reconciliation": "PR #1611 candidate 9add2daed658a95231a58d07662929331e186a36 passed all six pull-request workflows; squash merge e2a51db7edcfa87997e6ceb9087084c080159af8 is the integrated master SHA; all five observed push workflows succeeded, including CI 38125552668 with 28/28 successful jobs.",
       "policy_review": "Root AGENTS.md, mandatory off-main SCIRUST_ECOSYSTEM_ROADMAP.yaml, ML overlay, and PolyForm Noncommercial notices reread; provenance remains SciRust-owned; demo limitation is not represented as a secret leak.",
       "prs": [
         {
@@ -6898,7 +6900,7 @@
           "base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
           "head_sha": "9add2daed658a95231a58d07662929331e186a36",
           "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
-          "status": "merged_waiting_target_ci"
+          "status": "merged_target_validated"
         }
       ],
       "resolution_evidence": [
@@ -6935,10 +6937,23 @@
             38125552730
           ],
           "status": "waiting_target_ci"
+        },
+        {
+          "proof": "docs/audit-global/proofs/scirust-1611-RT-SCI-01-target-validated.json",
+          "candidate_head": "9add2daed658a95231a58d07662929331e186a36",
+          "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+          "target_runs": [
+            38125552668,
+            38125552675,
+            38125552666,
+            38125552739,
+            38125552730
+          ],
+          "status": "resolved_on_integrated_master"
         }
       ],
-      "last_observed_at": "2026-10-11T11:15:30+02:00",
-      "next_action": "Wait only for integrated-master Miri numeric-a in CI 38125552668; close RT-SCI-01 after the exact merge SHA e2a51db7edcfa87997e6ceb9087084c080159af8 is fully green."
+      "last_observed_at": "2026-10-11T12:10:00+02:00",
+      "next_action": "Clos sur master au SHA e2a51db7edcfa87997e6ceb9087084c080159af8; préserver le refus fail-closed de la racine démo, le journal OTS et la preuve publiée."
     },
     {
       "id": "RT-SCI-02",
@@ -11397,8 +11412,8 @@
     "previous_owner": "chatgpt-audit-202610111118",
     "canonical_counts": {
       "merged_prs": 81,
-      "closed_findings": 74,
-      "remaining_findings": 27
+      "closed_findings": 75,
+      "remaining_findings": 26
     },
     "batch": {
       "number": 2,
@@ -11406,7 +11421,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Close RT-SCI-01 after the exact integrated master CI succeeded, then continue an independent priority-9 finding."
+    "next_action": "Continue an independent priority-9 finding after closing RT-SCI-01 on exact integrated-master CI."
   },
   "capabilities": [
     {
