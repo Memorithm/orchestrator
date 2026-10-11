@@ -1,0 +1,326 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "id": "RT-NNIS-01",
+  "repository": "Memorithm/NNIS",
+  "pr": 261,
+  "status": "resolved",
+  "observed_at": "2026-10-11T15:20:00+02:00",
+  "source_audit": {
+    "date": "2026-09-30",
+    "ref": "libfile_6e12d363113c8191886a6e694ff69a13#RT-NNIS-01"
+  },
+  "base": {
+    "branch": "main",
+    "sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01"
+  },
+  "candidate": {
+    "sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
+    "diff": {
+      "files": 3,
+      "additions": 571,
+      "deletions": 3
+    },
+    "workflows": [
+      {
+        "id": 38142284585,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": {
+          "success": 3,
+          "total": 3
+        }
+      },
+      {
+        "id": 38142284556,
+        "name": "SmolLM2 benchmark harness",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": {
+          "success": 1,
+          "total": 1
+        }
+      }
+    ],
+    "local_validation": [
+      "Rust 1.77 cargo fmt --all -- --check: passed",
+      "Rust 1.77 cargo test -p nnis-model execution_transition --lib --locked: 9/9 passed",
+      "Rust 1.77 cargo check -p nnis-model --all-targets --locked: passed",
+      "Rust 1.77 cargo test -p nnis-model --lib --locked: 180/180 passed",
+      "git diff --check: passed"
+    ],
+    "review": {
+      "threads": 1,
+      "resolved": 1,
+      "correction_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
+      "finding": "P1 public-field/deserialization bypass rejected before runtime mutation"
+    },
+    "merge_gate": {
+      "checks": "4/4 successful",
+      "conflicts": "none",
+      "mergeable": "ready",
+      "expected_head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915"
+    }
+  },
+  "merge": {
+    "method": "squash_with_expected_head_sha",
+    "sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+    "merged": true,
+    "merged_at": "2026-10-11T13:16:11Z"
+  },
+  "target": {
+    "branch": "main",
+    "sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+    "workflow": {
+      "id": 38142506246,
+      "name": "CI",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "duration": "2m3s"
+    },
+    "jobs": [
+      {
+        "id": 114479067226,
+        "name": "Rust 1.77 check",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38142506246,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout exact source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Install declared MSRV",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "cargo check at MSRV",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Post Checkout exact source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          }
+        ]
+      },
+      {
+        "id": 114479067394,
+        "name": "Rust quality (CPU)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38142506246,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout exact source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Validate external reference evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Validate NNIS F16 campaign evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Validate direct Edge vs NNIS F16 evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Validate fused MLP promotion evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Validate NNML0 real-checkpoint evidence contract",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Validate NNML1 identity, parity and P0 bundle contracts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Validate local-HF generation process contract",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Validate license provenance audit tooling",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Install stable Rust components",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "rustfmt",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "cargo check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Verify portable core dependency boundary",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Verify portable CPU dependency boundary",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "clippy",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "tests without GPU requirement",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Post Checkout exact source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 34
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 35
+          }
+        ]
+      },
+      {
+        "id": 114479067416,
+        "name": "PVP WGPU parity (lavapipe)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38142506246,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout exact source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Install stable Rust",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install software Vulkan device",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Execute NNIS PVP CPU-WGPU parity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Post Checkout exact source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          }
+        ]
+      }
+    ]
+  },
+  "acceptance": {
+    "result": "satisfied",
+    "capabilities": [
+      "one-shot fail-closed F16 rebuild transaction",
+      "quiescence and zero active sessions",
+      "source weights retained until commit",
+      "owned double-residency admission before runtime mutation",
+      "candidate verification before session/KV invalidation and commit",
+      "rollback on every runtime phase failure",
+      "strict versioned receipt forbidding a live-transition claim"
+    ]
+  },
+  "boundaries": [
+    "No session or KV migration claim; schema v1 resets both.",
+    "No hot-switch or zero-downtime claim.",
+    "Owned-allocation double-residency budgeting is not physical GPU residency or process-wide VRAM evidence.",
+    "No latency, availability, quality, or physical-hardware performance claim.",
+    "Lavapipe validates a software Vulkan path, not GPU hardware."
+  ]
+}
