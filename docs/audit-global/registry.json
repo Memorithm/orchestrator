@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T06:12:53+02:00",
+  "updated_at": "2026-10-11T06:17:08+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 67,
-    "remaining": 34,
-    "merged_prs": 76
+    "closed": 68,
+    "remaining": 33,
+    "merged_prs": 77
   },
   "batches": [
     {
@@ -422,6 +422,11 @@
           "repository": "Memorithm/SciCapsule",
           "number": 33,
           "merge_sha": "e0aee9fd081570eb77d0ed5c3ffa7bdda24e504a"
+        },
+        {
+          "repository": "Memorithm/SciCapsule",
+          "number": 34,
+          "merge_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5"
         }
       ]
     }
@@ -6058,7 +6063,7 @@
         }
       ],
       "target_validation": "format, stable check, strict Clippy, all-target tests and MSRV 1.89 check passed on the exact merge commit",
-      "open_regression": "Exact-head Codex review left P1 evidence-contract versioning thread PRRT_kwDOUDjsNs6qAKBw unresolved; corrective PR #34 is open."
+      "open_regression": "Resolved by corrective PR #34 merged as 94e5a000ba862d0ae1d1b41353353ec72b5cded5 with exact-head and integrated-main CI success."
     },
     {
       "repository": "Memorithm/SciCapsule",
@@ -6067,11 +6072,11 @@
       "base": "main",
       "base_sha": "e0aee9fd081570eb77d0ed5c3ffa7bdda24e504a",
       "head_sha": "fc1bdf8154c9fe4d9dc15509295c31491723d043",
-      "status": "waiting_ci",
+      "status": "merged_target_validated",
       "ids": [
         "MEM-12"
       ],
-      "batch": null,
+      "batch": 2,
       "checks": [
         {
           "id": 38110849760,
@@ -6085,13 +6090,28 @@
         {
           "id": 38110915097,
           "name": "CI (pull requests) 94",
-          "status": "queued",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "fc1bdf8154c9fe4d9dc15509295c31491723d043",
-          "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38110915097"
+          "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38110915097",
+          "tests": "97 passed, 0 failed; format, check, clippy and MSRV 1.89 passed"
         }
       ],
-      "validation": "git diff --check passed; first CI found one rustfmt-only delta and it was fixed; exact-head Rust validation is queued in run 38110915097. Local Rust is absent and authorized remote quota is exhausted."
+      "validation": "Exact-head CI 38110915097 passed format, stable check, strict Clippy, 97 tests and MSRV 1.89; clean prior review differs only by the exact rustfmt correction; target CI pending.",
+      "merge_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+      "merged_at": "2026-10-11T04:15:36Z",
+      "target_head": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+      "target_checks": [
+        {
+          "id": 38111014870,
+          "name": "CI (internal main)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+          "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38111014870"
+        }
+      ],
+      "target_validation": "Exact integrated merge tree aecec5605293d39d02a020124bd24c77e7b46126 passed format, stable check, strict Clippy, all-target tests and MSRV 1.89."
     }
   ],
   "repository_observations": [
@@ -6320,12 +6340,12 @@
       "repository": "Memorithm/SciCapsule",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "e0aee9fd081570eb77d0ed5c3ffa7bdda24e504a",
-      "tree_sha": "c69d8dce492e6c3b20b7dc6e8ca1f723b582700e",
+      "current_head": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+      "tree_sha": "aecec5605293d39d02a020124bd24c77e7b46126",
       "protected": false,
       "required_checks": [],
       "error": null,
-      "last_observed_at": "2026-10-11T06:12:53+02:00"
+      "last_observed_at": "2026-10-11T06:16:48+02:00"
     },
     {
       "repository": "Memorithm/SciRust-Verify",
@@ -8160,11 +8180,11 @@
         "Pour capsules durables, ajouter version policy/digest, fenêtre validité, liste révocations et mécanisme de mise à jour contrôlé; garder signature distincte d'autorisation d'exécution.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
-      "current_head": "e0aee9fd081570eb77d0ed5c3ffa7bdda24e504a",
+      "status": "resolved",
+      "current_head": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
       "default_branch": "main",
       "audit_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
-      "head_reconciliation": "PR #33 merged and exact integrated main CI passed; exact-head review exposed an unresolved evidence-contract regression now isolated in corrective PR #34.",
+      "head_reconciliation": "PR #33 delivered lifecycle trust policy v2; corrective PR #34 versioned lifecycle evidence separately. Candidate CI 38110915097 and integrated-main CI 38111014870 passed on exact heads.",
       "policy_review": "AGENTS.md plus current SciCapsule ecosystem roadmap and ML overlay reread before the corrective Hub/evidence contract change.",
       "prs": [
         {
@@ -8187,8 +8207,9 @@
           "base_sha": "e0aee9fd081570eb77d0ed5c3ffa7bdda24e504a",
           "head": "audit/mem-12-evidence-contract-v3",
           "head_sha": "fc1bdf8154c9fe4d9dc15509295c31491723d043",
-          "state": "open",
-          "merged": false
+          "state": "closed",
+          "merged": true,
+          "merge_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5"
         }
       ],
       "resolution_evidence": [
@@ -8196,8 +8217,8 @@
         "docs/audit-global/proofs/SciCapsule-33-MEM-12-waiting-ci.json",
         "docs/audit-global/proofs/SciCapsule-33-34-MEM-12-followup.json"
       ],
-      "last_observed_at": "2026-10-11T06:12:53+02:00",
-      "next_action": "Wait for exact-head GitHub CI run 38110915097 and review on PR #34 at fc1bdf8154c9fe4d9dc15509295c31491723d043; resolve any findings, merge only with current head/base and green checks, then require integrated-main CI before closing MEM-12."
+      "last_observed_at": "2026-10-11T06:16:48+02:00",
+      "next_action": "Closed; preserve policy-v1 inspection compatibility and version any future authorization or evidence contract break."
     },
     {
       "id": "MEM-13",
@@ -10881,22 +10902,22 @@
     "owner": "chatgpt-audit-202610110606",
     "acquired_at": "2026-10-11T04:12:53.000Z",
     "expires_at": "2026-10-11T05:42:53.000Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-11T04:17:08.000Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610071812",
     "canonical_counts": {
-      "merged_prs": 76,
-      "closed_findings": 67,
-      "remaining_findings": 34
+      "merged_prs": 77,
+      "closed_findings": 68,
+      "remaining_findings": 33
     },
     "batch": {
       "number": 2,
-      "merged_prs": 26,
+      "merged_prs": 27,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Qualify SciCapsule PR #34 on exact head f2d5fd4a05c8b4287fb15b560900c45c631c09df; keep MEM-12 open until corrective merge and integrated-main validation."
+    "next_action": "Select the next autonomous priority-9 finding; MEM-12 is closed with exact candidate and integrated-main evidence."
   },
   "capabilities": [
     {

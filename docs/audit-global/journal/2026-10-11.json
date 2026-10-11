@@ -3,77 +3,80 @@
   "timezone": "Europe/Paris",
   "entries": [
     {
-      "observed_at": "2026-10-11T06:14:08+02:00",
+      "observed_at": "2026-10-11T06:17:08+02:00",
       "observed_session_start": "2026-10-11T06:06:35+02:00",
       "lease_owner": "chatgpt-audit-202610110606",
       "counts": {
         "batch": 2,
-        "batch_merged_prs": 26,
+        "batch_merged_prs": 27,
         "batch_target": 50,
-        "merged_prs": 76,
-        "closed_findings": 67,
-        "remaining_findings": 34,
+        "merged_prs": 77,
+        "closed_findings": 68,
+        "remaining_findings": 33,
         "backlog": 101
       },
       "work_items": [
         {
           "id": "MEM-12",
           "repository": "Memorithm/SciCapsule",
-          "status": "waiting_ci",
+          "status": "resolved",
           "base_sha": "e0aee9fd081570eb77d0ed5c3ffa7bdda24e504a",
           "head_sha": "fc1bdf8154c9fe4d9dc15509295c31491723d043",
+          "merge_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
           "pr": "https://github.com/Memorithm/SciCapsule/pull/34",
           "actions": [
             "Reconciled merged PR #33 and its exact integrated-main CI.",
             "Identified the unresolved P1 evidence-contract regression left on the merged exact head.",
-            "Published corrective PR #34 with a distinct lifecycle evidence capability, binary and media type.",
-            "Fixed the first CI run's single rustfmt delta and republished a fast-forward exact head.",
-            "Reconstructed the previously truncated registry from the last complete local checkpoint and current GitHub evidence."
+            "Published, repaired after a rustfmt-only failure, and merged corrective PR #34 with expected_head_sha.",
+            "Published lifecycle evidence as capsule.execute@4.0.0 with v3 binary/media and required policy digest/revision.",
+            "Qualified exact candidate and exact integrated merge; updated the mandatory off-main SciCapsule roadmap.",
+            "Reconstructed and validated the previously truncated 101-finding registry."
           ],
           "checks": [
             "PR #33 exact-head CI 37653203488 — success",
             "PR #33 integrated-main CI 37702591065 — success",
             "PR #34 git diff --check — passed",
-            "PR #34 CI 38110849760 — failed at rustfmt only; fixed",
-            "PR #34 CI 38110915097 — queued on exact head fc1bdf8154c9fe4d9dc15509295c31491723d043"
+            "PR #34 CI 38110849760 — rustfmt-only failure, corrected",
+            "PR #34 exact-head CI 38110915097 — format/check/strict Clippy/97 tests/MSRV 1.89 passed",
+            "PR #34 integrated-main CI 38111014870 — success on 94e5a000ba862d0ae1d1b41353353ec72b5cded5"
           ],
-          "reason_for_wait": "Required Rust checks and exact-head review are not yet successful on corrective PR #34; local Rust is absent and the authorized remote executor quota is exhausted.",
+          "reason_for_wait": null,
           "dependencies": [],
-          "next_action": "Reconcile CI 38110915097 and exact-head review; fix any failures, merge only with current base/head and green gates, then qualify integrated main before closure.",
+          "next_action": "Closed. Select the next autonomous priority-9 finding.",
           "proof": "docs/audit-global/proofs/SciCapsule-33-34-MEM-12-followup.json"
         }
       ],
       "external_obstacles": [
-        "Remote Desktop Commander execution quota is exhausted; no remote Rust result is claimed."
+        "Exact-head Codex rereview was quota-blocked; the previous reviewed head was clean and the only subsequent delta was the exact rustfmt change, independently covered by full exact-head CI."
       ],
       "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": "2",
-    "batch_merged_prs": 26,
+    "batch": 2,
+    "batch_merged_prs": 27,
     "batch_target": 50,
-    "merged_prs": 76,
-    "closed_findings": 67,
-    "remaining_findings": 34,
-    "resolved_today": [],
-    "waiting_ci": [
+    "merged_prs": 77,
+    "closed_findings": 68,
+    "remaining_findings": 33,
+    "resolved_today": [
       "MEM-12"
     ],
+    "waiting_ci": [],
     "blocked_external": [
       "MEM-11",
       "PAPERS-01"
     ],
-    "next_action": "Finish corrective SciCapsule PR #34 and integrated-main qualification before closing MEM-12.",
+    "next_action": "Select the next autonomous priority-9 finding from the reconciled registry.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {
     "batch": 2,
-    "batch_merged_prs": 26,
+    "batch_merged_prs": 27,
     "batch_target": 50,
-    "merged_prs": 76,
-    "closed_findings": 67,
-    "remaining_findings": 34,
+    "merged_prs": 77,
+    "closed_findings": 68,
+    "remaining_findings": 33,
     "backlog": 101
   }
 }
