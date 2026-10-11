@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T14:11:00+02:00",
+  "updated_at": "2026-10-11T14:12:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -11710,8 +11710,8 @@
     "owner": "chatgpt-audit-202610111407",
     "acquired_at": "2026-10-11T12:08:00.000Z",
     "expires_at": "2026-10-11T13:38:00.000Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-11T12:12:00.000Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "canonical_counts": {
       "merged_prs": 83,
@@ -11724,7 +11724,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Finish scirust target CI (22/27 green, 5 active); continue RT-NNIS-01 from the verified current-head gap."
+    "next_action": "Finish scirust target CI 38137733647 (22/27 green, 5 active), then close RT-SCI-03 only if the current descendant master is fully green; continue RT-NNIS-01 explicit rebuild transaction."
   },
   "capabilities": [
     {
