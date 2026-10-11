@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-202610111109",
-  "acquired_at": "2026-10-11T09:12:30.000Z",
-  "expires_at": "2026-10-11T10:42:30.000Z",
-  "released_at": "2026-10-11T09:15:30.000Z",
-  "status": "released",
+  "owner": "chatgpt-audit-202610111118",
+  "acquired_at": "2026-10-11T09:18:30.000Z",
+  "expires_at": "2026-10-11T10:48:30.000Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
-  "previous_owner": "chatgpt-audit-202610111006",
+  "previous_owner": "chatgpt-audit-202610111109",
   "canonical_counts": {
     "merged_prs": 81,
     "closed_findings": 73,
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Complete integrated-master CI 38125552668 for scirust merge e2a51db7edcfa87997e6ceb9087084c080159af8; close RT-SCI-01 only when the remaining Miri numeric-a job passes."
+  "next_action": "Record B-TDI-01 as a justified fail-closed operational limitation on current TDI main with fresh source/test evidence."
 }
