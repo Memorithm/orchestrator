@@ -1,0 +1,68 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-11T06:14:08+02:00",
+  "finding_id": "MEM-12",
+  "repository": "Memorithm/SciCapsule",
+  "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#MEM-12",
+  "status": "waiting_ci",
+  "merged_pr": {
+    "number": 33,
+    "url": "https://github.com/Memorithm/SciCapsule/pull/33",
+    "base_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+    "head_sha": "166001438eeb56e2faacd411d7f6785fec896e5c",
+    "merge_sha": "e0aee9fd081570eb77d0ed5c3ffa7bdda24e504a",
+    "merged_at": "2026-10-07T23:29:41Z",
+    "exact_head_ci": {
+      "run_id": 37653203488,
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/37653203488"
+    },
+    "integrated_ci": {
+      "run_id": 37702591065,
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/37702591065"
+    }
+  },
+  "regression": {
+    "review_thread": "PRRT_kwDOUDjsNs6qAKBw",
+    "severity": "P1",
+    "state": "unresolved_on_merged_pr",
+    "finding": "capsule.execute@2.0.0 evidence contract was silently redirected to lifecycle-policy-v2-only capsule.execute@3.0.0"
+  },
+  "corrective_pr": {
+    "number": 34,
+    "url": "https://github.com/Memorithm/SciCapsule/pull/34",
+    "base_sha": "e0aee9fd081570eb77d0ed5c3ffa7bdda24e504a",
+    "head_sha": "fc1bdf8154c9fe4d9dc15509295c31491723d043",
+    "state": "open",
+    "change": [
+      "publish lifecycle evidence as capsule.execute@4.0.0",
+      "publish scicapsule-hub-evidence-v3 and result media type v3",
+      "bind lifecycle policy digest and revision in evidence v3",
+      "freeze v2 documentation as historical policy-v1 contract"
+    ],
+    "checks": [
+      {
+        "run_id": 38110849760,
+        "head_sha": "f2d5fd4a05c8b4287fb15b560900c45c631c09df",
+        "conclusion": "failure",
+        "reason": "rustfmt-only delta"
+      },
+      {
+        "run_id": 38110915097,
+        "head_sha": "fc1bdf8154c9fe4d9dc15509295c31491723d043",
+        "status": "queued",
+        "conclusion": null
+      }
+    ],
+    "local_validation": [
+      "git diff --check — passed"
+    ],
+    "unavailable_validation": [
+      "Cargo and rustfmt are absent from the local automation runtime",
+      "authorized Remote Desktop Commander execution quota is exhausted"
+    ]
+  },
+  "acceptance": "Do not close MEM-12 until PR #34 has green exact-head CI, clean review, guarded merge and green integrated-main CI.",
+  "excluded_repositories_modified": []
+}
