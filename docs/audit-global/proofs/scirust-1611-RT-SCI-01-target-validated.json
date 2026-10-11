@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "id": "RT-SCI-01",
+  "repository": "Memorithm/scirust",
+  "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+  "candidate_head": "9add2daed658a95231a58d07662929331e186a36",
+  "merge_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+  "pr": {
+    "number": 1611,
+    "url": "https://github.com/Memorithm/scirust/pull/1611",
+    "base": "master"
+  },
+  "acceptance_state": "resolved",
+  "acceptance": {
+    "production_root": "explicit --root required; public demo root rejected outside --demo",
+    "ots_ledger": "durable locked ledger rejects reuse of one OTS secret across distinct digests",
+    "publication": "published record binds root, leaf and digest before verification succeeds"
+  },
+  "candidate_runs": [
+    38123925390,
+    38123925397,
+    38123925392,
+    38123925398,
+    38123925408,
+    38123925423
+  ],
+  "target_validation": {
+    "head_sha": "e2a51db7edcfa87997e6ceb9087084c080159af8",
+    "runs": [
+      38125552668,
+      38125552675,
+      38125552666,
+      38125552739,
+      38125552730
+    ],
+    "ci": {
+      "run": 38125552668,
+      "status": "completed",
+      "conclusion": "success",
+      "jobs_total": 28,
+      "jobs_success": 28,
+      "notable": [
+        "Build & Test stable/nightly",
+        "Miri numeric-a/numeric-b/unsafe-regressions and aggregate",
+        "MSRV 1.89",
+        "License & Security Audit",
+        "fuzz smoke",
+        "coverage",
+        "determinism fingerprint",
+        "macOS/Windows/aarch64",
+        "wgpu lavapipe"
+      ]
+    },
+    "other_push_workflows": "success"
+  },
+  "review": {
+    "threads": 1,
+    "resolved_threads": 1,
+    "correction_sha": "4a7c4aa918ae0c6d3ccb01d811950f7f6cc9624c"
+  },
+  "observed_at": "2026-10-11T12:10:00+02:00"
+}
