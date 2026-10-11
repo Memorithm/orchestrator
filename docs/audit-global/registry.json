@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T15:21:00+02:00",
+  "updated_at": "2026-10-11T17:06:38+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 78,
     "remaining": 23,
-    "merged_prs": 84
+    "merged_prs": 85
   },
   "batches": [
     {
@@ -462,6 +462,11 @@
           "repository": "Memorithm/NNIS",
           "number": 261,
           "merge_sha": "6aa70523d5026c80021943aee38d5f1391a46664"
+        },
+        {
+          "repository": "Memorithm/NNIS",
+          "number": 262,
+          "merge_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2"
         }
       ]
     }
@@ -6854,6 +6859,82 @@
         "observed_at": "2026-10-11T15:18:00+02:00"
       },
       "proof": "docs/audit-global/proofs/NNIS-261-RT-NNIS-01-target-validated.json"
+    },
+    {
+      "repository": "Memorithm/NNIS",
+      "number": 262,
+      "url": "https://github.com/Memorithm/NNIS/pull/262",
+      "base": "main",
+      "base_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+      "head_sha": "83d19a736b191ea2b253d461c280e4a99c149c3a",
+      "merge_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+      "status": "merged_target_validated_technical_gate_external_finding_open",
+      "ids": [
+        "RT-NNIS-03"
+      ],
+      "batch": 2,
+      "merge_method": "squash_with_expected_head_sha",
+      "merged_at": "2026-10-11T15:04:15Z",
+      "checks": [
+        {
+          "id": 38149387485,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "83d19a736b191ea2b253d461c280e4a99c149c3a",
+          "url": "https://github.com/Memorithm/NNIS/actions/runs/38149387485",
+          "jobs": {
+            "success": 3,
+            "total": 3,
+            "names": [
+              "Rust 1.77 check",
+              "Rust quality (CPU)",
+              "PVP WGPU parity (lavapipe)"
+            ]
+          }
+        }
+      ],
+      "local_validation": [
+        "provenance self-test including malicious drift and self-referential symlinks passed",
+        "repository policy validation passed",
+        "Python syntax compilation passed",
+        "policy JSON parse passed",
+        "git diff --check passed"
+      ],
+      "review": {
+        "status": "completed_no_major_issues",
+        "threads": 12,
+        "resolved_threads": 12,
+        "exact_head": "83d19a736b191ea2b253d461c280e4a99c149c3a"
+      },
+      "target_head": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+      "target_checks": [
+        {
+          "id": 38149749875,
+          "name": "CI",
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+          "url": "https://github.com/Memorithm/NNIS/actions/runs/38149749875",
+          "jobs": {
+            "success": 3,
+            "total": 3,
+            "names": [
+              "Rust 1.77 check",
+              "Rust quality (CPU)",
+              "PVP WGPU parity (lavapipe)"
+            ]
+          }
+        }
+      ],
+      "limitations": [
+        "Technical gate is not evidence of contributor rights or consent.",
+        "Imported material and third-party notices require documented review.",
+        "Cargo.lock does not establish dependency license obligations.",
+        "No relicensing or legal-clearance claim."
+      ],
+      "proof": "docs/audit-global/proofs/NNIS-262-RT-NNIS-03.json"
     }
   ],
   "repository_observations": [
@@ -6984,11 +7065,12 @@
       "repository": "Memorithm/NNIS",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
-      "tree_sha": "3e81209d3b2d1351c67b216cda4dfb6892a0287b",
+      "current_head": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+      "tree_sha": "5943ab9fb6bd79e6325c5688943e842119cebe5a",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": null,
+      "last_observed_at": "2026-10-11T17:06:38+02:00"
     },
     {
       "repository": "Memorithm/NeuralOperator",
@@ -8439,16 +8521,39 @@
         "Inventorier origine/copyright de chaque contribution et dépendance; fixer politique future cohérente après revue des droits, garder notices tierces; rendre validation provenance bloquante.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
+      "status": "blocked",
+      "current_head": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
       "default_branch": "main",
       "audit_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "technical_gate_merged_and_exact_integrated_main_validated_external_rights_review_pending",
+      "policy_review": "Root AGENTS.md and mandatory off-main sovereignty roadmap read; no license grant changed. The merged policy is explicitly non-relicensing and fail-closed.",
+      "prs": [
+        {
+          "number": 262,
+          "url": "https://github.com/Memorithm/NNIS/pull/262",
+          "base_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+          "head_sha": "83d19a736b191ea2b253d461c280e4a99c149c3a",
+          "merge_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+          "status": "merged_target_validated_technical_gate"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/NNIS-262-RT-NNIS-03.json",
+          "candidate_head": "83d19a736b191ea2b253d461c280e4a99c149c3a",
+          "candidate_runs": [
+            38149387485
+          ],
+          "merge_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+          "target_runs": [
+            38149749875
+          ],
+          "roadmap_commit": "3325d4c6c2433cc229e6fef657e793593a52d2bb",
+          "status": "technical_gate_qualified_external_review_open"
+        }
+      ],
+      "last_observed_at": "2026-10-11T17:06:38+02:00",
+      "next_action": "Keep open and blocked on documented contributor-rights, consent, imported-material, dependency-license and notice review in NNIS #150; use the merged fail-closed gate to prevent unreviewed drift."
     },
     {
       "id": "RT-NNIS-05",
@@ -11843,25 +11948,25 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610111505",
-    "acquired_at": "2026-10-11T13:06:00.000Z",
-    "expires_at": "2026-10-11T14:36:00.000Z",
-    "released_at": "2026-10-11T13:21:00.000Z",
-    "status": "released",
+    "owner": "chatgpt-audit-202610111607",
+    "acquired_at": "2026-10-11T14:07:30.000Z",
+    "expires_at": "2026-10-11T15:37:30.000Z",
+    "released_at": null,
+    "status": "active",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-202610111407",
+    "previous_owner": "chatgpt-audit-202610111505",
     "canonical_counts": {
-      "merged_prs": 84,
+      "merged_prs": 85,
       "closed_findings": 78,
       "remaining_findings": 23
     },
     "batch": {
       "number": 2,
-      "merged_prs": 34,
+      "merged_prs": 35,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Acquire a fresh lease, reconcile GitHub state, then select the next autonomous priority-9 finding; keep external blockers open."
+    "next_action": "Record central evidence, release the lease, then continue independent priority-9 findings."
   },
   "capabilities": [
     {
