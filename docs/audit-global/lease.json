@@ -3,8 +3,8 @@
   "owner": "chatgpt-audit-202610110913",
   "acquired_at": "2026-10-11T07:16:00.000Z",
   "expires_at": "2026-10-11T08:46:00.000Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-11T07:20:00.000Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-202610110805",
   "canonical_counts": {
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Remediate RT-SCI-01 on current scirust master with exact-head CI and policy-compliant merge."
+  "next_action": "Qualify scirust PR #1611 on exact head 3bc5a721107d963757274ad854d08ced23f62f84, then complete RT-SCI-01 OTS journal and published-artifact acceptance slices."
 }

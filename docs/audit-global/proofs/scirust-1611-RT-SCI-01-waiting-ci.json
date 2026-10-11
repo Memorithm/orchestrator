@@ -1,0 +1,61 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "RT-SCI-01"
+  ],
+  "repository": "Memorithm/scirust",
+  "audit_source": {
+    "file": "Constats_Memorithm_2026-09-30.json",
+    "source_sha": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+    "source_url": "https://github.com/Memorithm/scirust/blob/6a9287dc3b55576f54275edf3f30d58686e3ed57/scirust-provenance/src/lib.rs#L34-L69",
+    "observed": "Public demonstration root was the implicit CLI verifier default."
+  },
+  "reconciliation": {
+    "default_branch": "master",
+    "verified_base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
+    "status": "gap_confirmed"
+  },
+  "pull_request": {
+    "number": 1611,
+    "url": "https://github.com/Memorithm/scirust/pull/1611",
+    "base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
+    "head_sha": "3bc5a721107d963757274ad854d08ced23f62f84",
+    "changed_files": [
+      "scirust-provenance/src/bin/prov.rs",
+      "scirust-provenance/tests/integration.rs"
+    ],
+    "status": "open_waiting_ci"
+  },
+  "implemented": [
+    "Production CLI verification requires an explicit --root.",
+    "The public demo root is rejected in production mode.",
+    "The demo root is available only through explicit --demo with non-attribution semantics.",
+    "An end-to-end CLI test covers missing root, disguised demo root and explicit demo mode."
+  ],
+  "checks": [
+    {
+      "head_sha": "219946d554d9f9af7ced5d96742c1a3a3a8f64b2",
+      "run_id": 38120773600,
+      "result": "failed_format_only",
+      "detail": "cargo fmt detected one extra blank line; corrected in successor head; this run is not acceptance evidence."
+    },
+    {
+      "head_sha": "3bc5a721107d963757274ad854d08ced23f62f84",
+      "run_id": 38120832114,
+      "observed_at": "2026-10-11T09:20:00+02:00",
+      "results": [
+        "Format Check cargo fmt step succeeded; job cleanup was still in progress.",
+        "COBOL Corpus Integrity succeeded (executed but unrelated to provenance correctness).",
+        "Build & Test (stable, x86_64), Clippy and MSRV 1.89.0 were queued."
+      ],
+      "result": "waiting"
+    }
+  ],
+  "residual": [
+    "Durable non-reusable OTS leaf journal not yet implemented.",
+    "Published-artifact verification record not yet implemented.",
+    "Exact-head functional CI and all required checks not yet complete.",
+    "No merge or finding closure claimed."
+  ],
+  "recorded_at": "2026-10-11T09:20:00+02:00"
+}

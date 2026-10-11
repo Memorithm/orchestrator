@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T09:16:00+02:00",
+  "updated_at": "2026-10-11T09:20:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -6762,16 +6762,38 @@
         "Introduire un mode production qui refuse la racine démo, configuration explicite de racine, journal OTS non réutilisable et vérification d'artefact publié.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+      "status": "waiting_ci",
+      "current_head": "3bc5a721107d963757274ad854d08ced23f62f84",
       "default_branch": "master",
       "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "gap_confirmed_on_master_4250b5b45a21e9ed5ec13d18bd37078fdbbb820b; production-root fail-closed slice implemented on PR head 3bc5a721107d963757274ad854d08ced23f62f84",
+      "policy_review": "Root AGENTS.md, mandatory off-main SCIRUST_ECOSYSTEM_ROADMAP.yaml and PolyForm Noncommercial notices read; provenance ownership retained in scirust; demo limitation not misrepresented as a secret leak.",
+      "prs": [
+        {
+          "number": 1611,
+          "url": "https://github.com/Memorithm/scirust/pull/1611",
+          "base_sha": "4250b5b45a21e9ed5ec13d18bd37078fdbbb820b",
+          "head_sha": "3bc5a721107d963757274ad854d08ced23f62f84",
+          "status": "waiting_exact_head_ci"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/scirust-1611-RT-SCI-01-waiting-ci.json",
+          "candidate_head": "3bc5a721107d963757274ad854d08ced23f62f84",
+          "candidate_runs": [
+            38120832114,
+            38120832037,
+            38120832052,
+            38120832054,
+            38120832107,
+            38120832135
+          ],
+          "status": "waiting_ci"
+        }
+      ],
+      "last_observed_at": "2026-10-11T09:20:00+02:00",
+      "next_action": "Wait for every required check on exact head 3bc5a721107d963757274ad854d08ced23f62f84; fix any failure, then implement and qualify the durable OTS leaf journal plus published-artifact record before closing RT-SCI-01."
     },
     {
       "id": "RT-SCI-02",
@@ -11214,8 +11236,8 @@
     "owner": "chatgpt-audit-202610110913",
     "acquired_at": "2026-10-11T07:16:00.000Z",
     "expires_at": "2026-10-11T08:46:00.000Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-11T07:20:00.000Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610110805",
     "canonical_counts": {
@@ -11229,7 +11251,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Remediate RT-SCI-01 on current scirust master with exact-head CI and policy-compliant merge."
+    "next_action": "Qualify scirust PR #1611 on exact head 3bc5a721107d963757274ad854d08ced23f62f84, then complete RT-SCI-01 OTS journal and published-artifact acceptance slices."
   },
   "capabilities": [
     {
