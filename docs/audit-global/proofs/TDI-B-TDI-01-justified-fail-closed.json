@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "B-TDI-01",
+  "repository": "Memorithm/TDI",
+  "audit_head": "14102d8745b79d41aca821a37c81c90077ea77d2",
+  "qualified_head": "7fc1a25bb4b86b6880e521ef270bce6b0b77ebff",
+  "default_branch": "main",
+  "source_evidence": [
+    {
+      "path": "scripts/tdi_linux_containment.py",
+      "facts": [
+        "trust=untrusted raises ContainmentError",
+        "gpu_memory_max_bytes requests raise ContainmentError",
+        "doctor reports sandbox_qualified=false",
+        "doctor reports gpu_memory_quota_qualified=false"
+      ]
+    },
+    {
+      "path": "scripts/test_tdi_linux_containment.py",
+      "facts": [
+        "source tests assert both fail-closed refusals and capability flags"
+      ]
+    }
+  ],
+  "executed_tests": {
+    "command": "python3 -m unittest -v test_tdi_linux_containment.ContainmentTests.test_profile_is_strict_bounded_and_fail_closed_for_untrusted_or_vram_quota test_tdi_linux_containment.ContainmentTests.test_doctor_is_read_only_structured_and_does_not_claim_sandbox_or_gpu_quota",
+    "result": "2 passed",
+    "environment": "local Python 3; exact source files fetched from qualified_head"
+  },
+  "github_actions": {
+    "head_sha": "7fc1a25bb4b86b6880e521ef270bce6b0b77ebff",
+    "total_workflows": 52,
+    "completed_success": 52
+  },
+  "resolution": "justified_fail_closed_limit",
+  "residual_risk": "No filesystem/network sandbox and no hard GPU-memory quota are qualified. Untrusted workers and hard VRAM quota requests remain rejected.",
+  "scope_guards": [
+    "No protected/final TDI population accessed or executed.",
+    "No hardware qualification claimed.",
+    "No excluded repository modified."
+  ],
+  "observed_at": "2026-10-11T11:21:00+02:00"
+}

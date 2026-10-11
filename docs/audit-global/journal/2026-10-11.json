@@ -157,6 +157,47 @@
       ],
       "external_obstacles": [],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-11T11:21:00+02:00",
+      "observed_session_start": "2026-10-11T11:09:51+02:00",
+      "lease_owner": "chatgpt-audit-202610111118",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 31,
+        "batch_target": 50,
+        "merged_prs": 81,
+        "closed_findings": 74,
+        "remaining_findings": 27,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "B-TDI-01",
+          "repository": "Memorithm/TDI",
+          "status": "resolved",
+          "base_sha": "7fc1a25bb4b86b6880e521ef270bce6b0b77ebff",
+          "head_sha": "7fc1a25bb4b86b6880e521ef270bce6b0b77ebff",
+          "merge_sha": null,
+          "pr": null,
+          "actions": [
+            "Reconciled the audit source against current main.",
+            "Verified the provider still fails closed for untrusted workers and hard VRAM quota requests.",
+            "Verified capability reporting does not claim filesystem/network sandbox or GPU-memory quota.",
+            "Executed the two targeted fail-closed unit tests locally from exact-head source."
+          ],
+          "checks": [
+            "python3 -m unittest -v test_tdi_linux_containment.ContainmentTests.test_profile_is_strict_bounded_and_fail_closed_for_untrusted_or_vram_quota test_tdi_linux_containment.ContainmentTests.test_doctor_is_read_only_structured_and_does_not_claim_sandbox_or_gpu_quota — 2 passed.",
+            "All 52 GitHub Actions workflows associated with current main head 7fc1a25b completed success; this is repository health evidence, not hardware sandbox qualification."
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Closed as a justified fail-closed limitation; keep untrusted and VRAM-hard-limit requests rejected until a separately qualified provider exists.",
+          "proof": "docs/audit-global/proofs/TDI-B-TDI-01-justified-fail-closed.json"
+        }
+      ],
+      "external_obstacles": [],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -164,15 +205,16 @@
     "batch_merged_prs": 31,
     "batch_target": 50,
     "merged_prs": 81,
-    "closed_findings": 73,
-    "remaining_findings": 28,
+    "closed_findings": 74,
+    "remaining_findings": 27,
     "resolved_today": [
       "MEM-12",
       "B-NO-03",
       "RT-SLHA-01",
       "RT-SLHA-05",
       "B-TDI-02",
-      "B-NO-04"
+      "B-NO-04",
+      "B-TDI-01"
     ],
     "waiting_ci": [
       "RT-SCI-01"
@@ -182,7 +224,7 @@
       "PAPERS-01",
       "B-ITD-01"
     ],
-    "next_action": "Complete integrated-master CI 38125552668 for scirust merge e2a51db7edcfa87997e6ceb9087084c080159af8; close RT-SCI-01 only after the remaining Miri job passes.",
+    "next_action": "Continue autonomous priority-9 findings while scirust integrated-master Miri numeric-a completes; preserve all fail-closed containment boundaries.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {
@@ -190,8 +232,8 @@
     "batch_merged_prs": 31,
     "batch_target": 50,
     "merged_prs": 81,
-    "closed_findings": 73,
-    "remaining_findings": 28,
+    "closed_findings": 74,
+    "remaining_findings": 27,
     "backlog": 101
   }
 }

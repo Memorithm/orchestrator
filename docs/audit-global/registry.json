@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T11:15:30+02:00",
+  "updated_at": "2026-10-11T11:21:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 73,
-    "remaining": 28,
+    "closed": 74,
+    "remaining": 27,
     "merged_prs": 81
   },
   "batches": [
@@ -9995,16 +9995,26 @@
         "Garder le refus par défaut; ajouter un provider sandbox séparé et qualifié avant exécution de candidats non fiables. Mutualiser son contrat avec les autres bancs, Hub et Forge sans confondre admission scientifique et admission OS.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "14102d8745b79d41aca821a37c81c90077ea77d2",
+      "status": "resolved",
+      "current_head": "7fc1a25bb4b86b6880e521ef270bce6b0b77ebff",
       "default_branch": "main",
       "audit_head": "14102d8745b79d41aca821a37c81c90077ea77d2",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
+      "head_reconciliation": "The audit limitation remains explicit on current main: the cgroup-v2 provider bounds trusted CPU/RAM/swap/PIDs, rejects trust=untrusted, rejects requested hard VRAM quotas, and reports sandbox_qualified=false and gpu_memory_quota_qualified=false. This is fail-closed behavior, not a complete sandbox claim.",
+      "policy_review": "Root AGENTS.md, mandatory off-main TDI_ECOSYSTEM_ROADMAP.yaml and PolyForm Noncommercial license read. No protected/final population or scientific execution was accessed.",
       "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/TDI-B-TDI-01-justified-fail-closed.json",
+          "head_sha": "7fc1a25bb4b86b6880e521ef270bce6b0b77ebff",
+          "source": "scripts/tdi_linux_containment.py",
+          "tests": "scripts/test_tdi_linux_containment.py",
+          "status": "resolved"
+        }
+      ],
+      "last_observed_at": "2026-10-11T11:21:00+02:00",
+      "next_action": "Closed as a justified fail-closed limitation. Preserve the refusals; any future sandbox provider requires separate qualification and must not inherit scientific admission authority.",
+      "resolution_kind": "justified_fail_closed_limit",
+      "residual_risk": "No filesystem/network sandbox or hard GPU-memory quota is qualified. Untrusted workers and hard VRAM quota requests must remain rejected until a separately qualified provider exists."
     },
     {
       "id": "B-TDI-02",
@@ -11378,17 +11388,17 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610111109",
-    "acquired_at": "2026-10-11T09:12:30.000Z",
-    "expires_at": "2026-10-11T10:42:30.000Z",
-    "released_at": "2026-10-11T09:15:30.000Z",
+    "owner": "chatgpt-audit-202610111118",
+    "acquired_at": "2026-10-11T09:18:30.000Z",
+    "expires_at": "2026-10-11T10:48:30.000Z",
+    "released_at": "2026-10-11T09:21:00.000Z",
     "status": "released",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-202610111006",
+    "previous_owner": "chatgpt-audit-202610111109",
     "canonical_counts": {
       "merged_prs": 81,
-      "closed_findings": 73,
-      "remaining_findings": 28
+      "closed_findings": 74,
+      "remaining_findings": 27
     },
     "batch": {
       "number": 2,
@@ -11396,7 +11406,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Complete integrated-master CI 38125552668 for scirust merge e2a51db7edcfa87997e6ceb9087084c080159af8; close RT-SCI-01 only when the remaining Miri numeric-a job passes."
+    "next_action": "Continue autonomous priority-9 findings while scirust integrated-master Miri numeric-a completes."
   },
   "capabilities": [
     {
