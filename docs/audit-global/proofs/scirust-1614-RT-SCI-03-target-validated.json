@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "id": "RT-SCI-03",
+  "repository": "Memorithm/scirust",
+  "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+  "candidate_head": "1aad1bae5776e673c4b1980327ade23f5f052a20",
+  "merge_sha": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9",
+  "pr": {
+    "number": 1614,
+    "url": "https://github.com/Memorithm/scirust/pull/1614",
+    "base": "master"
+  },
+  "acceptance_state": "resolved",
+  "acceptance": {
+    "matrix": "versioned runtime and contextual-host FLAT/Elastic pins, features and WGPU universes",
+    "fail_closed": "every observed WGPU package must match the single qualified major.minor line; injected future v31 is rejected",
+    "migration_boundary": "future repins require all affected consumers to qualify exact revisions; no runtime repin in this slice"
+  },
+  "candidate_validation": {
+    "runs": [
+      38134398900,
+      38134398944,
+      38134398905,
+      38134398901,
+      38134398895,
+      38134398890
+    ],
+    "ci": {
+      "run": 38134398890,
+      "status": "completed",
+      "conclusion": "success",
+      "jobs_total": 28,
+      "jobs_success": 28
+    },
+    "review": {
+      "threads": 1,
+      "resolved_threads": 1,
+      "correction_shas": [
+        "cc3341163fe604e0474d5fe40bbea3e30b095ed7",
+        "1aad1bae5776e673c4b1980327ade23f5f052a20"
+      ]
+    }
+  },
+  "target_validation": {
+    "head_sha": "39a14bc4c78402d85a174590bda0326afe589ca6",
+    "ancestry": {
+      "status": "ahead",
+      "ahead_by": 1,
+      "behind_by": 0,
+      "merge_base": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9"
+    },
+    "intervening_commit_scope": "scirust-solvers/src/roots/bisection.rs only",
+    "runs": [
+      38137733629,
+      38137733616,
+      38137733641,
+      38137733614,
+      38137733647
+    ],
+    "ci": {
+      "run": 38137733647,
+      "status": "completed",
+      "conclusion": "success",
+      "jobs_total": 28,
+      "jobs_success": 28,
+      "notable": [
+        "stable and nightly workspace tests",
+        "MSRV 1.89",
+        "Miri numeric-a/numeric-b/unsafe-regressions and aggregate",
+        "coverage",
+        "license and security audit",
+        "fuzz smoke",
+        "macOS/Windows/aarch64",
+        "wgpu lavapipe",
+        "determinism fingerprint"
+      ]
+    },
+    "other_push_workflows": "success"
+  },
+  "limitations": [
+    "Lavapipe correctness is not physical GPU performance evidence."
+  ],
+  "observed_at": "2026-10-11T15:07:00+02:00"
+}
