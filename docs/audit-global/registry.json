@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T07:39:00+02:00",
+  "updated_at": "2026-10-11T07:39:54+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 72,
-    "remaining": 29,
-    "merged_prs": 79
+    "closed": 73,
+    "remaining": 28,
+    "merged_prs": 80
   },
   "batches": [
     {
@@ -437,6 +437,11 @@
           "repository": "Memorithm/SLHAv2",
           "number": 132,
           "merge_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d"
+        },
+        {
+          "repository": "Memorithm/NeuralOperator",
+          "number": 36,
+          "merge_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0"
         }
       ]
     }
@@ -6257,6 +6262,67 @@
         }
       ],
       "target_validation": "Exact integrated master SHA passed all five CI jobs: build/test/docs, MSRV 1.89, C++ shim, NUMA and supply-chain policy."
+    },
+    {
+      "repository": "Memorithm/NeuralOperator",
+      "number": 36,
+      "url": "https://github.com/Memorithm/NeuralOperator/pull/36",
+      "base": "main",
+      "base_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+      "head_sha": "bed998e6a997a6fb8269b1932f3b36313deaa58c",
+      "merge_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+      "status": "merged_target_validated",
+      "ids": [
+        "B-NO-04"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-11T05:35:38Z",
+      "merge_method": "merge",
+      "checks": [
+        {
+          "id": 38115103936,
+          "name": "Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "bed998e6a997a6fb8269b1932f3b36313deaa58c",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38115103936",
+          "tests": "unit tests, reproducibility manifest and module compilation"
+        },
+        {
+          "id": 38115103980,
+          "name": "Optional autodiff backend",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "bed998e6a997a6fb8269b1932f3b36313deaa58c",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38115103980",
+          "tests": "effective Torch thread assertions plus full controlled Darcy/PINO/multi-seed benchmark matrix"
+        }
+      ],
+      "target_head": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+      "target_checks": [
+        {
+          "id": 38115286798,
+          "name": "Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38115286798"
+        },
+        {
+          "id": 38115286812,
+          "name": "Optional autodiff backend",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38115286812"
+        }
+      ],
+      "review": {
+        "threads": 1,
+        "resolved_threads": 1,
+        "review_finding": "P2 effective backend thread count recorded and tested on successor exact head"
+      },
+      "target_validation": "Exact integrated main SHA passed unit tests, reproducibility evidence, module compilation, effective Torch thread assertions and the complete optional multi-benchmark matrix."
     }
   ],
   "repository_observations": [
@@ -10340,16 +10406,25 @@
         "Nommer le coût end-to-end et séparer si nécessaire temps kernel/transfert/adaptateur, répétitions et variabilité; conserver les limites hardware et le contexte de threading dans les résultats.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
+      "status": "resolved",
+      "current_head": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
       "default_branch": "main",
       "audit_head": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "merged_target_validated_exact_tree",
+      "policy_review": "root AGENTS.md, PolyForm Noncommercial license and mandatory off-main ecosystem roadmap read; P2 review feedback resolved before guarded merge",
+      "prs": [
+        {
+          "number": 36,
+          "url": "https://github.com/Memorithm/NeuralOperator/pull/36",
+          "head_sha": "bed998e6a997a6fb8269b1932f3b36313deaa58c",
+          "merge_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/NeuralOperator-36-B-NO-04.json"
+      ],
+      "last_observed_at": "2026-10-11T07:39:54+02:00",
+      "next_action": "Closed; retain end-to-end scope, per-call variability, hardware/runtime limits and effective backend thread settings in future timing outputs."
     },
     {
       "id": "B-NL-01",
@@ -11069,22 +11144,22 @@
     "owner": "chatgpt-audit-202610110737",
     "acquired_at": "2026-10-11T05:39:00.744Z",
     "expires_at": "2026-10-11T07:09:00.744Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-11T05:39:54.080Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610110705",
     "canonical_counts": {
-      "merged_prs": 79,
-      "closed_findings": 72,
-      "remaining_findings": 29
+      "merged_prs": 80,
+      "closed_findings": 73,
+      "remaining_findings": 28
     },
     "batch": {
       "number": 2,
-      "merged_prs": 29,
+      "merged_prs": 30,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Persist NeuralOperator #36 exact-head and integrated-main qualification for B-NO-04."
+    "next_action": "Continue autonomous priority-9 remediation; 28 findings remain."
   },
   "capabilities": [
     {

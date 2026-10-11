@@ -1,0 +1,114 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-11T05:39:54.080Z",
+  "finding": {
+    "id": "B-NO-04",
+    "repository": "Memorithm/NeuralOperator",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#B-NO-04",
+    "audit_sha": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce"
+  },
+  "reconciliation": {
+    "base_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+    "initial_candidate_sha": "fc2ff3420a7e24c8f3ee4b8c448191e00399c5a8",
+    "final_candidate_sha": "bed998e6a997a6fb8269b1932f3b36313deaa58c",
+    "integrated_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+    "default_branch": "main"
+  },
+  "change": {
+    "summary": "Inference timing is explicitly end-to-end rather than kernel-only and serializes per-call variability, warmup/conversion boundaries, bounded hardware/thread environment, limitations and effective loaded Torch thread settings.",
+    "files": [
+      "src/neural_operator_reference/benchmarking.py",
+      "tests/test_benchmarking_summary.py",
+      "tests/test_torch_benchmarking.py"
+    ],
+    "backward_compatible_fields": [
+      "repeats",
+      "total_seconds",
+      "seconds_per_call"
+    ]
+  },
+  "review": {
+    "thread": "PRRT_kwDOUij-DM6rKo1A",
+    "finding": "P2: environment variables did not capture effective Torch thread API settings",
+    "resolution_commit": "bed998e6a997a6fb8269b1932f3b36313deaa58c",
+    "resolved": true
+  },
+  "pull_request": {
+    "repository": "Memorithm/NeuralOperator",
+    "number": 36,
+    "url": "https://github.com/Memorithm/NeuralOperator/pull/36",
+    "base": "main",
+    "base_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+    "head_sha": "bed998e6a997a6fb8269b1932f3b36313deaa58c",
+    "merge_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+    "status": "merged_target_validated",
+    "ids": [
+      "B-NO-04"
+    ],
+    "batch": 2,
+    "merged_at": "2026-10-11T05:35:38Z",
+    "merge_method": "merge",
+    "checks": [
+      {
+        "id": 38115103936,
+        "name": "Tests",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "bed998e6a997a6fb8269b1932f3b36313deaa58c",
+        "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38115103936",
+        "tests": "unit tests, reproducibility manifest and module compilation"
+      },
+      {
+        "id": 38115103980,
+        "name": "Optional autodiff backend",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "bed998e6a997a6fb8269b1932f3b36313deaa58c",
+        "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38115103980",
+        "tests": "effective Torch thread assertions plus full controlled Darcy/PINO/multi-seed benchmark matrix"
+      }
+    ],
+    "target_head": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+    "target_checks": [
+      {
+        "id": 38115286798,
+        "name": "Tests",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+        "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38115286798"
+      },
+      {
+        "id": 38115286812,
+        "name": "Optional autodiff backend",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+        "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38115286812"
+      }
+    ],
+    "review": {
+      "threads": 1,
+      "resolved_threads": 1,
+      "review_finding": "P2 effective backend thread count recorded and tested on successor exact head"
+    },
+    "target_validation": "Exact integrated main SHA passed unit tests, reproducibility evidence, module compilation, effective Torch thread assertions and the complete optional multi-benchmark matrix."
+  },
+  "superseded_validation": [
+    {
+      "id": 38114884648,
+      "name": "Tests",
+      "conclusion": "success",
+      "head_sha": "fc2ff3420a7e24c8f3ee4b8c448191e00399c5a8"
+    },
+    {
+      "id": 38114884651,
+      "name": "Optional autodiff backend",
+      "conclusion": "success",
+      "head_sha": "fc2ff3420a7e24c8f3ee4b8c448191e00399c5a8",
+      "note": "not used for merge after review-driven code change"
+    }
+  ],
+  "result": "resolved"
+}
