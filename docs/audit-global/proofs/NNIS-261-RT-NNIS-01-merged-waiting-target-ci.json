@@ -1,0 +1,86 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "id": "RT-NNIS-01",
+  "repository": "Memorithm/NNIS",
+  "pr": 261,
+  "observed_at": "2026-10-11T15:18:00+02:00",
+  "source_audit": {
+    "date": "2026-09-30",
+    "ref": "libfile_6e12d363113c8191886a6e694ff69a13#RT-NNIS-01"
+  },
+  "base": {
+    "branch": "main",
+    "sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01"
+  },
+  "candidate": {
+    "sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
+    "diff": {
+      "files": 3,
+      "additions": 571,
+      "deletions": 3
+    },
+    "workflows": [
+      {
+        "id": 38142284585,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": {
+          "success": 3,
+          "total": 3
+        }
+      },
+      {
+        "id": 38142284556,
+        "name": "SmolLM2 benchmark harness",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": {
+          "success": 1,
+          "total": 1
+        }
+      }
+    ],
+    "local_validation": [
+      "Rust 1.77 cargo fmt --all -- --check: passed",
+      "Rust 1.77 cargo test -p nnis-model execution_transition --lib --locked: 9/9 passed",
+      "Rust 1.77 cargo check -p nnis-model --all-targets --locked: passed",
+      "Rust 1.77 cargo test -p nnis-model --lib --locked: 180/180 passed",
+      "git diff --check: passed"
+    ],
+    "review": {
+      "threads": 1,
+      "resolved": 1,
+      "correction_sha": "373fb0889f6aa9745528ad0d28c4de7380739915"
+    },
+    "merge_gate": {
+      "checks": "4/4 successful",
+      "conflicts": "none",
+      "mergeable": "ready",
+      "expected_head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915"
+    }
+  },
+  "merge": {
+    "method": "squash",
+    "sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+    "merged": true,
+    "merged_at": "2026-10-11T13:16:11Z"
+  },
+  "target": {
+    "branch": "main",
+    "sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+    "workflow": {
+      "id": 38142506246,
+      "name": "CI",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": null
+    }
+  },
+  "boundaries": [
+    "No hot-switch, zero-downtime, latency, availability, quality, physical VRAM residency, or session/KV migration claim.",
+    "Owned-allocation double-residency budgeting is explicit but is not process-wide physical memory evidence.",
+    "Closure is withheld until the integrated-main workflow succeeds."
+  ],
+  "status": "merged_waiting_target_ci"
+}
