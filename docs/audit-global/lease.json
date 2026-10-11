@@ -9,8 +9,8 @@
   "previous_owner": "chatgpt-audit-202610111118",
   "canonical_counts": {
     "merged_prs": 81,
-    "closed_findings": 74,
-    "remaining_findings": 27
+    "closed_findings": 75,
+    "remaining_findings": 26
   },
   "batch": {
     "number": 2,
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Close RT-SCI-01 after the exact integrated master CI succeeded, then continue an independent priority-9 finding."
+  "next_action": "Continue an independent priority-9 finding after closing RT-SCI-01 on exact integrated-master CI."
 }
