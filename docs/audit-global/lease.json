@@ -2,7 +2,7 @@
   "schema_version": 1,
   "owner": "chatgpt-audit-202610111811",
   "acquired_at": "2026-10-11T16:13:00.000Z",
-  "expires_at": "2026-10-11T17:43:00.000Z",
+  "expires_at": "2026-10-11T18:58:00.000Z",
   "released_at": null,
   "status": "active",
   "scope": "audit-global-remediation",
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Reconcile and remediate MEM-19 on SciRust-Verify feat/scirust-verify-foundation."
+  "next_action": "Finalize exact-head review and merge SciRust-Verify PR #39 for MEM-19 only after exact CI/review gates."
 }
