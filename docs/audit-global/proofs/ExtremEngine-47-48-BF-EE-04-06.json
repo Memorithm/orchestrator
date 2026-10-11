@@ -1,0 +1,108 @@
+{
+  "schema": "audit-global-proof-v1",
+  "observed_at": "2026-10-11T17:26:30+02:00",
+  "repository": "Memorithm/ExtremEngine",
+  "ids": [
+    "BF-EE-04",
+    "BF-EE-05",
+    "BF-EE-06"
+  ],
+  "authoritative_branch": "agent/initial-engine",
+  "source_refs": [
+    "libfile_6e12d363113c8191886a6e694ff69a13#BF-EE-04",
+    "libfile_6e12d363113c8191886a6e694ff69a13#BF-EE-05",
+    "libfile_6e12d363113c8191886a6e694ff69a13#BF-EE-06"
+  ],
+  "pull_requests": [
+    {
+      "number": 47,
+      "candidate_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+      "merge_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+      "base_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+      "base": "agent/initial-engine"
+    },
+    {
+      "number": 48,
+      "candidate_sha": "e63bbe76f35481e4d8235b0fc2b044cb8e338774",
+      "merge_sha": "b1e866a728cfdd816891c77ca3a5a25a1d105817",
+      "base_sha": "7590ca5b3c3e01fd336a6df1c67cee60405a63b4",
+      "base": "main"
+    }
+  ],
+  "checks": [
+    {
+      "id": 38150583135,
+      "name": "CI candidate #47",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150583135",
+      "jobs": "5/5: quality/security, Rust 1.87/stable functional suites, macOS/Windows native compile"
+    },
+    {
+      "id": 38150583112,
+      "name": "Mesh Qualification candidate #47",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150583112",
+      "jobs": "1/1 software Vulkan pixel qualification; not hardware performance evidence"
+    },
+    {
+      "id": 38150848029,
+      "name": "CI integrated agent/initial-engine",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150848029",
+      "jobs": "5/5"
+    },
+    {
+      "id": 38150848037,
+      "name": "Mesh Qualification integrated agent/initial-engine",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150848037",
+      "jobs": "1/1 software Vulkan pixel qualification"
+    },
+    {
+      "id": 38150344878,
+      "name": "CI candidate #48",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e63bbe76f35481e4d8235b0fc2b044cb8e338774",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150344878",
+      "jobs": "5/5"
+    },
+    {
+      "id": 38150482866,
+      "name": "CI integrated main",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b1e866a728cfdd816891c77ca3a5a25a1d105817",
+      "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150482866",
+      "jobs": "5/5"
+    }
+  ],
+  "review": {
+    "candidate_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+    "threads": 2,
+    "resolved": 2,
+    "corrections": [
+      "cargo tree checks --target all",
+      "entire normalized reverse graph compared with exact allowlist"
+    ]
+  },
+  "conclusions": {
+    "BF-EE-04": "Authoritative trunk published and historical main instruction removed; both integrated heads passed their applicable CI.",
+    "BF-EE-05": "Current MIT OR Apache-2.0 metadata now has both distributed texts and a provenance/feature inventory. Historical rights are unchanged; future PolyForm convergence remains blocked by issue #33.",
+    "BF-EE-06": "Previously unbounded informational/unmaintained advisory waiver now has owner, issue #46, expiry 2026-12-31 and an exact all-target reverse-graph gate."
+  },
+  "limitations": [
+    "No hardware performance qualification.",
+    "No relicensing or legal-clearance claim.",
+    "RUSTSEC-2026-0192 has no patched version; the bounded waiver is temporary and issue #46 remains open."
+  ],
+  "excluded_repositories_modified": []
+}
