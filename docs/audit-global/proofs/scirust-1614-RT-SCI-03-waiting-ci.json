@@ -26,5 +26,52 @@
     "cargo": "not_available_locally"
   },
   "acceptance_state": "waiting_ci",
-  "observed_at": "2026-10-11T12:16:30+02:00"
+  "observed_at": "2026-10-11T12:20:00+02:00",
+  "roadmap": {
+    "branch": "agent/ecosystem-roadmap",
+    "commit": "60b3a308424e53ac7c5e962f45242b34b1826389"
+  },
+  "exact_head_workflows": [
+    {
+      "id": 38131354796,
+      "name": "FLAT consumer compatibility matrix",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 38131354763,
+      "name": "PR rustfmt diagnostic",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 38131354775,
+      "name": "SOUP symbolic reward",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 38131354896,
+      "name": "FLAT Elastic contextual advisory",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 38131354804,
+      "name": "Workspace Rustdoc",
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "id": 38131354840,
+      "name": "CI",
+      "status": "in_progress",
+      "conclusion": null
+    }
+  ],
+  "review": {
+    "status": "in_progress",
+    "threads": 0,
+    "summary_comment": "https://github.com/Memorithm/scirust/pull/1614#issuecomment-6107979170"
+  }
 }
