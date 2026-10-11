@@ -3,20 +3,20 @@
   "owner": "chatgpt-audit-202610111407",
   "acquired_at": "2026-10-11T12:08:00.000Z",
   "expires_at": "2026-10-11T13:38:00.000Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-11T12:12:00.000Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-202610111305",
   "canonical_counts": {
-    "merged_prs": 82,
+    "merged_prs": 83,
     "closed_findings": 76,
     "remaining_findings": 25
   },
   "batch": {
     "number": 2,
-    "merged_prs": 32,
+    "merged_prs": 33,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Merge scirust PR #1614 only after exact base/head/review/protection revalidation; validate integrated master and close RT-SCI-03."
+  "next_action": "Finish scirust target CI 38137733647 (22/27 green, 5 active), then close RT-SCI-03 only if the current descendant master is fully green; continue RT-NNIS-01 explicit rebuild transaction."
 }
