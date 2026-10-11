@@ -1,0 +1,111 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-11T05:25:15.060Z",
+  "finding": {
+    "id": "RT-SLHA-01",
+    "repository": "Memorithm/SLHAv2",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#RT-SLHA-01",
+    "audit_sha": "1998804c50dae0b7f2c850cf469be8cba437a75c"
+  },
+  "reconciliation": {
+    "base_sha": "35495421c62f33de474f54aaf305fd83fb923363",
+    "candidate_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+    "integrated_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+    "default_branch": "master"
+  },
+  "change": {
+    "summary": "Public and Rust documentation now define LatentSafetyGuard as an experimental geometric outlier signal, not validated prompt-injection detection, with explicit FP/FN, calibration, adversarial-evaluation and sole-barrier limits.",
+    "files": [
+      "README.md",
+      "scirust/src/safety.rs",
+      "docs/SAFETY_FILTER_LIMITATIONS.md"
+    ],
+    "runtime_changed": false
+  },
+  "pull_request": {
+    "repository": "Memorithm/SLHAv2",
+    "number": 132,
+    "url": "https://github.com/Memorithm/SLHAv2/pull/132",
+    "base": "master",
+    "base_sha": "35495421c62f33de474f54aaf305fd83fb923363",
+    "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+    "merge_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+    "status": "merged_target_validated",
+    "ids": [
+      "RT-SLHA-01"
+    ],
+    "batch": 2,
+    "merged_at": "2026-10-11T05:18:15Z",
+    "merge_method": "merge",
+    "checks": [
+      {
+        "id": 38113830786,
+        "name": "llama.cpp real-model SLHA smoke",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+        "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830786"
+      },
+      {
+        "id": 38113830788,
+        "name": "llama.cpp real-model layer localization diagnostic",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+        "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830788"
+      },
+      {
+        "id": 38113830977,
+        "name": "llama.cpp real integration",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+        "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830977"
+      },
+      {
+        "id": 38113830834,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+        "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830834"
+      },
+      {
+        "id": 38113830745,
+        "name": "llama.cpp real-model rank intervention diagnostic",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+        "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830745"
+      },
+      {
+        "id": 38113830784,
+        "name": "llama.cpp real-model ranking diagnostic",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+        "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830784"
+      }
+    ],
+    "target_head": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+    "target_checks": [
+      {
+        "id": 38114352657,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+        "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38114352657",
+        "tests": "build/test/docs, strict Clippy, MSRV 1.89, C++ shim, NUMA, Python binding, AArch64, publish dry-run, cargo audit and cargo deny"
+      }
+    ],
+    "target_validation": "Exact integrated master SHA passed all five CI jobs: build/test/docs, MSRV 1.89, C++ shim, NUMA and supply-chain policy."
+  },
+  "review": {
+    "threads": 0,
+    "reviews": 0,
+    "mergeable": true
+  },
+  "result": "resolved"
+}

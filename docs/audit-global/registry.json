@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T07:19:50+02:00",
+  "updated_at": "2026-10-11T07:25:15+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 68,
-    "remaining": 33,
-    "merged_prs": 77
+    "closed": 72,
+    "remaining": 29,
+    "merged_prs": 79
   },
   "batches": [
     {
@@ -427,6 +427,16 @@
           "repository": "Memorithm/SciCapsule",
           "number": 34,
           "merge_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5"
+        },
+        {
+          "repository": "Memorithm/NeuralOperator",
+          "number": 35,
+          "merge_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893"
+        },
+        {
+          "repository": "Memorithm/SLHAv2",
+          "number": 132,
+          "merge_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d"
         }
       ]
     }
@@ -6112,6 +6122,141 @@
         }
       ],
       "target_validation": "Exact integrated merge tree aecec5605293d39d02a020124bd24c77e7b46126 passed format, stable check, strict Clippy, all-target tests and MSRV 1.89."
+    },
+    {
+      "repository": "Memorithm/NeuralOperator",
+      "number": 35,
+      "url": "https://github.com/Memorithm/NeuralOperator/pull/35",
+      "base": "main",
+      "base_sha": "4d61af7ad0428cc6a5c1793f417c901dd10b1de8",
+      "head_sha": "32451eaacd2658b804a9c68c569c7047f9f0d5d5",
+      "merge_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+      "status": "merged_target_validated",
+      "ids": [
+        "B-NO-03"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-11T05:14:39Z",
+      "merge_method": "merge",
+      "checks": [
+        {
+          "id": 38113949607,
+          "name": "Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "32451eaacd2658b804a9c68c569c7047f9f0d5d5",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38113949607",
+          "tests": "unit tests, reproducibility manifest and module compilation"
+        },
+        {
+          "id": 38113949621,
+          "name": "Optional autodiff backend",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "32451eaacd2658b804a9c68c569c7047f9f0d5d5",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38113949621",
+          "tests": "optional backend tests and the full controlled Darcy/PINO/multi-seed benchmark matrix"
+        }
+      ],
+      "target_head": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+      "target_checks": [
+        {
+          "id": 38114159811,
+          "name": "Tests",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38114159811"
+        },
+        {
+          "id": 38114159785,
+          "name": "Optional autodiff backend",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38114159785"
+        }
+      ],
+      "target_validation": "Exact integrated main SHA passed unit tests, reproducibility evidence, module compilation, optional autodiff tests and the controlled multi-benchmark matrix."
+    },
+    {
+      "repository": "Memorithm/SLHAv2",
+      "number": 132,
+      "url": "https://github.com/Memorithm/SLHAv2/pull/132",
+      "base": "master",
+      "base_sha": "35495421c62f33de474f54aaf305fd83fb923363",
+      "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+      "merge_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+      "status": "merged_target_validated",
+      "ids": [
+        "RT-SLHA-01"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-11T05:18:15Z",
+      "merge_method": "merge",
+      "checks": [
+        {
+          "id": 38113830786,
+          "name": "llama.cpp real-model SLHA smoke",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+          "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830786"
+        },
+        {
+          "id": 38113830788,
+          "name": "llama.cpp real-model layer localization diagnostic",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+          "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830788"
+        },
+        {
+          "id": 38113830977,
+          "name": "llama.cpp real integration",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+          "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830977"
+        },
+        {
+          "id": 38113830834,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+          "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830834"
+        },
+        {
+          "id": 38113830745,
+          "name": "llama.cpp real-model rank intervention diagnostic",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+          "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830745"
+        },
+        {
+          "id": 38113830784,
+          "name": "llama.cpp real-model ranking diagnostic",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+          "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38113830784"
+        }
+      ],
+      "target_head": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+      "target_checks": [
+        {
+          "id": 38114352657,
+          "name": "CI",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+          "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38114352657",
+          "tests": "build/test/docs, strict Clippy, MSRV 1.89, C++ shim, NUMA, Python binding, AArch64, publish dry-run, cargo audit and cargo deny"
+        }
+      ],
+      "target_validation": "Exact integrated master SHA passed all five CI jobs: build/test/docs, MSRV 1.89, C++ shim, NUMA and supply-chain policy."
     }
   ],
   "repository_observations": [
@@ -7299,16 +7444,25 @@
         "Réécrire la présentation en filtre géométrique expérimental; ajouter évaluation adversariale, faux positifs/faux négatifs, calibration et aucun usage comme seule barrière.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "35495421c62f33de474f54aaf305fd83fb923363",
+      "status": "resolved",
+      "current_head": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
       "default_branch": "master",
       "audit_head": "1998804c50dae0b7f2c850cf469be8cba437a75c",
-      "head_reconciliation": "changed_requires_review",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "merged_target_validated_exact_tree",
+      "policy_review": "root AGENTS.md, PolyForm Noncommercial license, ROADMAP and mandatory off-main ecosystem/ML maturity roadmaps read before mutation and merge",
+      "prs": [
+        {
+          "number": 132,
+          "url": "https://github.com/Memorithm/SLHAv2/pull/132",
+          "head_sha": "2f8ca1a868261a70d4ebf7cf3a4dd0e812353386",
+          "merge_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/SLHAv2-132-RT-SLHA-01.json"
+      ],
+      "last_observed_at": "2026-10-11T07:25:15+02:00",
+      "next_action": "Closed; keep the geometric signal experimental and never promote it as validated prompt-injection detection without an adversarial calibration campaign."
     },
     {
       "id": "RT-SLHA-02",
@@ -7349,16 +7503,18 @@
         "Maintenir ces limites dans papier/homepage; promouvoir uniquement une campagne destination réelle appariée.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "35495421c62f33de474f54aaf305fd83fb923363",
+      "status": "resolved",
+      "current_head": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
       "default_branch": "master",
       "audit_head": "1998804c50dae0b7f2c850cf469be8cba437a75c",
-      "head_reconciliation": "changed_requires_review",
-      "policy_review": "pending_target_bootstrap",
+      "head_reconciliation": "resolved_already_on_current_head_with_maintained_limit",
+      "policy_review": "current README, FINDINGS, ROADMAP and mandatory off-main maturity roadmaps rechecked; product claims remain bounded",
       "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "resolution_evidence": [
+        "docs/audit-global/proofs/SLHAv2-RT-SLHA-05-current-head.json"
+      ],
+      "last_observed_at": "2026-10-11T07:25:15+02:00",
+      "next_action": "Closed as a maintained documented limitation; require paired real-destination quality, memory and throughput evidence before any stronger product claim."
     },
     {
       "id": "RT-FLAT-01",
@@ -9572,16 +9728,18 @@
         "Générer les compteurs depuis des enregistrements de merge qualifiés ou mettre à jour le tracker dans une modification dédiée; séparer état du code, CI et autorisation confirmatoire.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "14102d8745b79d41aca821a37c81c90077ea77d2",
+      "status": "resolved",
+      "current_head": "7fc1a25bb4b86b6880e521ef270bce6b0b77ebff",
       "default_branch": "main",
       "audit_head": "14102d8745b79d41aca821a37c81c90077ea77d2",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
+      "head_reconciliation": "resolved_already_on_current_head",
+      "policy_review": "current AGENTS.md and campaign tracker reviewed; no repository mutation required",
       "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "resolution_evidence": [
+        "docs/audit-global/proofs/TDI-B-TDI-02-current-head.json"
+      ],
+      "last_observed_at": "2026-10-11T07:25:15+02:00",
+      "next_action": "Closed; continue deriving campaign counts only from exact-head-qualified merged slice records."
     },
     {
       "id": "B-ITD-01",
@@ -10148,16 +10306,25 @@
         "Attribuer des domaines de seed distincts aux rôles, calculer des identités canoniques des échantillons et rejeter les recouvrements train/validation/test; ajouter un contrôle explicite avec specs identiques.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
+      "status": "resolved",
+      "current_head": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
       "default_branch": "main",
       "audit_head": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "merged_target_validated_exact_tree",
+      "policy_review": "root AGENTS.md, PolyForm Noncommercial license and mandatory off-main ecosystem roadmap read before mutation and merge",
+      "prs": [
+        {
+          "number": 35,
+          "url": "https://github.com/Memorithm/NeuralOperator/pull/35",
+          "head_sha": "32451eaacd2658b804a9c68c569c7047f9f0d5d5",
+          "merge_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893"
+        }
+      ],
+      "resolution_evidence": [
+        "docs/audit-global/proofs/NeuralOperator-35-B-NO-03.json"
+      ],
+      "last_observed_at": "2026-10-11T07:25:15+02:00",
+      "next_action": "Closed; preserve role-separated seeds and canonical input-identity disjointness checks in future split generators."
     },
     {
       "id": "B-NO-04",
@@ -10902,22 +11069,22 @@
     "owner": "chatgpt-audit-202610110705",
     "acquired_at": "2026-10-11T05:19:50.999Z",
     "expires_at": "2026-10-11T06:49:50.999Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-11T05:25:15.060Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610110606",
     "canonical_counts": {
-      "merged_prs": 77,
-      "closed_findings": 68,
-      "remaining_findings": 33
+      "merged_prs": 79,
+      "closed_findings": 72,
+      "remaining_findings": 29
     },
     "batch": {
       "number": 2,
-      "merged_prs": 27,
+      "merged_prs": 29,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Finalize exact integrated validation for NeuralOperator #35 and SLHAv2 #132, then persist proofs and reconciled counts."
+    "next_action": "Continue autonomous priority-9 remediation; 29 findings remain and blocking is not counted as resolution."
   },
   "capabilities": [
     {

@@ -1,0 +1,86 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-11T05:25:15.060Z",
+  "finding": {
+    "id": "B-NO-03",
+    "repository": "Memorithm/NeuralOperator",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#B-NO-03",
+    "audit_sha": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce"
+  },
+  "reconciliation": {
+    "base_sha": "4d61af7ad0428cc6a5c1793f417c901dd10b1de8",
+    "candidate_sha": "32451eaacd2658b804a9c68c569c7047f9f0d5d5",
+    "integrated_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+    "default_branch": "main"
+  },
+  "change": {
+    "summary": "Role seeds must be distinct; canonical SHA-256 input identities reject duplicates within partitions and overlap across train/validation/OOD.",
+    "files": [
+      "src/neural_operator_reference/splits.py",
+      "tests/test_splits.py"
+    ],
+    "tests_added": [
+      "identical specs rejected",
+      "reused seed rejected",
+      "patched generated-input collision rejected"
+    ]
+  },
+  "pull_request": {
+    "repository": "Memorithm/NeuralOperator",
+    "number": 35,
+    "url": "https://github.com/Memorithm/NeuralOperator/pull/35",
+    "base": "main",
+    "base_sha": "4d61af7ad0428cc6a5c1793f417c901dd10b1de8",
+    "head_sha": "32451eaacd2658b804a9c68c569c7047f9f0d5d5",
+    "merge_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+    "status": "merged_target_validated",
+    "ids": [
+      "B-NO-03"
+    ],
+    "batch": 2,
+    "merged_at": "2026-10-11T05:14:39Z",
+    "merge_method": "merge",
+    "checks": [
+      {
+        "id": 38113949607,
+        "name": "Tests",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "32451eaacd2658b804a9c68c569c7047f9f0d5d5",
+        "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38113949607",
+        "tests": "unit tests, reproducibility manifest and module compilation"
+      },
+      {
+        "id": 38113949621,
+        "name": "Optional autodiff backend",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "32451eaacd2658b804a9c68c569c7047f9f0d5d5",
+        "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38113949621",
+        "tests": "optional backend tests and the full controlled Darcy/PINO/multi-seed benchmark matrix"
+      }
+    ],
+    "target_head": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+    "target_checks": [
+      {
+        "id": 38114159811,
+        "name": "Tests",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+        "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38114159811"
+      },
+      {
+        "id": 38114159785,
+        "name": "Optional autodiff backend",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "b4cefaa2e52c50879ba0bab5ba0e94e671a05893",
+        "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38114159785"
+      }
+    ],
+    "target_validation": "Exact integrated main SHA passed unit tests, reproducibility evidence, module compilation, optional autodiff tests and the controlled multi-benchmark matrix."
+  },
+  "result": "resolved"
+}

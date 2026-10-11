@@ -1,0 +1,41 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-11T05:25:15.060Z",
+  "finding": {
+    "id": "RT-SLHA-05",
+    "repository": "Memorithm/SLHAv2",
+    "status": "resolved",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#RT-SLHA-05",
+    "audit_sha": "1998804c50dae0b7f2c850cf469be8cba437a75c"
+  },
+  "reconciliation": {
+    "current_head": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+    "default_branch": "master",
+    "classification": "maintained_documented_limit"
+  },
+  "evidence": [
+    {
+      "path": "README.md",
+      "claim": "end-to-end memory/performance gain is not established and must be measured on the same model, hardware and protocol"
+    },
+    {
+      "path": "FINDINGS.md",
+      "claim": "synthetic results do not establish perplexity, memory or performance claims"
+    }
+  ],
+  "validation": {
+    "integrated_ci": [
+      {
+        "id": 38114352657,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+        "url": "https://github.com/Memorithm/SLHAv2/actions/runs/38114352657",
+        "tests": "build/test/docs, strict Clippy, MSRV 1.89, C++ shim, NUMA, Python binding, AArch64, publish dry-run, cargo audit and cargo deny"
+      }
+    ]
+  },
+  "result": "resolved_without_new_remediation_pr",
+  "residual_rule": "No stronger product claim until a paired real-destination campaign measures quality, memory and throughput together."
+}
