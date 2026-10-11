@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "RT-SCI-03",
+  "repository": "Memorithm/scirust",
+  "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+  "current_master": "b4d18463aa0e0770807754653392128e878a51a7",
+  "pr": {
+    "number": 1614,
+    "url": "https://github.com/Memorithm/scirust/pull/1614",
+    "base": "master",
+    "candidate_head": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c"
+  },
+  "change": [
+    "versioned FLAT consumer matrix",
+    "manifest and lockfile validator",
+    "exact-MSRV Cargo graph workflow",
+    "candidate migration gates and evidence limits"
+  ],
+  "local_validation": {
+    "json": "success",
+    "python_compile": "success",
+    "manifest_lock": "success",
+    "positive_graph_fixture": "success",
+    "negative_wgpu30_fixture": "rejected_as_expected",
+    "diff_check": "success",
+    "cargo": "not_available_locally"
+  },
+  "acceptance_state": "waiting_ci",
+  "observed_at": "2026-10-11T12:16:30+02:00"
+}
