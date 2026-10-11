@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "id": "RT-SLHA-02",
+  "repository": "Memorithm/SLHAv2",
+  "audit_head": "1998804c50dae0b7f2c850cf469be8cba437a75c",
+  "base_sha": "9c93500602f5d1bb0166a6aed9d34ff270674a3d",
+  "pr": {
+    "number": 133,
+    "url": "https://github.com/Memorithm/SLHAv2/pull/133",
+    "candidate_head": "5cfaab721d466892b680eafc99b21d55e078fe2c",
+    "merge_sha": "590a7135f23980ce1aac25d52abf34757b2cabea",
+    "merge_method": "merge"
+  },
+  "change": [
+    "versioned local/external Elastic ownership matrix",
+    "exact manifest, lockfile, feature, MSRV and graph validation",
+    "negative unqualified-origin and forbidden-product-import fixtures",
+    "parity/conformance/rollback and physical-measurement gate before local retirement"
+  ],
+  "exact_head_workflows": [
+    {
+      "id": 38134867170,
+      "name": "Elastic ownership compatibility matrix",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 38134867174,
+      "name": "CI",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": {
+        "success": 5,
+        "total": 5
+      }
+    }
+  ],
+  "target_validation": {
+    "target_branch": "master",
+    "target_head": "590a7135f23980ce1aac25d52abf34757b2cabea",
+    "workflows": [
+      {
+        "id": 38135246978,
+        "name": "Elastic ownership compatibility matrix",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 38135247029,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": {
+          "success": 5,
+          "total": 5
+        }
+      }
+    ]
+  },
+  "review": {
+    "threads": 3,
+    "resolved_threads": 3,
+    "findings": [
+      "P1 record complete elasticxxx feature composition",
+      "P1 accept Cargo tree source display while lockfile keeps full SHA",
+      "P2 reject every documented product family from nested graph"
+    ],
+    "correction_shas": [
+      "7027228",
+      "4a1b446",
+      "5cfaab7"
+    ]
+  },
+  "roadmap": {
+    "branch": "agent/ecosystem-roadmap",
+    "commit": "2f1a44bff7cd82483811c05d557721f009d646bc",
+    "status": "merged_target_validated"
+  },
+  "resolution": "Distinct origins are now explicitly owned and machine checked; no Cargo-collision, runtime-parity, memory, latency, quality or hardware claim is made."
+}
