@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T17:26:30+02:00",
+  "updated_at": "2026-10-11T17:45:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 81,
-    "remaining": 20,
-    "merged_prs": 87
+    "closed": 82,
+    "remaining": 19,
+    "merged_prs": 88
   },
   "batches": [
     {
@@ -477,6 +477,11 @@
           "repository": "Memorithm/ExtremEngine",
           "number": 47,
           "merge_sha": "b517d089e0d1278860a2ab5ea0636b539c049529"
+        },
+        {
+          "repository": "Memorithm/CCOS-Core",
+          "number": 35,
+          "merge_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db"
         }
       ]
     }
@@ -7053,6 +7058,110 @@
         "Issue #33 remains required before any future licensing transition; no relicensing claim.",
         "Issue #46 tracks removal or bounded renewal before 2026-12-31."
       ]
+    },
+    {
+      "repository": "Memorithm/CCOS-Core",
+      "number": 35,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/35",
+      "base": "main",
+      "base_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+      "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+      "merge_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-06"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 38151781835,
+          "name": "CI candidate #35",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781835",
+          "jobs": "11/11: hygiene, fmt, checks, clippy, debug/release tests and doctests, MSRV 1.89, cognitive, docs"
+        },
+        {
+          "id": 38151781916,
+          "name": "Strict BEIR import candidate #35",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781916",
+          "jobs": "1/1: parser regressions, invalid-input refusal, LLM harness"
+        },
+        {
+          "id": 38151781945,
+          "name": "Periodic Security Validation candidate #35",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781945",
+          "jobs": "2/2: bounded fuzz/process policy and two clean builds compared"
+        },
+        {
+          "id": 38151781921,
+          "name": "Security Audit candidate #35",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781921",
+          "jobs": "2/2: dependency/license/SBOM and secret detection"
+        }
+      ],
+      "target_head": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+      "target_checks": [
+        {
+          "id": 38152218215,
+          "name": "CI integrated main",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218215",
+          "jobs": "11/11"
+        },
+        {
+          "id": 38152218267,
+          "name": "Strict BEIR import integrated main",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218267",
+          "jobs": "1/1"
+        },
+        {
+          "id": 38152218153,
+          "name": "Periodic Security Validation integrated main",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218153",
+          "jobs": "2/2"
+        },
+        {
+          "id": 38152218221,
+          "name": "Security Audit integrated main",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+          "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218221",
+          "jobs": "2/2"
+        }
+      ],
+      "review": {
+        "threads": 2,
+        "resolved_threads": 2,
+        "correction_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+        "findings": [
+          "crate README still implied resident memory release",
+          "repeated compress/restore cycles could invent a fresh 128→96 reduction"
+        ]
+      },
+      "limitations": [
+        "No RSS or allocator-release measurement is claimed because the fixed 128-byte slot remains resident.",
+        "Restore fidelity is approximate; no exact proprietary-kernel parity is claimed without owner-approved external vectors."
+      ]
     }
   ],
   "repository_observations": [
@@ -7080,12 +7189,12 @@
       "repository": "Memorithm/CCOS-Core",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
-      "tree_sha": "829ffccfd9ec1f541b01e3a4a24aa8b5068b16c6",
+      "current_head": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+      "tree_sha": "a9a893233522129d96d004aa38701d86c2c8bd65",
       "protected": false,
       "required_checks": [],
       "error": null,
-      "last_observed_at": "2026-10-07T18:00:17.767+02:00"
+      "last_observed_at": "2026-10-11T17:45:00+02:00"
     },
     {
       "repository": "Memorithm/CCOS-Enterprise",
@@ -9112,16 +9221,45 @@
         "Distinguer bytes_logical/bytes_resident et qualité approximative/exacte; mesurer RSS et alloc réellement libérés; exporter contrat de codec et golden vectors avec le kernel propriétaire avant prétendre parité exacte.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+      "status": "resolved",
+      "current_head": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
       "default_branch": "main",
       "audit_head": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "Audit snapshot d56f5f5f was stale. Reproduced on base 445782c5, fixed on candidate f578126f, then revalidated on integrated main b8c03fbf with all four push workflows successful.",
+      "policy_review": "Root AGENTS.md, the mandatory roadmap on agent/ecosystem-roadmap, and repository licensing were reviewed. Resolution preserves deterministic replay and reports logical versus resident bytes honestly; it makes no RSS-release or exact proprietary-kernel parity claim.",
+      "prs": [
+        {
+          "number": 35,
+          "url": "https://github.com/Memorithm/CCOS-Core/pull/35",
+          "base": "main",
+          "base_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+          "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+          "merge_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+          "status": "merged_target_validated"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/CCOS-Core-35-MEM-06.json",
+          "candidate_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+          "candidate_runs": [
+            38151781835,
+            38151781916,
+            38151781945,
+            38151781921
+          ],
+          "merge_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+          "target_runs": [
+            38152218215,
+            38152218267,
+            38152218153,
+            38152218221
+          ],
+          "status": "resolved_on_integrated_main"
+        }
+      ],
+      "last_observed_at": "2026-10-11T17:45:00+02:00",
+      "next_action": "Closed. Preserve the public codec/accounting contract and golden vectors; do not claim RSS release or exact proprietary-kernel parity without external evidence."
     },
     {
       "id": "MEM-07",
@@ -12134,25 +12272,25 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610111708",
-    "acquired_at": "2026-10-11T15:09:30.542Z",
-    "expires_at": "2026-10-11T16:39:30.542Z",
-    "released_at": "2026-10-11T17:26:30+02:00",
-    "status": "released",
+    "owner": "chatgpt-audit-202610111728",
+    "acquired_at": "2026-10-11T15:28:00.000Z",
+    "expires_at": "2026-10-11T16:58:00.000Z",
+    "released_at": null,
+    "status": "active",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-202610111607",
+    "previous_owner": "chatgpt-audit-202610111708",
     "canonical_counts": {
-      "merged_prs": 87,
-      "closed_findings": 81,
-      "remaining_findings": 20
+      "merged_prs": 88,
+      "closed_findings": 82,
+      "remaining_findings": 19
     },
     "batch": {
       "number": 2,
-      "merged_prs": 37,
+      "merged_prs": 38,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Acquire a fresh lease and continue with MEM-06 on CCOS-Core while external blockers remain open."
+    "next_action": "Publish MEM-06 proof and release lease after the central journal update."
   },
   "capabilities": [
     {

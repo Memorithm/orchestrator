@@ -1,0 +1,134 @@
+{
+  "schema": "audit-global-proof-v1",
+  "observed_at": "2026-10-11T17:45:00+02:00",
+  "repository": "Memorithm/CCOS-Core",
+  "ids": [
+    "MEM-06"
+  ],
+  "authoritative_branch": "main",
+  "source_refs": [
+    "libfile_6e12d363113c8191886a6e694ff69a13#MEM-06"
+  ],
+  "audit_sha": "d56f5f5fba96a6d3971d7600e8033c01c1e29657",
+  "pull_requests": [
+    {
+      "number": 35,
+      "url": "https://github.com/Memorithm/CCOS-Core/pull/35",
+      "base": "main",
+      "base_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+      "candidate_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+      "merge_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db"
+    }
+  ],
+  "changed_files": [
+    "README.md",
+    "crates/ccos-memory-runtime/INTEGRATION.md",
+    "crates/ccos-memory-runtime/MEMORY_ACCOUNTING.md",
+    "crates/ccos-memory-runtime/README.md",
+    "crates/ccos-memory-runtime/examples/slha_backend.rs",
+    "crates/ccos-memory-runtime/src/backend/slha_adapter.rs",
+    "crates/ccos-memory-runtime/src/telemetry.rs",
+    "crates/ccos-memory-runtime/tests/test_slha_adapter.rs"
+  ],
+  "checks": [
+    {
+      "id": 38151781835,
+      "name": "CI candidate #35",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781835",
+      "jobs": "11/11: hygiene, fmt, checks, clippy, debug/release tests and doctests, MSRV 1.89, cognitive, docs"
+    },
+    {
+      "id": 38151781916,
+      "name": "Strict BEIR import candidate #35",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781916",
+      "jobs": "1/1: parser regressions, invalid-input refusal, LLM harness"
+    },
+    {
+      "id": 38151781945,
+      "name": "Periodic Security Validation candidate #35",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781945",
+      "jobs": "2/2: bounded fuzz/process policy and two clean builds compared"
+    },
+    {
+      "id": 38151781921,
+      "name": "Security Audit candidate #35",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781921",
+      "jobs": "2/2: dependency/license/SBOM and secret detection"
+    },
+    {
+      "id": 38152218215,
+      "name": "CI integrated main",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218215",
+      "jobs": "11/11"
+    },
+    {
+      "id": 38152218267,
+      "name": "Strict BEIR import integrated main",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218267",
+      "jobs": "1/1"
+    },
+    {
+      "id": 38152218153,
+      "name": "Periodic Security Validation integrated main",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218153",
+      "jobs": "2/2"
+    },
+    {
+      "id": 38152218221,
+      "name": "Security Audit integrated main",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218221",
+      "jobs": "2/2"
+    }
+  ],
+  "review": {
+    "candidate_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+    "threads": 2,
+    "resolved": 2,
+    "corrections": [
+      "Removed the remaining resident-footprint claim from the crate README.",
+      "Derived pre-compression logical bytes from the persistent WARM flag and added a regression proving later cycles report 96→96 instead of inventing 128→96."
+    ]
+  },
+  "acceptance": {
+    "logical_vs_resident": "Telemetry now reports logical and resident bytes independently; the fixed 128-byte slot remains resident and resident_storage_released is false.",
+    "fidelity": "RestoreFidelity is explicit and the SLHA adapter reports Approximate.",
+    "codec_contract": "MEMORY_ACCOUNTING.md publishes the local codec/accounting contract and a deterministic zero golden vector.",
+    "exactness_limit": "No RSS-release or exact proprietary-kernel parity claim is made."
+  },
+  "conclusion": "MEM-06 resolved on integrated main b8c03fbf: accounting is honest and replay-safe, repeated cycles cannot fabricate savings, documentation matches implementation, and all exact-candidate and integrated workflows passed.",
+  "limitations": [
+    "The resident slot is not freed.",
+    "Restore remains approximate.",
+    "External owner-approved vectors are required before claiming exact proprietary-kernel parity."
+  ],
+  "branch_protection": {
+    "protected": false,
+    "required_checks": [],
+    "note": "No gate was bypassed; merge followed full candidate validation and exact integrated-head validation."
+  },
+  "excluded_repositories_modified": []
+}

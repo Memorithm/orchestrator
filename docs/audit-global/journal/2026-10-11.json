@@ -458,15 +458,130 @@
         "BF-EE-05: issue #33 remains external only for any future licensing transition; current distributed surface is reconciled without a relicensing claim."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-11T17:45:00+02:00",
+      "observed_session_start": "2026-10-11T17:08:48+02:00",
+      "lease_owner": "chatgpt-audit-202610111728",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 38,
+        "batch_target": 50,
+        "merged_prs": 88,
+        "closed_findings": 82,
+        "remaining_findings": 19,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "MEM-06",
+          "repository": "Memorithm/CCOS-Core",
+          "status": "resolved",
+          "base_sha": "445782c5bcaaffef51b1d37dfbdf170bb667d2ec",
+          "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+          "merge_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+          "pr": "https://github.com/Memorithm/CCOS-Core/pull/35",
+          "actions": [
+            "Separated logical bytes from resident bytes and made resident release an explicit false fact for the fixed slot.",
+            "Made restore fidelity explicit as approximate; published the codec/accounting contract and deterministic golden vector.",
+            "Corrected both P2 review findings, including the repeated-cycle 96→96 regression."
+          ],
+          "checks": [
+            {
+              "id": 38151781835,
+              "name": "CI candidate #35",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781835",
+              "jobs": "11/11: hygiene, fmt, checks, clippy, debug/release tests and doctests, MSRV 1.89, cognitive, docs"
+            },
+            {
+              "id": 38151781916,
+              "name": "Strict BEIR import candidate #35",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781916",
+              "jobs": "1/1: parser regressions, invalid-input refusal, LLM harness"
+            },
+            {
+              "id": 38151781945,
+              "name": "Periodic Security Validation candidate #35",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781945",
+              "jobs": "2/2: bounded fuzz/process policy and two clean builds compared"
+            },
+            {
+              "id": 38151781921,
+              "name": "Security Audit candidate #35",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "f578126fa770ae9fc1ce7d16da3788200824acbe",
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38151781921",
+              "jobs": "2/2: dependency/license/SBOM and secret detection"
+            },
+            {
+              "id": 38152218215,
+              "name": "CI integrated main",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218215",
+              "jobs": "11/11"
+            },
+            {
+              "id": 38152218267,
+              "name": "Strict BEIR import integrated main",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218267",
+              "jobs": "1/1"
+            },
+            {
+              "id": 38152218153,
+              "name": "Periodic Security Validation integrated main",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218153",
+              "jobs": "2/2"
+            },
+            {
+              "id": 38152218221,
+              "name": "Security Audit integrated main",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db",
+              "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38152218221",
+              "jobs": "2/2"
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Preserve honest accounting and exact-head validations; require external vectors before any exact-kernel parity claim.",
+          "proof": "docs/audit-global/proofs/CCOS-Core-35-MEM-06.json"
+        }
+      ],
+      "external_obstacles": [
+        "MEM-11 remains blocked on the documented external dependency.",
+        "PAPERS-01 remains blocked on the documented external dependency.",
+        "B-ITD-01 remains blocked by the repository policy prohibiting orchestrator self-merge despite green candidate CI.",
+        "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "batch": 2,
-    "batch_merged_prs": 37,
+    "batch_merged_prs": 38,
     "batch_target": 50,
-    "merged_prs": 87,
-    "closed_findings": 81,
-    "remaining_findings": 20,
+    "merged_prs": 88,
+    "closed_findings": 82,
+    "remaining_findings": 19,
     "resolved_today": [
       "RT-SCI-01",
       "RT-SCI-03",
@@ -481,7 +596,8 @@
       "B-NO-04",
       "BF-EE-04",
       "BF-EE-05",
-      "BF-EE-06"
+      "BF-EE-06",
+      "MEM-06"
     ],
     "waiting_ci": [],
     "blocked_external": [
@@ -490,16 +606,16 @@
       "B-ITD-01",
       "RT-NNIS-03"
     ],
-    "next_action": "Continue MEM-06 on CCOS-Core; keep MEM-11, PAPERS-01, B-ITD-01 and RT-NNIS-03 open behind their documented external blockers.",
+    "next_action": "Acquire a fresh lease and continue the next unblocked finding; keep MEM-11, PAPERS-01, B-ITD-01 and RT-NNIS-03 open behind documented external blockers.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {
     "batch": 2,
-    "batch_merged_prs": 37,
+    "batch_merged_prs": 38,
     "batch_target": 50,
-    "merged_prs": 87,
-    "closed_findings": 81,
-    "remaining_findings": 20,
+    "merged_prs": 88,
+    "closed_findings": 82,
+    "remaining_findings": 19,
     "backlog": 101
   }
 }
