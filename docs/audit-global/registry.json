@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T15:20:00+02:00",
+  "updated_at": "2026-10-11T15:21:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -8382,7 +8382,7 @@
       "next_action": "Closed; preserve the fail-closed one-shot contract and requalify before any claim of live migration, physical VRAM residency, latency, availability, quality, or hardware performance.",
       "roadmap_evidence": {
         "branch": "agent/sovereignty-roadmap",
-        "commit": "f8991422528dd22db26ed9ee1cca2ee85e5610bd",
+        "commit": "23b059c95cd05f7809db6e164203f6574e157cb7",
         "status": "merged_target_validated"
       }
     },
@@ -11846,8 +11846,8 @@
     "owner": "chatgpt-audit-202610111505",
     "acquired_at": "2026-10-11T13:06:00.000Z",
     "expires_at": "2026-10-11T14:36:00.000Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-11T13:21:00.000Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610111407",
     "canonical_counts": {
@@ -11861,7 +11861,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Publish final NNIS evidence and journal, then select the next autonomous priority-9 finding."
+    "next_action": "Acquire a fresh lease, reconcile GitHub state, then select the next autonomous priority-9 finding; keep external blockers open."
   },
   "capabilities": [
     {
@@ -11923,5 +11923,10 @@
       ],
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
-  ]
+  ],
+  "last_central_comment": {
+    "issue": 81,
+    "comment_id": 6109449908,
+    "observed_at": "2026-10-11T15:20:00+02:00"
+  }
 }
