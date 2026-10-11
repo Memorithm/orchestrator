@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T12:10:00+02:00",
+  "updated_at": "2026-10-11T12:16:30+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -6507,6 +6507,32 @@
       },
       "target_head": "e2a51db7edcfa87997e6ceb9087084c080159af8",
       "target_validation": "All five observed push workflows succeeded on the exact integrated master SHA; CI 38125552668 completed with 28/28 successful jobs."
+    },
+    {
+      "repository": "Memorithm/scirust",
+      "number": 1614,
+      "url": "https://github.com/Memorithm/scirust/pull/1614",
+      "base": "master",
+      "base_sha": "b4d18463aa0e0770807754653392128e878a51a7",
+      "head_sha": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c",
+      "status": "waiting_ci",
+      "ids": [
+        "RT-SCI-03"
+      ],
+      "batch": 2,
+      "checks": [],
+      "local_validation": [
+        "JSON parse passed",
+        "Python bytecode compilation passed",
+        "manifest and lockfile matrix validation passed",
+        "positive synthetic graph fixtures passed",
+        "negative wgpu v30 fixture rejected",
+        "git diff --check passed"
+      ],
+      "limitations": [
+        "Cargo was unavailable locally; exact feature-resolved graphs require GitHub CI.",
+        "Lavapipe correctness is not physical GPU performance evidence."
+      ]
     }
   ],
   "repository_observations": [
@@ -7013,16 +7039,30 @@
         "Catalogue versionné des couples commit/ABI/features/wgpu; tests consommateurs sur pins actuels et candidat de migration; ne pas repin aveuglément.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
+      "status": "waiting_ci",
+      "current_head": "b4d18463aa0e0770807754653392128e878a51a7",
       "default_branch": "master",
       "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "Audit gap remains on current master: runtime FLAT c74a3806 uses wgpu 0.20 while host contextual FLAT 4529a207 and Elastic 9130a412 are intentionally separate but lacked one versioned, machine-checked consumer matrix. PR #1614 adds the matrix without repinning either runtime.",
+      "policy_review": "Root AGENTS.md, mandatory off-main SCIRUST_ECOSYSTEM_ROADMAP.yaml, ML_MATURITY_5_OF_5.yaml and PolyForm Noncommercial license notices read; SciRust owns its consumer contract while FLAT and ElasticXxx retain product/runtime ownership.",
+      "prs": [
+        {
+          "number": 1614,
+          "url": "https://github.com/Memorithm/scirust/pull/1614",
+          "base_sha": "b4d18463aa0e0770807754653392128e878a51a7",
+          "head_sha": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c",
+          "status": "waiting_ci"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/scirust-1614-RT-SCI-03-waiting-ci.json",
+          "candidate_head": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c",
+          "status": "waiting_ci"
+        }
+      ],
+      "last_observed_at": "2026-10-11T12:16:30+02:00",
+      "next_action": "Wait for all exact-head PR workflows on 9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c; fix any failure, then revalidate base/head/review and merge only when green."
     },
     {
       "id": "RT-TQ-01",
@@ -11421,7 +11461,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Continue an independent priority-9 finding after closing RT-SCI-01 on exact integrated-master CI."
+    "next_action": "Observe exact-head CI for scirust PR #1614 and repair any failure before merge."
   },
   "capabilities": [
     {
