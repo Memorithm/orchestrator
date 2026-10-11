@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-202610111708",
-  "acquired_at": "2026-10-11T15:09:30.542Z",
-  "expires_at": "2026-10-11T16:39:30.542Z",
-  "released_at": "2026-10-11T17:26:30+02:00",
-  "status": "released",
+  "owner": "chatgpt-audit-202610111728",
+  "acquired_at": "2026-10-11T15:28:00.000Z",
+  "expires_at": "2026-10-11T16:58:00.000Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
-  "previous_owner": "chatgpt-audit-202610111607",
+  "previous_owner": "chatgpt-audit-202610111708",
   "canonical_counts": {
     "merged_prs": 87,
     "closed_findings": 81,
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Acquire a fresh lease, reconcile GitHub state, then continue MEM-06 on CCOS-Core while external blockers remain open."
+  "next_action": "Reconcile and remediate MEM-06 on CCOS-Core main."
 }
