@@ -250,15 +250,223 @@
         "RT-NNIS-03 legal/provenance conclusion remains blocked on documented rights, consent, imported-material and dependency-license review; technical enforcement is merged and green."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-11T17:26:30+02:00",
+      "observed_session_start": "2026-10-11T17:08:48+02:00",
+      "lease_owner": "chatgpt-audit-202610111708",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 37,
+        "batch_target": 50,
+        "merged_prs": 87,
+        "closed_findings": 81,
+        "remaining_findings": 20,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "BF-EE-04",
+          "repository": "Memorithm/ExtremEngine",
+          "status": "resolved",
+          "base_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+          "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+          "merge_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+          "pr": "https://github.com/Memorithm/ExtremEngine/pull/47",
+          "actions": [
+            "Published agent/initial-engine as authoritative trunk.",
+            "Removed stale main clone/current-branch guidance through PR #48."
+          ],
+          "checks": [
+            {
+              "id": 38150583135,
+              "name": "CI candidate #47",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150583135",
+              "jobs": "5/5: quality/security, Rust 1.87/stable functional suites, macOS/Windows native compile"
+            },
+            {
+              "id": 38150583112,
+              "name": "Mesh Qualification candidate #47",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150583112",
+              "jobs": "1/1 software Vulkan pixel qualification; not hardware performance evidence"
+            },
+            {
+              "id": 38150848029,
+              "name": "CI integrated agent/initial-engine",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150848029",
+              "jobs": "5/5"
+            },
+            {
+              "id": 38150848037,
+              "name": "Mesh Qualification integrated agent/initial-engine",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150848037",
+              "jobs": "1/1 software Vulkan pixel qualification"
+            },
+            {
+              "id": 38150344878,
+              "name": "CI candidate #48",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "e63bbe76f35481e4d8235b0fc2b044cb8e338774",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150344878",
+              "jobs": "5/5"
+            },
+            {
+              "id": 38150482866,
+              "name": "CI integrated main",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b1e866a728cfdd816891c77ca3a5a25a1d105817",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150482866",
+              "jobs": "5/5"
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Preserve SHA-bound qualification and historical-main notice.",
+          "proof": "docs/audit-global/proofs/ExtremEngine-47-48-BF-EE-04-06.json"
+        },
+        {
+          "id": "BF-EE-05",
+          "repository": "Memorithm/ExtremEngine",
+          "status": "resolved",
+          "base_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+          "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+          "merge_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+          "pr": "https://github.com/Memorithm/ExtremEngine/pull/47",
+          "actions": [
+            "Added complete Apache-2.0 text already advertised by workspace metadata.",
+            "Added licence/provenance/feature inventory without changing historical grants."
+          ],
+          "checks": [
+            {
+              "id": 38150583135,
+              "name": "CI candidate #47",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150583135",
+              "jobs": "5/5: quality/security, Rust 1.87/stable functional suites, macOS/Windows native compile"
+            },
+            {
+              "id": 38150583112,
+              "name": "Mesh Qualification candidate #47",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150583112",
+              "jobs": "1/1 software Vulkan pixel qualification; not hardware performance evidence"
+            },
+            {
+              "id": 38150848029,
+              "name": "CI integrated agent/initial-engine",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150848029",
+              "jobs": "5/5"
+            },
+            {
+              "id": 38150848037,
+              "name": "Mesh Qualification integrated agent/initial-engine",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150848037",
+              "jobs": "1/1 software Vulkan pixel qualification"
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [
+            "Issue #33 remains a gate only for any future PolyForm/relicensing transition."
+          ],
+          "next_action": "Keep future licensing changes blocked on documented rightsholder classification.",
+          "proof": "docs/audit-global/proofs/ExtremEngine-47-48-BF-EE-04-06.json"
+        },
+        {
+          "id": "BF-EE-06",
+          "repository": "Memorithm/ExtremEngine",
+          "status": "resolved",
+          "base_sha": "1eb9b60a21944d980088edbc90f5e6175bb8800e",
+          "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+          "merge_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+          "pr": "https://github.com/Memorithm/ExtremEngine/pull/47",
+          "actions": [
+            "Classified primary RustSec advisory as informational/unmaintained.",
+            "Bound waiver to ExtremEngine maintainers, #46 and 2026-12-31.",
+            "Added fail-closed all-target exact reverse-graph check and fixed both review findings."
+          ],
+          "checks": [
+            {
+              "id": 38150583135,
+              "name": "CI candidate #47",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150583135",
+              "jobs": "5/5: quality/security, Rust 1.87/stable functional suites, macOS/Windows native compile"
+            },
+            {
+              "id": 38150583112,
+              "name": "Mesh Qualification candidate #47",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "a3250d0fa3d21931dad8d1d0ce1d7fd6ff393f33",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150583112",
+              "jobs": "1/1 software Vulkan pixel qualification; not hardware performance evidence"
+            },
+            {
+              "id": 38150848029,
+              "name": "CI integrated agent/initial-engine",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150848029",
+              "jobs": "5/5"
+            },
+            {
+              "id": 38150848037,
+              "name": "Mesh Qualification integrated agent/initial-engine",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b517d089e0d1278860a2ab5ea0636b539c049529",
+              "url": "https://github.com/Memorithm/ExtremEngine/actions/runs/38150848037",
+              "jobs": "1/1 software Vulkan pixel qualification"
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [
+            "ExtremEngine #46 must remove or re-review the waiver before expiry."
+          ],
+          "next_action": "Process #46 before 2026-12-31; do not silently extend the waiver.",
+          "proof": "docs/audit-global/proofs/ExtremEngine-47-48-BF-EE-04-06.json"
+        }
+      ],
+      "external_obstacles": [
+        "BF-EE-05: issue #33 remains external only for any future licensing transition; current distributed surface is reconciled without a relicensing claim."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "batch": 2,
-    "batch_merged_prs": 35,
+    "batch_merged_prs": 37,
     "batch_target": 50,
-    "merged_prs": 85,
-    "closed_findings": 78,
-    "remaining_findings": 23,
+    "merged_prs": 87,
+    "closed_findings": 81,
+    "remaining_findings": 20,
     "resolved_today": [
       "RT-SCI-01",
       "RT-SCI-03",
@@ -270,7 +478,10 @@
       "B-TDI-01",
       "B-TDI-02",
       "B-NO-03",
-      "B-NO-04"
+      "B-NO-04",
+      "BF-EE-04",
+      "BF-EE-05",
+      "BF-EE-06"
     ],
     "waiting_ci": [],
     "blocked_external": [
@@ -279,16 +490,16 @@
       "B-ITD-01",
       "RT-NNIS-03"
     ],
-    "next_action": "Continue autonomous priority-9 findings; keep RT-NNIS-03 open behind its merged fail-closed gate until documented external rights review is complete.",
+    "next_action": "Continue MEM-06 on CCOS-Core; keep MEM-11, PAPERS-01, B-ITD-01 and RT-NNIS-03 open behind their documented external blockers.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {
     "batch": 2,
-    "batch_merged_prs": 35,
+    "batch_merged_prs": 37,
     "batch_target": 50,
-    "merged_prs": 85,
-    "closed_findings": 78,
-    "remaining_findings": 23,
+    "merged_prs": 87,
+    "closed_findings": 81,
+    "remaining_findings": 20,
     "backlog": 101
   }
 }
