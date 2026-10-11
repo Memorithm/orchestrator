@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T15:07:00+02:00",
+  "updated_at": "2026-10-11T15:14:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -6759,6 +6759,71 @@
         ]
       },
       "target_validation": "Exact integrated master SHA passed the ownership matrix and all 5 CI jobs."
+    },
+    {
+      "repository": "Memorithm/NNIS",
+      "number": 261,
+      "url": "https://github.com/Memorithm/NNIS/pull/261",
+      "base": "main",
+      "base_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+      "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
+      "status": "waiting_ci",
+      "ids": [
+        "RT-NNIS-01"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 38142284585,
+          "name": "CI",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
+          "url": "https://github.com/Memorithm/NNIS/actions/runs/38142284585",
+          "jobs": {
+            "success": 0,
+            "total": 3,
+            "active": [
+              "Rust quality (CPU)",
+              "Rust 1.77 check",
+              "PVP WGPU parity (lavapipe)"
+            ]
+          }
+        },
+        {
+          "id": 38142284556,
+          "name": "SmolLM2 benchmark harness",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
+          "url": "https://github.com/Memorithm/NNIS/actions/runs/38142284556",
+          "jobs": {
+            "success": 0,
+            "total": 1,
+            "active": [
+              "harness"
+            ]
+          }
+        }
+      ],
+      "local_validation": [
+        "Rust 1.77 cargo fmt --all -- --check passed",
+        "Rust 1.77 cargo test -p nnis-model execution_transition --lib --locked: 9 passed",
+        "Rust 1.77 cargo check -p nnis-model --all-targets --locked passed",
+        "git diff --check passed"
+      ],
+      "review": {
+        "status": "resolved",
+        "threads": 1,
+        "resolved_threads": 1,
+        "correction_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
+        "finding": "P1 revalidate deserialized/public-field plan invariants before quiescence"
+      },
+      "limitations": [
+        "No session or KV migration claim; schema v1 resets both.",
+        "Owned allocation budget is not physical GPU residency or process-wide VRAM evidence.",
+        "No latency, availability, quality or hot-switch claim."
+      ]
     }
   ],
   "repository_observations": [
@@ -7294,7 +7359,7 @@
       "next_action": "Closed: keep the versioned consumer matrix in CI for future FLAT/Elastic/WGPU pin changes.",
       "roadmap_evidence": {
         "branch": "agent/ecosystem-roadmap",
-        "commit": "pending_final_update",
+        "commit": "d3d7ac49abe144512530f363839bdfe4ebb8f68b",
         "status": "merged_target_validated"
       }
     },
@@ -8229,23 +8294,35 @@
         "Construire adaptateur explicite rebuild avec quiescence, budget mémoire de double résidence, sessions/KV reset/migration, vérification et rollback. Ne pas annoncer hot-switch avant qualification.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "in_progress",
+      "status": "waiting_ci",
       "current_head": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
       "default_branch": "main",
       "audit_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "head_reconciliation": "Gap remains on current main: F16ExecutionTransitionRequirementsV1 correctly fails closed and documents rebuild/source-weight/session/KV boundaries, but no explicit quiesced rebuild coordinator, double-residency budget gate, verified cutover or rollback state machine was found.",
+      "head_reconciliation": "Gap confirmed on main ee48a8ca: the negative F16 transition contract was correct but lacked a transaction coordinator. PR #261 adds quiescence, owned double-residency admission, rebuild, verification, explicit session/KV reset, commit and rollback without claiming hot-switch.",
       "policy_review": "Read complete root AGENTS.md, mandatory agent/sovereignty-roadmap NNIS_SOVEREIGNTY_ROADMAP.yaml and ML_MATURITY_5_OF_5.yaml. Workspace declares MIT; missing root LICENSE is tracked separately as RT-NNIS-03. Roadmap retains no live-transition claim.",
-      "prs": [],
-      "resolution_evidence": [
+      "prs": [
         {
-          "status": "current_head_diagnosis",
-          "head_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
-          "source_blob_sha": "b2ef3d6350d5fdd9dcf13ebe1ec46342f9d5a048",
-          "observation": "Negative capability contract is present and strict; orchestration/cutover/rollback implementation remains absent."
+          "number": 261,
+          "url": "https://github.com/Memorithm/NNIS/pull/261",
+          "base_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+          "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
+          "status": "waiting_ci"
         }
       ],
-      "last_observed_at": "2026-10-11T14:10:00+02:00",
-      "next_action": "Design the smallest NNIS-owned explicit rebuild transaction: quiesce and reject new sessions, preflight double-residency budget, rebuild from source weights, validate target, atomically cut over only after verification, invalidate/reset sessions and KV per declared policy, and rollback without claiming hot-switch."
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/NNIS-261-RT-NNIS-01-waiting-ci.json",
+          "candidate_head": "373fb0889f6aa9745528ad0d28c4de7380739915",
+          "status": "waiting_ci"
+        }
+      ],
+      "last_observed_at": "2026-10-11T15:14:00+02:00",
+      "next_action": "Wait for exact-head CI 38142284585 and SmolLM2 harness 38142284556 on 373fb088; correct any failure, then revalidate mergeability/protection and merge only when all required checks and review threads are green.",
+      "roadmap_evidence": {
+        "branch": "agent/sovereignty-roadmap",
+        "commit": "f8991422528dd22db26ed9ee1cca2ee85e5610bd",
+        "status": "PR_open_exact_head_CI_pending"
+      }
     },
     {
       "id": "RT-NNIS-02",
@@ -11722,7 +11799,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "RT-SCI-03 closed on current descendant master with 28/28 target CI; implement RT-NNIS-01 explicit rebuild transaction."
+    "next_action": "Wait for exact-head CI 38142284585 and SmolLM2 harness 38142284556 on 373fb088; correct any failure, then revalidate mergeability/protection and merge only when all required checks and review threads are green."
   },
   "capabilities": [
     {
