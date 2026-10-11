@@ -1,0 +1,108 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-11T06:23:00.000Z",
+  "finding": {
+    "id": "B-ITD-01",
+    "repository": "Memorithm/itd-simulator",
+    "status": "blocked",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#B-ITD-01",
+    "audit_sha": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f"
+  },
+  "reconciliation": {
+    "observed_main_sha": "5cd8433f4e6c1c28f3fce22732c52640fd3c7d71",
+    "base_sha": "5cd8433f4e6c1c28f3fce22732c52640fd3c7d71",
+    "qualified_candidate_sha": "5ae6953eed38b3586242375d44e23a70c2c82dff",
+    "integrated_sha": null,
+    "default_branch": "main",
+    "result": "gap confirmed; qualified candidate is not integrated"
+  },
+  "change": {
+    "summary": "Full-transaction single-writer lock, unique create-exclusive temporary files, file and directory fsync, cleanup on failed replace, and consistent locked reads.",
+    "files": [
+      "itd_research/campaign_store.py",
+      "tests/test_itd30_campaign_store.py",
+      "MANIFEST.sha256"
+    ],
+    "scientific_boundary": "No V29.18 method, holdout, population, numerical result contract or schema version changed."
+  },
+  "pull_request": {
+    "repository": "Memorithm/itd-simulator",
+    "number": 70,
+    "url": "https://github.com/Memorithm/itd-simulator/pull/70",
+    "base": "main",
+    "base_sha": "5cd8433f4e6c1c28f3fce22732c52640fd3c7d71",
+    "head_sha": "5ae6953eed38b3586242375d44e23a70c2c82dff",
+    "merge_sha": null,
+    "status": "qualified_blocked_by_repository_policy",
+    "ids": [
+      "B-ITD-01"
+    ],
+    "batch": 2,
+    "checks": [
+      {
+        "id": 38117373391,
+        "name": "CI",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "5ae6953eed38b3586242375d44e23a70c2c82dff",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38117373391",
+        "jobs": [
+          {
+            "name": "Commit policy",
+            "job_id": 114404857360,
+            "conclusion": "success"
+          },
+          {
+            "name": "Python 3.11",
+            "job_id": 114404857601,
+            "conclusion": "success"
+          },
+          {
+            "name": "Python 3.12",
+            "job_id": 114404857433,
+            "conclusion": "success"
+          },
+          {
+            "name": "Python 3.13",
+            "job_id": 114404857571,
+            "conclusion": "success"
+          }
+        ],
+        "tests": "compile, Ruff, mypy, complete 29-step V29.18 validation with 748 tests on Python 3.11/3.12/3.13, pip-audit on 3.12, manifest and clean-worktree verification"
+      }
+    ],
+    "review": {
+      "threads": 1,
+      "resolved_threads": 1,
+      "correction_sha": "0bd15c602f8ea883cff6ede578eed0565fcf97ed",
+      "finding": "P1 resume path must use unlocked persistence helpers while outer transaction owns the lock"
+    },
+    "integration_policy": {
+      "source_branch": "agent/ecosystem-roadmap",
+      "source_path": ".agent/ITD_SIMULATOR_ECOSYSTEM_ROADMAP.yaml",
+      "decision": "deny",
+      "rule": "V0 holdout — Orchestrator must not AUTO_MERGE this repository."
+    }
+  },
+  "superseded_validation": [
+    {
+      "id": 38117092516,
+      "head_sha": "65e6dba0b3c9b72ce0927d9bf704fef80eae047a",
+      "conclusion": "failure",
+      "reason": "resume path reacquired its own writer lock; not qualified"
+    },
+    {
+      "id": 38117215220,
+      "head_sha": "0bd15c602f8ea883cff6ede578eed0565fcf97ed",
+      "conclusion": "failure",
+      "reason": "manifest digest mismatch after the code correction; not qualified"
+    }
+  ],
+  "result": "blocked_not_resolved",
+  "counters": {
+    "batch": "30/50",
+    "merged_prs": 80,
+    "closed_findings": 73,
+    "remaining_findings": 28
+  }
+}

@@ -3,8 +3,8 @@
   "owner": "chatgpt-audit-202610110805",
   "acquired_at": "2026-10-11T06:12:00.000Z",
   "expires_at": "2026-10-11T07:42:00.000Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-11T06:23:00.000Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-202610110737",
   "canonical_counts": {
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Qualify itd-simulator #70 on exact head for B-ITD-01; do not auto-merge while repository roadmap denies autonomous merge."
+  "next_action": "Continue independent priority-9 findings; B-ITD-01 remains blocked until repository-policy integration and exact-main validation."
 }
