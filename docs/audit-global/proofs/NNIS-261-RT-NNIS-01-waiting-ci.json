@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "id": "RT-NNIS-01",
+  "repository": "Memorithm/NNIS",
+  "audit_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
+  "current_main": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+  "pr": {
+    "number": 261,
+    "url": "https://github.com/Memorithm/NNIS/pull/261",
+    "base": "main",
+    "base_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+    "candidate_head": "373fb0889f6aa9745528ad0d28c4de7380739915"
+  },
+  "acceptance_state": "waiting_ci",
+  "change": [
+    "one-shot fail-closed F16 rebuild transaction",
+    "owned double-residency memory admission before quiescence",
+    "zero-active-session quiescence and source-weight requirement",
+    "candidate rebuild and verification before session/KV invalidation and commit",
+    "rollback on quiesce, rebuild, verify, reset or commit failure",
+    "strict receipt forbidding live-transition claims",
+    "wire/public-field precondition revalidation before runtime mutation"
+  ],
+  "local_validation": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "toolchain": "Rust 1.77.0",
+      "result": "success"
+    },
+    {
+      "command": "cargo test -p nnis-model execution_transition --lib --locked",
+      "toolchain": "Rust 1.77.0",
+      "result": "9 passed; 0 failed"
+    },
+    {
+      "command": "cargo check -p nnis-model --all-targets --locked",
+      "toolchain": "Rust 1.77.0",
+      "result": "success"
+    },
+    {
+      "command": "git diff --check",
+      "result": "success"
+    }
+  ],
+  "exact_head_workflows": [
+    {
+      "id": 38142284585,
+      "name": "CI",
+      "status": "in_progress",
+      "jobs": {
+        "success": 0,
+        "total": 3,
+        "active": [
+          "Rust quality (CPU)",
+          "Rust 1.77 check",
+          "PVP WGPU parity (lavapipe)"
+        ]
+      }
+    },
+    {
+      "id": 38142284556,
+      "name": "SmolLM2 benchmark harness",
+      "status": "in_progress",
+      "jobs": {
+        "success": 0,
+        "total": 1,
+        "active": [
+          "harness"
+        ]
+      }
+    }
+  ],
+  "review": {
+    "threads": 1,
+    "resolved_threads": 1,
+    "finding": "P1 revalidate deserialized/public-field plan invariants before quiescence",
+    "correction_sha": "373fb0889f6aa9745528ad0d28c4de7380739915"
+  },
+  "roadmap": {
+    "branch": "agent/sovereignty-roadmap",
+    "commit": "f8991422528dd22db26ed9ee1cca2ee85e5610bd"
+  },
+  "limitations": [
+    "No session or KV migration claim; schema v1 resets both.",
+    "Owned allocation accounting is not physical GPU residency or process-wide VRAM evidence.",
+    "No latency, availability, model-quality, hardware or zero-downtime hot-switch claim."
+  ],
+  "observed_at": "2026-10-11T15:14:00+02:00",
+  "next_action": "Qualify exact-head CI and harness, then merge only if all required checks, review and branch gates pass; validate integrated main before closure."
+}
