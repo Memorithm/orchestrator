@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T12:16:30+02:00",
+  "updated_at": "2026-10-11T12:20:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -6520,7 +6520,57 @@
         "RT-SCI-03"
       ],
       "batch": 2,
-      "checks": [],
+      "checks": [
+        {
+          "id": 38131354796,
+          "name": "FLAT consumer compatibility matrix",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38131354796",
+          "tests": "exact MSRV; manifest, lockfile, pins, features and active Cargo graph separation"
+        },
+        {
+          "id": 38131354763,
+          "name": "PR rustfmt diagnostic",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38131354763"
+        },
+        {
+          "id": 38131354775,
+          "name": "SOUP symbolic reward",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38131354775"
+        },
+        {
+          "id": 38131354896,
+          "name": "FLAT Elastic contextual advisory",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38131354896"
+        },
+        {
+          "id": 38131354804,
+          "name": "Workspace Rustdoc",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38131354804"
+        },
+        {
+          "id": 38131354840,
+          "name": "CI",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c",
+          "url": "https://github.com/Memorithm/scirust/actions/runs/38131354840"
+        }
+      ],
       "local_validation": [
         "JSON parse passed",
         "Python bytecode compilation passed",
@@ -6532,7 +6582,12 @@
       "limitations": [
         "Cargo was unavailable locally; exact feature-resolved graphs require GitHub CI.",
         "Lavapipe correctness is not physical GPU performance evidence."
-      ]
+      ],
+      "review": {
+        "status": "in_progress",
+        "threads": 0,
+        "summary_comment": "https://github.com/Memorithm/scirust/pull/1614#issuecomment-6107979170"
+      }
     }
   ],
   "repository_observations": [
@@ -7061,8 +7116,13 @@
           "status": "waiting_ci"
         }
       ],
-      "last_observed_at": "2026-10-11T12:16:30+02:00",
-      "next_action": "Wait for all exact-head PR workflows on 9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c; fix any failure, then revalidate base/head/review and merge only when green."
+      "last_observed_at": "2026-10-11T12:20:00+02:00",
+      "next_action": "Wait for CI 38131354840, Rustdoc 38131354804 and the Codex review on exact head 9dad6896e7162a2ecf9cf7c44b20ccb60c4aab8c; four workflows are already green. Repair any failure before merge.",
+      "roadmap_evidence": {
+        "branch": "agent/ecosystem-roadmap",
+        "commit": "60b3a308424e53ac7c5e962f45242b34b1826389",
+        "status": "candidate_pending_exact_head_ci"
+      }
     },
     {
       "id": "RT-TQ-01",
@@ -11446,8 +11506,8 @@
     "owner": "chatgpt-audit-202610111206",
     "acquired_at": "2026-10-11T10:06:00.000Z",
     "expires_at": "2026-10-11T11:36:00.000Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-11T10:20:00.000Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610111118",
     "canonical_counts": {
@@ -11461,7 +11521,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Observe exact-head CI for scirust PR #1614 and repair any failure before merge."
+    "next_action": "Resume scirust PR #1614: wait for CI, Rustdoc and review on exact head; repair failures; merge only after every gate is green."
   },
   "capabilities": [
     {
