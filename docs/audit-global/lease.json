@@ -3,20 +3,20 @@
   "owner": "chatgpt-audit-202610111607",
   "acquired_at": "2026-10-11T14:07:30.000Z",
   "expires_at": "2026-10-11T15:37:30.000Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-11T15:07:42.000Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-202610111505",
   "canonical_counts": {
-    "merged_prs": 84,
+    "merged_prs": 85,
     "closed_findings": 78,
     "remaining_findings": 23
   },
   "batch": {
     "number": 2,
-    "merged_prs": 34,
+    "merged_prs": 35,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Reconcile RT-NNIS-03 against current main, inventory license/provenance, and create only a rights-preserving correction with executable validation."
+  "next_action": "Acquire a fresh lease, reconcile GitHub state, and continue independent priority-9 findings while RT-NNIS-03 remains externally blocked."
 }
