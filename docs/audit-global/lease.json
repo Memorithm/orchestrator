@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-202610111305",
-  "acquired_at": "2026-10-11T11:08:00.000Z",
-  "expires_at": "2026-10-11T12:38:00.000Z",
-  "released_at": "2026-10-11T11:33:00.000Z",
-  "status": "released",
+  "owner": "chatgpt-audit-202610111407",
+  "acquired_at": "2026-10-11T12:08:00.000Z",
+  "expires_at": "2026-10-11T13:38:00.000Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
-  "previous_owner": "chatgpt-audit-202610111206",
+  "previous_owner": "chatgpt-audit-202610111305",
   "canonical_counts": {
     "merged_prs": 82,
     "closed_findings": 76,
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Resume scirust PR #1614: CI 38134398890 is 25/27 green on exact head 1aad1bae; wait for Miri numeric-a and Code Coverage, then revalidate and merge with expected_head_sha; validate integrated master before closing RT-SCI-03."
+  "next_action": "Merge scirust PR #1614 only after exact base/head/review/protection revalidation; validate integrated master and close RT-SCI-03."
 }
