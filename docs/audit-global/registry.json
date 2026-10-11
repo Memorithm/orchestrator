@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T14:12:00+02:00",
+  "updated_at": "2026-10-11T15:07:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 76,
-    "remaining": 25,
+    "closed": 77,
+    "remaining": 24,
     "merged_prs": 83
   },
   "batches": [
@@ -6525,7 +6525,7 @@
       "base": "master",
       "base_sha": "b4d18463aa0e0770807754653392128e878a51a7",
       "head_sha": "1aad1bae5776e673c4b1980327ade23f5f052a20",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "RT-SCI-03"
       ],
@@ -6678,15 +6678,16 @@
           {
             "id": 38137733647,
             "name": "CI",
-            "status": "in_progress",
-            "conclusion": null,
+            "status": "completed",
+            "conclusion": "success",
             "jobs": {
-              "success": 22,
-              "total": 27,
-              "active": 5
+              "success": 28,
+              "total": 28,
+              "active": 0
             }
           }
-        ]
+        ],
+        "completed_at": "2026-10-11T15:07:00+02:00"
       }
     },
     {
@@ -7264,7 +7265,7 @@
         "Catalogue versionné des couples commit/ABI/features/wgpu; tests consommateurs sur pins actuels et candidat de migration; ne pas repin aveuglément.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "merged_waiting_target_ci",
+      "status": "resolved",
       "current_head": "39a14bc4c78402d85a174590bda0326afe589ca6",
       "default_branch": "master",
       "audit_head": "6a9287dc3b55576f54275edf3f30d58686e3ed57",
@@ -7282,23 +7283,19 @@
       ],
       "resolution_evidence": [
         {
-          "proof": "docs/audit-global/proofs/scirust-1614-RT-SCI-03-waiting-ci.json",
+          "proof": "docs/audit-global/proofs/scirust-1614-RT-SCI-03-target-validated.json",
           "candidate_head": "1aad1bae5776e673c4b1980327ade23f5f052a20",
-          "status": "candidate_exact_head_validated"
-        },
-        {
-          "proof": "docs/audit-global/proofs/scirust-1614-RT-SCI-03-merged-waiting-target-ci.json",
           "merge_sha": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9",
           "target_head": "39a14bc4c78402d85a174590bda0326afe589ca6",
-          "status": "merged_waiting_target_ci"
+          "status": "target_validated"
         }
       ],
-      "last_observed_at": "2026-10-11T14:11:00+02:00",
-      "next_action": "Wait for current descendant master CI 38137733647 to finish (22/27 green, 5 active, no failures), then publish final target proof and close only if all target checks pass.",
+      "last_observed_at": "2026-10-11T15:07:00+02:00",
+      "next_action": "Closed: keep the versioned consumer matrix in CI for future FLAT/Elastic/WGPU pin changes.",
       "roadmap_evidence": {
         "branch": "agent/ecosystem-roadmap",
-        "commit": "57aec00b4f968e3ce6c28167a6b04d878ae1f5b0",
-        "status": "merged_waiting_target_ci"
+        "commit": "pending_final_update",
+        "status": "merged_target_validated"
       }
     },
     {
@@ -11707,16 +11704,17 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610111407",
-    "acquired_at": "2026-10-11T12:08:00.000Z",
-    "expires_at": "2026-10-11T13:38:00.000Z",
-    "released_at": "2026-10-11T12:12:00.000Z",
-    "status": "released",
+    "owner": "chatgpt-audit-202610111505",
+    "acquired_at": "2026-10-11T13:06:00.000Z",
+    "expires_at": "2026-10-11T14:36:00.000Z",
+    "released_at": null,
+    "status": "active",
     "scope": "audit-global-remediation",
+    "previous_owner": "chatgpt-audit-202610111407",
     "canonical_counts": {
       "merged_prs": 83,
-      "closed_findings": 76,
-      "remaining_findings": 25
+      "closed_findings": 77,
+      "remaining_findings": 24
     },
     "batch": {
       "number": 2,
@@ -11724,7 +11722,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Finish scirust target CI 38137733647 (22/27 green, 5 active), then close RT-SCI-03 only if the current descendant master is fully green; continue RT-NNIS-01 explicit rebuild transaction."
+    "next_action": "RT-SCI-03 closed on current descendant master with 28/28 target CI; implement RT-NNIS-01 explicit rebuild transaction."
   },
   "capabilities": [
     {
