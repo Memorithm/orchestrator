@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T17:06:38+02:00",
+  "updated_at": "2026-10-11T17:07:42+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -11951,8 +11951,8 @@
     "owner": "chatgpt-audit-202610111607",
     "acquired_at": "2026-10-11T14:07:30.000Z",
     "expires_at": "2026-10-11T15:37:30.000Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-11T15:07:42.000Z",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610111505",
     "canonical_counts": {
@@ -11966,7 +11966,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Record central evidence, release the lease, then continue independent priority-9 findings."
+    "next_action": "Acquire a fresh lease, reconcile GitHub state, and continue independent priority-9 findings while RT-NNIS-03 remains externally blocked."
   },
   "capabilities": [
     {
@@ -12031,7 +12031,7 @@
   ],
   "last_central_comment": {
     "issue": 81,
-    "comment_id": 6109449908,
-    "observed_at": "2026-10-11T15:20:00+02:00"
+    "comment_id": 6110406764,
+    "observed_at": "2026-10-11T17:06:38+02:00"
   }
 }
