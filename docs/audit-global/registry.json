@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T17:45:00+02:00",
+  "updated_at": "2026-10-11T17:47:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -12275,8 +12275,8 @@
     "owner": "chatgpt-audit-202610111728",
     "acquired_at": "2026-10-11T15:28:00.000Z",
     "expires_at": "2026-10-11T16:58:00.000Z",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-11T17:47:00+02:00",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610111708",
     "canonical_counts": {
@@ -12290,7 +12290,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Publish MEM-06 proof and release lease after the central journal update."
+    "next_action": "Acquire a fresh lease, reconcile GitHub state, then continue the next unblocked finding while external blockers remain open."
   },
   "capabilities": [
     {

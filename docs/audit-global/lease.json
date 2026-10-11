@@ -3,20 +3,20 @@
   "owner": "chatgpt-audit-202610111728",
   "acquired_at": "2026-10-11T15:28:00.000Z",
   "expires_at": "2026-10-11T16:58:00.000Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-11T17:47:00+02:00",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-202610111708",
   "canonical_counts": {
-    "merged_prs": 87,
-    "closed_findings": 81,
-    "remaining_findings": 20
+    "merged_prs": 88,
+    "closed_findings": 82,
+    "remaining_findings": 19
   },
   "batch": {
     "number": 2,
-    "merged_prs": 37,
+    "merged_prs": 38,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Reconcile and remediate MEM-06 on CCOS-Core main."
+  "next_action": "Acquire a fresh lease, reconcile GitHub state, then continue the next unblocked finding while external blockers remain open."
 }
