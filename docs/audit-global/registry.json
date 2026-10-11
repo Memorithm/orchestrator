@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T14:09:00+02:00",
+  "updated_at": "2026-10-11T14:10:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -7297,7 +7297,7 @@
       "next_action": "Wait for current descendant master CI 38137733647 to finish (21/27 green, 6 active, no failures), then publish final target proof and close only if all target checks pass.",
       "roadmap_evidence": {
         "branch": "agent/ecosystem-roadmap",
-        "commit": "pending_current_update",
+        "commit": "57aec00b4f968e3ce6c28167a6b04d878ae1f5b0",
         "status": "merged_waiting_target_ci"
       }
     },
@@ -8232,16 +8232,23 @@
         "Construire adaptateur explicite rebuild avec quiescence, budget mémoire de double résidence, sessions/KV reset/migration, vérification et rollback. Ne pas annoncer hot-switch avant qualification.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
+      "status": "in_progress",
+      "current_head": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
       "default_branch": "main",
       "audit_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
+      "head_reconciliation": "Gap remains on current main: F16ExecutionTransitionRequirementsV1 correctly fails closed and documents rebuild/source-weight/session/KV boundaries, but no explicit quiesced rebuild coordinator, double-residency budget gate, verified cutover or rollback state machine was found.",
+      "policy_review": "Read complete root AGENTS.md, mandatory agent/sovereignty-roadmap NNIS_SOVEREIGNTY_ROADMAP.yaml and ML_MATURITY_5_OF_5.yaml. Workspace declares MIT; missing root LICENSE is tracked separately as RT-NNIS-03. Roadmap retains no live-transition claim.",
       "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "resolution_evidence": [
+        {
+          "status": "current_head_diagnosis",
+          "head_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+          "source_blob_sha": "b2ef3d6350d5fdd9dcf13ebe1ec46342f9d5a048",
+          "observation": "Negative capability contract is present and strict; orchestration/cutover/rollback implementation remains absent."
+        }
+      ],
+      "last_observed_at": "2026-10-11T14:10:00+02:00",
+      "next_action": "Design the smallest NNIS-owned explicit rebuild transaction: quiesce and reject new sessions, preflight double-residency budget, rebuild from source weights, validate target, atomically cut over only after verification, invalidate/reset sessions and KV per declared policy, and rollback without claiming hot-switch."
     },
     {
       "id": "RT-NNIS-02",
@@ -11717,7 +11724,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Wait for current descendant master CI 38137733647 to finish (21/27 green, 6 active, no failures), then publish final target proof and close only if all target checks pass."
+    "next_action": "Finish scirust target CI; in parallel continue RT-NNIS-01 from the verified current-head gap without weakening the existing fail-closed transition contract."
   },
   "capabilities": [
     {
