@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T07:39:54+02:00",
+  "updated_at": "2026-10-11T08:12:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -11141,13 +11141,13 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610110737",
-    "acquired_at": "2026-10-11T05:39:00.744Z",
-    "expires_at": "2026-10-11T07:09:00.744Z",
-    "released_at": "2026-10-11T05:39:54.080Z",
-    "status": "released",
+    "owner": "chatgpt-audit-202610110805",
+    "acquired_at": "2026-10-11T06:12:00.000Z",
+    "expires_at": "2026-10-11T07:42:00.000Z",
+    "released_at": null,
+    "status": "active",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-202610110705",
+    "previous_owner": "chatgpt-audit-202610110737",
     "canonical_counts": {
       "merged_prs": 80,
       "closed_findings": 73,
@@ -11159,7 +11159,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Continue autonomous priority-9 remediation; 28 findings remain."
+    "next_action": "Qualify itd-simulator #70 on exact head for B-ITD-01; do not auto-merge while repository roadmap denies autonomous merge."
   },
   "capabilities": [
     {
