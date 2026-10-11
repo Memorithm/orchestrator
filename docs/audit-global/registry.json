@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T15:14:00+02:00",
+  "updated_at": "2026-10-11T15:18:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 77,
     "remaining": 24,
-    "merged_prs": 83
+    "merged_prs": 84
   },
   "batches": [
     {
@@ -457,6 +457,11 @@
           "repository": "Memorithm/scirust",
           "number": 1614,
           "merge_sha": "ace5cc82013ccd2c60f5d21609d300802e9fe0b9"
+        },
+        {
+          "repository": "Memorithm/NNIS",
+          "number": 261,
+          "merge_sha": "6aa70523d5026c80021943aee38d5f1391a46664"
         }
       ]
     }
@@ -6767,7 +6772,7 @@
       "base": "main",
       "base_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
       "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
-      "status": "waiting_ci",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "RT-NNIS-01"
       ],
@@ -6776,33 +6781,27 @@
         {
           "id": 38142284585,
           "name": "CI",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
           "url": "https://github.com/Memorithm/NNIS/actions/runs/38142284585",
           "jobs": {
-            "success": 0,
+            "success": 3,
             "total": 3,
-            "active": [
-              "Rust quality (CPU)",
-              "Rust 1.77 check",
-              "PVP WGPU parity (lavapipe)"
-            ]
+            "active": []
           }
         },
         {
           "id": 38142284556,
           "name": "SmolLM2 benchmark harness",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
           "url": "https://github.com/Memorithm/NNIS/actions/runs/38142284556",
           "jobs": {
-            "success": 0,
+            "success": 1,
             "total": 1,
-            "active": [
-              "harness"
-            ]
+            "active": []
           }
         }
       ],
@@ -6823,7 +6822,28 @@
         "No session or KV migration claim; schema v1 resets both.",
         "Owned allocation budget is not physical GPU residency or process-wide VRAM evidence.",
         "No latency, availability, quality or hot-switch claim."
-      ]
+      ],
+      "merge_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+      "merged_at": "2026-10-11T13:16:11Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "target_head": "6aa70523d5026c80021943aee38d5f1391a46664",
+      "target_checks": [
+        {
+          "id": 38142506246,
+          "name": "CI",
+          "event": "push",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+          "url": "https://github.com/Memorithm/NNIS/actions/runs/38142506246"
+        }
+      ],
+      "merge_gate": {
+        "ui_status": "ready_to_merge",
+        "checks": "4/4",
+        "conflicts": "none",
+        "observed_at": "2026-10-11T15:18:00+02:00"
+      }
     }
   ],
   "repository_observations": [
@@ -8294,11 +8314,11 @@
         "Construire adaptateur explicite rebuild avec quiescence, budget mémoire de double résidence, sessions/KV reset/migration, vérification et rollback. Ne pas annoncer hot-switch avant qualification.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
-      "current_head": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
+      "status": "waiting_target_ci",
+      "current_head": "6aa70523d5026c80021943aee38d5f1391a46664",
       "default_branch": "main",
       "audit_head": "799a6f650b6e9e0824be83aa0f9984c1dceecbd0",
-      "head_reconciliation": "Gap confirmed on main ee48a8ca: the negative F16 transition contract was correct but lacked a transaction coordinator. PR #261 adds quiescence, owned double-residency admission, rebuild, verification, explicit session/KV reset, commit and rollback without claiming hot-switch.",
+      "head_reconciliation": "Merged by squash on current main 6aa70523d5026c80021943aee38d5f1391a46664 after 4/4 exact-head checks and resolved review; closure waits for integrated-main CI.",
       "policy_review": "Read complete root AGENTS.md, mandatory agent/sovereignty-roadmap NNIS_SOVEREIGNTY_ROADMAP.yaml and ML_MATURITY_5_OF_5.yaml. Workspace declares MIT; missing root LICENSE is tracked separately as RT-NNIS-03. Roadmap retains no live-transition claim.",
       "prs": [
         {
@@ -8306,7 +8326,8 @@
           "url": "https://github.com/Memorithm/NNIS/pull/261",
           "base_sha": "ee48a8caf89fce43307ab4b9798becc0eda9ea01",
           "head_sha": "373fb0889f6aa9745528ad0d28c4de7380739915",
-          "status": "waiting_ci"
+          "merge_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+          "status": "merged_waiting_target_ci"
         }
       ],
       "resolution_evidence": [
@@ -8314,14 +8335,27 @@
           "proof": "docs/audit-global/proofs/NNIS-261-RT-NNIS-01-waiting-ci.json",
           "candidate_head": "373fb0889f6aa9745528ad0d28c4de7380739915",
           "status": "waiting_ci"
+        },
+        {
+          "proof": "docs/audit-global/proofs/NNIS-261-RT-NNIS-01-merged-waiting-target-ci.json",
+          "candidate_head": "373fb0889f6aa9745528ad0d28c4de7380739915",
+          "candidate_runs": [
+            38142284585,
+            38142284556
+          ],
+          "merge_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+          "target_runs": [
+            38142506246
+          ],
+          "status": "waiting_target_ci"
         }
       ],
-      "last_observed_at": "2026-10-11T15:14:00+02:00",
-      "next_action": "Wait for exact-head CI 38142284585 and SmolLM2 harness 38142284556 on 373fb088; correct any failure, then revalidate mergeability/protection and merge only when all required checks and review threads are green.",
+      "last_observed_at": "2026-10-11T15:18:00+02:00",
+      "next_action": "Wait for integrated-main CI run 38142506246 on merge SHA 6aa70523; close only if all target jobs pass.",
       "roadmap_evidence": {
         "branch": "agent/sovereignty-roadmap",
         "commit": "f8991422528dd22db26ed9ee1cca2ee85e5610bd",
-        "status": "PR_open_exact_head_CI_pending"
+        "status": "merged_waiting_target_ci"
       }
     },
     {
@@ -11789,17 +11823,17 @@
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610111407",
     "canonical_counts": {
-      "merged_prs": 83,
+      "merged_prs": 84,
       "closed_findings": 77,
       "remaining_findings": 24
     },
     "batch": {
       "number": 2,
-      "merged_prs": 33,
+      "merged_prs": 34,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Wait for exact-head CI 38142284585 and SmolLM2 harness 38142284556 on 373fb088; correct any failure, then revalidate mergeability/protection and merge only when all required checks and review threads are green."
+    "next_action": "Validate integrated-main CI run 38142506246 on merge SHA 6aa70523; close RT-NNIS-01 only if green."
   },
   "capabilities": [
     {
