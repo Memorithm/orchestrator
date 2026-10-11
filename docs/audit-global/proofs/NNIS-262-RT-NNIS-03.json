@@ -1,0 +1,89 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "id": "RT-NNIS-03",
+  "repository": "Memorithm/NNIS",
+  "finding_status": "blocked_external_after_technical_gate",
+  "finding_scope": "Policy/provenance inconsistency; no conclusion about acquired rights.",
+  "pull_request": {
+    "number": 262,
+    "url": "https://github.com/Memorithm/NNIS/pull/262",
+    "base": "main",
+    "base_sha": "6aa70523d5026c80021943aee38d5f1391a46664",
+    "head_sha": "83d19a736b191ea2b253d461c280e4a99c149c3a",
+    "merge_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+    "merge_method": "squash_with_expected_head_sha",
+    "merged_at": "2026-10-11T15:04:15Z"
+  },
+  "technical_gate": {
+    "behavior": [
+      "Inventories 12 Cargo manifests and workspace license inheritance.",
+      "Inventories 187 locked packages including 176 external packages and pins Cargo.lock SHA-256.",
+      "Fails closed on unreviewed manifest, license metadata, inheritance, notice, evidence-content, declared license-file, or lockfile drift.",
+      "Pins all discovered license/notice paths and declared license-file targets by content identity.",
+      "Rejects symlink, non-regular, outside-repository, and resolution-loop license paths before hashing or dereferencing.",
+      "Keeps automatic_relicensing_ready=false and dependency obligations unresolved_manual_review_required."
+    ],
+    "local_checks": [
+      "python3 tools/audit_license_provenance.py --self-test — passed",
+      "python3 tools/audit_license_provenance.py --root . --policy policy/license-provenance-v1.json — passed",
+      "python3 -m py_compile tools/audit_license_provenance.py — passed",
+      "policy JSON parse — passed",
+      "git diff --check — passed"
+    ]
+  },
+  "candidate_validation": {
+    "run_id": 38149387485,
+    "url": "https://github.com/Memorithm/NNIS/actions/runs/38149387485",
+    "head_sha": "83d19a736b191ea2b253d461c280e4a99c149c3a",
+    "status": "success",
+    "jobs": [
+      "Rust 1.77 check",
+      "Rust quality (CPU)",
+      "PVP WGPU parity (lavapipe)"
+    ]
+  },
+  "review": {
+    "exact_head": "83d19a736b191ea2b253d461c280e4a99c149c3a",
+    "status": "completed_no_major_issues",
+    "findings_corrected": 12,
+    "threads_resolved": 12,
+    "classes": [
+      "exact manifest license/license-file comparison",
+      "evidence content pinning",
+      "TOML parsing",
+      "workspace license-file pinning",
+      "notice family discovery",
+      "root notice content pinning",
+      "nested notice pinning",
+      "declared license-file content pinning",
+      "LICENSES directory discovery",
+      "license-file symlink rejection",
+      "resolution-loop rejection",
+      "discovered notice symlink rejection"
+    ]
+  },
+  "target_validation": {
+    "run_id": 38149749875,
+    "url": "https://github.com/Memorithm/NNIS/actions/runs/38149749875",
+    "head_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+    "status": "success",
+    "jobs": [
+      "Rust 1.77 check",
+      "Rust quality (CPU)",
+      "PVP WGPU parity (lavapipe)"
+    ],
+    "branch_head_verified": true
+  },
+  "roadmap": {
+    "branch": "agent/sovereignty-roadmap",
+    "commit_sha": "3325d4c6c2433cc229e6fef657e793593a52d2bb"
+  },
+  "external_limits": [
+    "Contributor rights and consent are not established by a source-tree scan.",
+    "Imported material and third-party notices require documented manual review.",
+    "Cargo.lock does not provide authoritative dependency license terms.",
+    "No relicensing or legal-clearance claim is made."
+  ],
+  "next_action": "Keep RT-NNIS-03 blocked externally and continue issue #150 rights/provenance review; do not treat the merged technical gate as legal resolution.",
+  "observed_at": "2026-10-11T17:06:38+02:00"
+}
