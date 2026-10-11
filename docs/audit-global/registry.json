@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T17:47:00+02:00",
+  "updated_at": "2026-10-11T17:48:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -12354,8 +12354,8 @@
     }
   ],
   "last_central_comment": {
-    "id": 6110561305,
-    "url": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6110561305",
-    "observed_at": "2026-10-11T17:26:30+02:00"
+    "id": 6110750554,
+    "url": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6110750554",
+    "observed_at": "2026-10-11T17:47:00+02:00"
   }
 }
