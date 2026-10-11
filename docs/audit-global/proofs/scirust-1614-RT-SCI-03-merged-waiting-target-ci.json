@@ -111,9 +111,9 @@
         "name": "CI",
         "status": "in_progress",
         "jobs": {
-          "success": 21,
+          "success": 22,
           "total": 27,
-          "active": 6,
+          "active": 5,
           "failures": 0
         }
       }
@@ -122,6 +122,6 @@
   "limitations": [
     "Lavapipe correctness is not physical GPU performance evidence."
   ],
-  "observed_at": "2026-10-11T14:09:00+02:00",
+  "observed_at": "2026-10-11T14:11:00+02:00",
   "next_action": "Close only after all jobs in current descendant master CI 38137733647 succeed."
 }
