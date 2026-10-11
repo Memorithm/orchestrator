@@ -1,22 +1,22 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-202610071812",
-  "acquired_at": "2026-10-07T16:12:01.000Z",
-  "expires_at": "2026-10-07T17:42:01.000Z",
+  "owner": "chatgpt-audit-202610110606",
+  "acquired_at": "2026-10-11T04:12:53.000Z",
+  "expires_at": "2026-10-11T05:42:53.000Z",
   "released_at": null,
   "status": "active",
   "scope": "audit-global-remediation",
-  "previous_owner": "chatgpt-audit-202610071735",
+  "previous_owner": "chatgpt-audit-202610071812",
   "canonical_counts": {
-    "merged_prs": 75,
+    "merged_prs": 76,
     "closed_findings": 67,
     "remaining_findings": 34
   },
   "batch": {
     "number": 2,
-    "merged_prs": 25,
+    "merged_prs": 26,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Implement confirmed MEM-12 trust lifecycle with current SciCapsule HEAD verification and exact-head validation."
+  "next_action": "Qualify SciCapsule PR #34 on exact head f2d5fd4a05c8b4287fb15b560900c45c631c09df; keep MEM-12 open until corrective merge and integrated-main validation."
 }
