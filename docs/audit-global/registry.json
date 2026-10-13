@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T19:12:31+02:00",
+  "updated_at": "2026-10-13T19:14:23+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -8806,6 +8806,66 @@
       "batch": null,
       "checks": [
         {
+          "id": 115432510622,
+          "name": "MSRV 1.85",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510622",
+          "started_at": "2026-10-13T17:12:05Z",
+          "completed_at": "2026-10-13T17:12:22Z"
+        },
+        {
+          "id": 115432510507,
+          "name": "supply-chain",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510507",
+          "started_at": "2026-10-13T17:12:05Z",
+          "completed_at": null
+        },
+        {
+          "id": 115432510413,
+          "name": "rustdoc",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510413",
+          "started_at": "2026-10-13T17:12:04Z",
+          "completed_at": "2026-10-13T17:12:17Z"
+        },
+        {
+          "id": 115432510309,
+          "name": "miri",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510309",
+          "started_at": "2026-10-13T17:12:04Z",
+          "completed_at": null
+        },
+        {
+          "id": 115432510264,
+          "name": "fuzz-smoke",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510264",
+          "started_at": "2026-10-13T17:12:05Z",
+          "completed_at": null
+        },
+        {
+          "id": 115432509918,
+          "name": "build/test",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432509918",
+          "started_at": "2026-10-13T17:12:04Z",
+          "completed_at": "2026-10-13T17:12:38Z"
+        },
+        {
           "id": 115432011976,
           "name": "miri",
           "status": "in_progress",
@@ -11877,6 +11937,42 @@
           "follow_up_head": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
           "follow_up_checks": [
             {
+              "name": "MSRV 1.85",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510622"
+            },
+            {
+              "name": "supply-chain",
+              "status": "in_progress",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510507"
+            },
+            {
+              "name": "rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510413"
+            },
+            {
+              "name": "miri",
+              "status": "in_progress",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510309"
+            },
+            {
+              "name": "fuzz-smoke",
+              "status": "in_progress",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510264"
+            },
+            {
+              "name": "build/test",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432509918"
+            },
+            {
               "name": "miri",
               "status": "in_progress",
               "conclusion": null,
@@ -11916,7 +12012,7 @@
           "status": "integrated_contract_green_waiting_full_sha_action_pin_followup"
         }
       ],
-      "last_observed_at": "2026-10-13T19:12:31+02:00",
+      "last_observed_at": "2026-10-13T19:14:23+02:00",
       "next_action": "Wait for all six exact-head checks and review on ADA #61; merge only with expected_head_sha, then rerun and verify the six gates on the integrated main SHA before closing.",
       "roadmap": {
         "branch": "agent/ecosystem-roadmap",
@@ -14498,12 +14594,14 @@
   ],
   "lease": {
     "schema": "memorithm-remediation-lease.v1",
-    "status": "active",
+    "status": "released",
     "owner": "chatgpt-audit-20261013-1907",
     "acquired_at": "2026-10-13T19:08:25+02:00",
     "expires_at": "2026-10-13T19:37:00+02:00",
     "base_sha": "b221166b4852570de0e10bc33f6f96443a9f8d32",
-    "purpose": "Reconcile exact integrated ADA Miri and continue remaining global-audit backlog"
+    "purpose": "Reconcile exact integrated ADA Miri and continue remaining global-audit backlog",
+    "released_at": "2026-10-13T19:14:23+02:00",
+    "release_reason": "ADA #60 integrated Miri reconciled; #61 full-SHA action-pin follow-up created and exact-head CI recorded. Remaining work is waiting on non-transient CI or separately documented dependencies."
   },
   "capabilities": [
     {
@@ -14569,5 +14667,5 @@
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
   ],
-  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6150408472"
+  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6151045563"
 }

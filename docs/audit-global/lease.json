@@ -1,9 +1,11 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "chatgpt-audit-20261013-1907",
   "acquired_at": "2026-10-13T19:08:25+02:00",
   "expires_at": "2026-10-13T19:37:00+02:00",
   "base_sha": "b221166b4852570de0e10bc33f6f96443a9f8d32",
-  "purpose": "Reconcile exact integrated ADA Miri and continue remaining global-audit backlog"
+  "purpose": "Reconcile exact integrated ADA Miri and continue remaining global-audit backlog",
+  "released_at": "2026-10-13T19:14:23+02:00",
+  "release_reason": "ADA #60 integrated Miri reconciled; #61 full-SHA action-pin follow-up created and exact-head CI recorded. Remaining work is waiting on non-transient CI or separately documented dependencies."
 }

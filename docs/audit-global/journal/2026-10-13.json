@@ -2154,7 +2154,7 @@
       "excluded_repositories_modified": []
     },
     {
-      "timestamp": "2026-10-13T19:12:31+02:00",
+      "timestamp": "2026-10-13T19:14:23+02:00",
       "event": "integrated_ADA_Miri_success_and_full_SHA_action_pin_followup",
       "counts": {
         "batch": 3,
@@ -2180,6 +2180,66 @@
           ],
           "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
           "checks": [
+            {
+              "id": 115432510622,
+              "name": "MSRV 1.85",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510622",
+              "started_at": "2026-10-13T17:12:05Z",
+              "completed_at": "2026-10-13T17:12:22Z"
+            },
+            {
+              "id": 115432510507,
+              "name": "supply-chain",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510507",
+              "started_at": "2026-10-13T17:12:05Z",
+              "completed_at": null
+            },
+            {
+              "id": 115432510413,
+              "name": "rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510413",
+              "started_at": "2026-10-13T17:12:04Z",
+              "completed_at": "2026-10-13T17:12:17Z"
+            },
+            {
+              "id": 115432510309,
+              "name": "miri",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510309",
+              "started_at": "2026-10-13T17:12:04Z",
+              "completed_at": null
+            },
+            {
+              "id": 115432510264,
+              "name": "fuzz-smoke",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432510264",
+              "started_at": "2026-10-13T17:12:05Z",
+              "completed_at": null
+            },
+            {
+              "id": 115432509918,
+              "name": "build/test",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436510146/job/115432509918",
+              "started_at": "2026-10-13T17:12:04Z",
+              "completed_at": "2026-10-13T17:12:38Z"
+            },
             {
               "id": 115432011976,
               "name": "miri",
@@ -2241,7 +2301,7 @@
               "completed_at": null
             }
           ],
-          "reason_for_wait": "PR #61 exact-head Miri, fuzz and supply-chain checks are still running; no prior-SHA green is accepted.",
+          "reason_for_wait": "Both push and pull_request suites are active on the exact same #61 HEAD; three jobs per suite are green while Miri, fuzz-smoke and supply-chain continue.",
           "dependencies": [],
           "next_action": "Wait for all six exact-head checks and review on ADA #61; merge only with expected_head_sha, then rerun and verify the six gates on the integrated main SHA before closing."
         },
