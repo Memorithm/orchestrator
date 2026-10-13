@@ -1,9 +1,10 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "chatgpt-audit-20261013T1505",
   "acquired_at": "2026-10-13T15:08:00+02:00",
   "expires_at": "2026-10-13T15:53:00+02:00",
   "base_sha": "da5a81a305a15e12fc77288101c121472c7c692b",
-  "purpose": "COG-ADA-001 guarded merge and integrated validation"
+  "purpose": "COG-ADA-001 guarded merge and integrated validation",
+  "released_at": "2026-10-13T15:19:00+02:00"
 }
