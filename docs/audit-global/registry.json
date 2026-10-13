@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T15:12:00+02:00",
+  "updated_at": "2026-10-13T15:16:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -7953,8 +7953,8 @@
         {
           "id": 38402316537,
           "name": "Native AArch64 qualification integrated",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "7958439630ff5e092d32ac8d618411785d885d59",
           "url": "https://github.com/Memorithm/ADA/actions/runs/38402316537"
         },
@@ -7964,7 +7964,19 @@
           "status": "in_progress",
           "conclusion": null,
           "head_sha": "7958439630ff5e092d32ac8d618411785d885d59",
-          "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367"
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367",
+          "jobs": {
+            "success": [
+              "build/test",
+              "MSRV 1.85",
+              "rustdoc"
+            ],
+            "in_progress": [
+              "fuzz-smoke",
+              "miri",
+              "supply-chain"
+            ]
+          }
         }
       ],
       "review": {
@@ -7980,6 +7992,14 @@
           "digest": "sha256:0f60e983f7609e10bd9d80a3afd426b5f985b3a1ad2c4ba908667f26c3bfff87",
           "evidence_sha256": "44ea6552f4eadbb818ca68d2a3dbe384364ff89e827fbc77c1fe6e11a54aab58",
           "verification": "relative SHA-256 manifest and Ed25519 signature verified; exact source, Jetson AGX Thor, ARM64/aarch64 and ASIMD asserted"
+        },
+        {
+          "scope": "integrated",
+          "id": 11815467594,
+          "name": "ada-native-aarch64-7958439630ff5e092d32ac8d618411785d885d59",
+          "digest": "sha256:d69f26b659a4cfcd675ecf13cc9448dbca58ae8a5823a6a68499f28c4d6df1d8",
+          "evidence_sha256": "30d8d1387bbc462de9fbda9e2498a09c20d6a6c14bcb742847076c29a28d6c25",
+          "verification": "archive digest, relative SHA-256 manifest, Ed25519 signature and exact source/run identity verified; Jetson AGX Thor ARM64/aarch64 with ASIMD; Rust 1.85 locked native NEON/scalar-tail tests passed"
         }
       ],
       "limitations": [
@@ -10832,11 +10852,17 @@
           "integrated_runs": [
             38402316537,
             38402316367
-          ]
+          ],
+          "integrated_native_artifact": {
+            "id": 11815467594,
+            "digest": "sha256:d69f26b659a4cfcd675ecf13cc9448dbca58ae8a5823a6a68499f28c4d6df1d8",
+            "evidence_sha256": "30d8d1387bbc462de9fbda9e2498a09c20d6a6c14bcb742847076c29a28d6c25",
+            "verified": true
+          }
         }
       ],
-      "last_observed_at": "2026-10-13T15:12:00+02:00",
-      "next_action": "Wait for integrated runs 38402316537 and 38402316367. Verify every job on main@79584396 and download/verify the exact integrated signed native artifact before closing."
+      "last_observed_at": "2026-10-13T15:16:00+02:00",
+      "next_action": "Wait for remaining jobs in integrated generic CI 38402316367, including Miri. Native integrated run and signed artifact are already verified."
     },
     {
       "id": "COG-ADA-002",

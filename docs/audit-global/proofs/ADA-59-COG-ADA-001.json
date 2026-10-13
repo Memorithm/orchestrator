@@ -6,7 +6,7 @@
   "repository": "Memorithm/ADA",
   "pr": 59,
   "status": "merged_waiting_target_validation",
-  "observed_at": "2026-10-13T15:12:00+02:00",
+  "observed_at": "2026-10-13T15:16:00+02:00",
   "base": {
     "branch": "main",
     "sha": "7034491cc408ff77820589957349aa4fad1ee097"
@@ -83,7 +83,7 @@
       "asimd": true
     }
   },
-  "acceptance_state": "Not resolved: PR merged after all exact-head candidate gates succeeded; integrated main workflows and the exact integrated signed native artifact remain mandatory.",
+  "acceptance_state": "Not resolved: integrated native qualification and signed artifact are verified; integrated generic CI remains in progress.",
   "limitations": [
     "Correctness qualification only; no performance, GPU, production-runtime, adoption or novelty claim."
   ],
@@ -98,17 +98,57 @@
     "checks": {
       "native": {
         "run_id": 38402316537,
-        "status": "in_progress",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "url": "https://github.com/Memorithm/ADA/actions/runs/38402316537"
       },
       "generic": {
         "run_id": 38402316367,
         "status": "in_progress",
         "conclusion": null,
-        "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367"
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367",
+        "jobs": {
+          "success": [
+            "build/test",
+            "MSRV 1.85",
+            "rustdoc"
+          ],
+          "in_progress": [
+            "fuzz-smoke",
+            "miri",
+            "supply-chain"
+          ]
+        }
       }
     },
-    "artifact": null
+    "artifact": {
+      "id": 11815467594,
+      "name": "ada-native-aarch64-7958439630ff5e092d32ac8d618411785d885d59",
+      "digest": "sha256:d69f26b659a4cfcd675ecf13cc9448dbca58ae8a5823a6a68499f28c4d6df1d8",
+      "archive_sha256_verified": true,
+      "manifest_sha256_verified": true,
+      "ed25519_signature_verified": true,
+      "source_sha_verified": true,
+      "evidence_sha256": "30d8d1387bbc462de9fbda9e2498a09c20d6a6c14bcb742847076c29a28d6c25",
+      "source_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+      "run_id": "38402316537",
+      "runner": {
+        "arch": "ARM64",
+        "machine": "aarch64",
+        "model": "NVIDIA Jetson AGX Thor Developer Kit",
+        "asimd": true
+      },
+      "toolchain": {
+        "rustc": "1.85.0",
+        "cargo": "1.85.0",
+        "locked": true
+      },
+      "claims": {
+        "native_aarch64_qualified": true,
+        "neon_path_executed": true,
+        "physical_performance_claim": false,
+        "gpu_claim": false
+      }
+    }
   }
 }

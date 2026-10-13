@@ -958,7 +958,7 @@
       "excluded_repositories_modified": []
     },
     {
-      "timestamp": "2026-10-13T15:12:00+02:00",
+      "timestamp": "2026-10-13T15:16:00+02:00",
       "observed_session_start": "2026-10-13T15:05:18+02:00",
       "batch": {
         "number": 2,
@@ -983,7 +983,8 @@
             "Confirmed candidate Miri success and all six generic CI jobs successful on the exact PR head.",
             "Rechecked the unchanged main base, exact PR head, mergeability, review threads and both exact-head workflow conclusions.",
             "Merged PR #59 by squash with expected_head_sha 82e76d8a1f2f553234a86170ce7cbaaea25ad7e7.",
-            "Verified main now points exactly to 7958439630ff5e092d32ac8d618411785d885d59 and observed both required integrated workflows start."
+            "Verified main now points exactly to 7958439630ff5e092d32ac8d618411785d885d59 and observed both required integrated workflows start.",
+            "Completed the integrated native AArch64 run and downloaded its artifact; verified the GitHub archive digest, portable SHA-256 manifest, Ed25519 signature, exact source/run identity, Jetson AGX Thor ARM64/aarch64/ASIMD provenance, Rust 1.85 toolchain and passed native NEON/scalar-tail test evidence."
           ],
           "checks": [
             {
@@ -1005,8 +1006,8 @@
             {
               "id": 38402316537,
               "name": "Native AArch64 qualification integrated",
-              "status": "in_progress",
-              "conclusion": null,
+              "status": "completed",
+              "conclusion": "success",
               "head_sha": "7958439630ff5e092d32ac8d618411785d885d59",
               "url": "https://github.com/Memorithm/ADA/actions/runs/38402316537"
             },
@@ -1016,12 +1017,24 @@
               "status": "in_progress",
               "conclusion": null,
               "head_sha": "7958439630ff5e092d32ac8d618411785d885d59",
-              "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367"
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367",
+              "jobs": {
+                "success": [
+                  "build/test",
+                  "MSRV 1.85",
+                  "rustdoc"
+                ],
+                "in_progress": [
+                  "fuzz-smoke",
+                  "miri",
+                  "supply-chain"
+                ]
+              }
             }
           ],
-          "reason_for_wait": "The merge is counted once, but COG-ADA-001 remains open until both workflows complete on the integrated main SHA and the new native artifact is cryptographically verified.",
+          "reason_for_wait": "Integrated native qualification and artifact are verified. The finding remains open solely because integrated generic CI still has fuzz-smoke, Miri and supply-chain in progress.",
           "dependencies": [],
-          "next_action": "Reconcile integrated runs 38402316537 and 38402316367; download and verify the exact integrated native artifact; close only if all evidence succeeds.",
+          "next_action": "Reconcile integrated generic run 38402316367 and close only if all six jobs succeed.",
           "proof": "docs/audit-global/proofs/ADA-59-COG-ADA-001.json"
         }
       ],
@@ -1056,7 +1069,7 @@
       "B-ITD-01",
       "RT-NNIS-03"
     ],
-    "next_action": "Validate ADA main@79584396 via integrated native and generic workflows, then cryptographically verify the exact integrated native artifact.",
+    "next_action": "Reconcile ADA integrated generic CI 38402316367; native integrated evidence is already verified.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {

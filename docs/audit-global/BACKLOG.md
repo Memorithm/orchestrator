@@ -51,7 +51,7 @@
 | MEM-17 | Memorithm/SciRust-Verify | 2 | résolu |  |
 | MEM-18 | Memorithm/SciRust-Verify | 8 | résolu |  |
 | MEM-19 | Memorithm/SciRust-Verify | 9 | à faire |  |
-| COG-ADA-001 | Memorithm/ADA | 9 | attente CI | [PR #59](https://github.com/Memorithm/ADA/pull/59) fusionnée sous `79584396`; candidat entièrement vert ; validations native et générique du SHA intégré en cours |
+| COG-ADA-001 | Memorithm/ADA | 9 | attente CI | [PR #59](https://github.com/Memorithm/ADA/pull/59) fusionnée sous `79584396`; natif intégré et artefact signé vérifiés ; CI générique intégrée encore active |
 | COG-ADA-002 | Memorithm/ADA | 9 | à faire |  |
 | COG-COGNO-001 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261), [PR #262](https://github.com/Memorithm/COGNO-1/pull/262) |
 | COG-COGNO-002 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) |
