@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-Dernière réconciliation 2026-10-13T19:52:50.461Z : **lot 3 8/50**, **109 PR fusionnées**, **96/101 constats clos**, **5 restants**. B-ITD-03 est clos après qualification d'ITD #72. Le correctif restreint #559 est intégré et qualifié, avec acceptation externe encore ouverte. Le dernier adaptateur privé est en préparation. Les états historiques ci-dessous restent datés.
+Dernière réconciliation 2026-10-13T20:20:50.112Z : **lot 3 9/50**, **109 PR fusionnées**, **97/101 constats clos**, **4 restants**. B-ITD-03 et COG-SML-003 sont clos après qualification des versions intégrées. COG-SML-001 reste ouvert pour acceptation externe. RT-NNIS-03, MEM-11 et PAPERS-01 restent bloqués selon leurs critères. Les états historiques ci-dessous restent datés.
 
 État réconcilié du 13 octobre 2026 à 12:18 Europe/Paris : **95 PR techniques fusionnées au total**, **86/101 constats clos**, **15 restants** ; lot 2 à **45/50**. MEM-09 est clos par [CCOS-Enterprise #195](https://github.com/Memorithm/CCOS-Enterprise/pull/195) et son correctif de portabilité [#196](https://github.com/Memorithm/CCOS-Enterprise/pull/196), sur le SHA intégré final `ac3e64b57aec8120ab98922c76afae4df48d6336`. Les validations exact-head et intégrées, les artefacts signés et la vérification après téléchargement sont consignés dans la [preuve MEM-09](proofs/CCOS-Enterprise-195-196-MEM-09.json). Aucun dépôt exclu n’a été modifié.
 
@@ -67,7 +67,7 @@ Dernière réconciliation 2026-10-13T19:52:50.461Z : **lot 3 8/50**, **109 PR fu
 | COG-OCTA-003 | Memorithm/octasoma | 9 | résolu | [PR #72](https://github.com/Memorithm/octasoma/pull/72) · [preuve](proofs/octasoma-72-COG-OCTA-003.json) |
 | COG-SML-001 | Périmètre privé — source interne | 9 | à faire |  |
 | COG-SML-002 | Memorithm/SML-GENIUS | 8 | résolu | [preuve](proofs/SML-GENIUS-228-229-COG-SML-002.json), [PR #228](https://github.com/Memorithm/SML-GENIUS/pull/228), [PR #229](https://github.com/Memorithm/SML-GENIUS/pull/229) |
-| COG-SML-003 | Périmètre privé — source interne | 9 | à faire |  |
+| COG-SML-003 | Périmètre privé — source interne | 9 | résolu | Qualification intégrée ; preuves et limites dans le dépôt privé |
 | FORGE-01 | Memorithm/Forge | 5 | résolu | [PR #49](https://github.com/Memorithm/Forge/pull/49) · [preuve](proofs/Forge-49-FORGE-01.json) |
 | FORGE-02 | Memorithm/Forge | 7 | résolu | [PR #50](https://github.com/Memorithm/Forge/pull/50) · [preuve](proofs/Forge-50-FORGE-02.json) |
 | FORGE-03 | Memorithm/Forge | 9 | résolu |  · [preuve](proofs/Forge-FORGE-03-current-head-20261007.json) |

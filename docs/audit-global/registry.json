@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T20:14:10.755Z",
+  "updated_at": "2026-10-13T20:20:50.112Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 96,
-    "remaining": 5,
+    "closed": 97,
+    "remaining": 4,
     "merged_prs": 109
   },
   "batches": [
@@ -9503,7 +9503,7 @@
       "number": 561,
       "head_sha": "956de0ede29ff58b790f2551bd252108c7566cd7",
       "base_sha": "0dd6290aa4aff194e7828a2b51f249ba045f9cd2",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "COG-SML-003"
       ],
@@ -13199,27 +13199,34 @@
       "acceptance_criteria": [
         "Consulter les critères dans la source interne par ID ; conserver les preuves dans le dépôt privé."
       ],
-      "status": "waiting_target_ci",
+      "status": "resolved",
       "current_head": null,
       "default_branch": null,
       "audit_head": null,
-      "head_reconciliation": "not_published",
-      "policy_review": "pending_target_bootstrap",
+      "head_reconciliation": "qualified_in_private_repository",
+      "policy_review": "target_bootstrap_and_off_main_roadmap_reviewed",
       "prs": [
         {
           "repository": "restricted:COG-SML-003",
           "number": 561,
           "head_sha": "956de0ede29ff58b790f2551bd252108c7566cd7",
           "base_sha": "0dd6290aa4aff194e7828a2b51f249ba045f9cd2",
-          "status": "merged_waiting_target_ci",
+          "status": "merged_target_validated",
           "source_scope": "restricted",
           "private_proof": "COG-SML-003-qualification-20261013",
           "merge_sha": "69cf44d25000c7f5f77d1bd35b160b93fc225879"
         }
       ],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-13T19:58:49.916Z",
-      "next_action": "Qualifier les gates et la revue du candidat privé, fusion d'ingénierie gardée puis qualification intégrée; conserver la séparation éligibilité/autorité et les holdouts."
+      "resolution_evidence": [
+        {
+          "source_scope": "restricted",
+          "private_proof": "COG-SML-003-qualification-20261013",
+          "status": "resolved_on_integrated_target",
+          "acceptance_scope": "source_interne_criteres_et_limites_conserves_dans_depot_prive"
+        }
+      ],
+      "last_observed_at": "2026-10-13T20:20:50.112Z",
+      "next_action": "Clos dans le périmètre accepté après qualification intégrée; preuves et limites conservées dans le dépôt privé. Préserver holdouts, souveraineté du modèle et séparation éligibilité/autorité."
     },
     {
       "id": "FORGE-01",
