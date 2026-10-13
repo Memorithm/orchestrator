@@ -1,9 +1,11 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "chatgpt-audit-20261013-1915",
   "acquired_at": "2026-10-13T19:15:15+02:00",
   "expires_at": "2026-10-13T19:45:00+02:00",
   "base_sha": "35bb83e3fb55b316a431bffd18164f0a3aa9964e",
-  "purpose": "Correct ADA #61 recursive composite-action pin-policy review finding and reconcile exact-head CI"
+  "purpose": "Correct ADA #61 recursive composite-action pin-policy review finding and reconcile exact-head CI",
+  "released_at": "2026-10-13T19:16:50+02:00",
+  "release_reason": "ADA #61 composite-action pin-policy review finding corrected on a new exact head; both CI suites restarted and durable tracking reconciled."
 }
