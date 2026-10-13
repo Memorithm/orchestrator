@@ -1,0 +1,119 @@
+{
+  "date": "2026-10-13",
+  "timezone": "Europe/Paris",
+  "entries": [
+    {
+      "observed_at": "2026-10-13T07:16:58+02:00",
+      "observed_session_start": "2026-10-13T07:06:36+02:00",
+      "lease_owner": "chatgpt-audit-202610130707",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 40,
+        "batch_target": 50,
+        "merged_prs": 90,
+        "closed_findings": 83,
+        "remaining_findings": 18,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "MEM-19",
+          "repository": "Memorithm/SciRust-Verify",
+          "status": "resolved",
+          "base_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+          "head_sha": "40021884a1ba7c736cc87293f516cd16f0207c5d",
+          "merge_sha": "662a30dc774dd19c68a79bed3889036a91930123",
+          "pr": "https://github.com/Memorithm/SciRust-Verify/pull/40",
+          "prs": [
+            "https://github.com/Memorithm/SciRust-Verify/pull/39",
+            "https://github.com/Memorithm/SciRust-Verify/pull/40"
+          ],
+          "actions": [
+            "Reconciled PR #39, which had integrated the main feature before the final two review corrections.",
+            "Published PR #40 from the exact integrated base to close the writable-memfd procfs race and correct the non-Linux support diagnostic.",
+            "Resolved all 24 PR #39 review threads; obtained a clean exact-head review on PR #40.",
+            "Validated both merge SHAs on the authoritative target branch and updated the roadmap outside the default branch."
+          ],
+          "checks": [
+            {
+              "id": 38162544969,
+              "name": "CI candidate #39",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "068fd50d04081f3ea7f8581fc656649a8f2ea952",
+              "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38162544969",
+              "jobs": "2/2: fmt/check/clippy/tests/docs and dogfood"
+            },
+            {
+              "id": 38162812636,
+              "name": "CI integrated #39",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+              "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38162812636",
+              "jobs": "2/2"
+            },
+            {
+              "id": 38349914098,
+              "name": "CI candidate #40",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "40021884a1ba7c736cc87293f516cd16f0207c5d",
+              "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38349914098",
+              "jobs": "2/2: fmt/check/clippy/tests/docs and dogfood"
+            },
+            {
+              "id": 38350291671,
+              "name": "CI integrated #40",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "662a30dc774dd19c68a79bed3889036a91930123",
+              "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38350291671",
+              "jobs": "2/2"
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Closed. Preserve Linux-only/no-clobber boundaries and the separation of integrity, authenticity and qualification.",
+          "proof": "docs/audit-global/proofs/SciRust-Verify-39-40-MEM-19.json"
+        }
+      ],
+      "external_obstacles": [
+        "MEM-11 remains blocked on its documented external dependency.",
+        "PAPERS-01 remains blocked on its documented external dependency.",
+        "B-ITD-01 remains blocked by the repository policy prohibiting orchestrator self-merge despite green candidate CI.",
+        "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
+      ],
+      "excluded_repositories_modified": []
+    }
+  ],
+  "daily_summary": {
+    "batch": 2,
+    "batch_merged_prs": 40,
+    "batch_target": 50,
+    "merged_prs": 90,
+    "closed_findings": 83,
+    "remaining_findings": 18,
+    "resolved_today": [
+      "MEM-19"
+    ],
+    "waiting_ci": [],
+    "blocked_external": [
+      "MEM-11",
+      "PAPERS-01",
+      "B-ITD-01",
+      "RT-NNIS-03"
+    ],
+    "next_action": "Acquire a fresh lease and continue the next unblocked finding; keep all external blockers open until their acceptance evidence exists.",
+    "excluded_repositories_modified": []
+  },
+  "latest_counts": {
+    "batch": 2,
+    "batch_merged_prs": 40,
+    "batch_target": 50,
+    "merged_prs": 90,
+    "closed_findings": 83,
+    "remaining_findings": 18,
+    "backlog": 101
+  }
+}
