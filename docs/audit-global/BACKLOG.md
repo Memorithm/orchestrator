@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-Dernière réconciliation 2026-10-13T18:15:55.626Z : **lot 3 6/50**, **106 PR fusionnées**, **94/101 constats clos**, **7 restants**. ITD #71 et ProofLab #84 sont qualifiées après fusion. ADA #61 est fusionnée ; Miri intégré reste en cours. Les états historiques ci-dessous restent datés.
+Dernière réconciliation 2026-10-13T18:39:08.974Z : **lot 3 6/50**, **106 PR fusionnées**, **95/101 constats clos**, **6 restants**. ADA #61 est qualifiée après fusion : six gates verts, Miri 338 succès / 0 échec / 2 ignorés dans 76 suites. Les états historiques ci-dessous restent datés.
 
 État réconcilié du 13 octobre 2026 à 12:18 Europe/Paris : **95 PR techniques fusionnées au total**, **86/101 constats clos**, **15 restants** ; lot 2 à **45/50**. MEM-09 est clos par [CCOS-Enterprise #195](https://github.com/Memorithm/CCOS-Enterprise/pull/195) et son correctif de portabilité [#196](https://github.com/Memorithm/CCOS-Enterprise/pull/196), sur le SHA intégré final `ac3e64b57aec8120ab98922c76afae4df48d6336`. Les validations exact-head et intégrées, les artefacts signés et la vérification après téléchargement sont consignés dans la [preuve MEM-09](proofs/CCOS-Enterprise-195-196-MEM-09.json). Aucun dépôt exclu n’a été modifié.
 

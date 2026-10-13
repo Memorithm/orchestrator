@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:16:31.545Z",
+  "updated_at": "2026-10-13T18:39:08.974Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 94,
-    "remaining": 7,
+    "closed": 95,
+    "remaining": 6,
     "merged_prs": 106
   },
   "batches": [
@@ -8821,7 +8821,7 @@
       "base": "main",
       "base_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
       "head_sha": "48779bc080f1d36d5940a64e3b48a1431efbb01a",
-      "status": "merged_waiting_integrated_CI",
+      "status": "merged_target_validated",
       "ids": [
         "COG-ADA-002"
       ],
@@ -9083,7 +9083,78 @@
           "conclusion": "success",
           "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265255"
         }
-      ]
+      ],
+      "integrated_checks": [
+        {
+          "id": 115458265875,
+          "name": "fuzz-smoke",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265875",
+          "started_at": "2026-10-13T18:07:41Z",
+          "completed_at": "2026-10-13T18:12:15Z"
+        },
+        {
+          "id": 115458265807,
+          "name": "supply-chain",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265807",
+          "started_at": "2026-10-13T18:07:41Z",
+          "completed_at": "2026-10-13T18:12:46Z"
+        },
+        {
+          "id": 115458265747,
+          "name": "MSRV 1.85",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265747",
+          "started_at": "2026-10-13T18:07:41Z",
+          "completed_at": "2026-10-13T18:07:55Z"
+        },
+        {
+          "id": 115458265686,
+          "name": "miri",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265686",
+          "started_at": "2026-10-13T18:07:41Z",
+          "completed_at": "2026-10-13T18:34:50Z"
+        },
+        {
+          "id": 115458265567,
+          "name": "rustdoc",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265567",
+          "started_at": "2026-10-13T18:07:43Z",
+          "completed_at": "2026-10-13T18:08:20Z"
+        },
+        {
+          "id": 115458265255,
+          "name": "build/test",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265255",
+          "started_at": "2026-10-13T18:07:40Z",
+          "completed_at": "2026-10-13T18:08:08Z"
+        }
+      ],
+      "integrated_miri": {
+        "suites": 76,
+        "passed": 338,
+        "failed": 0,
+        "ignored": 2,
+        "job": 115458265686,
+        "command": "cargo miri test --workspace",
+        "summary_log": "docs/audit-global/proofs/ADA-61/miri-target-summary.log"
+      }
     },
     {
       "repository": "restricted:B-NR-02",
@@ -12155,11 +12226,11 @@
         "Brancher explicitement un adaptateur du contrat de tâche du Hub et un échange de budgets ElasticXxx, avec fixtures destination et tests de contrat. Garder CONTINUE_RESEARCH pour les résultats non qualifiés.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
       "default_branch": "main",
       "audit_head": "7034491cc408ff77820589957349aa4fad1ee097",
-      "head_reconciliation": "candidate_exact_checks_green_SHA_guarded_merge_done_waiting_integrated_gates",
+      "head_reconciliation": "exact_candidate_and_integrated_contract_and_action_pin_followup_qualified",
       "policy_review": "Root AGENTS.md, MIT OR Apache-2.0 workspace metadata, main default branch and mandatory agent/ecosystem-roadmap were reviewed. Hub and ElasticXxx owner contracts were read at exact integrated SHAs; neither owner repository was modified.",
       "prs": [
         {
@@ -12174,7 +12245,7 @@
           "url": "https://github.com/Memorithm/ADA/pull/61",
           "head_sha": "48779bc080f1d36d5940a64e3b48a1431efbb01a",
           "base_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
-          "status": "merged_waiting_integrated_CI",
+          "status": "merged_target_validated",
           "merge_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0"
         }
       ],
@@ -12328,10 +12399,86 @@
             "resolved_threads": 1,
             "correction": "scan tracked composite action manifests recursively"
           }
+        },
+        {
+          "proof": "docs/audit-global/proofs/ADA-60-61-COG-ADA-002-waiting-ci.json",
+          "status": "qualified",
+          "integrated_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+          "checks": [
+            {
+              "id": 115458265875,
+              "name": "fuzz-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265875",
+              "started_at": "2026-10-13T18:07:41Z",
+              "completed_at": "2026-10-13T18:12:15Z"
+            },
+            {
+              "id": 115458265807,
+              "name": "supply-chain",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265807",
+              "started_at": "2026-10-13T18:07:41Z",
+              "completed_at": "2026-10-13T18:12:46Z"
+            },
+            {
+              "id": 115458265747,
+              "name": "MSRV 1.85",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265747",
+              "started_at": "2026-10-13T18:07:41Z",
+              "completed_at": "2026-10-13T18:07:55Z"
+            },
+            {
+              "id": 115458265686,
+              "name": "miri",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265686",
+              "started_at": "2026-10-13T18:07:41Z",
+              "completed_at": "2026-10-13T18:34:50Z"
+            },
+            {
+              "id": 115458265567,
+              "name": "rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265567",
+              "started_at": "2026-10-13T18:07:43Z",
+              "completed_at": "2026-10-13T18:08:20Z"
+            },
+            {
+              "id": 115458265255,
+              "name": "build/test",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265255",
+              "started_at": "2026-10-13T18:07:40Z",
+              "completed_at": "2026-10-13T18:08:08Z"
+            }
+          ],
+          "integrated_miri": {
+            "suites": 76,
+            "passed": 338,
+            "failed": 0,
+            "ignored": 2,
+            "job": 115458265686,
+            "command": "cargo miri test --workspace",
+            "summary_log": "docs/audit-global/proofs/ADA-61/miri-target-summary.log"
+          }
         }
       ],
-      "last_observed_at": "2026-10-13T18:08:56.839Z",
-      "next_action": "Verify six exact integrated gates on 28b7a18d9ae1ab062a890cb2edee819237e50cc0, including whole-workspace Miri; close only when all six succeed. Do not remerge or double-count #60/#61.",
+      "last_observed_at": "2026-10-13T18:39:08.974Z",
+      "next_action": "Clos sur 28b7a18d9ae1ab062a890cb2edee819237e50cc0; préserver les limites CONTINUE_RESEARCH et les gates scientifiques.",
       "roadmap": {
         "branch": "agent/ecosystem-roadmap",
         "commit": "87b609f70fca6a8e562e5b1876350b13e98cd3c9",
@@ -14995,14 +15142,12 @@
   ],
   "lease": {
     "schema": "memorithm-remediation-lease.v1",
-    "status": "released",
-    "owner": "codex-audit-20261013-1918",
-    "acquired_at": "2026-10-13T17:21:14.594Z",
-    "expires_at": "2026-10-13T18:21:14.594Z",
-    "base_sha": "bf34a2149193489c9df2d009a60ddad5c4e9b343",
-    "purpose": "User-authorized automatic merges and remediation of ten remaining findings; ITD hash locks and partner manifest ingestion",
-    "released_at": "2026-10-13T18:16:31.545Z",
-    "release_reason": "Three automatic merges completed; three findings qualified closed with durable proofs; ADA target Miri pending and existing single automation owns continued reconciliation."
+    "status": "active",
+    "owner": "codex-audit-20261013-sml",
+    "acquired_at": "2026-10-13T18:22:03.837Z",
+    "expires_at": "2026-10-13T19:22:03.837Z",
+    "base_sha": "5678cda",
+    "purpose": "Continue seven findings; reconcile ADA integrated Miri and qualify SML artifact authenticity engineering gate"
   },
   "capabilities": [
     {
