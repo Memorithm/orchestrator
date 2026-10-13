@@ -5,8 +5,8 @@
   ],
   "repository": "Memorithm/ADA",
   "pr": 59,
-  "status": "waiting_ci",
-  "observed_at": "2026-10-13T13:44:00+02:00",
+  "status": "merged_waiting_target_validation",
+  "observed_at": "2026-10-13T15:12:00+02:00",
   "base": {
     "branch": "main",
     "sha": "7034491cc408ff77820589957349aa4fad1ee097"
@@ -14,7 +14,9 @@
   "candidate": {
     "branch": "audit/cog-ada-001-native-aarch64",
     "sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
-    "mergeable": true
+    "mergeable": true,
+    "merged": true,
+    "merge_sha": "7958439630ff5e092d32ac8d618411785d885d59"
   },
   "review": {
     "threads": 1,
@@ -29,34 +31,39 @@
     },
     "generic": {
       "run_id": 38390334276,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276",
       "jobs": [
         {
           "name": "build/test",
+          "status": "completed",
           "conclusion": "success"
         },
         {
           "name": "MSRV 1.85",
+          "status": "completed",
           "conclusion": "success"
         },
         {
           "name": "rustdoc",
+          "status": "completed",
           "conclusion": "success"
         },
         {
           "name": "supply-chain",
+          "status": "completed",
           "conclusion": "success"
         },
         {
           "name": "fuzz-smoke",
+          "status": "completed",
           "conclusion": "success"
         },
         {
           "name": "miri",
-          "status": "in_progress",
-          "conclusion": null
+          "status": "completed",
+          "conclusion": "success"
         }
       ]
     }
@@ -76,8 +83,32 @@
       "asimd": true
     }
   },
-  "acceptance_state": "Not resolved: candidate Miri and all integrated-main validations remain mandatory.",
+  "acceptance_state": "Not resolved: PR merged after all exact-head candidate gates succeeded; integrated main workflows and the exact integrated signed native artifact remain mandatory.",
   "limitations": [
     "Correctness qualification only; no performance, GPU, production-runtime, adoption or novelty claim."
-  ]
+  ],
+  "merge": {
+    "method": "squash_with_expected_head_sha",
+    "merged_at": "2026-10-13T13:06:08Z",
+    "sha": "7958439630ff5e092d32ac8d618411785d885d59",
+    "main_head_verified": true
+  },
+  "integrated": {
+    "sha": "7958439630ff5e092d32ac8d618411785d885d59",
+    "checks": {
+      "native": {
+        "run_id": 38402316537,
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38402316537"
+      },
+      "generic": {
+        "run_id": 38402316367,
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367"
+      }
+    },
+    "artifact": null
+  }
 }

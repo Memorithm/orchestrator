@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T15:08:00+02:00",
+  "updated_at": "2026-10-13T15:12:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 86,
     "remaining": 15,
-    "merged_prs": 95
+    "merged_prs": 96
   },
   "batches": [
     {
@@ -517,6 +517,11 @@
           "repository": "Memorithm/CCOS-Enterprise",
           "number": 196,
           "merge_sha": "ac3e64b57aec8120ab98922c76afae4df48d6336"
+        },
+        {
+          "repository": "Memorithm/ADA",
+          "number": 59,
+          "merge_sha": "7958439630ff5e092d32ac8d618411785d885d59"
         }
       ]
     }
@@ -7912,8 +7917,8 @@
       "base": "main",
       "base_sha": "7034491cc408ff77820589957349aa4fad1ee097",
       "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
-      "merge_sha": null,
-      "status": "waiting_ci",
+      "merge_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+      "status": "merged_waiting_target_validation",
       "ids": [
         "COG-ADA-001"
       ],
@@ -7930,22 +7935,36 @@
         {
           "id": 38390334276,
           "name": "ci candidate",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
           "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276",
           "jobs": {
             "success": [
               "build/test",
               "MSRV 1.85",
+              "miri",
               "rustdoc",
               "supply-chain",
               "fuzz-smoke"
-            ],
-            "in_progress": [
-              "miri"
             ]
           }
+        },
+        {
+          "id": 38402316537,
+          "name": "Native AArch64 qualification integrated",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38402316537"
+        },
+        {
+          "id": 38402316367,
+          "name": "ci integrated",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367"
         }
       ],
       "review": {
@@ -7965,8 +7984,10 @@
       ],
       "limitations": [
         "Candidate proof is correctness evidence only; no performance, GPU, production-runtime, adoption or novelty claim.",
-        "Finding remains open until Miri succeeds, PR is merged with an expected-head guard, and integrated main validations are green."
-      ]
+        "Finding remains open until both integrated-main workflows succeed and the exact integrated native artifact is downloaded and cryptographically verified."
+      ],
+      "merged_at": "2026-10-13T13:06:08Z",
+      "merge_method": "squash_with_expected_head_sha"
     }
   ],
   "repository_observations": [
@@ -10772,7 +10793,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "7034491cc408ff77820589957349aa4fad1ee097",
+      "current_head": "7958439630ff5e092d32ac8d618411785d885d59",
       "default_branch": "main",
       "audit_head": "7034491cc408ff77820589957349aa4fad1ee097",
       "head_reconciliation": "The audit gap remained present on main at 7034491c. PR #59 adds an exact-SHA native AArch64/NEON gate, bounded signed hardware/toolchain provenance, direct ada-core dependency triggering, and the minimal Rust 1.99 assertion-lint remediation required by the existing generic CI.",
@@ -10784,7 +10805,8 @@
           "base": "main",
           "base_sha": "7034491cc408ff77820589957349aa4fad1ee097",
           "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
-          "status": "waiting_ci",
+          "merge_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+          "status": "merged_waiting_target_validation",
           "role": "native_aarch64_qualification"
         }
       ],
@@ -10805,11 +10827,16 @@
             "threads": 1,
             "resolved_threads": 1
           },
-          "status": "waiting_for_candidate_miri"
+          "status": "waiting_for_integrated_validation",
+          "merge_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+          "integrated_runs": [
+            38402316537,
+            38402316367
+          ]
         }
       ],
-      "last_observed_at": "2026-10-13T13:44:00+02:00",
-      "next_action": "Wait for Miri in candidate run 38390334276. If it succeeds, re-read PR base/head/reviews, merge #59 with expected head SHA 82e76d8a…, then execute and verify all applicable checks plus the signed native artifact on the integrated main SHA before closing."
+      "last_observed_at": "2026-10-13T15:12:00+02:00",
+      "next_action": "Wait for integrated runs 38402316537 and 38402316367. Verify every job on main@79584396 and download/verify the exact integrated signed native artifact before closing."
     },
     {
       "id": "COG-ADA-002",
