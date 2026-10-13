@@ -1,10 +1,12 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "held",
+  "status": "released",
   "owner": "chatgpt-audit-20261013-continue",
   "acquired_at": "2026-10-13T17:29:05+02:00",
   "expires_at": "2026-10-13T19:08:18.000+02:00",
   "base_sha": "466adf7459cee131d686a9b53e2fe084350025ff",
   "purpose": "Exact merged COGNO/octasoma qualification, ADA gates, B-NO-01 bounded Darcy residual",
-  "renewed_at": "2026-10-13T18:08:18.000+02:00"
+  "renewed_at": "2026-10-13T18:08:18.000+02:00",
+  "released_at": "2026-10-13T18:38:53.000+02:00",
+  "release_reason": "Observed corrections and exact-head integrations checkpointed; unresolved target Miri and remaining backlog preserved for durable resumption."
 }
