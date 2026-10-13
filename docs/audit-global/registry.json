@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:16:46.000+02:00",
+  "updated_at": "2026-10-13T18:22:09.000+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -8585,13 +8585,41 @@
       "url": "https://github.com/Memorithm/NeuralOperator/pull/37",
       "base": "main",
       "base_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
-      "head_sha": "9f89b2a0f3aaa203e1f181bee30e2d5afb48bad3",
+      "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
       "merge_sha": null,
       "status": "waiting_ci",
       "ids": [
         "B-NO-01"
       ],
-      "batch": 3
+      "batch": 3,
+      "review": {
+        "threads": 1,
+        "resolved_threads": 1,
+        "fix_head": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
+      },
+      "checks": [
+        {
+          "name": "rust-darcy",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494905/job/115407629901"
+        },
+        {
+          "name": "unit-tests",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494735/job/115407628090"
+        },
+        {
+          "name": "torch",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494627/job/115407627323"
+        }
+      ]
     }
   ],
   "repository_observations": [
@@ -13209,7 +13237,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "9f89b2a0f3aaa203e1f181bee30e2d5afb48bad3",
+      "current_head": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
       "default_branch": "main",
       "audit_head": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
       "head_reconciliation": "current_main_has_no_Rust_first_bounded_Darcy_residual_candidate_open",

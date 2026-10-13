@@ -1463,25 +1463,446 @@
         "RT-NNIS-03: documented external rights/consent/licence review pending."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "timestamp": "2026-10-13T18:22:09.000+02:00",
+      "event": "observed_progress_checkpoint",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 1,
+        "batch_target": 50,
+        "merged_prs": 101,
+        "closed_findings": 90,
+        "remaining_findings": 11
+      },
+      "work_items": [
+        {
+          "id": "B-ITD-01",
+          "repository": "Memorithm/itd-simulator",
+          "status": "resolved",
+          "actions": [
+            "Reconciled preexisting #70 integration, exact main 9a8a88c4 and 748 tests/29 validation steps on each Python 3.11/3.12/3.13; no merge performed by this session."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/itd-simulator/pull/70"
+          ],
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "checks": [
+            {
+              "name": "Python 3.12",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+              "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173571",
+              "id": 114502173571
+            },
+            {
+              "name": "Python 3.11",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+              "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173561",
+              "id": 114502173561
+            },
+            {
+              "name": "Python 3.13",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+              "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173474",
+              "id": 114502173474
+            },
+            {
+              "name": "Commit policy",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+              "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173321",
+              "id": 114502173321
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Closed on integrated main with complete three-version validation; preserve holdout policy and POSIX scope."
+        },
+        {
+          "id": "COG-COGNO-003",
+          "repository": "Memorithm/COGNO-1",
+          "status": "resolved",
+          "actions": [
+            "Published #263, corrected EOF format, all nine candidate gates green, expected-head squash merge, all nine main gates green, canonical 288-case archive identity/hash and actual streams verified and versioned."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/COGNO-1/pull/263"
+          ],
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "checks": [
+            {
+              "id": 115400384907,
+              "name": "canonical scalar parity (exact sources)",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+              "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431822/job/115400384907"
+            },
+            {
+              "id": 115400384081,
+              "name": "qualify",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+              "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427432077/job/115400384081"
+            },
+            {
+              "id": 115400383553,
+              "name": "bundle",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+              "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431910/job/115400383553"
+            },
+            {
+              "id": 115400382882,
+              "name": "documented external dependencies (§24)",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+              "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382882"
+            },
+            {
+              "id": 115400382851,
+              "name": "cargo build --frozen --release",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+              "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382851"
+            },
+            {
+              "id": 115400382824,
+              "name": "cargo fmt --check",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+              "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382824"
+            },
+            {
+              "id": 115400382610,
+              "name": "cargo test --locked",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+              "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382610"
+            },
+            {
+              "id": 115400382562,
+              "name": "cargo doc --locked",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+              "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382562"
+            },
+            {
+              "id": 115400382199,
+              "name": "cargo clippy --locked -- -D warnings",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+              "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382199"
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Closed within documented adapter/scalar qualification scope; future adoption/migration must requalify exact versions."
+        },
+        {
+          "id": "COG-OCTA-003",
+          "repository": "Memorithm/octasoma",
+          "status": "resolved",
+          "actions": [
+            "Published #72, corrected review P1/P2, retried cancelled macOS job, all eight candidate gates green, guarded merge, all eight master gates green and 12 adapter tests verified."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/octasoma/pull/72"
+          ],
+          "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "checks": [
+            {
+              "id": 115401215786,
+              "name": "test · macos-latest",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215786"
+            },
+            {
+              "id": 115401215729,
+              "name": "test · ubuntu (--all-features)",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215729"
+            },
+            {
+              "id": 115401215312,
+              "name": "test · windows-latest",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215312"
+            },
+            {
+              "id": 115401215227,
+              "name": "test · ubuntu (--features simd)",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215227"
+            },
+            {
+              "id": 115401215222,
+              "name": "test · ubuntu ()",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215222"
+            },
+            {
+              "id": 115401215186,
+              "name": "test · ubuntu (--features mcp)",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215186"
+            },
+            {
+              "id": 115401215107,
+              "name": "lint · fmt + clippy (all feature combos)",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215107"
+            },
+            {
+              "id": 115401214825,
+              "name": "msrv · 1.89 (declared minimum)",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401214825"
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Closed within documented adapter/scalar qualification scope; future adoption/migration must requalify exact versions."
+        },
+        {
+          "id": "COG-ADA-002",
+          "repository": "Memorithm/ADA",
+          "status": "waiting_ci",
+          "actions": [
+            "Both exact-head Miri suites finished successfully; all 12 candidate checks green; guarded merge #60; integrated main CI remains in progress."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/ADA/pull/60"
+          ],
+          "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+          "checks": [
+            {
+              "name": "miri",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381102015"
+            },
+            {
+              "name": "fuzz-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101925"
+            },
+            {
+              "name": "MSRV 1.85",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101885"
+            },
+            {
+              "name": "supply-chain",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101856"
+            },
+            {
+              "name": "build/test",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101810"
+            },
+            {
+              "name": "rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101424"
+            },
+            {
+              "name": "build/test",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094541"
+            },
+            {
+              "name": "MSRV 1.85",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094503"
+            },
+            {
+              "name": "rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094385"
+            },
+            {
+              "name": "fuzz-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094332"
+            },
+            {
+              "name": "miri",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094249"
+            },
+            {
+              "name": "supply-chain",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381093970"
+            }
+          ],
+          "reason_for_wait": "Validate integrated main whole workspace, Miri, fuzz, MSRV, docs and supply chain before closure.",
+          "dependencies": [],
+          "next_action": "Validate integrated main whole workspace, Miri, fuzz, MSRV, docs and supply chain before closure."
+        },
+        {
+          "id": "B-NO-01",
+          "repository": "Memorithm/NeuralOperator",
+          "status": "waiting_ci",
+          "actions": [
+            "Published #37 bounded Rust Darcy kernel, eight unit tests and 32-case independent parity/cost pass; review required immutable oracle pin, corrected before import and added drift tests, new exact-head CI active."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/NeuralOperator/pull/37"
+          ],
+          "head_sha": "9f89b2a0f3aaa203e1f181bee30e2d5afb48bad3",
+          "checks": [],
+          "reason_for_wait": "Reconcile all three exact-head gates/review; inspect real 32-case parity/cost archive, guarded merge then integrated requalification.",
+          "dependencies": [],
+          "next_action": "Reconcile all three exact-head gates/review; inspect real 32-case parity/cost archive, guarded merge then integrated requalification."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Reconciled preexisting #32 merge in counter, not as resolution; runner-group restriction/probe still unverified."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/SciCapsule/pull/32"
+          ],
+          "head_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+          "checks": [],
+          "reason_for_wait": "Do not remerge #32. Verify actual runner-group selected-workflow restriction externally, then qualify installed PR path; merged workflow split is not runner-group enforcement proof.",
+          "dependencies": [],
+          "next_action": "Do not remerge #32. Verify actual runner-group selected-workflow restriction externally, then qualify installed PR path; merged workflow split is not runner-group enforcement proof."
+        },
+        {
+          "id": "B-ITD-02",
+          "repository": "Memorithm/itd-simulator",
+          "status": "to_do",
+          "actions": [
+            "Revalidated current Linux three-interpreter lock files; all versions pinned but hashes still absent; no lock update or runtime execution claimed."
+          ],
+          "prs": [],
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "checks": [],
+          "reason_for_wait": "Generate complete runtime/dev --require-hashes wheel locks for the three Linux supported interpreters; preserve existing pins/frozen model, validate all clean environments, integrate only through policy-governed path.",
+          "dependencies": [],
+          "next_action": "Generate complete runtime/dev --require-hashes wheel locks for the three Linux supported interpreters; preserve existing pins/frozen model, validate all clean environments, integrate only through policy-governed path."
+        },
+        {
+          "id": "B-PL-03",
+          "repository": "Memorithm/ProofLab",
+          "status": "to_do",
+          "actions": [
+            "Current HEAD adapter remains explicit label-preserving fixture-only ingest; real authenticated producer manifest ingestion remains unimplemented."
+          ],
+          "prs": [],
+          "head_sha": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
+          "checks": [],
+          "reason_for_wait": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification.",
+          "dependencies": [
+            "B-PL-01",
+            "B-PL-02"
+          ],
+          "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+        },
+        {
+          "id": "B-NR-02",
+          "repository": null,
+          "status": "blocked",
+          "actions": [
+            "Private documentation-only candidate and review correction retained privately; integration policy still blocks closure."
+          ],
+          "prs": [],
+          "head_sha": null,
+          "checks": [],
+          "reason_for_wait": "Follow the repository's permitted integration path, then verify the exact integrated private version; do not close or auto-merge through the documented holdout.",
+          "dependencies": [],
+          "next_action": "Follow the repository's permitted integration path, then verify the exact integrated private version; do not close or auto-merge through the documented holdout."
+        }
+      ],
+      "external_obstacles": [
+        "RT-NNIS-03 contributor-rights/consent/licence review remains open in #150.",
+        "MEM-11 runner-group selected-workflow/ref administration and safe probe unavailable.",
+        "PAPERS-01 qualified stronger-than-process backend evidence remains pending.",
+        "B-NR-02 repository-policy-governed private integration required."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
-    "batch": 2,
-    "batch_merged_prs": 46,
+    "batch": 3,
+    "batch_merged_prs": 1,
     "batch_target": 50,
-    "merged_prs": 96,
-    "closed_findings": 87,
-    "remaining_findings": 14,
+    "merged_prs": 101,
+    "closed_findings": 90,
+    "remaining_findings": 11,
     "resolved_today": [
       "MEM-19",
       "MEM-07",
       "MEM-08",
       "MEM-09",
-      "COG-ADA-001"
+      "COG-ADA-001",
+      "B-ITD-01",
+      "COG-COGNO-003",
+      "COG-OCTA-003"
     ],
     "waiting_ci": [
       "COG-ADA-002",
-      "COG-OCTA-003"
+      "B-NO-01"
     ],
     "blocked_external": [
       "MEM-11",
@@ -1489,19 +1910,18 @@
       "B-ITD-01",
       "RT-NNIS-03"
     ],
-    "next_action": "Reconcile ADA Miri and octasoma exact-head CI; independently continue remaining permitted backlog.",
+    "next_action": "Qualify integrated ADA Miri and corrected NeuralOperator source, continue remaining independent work, keep external/policy blockers open.",
     "excluded_repositories_modified": [],
     "blocked_repository_policy": [
-      "B-ITD-01",
       "B-NR-02"
     ]
   },
   "latest_counts": {
-    "batch": 2,
-    "batch_merged_prs": 46,
+    "batch": 3,
+    "batch_merged_prs": 1,
     "batch_target": 50,
-    "merged_prs": 96,
-    "closed_findings": 87,
-    "remaining_findings": 14
+    "merged_prs": 101,
+    "closed_findings": 90,
+    "remaining_findings": 11
   }
 }
