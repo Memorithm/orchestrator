@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-10-13T18:04:59.000+02:00",
+  "finding": "MEM-11",
+  "repository": "Memorithm/SciCapsule",
+  "number": 32,
+  "url": "https://github.com/Memorithm/SciCapsule/pull/32",
+  "ids": [
+    "MEM-11"
+  ],
+  "base": "main",
+  "base_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+  "head_sha": "300a9de21d416ec24dbffd21184bf393d9c2ca5a",
+  "merge_sha": "86ccb9bb578e1404d9af7beea4e7e6e491b54ac3",
+  "merged_at": "2026-10-07T23:29:23Z",
+  "status": "merged_external_runner_acceptance_blocked",
+  "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session",
+  "batch": 2,
+  "closure": false,
+  "reason": "A prior merge is an observed fact, not evidence of runner-group selected-workflow/ref enforcement; administration and safe probe remain unavailable."
+}

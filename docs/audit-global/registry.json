@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:02:00+02:00",
+  "updated_at": "2026-10-13T18:04:59.000+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 88,
     "remaining": 13,
-    "merged_prs": 97
+    "merged_prs": 99
   },
   "batches": [
     {
@@ -527,6 +527,16 @@
           "repository": "Memorithm/itd-simulator",
           "number": 70,
           "merge_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87"
+        },
+        {
+          "repository": "Memorithm/SciCapsule",
+          "number": 32,
+          "merge_sha": "86ccb9bb578e1404d9af7beea4e7e6e491b54ac3"
+        },
+        {
+          "repository": "Memorithm/COGNO-1",
+          "number": 263,
+          "merge_sha": "5c34537c95a6eef00816d6600f727d04628403bd"
         }
       ]
     }
@@ -8296,13 +8306,20 @@
       "base": "main",
       "base_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
       "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
-      "merge_sha": null,
-      "status": "waiting_ci",
+      "merge_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "COG-COGNO-003"
       ],
       "batch": 2,
       "checks": [
+        {
+          "name": "qualify",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340158/job/115397256826"
+        },
         {
           "name": "cargo build --frozen --release",
           "status": "completed",
@@ -8354,8 +8371,8 @@
         },
         {
           "name": "bundle",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
           "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426339705/job/115396605830"
         }
@@ -8372,7 +8389,27 @@
       "limitations": [
         "Canonical finite scalar forward primitives only, not full autodiff convergence or runtime adoption.",
         "No GPU, performance, real-model quality, Meta activation or authority promotion."
-      ]
+      ],
+      "merged_at": "2026-10-13T16:04:04Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "base_unchanged": true,
+      "integration_tree_identical_to_candidate": true
+    },
+    {
+      "repository": "Memorithm/SciCapsule",
+      "number": 32,
+      "url": "https://github.com/Memorithm/SciCapsule/pull/32",
+      "ids": [
+        "MEM-11"
+      ],
+      "base": "main",
+      "base_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+      "head_sha": "300a9de21d416ec24dbffd21184bf393d9c2ca5a",
+      "merge_sha": "86ccb9bb578e1404d9af7beea4e7e6e491b54ac3",
+      "merged_at": "2026-10-07T23:29:23Z",
+      "status": "merged_external_runner_acceptance_blocked",
+      "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session",
+      "batch": 2
     }
   ],
   "repository_observations": [
@@ -10752,18 +10789,27 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "blocked_external",
-      "current_head": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
+      "current_head": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
       "default_branch": "main",
       "audit_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
-      "head_reconciliation": "finding_reproduced_on_current_main; hosted_ARM64_candidate_green_but_external_runner_group_selected_workflow_restriction_unverified",
+      "head_reconciliation": "PR32_already_merged_but_runner_group_administration_and_safe_selected_workflow_probe_unverified",
       "policy_review": "Root AGENTS.md, mandatory off-main SciCapsule roadmaps and manifest licensing metadata read; collaborator-only policy treated as context, not proof of public exploitation.",
       "prs": [
         {
+          "repository": "Memorithm/SciCapsule",
           "number": 32,
           "url": "https://github.com/Memorithm/SciCapsule/pull/32",
+          "ids": [
+            "MEM-11"
+          ],
+          "base": "main",
           "base_sha": "425e4bfa6a724f8dda44e07ff62deeeb3dedd4db",
           "head_sha": "300a9de21d416ec24dbffd21184bf393d9c2ca5a",
-          "status": "open_blocked_do_not_merge"
+          "merge_sha": "86ccb9bb578e1404d9af7beea4e7e6e491b54ac3",
+          "merged_at": "2026-10-07T23:29:23Z",
+          "status": "merged_external_runner_acceptance_blocked",
+          "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session",
+          "batch": 2
         }
       ],
       "resolution_evidence": [
@@ -10777,8 +10823,8 @@
           "status": "blocked_not_resolved"
         }
       ],
-      "last_observed_at": "2026-10-07T03:32:08+02:00",
-      "next_action": "Restrict Thor's runner group to Memorithm/SciCapsule/.github/workflows/internal-ci.yml@refs/heads/main, verify with a safe probe, then re-review and merge #32 followed by an installed-trigger qualification PR.",
+      "last_observed_at": "2026-10-13T18:04:59.000+02:00",
+      "next_action": "Do not remerge #32. Verify actual runner-group selected-workflow restriction externally, then qualify installed PR path; merged workflow split is not runner-group enforcement proof.",
       "blockers": [
         "The available GitHub connection cannot read or change organization/repository runner-group administration.",
         "A future PR can request the ordinary Thor labels unless the runner group is externally restricted to the trusted main-pinned workflow.",
@@ -11420,7 +11466,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "current_head": "5c34537c95a6eef00816d6600f727d04628403bd",
       "default_branch": "main",
       "audit_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
       "head_reconciliation": "gap_confirmed_on_05f526df_local_identity_and_exact_canonical_scalar_qualification_candidate",
@@ -11429,11 +11475,9 @@
         {
           "number": 263,
           "url": "https://github.com/Memorithm/COGNO-1/pull/263",
-          "base": "main",
-          "base_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
           "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
-          "merge_sha": null,
-          "status": "waiting_ci"
+          "merge_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "status": "merged_waiting_target_ci"
         }
       ],
       "resolution_evidence": [
@@ -11445,8 +11489,8 @@
           "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a"
         }
       ],
-      "last_observed_at": "2026-10-13T17:59:14.000+02:00",
-      "next_action": "Wait for Offline distribution and Rust50 v2 integration on exact head; inspect review, rules and unchanged base before expected-head guarded merge, then validate main and retain integrated evidence."
+      "last_observed_at": "2026-10-13T18:04:59.000+02:00",
+      "next_action": "Validate all target-main workflows and retain actual canonical output identity on merged SHA before closure."
     },
     {
       "id": "COG-COGNO-004",
