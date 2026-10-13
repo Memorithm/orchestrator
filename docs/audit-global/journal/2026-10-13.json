@@ -858,6 +858,104 @@
         "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "timestamp": "2026-10-13T14:15:00+02:00",
+      "observed_session_start": "2026-10-13T14:11:24+02:00",
+      "batch": {
+        "number": 2,
+        "merged_prs": 45,
+        "target": 50
+      },
+      "merged_prs": 95,
+      "closed_findings": 86,
+      "remaining_findings": 15,
+      "work_items": [
+        {
+          "id": "COG-ADA-001",
+          "repository": "Memorithm/ADA",
+          "status": "waiting_ci",
+          "base_sha": "7034491cc408ff77820589957349aa4fad1ee097",
+          "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+          "merge_sha": null,
+          "prs": [
+            "https://github.com/Memorithm/ADA/pull/59"
+          ],
+          "actions": [
+            "Reconciled PR #59, its exact head/base, mergeability, review state and current workflow jobs; no concurrent mutation was found.",
+            "Confirmed that native AArch64 qualification and five generic jobs remain successful while the Miri workspace-test step alone remains in progress."
+          ],
+          "checks": [
+            {
+              "id": 38390334287,
+              "name": "Native AArch64 qualification candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334287"
+            },
+            {
+              "id": 38390334276,
+              "name": "build/test candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "MSRV 1.85 candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "rustdoc candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "fuzz-smoke candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "supply-chain candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "miri workspace tests candidate",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            }
+          ],
+          "reason_for_wait": "The exact-head Miri workspace-test step remains active and has not exceeded the workflow's declared 120-minute timeout. This observed passage made no code or merge progress; no stale green or skipped gate is substituted.",
+          "dependencies": [],
+          "next_action": "Reconcile run 38390334276 after completion; merge PR #59 with expected_head_sha only if every exact-head job succeeds, then validate integrated main and its signed native artifact.",
+          "proof": "docs/audit-global/proofs/ADA-59-COG-ADA-001.json"
+        }
+      ],
+      "external_obstacles": [
+        "MEM-11 remains blocked on its documented external dependency.",
+        "PAPERS-01 remains blocked on its documented external dependency.",
+        "B-ITD-01 remains blocked by the repository policy prohibiting orchestrator self-merge despite green candidate CI.",
+        "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -882,7 +980,7 @@
       "B-ITD-01",
       "RT-NNIS-03"
     ],
-    "next_action": "Reconcile ADA PR #59 / Miri run 38390334276 again. Merge only after all exact-head gates succeed, then validate integrated main.",
+    "next_action": "Reconcile ADA PR #59 / Miri run 38390334276 after completion. Merge only after all exact-head gates succeed, then validate integrated main.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {
