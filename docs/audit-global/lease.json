@@ -1,9 +1,11 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "codex-audit-20261013-1918",
   "acquired_at": "2026-10-13T17:21:14.594Z",
   "expires_at": "2026-10-13T18:21:14.594Z",
   "base_sha": "bf34a2149193489c9df2d009a60ddad5c4e9b343",
-  "purpose": "User-authorized automatic merges and remediation of ten remaining findings; ITD hash locks and partner manifest ingestion"
+  "purpose": "User-authorized automatic merges and remediation of ten remaining findings; ITD hash locks and partner manifest ingestion",
+  "released_at": "2026-10-13T18:16:31.545Z",
+  "release_reason": "Three automatic merges completed; three findings qualified closed with durable proofs; ADA target Miri pending and existing single automation owns continued reconciliation."
 }
