@@ -659,6 +659,107 @@
         "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "timestamp": "2026-10-13T13:44:00+02:00",
+      "observed_session_start": "2026-10-13T13:14:51+02:00",
+      "batch": {
+        "number": 2,
+        "merged_prs": 45,
+        "target": 50
+      },
+      "merged_prs": 95,
+      "closed_findings": 86,
+      "remaining_findings": 15,
+      "work_items": [
+        {
+          "id": "COG-ADA-001",
+          "repository": "Memorithm/ADA",
+          "status": "waiting_ci",
+          "base_sha": "7034491cc408ff77820589957349aa4fad1ee097",
+          "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+          "merge_sha": null,
+          "prs": [
+            "https://github.com/Memorithm/ADA/pull/59"
+          ],
+          "actions": [
+            "Verified the audit gap on current main and reviewed AGENTS.md, licence, real default branch and roadmap policy.",
+            "Added a distinct exact-SHA native AArch64/NEON qualification on the internal Jetson AGX Thor runner with fork isolation, full-SHA action pins, Rust 1.85, locked dependencies and bounded signed provenance.",
+            "Added ada-core dependency triggering, corrected the review thread, and resolved all current review threads.",
+            "Remediated the existing generic CI's Rust 1.99 assert_is_empty drift across the workspace while retaining MSRV 1.85 compatibility.",
+            "Downloaded the exact candidate artifact and verified the relative SHA-256 manifest, Ed25519 signature, source/run identity, ARM64/aarch64, Jetson AGX Thor and ASIMD evidence."
+          ],
+          "checks": [
+            {
+              "id": 38390334287,
+              "name": "Native AArch64 qualification candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334287"
+            },
+            {
+              "id": 38390334276,
+              "name": "build/test candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "MSRV 1.85 candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "rustdoc candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "fuzz-smoke candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "supply-chain candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            },
+            {
+              "id": 38390334276,
+              "name": "miri candidate",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38390334276"
+            }
+          ],
+          "reason_for_wait": "Miri is still executing the workspace tests under the workflow's 120-minute bound. No gate was skipped and no previous SHA is accepted as substitute evidence.",
+          "dependencies": [],
+          "next_action": "Reconcile run 38390334276 under a fresh lease; merge PR #59 only if Miri and every other exact-head gate succeed, then validate integrated main and its signed native artifact.",
+          "proof": "docs/audit-global/proofs/ADA-59-COG-ADA-001.json"
+        }
+      ],
+      "external_obstacles": [
+        "MEM-11 remains blocked on its documented external dependency.",
+        "PAPERS-01 remains blocked on its documented external dependency.",
+        "B-ITD-01 remains blocked by the repository policy prohibiting orchestrator self-merge despite green candidate CI.",
+        "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -674,14 +775,16 @@
       "MEM-08",
       "MEM-09"
     ],
-    "waiting_ci": [],
+    "waiting_ci": [
+      "COG-ADA-001"
+    ],
     "blocked_external": [
       "MEM-11",
       "PAPERS-01",
       "B-ITD-01",
       "RT-NNIS-03"
     ],
-    "next_action": "Acquire a fresh lease and continue the next unblocked finding; keep all external blockers open until their acceptance evidence exists.",
+    "next_action": "Reacquire a fresh lease and reconcile ADA PR #59 / Miri run 38390334276. Merge only after all exact-head gates succeed, then validate integrated main.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {
@@ -690,7 +793,6 @@
     "batch_target": 50,
     "merged_prs": 95,
     "closed_findings": 86,
-    "remaining_findings": 15,
-    "backlog": 101
+    "remaining_findings": 15
   }
 }
