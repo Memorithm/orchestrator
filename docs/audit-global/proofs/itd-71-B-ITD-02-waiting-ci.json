@@ -1,0 +1,109 @@
+{
+  "schema": "memorithm.audit.qualification.v1",
+  "finding": "B-ITD-02",
+  "status": "merged_waiting_integrated_CI",
+  "observed_at": "2026-10-13T17:54:43.051Z",
+  "pr": {
+    "repository": "Memorithm/itd-simulator",
+    "number": 71,
+    "url": "https://github.com/Memorithm/itd-simulator/pull/71",
+    "ids": [
+      "B-ITD-02"
+    ],
+    "head_sha": "3c836a570fd95a5774b6ef1ce24f112d0aee6b60",
+    "base_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+    "status": "merged_waiting_integrated_CI",
+    "batch": 3,
+    "user_merge_authorization": "explicit_20261013_automatic_engineering_PR_merge_scientific_holdouts_unchanged",
+    "merge_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+    "candidate_checks": [
+      {
+        "name": "Python 3.13",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440760522/job/115446408455"
+      },
+      {
+        "name": "Python 3.12",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440760522/job/115446408417"
+      },
+      {
+        "name": "Python 3.11",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440760522/job/115446408337"
+      },
+      {
+        "name": "Commit policy",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440760522/job/115446407952"
+      },
+      {
+        "name": "Python 3.11",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440751983/job/115446379913"
+      },
+      {
+        "name": "Python 3.12",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440751983/job/115446379671"
+      },
+      {
+        "name": "Commit policy",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440751983/job/115446379512"
+      },
+      {
+        "name": "Python 3.13",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440751983/job/115446379329"
+      }
+    ],
+    "integrated_checks": [
+      {
+        "name": "Python 3.11",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381037"
+      },
+      {
+        "name": "Python 3.13",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381018"
+      },
+      {
+        "name": "Python 3.12",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450380950"
+      },
+      {
+        "name": "Commit policy",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450380510"
+      }
+    ],
+    "merge_method": "merge_with_expected_head_sha",
+    "candidate_integrated_tree": "8fd922ba1b31564f8ae11081322fcd42938dc658",
+    "review_corrections": [
+      "package bootstrap hash lock and wheel byte manifest in source distributions"
+    ],
+    "security_correction": "pip 26.1.2 rejected by PYSEC-2026-3721; pin 26.2.1, recompute hashes, local audit clear"
+  },
+  "local": {
+    "python": "3.12",
+    "pip": "26.2.1",
+    "tests_passed": 751,
+    "validation_stages_passed": 29,
+    "external_holdout_stage28": "reserved_not_executed",
+    "ruff": "passed",
+    "mypy_files": 167,
+    "manifest_files": 592,
+    "pip_audit": "no known vulnerabilities",
+    "pip_check": "no broken requirements",
+    "sdist_lock_artifacts": "verified",
+    "wheel_hash_entries": 76,
+    "per_interpreter_distributions": 52
+  }
+}
