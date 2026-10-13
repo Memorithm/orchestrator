@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:22:09.000+02:00",
+  "updated_at": "2026-10-13T18:28:19.000+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 90,
     "remaining": 11,
-    "merged_prs": 101
+    "merged_prs": 102
   },
   "batches": [
     {
@@ -553,6 +553,11 @@
           "repository": "Memorithm/ADA",
           "number": 60,
           "merge_sha": "6e18b6330655bbd434776dccbda48b2777241a62"
+        },
+        {
+          "repository": "Memorithm/NeuralOperator",
+          "number": 37,
+          "merge_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
         }
       ]
     }
@@ -8586,8 +8591,8 @@
       "base": "main",
       "base_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
       "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
-      "merge_sha": null,
-      "status": "waiting_ci",
+      "merge_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "B-NO-01"
       ],
@@ -8599,26 +8604,84 @@
       },
       "checks": [
         {
+          "id": 115407629901,
           "name": "rust-darcy",
           "status": "completed",
           "conclusion": "success",
-          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
-          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494905/job/115407629901"
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494905/job/115407629901",
+          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
         },
         {
+          "id": 115407628090,
           "name": "unit-tests",
           "status": "completed",
           "conclusion": "success",
-          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
-          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494735/job/115407628090"
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494735/job/115407628090",
+          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
         },
         {
+          "id": 115407627323,
+          "name": "torch",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494627/job/115407627323",
+          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
+        }
+      ],
+      "merge_method": "squash_with_expected_head_sha",
+      "target_checks": [
+        {
+          "id": 115411057172,
           "name": "torch",
           "status": "in_progress",
           "conclusion": null,
-          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
-          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494627/job/115407627323"
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486845/job/115411057172",
+          "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
+        },
+        {
+          "id": 115411057090,
+          "name": "rust-darcy",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486796/job/115411057090",
+          "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
+        },
+        {
+          "id": 115411056322,
+          "name": "unit-tests",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486858/job/115411056322",
+          "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
         }
+      ],
+      "artifacts": [
+        {
+          "scope": "candidate",
+          "id": 11830605388,
+          "name": "rust-darcy-4686bf6dabd01374a5d0ec483bba507534f1d98d",
+          "size_in_bytes": 136853,
+          "url": "https://api.github.com/repos/Memorithm/NeuralOperator/actions/artifacts/11830605388",
+          "archive_download_url": "https://api.github.com/repos/Memorithm/NeuralOperator/actions/artifacts/11830605388/zip",
+          "expired": false,
+          "created_at": "2026-10-13T16:19:42Z",
+          "expires_at": "2027-01-11T16:19:04Z",
+          "updated_at": "2026-10-13T16:19:42Z",
+          "digest": "sha256:f978a361c095e9b0ec031ed0782e18cc799e7742f4ece6844996bb0e348c728c",
+          "workflow_run": {
+            "id": 38429494905,
+            "repository_id": 1378418188,
+            "head_repository_id": 1378418188,
+            "head_branch": "audit/b-no-01-bounded-rust-darcy",
+            "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
+          },
+          "downloaded_archive_digest_verified": true
+        }
+      ],
+      "limitations": [
+        "First isotropic Darcy residual only, not full native model/solver/autograd/GPU integration.",
+        "Independent Python oracle pin, methods and model/holdout populations are preserved.",
+        "Hosted CPU timing is scoped API validation/allocation/kernel observation, not stable hardware performance or superiority."
       ]
     }
   ],
@@ -13237,30 +13300,25 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
+      "current_head": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
       "default_branch": "main",
       "audit_head": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
       "head_reconciliation": "current_main_has_no_Rust_first_bounded_Darcy_residual_candidate_open",
       "policy_review": "Root AGENTS, full mandatory roadmap, full PolyForm license/LICENSING read. Domain residual owned by NeuralOperator, no generic solver duplication, Python oracle/model paths preserved, no holdout access or excluded mutation.",
       "prs": [
         {
-          "repository": "Memorithm/NeuralOperator",
           "number": 37,
           "url": "https://github.com/Memorithm/NeuralOperator/pull/37",
-          "base": "main",
-          "base_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
-          "head_sha": "9f89b2a0f3aaa203e1f181bee30e2d5afb48bad3",
-          "merge_sha": null,
-          "status": "waiting_ci",
-          "ids": [
-            "B-NO-01"
-          ],
-          "batch": 3
+          "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
+          "merge_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+          "status": "merged_waiting_target_ci"
         }
       ],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-13T18:16:46.000+02:00",
-      "next_action": "Reconcile all three exact-head gates/review; inspect real 32-case parity/cost archive, guarded merge then integrated requalification."
+      "resolution_evidence": [
+        "docs/audit-global/proofs/NeuralOperator-37-B-NO-01.json"
+      ],
+      "last_observed_at": "2026-10-13T18:28:19.000+02:00",
+      "next_action": "Wait for integrated optional Torch gate; verify/download exact merged-head 32-case parity/cost archive and retain raw evidence before closure."
     },
     {
       "id": "B-NO-02",
@@ -14219,5 +14277,5 @@
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
   ],
-  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6149041028"
+  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6150113169"
 }

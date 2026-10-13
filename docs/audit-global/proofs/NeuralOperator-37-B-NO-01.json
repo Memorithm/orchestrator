@@ -1,0 +1,639 @@
+{
+  "schema": "memorithm.audit-proof.v1",
+  "finding": "B-NO-01",
+  "observed_at": "2026-10-13T18:28:19.000+02:00",
+  "closure": false,
+  "repository": "Memorithm/NeuralOperator",
+  "number": 37,
+  "url": "https://github.com/Memorithm/NeuralOperator/pull/37",
+  "base": "main",
+  "base_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+  "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
+  "merge_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+  "status": "merged_waiting_target_ci",
+  "ids": [
+    "B-NO-01"
+  ],
+  "batch": 3,
+  "review": {
+    "threads": 1,
+    "resolved_threads": 1,
+    "fix_head": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
+  },
+  "checks": [
+    {
+      "id": 115407629901,
+      "name": "rust-darcy",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494905/job/115407629901",
+      "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
+    },
+    {
+      "id": 115407628090,
+      "name": "unit-tests",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494735/job/115407628090",
+      "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
+    },
+    {
+      "id": 115407627323,
+      "name": "torch",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38429494627/job/115407627323",
+      "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
+    }
+  ],
+  "merge_method": "squash_with_expected_head_sha",
+  "target_checks": [
+    {
+      "id": 115411057172,
+      "name": "torch",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486845/job/115411057172",
+      "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
+    },
+    {
+      "id": 115411057090,
+      "name": "rust-darcy",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486796/job/115411057090",
+      "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
+    },
+    {
+      "id": 115411056322,
+      "name": "unit-tests",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486858/job/115411056322",
+      "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
+    }
+  ],
+  "artifacts": [
+    {
+      "scope": "candidate",
+      "id": 11830605388,
+      "name": "rust-darcy-4686bf6dabd01374a5d0ec483bba507534f1d98d",
+      "size_in_bytes": 136853,
+      "url": "https://api.github.com/repos/Memorithm/NeuralOperator/actions/artifacts/11830605388",
+      "archive_download_url": "https://api.github.com/repos/Memorithm/NeuralOperator/actions/artifacts/11830605388/zip",
+      "expired": false,
+      "created_at": "2026-10-13T16:19:42Z",
+      "expires_at": "2027-01-11T16:19:04Z",
+      "updated_at": "2026-10-13T16:19:42Z",
+      "digest": "sha256:f978a361c095e9b0ec031ed0782e18cc799e7742f4ece6844996bb0e348c728c",
+      "workflow_run": {
+        "id": 38429494905,
+        "repository_id": 1378418188,
+        "head_repository_id": 1378418188,
+        "head_branch": "audit/b-no-01-bounded-rust-darcy",
+        "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
+      },
+      "downloaded_archive_digest_verified": true
+    }
+  ],
+  "limitations": [
+    "First isotropic Darcy residual only, not full native model/solver/autograd/GPU integration.",
+    "Independent Python oracle pin, methods and model/holdout populations are preserved.",
+    "Hosted CPU timing is scoped API validation/allocation/kernel observation, not stable hardware performance or superiority."
+  ],
+  "candidate_report": {
+    "accepted": true,
+    "atol": 1e-10,
+    "binary_sha256": "db0aa73a60e031c3a9e61589894bc12cce9677eca2cb94b17d3b254fe1eef6de",
+    "cases": [
+      {
+        "case": "3x3-s0-supplied",
+        "cost": {
+          "grid_points": 9,
+          "interior_points": 1,
+          "median_ns": 90,
+          "output_bytes": 8,
+          "p95_ns": 101,
+          "repetitions": 31,
+          "scalar_ops": 34,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "534a744330953f4a541a39f34c776f2e5e129d72c80c418499284d3201dcc18f",
+        "max_abs_error": 0
+      },
+      {
+        "case": "3x3-s0-solved",
+        "cost": {
+          "grid_points": 9,
+          "interior_points": 1,
+          "median_ns": 90,
+          "output_bytes": 8,
+          "p95_ns": 101,
+          "repetitions": 31,
+          "scalar_ops": 34,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "85521f1af01b856f6c79874cfd3b98413fbc0a849c841b92d23c4cdb989328b0",
+        "max_abs_error": 0
+      },
+      {
+        "case": "3x3-s1-supplied",
+        "cost": {
+          "grid_points": 9,
+          "interior_points": 1,
+          "median_ns": 90,
+          "output_bytes": 8,
+          "p95_ns": 110,
+          "repetitions": 31,
+          "scalar_ops": 34,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "e40e32f059a11eaf962c5a3b1ec25555b4eb894f1e54e5c67c7f200e2282733d",
+        "max_abs_error": 0
+      },
+      {
+        "case": "3x3-s1-solved",
+        "cost": {
+          "grid_points": 9,
+          "interior_points": 1,
+          "median_ns": 90,
+          "output_bytes": 8,
+          "p95_ns": 101,
+          "repetitions": 31,
+          "scalar_ops": 34,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "64ad55d5fb3f0ce629417f5251f83b53fefe4a07c301a21ea736eaaf48282b22",
+        "max_abs_error": 0
+      },
+      {
+        "case": "3x3-s2-supplied",
+        "cost": {
+          "grid_points": 9,
+          "interior_points": 1,
+          "median_ns": 90,
+          "output_bytes": 8,
+          "p95_ns": 110,
+          "repetitions": 31,
+          "scalar_ops": 34,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "07197a4e8f59b8d3ad186b1e2f4f01703d30a2c4a2d8eff57ae5391a62415d95",
+        "max_abs_error": 0
+      },
+      {
+        "case": "3x3-s2-solved",
+        "cost": {
+          "grid_points": 9,
+          "interior_points": 1,
+          "median_ns": 90,
+          "output_bytes": 8,
+          "p95_ns": 101,
+          "repetitions": 31,
+          "scalar_ops": 34,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "c3d02920910e951ddf45c63ecb0ccf0a058608cb3e2e4f43439d1accfe6d6d5a",
+        "max_abs_error": 0
+      },
+      {
+        "case": "3x3-s3-supplied",
+        "cost": {
+          "grid_points": 9,
+          "interior_points": 1,
+          "median_ns": 130,
+          "output_bytes": 8,
+          "p95_ns": 190,
+          "repetitions": 31,
+          "scalar_ops": 34,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "8bb20d4214724e2d6d1465849182053745264ff3b402203c7b5e5c0a06be0828",
+        "max_abs_error": 0
+      },
+      {
+        "case": "3x3-s3-solved",
+        "cost": {
+          "grid_points": 9,
+          "interior_points": 1,
+          "median_ns": 90,
+          "output_bytes": 8,
+          "p95_ns": 101,
+          "repetitions": 31,
+          "scalar_ops": 34,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "08e034b338035115f238b5b7398fa685032d5ab6d69cd0eca010691a146c9b29",
+        "max_abs_error": 0
+      },
+      {
+        "case": "5x7-s0-supplied",
+        "cost": {
+          "grid_points": 35,
+          "interior_points": 15,
+          "median_ns": 250,
+          "output_bytes": 120,
+          "p95_ns": 270,
+          "repetitions": 31,
+          "scalar_ops": 454,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "330d0929068ba406ad1362a02c215a34d872d97180cd617d35d707791c51db1d",
+        "max_abs_error": 0
+      },
+      {
+        "case": "5x7-s0-solved",
+        "cost": {
+          "grid_points": 35,
+          "interior_points": 15,
+          "median_ns": 240,
+          "output_bytes": 120,
+          "p95_ns": 260,
+          "repetitions": 31,
+          "scalar_ops": 454,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "dc2ee7f2ea6dc813b99f13854a1676ba80ab6057cbf505973cafd6f641cdfc27",
+        "max_abs_error": 0
+      },
+      {
+        "case": "5x7-s1-supplied",
+        "cost": {
+          "grid_points": 35,
+          "interior_points": 15,
+          "median_ns": 231,
+          "output_bytes": 120,
+          "p95_ns": 260,
+          "repetitions": 31,
+          "scalar_ops": 454,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "6ddadfc385fd26a58dc7149ab840a5d31acc05fc2202452192786884f1793843",
+        "max_abs_error": 0
+      },
+      {
+        "case": "5x7-s1-solved",
+        "cost": {
+          "grid_points": 35,
+          "interior_points": 15,
+          "median_ns": 250,
+          "output_bytes": 120,
+          "p95_ns": 260,
+          "repetitions": 31,
+          "scalar_ops": 454,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "5c4147fd5aa18df80e392e77e74112a058ad2cd7d9304f503562889bba56d9a4",
+        "max_abs_error": 0
+      },
+      {
+        "case": "5x7-s2-supplied",
+        "cost": {
+          "grid_points": 35,
+          "interior_points": 15,
+          "median_ns": 241,
+          "output_bytes": 120,
+          "p95_ns": 260,
+          "repetitions": 31,
+          "scalar_ops": 454,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "dab2984987df6dd828a24c6b4a6d62a614e796544bb7fa378f0a14f520f5e537",
+        "max_abs_error": 0
+      },
+      {
+        "case": "5x7-s2-solved",
+        "cost": {
+          "grid_points": 35,
+          "interior_points": 15,
+          "median_ns": 241,
+          "output_bytes": 120,
+          "p95_ns": 280,
+          "repetitions": 31,
+          "scalar_ops": 454,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "f692dc75651b43d3918c6bb9c934af10c1c32a58ba82929f839754e47ae151a0",
+        "max_abs_error": 0
+      },
+      {
+        "case": "5x7-s3-supplied",
+        "cost": {
+          "grid_points": 35,
+          "interior_points": 15,
+          "median_ns": 241,
+          "output_bytes": 120,
+          "p95_ns": 251,
+          "repetitions": 31,
+          "scalar_ops": 454,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "cd4cad3ca3303241af9004276be0323d7a50764d0b07ee28ac713fd3df777d46",
+        "max_abs_error": 0
+      },
+      {
+        "case": "5x7-s3-solved",
+        "cost": {
+          "grid_points": 35,
+          "interior_points": 15,
+          "median_ns": 240,
+          "output_bytes": 120,
+          "p95_ns": 260,
+          "repetitions": 31,
+          "scalar_ops": 454,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "1f93caa75b725ce28a2f213e24d34854f270203ae009c927aa47b4d7a3a7eae2",
+        "max_abs_error": 0
+      },
+      {
+        "case": "9x9-s0-supplied",
+        "cost": {
+          "grid_points": 81,
+          "interior_points": 49,
+          "median_ns": 601,
+          "output_bytes": 392,
+          "p95_ns": 611,
+          "repetitions": 31,
+          "scalar_ops": 1474,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "bf137673dc04702cb145079ef3f8676e8c3b112c4b1aaa8d239b4f9e344b8029",
+        "max_abs_error": 0
+      },
+      {
+        "case": "9x9-s0-solved",
+        "cost": {
+          "grid_points": 81,
+          "interior_points": 49,
+          "median_ns": 571,
+          "output_bytes": 392,
+          "p95_ns": 601,
+          "repetitions": 31,
+          "scalar_ops": 1474,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "2b86db50b89b1fb25e2511289582959e78d38eed1a75e525736fa71b07d8c02c",
+        "max_abs_error": 0
+      },
+      {
+        "case": "9x9-s1-supplied",
+        "cost": {
+          "grid_points": 81,
+          "interior_points": 49,
+          "median_ns": 591,
+          "output_bytes": 392,
+          "p95_ns": 601,
+          "repetitions": 31,
+          "scalar_ops": 1474,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "c7059ebc80594eb061465e64466b04c9a9a2ea49ef4a3709c4669a55ad3bebc5",
+        "max_abs_error": 0
+      },
+      {
+        "case": "9x9-s1-solved",
+        "cost": {
+          "grid_points": 81,
+          "interior_points": 49,
+          "median_ns": 771,
+          "output_bytes": 392,
+          "p95_ns": 941,
+          "repetitions": 31,
+          "scalar_ops": 1474,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "791865c759007697ab98f28bb7a1989bd559d8194d687dded75ef90a963fc9bd",
+        "max_abs_error": 0
+      },
+      {
+        "case": "9x9-s2-supplied",
+        "cost": {
+          "grid_points": 81,
+          "interior_points": 49,
+          "median_ns": 581,
+          "output_bytes": 392,
+          "p95_ns": 1002,
+          "repetitions": 31,
+          "scalar_ops": 1474,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "c4b04fca9bc9ab8b7cf8633af79c5ada5d3dd0fc82d198099815610d853f1238",
+        "max_abs_error": 0
+      },
+      {
+        "case": "9x9-s2-solved",
+        "cost": {
+          "grid_points": 81,
+          "interior_points": 49,
+          "median_ns": 591,
+          "output_bytes": 392,
+          "p95_ns": 601,
+          "repetitions": 31,
+          "scalar_ops": 1474,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "afd780fa9de76781807191f47c2e765b13fb9568e0a434296db32dcaf025da59",
+        "max_abs_error": 0
+      },
+      {
+        "case": "9x9-s3-supplied",
+        "cost": {
+          "grid_points": 81,
+          "interior_points": 49,
+          "median_ns": 591,
+          "output_bytes": 392,
+          "p95_ns": 601,
+          "repetitions": 31,
+          "scalar_ops": 1474,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "5ce33765c632e94af76148a81b7cf30c0aca25451c798cbfabda50f9707a6036",
+        "max_abs_error": 0
+      },
+      {
+        "case": "9x9-s3-solved",
+        "cost": {
+          "grid_points": 81,
+          "interior_points": 49,
+          "median_ns": 590,
+          "output_bytes": 392,
+          "p95_ns": 601,
+          "repetitions": 31,
+          "scalar_ops": 1474,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "ac5cc0d03d6ba15d387043e370f6d3b77e61d4a775bbcb6be859fa2ba4546a04",
+        "max_abs_error": 0
+      },
+      {
+        "case": "17x29-s0-supplied",
+        "cost": {
+          "grid_points": 493,
+          "interior_points": 405,
+          "median_ns": 3886,
+          "output_bytes": 3240,
+          "p95_ns": 4207,
+          "repetitions": 31,
+          "scalar_ops": 12154,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "0033003b7dbc209cd1a78bd0b3b332cc8e92a058a65561fd8909537c805fe273",
+        "max_abs_error": 0
+      },
+      {
+        "case": "17x29-s0-solved",
+        "cost": {
+          "grid_points": 493,
+          "interior_points": 405,
+          "median_ns": 4166,
+          "output_bytes": 3240,
+          "p95_ns": 4206,
+          "repetitions": 31,
+          "scalar_ops": 12154,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "a902485046478eae49d1706cf25459b161c7152f90d8e1ab13fe8f5bc37568d1",
+        "max_abs_error": 0
+      },
+      {
+        "case": "17x29-s1-supplied",
+        "cost": {
+          "grid_points": 493,
+          "interior_points": 405,
+          "median_ns": 4096,
+          "output_bytes": 3240,
+          "p95_ns": 4106,
+          "repetitions": 31,
+          "scalar_ops": 12154,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "5a7d033c0a65cd436964f1ff14658de8d0b4a0e6580f6ba559534f7f354bca49",
+        "max_abs_error": 0
+      },
+      {
+        "case": "17x29-s1-solved",
+        "cost": {
+          "grid_points": 493,
+          "interior_points": 405,
+          "median_ns": 4186,
+          "output_bytes": 3240,
+          "p95_ns": 4196,
+          "repetitions": 31,
+          "scalar_ops": 12154,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "e808625be93676c4323c1bc14947cdc82b5fef19e56b86b48ebf28e9c732f622",
+        "max_abs_error": 0
+      },
+      {
+        "case": "17x29-s2-supplied",
+        "cost": {
+          "grid_points": 493,
+          "interior_points": 405,
+          "median_ns": 4076,
+          "output_bytes": 3240,
+          "p95_ns": 4206,
+          "repetitions": 31,
+          "scalar_ops": 12154,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "e319bfc77dab12d70719b9a819ac1f9504e5c242618a79fcc12c6d376af6ba20",
+        "max_abs_error": 0
+      },
+      {
+        "case": "17x29-s2-solved",
+        "cost": {
+          "grid_points": 493,
+          "interior_points": 405,
+          "median_ns": 4336,
+          "output_bytes": 3240,
+          "p95_ns": 4347,
+          "repetitions": 31,
+          "scalar_ops": 12154,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "efc8a8e80f20d779e3f94c424648636eb43787743f3be75aaf724c05aacd4e02",
+        "max_abs_error": 0
+      },
+      {
+        "case": "17x29-s3-supplied",
+        "cost": {
+          "grid_points": 493,
+          "interior_points": 405,
+          "median_ns": 3776,
+          "output_bytes": 3240,
+          "p95_ns": 4077,
+          "repetitions": 31,
+          "scalar_ops": 12154,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "81fa992b5f67a3961363810e94d8342811657d6fc9929c1b73a63900a7267908",
+        "max_abs_error": 0
+      },
+      {
+        "case": "17x29-s3-solved",
+        "cost": {
+          "grid_points": 493,
+          "interior_points": 405,
+          "median_ns": 4066,
+          "output_bytes": 3240,
+          "p95_ns": 4077,
+          "repetitions": 31,
+          "scalar_ops": 12154,
+          "timing_scope": "hosted_CPU_API_validation_allocation_and_kernel_not_stable_hardware",
+          "warmups": 5
+        },
+        "fixture_sha256": "d6657a84aac2d358c41dc9c0d16027cfdbc6c77d3fb8f036a6a3bae2657f8d82",
+        "max_abs_error": 0
+      }
+    ],
+    "corpus_sha256": "ef97aa6716da4aae6e562d8740acecda9a0b536e8a8c2212961e902cac3d1810",
+    "limitations": [
+      "isotropic residual only; no solver/model migration",
+      "synthetic corpus, no final holdout",
+      "hosted CPU timing is not fixed-host performance or superiority evidence"
+    ],
+    "numpy": "2.5.3",
+    "oracle_pin_verified_before_import": true,
+    "oracle_revision": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+    "oracle_source_sha256": "c72975c02563d8c554bcbfcd419fcd1711c9f4e63491a76e5ef0e676fac39a92",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "python": "3.12.8",
+    "rtol": 1e-12,
+    "schema": "neural-operator.rust-darcy-qualification@1",
+    "scipy": "1.18.1",
+    "source_head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
+  }
+}

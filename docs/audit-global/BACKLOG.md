@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-Dernière réconciliation 2026-10-13T17:40:08+02:00 : **lot 2 46/50**, **96 PR fusionnées**, **87/101 constats clos**, **14 restants**. ADA #60 et octasoma #72 attendent leurs gates exacts ; un candidat privé est documenté sans publier son contenu. Les états historiques ci-dessous restent datés.
+Dernière réconciliation 2026-10-13T18:28:19.000+02:00 : **lot 3 2/50**, **102 PR fusionnées**, **90/101 constats clos**, **11 restants**. ADA #60 attend Miri intégré ; NeuralOperator #37 attend la qualification intégrée Torch. Les états historiques ci-dessous restent datés.
 
 État réconcilié du 13 octobre 2026 à 12:18 Europe/Paris : **95 PR techniques fusionnées au total**, **86/101 constats clos**, **15 restants** ; lot 2 à **45/50**. MEM-09 est clos par [CCOS-Enterprise #195](https://github.com/Memorithm/CCOS-Enterprise/pull/195) et son correctif de portabilité [#196](https://github.com/Memorithm/CCOS-Enterprise/pull/196), sur le SHA intégré final `ac3e64b57aec8120ab98922c76afae4df48d6336`. Les validations exact-head et intégrées, les artefacts signés et la vérification après téléchargement sont consignés dans la [preuve MEM-09](proofs/CCOS-Enterprise-195-196-MEM-09.json). Aucun dépôt exclu n’a été modifié.
 
@@ -14,104 +14,104 @@ Dernière réconciliation 2026-10-13T17:40:08+02:00 : **lot 2 46/50**, **96 PR f
 
 | ID | Dépôt | Priorité | Statut | Dépendances proposées |
 |---|---|---|---|---|
-| RT-SCI-01 | Memorithm/scirust | 9 | résolu |  |
-| RT-SCI-02 | Memorithm/scirust | 1 | résolu |  |
-| RT-SCI-03 | Memorithm/scirust | 9 | résolu |  |
-| RT-TQ-01 | Memorithm/TurboQuant | 1 | résolu |  |
-| RT-TQ-02 | Memorithm/TurboQuant | 9 | résolu | RT-TQ-01 |
-| RT-TQ-03 | Memorithm/TurboQuant | 9 | résolu |  |
-| RT-TQ-04 | Memorithm/TurboQuant | 9 | résolu |  |
-| RT-TQ-05 | Memorithm/TurboQuant | 8 | résolu |  |
-| RT-TQ-06 | Memorithm/TurboQuant | 5 | résolu | [preuve](proofs/TurboQuant-15-RT-TQ-06.json), [PR #15](https://github.com/Memorithm/TurboQuant/pull/15) |
-| RT-TQ-07 | Memorithm/TurboQuant | 8 | résolu |  |
-| RT-SLHA-01 | Memorithm/SLHAv2 | 9 | résolu |  |
-| RT-SLHA-02 | Memorithm/SLHAv2 | 9 | résolu |  |
-| RT-SLHA-05 | Memorithm/SLHAv2 | 9 | résolu |  |
-| RT-FLAT-01 | Memorithm/FLAT-ATTENTION | 8 | résolu | [preuve](proofs/FLAT-ATTENTION-337-RT-FLAT-01.json), [PR #337](https://github.com/Memorithm/FLAT-ATTENTION/pull/337) ; mesure M53 différée, aucune revendication performance |
-| RT-ELASTIC-01 | Memorithm/ElasticXxx | 8 | résolu | [preuve](proofs/ElasticXxx-242-243-RT-ELASTIC-01.json), [PR #242](https://github.com/Memorithm/ElasticXxx/pull/242), [PR #243](https://github.com/Memorithm/ElasticXxx/pull/243) |
-| RT-NNIS-01 | Memorithm/NNIS | 9 | résolu |  |
-| RT-NNIS-02 | Memorithm/NNIS | 2 | résolu | [preuve](proofs/NNIS-253-RT-NNIS-02.json), [PR #253](https://github.com/Memorithm/NNIS/pull/253) |
-| RT-NNIS-03 | Memorithm/NNIS | 9 | bloqué |  |
-| RT-NNIS-05 | Memorithm/NNIS | 9 | résolu | [preuve](proofs/NNIS-260-RT-NNIS-05.json), [PR #260](https://github.com/Memorithm/NNIS/pull/260) |
-| RT-NNIS-06 | Memorithm/NNIS | 1 | résolu |  |
-| MEM-01 | Memorithm/CCOS-Core | 9 | résolu |  |
-| MEM-02 | Memorithm/CCOS-Core | 6 | résolu | [preuve](proofs/CCOS-Core-32-MEM-02.json), [PR #32](https://github.com/Memorithm/CCOS-Core/pull/32) |
-| MEM-03 | Memorithm/CCOS-Core | 1 | résolu | [preuve](proofs/CCOS-Core-MEM-03-bounded-persistence.json), [PR #31](https://github.com/Memorithm/CCOS-Core/pull/31) |
-| MEM-04 | Memorithm/CCOS-Core | 2 | résolu |  |
-| MEM-05 | Memorithm/CCOS-Core | 8 | résolu | [preuve](proofs/CCOS-Core-33-MEM-05.json), [PR #33](https://github.com/Memorithm/CCOS-Core/pull/33), merge `155a35ee7a356b44b2910c91df5e22817a892c22` |
-| MEM-06 | Memorithm/CCOS-Core | 9 | résolu | [preuve](proofs/CCOS-Core-35-MEM-06.json), [PR #35](https://github.com/Memorithm/CCOS-Core/pull/35) |
-| MEM-07 | Memorithm/CCOS-Enterprise | 9 | résolu | [preuve](proofs/CCOS-Enterprise-193-MEM-07.json), [PR #193](https://github.com/Memorithm/CCOS-Enterprise/pull/193) |
-| MEM-08 | Memorithm/CCOS-Enterprise | 9 | résolu | MEM-02, MEM-03, MEM-04 ; [preuve](proofs/CCOS-Core-36-CCOS-Enterprise-194-MEM-08.json), [Core #36](https://github.com/Memorithm/CCOS-Core/pull/36), [Enterprise #194](https://github.com/Memorithm/CCOS-Enterprise/pull/194) |
-| MEM-09 | Memorithm/CCOS-Enterprise | 9 | résolu | [preuve](proofs/CCOS-Enterprise-195-196-MEM-09.json), [PR #195](https://github.com/Memorithm/CCOS-Enterprise/pull/195), [PR #196](https://github.com/Memorithm/CCOS-Enterprise/pull/196) |
-| MEM-10 | Memorithm/SciCapsule | 3 | résolu |  |
-| MEM-11 | Memorithm/SciCapsule | 8 | bloqué |  |
-| MEM-12 | Memorithm/SciCapsule | 9 | résolu |  |
-| MEM-13 | Memorithm/scirust-hub | 3 | résolu |  |
-| MEM-14 | Memorithm/scirust-hub | 3 | résolu |  |
-| MEM-15 | Memorithm/scirust-hub | 9 | résolu |  |
-| MEM-16 | Memorithm/SciRust-Verify | 3 | résolu |  |
-| MEM-17 | Memorithm/SciRust-Verify | 2 | résolu |  |
-| MEM-18 | Memorithm/SciRust-Verify | 8 | résolu |  |
-| MEM-19 | Memorithm/SciRust-Verify | 9 | résolu |  |
-| COG-ADA-001 | Memorithm/ADA | 9 | résolu | [PR #59](https://github.com/Memorithm/ADA/pull/59) fusionnée sous `79584396`; CI candidat/intégrée 6/6 et qualification AArch64 candidat/intégrée vertes ; artefact intégré signé vérifié ; roadmap `5cdcd2da` |
-| COG-ADA-002 | Memorithm/ADA | 9 | attente CI | [PR #60](https://github.com/Memorithm/ADA/pull/60) sur `defee006`; 2/2 remarques corrigées/résolues, six jobs relancés sur le HEAD exact ; [preuve](proofs/ADA-60-COG-ADA-002-waiting-ci.json) ; roadmap `a2e64947` non fusionnée |
-| COG-COGNO-001 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261), [PR #262](https://github.com/Memorithm/COGNO-1/pull/262) |
-| COG-COGNO-002 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) |
-| COG-COGNO-003 | Memorithm/COGNO-1 | 9 | à faire |  |
-| COG-COGNO-004 | Memorithm/COGNO-1 | 4 | résolu | [preuve](proofs/COGNO-1-261-262-COG-COGNO-001-002-004.json), [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) |
-| COG-RSI-001 | Memorithm/RSI | 4 | résolu | [preuve](proofs/RSI-58-COG-RSI-001-002.json), [PR #58](https://github.com/Memorithm/RSI/pull/58) |
-| COG-RSI-002 | Memorithm/RSI | 4 | résolu | [preuve](proofs/RSI-58-COG-RSI-001-002.json), [PR #58](https://github.com/Memorithm/RSI/pull/58) |
-| COG-RSI-003 | Memorithm/RSI | 7 | résolu | [RSI #59](https://github.com/Memorithm/RSI/pull/59), [RSI #61](https://github.com/Memorithm/RSI/pull/61), [preuve](proofs/RSI-59-61-COG-RSI-003.json) |
-| COG-OCTA-001 | Memorithm/octasoma | 6 | résolu | [preuve](proofs/octasoma-69-70-71-COG-OCTA-001.json), [PR #69](https://github.com/Memorithm/octasoma/pull/69), [PR #70](https://github.com/Memorithm/octasoma/pull/70), [PR #71](https://github.com/Memorithm/octasoma/pull/71) |
-| COG-OCTA-002 | Memorithm/octasoma | 1 | résolu | [preuve](proofs/octasoma-68-COG-OCTA-002.json), [PR #68](https://github.com/Memorithm/octasoma/pull/68) |
-| COG-OCTA-003 | Memorithm/octasoma | 9 | attente CI | [PR #72](https://github.com/Memorithm/octasoma/pull/72) sur `c815cf8a`; 2/2 remarques corrigées ; [preuve](proofs/octasoma-72-COG-OCTA-003.json) |
+| RT-SCI-01 | Memorithm/scirust | 9 | résolu | [PR #1611](https://github.com/Memorithm/scirust/pull/1611) · [preuve](proofs/scirust-1611-RT-SCI-01-waiting-ci.json) |
+| RT-SCI-02 | Memorithm/scirust | 1 | résolu | [PR #1519](https://github.com/Memorithm/scirust/pull/1519) · [preuve](File-backed safetensors loaders read only an 8-byte prefix and bounded header before payload allocation, enforce configurable header/total quotas and exact descriptor length, use fallible reservations/exact reads, and detect growth.) |
+| RT-SCI-03 | Memorithm/scirust | 9 | résolu | [PR #1614](https://github.com/Memorithm/scirust/pull/1614) · [preuve](proofs/scirust-1614-RT-SCI-03-target-validated.json) |
+| RT-TQ-01 | Memorithm/TurboQuant | 1 | résolu | [PR #14](https://github.com/Memorithm/TurboQuant/pull/14) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/TurboQuant-14.json) |
+| RT-TQ-02 | Memorithm/TurboQuant | 9 | résolu | [PR #16](https://github.com/Memorithm/TurboQuant/pull/16) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/TurboQuant-16-RT-TQ-02-03.json) |
+| RT-TQ-03 | Memorithm/TurboQuant | 9 | résolu | [PR #16](https://github.com/Memorithm/TurboQuant/pull/16) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/TurboQuant-16-RT-TQ-02-03.json) |
+| RT-TQ-04 | Memorithm/TurboQuant | 9 | résolu | [PR #17](https://github.com/Memorithm/TurboQuant/pull/17) · [preuve](proofs/TurboQuant-17-RT-TQ-04-waiting-target-ci.json) |
+| RT-TQ-05 | Memorithm/TurboQuant | 8 | résolu | [PR #14](https://github.com/Memorithm/TurboQuant/pull/14) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/TurboQuant-14.json) |
+| RT-TQ-06 | Memorithm/TurboQuant | 5 | résolu | [PR #15](https://github.com/Memorithm/TurboQuant/pull/15) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/TurboQuant-15-RT-TQ-06.json) |
+| RT-TQ-07 | Memorithm/TurboQuant | 8 | résolu | [PR #14](https://github.com/Memorithm/TurboQuant/pull/14) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/TurboQuant-14.json) |
+| RT-SLHA-01 | Memorithm/SLHAv2 | 9 | résolu | [PR #132](https://github.com/Memorithm/SLHAv2/pull/132) · [preuve](proofs/SLHAv2-132-RT-SLHA-01.json) |
+| RT-SLHA-02 | Memorithm/SLHAv2 | 9 | résolu | [PR #133](https://github.com/Memorithm/SLHAv2/pull/133) · [preuve](proofs/SLHAv2-133-RT-SLHA-02.json) |
+| RT-SLHA-05 | Memorithm/SLHAv2 | 9 | résolu |  · [preuve](proofs/SLHAv2-RT-SLHA-05-current-head.json) |
+| RT-FLAT-01 | Memorithm/FLAT-ATTENTION | 8 | résolu | [PR #337](https://github.com/Memorithm/FLAT-ATTENTION/pull/337) · [preuve](Audit run 36765646926 failed before jobs were created, isolating the defect to workflow validity rather than an M53 test result.) |
+| RT-ELASTIC-01 | Memorithm/ElasticXxx | 8 | résolu | [PR #242](https://github.com/Memorithm/ElasticXxx/pull/242), [PR #243](https://github.com/Memorithm/ElasticXxx/pull/243) · [preuve](All 14 PR-capable workflows now use pull_request_target from the trusted default branch; zero pull_request workflow definitions remain.) |
+| RT-NNIS-01 | Memorithm/NNIS | 9 | résolu | [PR #261](https://github.com/Memorithm/NNIS/pull/261) · [preuve](proofs/NNIS-261-RT-NNIS-01-waiting-ci.json) |
+| RT-NNIS-02 | Memorithm/NNIS | 2 | résolu | [PR #253](https://github.com/Memorithm/NNIS/pull/253) · [preuve](proofs/NNIS-253-RT-NNIS-02.json) |
+| RT-NNIS-03 | Memorithm/NNIS | 9 | bloqué | [PR #262](https://github.com/Memorithm/NNIS/pull/262) · [preuve](proofs/NNIS-262-RT-NNIS-03.json) |
+| RT-NNIS-05 | Memorithm/NNIS | 9 | résolu | [PR #260](https://github.com/Memorithm/NNIS/pull/260) · [preuve](proofs/NNIS-260-RT-NNIS-05.json) |
+| RT-NNIS-06 | Memorithm/NNIS | 1 | résolu | [PR #252](https://github.com/Memorithm/NNIS/pull/252), [PR #176](https://github.com/Memorithm/KVLab/pull/176), [PR #177](https://github.com/Memorithm/KVLab/pull/177) · [preuve](NNIS rejects stdin beyond 1 MiB before UTF-8/JSON/canonicalisation/hash/model work and bounds 1024-byte text fields plus all token/position collections against the exact checkpoint capacity.) |
+| MEM-01 | Memorithm/CCOS-Core | 9 | résolu |  · [preuve](proofs/CCOS-Core-34-MEM-01-waiting-ci.json) |
+| MEM-02 | Memorithm/CCOS-Core | 6 | résolu | [PR #32](https://github.com/Memorithm/CCOS-Core/pull/32) · [preuve](proofs/CCOS-Core-32-MEM-02.json) |
+| MEM-03 | Memorithm/CCOS-Core | 1 | résolu | [PR #31](https://github.com/Memorithm/CCOS-Core/pull/31) · [preuve](proofs/CCOS-Core-MEM-03-bounded-persistence.json) |
+| MEM-04 | Memorithm/CCOS-Core | 2 | résolu | [PR #28](https://github.com/Memorithm/CCOS-Core/pull/28), [PR #29](https://github.com/Memorithm/CCOS-Core/pull/29), [PR #30](https://github.com/Memorithm/CCOS-Core/pull/30) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/CCOS-Core-MEM-04.json) |
+| MEM-05 | Memorithm/CCOS-Core | 8 | résolu | [PR #33](https://github.com/Memorithm/CCOS-Core/pull/33) · [preuve](proofs/CCOS-Core-33-MEM-05.json) |
+| MEM-06 | Memorithm/CCOS-Core | 9 | résolu | [PR #35](https://github.com/Memorithm/CCOS-Core/pull/35) · [preuve](proofs/CCOS-Core-35-MEM-06.json) |
+| MEM-07 | Memorithm/CCOS-Enterprise | 9 | résolu | [PR #193](https://github.com/Memorithm/CCOS-Enterprise/pull/193) · [preuve](proofs/CCOS-Enterprise-193-MEM-07.json) |
+| MEM-08 | Memorithm/CCOS-Enterprise | 9 | résolu | [PR #36](https://github.com/Memorithm/CCOS-Core/pull/36), [PR #194](https://github.com/Memorithm/CCOS-Enterprise/pull/194) · [preuve](proofs/CCOS-Core-36-CCOS-Enterprise-194-MEM-08.json) |
+| MEM-09 | Memorithm/CCOS-Enterprise | 9 | résolu | [PR #195](https://github.com/Memorithm/CCOS-Enterprise/pull/195), [PR #196](https://github.com/Memorithm/CCOS-Enterprise/pull/196) · [preuve](proofs/CCOS-Enterprise-195-196-MEM-09.json) |
+| MEM-10 | Memorithm/SciCapsule | 3 | résolu | [PR #31](https://github.com/Memorithm/SciCapsule/pull/31) · [preuve](The process group is killed immediately after the initial child exits and before output drains.) |
+| MEM-11 | Memorithm/SciCapsule | 8 | bloqué | [PR #32](https://github.com/Memorithm/SciCapsule/pull/32) · [preuve](proofs/SciCapsule-32-MEM-11-blocked.json) |
+| MEM-12 | Memorithm/SciCapsule | 9 | résolu | [PR #33](https://github.com/Memorithm/SciCapsule/pull/33), [PR #34](https://github.com/Memorithm/SciCapsule/pull/34) · [preuve](proofs/SciCapsule-MEM-12-current-head-20261007.json) |
+| MEM-13 | Memorithm/scirust-hub | 3 | résolu | [PR #83](https://github.com/Memorithm/scirust-hub/pull/83) · [preuve](Shared hub-executor execution_guard cleans and confirms the ordinary Unix process group before bounded capture collection after parent exit.) |
+| MEM-14 | Memorithm/scirust-hub | 3 | résolu | [PR #83](https://github.com/Memorithm/scirust-hub/pull/83) · [preuve](Spawn errors persist the executable basename, environment variable names and OS error only; argv, environment values, full path and Debug(Command) are absent.) |
+| MEM-15 | Memorithm/scirust-hub | 9 | résolu | [PR #84](https://github.com/Memorithm/scirust-hub/pull/84) · [preuve](proofs/scirust-hub-84-MEM-15-waiting-target-ci.json) |
+| MEM-16 | Memorithm/SciRust-Verify | 3 | résolu | [PR #37](https://github.com/Memorithm/SciRust-Verify/pull/37) · [preuve](Unix commands use dedicated process groups; cleanup is attempted after timeout and normal parent exit before capture is accepted.) |
+| MEM-17 | Memorithm/SciRust-Verify | 2 | résolu | [PR #34](https://github.com/Memorithm/SciRust-Verify/pull/34), [PR #35](https://github.com/Memorithm/SciRust-Verify/pull/35), [PR #36](https://github.com/Memorithm/SciRust-Verify/pull/36) · [preuve](proofs/SciRust-Verify-MEM-17.json) |
+| MEM-18 | Memorithm/SciRust-Verify | 8 | résolu | [PR #38](https://github.com/Memorithm/SciRust-Verify/pull/38) · [preuve](Workflow push branches now include feat/scirust-verify-foundation while preserving main and pull_request validation.) |
+| MEM-19 | Memorithm/SciRust-Verify | 9 | résolu | [PR #39](https://github.com/Memorithm/SciRust-Verify/pull/39), [PR #40](https://github.com/Memorithm/SciRust-Verify/pull/40) · [preuve](proofs/SciRust-Verify-39-40-MEM-19.json) |
+| COG-ADA-001 | Memorithm/ADA | 9 | résolu | [PR #59](https://github.com/Memorithm/ADA/pull/59) · [preuve](proofs/ADA-59-COG-ADA-001.json) |
+| COG-ADA-002 | Memorithm/ADA | 9 | attente CI | [PR #60](https://github.com/Memorithm/ADA/pull/60) · [preuve](proofs/ADA-60-COG-ADA-002-waiting-ci.json) |
+| COG-COGNO-001 | Memorithm/COGNO-1 | 4 | résolu | [PR #261](https://github.com/Memorithm/COGNO-1/pull/261), [PR #262](https://github.com/Memorithm/COGNO-1/pull/262) · [preuve](COGNO_TASTE_TOKEN is mandatory and bounded before bind.) |
+| COG-COGNO-002 | Memorithm/COGNO-1 | 4 | résolu | [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) · [preuve](Every accepted TCP stream receives read and write timeouts before protocol processing.) |
+| COG-COGNO-003 | Memorithm/COGNO-1 | 9 | résolu | [PR #263](https://github.com/Memorithm/COGNO-1/pull/263) · [preuve](proofs/cogno-263-COG-COGNO-003.json) |
+| COG-COGNO-004 | Memorithm/COGNO-1 | 4 | résolu | [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) · [preuve](PackagePersister is invoked after verification but before in-memory idempotency mutation and before OK.) |
+| COG-RSI-001 | Memorithm/RSI | 4 | résolu | [PR #58](https://github.com/Memorithm/RSI/pull/58) · [preuve](Raw FFI fields are private NonNull handles; the KV buffer remains an exclusive mutable borrow for the wrapper lifetime.) |
+| COG-RSI-002 | Memorithm/RSI | 4 | résolu | [PR #58](https://github.com/Memorithm/RSI/pull/58) · [preuve](The fabricated propose strings, fabricated completion and sentinel KV write were removed.) |
+| COG-RSI-003 | Memorithm/RSI | 7 | résolu | [PR #59](https://github.com/Memorithm/RSI/pull/59), [PR #61](https://github.com/Memorithm/RSI/pull/61) · [preuve](Default untrusted Cargo execution uses Bubblewrap namespaces, clears the environment, denies host networking, mounts runtimes read-only and allows writes only in the disposable snapshot.) |
+| COG-OCTA-001 | Memorithm/octasoma | 6 | résolu | [PR #69](https://github.com/Memorithm/octasoma/pull/69), [PR #70](https://github.com/Memorithm/octasoma/pull/70), [PR #71](https://github.com/Memorithm/octasoma/pull/71) · [preuve](proofs/octasoma-69-70-71-COG-OCTA-001.json) |
+| COG-OCTA-002 | Memorithm/octasoma | 1 | résolu | [PR #68](https://github.com/Memorithm/octasoma/pull/68) · [preuve](proofs/octasoma-68-COG-OCTA-002.json) |
+| COG-OCTA-003 | Memorithm/octasoma | 9 | résolu | [PR #72](https://github.com/Memorithm/octasoma/pull/72) · [preuve](proofs/octasoma-72-COG-OCTA-003.json) |
 | COG-SML-001 | Périmètre privé — source interne | 9 | à faire |  |
 | COG-SML-002 | Memorithm/SML-GENIUS | 8 | résolu | [preuve](proofs/SML-GENIUS-228-229-COG-SML-002.json), [PR #228](https://github.com/Memorithm/SML-GENIUS/pull/228), [PR #229](https://github.com/Memorithm/SML-GENIUS/pull/229) |
 | COG-SML-003 | Périmètre privé — source interne | 9 | à faire |  |
-| FORGE-01 | Memorithm/Forge | 5 | résolu | [Forge #49](https://github.com/Memorithm/Forge/pull/49), [preuve](proofs/Forge-49-FORGE-01.json), revalidé dans l’arbre exact vert de [Forge #50](https://github.com/Memorithm/Forge/pull/50) |
-| FORGE-02 | Memorithm/Forge | 7 | résolu | [Forge #50](https://github.com/Memorithm/Forge/pull/50), [preuve](proofs/Forge-50-FORGE-02.json) |
-| FORGE-03 | Memorithm/Forge | 9 | résolu |  |
-| FORGE-04 | Memorithm/Forge | 3 | résolu | [preuve](proofs/Forge-48-FORGE-04.json), [PR #48](https://github.com/Memorithm/Forge/pull/48) |
-| ORCH-01 | Memorithm/orchestrator | 7 | résolu | [preuve](proofs/orchestrator-82-ORCH-01.json), [PR #82](https://github.com/Memorithm/orchestrator/pull/82) |
-| PAPERS-01 | Memorithm/PAPERS-AGENT | 7 | bloqué | [preuve tranche bornes](proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json), [PR #7](https://github.com/Memorithm/PAPERS-AGENT/pull/7) — qualification OS externe restante |
-| PAPERS-02 | Memorithm/PAPERS-AGENT | 7 | résolu | [preuve](proofs/PAPERS-AGENT-6-PAPERS-02.json), [PR #6](https://github.com/Memorithm/PAPERS-AGENT/pull/6) |
-| PAPERS-03 | Memorithm/PAPERS-AGENT | 9 | résolu |  |
-| PAPERS-04 | Memorithm/PAPERS-AGENT | 9 | résolu |  |
-| GOT-01 | Memorithm/GOT | 5 | résolu | [preuve](proofs/GOT-5-6-GOT-01-02-03.json), [PR #5](https://github.com/Memorithm/GOT/pull/5) |
-| GOT-02 | Memorithm/GOT | 5 | résolu | [preuve](proofs/GOT-5-6-GOT-01-02-03.json), [PR #5](https://github.com/Memorithm/GOT/pull/5) |
-| GOT-03 | Memorithm/GOT | 5 | résolu | [preuve](proofs/GOT-5-6-GOT-01-02-03.json), [PR #5](https://github.com/Memorithm/GOT/pull/5), [PR #6](https://github.com/Memorithm/GOT/pull/6) |
-| B-TDI-01 | Memorithm/TDI | 9 | résolu |  |
-| B-TDI-02 | Memorithm/TDI | 9 | résolu |  |
-| B-ITD-01 | Memorithm/itd-simulator | 9 | bloqué |  |
+| FORGE-01 | Memorithm/Forge | 5 | résolu | [PR #49](https://github.com/Memorithm/Forge/pull/49) · [preuve](proofs/Forge-49-FORGE-01.json) |
+| FORGE-02 | Memorithm/Forge | 7 | résolu | [PR #50](https://github.com/Memorithm/Forge/pull/50) · [preuve](proofs/Forge-50-FORGE-02.json) |
+| FORGE-03 | Memorithm/Forge | 9 | résolu |  · [preuve](proofs/Forge-FORGE-03-current-head-20261007.json) |
+| FORGE-04 | Memorithm/Forge | 3 | résolu | [PR #48](https://github.com/Memorithm/Forge/pull/48) · [preuve](Stdout and stderr are drained concurrently while retaining at most 1 MiB per stream; drain completion has its own two-second bound.) |
+| ORCH-01 | Memorithm/orchestrator | 7 | résolu | [PR #82](https://github.com/Memorithm/orchestrator/pull/82) · [preuve](proofs/orchestrator-82-ORCH-01.json) |
+| PAPERS-01 | Memorithm/PAPERS-AGENT | 7 | bloqué | [PR #7](https://github.com/Memorithm/PAPERS-AGENT/pull/7) · [preuve](proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json) |
+| PAPERS-02 | Memorithm/PAPERS-AGENT | 7 | résolu | [PR #6](https://github.com/Memorithm/PAPERS-AGENT/pull/6) · [preuve](proofs/PAPERS-AGENT-6-PAPERS-02.json) |
+| PAPERS-03 | Memorithm/PAPERS-AGENT | 9 | résolu | [PR #9](https://github.com/Memorithm/PAPERS-AGENT/pull/9) · [preuve](proofs/PAPERS-AGENT-9-PAPERS-03-waiting-ci.json) |
+| PAPERS-04 | Memorithm/PAPERS-AGENT | 9 | résolu | [PR #8](https://github.com/Memorithm/PAPERS-AGENT/pull/8) · [preuve](proofs/PAPERS-AGENT-8-PAPERS-04-waiting-ci.json) |
+| GOT-01 | Memorithm/GOT | 5 | résolu | [PR #5](https://github.com/Memorithm/GOT/pull/5), [PR #6](https://github.com/Memorithm/GOT/pull/6) · [preuve](proofs/GOT-5-6-GOT-01-02-03.json) |
+| GOT-02 | Memorithm/GOT | 5 | résolu | [PR #5](https://github.com/Memorithm/GOT/pull/5) · [preuve](proofs/GOT-5-6-GOT-01-02-03.json) |
+| GOT-03 | Memorithm/GOT | 5 | résolu | [PR #5](https://github.com/Memorithm/GOT/pull/5), [PR #6](https://github.com/Memorithm/GOT/pull/6) · [preuve](proofs/GOT-5-6-GOT-01-02-03.json) |
+| B-TDI-01 | Memorithm/TDI | 9 | résolu |  · [preuve](proofs/TDI-B-TDI-01-justified-fail-closed.json) |
+| B-TDI-02 | Memorithm/TDI | 9 | résolu |  · [preuve](proofs/TDI-B-TDI-02-current-head.json) |
+| B-ITD-01 | Memorithm/itd-simulator | 9 | résolu | [PR #70](https://github.com/Memorithm/itd-simulator/pull/70) · [preuve](proofs/itd-simulator-70-B-ITD-01-integrated.json) |
 | B-ITD-02 | Memorithm/itd-simulator | 9 | à faire |  |
-| B-ITD-03 | Memorithm/itd-simulator | 9 | à faire | B-NO-03 |
+| B-ITD-03 | Memorithm/itd-simulator | 9 | à faire |  |
 | B-NR-01 | Memorithm/nonlocal-relativity-v2 | 8 | résolu | [preuve](proofs/nonlocal-relativity-v2-59-B-NR-01.json), [PR #59](https://github.com/Memorithm/nonlocal-relativity-v2/pull/59) ; [PR #58](https://github.com/Memorithm/nonlocal-relativity-v2/pull/58) fermée sans fusion comme remplacée |
 | B-NR-02 | Périmètre privé — source interne | 9 | bloqué | Candidat et revue documentés dans le périmètre privé ; circuit d’intégration autorisé encore attendu |
-| B-RH-01 | Memorithm/riemann_ndim_bench | 8 | résolu | [preuve](proofs/riemann_ndim_bench-73-B-RH-01.json), [PR #73](https://github.com/Memorithm/riemann_ndim_bench/pull/73) |
-| B-RH-02 | Memorithm/riemann_ndim_bench | 6 | résolu | [preuve](proofs/riemann_ndim_bench-71-72-B-RH-02.json), [PR #71](https://github.com/Memorithm/riemann_ndim_bench/pull/71), [PR #72](https://github.com/Memorithm/riemann_ndim_bench/pull/72), [CI cible](https://github.com/Memorithm/riemann_ndim_bench/actions/runs/37116970876) |
-| B-PL-01 | Memorithm/ProofLab | 6 | résolu | [preuve](proofs/ProofLab-83-B-PL-01.json), [PR #83](https://github.com/Memorithm/ProofLab/pull/83), [CI cible](https://github.com/Memorithm/ProofLab/actions/runs/37082869060) |
-| B-PL-02 | Memorithm/ProofLab | 3 | résolu | [preuves #77–#80](proofs/ProofLab-80-B-PL-02.json), [politique agrégée cgroup #81/#82](proofs/ProofLab-81-82-B-PL-02.json), [PR #81](https://github.com/Memorithm/ProofLab/pull/81), [PR #82](https://github.com/Memorithm/ProofLab/pull/82), [CI cible](https://github.com/Memorithm/ProofLab/actions/runs/37079650851) |
-| B-PL-03 | Memorithm/ProofLab | 9 | à faire | B-PL-01, B-PL-02 |
-| B-FL-01 | Memorithm/FieldLab | 5 | résolu | [#56](https://github.com/Memorithm/FieldLab/pull/56), `975db6bc`, [preuve](proofs/FieldLab-56-B-FL-01.json) |
-| B-FL-02 | Memorithm/FieldLab | 9 | résolu |  |
-| B-FL-03 | Memorithm/FieldLab | 8 | résolu | [preuve](proofs/FieldLab-57-B-FL-03.json), [PR #57](https://github.com/Memorithm/FieldLab/pull/57) |
-| B-NO-01 | Memorithm/NeuralOperator | 9 | à faire |  |
-| B-NO-02 | Memorithm/NeuralOperator | 8 | résolu | [preuve](proofs/NeuralOperator-34-B-NO-02.json), [PR #34](https://github.com/Memorithm/NeuralOperator/pull/34) |
-| B-NO-03 | Memorithm/NeuralOperator | 9 | résolu |  |
-| B-NO-04 | Memorithm/NeuralOperator | 9 | résolu |  |
-| B-NL-01 | Memorithm/NoiseLab | 5 | résolu | [PR 74](https://github.com/Memorithm/NoiseLab/pull/74), [preuve](proofs/NoiseLab-74-B-NL-01.json), [CI cible](https://github.com/Memorithm/NoiseLab/actions/runs/36902249415), [smoke cible](https://github.com/Memorithm/NoiseLab/actions/runs/36902249479) |
-| B-NL-02 | Memorithm/NoiseLab | 1 | résolu | [PR 73](https://github.com/Memorithm/NoiseLab/pull/73), [preuve](proofs/NoiseLab-73-B-NL-02.json) |
-| B-NL-03 | Memorithm/NoiseLab | 8 | résolu | [preuve](proofs/NoiseLab-75-B-NL-03.json), [PR #75](https://github.com/Memorithm/NoiseLab/pull/75) |
-| BF-EE-01 | Memorithm/ExtremEngine | 1 | résolu |  |
-| BF-EE-02 | Memorithm/ExtremEngine | 1 | résolu |  |
-| BF-EE-03 | Memorithm/ExtremEngine | 1 | résolu |  |
-| BF-KV-01 | Memorithm/KVLab | 9 | résolu | [preuve d’attente](proofs/KVLab-183-BF-KV-01-waiting-target-ci.json), [PR #183](https://github.com/Memorithm/KVLab/pull/183) — validation `main` non observée |
-| BF-KV-02 | Memorithm/KVLab | 9 | résolu | [preuve d’attente](proofs/KVLab-184-BF-KV-02-waiting-target-ci.json), [PR #184](https://github.com/Memorithm/KVLab/pull/184) — validation `main` non observée |
-| BF-KV-03 | Memorithm/KVLab | 9 | résolu | [preuve d’attente](proofs/KVLab-185-BF-KV-03-waiting-target-ci.json), [PR #185](https://github.com/Memorithm/KVLab/pull/185) — validation `main` non observée |
-| BF-KV-04 | Memorithm/KVLab | 8 | résolu | [preuve](proofs/KVLab-182-BF-KV-04.json), [PR #182](https://github.com/Memorithm/KVLab/pull/182) |
-| BF-KV-05 | Memorithm/KVLab | 9 | résolu | [preuve d’attente](proofs/KVLab-186-BF-KV-05-waiting-ci.json), [PR #186](https://github.com/Memorithm/KVLab/pull/186) — jobs candidat en file |
-| BF-BL-01 | Memorithm/BooleanLab | 8 | résolu | [preuve](proofs/BooleanLab-135-BF-BL-01.json), [PR #135](https://github.com/Memorithm/BooleanLab/pull/135) |
-| BF-BL-02 | Memorithm/BooleanLab | 8 | résolu | [preuve](proofs/BooleanLab-135-BF-BL-02.json), [PR #135](https://github.com/Memorithm/BooleanLab/pull/135) |
-| BF-EE-04 | Memorithm/ExtremEngine | 9 | résolu |  |
-| BF-EE-05 | Memorithm/ExtremEngine | 9 | résolu |  |
-| BF-EE-06 | Memorithm/ExtremEngine | 9 | résolu |  |
+| B-RH-01 | Memorithm/riemann_ndim_bench | 8 | résolu | [PR #73](https://github.com/Memorithm/riemann_ndim_bench/pull/73) · [preuve](proofs/riemann_ndim_bench-73-B-RH-01.json) |
+| B-RH-02 | Memorithm/riemann_ndim_bench | 6 | résolu | [PR #71](https://github.com/Memorithm/riemann_ndim_bench/pull/71), [PR #72](https://github.com/Memorithm/riemann_ndim_bench/pull/72) · [preuve](proofs/riemann_ndim_bench-71-72-B-RH-02.json) |
+| B-PL-01 | Memorithm/ProofLab | 6 | résolu | [PR #83](https://github.com/Memorithm/ProofLab/pull/83) · [preuve](proofs/ProofLab-83-B-PL-01.json) |
+| B-PL-02 | Memorithm/ProofLab | 3 | résolu | [PR #77](https://github.com/Memorithm/ProofLab/pull/77), [PR #78](https://github.com/Memorithm/ProofLab/pull/78), [PR #79](https://github.com/Memorithm/ProofLab/pull/79), [PR #80](https://github.com/Memorithm/ProofLab/pull/80), [PR #81](https://github.com/Memorithm/ProofLab/pull/81), [PR #82](https://github.com/Memorithm/ProofLab/pull/82) · [preuve](proofs/ProofLab-B-PL-02-process-supervision.json) |
+| B-PL-03 | Memorithm/ProofLab | 9 | à faire |  |
+| B-FL-01 | Memorithm/FieldLab | 5 | résolu | [PR #56](https://github.com/Memorithm/FieldLab/pull/56) · [preuve](proofs/FieldLab-56-B-FL-01.json) |
+| B-FL-02 | Memorithm/FieldLab | 9 | résolu | [PR #58](https://github.com/Memorithm/FieldLab/pull/58) · [preuve](proofs/FieldLab-58-B-FL-02-waiting-target-ci.json) |
+| B-FL-03 | Memorithm/FieldLab | 8 | résolu | [PR #57](https://github.com/Memorithm/FieldLab/pull/57) · [preuve](proofs/FieldLab-57-B-FL-03.json) |
+| B-NO-01 | Memorithm/NeuralOperator | 9 | attente CI | [PR #37](https://github.com/Memorithm/NeuralOperator/pull/37) · [preuve](proofs/NeuralOperator-37-B-NO-01.json) |
+| B-NO-02 | Memorithm/NeuralOperator | 8 | résolu | [PR #34](https://github.com/Memorithm/NeuralOperator/pull/34) · [preuve](proofs/NeuralOperator-34-B-NO-02.json) |
+| B-NO-03 | Memorithm/NeuralOperator | 9 | résolu | [PR #35](https://github.com/Memorithm/NeuralOperator/pull/35) · [preuve](proofs/NeuralOperator-35-B-NO-03.json) |
+| B-NO-04 | Memorithm/NeuralOperator | 9 | résolu | [PR #36](https://github.com/Memorithm/NeuralOperator/pull/36) · [preuve](proofs/NeuralOperator-36-B-NO-04.json) |
+| B-NL-01 | Memorithm/NoiseLab | 5 | résolu | [PR #74](https://github.com/Memorithm/NoiseLab/pull/74) · [preuve](proofs/NoiseLab-74-B-NL-01.json) |
+| B-NL-02 | Memorithm/NoiseLab | 1 | résolu | [PR #73](https://github.com/Memorithm/NoiseLab/pull/73) · [preuve](proofs/NoiseLab-73-B-NL-02.json) |
+| B-NL-03 | Memorithm/NoiseLab | 8 | résolu | [PR #75](https://github.com/Memorithm/NoiseLab/pull/75) · [preuve](proofs/NoiseLab-75-B-NL-03.json) |
+| BF-EE-01 | Memorithm/ExtremEngine | 1 | résolu | [PR #44](https://github.com/Memorithm/ExtremEngine/pull/44) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/ExtremEngine-44.json) |
+| BF-EE-02 | Memorithm/ExtremEngine | 1 | résolu | [PR #45](https://github.com/Memorithm/ExtremEngine/pull/45) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/ExtremEngine-45.json) |
+| BF-EE-03 | Memorithm/ExtremEngine | 1 | résolu | [PR #45](https://github.com/Memorithm/ExtremEngine/pull/45) · [preuve](https://github.com/Memorithm/orchestrator/blob/audit/global-remediation-2026-09-30/proofs/ExtremEngine-45.json) |
+| BF-KV-01 | Memorithm/KVLab | 9 | résolu | [PR #183](https://github.com/Memorithm/KVLab/pull/183) · [preuve](proofs/KVLab-183-BF-KV-01-waiting-target-ci.json) |
+| BF-KV-02 | Memorithm/KVLab | 9 | résolu | [PR #184](https://github.com/Memorithm/KVLab/pull/184) · [preuve](proofs/KVLab-184-BF-KV-02-waiting-target-ci.json) |
+| BF-KV-03 | Memorithm/KVLab | 9 | résolu | [PR #185](https://github.com/Memorithm/KVLab/pull/185) · [preuve](proofs/KVLab-185-BF-KV-03-waiting-target-ci.json) |
+| BF-KV-04 | Memorithm/KVLab | 8 | résolu |  · [preuve](proofs/KVLab-182-BF-KV-04.json) |
+| BF-KV-05 | Memorithm/KVLab | 9 | résolu | [PR #186](https://github.com/Memorithm/KVLab/pull/186) · [preuve](proofs/KVLab-186-BF-KV-05-waiting-ci.json) |
+| BF-BL-01 | Memorithm/BooleanLab | 8 | résolu | [PR #135](https://github.com/Memorithm/BooleanLab/pull/135) · [preuve](proofs/BooleanLab-135-BF-BL-01.json) |
+| BF-BL-02 | Memorithm/BooleanLab | 8 | résolu | [PR #135](https://github.com/Memorithm/BooleanLab/pull/135) · [preuve](proofs/BooleanLab-135-BF-BL-02.json) |
+| BF-EE-04 | Memorithm/ExtremEngine | 9 | résolu | [PR #47](https://github.com/Memorithm/ExtremEngine/pull/47), [PR #48](https://github.com/Memorithm/ExtremEngine/pull/48) · [preuve](proofs/ExtremEngine-47-48-BF-EE-04-06.json) |
+| BF-EE-05 | Memorithm/ExtremEngine | 9 | résolu | [PR #47](https://github.com/Memorithm/ExtremEngine/pull/47) · [preuve](proofs/ExtremEngine-47-48-BF-EE-04-06.json) |
+| BF-EE-06 | Memorithm/ExtremEngine | 9 | résolu | [PR #47](https://github.com/Memorithm/ExtremEngine/pull/47) · [preuve](proofs/ExtremEngine-47-48-BF-EE-04-06.json) |

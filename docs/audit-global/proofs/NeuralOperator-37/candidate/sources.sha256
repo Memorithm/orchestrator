@@ -1,0 +1,3 @@
+4f80a6a3061f55dcab44f3b89405701a0831783e4b1f5dab906f431f37fba79f  Cargo.lock
+ada12933b154902d6ce0f035712d04f1792199051b26cb30473357b43f8be6f5  requirements-py312-linux.lock
+c72975c02563d8c554bcbfcd419fcd1711c9f4e63491a76e5ef0e676fac39a92  src/neural_operator_reference/darcy.py
