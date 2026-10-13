@@ -1,7 +1,7 @@
 {
   "schema": "memorithm.audit.qualification.v1",
   "finding": "B-PL-03",
-  "observed_at": "2026-10-13T17:54:43.051Z",
+  "observed_at": "2026-10-13T18:03:06.708Z",
   "proof": "docs/audit-global/proofs/ProofLab-84-B-PL-03-waiting-ci.json",
   "local_rust": "1.98.1",
   "local_tests": 281,
@@ -11,9 +11,9 @@
   "owner_authentication_sha": "662a30dc774dd19c68a79bed3889036a91930123",
   "source_log_sha256": "803d5be6dc558ab9476904cdef587ba89ca994b730e08cd685a526f67898a104",
   "observed_execution_id": "70afafd25b78f74f98a4ff7a5905041d6b93d13429f490f059c6b760072b8890",
-  "status": "local_qualified_waiting_candidate_and_integrated_CI",
+  "status": "review_corrected_waiting_restarted_exact_CI",
   "pr": 84,
-  "candidate_sha": "87f14cd211b3ec978f76914704c3be7de27cf366",
+  "candidate_sha": "a427c6fdf317e44517dec4271638a62ef98214a3",
   "base_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
   "limitations": [
     "ephemeral independent qualification signer policy, not organization production publisher ACL",
@@ -21,5 +21,10 @@
     "Observation only, not Lean proof",
     "no live TDI transport"
   ],
-  "next_action": "Reconcile exact-head ProofLab #84 Rust/Lean/authenticated-import CI and review; repair, merge SHA-guarded and verify integrated gates. Reconcile scoped first real producer acceptance; no proof, new producer execution, production publisher or live TDI claims."
+  "next_action": "Reconcile exact-head ProofLab #84 Rust/Lean/authenticated-import CI and review; repair, merge SHA-guarded and verify integrated gates. Reconcile scoped first real producer acceptance; no proof, new producer execution, production publisher or live TDI claims.",
+  "review": {
+    "threads": 1,
+    "resolved": 1,
+    "correction": "nested export unknown fields rejected; root/export/entry regression; full workspace and real authenticated import replayed"
+  }
 }
