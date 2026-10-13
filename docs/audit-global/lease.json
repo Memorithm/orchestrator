@@ -1,12 +1,17 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-202610111811",
-  "acquired_at": "2026-10-11T16:13:00.000Z",
-  "expires_at": "2026-10-11T18:58:00.000Z",
+  "owner": "chatgpt-audit-202610130707",
+  "acquired_at": "2026-10-13T05:09:00Z",
+  "expires_at": "2026-10-13T06:39:00Z",
   "released_at": null,
   "status": "active",
   "scope": "audit-global-remediation",
-  "previous_owner": "chatgpt-audit-202610111728",
+  "previous_owner": "chatgpt-audit-202610111811",
+  "stale_lease_reclaimed": {
+    "owner": "chatgpt-audit-202610111811",
+    "expired_at": "2026-10-11T18:58:00.000Z",
+    "observed_at": "2026-10-13T05:09:00Z"
+  },
   "canonical_counts": {
     "merged_prs": 88,
     "closed_findings": 82,
@@ -18,5 +23,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Finalize exact-head review and merge SciRust-Verify PR #39 for MEM-19 only after exact CI/review gates."
+  "next_action": "Reconcile prematurely merged SciRust-Verify #39 and integrate the exact-head follow-up correction before closing MEM-19."
 }
