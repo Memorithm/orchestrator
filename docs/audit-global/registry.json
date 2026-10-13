@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T12:18:23+02:00",
+  "updated_at": "2026-10-13T12:25:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -13198,25 +13198,26 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610130707",
-    "acquired_at": "2026-10-13T05:09:00Z",
-    "expires_at": "2026-10-13T06:39:00Z",
-    "released_at": "2026-10-13T07:18:18+02:00",
+    "owner": "chatgpt-audit-202610131111",
+    "acquired_at": "2026-10-13T09:11:58.483Z",
+    "expires_at": "2026-10-13T11:41:19.470Z",
+    "released_at": "2026-10-13T12:25:00+02:00",
     "status": "released",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-202610111811",
+    "previous_owner": "chatgpt-audit-202610130920",
     "canonical_counts": {
-      "merged_prs": 90,
-      "closed_findings": 83,
-      "remaining_findings": 18
+      "merged_prs": 95,
+      "closed_findings": 86,
+      "remaining_findings": 15
     },
     "batch": {
       "number": 2,
-      "merged_prs": 40,
+      "merged_prs": 45,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Acquire a fresh lease and continue the next unblocked finding while documented external blockers remain open."
+    "next_action": "Acquire a fresh lease and continue the next unblocked finding while documented external blockers remain open.",
+    "renewed_at": "2026-10-13T10:11:19.470Z"
   },
   "capabilities": [
     {
@@ -13282,9 +13283,5 @@
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
   ],
-  "last_central_comment": {
-    "id": 6138800752,
-    "url": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6138800752",
-    "observed_at": "2026-10-13T07:18:18+02:00"
-  }
+  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6143487108"
 }
