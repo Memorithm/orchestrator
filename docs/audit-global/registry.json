@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-11T17:48:00+02:00",
+  "updated_at": "2026-10-13T07:18:18+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 82,
-    "remaining": 19,
-    "merged_prs": 88
+    "closed": 83,
+    "remaining": 18,
+    "merged_prs": 90
   },
   "batches": [
     {
@@ -482,6 +482,16 @@
           "repository": "Memorithm/CCOS-Core",
           "number": 35,
           "merge_sha": "b8c03fbf0edfdf672a2950811c5abeecf10327db"
+        },
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 39,
+          "merge_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4"
+        },
+        {
+          "repository": "Memorithm/SciRust-Verify",
+          "number": 40,
+          "merge_sha": "662a30dc774dd19c68a79bed3889036a91930123"
         }
       ]
     }
@@ -7162,6 +7172,99 @@
         "No RSS or allocator-release measurement is claimed because the fixed 128-byte slot remains resident.",
         "Restore fidelity is approximate; no exact proprietary-kernel parity is claimed without owner-approved external vectors."
       ]
+    },
+    {
+      "repository": "Memorithm/SciRust-Verify",
+      "number": 39,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/39",
+      "base": "feat/scirust-verify-foundation",
+      "base_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+      "head_sha": "068fd50d04081f3ea7f8581fc656649a8f2ea952",
+      "merge_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-19"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 38162544969,
+          "name": "CI candidate #39",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "068fd50d04081f3ea7f8581fc656649a8f2ea952",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38162544969",
+          "jobs": "2/2: fmt/check/clippy/tests/docs and dogfood"
+        }
+      ],
+      "target_head": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+      "target_checks": [
+        {
+          "id": 38162812636,
+          "name": "CI integrated #39",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38162812636",
+          "jobs": "2/2"
+        }
+      ],
+      "review": {
+        "threads": 24,
+        "resolved_threads": 24,
+        "final_correction_pr": 40,
+        "findings": "iterative exact-head security and correctness findings corrected; final procfs window carried by #40"
+      },
+      "limitations": [
+        "Detached publication/authentication are Linux-only.",
+        "A signature authenticates authorship under the configured policy; it does not prove execution truth or qualification."
+      ]
+    },
+    {
+      "repository": "Memorithm/SciRust-Verify",
+      "number": 40,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/40",
+      "base": "feat/scirust-verify-foundation",
+      "base_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+      "head_sha": "40021884a1ba7c736cc87293f516cd16f0207c5d",
+      "merge_sha": "662a30dc774dd19c68a79bed3889036a91930123",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-19"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 38349914098,
+          "name": "CI candidate #40",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "40021884a1ba7c736cc87293f516cd16f0207c5d",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38349914098",
+          "jobs": "2/2: fmt/check/clippy/tests/docs and dogfood"
+        }
+      ],
+      "target_head": "662a30dc774dd19c68a79bed3889036a91930123",
+      "target_checks": [
+        {
+          "id": 38350291671,
+          "name": "CI integrated #40",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "662a30dc774dd19c68a79bed3889036a91930123",
+          "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38350291671",
+          "jobs": "2/2"
+        }
+      ],
+      "review": {
+        "threads": 0,
+        "resolved_threads": 0,
+        "exact_head_review": "clean; no major issues on 40021884a1"
+      },
+      "limitations": [
+        "Procfs protection is Linux-specific and fails closed when unavailable.",
+        "Publication remains no-clobber and requires explicit rotation."
+      ]
     }
   ],
   "repository_observations": [
@@ -7403,8 +7506,8 @@
       "visibility": "public",
       "default_branch": "feat/scirust-verify-foundation",
       "error": null,
-      "current_head": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
-      "last_observed_at": "2026-10-01T13:45:07+02:00"
+      "current_head": "662a30dc774dd19c68a79bed3889036a91930123",
+      "last_observed_at": "2026-10-13T07:18:18+02:00"
     },
     {
       "repository": "Memorithm/TDI",
@@ -9757,16 +9860,56 @@
         "Publier signature avec racine de confiance configurée indépendamment et provenance d'exécution vérifiée; garder états intégrité/authenticité/qualification distincts; ne pas transformer ingestion source en résultat re-vérifié.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "593692aea76b90e50899e733344ffa4cf61ba380",
+      "status": "resolved",
+      "current_head": "662a30dc774dd19c68a79bed3889036a91930123",
       "default_branch": "feat/scirust-verify-foundation",
       "audit_head": "593692aea76b90e50899e733344ffa4cf61ba380",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "Audit snapshot 593692ae was stale. PR #39 integrated detached authorship at 52582457; PR #40 then closed the final writable-memfd procfs review race and the platform diagnostic on exact integrated head 662a30dc.",
+      "policy_review": "AGENTS.md, agent/ecosystem-roadmap and PolyForm Noncommercial 1.0.0 were reviewed. The roadmap remains on agent/ecosystem-roadmap. Integrity, authenticity and qualification remain separate.",
+      "prs": [
+        {
+          "number": 39,
+          "url": "https://github.com/Memorithm/SciRust-Verify/pull/39",
+          "base": "feat/scirust-verify-foundation",
+          "base_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+          "head_sha": "068fd50d04081f3ea7f8581fc656649a8f2ea952",
+          "merge_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+          "status": "merged_target_validated"
+        },
+        {
+          "number": 40,
+          "url": "https://github.com/Memorithm/SciRust-Verify/pull/40",
+          "base": "feat/scirust-verify-foundation",
+          "base_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+          "head_sha": "40021884a1ba7c736cc87293f516cd16f0207c5d",
+          "merge_sha": "662a30dc774dd19c68a79bed3889036a91930123",
+          "status": "merged_target_validated"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/SciRust-Verify-39-40-MEM-19.json",
+          "candidate_shas": [
+            "068fd50d04081f3ea7f8581fc656649a8f2ea952",
+            "40021884a1ba7c736cc87293f516cd16f0207c5d"
+          ],
+          "candidate_runs": [
+            38162544969,
+            38349914098
+          ],
+          "merge_shas": [
+            "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+            "662a30dc774dd19c68a79bed3889036a91930123"
+          ],
+          "target_runs": [
+            38162812636,
+            38350291671
+          ],
+          "status": "resolved_on_integrated_feat_scirust_verify_foundation"
+        }
+      ],
+      "last_observed_at": "2026-10-13T07:18:18+02:00",
+      "next_action": "Closed. Preserve Linux-only and no-clobber boundaries; never treat authorship as execution truth or scientific qualification."
     },
     {
       "id": "COG-ADA-001",
@@ -12272,25 +12415,25 @@
   ],
   "lease": {
     "schema_version": 1,
-    "owner": "chatgpt-audit-202610111728",
-    "acquired_at": "2026-10-11T15:28:00.000Z",
-    "expires_at": "2026-10-11T16:58:00.000Z",
-    "released_at": "2026-10-11T17:47:00+02:00",
+    "owner": "chatgpt-audit-202610130707",
+    "acquired_at": "2026-10-13T05:09:00Z",
+    "expires_at": "2026-10-13T06:39:00Z",
+    "released_at": "2026-10-13T07:18:18+02:00",
     "status": "released",
     "scope": "audit-global-remediation",
-    "previous_owner": "chatgpt-audit-202610111708",
+    "previous_owner": "chatgpt-audit-202610111811",
     "canonical_counts": {
-      "merged_prs": 88,
-      "closed_findings": 82,
-      "remaining_findings": 19
+      "merged_prs": 90,
+      "closed_findings": 83,
+      "remaining_findings": 18
     },
     "batch": {
       "number": 2,
-      "merged_prs": 38,
+      "merged_prs": 40,
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Acquire a fresh lease, reconcile GitHub state, then continue the next unblocked finding while external blockers remain open."
+    "next_action": "Acquire a fresh lease and continue the next unblocked finding while documented external blockers remain open."
   },
   "capabilities": [
     {
@@ -12341,7 +12484,10 @@
         "scirust-hub",
         "SciRust-Verify"
       ],
-      "status": "reuse_existing_contracts_required"
+      "status": "detached_authorship_implemented_and_integrated",
+      "owner": "Memorithm/SciRust-Verify",
+      "proof": "docs/audit-global/proofs/SciRust-Verify-39-40-MEM-19.json",
+      "adoption": "SciRust-Verify now authenticates exact integrity-checked bundle manifests with detached OpenSSH SSHSIG envelopes and an independently configured, bounded trust root. Linux freezes the trust bytes in a sealed anonymous memfd with procfs descriptor reopening disabled during the writable interval. Consumers must preserve the separation of integrity, authenticity and qualification."
     },
     {
       "name": "CI_consumer_matrix",
@@ -12354,8 +12500,8 @@
     }
   ],
   "last_central_comment": {
-    "id": 6110750554,
-    "url": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6110750554",
-    "observed_at": "2026-10-11T17:47:00+02:00"
+    "id": 6138800752,
+    "url": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6138800752",
+    "observed_at": "2026-10-13T07:18:18+02:00"
   }
 }
