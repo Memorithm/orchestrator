@@ -3,8 +3,8 @@
   "owner": "chatgpt-audit-202610130707",
   "acquired_at": "2026-10-13T05:09:00Z",
   "expires_at": "2026-10-13T06:39:00Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-13T07:18:18+02:00",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-202610111811",
   "stale_lease_reclaimed": {
@@ -13,15 +13,15 @@
     "observed_at": "2026-10-13T05:09:00Z"
   },
   "canonical_counts": {
-    "merged_prs": 88,
-    "closed_findings": 82,
-    "remaining_findings": 19
+    "merged_prs": 90,
+    "closed_findings": 83,
+    "remaining_findings": 18
   },
   "batch": {
     "number": 2,
-    "merged_prs": 38,
+    "merged_prs": 40,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Reconcile prematurely merged SciRust-Verify #39 and integrate the exact-head follow-up correction before closing MEM-19."
+  "next_action": "Acquire a fresh lease and continue the next unblocked finding while documented external blockers remain open."
 }
