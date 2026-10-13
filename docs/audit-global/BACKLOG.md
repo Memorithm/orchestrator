@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-Dernière réconciliation 2026-10-13T18:28:19.000+02:00 : **lot 3 2/50**, **102 PR fusionnées**, **90/101 constats clos**, **11 restants**. ADA #60 attend Miri intégré ; NeuralOperator #37 attend la qualification intégrée Torch. Les états historiques ci-dessous restent datés.
+Dernière réconciliation 2026-10-13T18:33:15.000+02:00 : **lot 3 2/50**, **102 PR fusionnées**, **91/101 constats clos**, **10 restants**. ADA #60 attend Miri intégré ; les autres écarts non résolus restent ouverts. Les états historiques ci-dessous restent datés.
 
 État réconcilié du 13 octobre 2026 à 12:18 Europe/Paris : **95 PR techniques fusionnées au total**, **86/101 constats clos**, **15 restants** ; lot 2 à **45/50**. MEM-09 est clos par [CCOS-Enterprise #195](https://github.com/Memorithm/CCOS-Enterprise/pull/195) et son correctif de portabilité [#196](https://github.com/Memorithm/CCOS-Enterprise/pull/196), sur le SHA intégré final `ac3e64b57aec8120ab98922c76afae4df48d6336`. Les validations exact-head et intégrées, les artefacts signés et la vérification après téléchargement sont consignés dans la [preuve MEM-09](proofs/CCOS-Enterprise-195-196-MEM-09.json). Aucun dépôt exclu n’a été modifié.
 
@@ -95,7 +95,7 @@ Dernière réconciliation 2026-10-13T18:28:19.000+02:00 : **lot 3 2/50**, **102 
 | B-FL-01 | Memorithm/FieldLab | 5 | résolu | [PR #56](https://github.com/Memorithm/FieldLab/pull/56) · [preuve](proofs/FieldLab-56-B-FL-01.json) |
 | B-FL-02 | Memorithm/FieldLab | 9 | résolu | [PR #58](https://github.com/Memorithm/FieldLab/pull/58) · [preuve](proofs/FieldLab-58-B-FL-02-waiting-target-ci.json) |
 | B-FL-03 | Memorithm/FieldLab | 8 | résolu | [PR #57](https://github.com/Memorithm/FieldLab/pull/57) · [preuve](proofs/FieldLab-57-B-FL-03.json) |
-| B-NO-01 | Memorithm/NeuralOperator | 9 | attente CI | [PR #37](https://github.com/Memorithm/NeuralOperator/pull/37) · [preuve](proofs/NeuralOperator-37-B-NO-01.json) |
+| B-NO-01 | Memorithm/NeuralOperator | 9 | résolu | [PR #37](https://github.com/Memorithm/NeuralOperator/pull/37) · [preuve](proofs/NeuralOperator-37-B-NO-01.json) |
 | B-NO-02 | Memorithm/NeuralOperator | 8 | résolu | [PR #34](https://github.com/Memorithm/NeuralOperator/pull/34) · [preuve](proofs/NeuralOperator-34-B-NO-02.json) |
 | B-NO-03 | Memorithm/NeuralOperator | 9 | résolu | [PR #35](https://github.com/Memorithm/NeuralOperator/pull/35) · [preuve](proofs/NeuralOperator-35-B-NO-03.json) |
 | B-NO-04 | Memorithm/NeuralOperator | 9 | résolu | [PR #36](https://github.com/Memorithm/NeuralOperator/pull/36) · [preuve](proofs/NeuralOperator-36-B-NO-04.json) |

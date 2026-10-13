@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:28:19.000+02:00",
+  "updated_at": "2026-10-13T18:33:15.000+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 90,
-    "remaining": 11,
+    "closed": 91,
+    "remaining": 10,
     "merged_prs": 102
   },
   "batches": [
@@ -8592,7 +8592,7 @@
       "base_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
       "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
       "merge_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "B-NO-01"
       ],
@@ -8633,8 +8633,8 @@
         {
           "id": 115411057172,
           "name": "torch",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486845/job/115411057172",
           "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
         },
@@ -8676,13 +8676,37 @@
             "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d"
           },
           "downloaded_archive_digest_verified": true
+        },
+        {
+          "scope": "integrated",
+          "id": 11830576704,
+          "name": "rust-darcy-2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+          "size_in_bytes": 136828,
+          "url": "https://api.github.com/repos/Memorithm/NeuralOperator/actions/artifacts/11830576704",
+          "archive_download_url": "https://api.github.com/repos/Memorithm/NeuralOperator/actions/artifacts/11830576704/zip",
+          "expired": false,
+          "created_at": "2026-10-13T16:26:46Z",
+          "expires_at": "2027-01-11T16:26:16Z",
+          "updated_at": "2026-10-13T16:26:46Z",
+          "digest": "sha256:6c6991b5b0cc6873783b74cc1f7ba484c285658b9dc77d9737d3400957c89c2d",
+          "workflow_run": {
+            "id": 38430486796,
+            "repository_id": 1378418188,
+            "head_repository_id": 1378418188,
+            "head_branch": "main",
+            "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
+          },
+          "downloaded_archive_digest_verified": true
         }
       ],
       "limitations": [
         "First isotropic Darcy residual only, not full native model/solver/autograd/GPU integration.",
         "Independent Python oracle pin, methods and model/holdout populations are preserved.",
         "Hosted CPU timing is scoped API validation/allocation/kernel observation, not stable hardware performance or superiority."
-      ]
+      ],
+      "target_head": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+      "candidate_archive": "docs/audit-global/proofs/NeuralOperator-37/candidate.zip",
+      "integrated_archive": "docs/audit-global/proofs/NeuralOperator-37/integrated.zip"
     }
   ],
   "repository_observations": [
@@ -13299,11 +13323,11 @@
         "Conserver les oracles indépendants puis porter, dans SciRust ou une crate NeuralOperator-Rust, un premier noyau accepté avec oracle de parité, API bornée et qualification du coût. Garder les modèles Python clairement identifiés comme référence de recherche.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
       "default_branch": "main",
       "audit_head": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
-      "head_reconciliation": "current_main_has_no_Rust_first_bounded_Darcy_residual_candidate_open",
+      "head_reconciliation": "first_bounded_Rust_Darcy_kernel_merged_and_exact_target_parity_cost_original_oracle_and_Torch_gates_verified",
       "policy_review": "Root AGENTS, full mandatory roadmap, full PolyForm license/LICENSING read. Domain residual owned by NeuralOperator, no generic solver duplication, Python oracle/model paths preserved, no holdout access or excluded mutation.",
       "prs": [
         {
@@ -13311,14 +13335,14 @@
           "url": "https://github.com/Memorithm/NeuralOperator/pull/37",
           "head_sha": "4686bf6dabd01374a5d0ec483bba507534f1d98d",
           "merge_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
-          "status": "merged_waiting_target_ci"
+          "status": "merged_target_validated"
         }
       ],
       "resolution_evidence": [
         "docs/audit-global/proofs/NeuralOperator-37-B-NO-01.json"
       ],
-      "last_observed_at": "2026-10-13T18:28:19.000+02:00",
-      "next_action": "Wait for integrated optional Torch gate; verify/download exact merged-head 32-case parity/cost archive and retain raw evidence before closure."
+      "last_observed_at": "2026-10-13T18:33:15.000+02:00",
+      "next_action": "Closed for the accepted first kernel only; retain original Python research oracles/models and require independent qualification for later solver/model/SciRust migration."
     },
     {
       "id": "B-NO-02",

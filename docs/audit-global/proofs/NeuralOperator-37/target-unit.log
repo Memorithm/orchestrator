@@ -1,0 +1,346 @@
+﻿2026-10-13T16:26:19.5980138Z Current runner version: '2.337.0'
+2026-10-13T16:26:19.6004886Z ##[group]Runner Image Provisioner
+2026-10-13T16:26:19.6006153Z Hosted Compute Agent
+2026-10-13T16:26:19.6006878Z Version: 20261002.596
+2026-10-13T16:26:19.6007577Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-13T16:26:19.6008373Z Build Date: 2026-10-02T22:28:27Z
+2026-10-13T16:26:19.6009104Z Worker ID: {0019ef3a-1541-4baa-831f-e6c1b2a46545}
+2026-10-13T16:26:19.6009827Z Region: westus2
+2026-10-13T16:26:19.6010452Z Cloud: Azure
+2026-10-13T16:26:19.6011066Z ##[endgroup]
+2026-10-13T16:26:19.6012553Z ##[group]Operating System
+2026-10-13T16:26:19.6013334Z Ubuntu
+2026-10-13T16:26:19.6013887Z 24.04.5
+2026-10-13T16:26:19.6014483Z LTS
+2026-10-13T16:26:19.6015080Z ##[endgroup]
+2026-10-13T16:26:19.6015800Z ##[group]Runner Image
+2026-10-13T16:26:19.6016897Z Image: ubuntu-24.04
+2026-10-13T16:26:19.6017502Z Version: 20261004.327.1
+2026-10-13T16:26:19.6018945Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-13T16:26:19.6020479Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-13T16:26:19.6021553Z ##[endgroup]
+2026-10-13T16:26:19.6022691Z ##[group]GITHUB_TOKEN Permissions
+2026-10-13T16:26:19.6024959Z Contents: read
+2026-10-13T16:26:19.6025853Z Metadata: read
+2026-10-13T16:26:19.6026524Z ##[endgroup]
+2026-10-13T16:26:19.6028680Z Secret source: Actions
+2026-10-13T16:26:19.6029693Z Cache mode: write
+2026-10-13T16:26:19.6030453Z Prepare workflow directory
+2026-10-13T16:26:19.6416869Z Prepare all required actions
+2026-10-13T16:26:19.6485637Z Getting action download info
+2026-10-13T16:26:20.0521228Z Download action repository 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-10-13T16:26:20.1606943Z Download action repository 'actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38' (SHA:42375524e23c412d93fb67b49958b491fce71c38)
+2026-10-13T16:26:20.2788962Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-13T16:26:20.4951162Z Complete job name: unit-tests
+2026-10-13T16:26:20.5702116Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+2026-10-13T16:26:20.5703104Z with:
+2026-10-13T16:26:20.5703562Z   repository: Memorithm/NeuralOperator
+2026-10-13T16:26:20.5707965Z   token: ***
+2026-10-13T16:26:20.5708406Z   ssh-strict: true
+2026-10-13T16:26:20.5708851Z   ssh-user: git
+2026-10-13T16:26:20.5709331Z   persist-credentials: true
+2026-10-13T16:26:20.5709832Z   clean: true
+2026-10-13T16:26:20.5710294Z   sparse-checkout-cone-mode: true
+2026-10-13T16:26:20.5710827Z   fetch-depth: 1
+2026-10-13T16:26:20.5711259Z   fetch-tags: false
+2026-10-13T16:26:20.5711705Z   show-progress: true
+2026-10-13T16:26:20.5712147Z   lfs: false
+2026-10-13T16:26:20.5712559Z   submodules: false
+2026-10-13T16:26:20.5713007Z   set-safe-directory: true
+2026-10-13T16:26:20.5713667Z ##[endgroup]
+2026-10-13T16:26:20.6731421Z Syncing repository: Memorithm/NeuralOperator
+2026-10-13T16:26:20.6733947Z ##[group]Getting Git version info
+2026-10-13T16:26:20.6735441Z Working directory is '/home/runner/work/NeuralOperator/NeuralOperator'
+2026-10-13T16:26:20.6737157Z [command]/usr/bin/git version
+2026-10-13T16:26:20.6810052Z git version 2.55.0
+2026-10-13T16:26:20.6834279Z ##[endgroup]
+2026-10-13T16:26:20.6850535Z Temporarily overriding HOME='/home/runner/work/_temp/45c41654-4a0d-40af-9e2c-eb7246d7d594' before making global git config changes
+2026-10-13T16:26:20.6853209Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-13T16:26:20.6857585Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuralOperator/NeuralOperator
+2026-10-13T16:26:20.6916185Z Deleting the contents of '/home/runner/work/NeuralOperator/NeuralOperator'
+2026-10-13T16:26:20.6922067Z ##[group]Initializing the repository
+2026-10-13T16:26:20.6927565Z [command]/usr/bin/git init /home/runner/work/NeuralOperator/NeuralOperator
+2026-10-13T16:26:20.7016578Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-13T16:26:20.7018487Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-13T16:26:20.7020166Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-13T16:26:20.7021519Z hint: call:
+2026-10-13T16:26:20.7022323Z hint:
+2026-10-13T16:26:20.7023287Z hint: 	git config --global init.defaultBranch <name>
+2026-10-13T16:26:20.7024408Z hint:
+2026-10-13T16:26:20.7025661Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-13T16:26:20.7027229Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-13T16:26:20.7028464Z hint:
+2026-10-13T16:26:20.7029129Z hint: 	git branch -m <name>
+2026-10-13T16:26:20.7029875Z hint:
+2026-10-13T16:26:20.7030871Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-13T16:26:20.7032633Z Initialized empty Git repository in /home/runner/work/NeuralOperator/NeuralOperator/.git/
+2026-10-13T16:26:20.7038427Z [command]/usr/bin/git remote add origin https://github.com/Memorithm/NeuralOperator
+2026-10-13T16:26:20.7085811Z ##[endgroup]
+2026-10-13T16:26:20.7087588Z ##[group]Disabling automatic garbage collection
+2026-10-13T16:26:20.7097433Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-13T16:26:20.7132001Z ##[endgroup]
+2026-10-13T16:26:20.7133417Z ##[group]Setting up auth
+2026-10-13T16:26:20.7139361Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T16:26:20.7176907Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T16:26:20.7516418Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T16:26:20.7576782Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T16:26:20.7827980Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-13T16:26:20.7870526Z ##[endgroup]
+2026-10-13T16:26:20.7871416Z ##[group]Fetching the repository
+2026-10-13T16:26:20.7880103Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2eba990da4779aeecfea1c4c288d8a6e552c48d8:refs/remotes/origin/main
+2026-10-13T16:26:21.1241919Z From https://github.com/Memorithm/NeuralOperator
+2026-10-13T16:26:21.1243399Z  * [new ref]         2eba990da4779aeecfea1c4c288d8a6e552c48d8 -> origin/main
+2026-10-13T16:26:21.1247421Z ##[endgroup]
+2026-10-13T16:26:21.1248555Z ##[group]Determining the checkout info
+2026-10-13T16:26:21.1250582Z ##[endgroup]
+2026-10-13T16:26:21.1257135Z [command]/usr/bin/git sparse-checkout disable
+2026-10-13T16:26:21.1308700Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-13T16:26:21.1342917Z ##[group]Checking out the ref
+2026-10-13T16:26:21.1347565Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-13T16:26:21.1461417Z Switched to a new branch 'main'
+2026-10-13T16:26:21.1466514Z branch 'main' set up to track 'origin/main'.
+2026-10-13T16:26:21.1472911Z ##[endgroup]
+2026-10-13T16:26:21.1517580Z [command]/usr/bin/git log -1 --format=%H
+2026-10-13T16:26:21.1553044Z 2eba990da4779aeecfea1c4c288d8a6e552c48d8
+2026-10-13T16:26:21.1837510Z ##[group]Run actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+2026-10-13T16:26:21.1838266Z with:
+2026-10-13T16:26:21.1838681Z   python-version: 3.12.8
+2026-10-13T16:26:21.1839157Z   check-latest: false
+2026-10-13T16:26:21.1843231Z   token: ***
+2026-10-13T16:26:21.1843683Z   update-environment: true
+2026-10-13T16:26:21.1844198Z   allow-prereleases: false
+2026-10-13T16:26:21.1844861Z ##[endgroup]
+2026-10-13T16:26:21.3288234Z ##[group]Installed versions
+2026-10-13T16:26:21.3379103Z Version 3.12.8 was not found in the local cache
+2026-10-13T16:26:21.3500999Z (node:2513) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-13T16:26:21.3502575Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-13T16:26:22.1360969Z Version 3.12.8 is available for downloading
+2026-10-13T16:26:22.1363108Z Download from "https://github.com/actions/python-versions/releases/download/3.12.8-12154062663/python-3.12.8-linux-24.04-x64.tar.gz"
+2026-10-13T16:26:22.8040632Z Extract downloaded archive
+2026-10-13T16:26:22.8167612Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/bf88cf25-ecf8-4925-8c1f-af710de22a45 -f /home/runner/work/_temp/aab3a45a-48f2-4810-a2dc-cbc0a5f41877
+2026-10-13T16:26:25.0422819Z Execute installation script
+2026-10-13T16:26:25.0526100Z Check if Python hostedtoolcache folder exist...
+2026-10-13T16:26:25.0527288Z Create Python 3.12.8 folder
+2026-10-13T16:26:25.0544035Z Copy Python binaries to hostedtoolcache folder
+2026-10-13T16:26:25.5439019Z Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+2026-10-13T16:26:25.5483468Z Upgrading pip...
+2026-10-13T16:26:28.1631821Z Looking in links: /tmp/tmpxcplhjlt
+2026-10-13T16:26:28.1635468Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages (24.3.1)
+2026-10-13T16:26:29.7933238Z Collecting pip
+2026-10-13T16:26:29.8358579Z Downloading pip-26.2.1-py3-none-any.whl.metadata (4.6 kB)
+2026-10-13T16:26:29.8476981Z Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+2026-10-13T16:26:29.9440659Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 21.9 MB/s eta 0:00:00
+2026-10-13T16:26:29.9441493Z 
+2026-10-13T16:26:29.9693349Z Installing collected packages: pip
+2026-10-13T16:26:29.9694191Z Attempting uninstall: pip
+2026-10-13T16:26:29.9715871Z Found existing installation: pip 24.3.1
+2026-10-13T16:26:30.0044765Z Uninstalling pip-24.3.1:
+2026-10-13T16:26:30.0100655Z Successfully uninstalled pip-24.3.1
+2026-10-13T16:26:30.9461487Z Successfully installed pip-26.2.1
+2026-10-13T16:26:30.9974722Z Create complete file
+2026-10-13T16:26:31.0015746Z Successfully set up CPython (3.12.8)
+2026-10-13T16:26:31.0016625Z ##[endgroup]
+2026-10-13T16:26:31.0209240Z ##[group]Run python -m pip install --require-hashes -r requirements-py312-linux.lock
+2026-10-13T16:26:31.0209968Z [36;1mpython -m pip install --require-hashes -r requirements-py312-linux.lock[0m
+2026-10-13T16:26:31.0480638Z shell: /usr/bin/bash -e {0}
+2026-10-13T16:26:31.0480970Z env:
+2026-10-13T16:26:31.0481293Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:31.0481785Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib/pkgconfig
+2026-10-13T16:26:31.0482218Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:31.0482625Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:31.0483006Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:31.0483379Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib
+2026-10-13T16:26:31.0483712Z ##[endgroup]
+2026-10-13T16:26:32.1765408Z Collecting numpy==2.5.3 (from -r requirements-py312-linux.lock (line 3))
+2026-10-13T16:26:32.2391936Z   Downloading numpy-2.5.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+2026-10-13T16:26:32.9201955Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 25.5 MB/s  0:00:00
+2026-10-13T16:26:33.0582632Z Collecting scipy==1.18.1 (from -r requirements-py312-linux.lock (line 73))
+2026-10-13T16:26:33.0659211Z   Downloading scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+2026-10-13T16:26:33.2230180Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 227.4 MB/s  0:00:00
+2026-10-13T16:26:33.3103212Z Installing collected packages: numpy, scipy
+2026-10-13T16:26:39.9142992Z 
+2026-10-13T16:26:39.9154101Z Successfully installed numpy-2.5.3 scipy-1.18.1
+2026-10-13T16:26:39.9787286Z ##[group]Run python scripts/write_repro_manifest.py --lock requirements-py312-linux.lock --output neural-operator-reproducibility-manifest.json
+2026-10-13T16:26:39.9788398Z [36;1mpython scripts/write_repro_manifest.py --lock requirements-py312-linux.lock --output neural-operator-reproducibility-manifest.json[0m
+2026-10-13T16:26:39.9789171Z [36;1mcp requirements-py312-linux.lock neural-operator-py312-linux.lock[0m
+2026-10-13T16:26:39.9861880Z shell: /usr/bin/bash -e {0}
+2026-10-13T16:26:39.9862155Z env:
+2026-10-13T16:26:39.9862435Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:39.9862887Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib/pkgconfig
+2026-10-13T16:26:39.9863312Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:39.9863680Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:39.9864060Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:39.9864475Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib
+2026-10-13T16:26:39.9864861Z   SOURCE_HEAD_SHA: 2eba990da4779aeecfea1c4c288d8a6e552c48d8
+2026-10-13T16:26:39.9865183Z ##[endgroup]
+2026-10-13T16:26:40.0524868Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-10-13T16:26:40.0525552Z with:
+2026-10-13T16:26:40.0525951Z   name: neural-operator-reproducibility-2eba990da4779aeecfea1c4c288d8a6e552c48d8
+2026-10-13T16:26:40.0526602Z   path: neural-operator-reproducibility-manifest.json
+neural-operator-py312-linux.lock
+
+2026-10-13T16:26:40.0527078Z   if-no-files-found: error
+2026-10-13T16:26:40.0527319Z   retention-days: 90
+2026-10-13T16:26:40.0527548Z   compression-level: 6
+2026-10-13T16:26:40.0527785Z   overwrite: false
+2026-10-13T16:26:40.0528024Z   include-hidden-files: false
+2026-10-13T16:26:40.0528302Z env:
+2026-10-13T16:26:40.0528578Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:40.0529026Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib/pkgconfig
+2026-10-13T16:26:40.0529445Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:40.0529872Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:40.0530251Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:40.0530628Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib
+2026-10-13T16:26:40.0530967Z ##[endgroup]
+2026-10-13T16:26:40.2186283Z (node:2622) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-13T16:26:40.2187563Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-13T16:26:40.2263503Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-13T16:26:40.2265485Z The least common ancestor is /home/runner/work/NeuralOperator/NeuralOperator. This will be the root directory of the artifact
+2026-10-13T16:26:40.2266582Z With the provided path, there will be 2 files uploaded
+2026-10-13T16:26:40.2276875Z Artifact name is valid!
+2026-10-13T16:26:40.2277418Z Root directory input is valid!
+2026-10-13T16:26:40.5914558Z Beginning upload of artifact content to blob storage
+2026-10-13T16:26:40.6112490Z (node:2622) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-13T16:26:40.9008833Z Uploaded bytes 5638
+2026-10-13T16:26:40.9799132Z Finished uploading artifact content to blob storage!
+2026-10-13T16:26:40.9800105Z SHA256 digest of uploaded artifact zip is 5321552e974d9adc2b8042ed2bbd4b502053fd9f5ad91e620db52a7dc575a67a
+2026-10-13T16:26:40.9802054Z Finalizing artifact upload
+2026-10-13T16:26:41.2682436Z Artifact neural-operator-reproducibility-2eba990da4779aeecfea1c4c288d8a6e552c48d8.zip successfully finalized. Artifact ID 11829629709
+2026-10-13T16:26:41.2684830Z Artifact neural-operator-reproducibility-2eba990da4779aeecfea1c4c288d8a6e552c48d8 has been successfully uploaded! Final size is 5638 bytes. Artifact ID is 11829629709
+2026-10-13T16:26:41.2689099Z Artifact download URL: https://github.com/Memorithm/NeuralOperator/actions/runs/38430486858/artifacts/11829629709
+2026-10-13T16:26:41.2814288Z ##[group]Run PYTHONPATH=src python -m unittest discover -s tests -v
+2026-10-13T16:26:41.2814792Z [36;1mPYTHONPATH=src python -m unittest discover -s tests -v[0m
+2026-10-13T16:26:41.2883920Z shell: /usr/bin/bash -e {0}
+2026-10-13T16:26:41.2884199Z env:
+2026-10-13T16:26:41.2884490Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:41.2884952Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib/pkgconfig
+2026-10-13T16:26:41.2885638Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:41.2886026Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:41.2886427Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:41.2886817Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib
+2026-10-13T16:26:41.2887157Z ##[endgroup]
+2026-10-13T16:26:41.8838157Z test_serialized_timing_keeps_measurement_boundaries (test_benchmarking_summary.InferenceTimingContractTests.test_serialized_timing_keeps_measurement_boundaries) ... ok
+2026-10-13T16:26:41.8840321Z test_timing_is_labeled_end_to_end_with_variability_and_context (test_benchmarking_summary.InferenceTimingContractTests.test_timing_is_labeled_end_to_end_with_variability_and_context) ... ok
+2026-10-13T16:26:41.8841868Z test_empty_and_nonfinite_inputs_are_rejected (test_benchmarking_summary.ScalarSummaryTests.test_empty_and_nonfinite_inputs_are_rejected) ... ok
+2026-10-13T16:26:41.8842882Z test_single_value_has_zero_sample_deviation (test_benchmarking_summary.ScalarSummaryTests.test_single_value_has_zero_sample_deviation) ... ok
+2026-10-13T16:26:41.8844107Z test_summary_reports_sample_statistics (test_benchmarking_summary.ScalarSummaryTests.test_summary_reports_sample_statistics) ... ok
+2026-10-13T16:26:41.9032279Z test_constant_coefficient_solution_converges_second_order (test_darcy.DarcyReferenceTests.test_constant_coefficient_solution_converges_second_order) ... ok
+2026-10-13T16:26:41.9078853Z test_dataset_is_deterministic_positive_and_traceable (test_darcy.DarcyReferenceTests.test_dataset_is_deterministic_positive_and_traceable) ... ok
+2026-10-13T16:26:41.9080637Z test_invalid_coefficients_and_shapes_are_rejected (test_darcy.DarcyReferenceTests.test_invalid_coefficients_and_shapes_are_rejected) ... ok
+2026-10-13T16:26:41.9088472Z test_seed_changes_permeability_family (test_darcy.DarcyReferenceTests.test_seed_changes_permeability_family) ... ok
+2026-10-13T16:26:41.9129192Z test_solver_satisfies_its_conservative_stencil (test_darcy.DarcyReferenceTests.test_solver_satisfies_its_conservative_stencil) ... ok
+2026-10-13T16:26:41.9315567Z test_constant_anisotropy_converges_second_order (test_darcy_anisotropic.DarcyAnisotropicReferenceTests.test_constant_anisotropy_converges_second_order) ... ok
+2026-10-13T16:26:41.9370715Z test_dataset_is_deterministic_and_preserves_anisotropy_ratio (test_darcy_anisotropic.DarcyAnisotropicReferenceTests.test_dataset_is_deterministic_and_preserves_anisotropy_ratio) ... ok
+2026-10-13T16:26:41.9372841Z test_invalid_anisotropy_ratio_is_rejected (test_darcy_anisotropic.DarcyAnisotropicReferenceTests.test_invalid_anisotropy_ratio_is_rejected) ... ok
+2026-10-13T16:26:41.9374747Z test_invalid_tensor_coefficients_are_rejected (test_darcy_anisotropic.DarcyAnisotropicReferenceTests.test_invalid_tensor_coefficients_are_rejected) ... ok
+2026-10-13T16:26:41.9410762Z test_isotropic_diagonal_solver_matches_scalar_solver (test_darcy_anisotropic.DarcyAnisotropicReferenceTests.test_isotropic_diagonal_solver_matches_scalar_solver) ... ok
+2026-10-13T16:26:41.9425808Z test_dataset_records_spectral_family_provenance (test_darcy_ood_families.DarcyOODFamilyTests.test_dataset_records_spectral_family_provenance) ... ok
+2026-10-13T16:26:41.9453664Z test_default_spectral_decay_preserves_historical_generator (test_darcy_ood_families.DarcyOODFamilyTests.test_default_spectral_decay_preserves_historical_generator) ... ok
+2026-10-13T16:26:41.9481943Z test_lower_spectral_decay_generates_rougher_fields (test_darcy_ood_families.DarcyOODFamilyTests.test_lower_spectral_decay_generates_rougher_fields) ... ok
+2026-10-13T16:26:41.9483916Z test_negative_spectral_decay_is_rejected (test_darcy_ood_families.DarcyOODFamilyTests.test_negative_spectral_decay_is_rejected) ... ok
+2026-10-13T16:26:41.9507941Z test_dataset_transform_round_trip_restores_pressure (test_darcy_scale_equivariance.DarcyScaleEquivarianceTests.test_dataset_transform_round_trip_restores_pressure) ... ok
+2026-10-13T16:26:41.9548569Z test_global_permeability_scaling_has_exact_pressure_covariance (test_darcy_scale_equivariance.DarcyScaleEquivarianceTests.test_global_permeability_scaling_has_exact_pressure_covariance) ... ok
+2026-10-13T16:26:41.9550755Z test_nonpositive_permeability_is_rejected (test_darcy_scale_equivariance.DarcyScaleEquivarianceTests.test_nonpositive_permeability_is_rejected) ... ok
+2026-10-13T16:26:41.9580036Z test_normalized_permeability_has_unit_geometric_mean (test_darcy_scale_equivariance.DarcyScaleEquivarianceTests.test_normalized_permeability_has_unit_geometric_mean) ... ok
+2026-10-13T16:26:42.0123255Z test_dataset_is_deterministic_spd_and_preserves_principal_ratio (test_darcy_tensor.DarcyTensorReferenceTests.test_dataset_is_deterministic_spd_and_preserves_principal_ratio) ... ok
+2026-10-13T16:26:42.0125593Z test_invalid_dataset_orientation_controls_are_rejected (test_darcy_tensor.DarcyTensorReferenceTests.test_invalid_dataset_orientation_controls_are_rejected) ... ok
+2026-10-13T16:26:42.0127249Z test_invalid_tensor_is_rejected (test_darcy_tensor.DarcyTensorReferenceTests.test_invalid_tensor_is_rejected) ... ok
+2026-10-13T16:26:42.0280745Z test_isotropic_tensor_collapses_orientation (test_darcy_tensor.DarcyTensorReferenceTests.test_isotropic_tensor_collapses_orientation) ... ok
+2026-10-13T16:26:42.3052300Z test_rotated_constant_tensor_converges_second_order (test_darcy_tensor.DarcyTensorReferenceTests.test_rotated_constant_tensor_converges_second_order) ... ok
+2026-10-13T16:26:42.3223571Z test_exact_tensor_targets_have_zero_data_error_and_small_physics_residual (test_darcy_tensor_benchmarking.DarcyTensorBenchmarkingTests.test_exact_tensor_targets_have_zero_data_error_and_small_physics_residual) ... ok
+2026-10-13T16:26:42.3309566Z test_tensor_evaluator_records_boundary_violation_without_failing (test_darcy_tensor_benchmarking.DarcyTensorBenchmarkingTests.test_tensor_evaluator_records_boundary_violation_without_failing) ... ok
+2026-10-13T16:26:42.3354309Z test_tensor_evaluator_rejects_invalid_repeats (test_darcy_tensor_benchmarking.DarcyTensorBenchmarkingTests.test_tensor_evaluator_rejects_invalid_repeats) ... ok
+2026-10-13T16:26:42.3399316Z test_tensor_evaluator_rejects_wrong_output_shape (test_darcy_tensor_benchmarking.DarcyTensorBenchmarkingTests.test_tensor_evaluator_rejects_wrong_output_shape) ... ok
+2026-10-13T16:26:42.3431064Z test_exact_reference_transition_has_zero_state_error (test_evaluation.BurgersRolloutEvaluationTests.test_exact_reference_transition_has_zero_state_error) ... ok
+2026-10-13T16:26:42.3466535Z test_operator_evaluation_propagates_static_forcing (test_evaluation.BurgersRolloutEvaluationTests.test_operator_evaluation_propagates_static_forcing) ... ok
+2026-10-13T16:26:42.3468331Z test_rollout_rejects_an_operator_with_the_wrong_shape (test_evaluation.BurgersRolloutEvaluationTests.test_rollout_rejects_an_operator_with_the_wrong_shape) ... ok
+2026-10-13T16:26:42.3469971Z test_zero_step_rollout_is_the_initial_state (test_evaluation.BurgersRolloutEvaluationTests.test_zero_step_rollout_is_the_initial_state) ... ok
+2026-10-13T16:26:42.3499572Z test_ood_split_retains_forcing_provenance (test_forcing.BurgersForcingTests.test_ood_split_retains_forcing_provenance) ... ok
+2026-10-13T16:26:42.3502292Z test_static_forcing_is_added_to_the_reference_rhs (test_forcing.BurgersForcingTests.test_static_forcing_is_added_to_the_reference_rhs) ... ok
+2026-10-13T16:26:42.3531193Z test_zero_forcing_preserves_the_unforced_dataset (test_forcing.BurgersForcingTests.test_zero_forcing_preserves_the_unforced_dataset) ... ok
+2026-10-13T16:26:42.3539346Z test_modified_oracle_fails_before_import (test_frozen_rust_darcy_oracle.FrozenRustDarcyOracleTests.test_modified_oracle_fails_before_import) ... ok
+2026-10-13T16:26:42.3542725Z test_original_baseline_is_loaded_directly (test_frozen_rust_darcy_oracle.FrozenRustDarcyOracleTests.test_original_baseline_is_loaded_directly) ... ok
+2026-10-13T16:26:42.3544891Z test_batched_axis_is_supported (test_spectral.SpectralReferenceTests.test_batched_axis_is_supported) ... ok
+2026-10-13T16:26:42.3576515Z test_burgers_dataset_is_deterministic_and_traceable (test_spectral.SpectralReferenceTests.test_burgers_dataset_is_deterministic_and_traceable) ... ok
+2026-10-13T16:26:42.3578721Z test_burgers_residual_matches_analytic_expression (test_spectral.SpectralReferenceTests.test_burgers_residual_matches_analytic_expression) ... ok
+2026-10-13T16:26:42.3709959Z test_burgers_solver_preserves_mean_and_dissipates_energy (test_spectral.SpectralReferenceTests.test_burgers_solver_preserves_mean_and_dissipates_energy) ... ok
+2026-10-13T16:26:42.3711105Z test_burgers_solver_rejects_invalid_time_parameters (test_spectral.SpectralReferenceTests.test_burgers_solver_rejects_invalid_time_parameters) ... ok
+2026-10-13T16:26:42.3713049Z test_constant_burgers_transition_has_zero_physics_residual (test_spectral.SpectralReferenceTests.test_constant_burgers_transition_has_zero_physics_residual) ... ok
+2026-10-13T16:26:42.3715582Z test_first_and_second_derivatives_of_smooth_periodic_field (test_spectral.SpectralReferenceTests.test_first_and_second_derivatives_of_smooth_periodic_field) ... ok
+2026-10-13T16:26:42.9576608Z test_fno_learns_a_small_burgers_operator (test_spectral.SpectralReferenceTests.test_fno_learns_a_small_burgers_operator) ... ok
+2026-10-13T16:26:43.9446907Z test_fno_reference_learns_a_low_mode_operator (test_spectral.SpectralReferenceTests.test_fno_reference_learns_a_low_mode_operator) ... ok
+2026-10-13T16:26:43.9466234Z test_invalid_parameters_are_rejected (test_spectral.SpectralReferenceTests.test_invalid_parameters_are_rejected) ... ok
+2026-10-13T16:26:44.0380854Z test_linear_deeponet_transfers_to_arbitrary_query_resolution (test_spectral.SpectralReferenceTests.test_linear_deeponet_transfers_to_arbitrary_query_resolution) ... ok
+2026-10-13T16:26:44.0426552Z test_linear_fourier_operator_transfers_to_a_finer_resolution (test_spectral.SpectralReferenceTests.test_linear_fourier_operator_transfers_to_a_finer_resolution) ... ok
+2026-10-13T16:26:44.0436689Z test_periodic_convolution_baseline_fits_a_known_stencil (test_spectral.SpectralReferenceTests.test_periodic_convolution_baseline_fits_a_known_stencil) ... ok
+2026-10-13T16:26:44.0466624Z test_periodic_linear_interpolation_wraps_and_preserves_shape (test_spectral.SpectralReferenceTests.test_periodic_linear_interpolation_wraps_and_preserves_shape) ... ok
+2026-10-13T16:26:44.5747222Z test_physics_aware_training_reduces_weighted_transition_loss (test_spectral.SpectralReferenceTests.test_physics_aware_training_reduces_weighted_transition_loss) ... ok
+2026-10-13T16:26:44.5776636Z test_spectral_derivative_converges_faster_than_centered_difference (test_spectral.SpectralReferenceTests.test_spectral_derivative_converges_faster_than_centered_difference) ... ok
+2026-10-13T16:26:44.5806418Z test_streamfunction_construction_is_divergence_free (test_spectral.SpectralReferenceTests.test_streamfunction_construction_is_divergence_free) ... ok
+2026-10-13T16:26:44.5808067Z test_two_thirds_filter_removes_high_mode (test_spectral.SpectralReferenceTests.test_two_thirds_filter_removes_high_mode) ... ok
+2026-10-13T16:26:44.5836560Z test_split_is_deterministic_and_retains_partition_provenance (test_splits.BurgersDatasetSplitTests.test_split_is_deterministic_and_retains_partition_provenance) ... ok
+2026-10-13T16:26:44.5866258Z test_split_rejects_a_different_prediction_grid (test_splits.BurgersDatasetSplitTests.test_split_rejects_a_different_prediction_grid) ... ok
+2026-10-13T16:26:44.5896150Z test_split_rejects_generated_input_collisions (test_splits.BurgersDatasetSplitTests.test_split_rejects_generated_input_collisions) ... ok
+2026-10-13T16:26:44.5926452Z test_split_rejects_identical_partition_specs (test_splits.BurgersDatasetSplitTests.test_split_rejects_identical_partition_specs) ... ok
+2026-10-13T16:26:44.5956310Z test_split_rejects_reused_seed_even_when_statistics_differ (test_splits.BurgersDatasetSplitTests.test_split_rejects_reused_seed_even_when_statistics_differ) ... ok
+2026-10-13T16:26:44.5986655Z test_reference_models_have_nearly_identical_parameter_budgets (test_torch_benchmarking.TorchBenchmarkingTests.test_reference_models_have_nearly_identical_parameter_budgets) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6016480Z test_timing_contract_accepts_tensor_backends (test_torch_benchmarking.TorchBenchmarkingTests.test_timing_contract_accepts_tensor_backends) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6046641Z test_both_comparators_reduce_reference_darcy_training_loss (test_torch_darcy_comparison.TorchDarcyComparisonTests.test_both_comparators_reduce_reference_darcy_training_loss) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6076556Z test_deeponet_hard_boundary_is_exact (test_torch_darcy_comparison.TorchDarcyComparisonTests.test_deeponet_hard_boundary_is_exact) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6106516Z test_local_baseline_hard_boundary_is_exact (test_torch_darcy_comparison.TorchDarcyComparisonTests.test_local_baseline_hard_boundary_is_exact) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6108907Z test_matched_reference_parameter_budgets_are_within_three_percent (test_torch_darcy_comparison.TorchDarcyComparisonTests.test_matched_reference_parameter_budgets_are_within_three_percent) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6156414Z test_normalized_query_grid_contract (test_torch_darcy_comparison.TorchDarcyComparisonTests.test_normalized_query_grid_contract) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6166470Z test_data_physics_loss_separates_terms (test_torch_darcy_physics.TorchDarcyPhysicsTests.test_data_physics_loss_separates_terms) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6168549Z test_differentiable_residual_matches_numpy_oracle (test_torch_darcy_physics.TorchDarcyPhysicsTests.test_differentiable_residual_matches_numpy_oracle) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6170621Z test_nonpositive_permeability_is_rejected (test_torch_darcy_physics.TorchDarcyPhysicsTests.test_nonpositive_permeability_is_rejected) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6172592Z test_physics_fit_reduces_all_training_terms (test_torch_darcy_physics.TorchDarcyPhysicsTests.test_physics_fit_reduces_all_training_terms) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6174565Z test_residual_retains_pressure_gradients (test_torch_darcy_physics.TorchDarcyPhysicsTests.test_residual_retains_pressure_gradients) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6177008Z test_all_models_accept_tensor_channels_and_impose_zero_boundary (test_torch_darcy_tensor_comparison.TorchDarcyTensorComparisonTests.test_all_models_accept_tensor_channels_and_impose_zero_boundary) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6179638Z test_three_channel_parameter_budgets_are_within_three_percent (test_torch_darcy_tensor_comparison.TorchDarcyTensorComparisonTests.test_three_channel_parameter_budgets_are_within_three_percent) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6182134Z test_nonlinear_deeponet_transfers_to_arbitrary_query_resolution (test_torch_deeponet.TorchDeepONetTests.test_nonlinear_deeponet_transfers_to_arbitrary_query_resolution) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6184658Z test_autodiff_training_reduces_reference_loss (test_torch_fno.TorchFNOTests.test_autodiff_training_reduces_reference_loss) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6186669Z test_forward_preserves_the_operator_tensor_contract (test_torch_fno.TorchFNOTests.test_forward_preserves_the_operator_tensor_contract) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6188489Z test_parameters_match_the_numpy_reference (test_torch_fno.TorchFNOTests.test_parameters_match_the_numpy_reference) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6266561Z test_fit_reduces_loss_on_reference_darcy_samples (test_torch_fno2d.TorchFNO2DTests.test_fit_reduces_loss_on_reference_darcy_samples) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6268653Z test_forward_preserves_grid_and_hard_dirichlet_boundary (test_torch_fno2d.TorchFNO2DTests.test_forward_preserves_grid_and_hard_dirichlet_boundary) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6270719Z test_gradients_flow_through_complex_spectral_weights (test_torch_fno2d.TorchFNO2DTests.test_gradients_flow_through_complex_spectral_weights) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6272511Z test_invalid_shapes_are_rejected (test_torch_fno2d.TorchFNO2DTests.test_invalid_shapes_are_rejected) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6274159Z test_same_weights_execute_on_a_finer_grid (test_torch_fno2d.TorchFNO2DTests.test_same_weights_execute_on_a_finer_grid) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6277552Z test_shared_darcy_metrics_include_discrete_residual_and_boundary (test_torch_fno2d.TorchFNO2DTests.test_shared_darcy_metrics_include_discrete_residual_and_boundary) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6279889Z test_physics_aware_fit_reduces_weighted_training_objective (test_torch_physics.TorchSpectralPhysicsTests.test_physics_aware_fit_reduces_weighted_training_objective) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6282186Z test_physics_loss_backpropagates_to_fno_parameters (test_torch_physics.TorchSpectralPhysicsTests.test_physics_loss_backpropagates_to_fno_parameters) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6284394Z test_spectral_derivative_matches_analytic_periodic_field (test_torch_physics.TorchSpectralPhysicsTests.test_spectral_derivative_matches_analytic_periodic_field) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6286924Z test_transition_residual_matches_numpy_oracle_with_forcing (test_torch_physics.TorchSpectralPhysicsTests.test_transition_residual_matches_numpy_oracle_with_forcing) ... skipped 'optional PyTorch backend is not installed'
+2026-10-13T16:26:44.6288151Z 
+2026-10-13T16:26:44.6288384Z ----------------------------------------------------------------------
+2026-10-13T16:26:44.6288915Z Ran 92 tests in 2.703s
+2026-10-13T16:26:44.6289122Z 
+2026-10-13T16:26:44.6289250Z OK (skipped=28)
+2026-10-13T16:26:44.6568319Z ##[group]Run python -m compileall -q src tests scripts
+2026-10-13T16:26:44.6568756Z [36;1mpython -m compileall -q src tests scripts[0m
+2026-10-13T16:26:44.6638161Z shell: /usr/bin/bash -e {0}
+2026-10-13T16:26:44.6638435Z env:
+2026-10-13T16:26:44.6638720Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:44.6639158Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib/pkgconfig
+2026-10-13T16:26:44.6639587Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:44.6639974Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:44.6640360Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.8/x64
+2026-10-13T16:26:44.6640738Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.8/x64/lib
+2026-10-13T16:26:44.6641255Z ##[endgroup]
+2026-10-13T16:26:44.7526201Z Post job cleanup.
+2026-10-13T16:26:44.8777819Z (node:2644) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-13T16:26:44.8779174Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-13T16:26:44.8969520Z Post job cleanup.
+2026-10-13T16:26:44.9845430Z [command]/usr/bin/git version
+2026-10-13T16:26:44.9889307Z git version 2.55.0
+2026-10-13T16:26:44.9926692Z Temporarily overriding HOME='/home/runner/work/_temp/4e4cbc66-1737-42f5-bb06-7910b956a80e' before making global git config changes
+2026-10-13T16:26:44.9928139Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-13T16:26:44.9932562Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuralOperator/NeuralOperator
+2026-10-13T16:26:44.9971725Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T16:26:45.0008518Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T16:26:45.0271720Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T16:26:45.0302266Z http.https://github.com/.extraheader
+2026-10-13T16:26:45.0313817Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-13T16:26:45.0357721Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T16:26:45.0802608Z Cleaning up orphan processes
+2026-10-13T16:26:45.1105481Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683, actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
