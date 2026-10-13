@@ -1236,6 +1236,233 @@
         "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "timestamp": "2026-10-13T17:40:08+02:00",
+      "observed_session_start": "2026-10-13T17:27:49+02:00",
+      "batch": {
+        "number": 2,
+        "merged_prs": 46,
+        "target": 50
+      },
+      "merged_prs": 96,
+      "closed_findings": 87,
+      "remaining_findings": 14,
+      "work_items": [
+        {
+          "id": "COG-OCTA-003",
+          "repository": "Memorithm/octasoma",
+          "status": "waiting_ci",
+          "prs": [
+            "https://github.com/Memorithm/octasoma/pull/72"
+          ],
+          "base_sha": "247a44721e91e9025ce9cae846c550427c84d0f5",
+          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
+          "merge_sha": null,
+          "actions": [
+            "Confirmed swallowed errors on current master.",
+            "Added Result APIs, admission bounds, strict anchor identity and implementation provenance.",
+            "Added seven negative/contract tests; corrected two review findings with caller-budget reopen and sanitised embedder errors, plus two regression tests.",
+            "Opened PR #72; recorded roadmap on dedicated branch without merging it."
+          ],
+          "checks": [
+            {
+              "name": "test · ubuntu (--features mcp)",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977828"
+            },
+            {
+              "name": "msrv · 1.89 (declared minimum)",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977742"
+            },
+            {
+              "name": "test · ubuntu ()",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977711"
+            },
+            {
+              "name": "test · ubuntu (--features simd)",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977624"
+            },
+            {
+              "name": "test · windows-latest",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977487"
+            },
+            {
+              "name": "test · ubuntu (--all-features)",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977439"
+            },
+            {
+              "name": "test · macos-latest",
+              "status": "queued",
+              "conclusion": null,
+              "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977426"
+            },
+            {
+              "name": "lint · fmt + clippy (all feature combos)",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
+              "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387976992"
+            }
+          ],
+          "local_checks": [
+            {
+              "command": "cargo fmt --all -- --check",
+              "conclusion": "success"
+            },
+            {
+              "command": "git diff --check",
+              "conclusion": "success"
+            },
+            {
+              "command": "bwrap namespace availability probe",
+              "conclusion": "blocked_environment",
+              "detail": "NETLINK_ROUTE denied; no compiled candidate/dependency run performed locally"
+            }
+          ],
+          "reason_for_wait": "Corrected candidate CI is still in progress; no prior-head green or local unisolated execution is accepted.",
+          "dependencies": [],
+          "next_action": "Wait for all eight exact-head CI jobs, recheck diff/base/head/review, then merge with expected_head_sha and validate the integrated master."
+        },
+        {
+          "id": "COG-ADA-002",
+          "repository": "Memorithm/ADA",
+          "status": "waiting_ci",
+          "prs": [
+            "https://github.com/Memorithm/ADA/pull/60"
+          ],
+          "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+          "checks": [
+            {
+              "name": "miri",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381102015"
+            },
+            {
+              "name": "fuzz-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101925"
+            },
+            {
+              "name": "MSRV 1.85",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101885"
+            },
+            {
+              "name": "supply-chain",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101856"
+            },
+            {
+              "name": "build/test",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101810"
+            },
+            {
+              "name": "rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101424"
+            },
+            {
+              "name": "build/test",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094541"
+            },
+            {
+              "name": "MSRV 1.85",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094503"
+            },
+            {
+              "name": "rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094385"
+            },
+            {
+              "name": "fuzz-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094332"
+            },
+            {
+              "name": "miri",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094249"
+            },
+            {
+              "name": "supply-chain",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381093970"
+            }
+          ],
+          "actions": [
+            "Reconciled exact corrected candidate and 2/2 resolved threads; five job names green, Miri active."
+          ],
+          "reason_for_wait": "Exact-head Miri gate active within its declared bound.",
+          "dependencies": [],
+          "next_action": "Miri remains active on exact corrected head defee006; five other job names succeed. Merge only after both triggered exact-head suites finish successfully, then validate integrated main."
+        },
+        {
+          "id": "B-NR-02",
+          "repository": null,
+          "status": "blocked",
+          "actions": [
+            "Documentation-only private candidate published; review finding corrected without changing scientific or platform code. Detailed proof retained privately."
+          ],
+          "checks": [],
+          "reason_for_wait": "Repository's policy-governed integration path and exact integrated validation remain necessary.",
+          "dependencies": [],
+          "next_action": "Follow the repository's permitted integration path, then verify the exact integrated private version; do not close or auto-merge through the documented holdout."
+        }
+      ],
+      "external_obstacles": [
+        "MEM-11: external runner-group administration not available.",
+        "PAPERS-01: qualified stronger-than-process execution backend evidence pending.",
+        "B-ITD-01: repository auto-merge holdout remains in force.",
+        "RT-NNIS-03: documented external rights/consent/licence review pending."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -1253,7 +1480,8 @@
       "COG-ADA-001"
     ],
     "waiting_ci": [
-      "COG-ADA-002"
+      "COG-ADA-002",
+      "COG-OCTA-003"
     ],
     "blocked_external": [
       "MEM-11",
@@ -1261,8 +1489,12 @@
       "B-ITD-01",
       "RT-NNIS-03"
     ],
-    "next_action": "Reconcile ADA PR #60 exact-head CI and review; merge only after every gate succeeds.",
-    "excluded_repositories_modified": []
+    "next_action": "Reconcile ADA Miri and octasoma exact-head CI; independently continue remaining permitted backlog.",
+    "excluded_repositories_modified": [],
+    "blocked_repository_policy": [
+      "B-ITD-01",
+      "B-NR-02"
+    ]
   },
   "latest_counts": {
     "batch": 2,
