@@ -1,0 +1,369 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_id": "MEM-09",
+  "repository": "Memorithm/CCOS-Enterprise",
+  "source": {
+    "audit_date": "2026-09-30",
+    "source_ref": "libfile_6e12d363113c8191886a6e694ff69a13#MEM-09",
+    "audit_head": "1c46f2982a4ec6b30e4a9b85222f99f3e7cbbe47",
+    "title": "La qualification Vault réelle reste à établir",
+    "severity": "medium"
+  },
+  "observed_at": "2026-10-13T12:18:23+02:00",
+  "current_validation": {
+    "audit_gap_confirmed_before_change": true,
+    "default_branch": "main",
+    "starting_head": "4c71b3e6ca7cb9078b876c3451ed1f085994cecb",
+    "final_head": "ac3e64b57aec8120ab98922c76afae4df48d6336",
+    "final_tree": "83b97845a4f8c55dd9615ae1a84b3e346e92f487",
+    "branch_protection_observation": "rulesets none; branch protection disabled; no bypass performed"
+  },
+  "policy": {
+    "instructions": "root AGENTS.md reviewed",
+    "license": "PolyForm Noncommercial reviewed",
+    "roadmap_branch": "agent/ecosystem-roadmap",
+    "roadmap_commit": "29bad29f44ea9e011bb25700cff66514a80caff8"
+  },
+  "implementation": {
+    "vault_version": "2.1.2",
+    "vault_archive_sha256": "873bbdac35ca4b0c3e2886c41991ca1272fc452826208d5499f32d12cd2e76e1",
+    "coverage": [
+      "least-privilege ACL",
+      "token renewal",
+      "token expiry",
+      "key rotation",
+      "backup restore and rewrap",
+      "key retirement",
+      "Vault outage fail-closed"
+    ],
+    "evidence": [
+      "bounded secret-free JSON",
+      "run-local Ed25519 detached signature",
+      "portable relative SHA-256 manifest"
+    ]
+  },
+  "pull_requests": [
+    {
+      "repository": "Memorithm/CCOS-Enterprise",
+      "number": 195,
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/pull/195",
+      "base": "main",
+      "base_sha": "4c71b3e6ca7cb9078b876c3451ed1f085994cecb",
+      "head_sha": "dc9d3f30c0d0445a113f8706bcfa8ea2ccb890af",
+      "merge_sha": "5332d760cafbb72e2e378a7e20de090b2270e279",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-09"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-13T09:52:38Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "checks": [
+        {
+          "id": 38377781354,
+          "name": "CI (fast) candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "dc9d3f30c0d0445a113f8706bcfa8ea2ccb890af",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38377781354"
+        },
+        {
+          "id": 38377781562,
+          "name": "CI (security) candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "dc9d3f30c0d0445a113f8706bcfa8ea2ccb890af",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38377781562"
+        },
+        {
+          "id": 38377781358,
+          "name": "CI (full) candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "dc9d3f30c0d0445a113f8706bcfa8ea2ccb890af",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38377781358"
+        },
+        {
+          "id": 38377781629,
+          "name": "Strict BEIR import candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "dc9d3f30c0d0445a113f8706bcfa8ea2ccb890af",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38377781629"
+        },
+        {
+          "id": 38377781419,
+          "name": "Governed provider recovery candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "dc9d3f30c0d0445a113f8706bcfa8ea2ccb890af",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38377781419"
+        },
+        {
+          "id": 38377781313,
+          "name": "Vault qualification candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "dc9d3f30c0d0445a113f8706bcfa8ea2ccb890af",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38377781313"
+        }
+      ],
+      "target_head": "5332d760cafbb72e2e378a7e20de090b2270e279",
+      "target_checks": [
+        {
+          "id": 38379455564,
+          "name": "CI (fast) integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5332d760cafbb72e2e378a7e20de090b2270e279",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38379455564"
+        },
+        {
+          "id": 38379455549,
+          "name": "CI (security) integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5332d760cafbb72e2e378a7e20de090b2270e279",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38379455549"
+        },
+        {
+          "id": 38379455546,
+          "name": "CI (full) integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5332d760cafbb72e2e378a7e20de090b2270e279",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38379455546"
+        },
+        {
+          "id": 38379455554,
+          "name": "Strict BEIR import integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5332d760cafbb72e2e378a7e20de090b2270e279",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38379455554"
+        },
+        {
+          "id": 38379455528,
+          "name": "Governed provider recovery integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5332d760cafbb72e2e378a7e20de090b2270e279",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38379455528"
+        },
+        {
+          "id": 38379455524,
+          "name": "Vault qualification integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5332d760cafbb72e2e378a7e20de090b2270e279",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38379455524"
+        }
+      ],
+      "review": {
+        "threads": 1,
+        "resolved_threads": 1,
+        "findings": "exact-head qualification identity issue corrected before merge"
+      },
+      "artifacts": [
+        {
+          "scope": "candidate",
+          "id": 11801458996,
+          "name": "vault-qualification-dc9d3f30c0d0445a113f8706bcfa8ea2ccb890af",
+          "digest": "sha256:685f32c138b6701e32c0d274f4c54685154dac8cd7044dba7cabb683923319eb"
+        },
+        {
+          "scope": "integrated",
+          "id": 11802148517,
+          "name": "vault-qualification-5332d760cafbb72e2e378a7e20de090b2270e279",
+          "digest": "sha256:c2133f114580486ad3afddf5b10524e1a894b336cb6c6edc3280bd78bdf3fe5d"
+        }
+      ],
+      "limitations": [
+        "Qualification uses an isolated Vault 2.1.2 dev server in CI, not production infrastructure.",
+        "No FIPS, HSM, production IAM or hardware qualification is claimed."
+      ]
+    },
+    {
+      "repository": "Memorithm/CCOS-Enterprise",
+      "number": 196,
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/pull/196",
+      "base": "main",
+      "base_sha": "5332d760cafbb72e2e378a7e20de090b2270e279",
+      "head_sha": "86facafe6c7d611eed3a1f95f2a2ff618684d72b",
+      "merge_sha": "ac3e64b57aec8120ab98922c76afae4df48d6336",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-09"
+      ],
+      "batch": 2,
+      "merged_at": "2026-10-13T10:12:33Z",
+      "merge_method": "squash_with_expected_head_sha",
+      "checks": [
+        {
+          "id": 38380035715,
+          "name": "CI (fast) candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "86facafe6c7d611eed3a1f95f2a2ff618684d72b",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38380035715"
+        },
+        {
+          "id": 38380035487,
+          "name": "CI (security) candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "86facafe6c7d611eed3a1f95f2a2ff618684d72b",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38380035487"
+        },
+        {
+          "id": 38380035706,
+          "name": "CI (full) candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "86facafe6c7d611eed3a1f95f2a2ff618684d72b",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38380035706"
+        },
+        {
+          "id": 38380035608,
+          "name": "Strict BEIR import candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "86facafe6c7d611eed3a1f95f2a2ff618684d72b",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38380035608"
+        },
+        {
+          "id": 38380035858,
+          "name": "Vault qualification candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "86facafe6c7d611eed3a1f95f2a2ff618684d72b",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38380035858"
+        }
+      ],
+      "target_head": "ac3e64b57aec8120ab98922c76afae4df48d6336",
+      "target_checks": [
+        {
+          "id": 38381784182,
+          "name": "CI (fast) integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ac3e64b57aec8120ab98922c76afae4df48d6336",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38381784182"
+        },
+        {
+          "id": 38381784159,
+          "name": "CI (security) integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ac3e64b57aec8120ab98922c76afae4df48d6336",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38381784159"
+        },
+        {
+          "id": 38381784104,
+          "name": "CI (full) integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ac3e64b57aec8120ab98922c76afae4df48d6336",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38381784104"
+        },
+        {
+          "id": 38381784097,
+          "name": "Strict BEIR import integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ac3e64b57aec8120ab98922c76afae4df48d6336",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38381784097"
+        },
+        {
+          "id": 38381784147,
+          "name": "Vault qualification integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "ac3e64b57aec8120ab98922c76afae4df48d6336",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38381784147"
+        }
+      ],
+      "review": {
+        "threads": 0,
+        "resolved_threads": 0,
+        "findings": "portable relative checksum path verified on downloaded candidate and integrated artifacts"
+      },
+      "artifacts": [
+        {
+          "scope": "candidate",
+          "id": 11802099589,
+          "name": "vault-qualification-86facafe6c7d611eed3a1f95f2a2ff618684d72b",
+          "digest": "sha256:a31f61a32ea302bcdfc85e10f3d4938f5759aa1ed377d1abbf3cbe3c37cc0bed"
+        },
+        {
+          "scope": "integrated",
+          "id": 11803846127,
+          "name": "vault-qualification-ac3e64b57aec8120ab98922c76afae4df48d6336",
+          "digest": "sha256:47a9c7b61d85d14fa9023870fa254507e55a37ad800807f2c29fcb11081e75d3"
+        }
+      ],
+      "limitations": [
+        "Follow-up is workflow-only and preserves the qualification semantics.",
+        "Final retained evidence remains bounded and secret-free."
+      ]
+    }
+  ],
+  "final_artifact": {
+    "workflow_run": 38381784147,
+    "artifact_id": 11803846127,
+    "name": "vault-qualification-ac3e64b57aec8120ab98922c76afae4df48d6336",
+    "digest": "sha256:47a9c7b61d85d14fa9023870fa254507e55a37ad800807f2c29fcb11081e75d3",
+    "evidence_json_sha256": "55e7e418dc95a779007b7e77e66c7096b7552a1a27c364cfab227fb16110cbf8",
+    "manual_download_verification": {
+      "sha256_manifest": "passed",
+      "ed25519_signature": "passed",
+      "source_sha": "ac3e64b57aec8120ab98922c76afae4df48d6336",
+      "run_id": 38381784147,
+      "status": "passed",
+      "checks_passed": 12,
+      "checks_total": 12
+    }
+  },
+  "acceptance_criteria": [
+    {
+      "criterion": "Real isolated Vault campaign covers least privilege, token renewal/expiry, rotation, restore, retirement and outage.",
+      "status": "met",
+      "evidence": "Vault qualification workflows on exact candidate and integrated SHAs."
+    },
+    {
+      "criterion": "Record Vault version/configuration and signed results.",
+      "status": "met",
+      "evidence": "Vault 2.1.2 and archive SHA-256 pinned; bounded JSON, Ed25519 signature and portable SHA-256 manifest retained."
+    },
+    {
+      "criterion": "Verify resolution on integrated HEAD with source/base/HEAD identities.",
+      "status": "met",
+      "evidence": "Final artifact identifies ac3e64b57aec8120ab98922c76afae4df48d6336 and run 38381784147; all five applicable integrated workflows succeeded."
+    }
+  ],
+  "review": {
+    "pr_195": {
+      "threads": 1,
+      "resolved": 1
+    },
+    "pr_196": {
+      "threads": 0,
+      "resolved": 0
+    }
+  },
+  "limitations": [
+    "CI-isolated qualification does not represent production infrastructure.",
+    "No FIPS, HSM, production IAM or hardware qualification is claimed.",
+    "A successful qualification validates the tested Vault lifecycle contract only."
+  ],
+  "counts_after": {
+    "batch": 2,
+    "batch_merged_prs": 45,
+    "batch_target": 50,
+    "merged_prs": 95,
+    "closed_findings": 86,
+    "remaining_findings": 15,
+    "backlog": 101
+  },
+  "excluded_repositories_modified": []
+}
