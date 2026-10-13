@@ -13471,12 +13471,12 @@
   "lease": {
     "schema": "memorithm-remediation-lease.v1",
     "status": "released",
-    "owner": "chatgpt-audit-20261013T1610",
-    "acquired_at": "2026-10-13T16:16:00+02:00",
-    "expires_at": "2026-10-13T17:01:00+02:00",
-    "base_sha": "3da328854b8134eab8785ccf7bb5507482208f6e",
-    "purpose": "COG-ADA-001 integrated validation closure",
-    "released_at": "2026-10-13T16:20:00+02:00"
+    "owner": "chatgpt-audit-20261013T1713",
+    "acquired_at": "2026-10-13T17:20:27+02:00",
+    "expires_at": "2026-10-13T18:05:27+02:00",
+    "base_sha": "748c59636fda0c6962fa48f7336774b2970951a1",
+    "purpose": "COG-ADA-002 implementation, validation, PR and tracking",
+    "released_at": "2026-10-13T17:27:00+02:00"
   },
   "capabilities": [
     {
@@ -13542,5 +13542,5 @@
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
   ],
-  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6147546205"
+  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6149041028"
 }
