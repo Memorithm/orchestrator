@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:08:56.839Z",
+  "updated_at": "2026-10-13T18:13:55.064Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 93,
-    "remaining": 8,
+    "closed": 94,
+    "remaining": 7,
     "merged_prs": 106
   },
   "batches": [
@@ -9195,7 +9195,7 @@
       ],
       "base_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
       "head_sha": "a427c6fdf317e44517dec4271638a62ef98214a3",
-      "status": "merged_waiting_integrated_CI",
+      "status": "merged_target_validated",
       "batch": 3,
       "review": {
         "threads": 1,
@@ -9228,23 +9228,34 @@
       "target_checks": [
         {
           "name": "Rust",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "url": "https://github.com/Memorithm/ProofLab/actions/runs/38444203775/job/115458218583"
         },
         {
           "name": "Lean",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "url": "https://github.com/Memorithm/ProofLab/actions/runs/38444203775/job/115458218162"
         },
         {
           "name": "qualify",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "url": "https://github.com/Memorithm/ProofLab/actions/runs/38444203891/job/115458217713"
         }
-      ]
+      ],
+      "tested_candidate_integrated_tree": "4be27788001f74880a0f60e46e4d1fafd0b83585",
+      "integrated_artifact": {
+        "artifact_id": 11836972420,
+        "sha256": "af8e76cbf77364b91aa1f94daa424bc57fe84dd03964ee5625063c456def1e8d",
+        "source_revision": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+        "ci_run": 37193369605,
+        "evidence_status": "Observed",
+        "authentication": "verified",
+        "qualification": "not_evaluated",
+        "execution_id": "70afafd25b78f74f98a4ff7a5905041d6b93d13429f490f059c6b760072b8890"
+      }
     }
   ],
   "repository_observations": [
@@ -13890,11 +13901,11 @@
         "Construire un adaptateur réel de manifeste d'exécution contenant dépôt+SHA, protocole, identités des entrées/splits, hashes des sorties et lien CI; conserver la frontière EvidenceClaim/ProofArtifact et requalifier chaque version.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "b49e2e51397a33370c3c35fa16897eebf2929559",
       "default_branch": "main",
       "audit_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
-      "head_reconciliation": "candidate_exact_checks_green_SHA_guarded_merge_done_waiting_integrated_gates",
+      "head_reconciliation": "exact_candidate_and_integrated_Rust_Lean_authenticated_actual_archived_Riemann_import_gates_passed_retained_artifact_verified",
       "policy_review": "pending_target_bootstrap",
       "prs": [
         {
@@ -13909,19 +13920,34 @@
       "resolution_evidence": [
         {
           "proof": "docs/audit-global/proofs/ProofLab-84-B-PL-03-waiting-ci.json",
-          "local_rust": "1.98.1",
+          "status": "qualified",
+          "candidate_sha": "a427c6fdf317e44517dec4271638a62ef98214a3",
+          "integrated_sha": "b49e2e51397a33370c3c35fa16897eebf2929559",
+          "candidate_checks": 3,
+          "integrated_checks": 3,
+          "integrated_run": 38444203891,
+          "integrated_artifact": {
+            "artifact_id": 11836972420,
+            "sha256": "af8e76cbf77364b91aa1f94daa424bc57fe84dd03964ee5625063c456def1e8d",
+            "source_revision": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+            "ci_run": 37193369605,
+            "evidence_status": "Observed",
+            "authentication": "verified",
+            "qualification": "not_evaluated",
+            "execution_id": "70afafd25b78f74f98a4ff7a5905041d6b93d13429f490f059c6b760072b8890"
+          },
           "local_tests": 281,
-          "local_strict_workspace_clippy": "passed",
-          "real_archived_producer_run": 37193369605,
-          "producer_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
-          "owner_authentication_sha": "662a30dc774dd19c68a79bed3889036a91930123",
-          "source_log_sha256": "803d5be6dc558ab9476904cdef587ba89ca994b730e08cd685a526f67898a104",
-          "observed_execution_id": "70afafd25b78f74f98a4ff7a5905041d6b93d13429f490f059c6b760072b8890",
-          "status": "local_qualified_waiting_candidate_and_integrated_CI"
+          "scoped_first_actual_producer": true,
+          "limitations": [
+            "archived public producer log, not new scientific execution",
+            "ephemeral independent qualification policy, not production organization publisher ACL",
+            "no live TDI transport",
+            "empirical Observed only, never ProofArtifact"
+          ]
         }
       ],
-      "last_observed_at": "2026-10-13T18:08:56.839Z",
-      "next_action": "Verify integrated Rust, Lean and real owner-authenticated archival producer import on b49e2e51397a33370c3c35fa16897eebf2929559. Validate retained artifact/digest/source identities and scoped first-producer acceptance; no live TDI or production publisher claims."
+      "last_observed_at": "2026-10-13T18:13:55.064Z",
+      "next_action": "Closed for first actual archived Riemann development producer import. Maintain independent owner trust, exact bytes/splits/CI provenance and Observed-only scope. Live TDI transport, new producer runs and production publisher ACLs remain separate work."
     },
     {
       "id": "B-FL-01",
