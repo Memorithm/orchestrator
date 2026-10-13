@@ -1,0 +1,100 @@
+{
+  "schema": "memorithm.audit-proof.v1",
+  "finding": "COG-COGNO-003",
+  "observed_at": "2026-10-13T17:59:14.000+02:00",
+  "repository": "Memorithm/COGNO-1",
+  "number": 263,
+  "url": "https://github.com/Memorithm/COGNO-1/pull/263",
+  "base": "main",
+  "base_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+  "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+  "merge_sha": null,
+  "status": "waiting_ci",
+  "ids": [
+    "COG-COGNO-003"
+  ],
+  "batch": 2,
+  "checks": [
+    {
+      "name": "cargo build --frozen --release",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608602"
+    },
+    {
+      "name": "canonical scalar parity (exact sources)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340222/job/115396608510"
+    },
+    {
+      "name": "cargo clippy --locked -- -D warnings",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608401"
+    },
+    {
+      "name": "documented external dependencies (§24)",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608268"
+    },
+    {
+      "name": "cargo fmt --check",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608255"
+    },
+    {
+      "name": "cargo doc --locked",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608230"
+    },
+    {
+      "name": "cargo test --locked",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396607746"
+    },
+    {
+      "name": "bundle",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426339705/job/115396605830"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11827984505,
+      "run_id": 38426340222,
+      "digest": "sha256:7a77806d0fa9185c1d723374e1809ebbd3f7ed1334d36425bc3d62a6e1918d1b",
+      "identity_verified": true,
+      "retained_path": "docs/audit-global/proofs/cogno-263/candidate"
+    }
+  ],
+  "limitations": [
+    "Canonical finite scalar forward primitives only, not full autodiff convergence or runtime adoption.",
+    "No GPU, performance, real-model quality, Meta activation or authority promotion."
+  ],
+  "canonical": {
+    "repository": "Memorithm/scirust",
+    "sha": "68d544679df465d3b85539c80926ed2644fbbba1",
+    "backend_blob": "e9c550fcd10ae54c936899cf31ef80e7cc5c7b11",
+    "view_blob": "067b71e6fa59a77588ac81c5f16e4bdf6a76c223"
+  },
+  "executed": {
+    "forward_parity_cases": 288,
+    "local_analytic_gradient_cases": 192,
+    "outputs_sha256": "9a8a5fd83bfa59f1d80df03c0ad6590fc2e142eac4c7e5ea8b3909e87b7ef2bf"
+  },
+  "closure": false
+}

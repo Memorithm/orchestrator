@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T17:40:08+02:00",
+  "updated_at": "2026-10-13T17:59:14.000+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -8244,6 +8244,91 @@
         "Adapter contract is qualified by source CI; adoption in current CCOS is not claimed.",
         "Admission bounds are not OS resource isolation."
       ]
+    },
+    {
+      "repository": "Memorithm/COGNO-1",
+      "number": 263,
+      "url": "https://github.com/Memorithm/COGNO-1/pull/263",
+      "base": "main",
+      "base_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+      "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+      "merge_sha": null,
+      "status": "waiting_ci",
+      "ids": [
+        "COG-COGNO-003"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "name": "cargo build --frozen --release",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608602"
+        },
+        {
+          "name": "canonical scalar parity (exact sources)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340222/job/115396608510"
+        },
+        {
+          "name": "cargo clippy --locked -- -D warnings",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608401"
+        },
+        {
+          "name": "documented external dependencies (§24)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608268"
+        },
+        {
+          "name": "cargo fmt --check",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608255"
+        },
+        {
+          "name": "cargo doc --locked",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396608230"
+        },
+        {
+          "name": "cargo test --locked",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426340186/job/115396607746"
+        },
+        {
+          "name": "bundle",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38426339705/job/115396605830"
+        }
+      ],
+      "artifacts": [
+        {
+          "id": 11827984505,
+          "run_id": 38426340222,
+          "digest": "sha256:7a77806d0fa9185c1d723374e1809ebbd3f7ed1334d36425bc3d62a6e1918d1b",
+          "identity_verified": true,
+          "retained_path": "docs/audit-global/proofs/cogno-263/candidate"
+        }
+      ],
+      "limitations": [
+        "Canonical finite scalar forward primitives only, not full autodiff convergence or runtime adoption.",
+        "No GPU, performance, real-model quality, Meta activation or authority promotion."
+      ]
     }
   ],
   "repository_observations": [
@@ -11290,16 +11375,34 @@
         "Clarifier le nom/contrat du backend tensoriel local et faire une qualification différentielle contre les primitives du SciRust canonique avant convergence. Éviter d'assimiler la présence du nom de crate à un backend SciRust réellement utilisé.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
+      "status": "waiting_ci",
+      "current_head": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
       "default_branch": "main",
       "audit_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "gap_confirmed_on_05f526df_local_identity_and_exact_canonical_scalar_qualification_candidate",
+      "policy_review": "Root AGENTS and full off-main roadmap read, COGNO MIT and canonical SciRust PolyForm/LICENSING read. No shipped dependency or domain authority change. Canonical source qualification only, no copy/relicense or excluded repository mutation.",
+      "prs": [
+        {
+          "number": 263,
+          "url": "https://github.com/Memorithm/COGNO-1/pull/263",
+          "base": "main",
+          "base_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
+          "merge_sha": null,
+          "status": "waiting_ci"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "status": "candidate_not_closed",
+          "proof": "docs/audit-global/proofs/cogno-263-COG-COGNO-003.json",
+          "actual_forward_cases": 288,
+          "source_sha": "68d544679df465d3b85539c80926ed2644fbbba1",
+          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a"
+        }
+      ],
+      "last_observed_at": "2026-10-13T17:59:14.000+02:00",
+      "next_action": "Wait for Offline distribution and Rust50 v2 integration on exact head; inspect review, rules and unchanged base before expected-head guarded merge, then validate main and retain integrated evidence."
     },
     {
       "id": "COG-COGNO-004",

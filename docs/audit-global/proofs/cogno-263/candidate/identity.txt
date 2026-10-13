@@ -1,0 +1,24 @@
+schema=cogno.canonical-scalar-qualification@1
+cogno_sha=0eab1c31a7c521dfc4d13fd8f404ebaebb61864a
+cogno_tree=3902c0956288617360cbc38f9d4925c83d814b6a
+canonical_sha=68d544679df465d3b85539c80926ed2644fbbba1
+canonical_backend_blob=e9c550fcd10ae54c936899cf31ef80e7cc5c7b11
+canonical_view_blob=067b71e6fa59a77588ac81c5f16e4bdf6a76c223
+canonical_license=https://github.com/Memorithm/scirust/blob/68d544679df465d3b85539c80926ed2644fbbba1/LICENSE.md
+Required Notice: Copyright 2026 Tarek Zekriti (https://github.com/Memorithm/)
+scope=finite_f32_scalar_forward_dot_relu_matmul_only
+cases=288
+rustc 1.97.1 (8bab26f4f 2026-07-14)
+binary: rustc
+commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452
+commit-date: 2026-07-14
+host: x86_64-unknown-linux-gnu
+release: 1.97.1
+LLVM version: 22.1.6
+8fff813a4bf938b4e167e6b0348f8d064b71f3f953eb91b4398d3830dd92acf7  qualification/common.rs
+e2c925ce827d86122402fe0ca9496c3c8ed2d61cbccc1bb6a7f4dc2d4b873693  qualification/canonical.rs
+90b784a8bd09c751d9a6ac9c0b9a9a7bbb60dd239b90c05fc503a2a6668f7e7e  qualification/matrix/mod.rs
+2d89196e65860d5350db9d7f9123d29123002342843cadfa36cadc729c66e169  crates/cogno-scirust/examples/canonical_scalar_fixture.rs
+result=288_of_288_bit_exact_forward_cases;96_dot_and_96_relu_local_analytical_gradient_checks_passed
+9a8a5fd83bfa59f1d80df03c0ad6590fc2e142eac4c7e5ea8b3909e87b7ef2bf  qualification/results/local.txt
+9a8a5fd83bfa59f1d80df03c0ad6590fc2e142eac4c7e5ea8b3909e87b7ef2bf  qualification/results/canonical.txt
