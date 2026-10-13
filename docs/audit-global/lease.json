@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "owner": "chatgpt-audit-202610130920",
-  "acquired_at": "2026-10-13T07:20:27Z",
-  "expires_at": "2026-10-13T08:50:27Z",
-  "released_at": "2026-10-13T10:22:40+02:00",
-  "status": "released",
+  "owner": "chatgpt-audit-202610131111",
+  "acquired_at": "2026-10-13T09:11:58.483Z",
+  "expires_at": "2026-10-13T10:41:58.483Z",
+  "released_at": null,
+  "status": "active",
   "scope": "audit-global-remediation",
-  "previous_owner": "chatgpt-audit-202610130813",
+  "previous_owner": "chatgpt-audit-202610130920",
   "canonical_counts": {
     "merged_prs": 93,
     "closed_findings": 85,
@@ -18,5 +18,5 @@
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Acquire a fresh lease and continue the next unblocked finding while documented external blockers remain open."
+  "next_action": "Verify MEM-09 on the current CCOS-Enterprise head, remediate the real Vault qualification gap without overstating production or hardware evidence, validate, merge, and reconcile durable evidence."
 }
