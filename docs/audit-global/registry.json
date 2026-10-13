@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:08:18.000+02:00",
+  "updated_at": "2026-10-13T18:16:46.000+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 88,
-    "remaining": 13,
-    "merged_prs": 100
+    "closed": 90,
+    "remaining": 11,
+    "merged_prs": 101
   },
   "batches": [
     {
@@ -542,6 +542,17 @@
           "repository": "Memorithm/octasoma",
           "number": 72,
           "merge_sha": "713f78ec4503fab4465a5491f7399370ac727d24"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "target": 50,
+      "merged_prs": [
+        {
+          "repository": "Memorithm/ADA",
+          "number": 60,
+          "merge_sha": "6e18b6330655bbd434776dccbda48b2777241a62"
         }
       ]
     }
@@ -8078,17 +8089,17 @@
       "base": "main",
       "base_sha": "7958439630ff5e092d32ac8d618411785d885d59",
       "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
-      "merge_sha": null,
-      "status": "waiting_restarted_exact_head_ci",
+      "merge_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "COG-ADA-002"
       ],
-      "batch": 2,
+      "batch": 3,
       "checks": [
         {
           "name": "miri",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
           "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381102015"
         },
@@ -8157,8 +8168,8 @@
         },
         {
           "name": "miri",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
           "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094249"
         },
@@ -8198,7 +8209,8 @@
       "limitations": [
         "The adapter is research-only and dispatches CONTINUE_RESEARCH only.",
         "No worker capacity, runtime enforcement, sandbox security, performance, adoption or novelty claim."
-      ]
+      ],
+      "merge_method": "squash_with_expected_head_sha"
     },
     {
       "repository": "Memorithm/octasoma",
@@ -8208,7 +8220,7 @@
       "base_sha": "247a44721e91e9025ce9cae846c550427c84d0f5",
       "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
       "merge_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "COG-OCTA-003"
       ],
@@ -8303,7 +8315,74 @@
         "Adapter contract is qualified by source CI; adoption in current CCOS is not claimed.",
         "Admission bounds are not OS resource isolation."
       ],
-      "merge_method": "squash_with_expected_head_sha"
+      "merge_method": "squash_with_expected_head_sha",
+      "target_head": "713f78ec4503fab4465a5491f7399370ac727d24",
+      "target_checks": [
+        {
+          "id": 115401215786,
+          "name": "test · macos-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215786"
+        },
+        {
+          "id": 115401215729,
+          "name": "test · ubuntu (--all-features)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215729"
+        },
+        {
+          "id": 115401215312,
+          "name": "test · windows-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215312"
+        },
+        {
+          "id": 115401215227,
+          "name": "test · ubuntu (--features simd)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215227"
+        },
+        {
+          "id": 115401215222,
+          "name": "test · ubuntu ()",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215222"
+        },
+        {
+          "id": 115401215186,
+          "name": "test · ubuntu (--features mcp)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215186"
+        },
+        {
+          "id": 115401215107,
+          "name": "lint · fmt + clippy (all feature combos)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401215107"
+        },
+        {
+          "id": 115401214825,
+          "name": "msrv · 1.89 (declared minimum)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38427668450/job/115401214825"
+        }
+      ]
     },
     {
       "repository": "Memorithm/COGNO-1",
@@ -8313,7 +8392,7 @@
       "base_sha": "05f526dfdad3f777ff0eb48f0a6b1819125526a5",
       "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
       "merge_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
-      "status": "merged_waiting_target_ci",
+      "status": "merged_target_validated",
       "ids": [
         "COG-COGNO-003"
       ],
@@ -8390,6 +8469,14 @@
           "digest": "sha256:7a77806d0fa9185c1d723374e1809ebbd3f7ed1334d36425bc3d62a6e1918d1b",
           "identity_verified": true,
           "retained_path": "docs/audit-global/proofs/cogno-263/candidate"
+        },
+        {
+          "scope": "integrated",
+          "id": 11829366508,
+          "run_id": 38427431822,
+          "digest": "sha256:edc7cc466fdccb81b12b1afcfff5096e4b5496798c5de2a9b802473ec0f3f9dc",
+          "identity_verified": true,
+          "retained_path": "docs/audit-global/proofs/cogno-263/integrated"
         }
       ],
       "limitations": [
@@ -8399,7 +8486,82 @@
       "merged_at": "2026-10-13T16:04:04Z",
       "merge_method": "squash_with_expected_head_sha",
       "base_unchanged": true,
-      "integration_tree_identical_to_candidate": true
+      "integration_tree_identical_to_candidate": true,
+      "target_head": "5c34537c95a6eef00816d6600f727d04628403bd",
+      "target_checks": [
+        {
+          "id": 115400384907,
+          "name": "canonical scalar parity (exact sources)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431822/job/115400384907"
+        },
+        {
+          "id": 115400384081,
+          "name": "qualify",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427432077/job/115400384081"
+        },
+        {
+          "id": 115400383553,
+          "name": "bundle",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431910/job/115400383553"
+        },
+        {
+          "id": 115400382882,
+          "name": "documented external dependencies (§24)",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382882"
+        },
+        {
+          "id": 115400382851,
+          "name": "cargo build --frozen --release",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382851"
+        },
+        {
+          "id": 115400382824,
+          "name": "cargo fmt --check",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382824"
+        },
+        {
+          "id": 115400382610,
+          "name": "cargo test --locked",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382610"
+        },
+        {
+          "id": 115400382562,
+          "name": "cargo doc --locked",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382562"
+        },
+        {
+          "id": 115400382199,
+          "name": "cargo clippy --locked -- -D warnings",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
+          "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382199"
+        }
+      ]
     },
     {
       "repository": "Memorithm/SciCapsule",
@@ -8416,6 +8578,20 @@
       "status": "merged_external_runner_acceptance_blocked",
       "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session",
       "batch": 2
+    },
+    {
+      "repository": "Memorithm/NeuralOperator",
+      "number": 37,
+      "url": "https://github.com/Memorithm/NeuralOperator/pull/37",
+      "base": "main",
+      "base_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+      "head_sha": "9f89b2a0f3aaa203e1f181bee30e2d5afb48bad3",
+      "merge_sha": null,
+      "status": "waiting_ci",
+      "ids": [
+        "B-NO-01"
+      ],
+      "batch": 3
     }
   ],
   "repository_observations": [
@@ -11316,7 +11492,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "current_head": "6e18b6330655bbd434776dccbda48b2777241a62",
       "default_branch": "main",
       "audit_head": "7034491cc408ff77820589957349aa4fad1ee097",
       "head_reconciliation": "audit_gap_confirmed_on_main_79584396_candidate_review_findings_corrected_ci_restarted",
@@ -11325,12 +11501,9 @@
         {
           "number": 60,
           "url": "https://github.com/Memorithm/ADA/pull/60",
-          "base": "main",
-          "base_sha": "7958439630ff5e092d32ac8d618411785d885d59",
           "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
-          "merge_sha": null,
-          "status": "review_findings_corrected_waiting_restarted_ci",
-          "role": "Hub_admission_to_Elastic_budget_adapter"
+          "merge_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+          "status": "merged_waiting_target_ci"
         }
       ],
       "resolution_evidence": [
@@ -11359,8 +11532,8 @@
           }
         }
       ],
-      "last_observed_at": "2026-10-13T17:40:08+02:00",
-      "next_action": "Miri remains active on exact corrected head defee006; five other job names succeed. Merge only after both triggered exact-head suites finish successfully, then validate integrated main.",
+      "last_observed_at": "2026-10-13T18:16:46.000+02:00",
+      "next_action": "Validate integrated main whole workspace, Miri, fuzz, MSRV, docs and supply chain before closure.",
       "roadmap": {
         "branch": "agent/ecosystem-roadmap",
         "commit": "a2e64947bfc192ba56726a4c31a673b31270fdc6",
@@ -11471,11 +11644,11 @@
         "Clarifier le nom/contrat du backend tensoriel local et faire une qualification différentielle contre les primitives du SciRust canonique avant convergence. Éviter d'assimiler la présence du nom de crate à un backend SciRust réellement utilisé.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "5c34537c95a6eef00816d6600f727d04628403bd",
       "default_branch": "main",
       "audit_head": "37f101a0db410d0a9d7372f316e751beca2e74eb",
-      "head_reconciliation": "gap_confirmed_on_05f526df_local_identity_and_exact_canonical_scalar_qualification_candidate",
+      "head_reconciliation": "exact_candidate_merged_and_integrated_target_CI_and_functional_evidence_verified",
       "policy_review": "Root AGENTS and full off-main roadmap read, COGNO MIT and canonical SciRust PolyForm/LICENSING read. No shipped dependency or domain authority change. Canonical source qualification only, no copy/relicense or excluded repository mutation.",
       "prs": [
         {
@@ -11483,20 +11656,14 @@
           "url": "https://github.com/Memorithm/COGNO-1/pull/263",
           "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a",
           "merge_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
-          "status": "merged_waiting_target_ci"
+          "status": "merged_target_validated"
         }
       ],
       "resolution_evidence": [
-        {
-          "status": "candidate_not_closed",
-          "proof": "docs/audit-global/proofs/cogno-263-COG-COGNO-003.json",
-          "actual_forward_cases": 288,
-          "source_sha": "68d544679df465d3b85539c80926ed2644fbbba1",
-          "head_sha": "0eab1c31a7c521dfc4d13fd8f404ebaebb61864a"
-        }
+        "docs/audit-global/proofs/cogno-263-COG-COGNO-003.json"
       ],
-      "last_observed_at": "2026-10-13T18:04:59.000+02:00",
-      "next_action": "Validate all target-main workflows and retain actual canonical output identity on merged SHA before closure."
+      "last_observed_at": "2026-10-13T18:16:46.000+02:00",
+      "next_action": "Closed within documented adapter/scalar qualification scope; future adoption/migration must requalify exact versions."
     },
     {
       "id": "COG-COGNO-004",
@@ -11783,11 +11950,11 @@
         "Retourner Result sur insert/recall et distinguer miss, indisponibilité embedder, erreur format et refus budget. Ajouter traces de provenance et tests destination CCOS; garder le format d'ancre compatible.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "713f78ec4503fab4465a5491f7399370ac727d24",
       "default_branch": "master",
       "audit_head": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
-      "head_reconciliation": "gap_confirmed_on_247a4472_fallible_adapter_candidate_and_review_corrections_open",
+      "head_reconciliation": "exact_candidate_merged_and_integrated_target_CI_and_functional_evidence_verified",
       "policy_review": "Root AGENTS, mandatory off-main roadmap and complete PolyForm Noncommercial licence read. No excluded repository modified. Source adapter and its vendorable destination-facing consumer tests are qualified; current CCOS adoption is not assumed.",
       "prs": [
         {
@@ -11795,22 +11962,14 @@
           "url": "https://github.com/Memorithm/octasoma/pull/72",
           "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
           "merge_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
-          "status": "merged_waiting_target_ci"
+          "status": "merged_target_validated"
         }
       ],
       "resolution_evidence": [
-        {
-          "proof": "docs/audit-global/proofs/octasoma-72-COG-OCTA-003.json",
-          "candidate_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "status": "waiting_ci",
-          "review": {
-            "threads": 2,
-            "resolved_threads": 2
-          }
-        }
+        "docs/audit-global/proofs/octasoma-72-COG-OCTA-003.json"
       ],
-      "last_observed_at": "2026-10-13T18:08:18.000+02:00",
-      "next_action": "Validate exact integrated master feature/MSRV/platform CI; retain 12 adapter tests before closure."
+      "last_observed_at": "2026-10-13T18:16:46.000+02:00",
+      "next_action": "Closed within documented adapter/scalar qualification scope; future adoption/migration must requalify exact versions."
     },
     {
       "id": "COG-SML-001",
@@ -13049,16 +13208,31 @@
         "Conserver les oracles indépendants puis porter, dans SciRust ou une crate NeuralOperator-Rust, un premier noyau accepté avec oracle de parité, API bornée et qualification du coût. Garder les modèles Python clairement identifiés comme référence de recherche.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
+      "status": "waiting_ci",
+      "current_head": "9f89b2a0f3aaa203e1f181bee30e2d5afb48bad3",
       "default_branch": "main",
       "audit_head": "c989e989e5cf2b2051f7bb44e6f5cb2cc2fe52ce",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
+      "head_reconciliation": "current_main_has_no_Rust_first_bounded_Darcy_residual_candidate_open",
+      "policy_review": "Root AGENTS, full mandatory roadmap, full PolyForm license/LICENSING read. Domain residual owned by NeuralOperator, no generic solver duplication, Python oracle/model paths preserved, no holdout access or excluded mutation.",
+      "prs": [
+        {
+          "repository": "Memorithm/NeuralOperator",
+          "number": 37,
+          "url": "https://github.com/Memorithm/NeuralOperator/pull/37",
+          "base": "main",
+          "base_sha": "fcd34147c9623ffd8ea49dbb7894e0516fb88be0",
+          "head_sha": "9f89b2a0f3aaa203e1f181bee30e2d5afb48bad3",
+          "merge_sha": null,
+          "status": "waiting_ci",
+          "ids": [
+            "B-NO-01"
+          ],
+          "batch": 3
+        }
+      ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "last_observed_at": "2026-10-13T18:16:46.000+02:00",
+      "next_action": "Reconcile all three exact-head gates/review; inspect real 32-case parity/cost archive, guarded merge then integrated requalification."
     },
     {
       "id": "B-NO-02",
