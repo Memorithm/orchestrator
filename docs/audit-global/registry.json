@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:58:38.565Z",
+  "updated_at": "2026-10-13T19:52:50.461Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 95,
-    "remaining": 6,
-    "merged_prs": 106
+    "closed": 96,
+    "remaining": 5,
+    "merged_prs": 108
   },
   "batches": [
     {
@@ -580,6 +580,17 @@
           "repository": "Memorithm/ADA",
           "number": 61,
           "merge_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0"
+        },
+        {
+          "repository": "Memorithm/itd-simulator",
+          "number": 72,
+          "merge_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+        },
+        {
+          "repository": "restricted:COG-SML-001",
+          "number": 559,
+          "merge_sha": "7afb6a38a7ebae0ba1b1e6de941b10b95716b472",
+          "scope": "restricted"
         }
       ]
     }
@@ -9334,25 +9345,152 @@
       "url": "https://github.com/Memorithm/itd-simulator/pull/72",
       "base": "main",
       "base_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f",
       "tree": "56688178e6c53ca1c1a3d78a79d6c3e34048a235",
-      "status": "waiting_ci",
+      "status": "merged_target_validated",
       "ids": [
         "B-ITD-03"
       ],
-      "batch": 3
+      "batch": 3,
+      "merge_sha": "384c18e085f682ff90674461693cf8b3ea338978",
+      "checks": [
+        {
+          "id": 115489274678,
+          "name": "Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248475/job/115489274678",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+        },
+        {
+          "id": 115489274438,
+          "name": "Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248475/job/115489274438",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+        },
+        {
+          "id": 115489274393,
+          "name": "Python 3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248475/job/115489274393",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+        },
+        {
+          "id": 115489274129,
+          "name": "real-transport",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248417/job/115489274129",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+        },
+        {
+          "id": 115489273923,
+          "name": "Commit policy",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248475/job/115489273923",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+        },
+        {
+          "id": 115489237368,
+          "name": "Python 3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453237431/job/115489237368",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+        },
+        {
+          "id": 115489237265,
+          "name": "Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453237431/job/115489237265",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+        },
+        {
+          "id": 115489237117,
+          "name": "Commit policy",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453237431/job/115489237117",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+        },
+        {
+          "id": 115489236689,
+          "name": "Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453237431/job/115489236689",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+        }
+      ],
+      "integrated_checks": [
+        {
+          "id": 115493781542,
+          "name": "Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547367/job/115493781542",
+          "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+        },
+        {
+          "id": 115493781200,
+          "name": "Python 3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547367/job/115493781200",
+          "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+        },
+        {
+          "id": 115493781185,
+          "name": "Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547367/job/115493781185",
+          "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+        },
+        {
+          "id": 115493781077,
+          "name": "real-transport",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547582/job/115493781077",
+          "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+        },
+        {
+          "id": 115493780981,
+          "name": "Commit policy",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547367/job/115493780981",
+          "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+        }
+      ],
+      "review": {
+        "initial_service_failure": true,
+        "retry_completed": true,
+        "threads": 1,
+        "resolved_threads": 1,
+        "correction": "sdist includes local Rust dependencies and actual unpacked Cargo test added"
+      },
+      "tested_integrated_tree": "afed49c3e8ac2299f626794bb60a65801df8730d"
     },
     {
       "repository": "restricted:COG-SML-001",
       "number": 559,
       "head_sha": "f7c242ab1507c8014a924afcd8853dad9b910c17",
-      "status": "waiting_ci",
+      "status": "merged_target_validated_external_acceptance_open",
       "ids": [
         "COG-SML-001"
       ],
       "batch": 3,
       "source_scope": "restricted",
-      "private_proof": "COG-SML-001-qualification-20261013"
+      "private_proof": "COG-SML-001-qualification-20261013",
+      "merge_sha": "7afb6a38a7ebae0ba1b1e6de941b10b95716b472",
+      "private_proof_commit": "c7dbd863e4550b6f3b9da4fa9cad2273056fbc4f"
     }
   ],
   "repository_observations": [
@@ -12955,11 +13093,11 @@
       "acceptance_criteria": [
         "Consulter les critères dans la source interne par ID ; conserver les preuves dans le dépôt privé."
       ],
-      "status": "waiting_ci",
+      "status": "blocked_external",
       "current_head": null,
       "default_branch": null,
       "audit_head": null,
-      "head_reconciliation": "not_published",
+      "head_reconciliation": "correctif_prive_integre_et_qualifie_acceptation_externe_encore_ouverte",
       "policy_review": "Instructions et licences du dépôt privé relues; preuves détaillées conservées dans ce dépôt.",
       "prs": [
         {
@@ -12967,14 +13105,15 @@
           "number": 559,
           "head_sha": "f7c242ab1507c8014a924afcd8853dad9b910c17",
           "base_sha": "618549cee0fd0981a5fe7f6ad36efec6ae1628ca",
-          "status": "waiting_ci",
+          "status": "merged_target_validated_external_acceptance_open",
           "source_scope": "restricted",
-          "private_proof": "COG-SML-001-qualification-20261013"
+          "private_proof": "COG-SML-001-qualification-20261013",
+          "merge_sha": "7afb6a38a7ebae0ba1b1e6de941b10b95716b472"
         }
       ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-13T18:58:38.565Z",
-      "next_action": "Qualifier les gates exacts et l'intégration du correctif privé; garder le constat ouvert tant que l'acceptation externe requise n'est pas démontrée."
+      "last_observed_at": "2026-10-13T19:52:50.461Z",
+      "next_action": "Acceptation externe de production encore requise; aucune clôture déduite d'une fixture de développement. Détails et preuves conservés dans le dépôt privé."
     },
     {
       "id": "COG-SML-002",
@@ -13040,7 +13179,7 @@
       "acceptance_criteria": [
         "Consulter les critères dans la source interne par ID ; conserver les preuves dans le dépôt privé."
       ],
-      "status": "to_do",
+      "status": "in_progress",
       "current_head": null,
       "default_branch": null,
       "audit_head": null,
@@ -13786,19 +13925,20 @@
         "Qualifier un premier échange réel Hub<->ITD<->NeuralOperator à des SHA fixes, avec vérification des bytes et des splits; conserver le coeur scientifique V29.18 gelé et traiter un port Rust complet comme une révision scientifique distincte.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
-      "current_head": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+      "status": "resolved",
+      "current_head": "384c18e085f682ff90674461693cf8b3ea338978",
       "default_branch": "main",
       "audit_head": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f",
-      "head_reconciliation": "real_Development_Hub_ITD_NeuralOperator_exchange_candidate_published_waiting_exact_gates_and_integration",
+      "head_reconciliation": "real_Development_exchange_exact_candidate_and_integrated_daemon_artifacts_qualified",
       "policy_review": "Root AGENTS, freshly mapped off-main roadmap/research bootstrap, licenses and exact Hub/NeuralOperator owner contracts read. Explicit automatic engineering merge authorization preserves frozen V29.18 and final holdouts.",
       "prs": [
         {
           "number": 72,
           "url": "https://github.com/Memorithm/itd-simulator/pull/72",
           "base_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
-          "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-          "status": "waiting_ci"
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f",
+          "merge_sha": "384c18e085f682ff90674461693cf8b3ea338978",
+          "status": "merged_target_validated"
         }
       ],
       "resolution_evidence": [
@@ -13806,10 +13946,20 @@
           "proof": "docs/audit-global/proofs/itd-72-B-ITD-03.json",
           "status": "candidate_waiting_exact_CI_and_integration",
           "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb"
+        },
+        {
+          "proof": "docs/audit-global/proofs/itd-72-B-ITD-03.json",
+          "status": "qualified",
+          "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f",
+          "merge_sha": "384c18e085f682ff90674461693cf8b3ea338978",
+          "integrated_run": 38454547582,
+          "archive_sha256": "da02a80c1ff6653d41db459fa16fef521a5155fe3f64f3011bb6d55a18dc9f8f",
+          "input_sha256": "ef545e1926003bbbb430bcaed8cd9451a256f58a0fb0adaef9db5912168c02f4",
+          "numerical_output_sha256": "560fd92b42aaa682ecba394d312b5286d3e64e53a73ddfb62af82ba9c728add7"
         }
       ],
-      "last_observed_at": "2026-10-13T18:58:38.565Z",
-      "next_action": "Complete exact-head CI/review, SHA-guarded engineering merge, then integrated real daemon/artifact qualification; preserve finite Development scope and no scientific promotion."
+      "last_observed_at": "2026-10-13T19:52:50.461Z",
+      "next_action": "Clos sur 384c18e085f682ff90674461693cf8b3ea338978; préserver le scope Development fini, le cœur V29.18 et les holdouts finaux."
     },
     {
       "id": "B-NR-01",
@@ -15195,10 +15345,10 @@
     "status": "active",
     "owner": "codex-audit-20261013-sml",
     "acquired_at": "2026-10-13T18:22:03.837Z",
-    "expires_at": "2026-10-13T19:57:39.253Z",
-    "base_sha": "eca93f85d5c28780ddcdf75168728e439ea547d1",
-    "purpose": "Continue remediation: reconcile ADA closure; qualify and automatically merge exact-green ITD #72 and restricted SML #559; preserve external acceptance blockers",
-    "renewed_at": "2026-10-13T18:57:39.253Z"
+    "expires_at": "2026-10-13T20:49:44.103Z",
+    "base_sha": "e5ed2af1027b7dd52b06e247cd3d2f8e0fd38ea4",
+    "purpose": "Close integrated B-ITD-03 and retain qualified restricted admission; complete trusted SML review adapter and exact-green engineering merge",
+    "renewed_at": "2026-10-13T19:49:44.103Z"
   },
   "capabilities": [
     {

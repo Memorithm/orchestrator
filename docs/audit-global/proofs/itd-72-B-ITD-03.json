@@ -2,12 +2,12 @@
   "schema": "memorithm.audit-proof.v1",
   "finding": "B-ITD-03",
   "repository": "Memorithm/itd-simulator",
-  "status": "candidate_waiting_exact_CI_and_review",
-  "observed_at": "2026-10-13T18:56:50.557Z",
+  "status": "qualified",
+  "observed_at": "2026-10-13T19:52:50.461Z",
   "base_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
   "candidate": {
-    "sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-    "tree": "56688178e6c53ca1c1a3d78a79d6c3e34048a235",
+    "sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f",
+    "tree": "afed49c3e8ac2299f626794bb60a65801df8730d",
     "branch": "audit/b-itd-03-real-development-exchange"
   },
   "pull_request": 72,
@@ -26,91 +26,163 @@
     "full_V29_pipeline": "passed; external holdout reserved, H36 executed separately with Cargo",
     "frozen_sources_diff": "empty",
     "sdist": "Rust sources and lock included; target excluded",
-    "disk_failure": "Initial fixture archive hit disk exhaustion; build outputs cleaned; failed case reran successfully and full validation passed.",
-    "exact_candidate_proof": "Local numerical/transport test compiled the working patch with base checkout source pin; dedicated candidate CI builds/records the exact published SHA independently."
+    "disk_failure": "Initial fixture archive hit disk exhaustion; build outputs cleaned; failed case reran successfully and full validation passed."
   },
   "local_proof_directory": "docs/audit-global/proofs/itd-72/local",
   "candidate_checks": [
     {
-      "id": 115479421387,
+      "id": 115489274678,
+      "name": "Python 3.11",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248475/job/115489274678",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+    },
+    {
+      "id": 115489274438,
+      "name": "Python 3.13",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248475/job/115489274438",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+    },
+    {
+      "id": 115489274393,
+      "name": "Python 3.12",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248475/job/115489274393",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
+    },
+    {
+      "id": 115489274129,
       "name": "real-transport",
       "status": "completed",
       "conclusion": "success",
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450374270/job/115479421387"
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248417/job/115489274129",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
     },
     {
-      "id": 115479420910,
-      "name": "Python 3.13",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450373622/job/115479420910"
-    },
-    {
-      "id": 115479420627,
-      "name": "Python 3.12",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450373622/job/115479420627"
-    },
-    {
-      "id": 115479420390,
-      "name": "Python 3.11",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450373622/job/115479420390"
-    },
-    {
-      "id": 115479420077,
+      "id": 115489273923,
       "name": "Commit policy",
       "status": "completed",
       "conclusion": "success",
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450373622/job/115479420077"
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453248475/job/115489273923",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
     },
     {
-      "id": 115479397626,
+      "id": 115489237368,
       "name": "Python 3.12",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450367196/job/115479397626"
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453237431/job/115489237368",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
     },
     {
-      "id": 115479397527,
-      "name": "Python 3.13",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450367196/job/115479397527"
+      "id": 115489237265,
+      "name": "Python 3.11",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453237431/job/115489237265",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
     },
     {
-      "id": 115479397520,
+      "id": 115489237117,
       "name": "Commit policy",
       "status": "completed",
       "conclusion": "success",
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450367196/job/115479397520"
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453237431/job/115489237117",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
     },
     {
-      "id": 115479397205,
-      "name": "Python 3.11",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
-      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450367196/job/115479397205"
+      "id": 115489236689,
+      "name": "Python 3.13",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38453237431/job/115489236689",
+      "head_sha": "f7ff1e56d01849dfa5e6f697060ee2370e07370f"
     }
   ],
   "acceptance": {
-    "closure": false,
-    "reason": "Exact candidate gates/review and integrated post-merge gates/artifact qualification still required."
+    "closure": true,
+    "reason": "Actual owner implementations and real Hub transport qualified at exact fixed candidate and integrated source with retained byte/source/replay/oracle evidence; full baseline and unpacked-sdist regression passed."
   },
   "limitations": [
     "Finite synthetic Development transport and two owner numerical implementations only.",
     "Not certified V29.18 replacement, trained operator, scientific promotion, physical performance, hostile-code sandbox or Hub ML maturity."
   ],
-  "local_proof_in_dirty_worktree": true
+  "review": {
+    "initial_service_failure": true,
+    "retry_completed": true,
+    "threads": 1,
+    "resolved_threads": 1,
+    "correction": "sdist includes local Rust dependencies and actual unpacked Cargo test added"
+  },
+  "candidate_archive": {
+    "id": 11841157846,
+    "run": 38453248417,
+    "sha256": "72c51bb21cd8a8dff669fc78032637298754d33b6902122a4da3279f6b383646",
+    "downloaded_and_verified": true
+  },
+  "integrated": {
+    "sha": "384c18e085f682ff90674461693cf8b3ea338978",
+    "tree": "afed49c3e8ac2299f626794bb60a65801df8730d",
+    "candidate_tree_identical": true,
+    "checks": [
+      {
+        "id": 115493781542,
+        "name": "Python 3.13",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547367/job/115493781542",
+        "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+      },
+      {
+        "id": 115493781200,
+        "name": "Python 3.12",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547367/job/115493781200",
+        "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+      },
+      {
+        "id": 115493781185,
+        "name": "Python 3.11",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547367/job/115493781185",
+        "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+      },
+      {
+        "id": 115493781077,
+        "name": "real-transport",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547582/job/115493781077",
+        "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+      },
+      {
+        "id": 115493780981,
+        "name": "Commit policy",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38454547367/job/115493780981",
+        "head_sha": "384c18e085f682ff90674461693cf8b3ea338978"
+      }
+    ],
+    "artifact": {
+      "id": 11841024700,
+      "run": 38454547582,
+      "sha256": "da02a80c1ff6653d41db459fa16fef521a5155fe3f64f3011bb6d55a18dc9f8f",
+      "archive": "docs/audit-global/proofs/itd-72/integrated.zip",
+      "source_input_replay_oracle_verified_after_download": true,
+      "input_sha256": "ef545e1926003bbbb430bcaed8cd9451a256f58a0fb0adaef9db5912168c02f4",
+      "numerical_output_sha256": "560fd92b42aaa682ecba394d312b5286d3e64e53a73ddfb62af82ba9c728add7"
+    },
+    "Python_3_12": {
+      "passed": 751,
+      "packaged_Rust_tests": 2,
+      "dependency_audit": "no known vulnerabilities"
+    }
+  }
 }
