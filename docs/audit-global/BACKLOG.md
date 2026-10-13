@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-Dernière réconciliation 2026-10-13T18:05:45.619Z : **lot 3 4/50**, **104 PR fusionnées**, **93/101 constats clos**, **8 restants**. ITD #71 est qualifiée sur les trois interpréteurs natifs ; ADA #61 attend Miri et ProofLab #84 attend sa CI exacte après correction de revue. Le registre JSON et les preuves intégrées font autorité sur les états historiques ci-dessous.
+Dernière réconciliation 2026-10-13T18:15:55.626Z : **lot 3 6/50**, **106 PR fusionnées**, **94/101 constats clos**, **7 restants**. ITD #71 et ProofLab #84 sont qualifiées après fusion. ADA #61 est fusionnée ; Miri intégré reste en cours. Les états historiques ci-dessous restent datés.
 
 État réconcilié du 13 octobre 2026 à 12:18 Europe/Paris : **95 PR techniques fusionnées au total**, **86/101 constats clos**, **15 restants** ; lot 2 à **45/50**. MEM-09 est clos par [CCOS-Enterprise #195](https://github.com/Memorithm/CCOS-Enterprise/pull/195) et son correctif de portabilité [#196](https://github.com/Memorithm/CCOS-Enterprise/pull/196), sur le SHA intégré final `ac3e64b57aec8120ab98922c76afae4df48d6336`. Les validations exact-head et intégrées, les artefacts signés et la vérification après téléchargement sont consignés dans la [preuve MEM-09](proofs/CCOS-Enterprise-195-196-MEM-09.json). Aucun dépôt exclu n’a été modifié.
 
@@ -91,7 +91,7 @@ Dernière réconciliation 2026-10-13T18:05:45.619Z : **lot 3 4/50**, **104 PR fu
 | B-RH-02 | Memorithm/riemann_ndim_bench | 6 | résolu | [PR #71](https://github.com/Memorithm/riemann_ndim_bench/pull/71), [PR #72](https://github.com/Memorithm/riemann_ndim_bench/pull/72) · [preuve](proofs/riemann_ndim_bench-71-72-B-RH-02.json) |
 | B-PL-01 | Memorithm/ProofLab | 6 | résolu | [PR #83](https://github.com/Memorithm/ProofLab/pull/83) · [preuve](proofs/ProofLab-83-B-PL-01.json) |
 | B-PL-02 | Memorithm/ProofLab | 3 | résolu | [PR #77](https://github.com/Memorithm/ProofLab/pull/77), [PR #78](https://github.com/Memorithm/ProofLab/pull/78), [PR #79](https://github.com/Memorithm/ProofLab/pull/79), [PR #80](https://github.com/Memorithm/ProofLab/pull/80), [PR #81](https://github.com/Memorithm/ProofLab/pull/81), [PR #82](https://github.com/Memorithm/ProofLab/pull/82) · [preuve](proofs/ProofLab-B-PL-02-process-supervision.json) |
-| B-PL-03 | Memorithm/ProofLab | 9 | attente CI | [PR #84](https://github.com/Memorithm/ProofLab/pull/84) · [preuve](proofs/ProofLab-84-B-PL-03-waiting-ci.json) ; import réel Riemann authentifié localement, revue corrigée, CI exacte relancée |
+| B-PL-03 | Memorithm/ProofLab | 9 | résolu | [PR #84](https://github.com/Memorithm/ProofLab/pull/84) · [preuve](proofs/ProofLab-84-B-PL-03-waiting-ci.json) : premier producteur Riemann archivé réellement exécuté, import authentifié et validations intégrées |
 | B-FL-01 | Memorithm/FieldLab | 5 | résolu | [PR #56](https://github.com/Memorithm/FieldLab/pull/56) · [preuve](proofs/FieldLab-56-B-FL-01.json) |
 | B-FL-02 | Memorithm/FieldLab | 9 | résolu | [PR #58](https://github.com/Memorithm/FieldLab/pull/58) · [preuve](proofs/FieldLab-58-B-FL-02-waiting-target-ci.json) |
 | B-FL-03 | Memorithm/FieldLab | 8 | résolu | [PR #57](https://github.com/Memorithm/FieldLab/pull/57) · [preuve](proofs/FieldLab-57-B-FL-03.json) |
