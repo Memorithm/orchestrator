@@ -1,0 +1,307 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "MEM-08"
+  ],
+  "repositories": [
+    "Memorithm/CCOS-Core",
+    "Memorithm/CCOS-Enterprise"
+  ],
+  "default_branches": {
+    "Memorithm/CCOS-Core": "main",
+    "Memorithm/CCOS-Enterprise": "main"
+  },
+  "audit_head": "1c46f2982a4ec6b30e4a9b85222f99f3e7cbbe47",
+  "upstream_pull_request": {
+    "number": 36,
+    "url": "https://github.com/Memorithm/CCOS-Core/pull/36",
+    "candidate_head": "423798237c21aab1251c6844c7c340ce09849bd2",
+    "merge_sha": "99ce3012426717907d150bc1df2ed0c14b3388e1",
+    "tree_sha": "53a88656bd111fa936a96bf05cc870c526da96a5",
+    "method": "merge",
+    "expected_head_guard": true
+  },
+  "consumer_pull_request": {
+    "number": 194,
+    "url": "https://github.com/Memorithm/CCOS-Enterprise/pull/194",
+    "candidate_head": "64f15f6cc82b75a8073708782d1fc8b6ceacdaf9",
+    "merge_sha": "4c71b3e6ca7cb9078b876c3451ed1f085994cecb",
+    "tree_sha": "9233e6ea250bdfd8e25b336b3d4f0c2d97a116eb",
+    "method": "squash",
+    "expected_head_guard": true
+  },
+  "lineage": {
+    "initial_import": {
+      "commit": "e4f249602af3474e87408a6776417be805d17ce7",
+      "tree": "fb93b81585ff5d56adceb9ed35a10f9292bf9f98"
+    },
+    "metadata_sync": {
+      "commit": "b0c6c1a51fc16e822eebf16a8891992379d03c9f",
+      "tree": "f958a8b8900d5430ee39e413e2476822409290fc"
+    },
+    "reviewed_integrated_upstream": {
+      "commit": "99ce3012426717907d150bc1df2ed0c14b3388e1",
+      "tree": "53a88656bd111fa936a96bf05cc870c526da96a5"
+    },
+    "security_range": "b0c6c1a51fc16e822eebf16a8891992379d03c9f..99ce3012426717907d150bc1df2ed0c14b3388e1",
+    "manifest": "core/UPSTREAM_CCOS_CORE.json",
+    "workspace_sha256": "6162b9a136b8a74fd13ab12d9df6da85707d7f6082554f9701a918c0f6fc9ec6"
+  },
+  "result": {
+    "status": "resolved_on_integrated_heads",
+    "imported_byte_identical_files": [
+      "core/src/bounded_file.rs",
+      "core/src/persist.rs",
+      "core/src/persistence.rs",
+      "core/src/util.rs",
+      "core/src/workspace.rs",
+      "core/src/memory/ports.rs"
+    ],
+    "enterprise_overlays": [
+      "core/src/lib.rs OctaSoma exports",
+      "core/Cargo.toml rustix dependency",
+      "root Cargo.lock"
+    ],
+    "scanner_contract": [
+      "probe DT_UNKNOWN descriptor-relative",
+      "treat ENOENT as concurrent disappearance",
+      "fail closed on loops and escapes"
+    ],
+    "verifier": [
+      "all three commit/tree anchors",
+      "exact security-range endpoints",
+      "one disposition per changed path",
+      "symlink/path/hash checks",
+      "offline verify and explicit local-checkout sync"
+    ]
+  },
+  "local_checks": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_core_sync.py",
+      "result": "5 passed"
+    },
+    {
+      "command": "python3 scripts/core_sync.py verify",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/core_sync.py audit --upstream <CCOS-Core checkout>",
+      "result": "passed for all three anchors"
+    },
+    {
+      "command": "python3 scripts/core_sync.py sync --upstream <CCOS-Core checkout>",
+      "result": "dry gate passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "command": "scripts/check-author-policy.sh HEAD",
+      "result": "passed"
+    }
+  ],
+  "upstream_candidate_checks": [
+    {
+      "id": 38364913213,
+      "name": "CI candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "423798237c21aab1251c6844c7c340ce09849bd2",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38364913213"
+    },
+    {
+      "id": 38364913186,
+      "name": "Security Audit candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "423798237c21aab1251c6844c7c340ce09849bd2",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38364913186"
+    },
+    {
+      "id": 38364913197,
+      "name": "Periodic Security Validation candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "423798237c21aab1251c6844c7c340ce09849bd2",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38364913197"
+    },
+    {
+      "id": 38364913160,
+      "name": "Strict BEIR import candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "423798237c21aab1251c6844c7c340ce09849bd2",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38364913160"
+    }
+  ],
+  "upstream_integrated_checks": [
+    {
+      "id": 38365626261,
+      "name": "CI integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "99ce3012426717907d150bc1df2ed0c14b3388e1",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38365626261"
+    },
+    {
+      "id": 38365626100,
+      "name": "Security Audit integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "99ce3012426717907d150bc1df2ed0c14b3388e1",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38365626100"
+    },
+    {
+      "id": 38365626256,
+      "name": "Periodic Security Validation integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "99ce3012426717907d150bc1df2ed0c14b3388e1",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38365626256"
+    },
+    {
+      "id": 38365626335,
+      "name": "Strict BEIR import integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "99ce3012426717907d150bc1df2ed0c14b3388e1",
+      "url": "https://github.com/Memorithm/CCOS-Core/actions/runs/38365626335"
+    }
+  ],
+  "consumer_candidate_checks": [
+    {
+      "id": 38365804527,
+      "name": "CI (security) candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "64f15f6cc82b75a8073708782d1fc8b6ceacdaf9",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38365804527"
+    },
+    {
+      "id": 38365804480,
+      "name": "Governed provider recovery candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "64f15f6cc82b75a8073708782d1fc8b6ceacdaf9",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38365804480"
+    },
+    {
+      "id": 38365804584,
+      "name": "CI (full) candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "64f15f6cc82b75a8073708782d1fc8b6ceacdaf9",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38365804584"
+    },
+    {
+      "id": 38365804538,
+      "name": "Semantic extraction regression candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "64f15f6cc82b75a8073708782d1fc8b6ceacdaf9",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38365804538"
+    },
+    {
+      "id": 38365804524,
+      "name": "CI (DeepSeek Harness adapter) candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "64f15f6cc82b75a8073708782d1fc8b6ceacdaf9",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38365804524"
+    },
+    {
+      "id": 38365804681,
+      "name": "Strict BEIR import candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "64f15f6cc82b75a8073708782d1fc8b6ceacdaf9",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38365804681"
+    },
+    {
+      "id": 38365804639,
+      "name": "CI (fast) candidate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "64f15f6cc82b75a8073708782d1fc8b6ceacdaf9",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38365804639"
+    }
+  ],
+  "consumer_integrated_checks": [
+    {
+      "id": 38367320966,
+      "name": "CI (fast) integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "4c71b3e6ca7cb9078b876c3451ed1f085994cecb",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38367320966"
+    },
+    {
+      "id": 38367321115,
+      "name": "CI (full) integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "4c71b3e6ca7cb9078b876c3451ed1f085994cecb",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38367321115"
+    },
+    {
+      "id": 38367321044,
+      "name": "CI (security) integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "4c71b3e6ca7cb9078b876c3451ed1f085994cecb",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38367321044"
+    },
+    {
+      "id": 38367320996,
+      "name": "CI (DeepSeek Harness adapter) integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "4c71b3e6ca7cb9078b876c3451ed1f085994cecb",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38367320996"
+    },
+    {
+      "id": 38367321031,
+      "name": "Strict BEIR import integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "4c71b3e6ca7cb9078b876c3451ed1f085994cecb",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38367321031"
+    },
+    {
+      "id": 38367321095,
+      "name": "Governed provider recovery integrated",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "4c71b3e6ca7cb9078b876c3451ed1f085994cecb",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38367321095"
+    }
+  ],
+  "review": {
+    "threads": 3,
+    "resolved_threads": 3,
+    "corrected_findings": [
+      "unknown_dirent_type_directory_skip",
+      "concurrent_directory_disappearance",
+      "incomplete_lineage_anchor_and_range_endpoint_validation"
+    ]
+  },
+  "roadmaps": {
+    "Memorithm/CCOS-Core": {
+      "branch": "agent/ecosystem-roadmap",
+      "commit": "2b9ee735cd5acdd86dee19877779a6d0e128f63e",
+      "merged_to_default": false
+    },
+    "Memorithm/CCOS-Enterprise": {
+      "branch": "agent/ecosystem-roadmap",
+      "commit": "5c5018d5a6f0d06c76f0e1612e24d8ff667170f1",
+      "merged_to_default": false
+    }
+  },
+  "limitations": [
+    "Selective sync is not whole-tree identity.",
+    "Linux rustix scanner semantics remain platform-scoped.",
+    "No hardware or production-environment qualification is claimed."
+  ],
+  "observed_at": "2026-10-13T10:22:40+02:00"
+}
