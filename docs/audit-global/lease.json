@@ -1,10 +1,11 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "codex-audit-20261013-sml",
   "acquired_at": "2026-10-13T18:22:03.837Z",
-  "expires_at": "2026-10-13T20:49:44.103Z",
+  "expires_at": "2026-10-13T20:21:50.915Z",
   "base_sha": "e5ed2af1027b7dd52b06e247cd3d2f8e0fd38ea4",
-  "purpose": "Close integrated B-ITD-03 and retain qualified restricted admission; complete trusted SML review adapter and exact-green engineering merge",
-  "renewed_at": "2026-10-13T19:49:44.103Z"
+  "purpose": "Completed exact integrated closures; four external acceptances remain documented for next authorized run",
+  "renewed_at": "2026-10-13T19:49:44.103Z",
+  "released_at": "2026-10-13T20:21:50.915Z"
 }
