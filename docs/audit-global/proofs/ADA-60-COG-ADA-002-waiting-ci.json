@@ -3,7 +3,7 @@
   "finding": "COG-ADA-002",
   "repository": "Memorithm/ADA",
   "status": "waiting_ci",
-  "observed_at": "2026-10-13T17:25:00+02:00",
+  "observed_at": "2026-10-13T17:27:00+02:00",
   "audit_source": {
     "ref": "libfile_6e12d363113c8191886a6e694ff69a13#COG-ADA-002",
     "audit_sha": "7034491cc408ff77820589957349aa4fad1ee097"
@@ -15,9 +15,18 @@
   "pull_request": {
     "number": 60,
     "url": "https://github.com/Memorithm/ADA/pull/60",
-    "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
+    "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
     "mergeable": true,
-    "merged": false
+    "merged": false,
+    "review": {
+      "threads": 2,
+      "resolved_threads": 2,
+      "reviewed_head": "befffe859069e6478f406cd278299fc5a4edc6a9",
+      "corrections": [
+        "Admitted handoff fields are private and exposed read-only.",
+        "Validated preflight estimates are private and exposed read-only."
+      ]
+    }
   },
   "owner_contracts": {
     "scirust_hub": {
@@ -57,28 +66,27 @@
     }
   ],
   "ci": {
-    "run_id": 38421314620,
-    "url": "https://github.com/Memorithm/ADA/actions/runs/38421314620",
-    "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
-    "success": [
+    "run_id": 38421796553,
+    "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553",
+    "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+    "in_progress": [
       "build/test",
       "MSRV 1.85",
-      "rustdoc"
-    ],
-    "in_progress": [
+      "rustdoc",
       "fuzz-smoke",
       "miri",
       "supply-chain"
     ]
   },
   "review": {
-    "status": "in_progress",
-    "threads": 0,
-    "resolved_threads": 0
+    "status": "completed_findings_corrected",
+    "threads": 2,
+    "resolved_threads": 2,
+    "reviewed_head": "befffe859069e6478f406cd278299fc5a4edc6a9"
   },
   "roadmap": {
     "branch": "agent/ecosystem-roadmap",
-    "commit": "e12b64141779fc9b4afeda5b7f7dd3a04a6403a2",
+    "commit": "a2e64947bfc192ba56726a4c31a673b31270fdc6",
     "merged_to_main": false
   },
   "limitations": [

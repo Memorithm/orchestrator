@@ -1154,7 +1154,7 @@
           "repository": "Memorithm/ADA",
           "status": "waiting_ci",
           "base_sha": "7958439630ff5e092d32ac8d618411785d885d59",
-          "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
+          "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
           "merge_sha": null,
           "prs": [
             "https://github.com/Memorithm/ADA/pull/60"
@@ -1164,7 +1164,10 @@
             "Read ADA, SciRust Hub and ElasticXxx instructions, roadmaps, licences and exact owner contracts without modifying owner repositories.",
             "Added a dependency-free fail-closed ADA bridge for Hub task/workspace identity and ElasticXxx budgets, exact destination fixtures and six contract tests.",
             "Validated format, 22 ada-graduation tests, strict Clippy and whitespace locally on the exact candidate.",
-            "Opened PR #60 and recorded the candidate on the dedicated roadmap branch without merging that branch to main."
+            "Opened PR #60 and recorded the candidate on the dedicated roadmap branch without merging that branch to main.",
+            "Codex review reported two invariant flaws on the first candidate: forgeable admitted output and mutable post-preflight estimates.",
+            "Made the admitted handoff opaque with read-only accessors and made validated estimates private/read-only; reran all four local validations successfully.",
+            "Published corrective head defee006, resolved both outdated review threads, updated the PR evidence and restarted exact-head CI."
           ],
           "checks": [
             {
@@ -1187,19 +1190,17 @@
               "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9"
             },
             {
-              "id": 38421314620,
-              "name": "ci candidate",
+              "id": 38421796553,
+              "name": "ci candidate corrected head",
               "status": "in_progress",
               "conclusion": null,
-              "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
-              "url": "https://github.com/Memorithm/ADA/actions/runs/38421314620",
+              "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553",
               "jobs": {
-                "success": [
+                "in_progress": [
                   "build/test",
                   "MSRV 1.85",
-                  "rustdoc"
-                ],
-                "in_progress": [
+                  "rustdoc",
                   "fuzz-smoke",
                   "miri",
                   "supply-chain"
@@ -1207,19 +1208,23 @@
               }
             },
             {
-              "name": "Codex code review",
-              "status": "in_progress",
-              "conclusion": null,
-              "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9"
+              "name": "Codex code review on prior head",
+              "status": "completed",
+              "conclusion": "findings_corrected",
+              "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
+              "threads": {
+                "total": 2,
+                "resolved": 2
+              }
             }
           ],
-          "reason_for_wait": "Three CI jobs and the code review are still active on the exact candidate head; no merge or closure is counted.",
+          "reason_for_wait": "Review findings are corrected and both threads resolved. All six CI jobs were restarted on corrected exact head defee006 and remain active; no merge or closure is counted.",
           "dependencies": [],
-          "next_action": "Reconcile exact-head CI and review, correct any finding, then merge with expected_head_sha only if all gates are green and validate the integrated main SHA.",
+          "next_action": "Require all six jobs on corrected exact head, then recheck immutable head/base and mergeability before expected_head_sha merge and integrated validation.",
           "proof": "docs/audit-global/proofs/ADA-60-COG-ADA-002-waiting-ci.json",
           "roadmap": {
             "branch": "agent/ecosystem-roadmap",
-            "commit": "e12b64141779fc9b4afeda5b7f7dd3a04a6403a2",
+            "commit": "a2e64947bfc192ba56726a4c31a673b31270fdc6",
             "merged_to_main": false
           }
         }
