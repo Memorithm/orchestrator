@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T14:17:00+02:00",
+  "updated_at": "2026-10-13T15:08:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -13290,13 +13290,12 @@
   ],
   "lease": {
     "schema": "memorithm-remediation-lease.v1",
-    "status": "released",
-    "owner": "chatgpt-audit-20261013T1411",
-    "acquired_at": "2026-10-13T14:14:00+02:00",
-    "expires_at": "2026-10-13T14:44:00+02:00",
-    "base_sha": "95c1a8e3d416cc0a9f9ffb845de76c3e35221fa1",
-    "purpose": "COG-ADA-001 reconcile exact-head Miri and journal observed run",
-    "released_at": "2026-10-13T14:17:00+02:00"
+    "status": "active",
+    "owner": "chatgpt-audit-20261013T1505",
+    "acquired_at": "2026-10-13T15:08:00+02:00",
+    "expires_at": "2026-10-13T15:53:00+02:00",
+    "base_sha": "da5a81a305a15e12fc77288101c121472c7c692b",
+    "purpose": "COG-ADA-001 guarded merge and integrated validation"
   },
   "capabilities": [
     {
