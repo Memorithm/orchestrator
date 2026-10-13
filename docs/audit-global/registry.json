@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T13:44:00+02:00",
+  "updated_at": "2026-10-13T13:46:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -13293,8 +13293,8 @@
     "owner": "chatgpt-audit-202610131345-comment",
     "acquired_at": "2026-10-13T13:45:40+02:00",
     "expires_at": "2026-10-13T13:55:40+02:00",
-    "released_at": null,
-    "status": "active",
+    "released_at": "2026-10-13T13:46:00+02:00",
+    "status": "released",
     "scope": "audit-global-remediation",
     "previous_owner": "chatgpt-audit-202610131315",
     "canonical_counts": {
@@ -13308,7 +13308,7 @@
       "target": 50
     },
     "rule": "CAS branch head, verify owner/expiry before mutations",
-    "next_action": "Persist the central issue comment URL, then release this short bookkeeping lease without changing remediation counters."
+    "next_action": "COG-ADA-001 remains waiting on Miri in ADA run 38390334276. Reacquire a fresh lease, reconcile PR #59 and exact-head CI, and merge only after every candidate gate succeeds."
   },
   "capabilities": [
     {
@@ -13374,5 +13374,5 @@
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
   ],
-  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6143487108"
+  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6144808960"
 }
