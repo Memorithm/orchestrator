@@ -3,7 +3,8 @@
   "status": "held",
   "owner": "chatgpt-audit-20261013-continue",
   "acquired_at": "2026-10-13T17:29:05+02:00",
-  "expires_at": "2026-10-13T18:29:05+02:00",
+  "expires_at": "2026-10-13T19:08:18.000+02:00",
   "base_sha": "466adf7459cee131d686a9b53e2fe084350025ff",
-  "purpose": "COG-OCTA-003 remediation and ADA-60 exact-head qualification"
+  "purpose": "Exact merged COGNO/octasoma qualification, ADA gates, B-NO-01 bounded Darcy residual",
+  "renewed_at": "2026-10-13T18:08:18.000+02:00"
 }

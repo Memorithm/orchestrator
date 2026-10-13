@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:04:59.000+02:00",
+  "updated_at": "2026-10-13T18:08:18.000+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 88,
     "remaining": 13,
-    "merged_prs": 99
+    "merged_prs": 100
   },
   "batches": [
     {
@@ -537,6 +537,11 @@
           "repository": "Memorithm/COGNO-1",
           "number": 263,
           "merge_sha": "5c34537c95a6eef00816d6600f727d04628403bd"
+        },
+        {
+          "repository": "Memorithm/octasoma",
+          "number": 72,
+          "merge_sha": "713f78ec4503fab4465a5491f7399370ac727d24"
         }
       ]
     }
@@ -8202,68 +8207,68 @@
       "base": "master",
       "base_sha": "247a44721e91e9025ce9cae846c550427c84d0f5",
       "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-      "merge_sha": null,
-      "status": "waiting_ci",
+      "merge_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "COG-OCTA-003"
       ],
       "batch": 2,
       "checks": [
         {
-          "name": "test · ubuntu (--features mcp)",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977828"
-        },
-        {
-          "name": "msrv · 1.89 (declared minimum)",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977742"
-        },
-        {
           "name": "test · ubuntu ()",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977711"
-        },
-        {
-          "name": "test · ubuntu (--features simd)",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977624"
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115397051432",
+          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378"
         },
         {
           "name": "test · windows-latest",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977487"
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115397048383",
+          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378"
+        },
+        {
+          "name": "test · ubuntu (--features simd)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115397004380",
+          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378"
         },
         {
           "name": "test · ubuntu (--all-features)",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977439"
-        },
-        {
-          "name": "test · macos-latest",
-          "status": "queued",
-          "conclusion": null,
-          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387977426"
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115397004123",
+          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378"
         },
         {
           "name": "lint · fmt + clippy (all feature combos)",
           "status": "completed",
           "conclusion": "success",
-          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115387976992"
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115397004119",
+          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378"
+        },
+        {
+          "name": "msrv · 1.89 (declared minimum)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115397003595",
+          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378"
+        },
+        {
+          "name": "test · ubuntu (--features mcp)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115397003284",
+          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378"
+        },
+        {
+          "name": "test · macos-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/octasoma/actions/runs/38423864875/job/115397001428",
+          "head_sha": "c815cf8ab78136717001b9866589aad6726d4378"
         }
       ],
       "review": {
@@ -8289,7 +8294,7 @@
       ],
       "roadmap": {
         "branch": "agent/ecosystem-roadmap",
-        "commit": "4f9f1c3e898220c729a296b517a5ba73cf216337",
+        "commit": "a193d5fd6f23301d9cd65bd8717e60f9fcb8ac21",
         "merged_to_default": false
       },
       "limitations": [
@@ -8297,7 +8302,8 @@
         "Offline contract fixtures are not semantic-quality or hardware qualification.",
         "Adapter contract is qualified by source CI; adoption in current CCOS is not claimed.",
         "Admission bounds are not OS resource isolation."
-      ]
+      ],
+      "merge_method": "squash_with_expected_head_sha"
     },
     {
       "repository": "Memorithm/COGNO-1",
@@ -11778,7 +11784,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "c815cf8ab78136717001b9866589aad6726d4378",
+      "current_head": "713f78ec4503fab4465a5491f7399370ac727d24",
       "default_branch": "master",
       "audit_head": "42f3c2eb580b7eb84459bceb1a77e2b13ccbc442",
       "head_reconciliation": "gap_confirmed_on_247a4472_fallible_adapter_candidate_and_review_corrections_open",
@@ -11787,11 +11793,9 @@
         {
           "number": 72,
           "url": "https://github.com/Memorithm/octasoma/pull/72",
-          "base": "master",
-          "base_sha": "247a44721e91e9025ce9cae846c550427c84d0f5",
           "head_sha": "c815cf8ab78136717001b9866589aad6726d4378",
-          "merge_sha": null,
-          "status": "waiting_ci"
+          "merge_sha": "713f78ec4503fab4465a5491f7399370ac727d24",
+          "status": "merged_waiting_target_ci"
         }
       ],
       "resolution_evidence": [
@@ -11805,8 +11809,8 @@
           }
         }
       ],
-      "last_observed_at": "2026-10-13T17:40:08+02:00",
-      "next_action": "Wait for all eight exact-head CI jobs, recheck diff/base/head/review, then merge with expected_head_sha and validate the integrated master."
+      "last_observed_at": "2026-10-13T18:08:18.000+02:00",
+      "next_action": "Validate exact integrated master feature/MSRV/platform CI; retain 12 adapter tests before closure."
     },
     {
       "id": "COG-SML-001",
@@ -13944,9 +13948,10 @@
     "status": "held",
     "owner": "chatgpt-audit-20261013-continue",
     "acquired_at": "2026-10-13T17:29:05+02:00",
-    "expires_at": "2026-10-13T18:29:05+02:00",
+    "expires_at": "2026-10-13T19:08:18.000+02:00",
     "base_sha": "466adf7459cee131d686a9b53e2fe084350025ff",
-    "purpose": "COG-OCTA-003 remediation and ADA-60 exact-head qualification"
+    "purpose": "Exact merged COGNO/octasoma qualification, ADA gates, B-NO-01 bounded Darcy residual",
+    "renewed_at": "2026-10-13T18:08:18.000+02:00"
   },
   "capabilities": [
     {
