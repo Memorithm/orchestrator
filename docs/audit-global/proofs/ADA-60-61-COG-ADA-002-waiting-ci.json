@@ -2,7 +2,7 @@
   "schema": "memorithm.audit-proof.v1",
   "finding": "COG-ADA-002",
   "repository": "Memorithm/ADA",
-  "status": "waiting_ci",
+  "status": "action_pin_followup_merged_waiting_integrated_CI",
   "source": {
     "audit_ref": "libfile_6e12d363113c8191886a6e694ff69a13#COG-ADA-002"
   },
@@ -219,7 +219,127 @@
       "threads": 1,
       "resolved_threads": 1,
       "correction": "scan every tracked action.yml/action.yaml for transitive external uses"
-    }
+    },
+    "merge_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+    "status": "merged_waiting_integrated_CI",
+    "candidate_checks": [
+      {
+        "name": "rustdoc",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513636"
+      },
+      {
+        "name": "fuzz-smoke",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513542"
+      },
+      {
+        "name": "miri",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513384"
+      },
+      {
+        "name": "build/test",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513300"
+      },
+      {
+        "name": "MSRV 1.85",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513221"
+      },
+      {
+        "name": "supply-chain",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434512943"
+      },
+      {
+        "name": "build/test",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434402"
+      },
+      {
+        "name": "fuzz-smoke",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434349"
+      },
+      {
+        "name": "miri",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434336"
+      },
+      {
+        "name": "rustdoc",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434084"
+      },
+      {
+        "name": "MSRV 1.85",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434075"
+      },
+      {
+        "name": "supply-chain",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434433724"
+      }
+    ],
+    "candidate_miri": [
+      {
+        "job": 115434513384,
+        "suites": 76,
+        "passed": 338,
+        "failed": 0,
+        "ignored": 2,
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513384"
+      },
+      {
+        "job": 115434434336,
+        "suites": 76,
+        "passed": 338,
+        "failed": 0,
+        "ignored": 2,
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434336"
+      }
+    ],
+    "integrated_checks": [
+      {
+        "name": "fuzz-smoke",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265875"
+      },
+      {
+        "name": "supply-chain",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265807"
+      },
+      {
+        "name": "MSRV 1.85",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265747"
+      },
+      {
+        "name": "miri",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265686"
+      },
+      {
+        "name": "rustdoc",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265567"
+      },
+      {
+        "name": "build/test",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265255"
+      }
+    ]
   },
   "acceptance": {
     "closure": false,
@@ -229,5 +349,5 @@
     "Research-only CONTINUE_RESEARCH adapter; no capacity, sandbox, performance, adoption, novelty or production claim.",
     "Workflow follow-up changes no Rust semantics, lockfile, holdout or scientific result."
   ],
-  "observed_at": "2026-10-13T19:16:50+02:00"
+  "observed_at": "2026-10-13T18:12:22.711Z"
 }
