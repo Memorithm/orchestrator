@@ -1,0 +1,40 @@
+{
+  "schema": "memorithm.external-acceptance-observation.v1",
+  "observed_at": "2026-10-13T20:16:40.631Z",
+  "scope": "read_only_recheck_no_qualification_or_new_merge",
+  "findings": [
+    {
+      "id": "RT-NNIS-03",
+      "status": "blocked",
+      "source": "https://github.com/Memorithm/NNIS/issues/150",
+      "issue_state": "open",
+      "comments": 0,
+      "reason": "No documented historical contributor rights/consents sufficient to authorize licensing convergence. Existing technical provenance gate is not rights acceptance."
+    },
+    {
+      "id": "MEM-11",
+      "status": "blocked_external",
+      "repository": "Memorithm/SciCapsule",
+      "head": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+      "reason": "Hosted PR routing exists; actual organization runner-group selected-workflow restrictions and safe installation probe not available from repository-level read connection. Workflow definition alone does not establish enforcement.",
+      "upstream_remoteops_readonly": true,
+      "no_excluded_repository_changes": true
+    },
+    {
+      "id": "PAPERS-01",
+      "status": "blocked_external",
+      "repository": "Memorithm/PAPERS-AGENT",
+      "head": "19dfe00a67a9d9dd5c2528d493a19c80c458b044",
+      "hub_head": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+      "reason": "RemoteOps off-main roadmap still explicitly reports network/resource/user/PID/filesystem qualification incomplete or unqualified on setup denial. No versioned qualified backend consumer acceptance established.",
+      "process_supervision_is_not_security_sandbox": true
+    },
+    {
+      "id": "COG-SML-001",
+      "status": "blocked_external",
+      "source_scope": "restricted",
+      "private_proof": "COG-SML-001-qualification-20261013",
+      "reason": "Technical integration qualified; actual production acceptance remains open. No development fixture promoted as production proof."
+    }
+  ]
+}
