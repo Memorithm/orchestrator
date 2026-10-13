@@ -1,0 +1,355 @@
+{
+  "OS_sandbox": false,
+  "bridge_binary_sha256": "832ef6d699cc84b81d5d56f4a6297bb7644f27f5a1604bdc1ba816e2401b3591",
+  "changed": {
+    "component_name": "itd-neural-development",
+    "component_version": "1.0.0",
+    "contract_version": "1.0.0",
+    "created_at": 1791916962299,
+    "finished_at": 1791916962315,
+    "id": "cd2a539f-0e0e-44c8-92f8-2e3c39c229ad",
+    "outcome": {
+      "cancelled": false,
+      "duration_ms": 12,
+      "env_keys": [
+        "PATH",
+        "TMPDIR"
+      ],
+      "executor_backend": "process",
+      "exit_code": 0,
+      "inputs": [
+        {
+          "artifact": "f5960f6e-b3ce-467a-9d0e-f61c88340841",
+          "digest": "9ad0050d11d7d101edebb6834a5bb05e3f0cf8ed6e2c1d232975c95fe5280552",
+          "name": "fields",
+          "size": 1224
+        }
+      ],
+      "outputs": [
+        {
+          "artifact": "9dddf7a1-20d7-4af3-9763-949e6ab0024f",
+          "digest": "88f69f0c80d16b439cc34a63a3f2d25d44cf92a7b091ab82b0a3935fd7600c2b",
+          "name": "stdout",
+          "size": 70
+        },
+        {
+          "artifact": "ce7fd9dc-4eba-4ad0-86d8-76cbe20724ad",
+          "digest": "f529e8d4d0cd58e0f4610eef55e0409c50ffaaf68fcd35bf334fc585cc0dbc8e",
+          "name": "file:observation",
+          "size": 832
+        }
+      ],
+      "params_digest": "49089772af2c6c4595eee17d635ce835c0f300154f4cc513cad67f5e5b109f68",
+      "timed_out": false
+    },
+    "spec": {
+      "capability": "itd.neural.development",
+      "component": "1adbea71-7200-4000-8000-000000000001",
+      "inputs": [
+        {
+          "artifact": "f5960f6e-b3ce-467a-9d0e-f61c88340841",
+          "name": "fields"
+        }
+      ],
+      "parameters": {
+        "contract": "itd.hub-neural-development@1.0.0",
+        "hub_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+        "input_sha256": "3d35023556ddede7424fd7fd41a5a0ccc606cb94cb8c29f16ea9468d09baa2ac",
+        "itd_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+        "neural_operator_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+        "split": "development"
+      },
+      "timeout_ms": 5000
+    },
+    "started_at": 1791916962303,
+    "state": "succeeded",
+    "transitions": [
+      {
+        "at": 1791916962299,
+        "from": "created",
+        "to": "validated"
+      },
+      {
+        "at": 1791916962299,
+        "from": "validated",
+        "to": "queued"
+      },
+      {
+        "at": 1791916962303,
+        "from": "queued",
+        "to": "running"
+      },
+      {
+        "at": 1791916962315,
+        "from": "running",
+        "to": "succeeded"
+      }
+    ]
+  },
+  "changed_output": {
+    "hub_digest": "f529e8d4d0cd58e0f4610eef55e0409c50ffaaf68fcd35bf334fc585cc0dbc8e",
+    "id": "ce7fd9dc-4eba-4ad0-86d8-76cbe20724ad",
+    "raw_sha256": "d532b4f6f8de8f03a8b794f4cc23fa1c71adef4af0950159d75e5137cc35056b",
+    "size": 832
+  },
+  "first": {
+    "component_name": "itd-neural-development",
+    "component_version": "1.0.0",
+    "contract_version": "1.0.0",
+    "created_at": 1791916962204,
+    "finished_at": 1791916962245,
+    "id": "4d80ade3-d4ee-4c3d-a847-b51a1087e591",
+    "outcome": {
+      "cancelled": false,
+      "duration_ms": 35,
+      "env_keys": [
+        "PATH",
+        "TMPDIR"
+      ],
+      "executor_backend": "process",
+      "exit_code": 0,
+      "inputs": [
+        {
+          "artifact": "83240093-4b2d-467c-bb14-edefad6303b3",
+          "digest": "c19f94faead55018c526ff00a6440b92f6df271d8b6212768f30a1a6e6d3e17c",
+          "name": "fields",
+          "size": 1224
+        }
+      ],
+      "outputs": [
+        {
+          "artifact": "fb4868c2-7896-4f1b-8e32-927e1148de7c",
+          "digest": "88f69f0c80d16b439cc34a63a3f2d25d44cf92a7b091ab82b0a3935fd7600c2b",
+          "name": "stdout",
+          "size": 70
+        },
+        {
+          "artifact": "62ca8df7-ee40-4143-b328-c2a68b750854",
+          "digest": "59ae8b16c052b2df83d80ebbedc9a8a546695ad7b6189074897a47f779522ef6",
+          "name": "file:observation",
+          "size": 832
+        }
+      ],
+      "params_digest": "a0d481791fbf8d22b1ca634567fd2abbf23093f5f24b7db30bea257c47bdf5fe",
+      "timed_out": false
+    },
+    "spec": {
+      "capability": "itd.neural.development",
+      "component": "1adbea71-7200-4000-8000-000000000001",
+      "inputs": [
+        {
+          "artifact": "83240093-4b2d-467c-bb14-edefad6303b3",
+          "name": "fields"
+        }
+      ],
+      "parameters": {
+        "contract": "itd.hub-neural-development@1.0.0",
+        "hub_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+        "input_sha256": "ef545e1926003bbbb430bcaed8cd9451a256f58a0fb0adaef9db5912168c02f4",
+        "itd_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+        "neural_operator_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+        "split": "development"
+      },
+      "timeout_ms": 5000
+    },
+    "started_at": 1791916962210,
+    "state": "succeeded",
+    "transitions": [
+      {
+        "at": 1791916962204,
+        "from": "created",
+        "to": "validated"
+      },
+      {
+        "at": 1791916962204,
+        "from": "validated",
+        "to": "queued"
+      },
+      {
+        "at": 1791916962210,
+        "from": "queued",
+        "to": "running"
+      },
+      {
+        "at": 1791916962245,
+        "from": "running",
+        "to": "succeeded"
+      }
+    ]
+  },
+  "first_output": {
+    "hub_digest": "59ae8b16c052b2df83d80ebbedc9a8a546695ad7b6189074897a47f779522ef6",
+    "id": "62ca8df7-ee40-4143-b328-c2a68b750854",
+    "raw_sha256": "4847474bddf766eac05a21e492b3401766da809180d8961088abea337735404c",
+    "size": 832
+  },
+  "hub_binary_sha256": "791a6e429a9f6dbebcab9bc53edc23900b407d9ad4f694f28348d01a7fabe943",
+  "input_artifact": {
+    "created_at": 1791916962201,
+    "digest": "c19f94faead55018c526ff00a6440b92f6df271d8b6212768f30a1a6e6d3e17c",
+    "id": "83240093-4b2d-467c-bb14-edefad6303b3",
+    "media_type": "application/json",
+    "name": "development-fields",
+    "size": 1224
+  },
+  "input_portable_digest": {
+    "hub_digest": "c19f94faead55018c526ff00a6440b92f6df271d8b6212768f30a1a6e6d3e17c",
+    "id": "83240093-4b2d-467c-bb14-edefad6303b3",
+    "raw_sha256": "ef545e1926003bbbb430bcaed8cd9451a256f58a0fb0adaef9db5912168c02f4",
+    "size": 1224
+  },
+  "negative_controls": "final refused before opening nonexistent input; unit source/digest/shape/schema controls",
+  "oracle": {
+    "ITD_periodic_subset": "exact analytical 6x8 u=-y,v=x",
+    "NeuralOperator": "isotropic quadratic residual -5 then -6 after forcing change"
+  },
+  "registration": {
+    "component": {
+      "capabilities": [
+        {
+          "contract_version": "1.0.0",
+          "inputs": [
+            {
+              "description": "",
+              "name": "fields"
+            }
+          ],
+          "name": "itd.neural.development",
+          "outputs": [
+            {
+              "description": "",
+              "name": "observation"
+            }
+          ]
+        }
+      ],
+      "execution": {
+        "args": [
+          "{params}",
+          "{input:fields}",
+          "{output:observation}"
+        ],
+        "outputs": [
+          {
+            "media_type": "application/vnd.itd.hub-neural-development.v1+json",
+            "name": "observation",
+            "path": "observation.json",
+            "required": true
+          }
+        ],
+        "program": "/workspace/scratch/2f923f060ce8/ITD-audit-bridge/research-rs/target/debug/itd-hub-neural-bridge",
+        "type": "process"
+      },
+      "id": "1adbea71-7200-4000-8000-000000000001",
+      "kind": "tool",
+      "manifest_digest": "12c803e17d00b5a47b947adf7ab49fa0f002ed44672c83d4ab8a59ee13fa4b58",
+      "name": "itd-neural-development",
+      "source": {
+        "commit": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+        "dirty": false,
+        "repository": "Memorithm/itd-simulator"
+      },
+      "version": "1.0.0"
+    },
+    "manifest_digest": "12c803e17d00b5a47b947adf7ab49fa0f002ed44672c83d4ab8a59ee13fa4b58",
+    "status": "created"
+  },
+  "replay": {
+    "component_name": "itd-neural-development",
+    "component_version": "1.0.0",
+    "contract_version": "1.0.0",
+    "created_at": 1791916962259,
+    "finished_at": 1791916962288,
+    "id": "1e4a3b6f-fe89-459b-b294-7afc4718b7a2",
+    "outcome": {
+      "cancelled": false,
+      "duration_ms": 26,
+      "env_keys": [
+        "PATH",
+        "TMPDIR"
+      ],
+      "executor_backend": "process",
+      "exit_code": 0,
+      "inputs": [
+        {
+          "artifact": "83240093-4b2d-467c-bb14-edefad6303b3",
+          "digest": "c19f94faead55018c526ff00a6440b92f6df271d8b6212768f30a1a6e6d3e17c",
+          "name": "fields",
+          "size": 1224
+        }
+      ],
+      "outputs": [
+        {
+          "artifact": "452c9a50-c85e-4ca9-ab12-2dc54a262269",
+          "digest": "88f69f0c80d16b439cc34a63a3f2d25d44cf92a7b091ab82b0a3935fd7600c2b",
+          "name": "stdout",
+          "size": 70
+        },
+        {
+          "artifact": "c0fe5b16-4cf4-4851-9759-21fa5d3fd455",
+          "digest": "59ae8b16c052b2df83d80ebbedc9a8a546695ad7b6189074897a47f779522ef6",
+          "name": "file:observation",
+          "size": 832
+        }
+      ],
+      "params_digest": "a0d481791fbf8d22b1ca634567fd2abbf23093f5f24b7db30bea257c47bdf5fe",
+      "timed_out": false
+    },
+    "spec": {
+      "capability": "itd.neural.development",
+      "component": "1adbea71-7200-4000-8000-000000000001",
+      "inputs": [
+        {
+          "artifact": "83240093-4b2d-467c-bb14-edefad6303b3",
+          "name": "fields"
+        }
+      ],
+      "parameters": {
+        "contract": "itd.hub-neural-development@1.0.0",
+        "hub_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+        "input_sha256": "ef545e1926003bbbb430bcaed8cd9451a256f58a0fb0adaef9db5912168c02f4",
+        "itd_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+        "neural_operator_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+        "split": "development"
+      },
+      "timeout_ms": 5000
+    },
+    "started_at": 1791916962262,
+    "state": "succeeded",
+    "transitions": [
+      {
+        "at": 1791916962259,
+        "from": "created",
+        "to": "validated"
+      },
+      {
+        "at": 1791916962259,
+        "from": "validated",
+        "to": "queued"
+      },
+      {
+        "at": 1791916962262,
+        "from": "queued",
+        "to": "running"
+      },
+      {
+        "at": 1791916962288,
+        "from": "running",
+        "to": "succeeded"
+      }
+    ]
+  },
+  "replay_output": {
+    "hub_digest": "59ae8b16c052b2df83d80ebbedc9a8a546695ad7b6189074897a47f779522ef6",
+    "id": "c0fe5b16-4cf4-4851-9759-21fa5d3fd455",
+    "raw_sha256": "4847474bddf766eac05a21e492b3401766da809180d8961088abea337735404c",
+    "size": 832
+  },
+  "schema": "itd.hub-neural-development-qualification@1",
+  "scientific_promotion": false,
+  "sources": {
+    "Hub": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+    "ITD": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+    "NeuralOperator": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
+  }
+}

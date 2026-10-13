@@ -1,0 +1,116 @@
+{
+  "schema": "memorithm.audit-proof.v1",
+  "finding": "B-ITD-03",
+  "repository": "Memorithm/itd-simulator",
+  "status": "candidate_waiting_exact_CI_and_review",
+  "observed_at": "2026-10-13T18:56:50.557Z",
+  "base_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+  "candidate": {
+    "sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+    "tree": "56688178e6c53ca1c1a3d78a79d6c3e34048a235",
+    "branch": "audit/b-itd-03-real-development-exchange"
+  },
+  "pull_request": 72,
+  "owner_sources": {
+    "Hub": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+    "NeuralOperator": "2eba990da4779aeecfea1c4c288d8a6e552c48d8"
+  },
+  "local_validation": {
+    "Rust_contract_tests": 2,
+    "actual_HTTP_daemon_test": 1,
+    "H36_offline_reference_tests": 7,
+    "Python_full_validation_tests": 751,
+    "manifest_files": 600,
+    "ruff": "success",
+    "mypy_files": 167,
+    "full_V29_pipeline": "passed; external holdout reserved, H36 executed separately with Cargo",
+    "frozen_sources_diff": "empty",
+    "sdist": "Rust sources and lock included; target excluded",
+    "disk_failure": "Initial fixture archive hit disk exhaustion; build outputs cleaned; failed case reran successfully and full validation passed.",
+    "exact_candidate_proof": "Local numerical/transport test compiled the working patch with base checkout source pin; dedicated candidate CI builds/records the exact published SHA independently."
+  },
+  "local_proof_directory": "docs/audit-global/proofs/itd-72/local",
+  "candidate_checks": [
+    {
+      "id": 115479421387,
+      "name": "real-transport",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450374270/job/115479421387"
+    },
+    {
+      "id": 115479420910,
+      "name": "Python 3.13",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450373622/job/115479420910"
+    },
+    {
+      "id": 115479420627,
+      "name": "Python 3.12",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450373622/job/115479420627"
+    },
+    {
+      "id": 115479420390,
+      "name": "Python 3.11",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450373622/job/115479420390"
+    },
+    {
+      "id": 115479420077,
+      "name": "Commit policy",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450373622/job/115479420077"
+    },
+    {
+      "id": 115479397626,
+      "name": "Python 3.12",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450367196/job/115479397626"
+    },
+    {
+      "id": 115479397527,
+      "name": "Python 3.13",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450367196/job/115479397527"
+    },
+    {
+      "id": 115479397520,
+      "name": "Commit policy",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450367196/job/115479397520"
+    },
+    {
+      "id": 115479397205,
+      "name": "Python 3.11",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38450367196/job/115479397205"
+    }
+  ],
+  "acceptance": {
+    "closure": false,
+    "reason": "Exact candidate gates/review and integrated post-merge gates/artifact qualification still required."
+  },
+  "limitations": [
+    "Finite synthetic Development transport and two owner numerical implementations only.",
+    "Not certified V29.18 replacement, trained operator, scientific promotion, physical performance, hostile-code sandbox or Hub ML maturity."
+  ],
+  "local_proof_in_dirty_worktree": true
+}

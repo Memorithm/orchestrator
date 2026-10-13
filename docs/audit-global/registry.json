@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:39:08.974Z",
+  "updated_at": "2026-10-13T18:58:38.565Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9327,6 +9327,32 @@
         "qualification": "not_evaluated",
         "execution_id": "70afafd25b78f74f98a4ff7a5905041d6b93d13429f490f059c6b760072b8890"
       }
+    },
+    {
+      "repository": "Memorithm/itd-simulator",
+      "number": 72,
+      "url": "https://github.com/Memorithm/itd-simulator/pull/72",
+      "base": "main",
+      "base_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+      "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+      "tree": "56688178e6c53ca1c1a3d78a79d6c3e34048a235",
+      "status": "waiting_ci",
+      "ids": [
+        "B-ITD-03"
+      ],
+      "batch": 3
+    },
+    {
+      "repository": "restricted:COG-SML-001",
+      "number": 559,
+      "head_sha": "f7c242ab1507c8014a924afcd8853dad9b910c17",
+      "status": "waiting_ci",
+      "ids": [
+        "COG-SML-001"
+      ],
+      "batch": 3,
+      "source_scope": "restricted",
+      "private_proof": "COG-SML-001-qualification-20261013"
     }
   ],
   "repository_observations": [
@@ -12929,16 +12955,26 @@
       "acceptance_criteria": [
         "Consulter les critères dans la source interne par ID ; conserver les preuves dans le dépôt privé."
       ],
-      "status": "to_do",
+      "status": "waiting_ci",
       "current_head": null,
       "default_branch": null,
       "audit_head": null,
       "head_reconciliation": "not_published",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
+      "policy_review": "Instructions et licences du dépôt privé relues; preuves détaillées conservées dans ce dépôt.",
+      "prs": [
+        {
+          "repository": "restricted:COG-SML-001",
+          "number": 559,
+          "head_sha": "f7c242ab1507c8014a924afcd8853dad9b910c17",
+          "base_sha": "618549cee0fd0981a5fe7f6ad36efec6ae1628ca",
+          "status": "waiting_ci",
+          "source_scope": "restricted",
+          "private_proof": "COG-SML-001-qualification-20261013"
+        }
+      ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "last_observed_at": "2026-10-13T18:58:38.565Z",
+      "next_action": "Qualifier les gates exacts et l'intégration du correctif privé; garder le constat ouvert tant que l'acceptation externe requise n'est pas démontrée."
     },
     {
       "id": "COG-SML-002",
@@ -13750,16 +13786,30 @@
         "Qualifier un premier échange réel Hub<->ITD<->NeuralOperator à des SHA fixes, avec vérification des bytes et des splits; conserver le coeur scientifique V29.18 gelé et traiter un port Rust complet comme une révision scientifique distincte.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+      "status": "waiting_ci",
+      "current_head": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
       "default_branch": "main",
       "audit_head": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f",
-      "head_reconciliation": "read_only_gap_confirmed_on_current_default_HEAD",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-13T18:38:09.000+02:00",
-      "next_action": "Qualify actual Development-only Hub<->ITD<->NeuralOperator exchange on exact pins, bytes and split identities; preserve frozen V29.18/holdouts and repository integration policy. The Rust residual #37 is a newly qualified candidate consumer, not proof of this exchange."
+      "head_reconciliation": "real_Development_Hub_ITD_NeuralOperator_exchange_candidate_published_waiting_exact_gates_and_integration",
+      "policy_review": "Root AGENTS, freshly mapped off-main roadmap/research bootstrap, licenses and exact Hub/NeuralOperator owner contracts read. Explicit automatic engineering merge authorization preserves frozen V29.18 and final holdouts.",
+      "prs": [
+        {
+          "number": 72,
+          "url": "https://github.com/Memorithm/itd-simulator/pull/72",
+          "base_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+          "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb",
+          "status": "waiting_ci"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/itd-72-B-ITD-03.json",
+          "status": "candidate_waiting_exact_CI_and_integration",
+          "head_sha": "5766fa155d3e410658ff16255d2ca0d4bcd8a4eb"
+        }
+      ],
+      "last_observed_at": "2026-10-13T18:58:38.565Z",
+      "next_action": "Complete exact-head CI/review, SHA-guarded engineering merge, then integrated real daemon/artifact qualification; preserve finite Development scope and no scientific promotion."
     },
     {
       "id": "B-NR-01",
@@ -15145,9 +15195,10 @@
     "status": "active",
     "owner": "codex-audit-20261013-sml",
     "acquired_at": "2026-10-13T18:22:03.837Z",
-    "expires_at": "2026-10-13T19:22:03.837Z",
-    "base_sha": "5678cda",
-    "purpose": "Continue seven findings; reconcile ADA integrated Miri and qualify SML artifact authenticity engineering gate"
+    "expires_at": "2026-10-13T19:57:39.253Z",
+    "base_sha": "eca93f85d5c28780ddcdf75168728e439ea547d1",
+    "purpose": "Continue remediation: reconcile ADA closure; qualify and automatically merge exact-green ITD #72 and restricted SML #559; preserve external acceptance blockers",
+    "renewed_at": "2026-10-13T18:57:39.253Z"
   },
   "capabilities": [
     {
@@ -15213,5 +15264,5 @@
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
   ],
-  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6152160702"
+  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6152608323"
 }
