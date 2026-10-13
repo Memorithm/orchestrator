@@ -1136,6 +1136,101 @@
         "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "timestamp": "2026-10-13T17:25:00+02:00",
+      "observed_session_start": "2026-10-13T17:13:40+02:00",
+      "batch": {
+        "number": 2,
+        "merged_prs": 46,
+        "target": 50
+      },
+      "merged_prs": 96,
+      "closed_findings": 87,
+      "remaining_findings": 14,
+      "work_items": [
+        {
+          "id": "COG-ADA-002",
+          "repository": "Memorithm/ADA",
+          "status": "waiting_ci",
+          "base_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+          "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
+          "merge_sha": null,
+          "prs": [
+            "https://github.com/Memorithm/ADA/pull/60"
+          ],
+          "actions": [
+            "Re-read the immutable audit finding and confirmed the declarative boundary remained on current main.",
+            "Read ADA, SciRust Hub and ElasticXxx instructions, roadmaps, licences and exact owner contracts without modifying owner repositories.",
+            "Added a dependency-free fail-closed ADA bridge for Hub task/workspace identity and ElasticXxx budgets, exact destination fixtures and six contract tests.",
+            "Validated format, 22 ada-graduation tests, strict Clippy and whitespace locally on the exact candidate.",
+            "Opened PR #60 and recorded the candidate on the dedicated roadmap branch without merging that branch to main."
+          ],
+          "checks": [
+            {
+              "name": "local cargo fmt --all -- --check",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9"
+            },
+            {
+              "name": "local cargo test -p ada-graduation --all-targets",
+              "status": "completed",
+              "conclusion": "success",
+              "result": "22 passed",
+              "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9"
+            },
+            {
+              "name": "local cargo clippy -p ada-graduation --all-targets -- -D warnings",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9"
+            },
+            {
+              "id": 38421314620,
+              "name": "ci candidate",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38421314620",
+              "jobs": {
+                "success": [
+                  "build/test",
+                  "MSRV 1.85",
+                  "rustdoc"
+                ],
+                "in_progress": [
+                  "fuzz-smoke",
+                  "miri",
+                  "supply-chain"
+                ]
+              }
+            },
+            {
+              "name": "Codex code review",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9"
+            }
+          ],
+          "reason_for_wait": "Three CI jobs and the code review are still active on the exact candidate head; no merge or closure is counted.",
+          "dependencies": [],
+          "next_action": "Reconcile exact-head CI and review, correct any finding, then merge with expected_head_sha only if all gates are green and validate the integrated main SHA.",
+          "proof": "docs/audit-global/proofs/ADA-60-COG-ADA-002-waiting-ci.json",
+          "roadmap": {
+            "branch": "agent/ecosystem-roadmap",
+            "commit": "e12b64141779fc9b4afeda5b7f7dd3a04a6403a2",
+            "merged_to_main": false
+          }
+        }
+      ],
+      "external_obstacles": [
+        "MEM-11 remains blocked on its documented external dependency.",
+        "PAPERS-01 remains blocked on its documented external dependency.",
+        "B-ITD-01 remains blocked by the repository policy prohibiting orchestrator self-merge despite green candidate CI.",
+        "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -1152,14 +1247,16 @@
       "MEM-09",
       "COG-ADA-001"
     ],
-    "waiting_ci": [],
+    "waiting_ci": [
+      "COG-ADA-002"
+    ],
     "blocked_external": [
       "MEM-11",
       "PAPERS-01",
       "B-ITD-01",
       "RT-NNIS-03"
     ],
-    "next_action": "Begin COG-ADA-002 after fresh ADA HEAD, instructions and licence reconciliation.",
+    "next_action": "Reconcile ADA PR #60 exact-head CI and review; merge only after every gate succeeds.",
     "excluded_repositories_modified": []
   },
   "latest_counts": {

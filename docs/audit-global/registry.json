@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T16:20:00+02:00",
+  "updated_at": "2026-10-13T17:25:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -8011,6 +8011,66 @@
         "commit": "5cdcd2da606ece80fbfecf9e4f47f3181d7c26f5",
         "merged_to_main": false
       }
+    },
+    {
+      "repository": "Memorithm/ADA",
+      "number": 60,
+      "url": "https://github.com/Memorithm/ADA/pull/60",
+      "base": "main",
+      "base_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+      "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
+      "merge_sha": null,
+      "status": "waiting_ci_and_code_review",
+      "ids": [
+        "COG-ADA-002"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 38421314620,
+          "name": "ci candidate",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38421314620",
+          "jobs": {
+            "success": [
+              "build/test",
+              "MSRV 1.85",
+              "rustdoc"
+            ],
+            "in_progress": [
+              "fuzz-smoke",
+              "miri",
+              "supply-chain"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "running",
+        "threads": 0,
+        "resolved_threads": 0
+      },
+      "local_validation": [
+        "cargo fmt --all -- --check",
+        "cargo test -p ada-graduation --all-targets (22 passed)",
+        "cargo clippy -p ada-graduation --all-targets -- -D warnings",
+        "git diff --check"
+      ],
+      "owner_contracts": {
+        "scirust_hub": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+        "elasticxxx": "958ce6301730ceeec4bb1252ff12222e5bb7d431"
+      },
+      "roadmap": {
+        "branch": "agent/ecosystem-roadmap",
+        "commit": "e12b64141779fc9b4afeda5b7f7dd3a04a6403a2",
+        "merged_to_main": false
+      },
+      "limitations": [
+        "The adapter is research-only and dispatches CONTINUE_RESEARCH only.",
+        "No worker capacity, runtime enforcement, sandbox security, performance, adoption or novelty claim."
+      ]
     }
   ],
   "repository_observations": [
@@ -10901,16 +10961,52 @@
         "Brancher explicitement un adaptateur du contrat de tâche du Hub et un échange de budgets ElasticXxx, avec fixtures destination et tests de contrat. Garder CONTINUE_RESEARCH pour les résultats non qualifiés.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "7034491cc408ff77820589957349aa4fad1ee097",
+      "status": "waiting_ci",
+      "current_head": "befffe859069e6478f406cd278299fc5a4edc6a9",
       "default_branch": "main",
       "audit_head": "7034491cc408ff77820589957349aa4fad1ee097",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "audit_gap_confirmed_on_main_79584396_candidate_adapter_open",
+      "policy_review": "Root AGENTS.md, MIT OR Apache-2.0 workspace metadata, main default branch and mandatory agent/ecosystem-roadmap were reviewed. Hub and ElasticXxx owner contracts were read at exact integrated SHAs; neither owner repository was modified.",
+      "prs": [
+        {
+          "number": 60,
+          "url": "https://github.com/Memorithm/ADA/pull/60",
+          "base": "main",
+          "base_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+          "head_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
+          "merge_sha": null,
+          "status": "waiting_ci_and_code_review",
+          "role": "Hub_admission_to_Elastic_budget_adapter"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/ADA-60-COG-ADA-002-waiting-ci.json",
+          "candidate_sha": "befffe859069e6478f406cd278299fc5a4edc6a9",
+          "candidate_runs": [
+            38421314620
+          ],
+          "local_tests": [
+            "cargo fmt --all -- --check",
+            "cargo test -p ada-graduation --all-targets (22 passed)",
+            "cargo clippy -p ada-graduation --all-targets -- -D warnings",
+            "git diff --check"
+          ],
+          "status": "waiting_ci_and_code_review",
+          "roadmap": {
+            "branch": "agent/ecosystem-roadmap",
+            "commit": "e12b64141779fc9b4afeda5b7f7dd3a04a6403a2",
+            "merged_to_main": false
+          }
+        }
+      ],
+      "last_observed_at": "2026-10-13T17:25:00+02:00",
+      "next_action": "Reconcile all six CI jobs and Codex review on exact head befffe85; merge with expected_head_sha only if the head/base remain unchanged, every job succeeds and review threads are resolved.",
+      "roadmap": {
+        "branch": "agent/ecosystem-roadmap",
+        "commit": "e12b64141779fc9b4afeda5b7f7dd3a04a6403a2",
+        "merged_to_main": false
+      }
     },
     {
       "id": "COG-COGNO-001",
