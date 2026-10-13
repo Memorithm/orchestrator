@@ -3,7 +3,8 @@
   "status": "active",
   "owner": "codex-audit-20261013-sml",
   "acquired_at": "2026-10-13T18:22:03.837Z",
-  "expires_at": "2026-10-13T19:22:03.837Z",
-  "base_sha": "5678cda",
-  "purpose": "Continue seven findings; reconcile ADA integrated Miri and qualify SML artifact authenticity engineering gate"
+  "expires_at": "2026-10-13T19:57:39.253Z",
+  "base_sha": "eca93f85d5c28780ddcdf75168728e439ea547d1",
+  "purpose": "Continue remediation: reconcile ADA closure; qualify and automatically merge exact-green ITD #72 and restricted SML #559; preserve external acceptance blockers",
+  "renewed_at": "2026-10-13T18:57:39.253Z"
 }
