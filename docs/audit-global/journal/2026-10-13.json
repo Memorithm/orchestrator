@@ -1881,15 +1881,286 @@
         "B-NR-02 repository-policy-governed private integration required."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "timestamp": "2026-10-13T18:38:09.000+02:00",
+      "event": "observed_integration_and_remaining_backlog_checkpoint",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 2,
+        "batch_target": 50,
+        "merged_prs": 102,
+        "closed_findings": 91,
+        "remaining_findings": 10
+      },
+      "work_items": [
+        {
+          "id": "B-NO-01",
+          "repository": "Memorithm/NeuralOperator",
+          "status": "resolved",
+          "actions": [
+            "Guarded #37 merge and all three exact-main gates succeeded. Eight Rust tests, 92 Python unit tests (including two immutable-oracle guards), 32 actual independent parity/cost cases pass; candidate and target corpus SHA-256 identical; both ZIP digests and Git blob identities independently verified; complete raw archives versioned."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/NeuralOperator/pull/37"
+          ],
+          "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+          "checks": [
+            {
+              "name": "torch",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+              "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486845/job/115411057172"
+            },
+            {
+              "name": "rust-darcy",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+              "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486796/job/115411057090"
+            },
+            {
+              "name": "unit-tests",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
+              "url": "https://github.com/Memorithm/NeuralOperator/actions/runs/38430486858/job/115411056322"
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Closed for first kernel, not complete solver/model/SciRust/GPU migration."
+        },
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "No additional mutation during this checkpoint; remaining scope is not declared resolved."
+          ],
+          "head_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+          "prs": [
+            "https://github.com/Memorithm/NNIS/pull/262"
+          ],
+          "checks": [],
+          "reason_for_wait": "Keep open and blocked on documented contributor-rights, consent, imported-material, dependency-license and notice review in NNIS #150; use the merged fail-closed gate to prevent unreviewed drift.",
+          "dependencies": [],
+          "next_action": "Keep open and blocked on documented contributor-rights, consent, imported-material, dependency-license and notice review in NNIS #150; use the merged fail-closed gate to prevent unreviewed drift."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "No additional mutation during this checkpoint; remaining scope is not declared resolved."
+          ],
+          "head_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+          "prs": [
+            "https://github.com/Memorithm/SciCapsule/pull/32"
+          ],
+          "checks": [],
+          "reason_for_wait": "Do not remerge #32. Verify actual runner-group selected-workflow restriction externally, then qualify installed PR path; merged workflow split is not runner-group enforcement proof.",
+          "dependencies": [],
+          "next_action": "Do not remerge #32. Verify actual runner-group selected-workflow restriction externally, then qualify installed PR path; merged workflow split is not runner-group enforcement proof."
+        },
+        {
+          "id": "COG-ADA-002",
+          "repository": "Memorithm/ADA",
+          "status": "waiting_ci",
+          "actions": [
+            "Merged source exact-main validation reconciled; five target jobs pass, Miri active."
+          ],
+          "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+          "prs": [
+            "https://github.com/Memorithm/ADA/pull/60"
+          ],
+          "checks": [
+            {
+              "id": 115405807942,
+              "name": "supply-chain",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807942"
+            },
+            {
+              "id": 115405807919,
+              "name": "build/test",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807919"
+            },
+            {
+              "id": 115405807866,
+              "name": "MSRV 1.85",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807866"
+            },
+            {
+              "id": 115405807713,
+              "name": "rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807713"
+            },
+            {
+              "id": 115405807687,
+              "name": "miri",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807687"
+            },
+            {
+              "id": 115405807527,
+              "name": "fuzz-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807527"
+            }
+          ],
+          "reason_for_wait": "Reconcile main@6e18b633 whole-workspace Miri run 38428971673; five other target gates green. Close only after exact integrated Miri succeeds; do not remerge/count #60.",
+          "dependencies": [],
+          "next_action": "Reconcile main@6e18b633 whole-workspace Miri run 38428971673; five other target gates green. Close only after exact integrated Miri succeeds; do not remerge/count #60."
+        },
+        {
+          "id": "COG-SML-001",
+          "repository": null,
+          "status": "to_do",
+          "actions": [
+            "No additional mutation during this checkpoint; remaining scope is not declared resolved."
+          ],
+          "head_sha": null,
+          "prs": [],
+          "checks": [],
+          "reason_for_wait": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification.",
+          "dependencies": [],
+          "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+        },
+        {
+          "id": "COG-SML-003",
+          "repository": null,
+          "status": "to_do",
+          "actions": [
+            "No additional mutation during this checkpoint; remaining scope is not declared resolved."
+          ],
+          "head_sha": null,
+          "prs": [],
+          "checks": [],
+          "reason_for_wait": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification.",
+          "dependencies": [],
+          "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "No additional mutation during this checkpoint; remaining scope is not declared resolved."
+          ],
+          "head_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+          "prs": [
+            "https://github.com/Memorithm/PAPERS-AGENT/pull/7"
+          ],
+          "checks": [],
+          "reason_for_wait": "Wait for a versioned SciRust-Hub/RemoteOps qualified backend and then wire PAPERS execution to its typed API; do not relabel the current fail-closed local path as resolution.",
+          "dependencies": [],
+          "next_action": "Wait for a versioned SciRust-Hub/RemoteOps qualified backend and then wire PAPERS execution to its typed API; do not relabel the current fail-closed local path as resolution."
+        },
+        {
+          "id": "B-ITD-02",
+          "repository": "Memorithm/itd-simulator",
+          "status": "to_do",
+          "actions": [
+            "No additional mutation during this checkpoint; remaining scope is not declared resolved."
+          ],
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "prs": [],
+          "checks": [],
+          "reason_for_wait": "Generate complete runtime/dev --require-hashes wheel locks for the three Linux supported interpreters; preserve existing pins/frozen model, validate all clean environments, integrate only through policy-governed path.",
+          "dependencies": [],
+          "next_action": "Generate complete runtime/dev --require-hashes wheel locks for the three Linux supported interpreters; preserve existing pins/frozen model, validate all clean environments, integrate only through policy-governed path."
+        },
+        {
+          "id": "B-ITD-03",
+          "repository": "Memorithm/itd-simulator",
+          "status": "to_do",
+          "actions": [
+            "No additional mutation during this checkpoint; remaining scope is not declared resolved."
+          ],
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "prs": [],
+          "checks": [],
+          "reason_for_wait": "Qualify actual Development-only Hub<->ITD<->NeuralOperator exchange on exact pins, bytes and split identities; preserve frozen V29.18/holdouts and repository integration policy. The Rust residual #37 is a newly qualified candidate consumer, not proof of this exchange.",
+          "dependencies": [
+            "B-NO-03"
+          ],
+          "next_action": "Qualify actual Development-only Hub<->ITD<->NeuralOperator exchange on exact pins, bytes and split identities; preserve frozen V29.18/holdouts and repository integration policy. The Rust residual #37 is a newly qualified candidate consumer, not proof of this exchange."
+        },
+        {
+          "id": "B-NR-02",
+          "repository": null,
+          "status": "blocked",
+          "actions": [
+            "No additional mutation during this checkpoint; remaining scope is not declared resolved."
+          ],
+          "head_sha": null,
+          "prs": [],
+          "checks": [],
+          "reason_for_wait": "Follow the repository's permitted integration path, then verify the exact integrated private version; do not close or auto-merge through the documented holdout.",
+          "dependencies": [],
+          "next_action": "Follow the repository's permitted integration path, then verify the exact integrated private version; do not close or auto-merge through the documented holdout."
+        },
+        {
+          "id": "B-PL-03",
+          "repository": "Memorithm/ProofLab",
+          "status": "to_do",
+          "actions": [
+            "No additional mutation during this checkpoint; remaining scope is not declared resolved."
+          ],
+          "head_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+          "prs": [],
+          "checks": [],
+          "reason_for_wait": "Implement real partner execution-manifest ingestion reusing owner provenance/authentication contracts; bind repository/SHA/protocol/input/splits/output hashes/CI, qualify a real producer, never seal ProofArtifact from empirical evidence.",
+          "dependencies": [
+            "B-PL-01",
+            "B-PL-02"
+          ],
+          "next_action": "Implement real partner execution-manifest ingestion reusing owner provenance/authentication contracts; bind repository/SHA/protocol/input/splits/output hashes/CI, qualify a real producer, never seal ProofArtifact from empirical evidence."
+        }
+      ],
+      "new_finding_closures_since_start": [
+        "B-ITD-01",
+        "COG-COGNO-003",
+        "COG-OCTA-003",
+        "B-NO-01"
+      ],
+      "new_merges_this_session": [
+        "Memorithm/COGNO-1#263",
+        "Memorithm/octasoma#72",
+        "Memorithm/ADA#60",
+        "Memorithm/NeuralOperator#37"
+      ],
+      "preexisting_merge_reconciliations": [
+        "Memorithm/itd-simulator#70",
+        "Memorithm/SciCapsule#32"
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "batch": 3,
-    "batch_merged_prs": 1,
+    "batch_merged_prs": 2,
     "batch_target": 50,
-    "merged_prs": 101,
-    "closed_findings": 90,
-    "remaining_findings": 11,
+    "merged_prs": 102,
+    "closed_findings": 91,
+    "remaining_findings": 10,
     "resolved_today": [
       "MEM-19",
       "MEM-07",
@@ -1898,11 +2169,11 @@
       "COG-ADA-001",
       "B-ITD-01",
       "COG-COGNO-003",
-      "COG-OCTA-003"
+      "COG-OCTA-003",
+      "B-NO-01"
     ],
     "waiting_ci": [
-      "COG-ADA-002",
-      "B-NO-01"
+      "COG-ADA-002"
     ],
     "blocked_external": [
       "MEM-11",
@@ -1910,7 +2181,7 @@
       "B-ITD-01",
       "RT-NNIS-03"
     ],
-    "next_action": "Qualify integrated ADA Miri and corrected NeuralOperator source, continue remaining independent work, keep external/policy blockers open.",
+    "next_action": "Complete ADA exact-target Miri validation, then continue still-open manifests/integration/hash locks and private trust-boundary findings without changing policy or claiming external obstacles resolved.",
     "excluded_repositories_modified": [],
     "blocked_repository_policy": [
       "B-NR-02"
@@ -1918,10 +2189,10 @@
   },
   "latest_counts": {
     "batch": 3,
-    "batch_merged_prs": 1,
+    "batch_merged_prs": 2,
     "batch_target": 50,
-    "merged_prs": 101,
-    "closed_findings": 90,
-    "remaining_findings": 11
+    "merged_prs": 102,
+    "closed_findings": 91,
+    "remaining_findings": 10
   }
 }

@@ -1,0 +1,186 @@
+{
+  "schema": "memorithm.audit-proof.v1",
+  "finding": "COG-ADA-002",
+  "observed_at": "2026-10-13T18:38:09.000+02:00",
+  "closure": false,
+  "repository": "Memorithm/ADA",
+  "number": 60,
+  "url": "https://github.com/Memorithm/ADA/pull/60",
+  "base": "main",
+  "base_sha": "7958439630ff5e092d32ac8d618411785d885d59",
+  "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+  "merge_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+  "status": "merged_waiting_target_ci",
+  "ids": [
+    "COG-ADA-002"
+  ],
+  "batch": 3,
+  "checks": [
+    {
+      "name": "miri",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381102015"
+    },
+    {
+      "name": "fuzz-smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101925"
+    },
+    {
+      "name": "MSRV 1.85",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101885"
+    },
+    {
+      "name": "supply-chain",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101856"
+    },
+    {
+      "name": "build/test",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101810"
+    },
+    {
+      "name": "rustdoc",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421796553/job/115381101424"
+    },
+    {
+      "name": "build/test",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094541"
+    },
+    {
+      "name": "MSRV 1.85",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094503"
+    },
+    {
+      "name": "rustdoc",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094385"
+    },
+    {
+      "name": "fuzz-smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094332"
+    },
+    {
+      "name": "miri",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381094249"
+    },
+    {
+      "name": "supply-chain",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "defee006145f86f5a0093f0d3ee481aa3408c2a5",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38421789288/job/115381093970"
+    }
+  ],
+  "review": {
+    "status": "completed_findings_corrected",
+    "threads": 2,
+    "resolved_threads": 2,
+    "corrections": [
+      "admitted handoff made opaque/read-only",
+      "validated estimates made private/read-only"
+    ],
+    "reviewed_head": "befffe859069e6478f406cd278299fc5a4edc6a9"
+  },
+  "local_validation": [
+    "cargo fmt --all -- --check",
+    "cargo test -p ada-graduation --all-targets (22 passed)",
+    "cargo clippy -p ada-graduation --all-targets -- -D warnings",
+    "git diff --check"
+  ],
+  "owner_contracts": {
+    "scirust_hub": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+    "elasticxxx": "958ce6301730ceeec4bb1252ff12222e5bb7d431"
+  },
+  "roadmap": {
+    "branch": "agent/ecosystem-roadmap",
+    "commit": "86f51d4553416d65a9649b3f81335096aa2ed95e",
+    "merged_to_default": false
+  },
+  "limitations": [
+    "The adapter is research-only and dispatches CONTINUE_RESEARCH only.",
+    "No worker capacity, runtime enforcement, sandbox security, performance, adoption or novelty claim."
+  ],
+  "merge_method": "squash_with_expected_head_sha",
+  "target_head": "6e18b6330655bbd434776dccbda48b2777241a62",
+  "target_checks": [
+    {
+      "id": 115405807942,
+      "name": "supply-chain",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807942"
+    },
+    {
+      "id": 115405807919,
+      "name": "build/test",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807919"
+    },
+    {
+      "id": 115405807866,
+      "name": "MSRV 1.85",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807866"
+    },
+    {
+      "id": 115405807713,
+      "name": "rustdoc",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807713"
+    },
+    {
+      "id": 115405807687,
+      "name": "miri",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807687"
+    },
+    {
+      "id": 115405807527,
+      "name": "fuzz-smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+      "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807527"
+    }
+  ],
+  "reason_for_wait": "Exact integrated whole-workspace Miri still executing; all 12 candidate checks and five other target checks pass."
+}

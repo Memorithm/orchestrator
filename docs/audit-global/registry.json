@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:33:15.000+02:00",
+  "updated_at": "2026-10-13T18:38:09.000+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -8208,14 +8208,65 @@
       },
       "roadmap": {
         "branch": "agent/ecosystem-roadmap",
-        "commit": "a2e64947bfc192ba56726a4c31a673b31270fdc6",
-        "merged_to_main": false
+        "commit": "86f51d4553416d65a9649b3f81335096aa2ed95e",
+        "merged_to_default": false
       },
       "limitations": [
         "The adapter is research-only and dispatches CONTINUE_RESEARCH only.",
         "No worker capacity, runtime enforcement, sandbox security, performance, adoption or novelty claim."
       ],
-      "merge_method": "squash_with_expected_head_sha"
+      "merge_method": "squash_with_expected_head_sha",
+      "target_head": "6e18b6330655bbd434776dccbda48b2777241a62",
+      "target_checks": [
+        {
+          "id": 115405807942,
+          "name": "supply-chain",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807942"
+        },
+        {
+          "id": 115405807919,
+          "name": "build/test",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807919"
+        },
+        {
+          "id": 115405807866,
+          "name": "MSRV 1.85",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807866"
+        },
+        {
+          "id": 115405807713,
+          "name": "rustdoc",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807713"
+        },
+        {
+          "id": 115405807687,
+          "name": "miri",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807687"
+        },
+        {
+          "id": 115405807527,
+          "name": "fuzz-smoke",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38428971673/job/115405807527"
+        }
+      ]
     },
     {
       "repository": "Memorithm/octasoma",
@@ -8311,7 +8362,7 @@
       ],
       "roadmap": {
         "branch": "agent/ecosystem-roadmap",
-        "commit": "a193d5fd6f23301d9cd65bd8717e60f9fcb8ac21",
+        "commit": "6e0242ea6d4846a798017008938d5d1009bfa8db",
         "merged_to_default": false
       },
       "limitations": [
@@ -8566,7 +8617,12 @@
           "head_sha": "5c34537c95a6eef00816d6600f727d04628403bd",
           "url": "https://github.com/Memorithm/COGNO-1/actions/runs/38427431785/job/115400382199"
         }
-      ]
+      ],
+      "roadmap": {
+        "branch": "agent/ecosystem-roadmap",
+        "commit": "dccd872f8b141960ce650c5935315b43544153fa",
+        "merged_to_default": false
+      }
     },
     {
       "repository": "Memorithm/SciCapsule",
@@ -8706,7 +8762,12 @@
       ],
       "target_head": "2eba990da4779aeecfea1c4c288d8a6e552c48d8",
       "candidate_archive": "docs/audit-global/proofs/NeuralOperator-37/candidate.zip",
-      "integrated_archive": "docs/audit-global/proofs/NeuralOperator-37/integrated.zip"
+      "integrated_archive": "docs/audit-global/proofs/NeuralOperator-37/integrated.zip",
+      "roadmap": {
+        "branch": "agent/ecosystem-roadmap",
+        "commit": "cde244865e3b19d6c7bb651772162201da2f748d",
+        "merged_to_default": false
+      }
     }
   ],
   "repository_observations": [
@@ -11647,8 +11708,8 @@
           }
         }
       ],
-      "last_observed_at": "2026-10-13T18:16:46.000+02:00",
-      "next_action": "Validate integrated main whole workspace, Miri, fuzz, MSRV, docs and supply chain before closure.",
+      "last_observed_at": "2026-10-13T18:38:09.000+02:00",
+      "next_action": "Reconcile main@6e18b633 whole-workspace Miri run 38428971673; five other target gates green. Close only after exact integrated Miri succeeds; do not remerge/count #60.",
       "roadmap": {
         "branch": "agent/ecosystem-roadmap",
         "commit": "a2e64947bfc192ba56726a4c31a673b31270fdc6",
@@ -12884,15 +12945,15 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "to_do",
-      "current_head": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f",
+      "current_head": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
       "default_branch": "main",
       "audit_head": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f",
-      "head_reconciliation": "unchanged_since_audit",
+      "head_reconciliation": "read_only_gap_confirmed_on_current_default_HEAD",
       "policy_review": "pending_target_bootstrap",
       "prs": [],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "last_observed_at": "2026-10-13T18:38:09.000+02:00",
+      "next_action": "Qualify actual Development-only Hub<->ITD<->NeuralOperator exchange on exact pins, bytes and split identities; preserve frozen V29.18/holdouts and repository integration policy. The Rust residual #37 is a newly qualified candidate consumer, not proof of this exchange."
     },
     {
       "id": "B-NR-01",
@@ -13173,15 +13234,15 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "to_do",
-      "current_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
+      "current_head": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
       "default_branch": "main",
       "audit_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
-      "head_reconciliation": "unchanged_since_audit",
+      "head_reconciliation": "read_only_gap_confirmed_on_current_default_HEAD",
       "policy_review": "pending_target_bootstrap",
       "prs": [],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "last_observed_at": "2026-10-13T18:38:09.000+02:00",
+      "next_action": "Implement real partner execution-manifest ingestion reusing owner provenance/authentication contracts; bind repository/SHA/protocol/input/splits/output hashes/CI, qualify a real producer, never seal ProofArtifact from empirical evidence."
     },
     {
       "id": "B-FL-01",
