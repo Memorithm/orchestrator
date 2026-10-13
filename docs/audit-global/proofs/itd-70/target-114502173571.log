@@ -1,0 +1,643 @@
+﻿2026-10-11T15:12:20.7394150Z Current runner version: '2.337.0'
+2026-10-11T15:12:20.7414382Z ##[group]Runner Image Provisioner
+2026-10-11T15:12:20.7414972Z Hosted Compute Agent
+2026-10-11T15:12:20.7415450Z Version: 20261002.596
+2026-10-11T15:12:20.7415862Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-11T15:12:20.7416319Z Build Date: 2026-10-02T22:28:27Z
+2026-10-11T15:12:20.7416793Z Worker ID: {45b78655-970b-4b35-8903-2e3e833f0eb1}
+2026-10-11T15:12:20.7417249Z Region: southcentralus
+2026-10-11T15:12:20.7417720Z Cloud: Azure
+2026-10-11T15:12:20.7418086Z ##[endgroup]
+2026-10-11T15:12:20.7418984Z ##[group]Operating System
+2026-10-11T15:12:20.7419422Z Ubuntu
+2026-10-11T15:12:20.7419769Z 24.04.5
+2026-10-11T15:12:20.7420179Z LTS
+2026-10-11T15:12:20.7420558Z ##[endgroup]
+2026-10-11T15:12:20.7420909Z ##[group]Runner Image
+2026-10-11T15:12:20.7421320Z Image: ubuntu-24.04
+2026-10-11T15:12:20.7421714Z Version: 20261004.327.1
+2026-10-11T15:12:20.7422683Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-11T15:12:20.7423715Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-11T15:12:20.7424334Z ##[endgroup]
+2026-10-11T15:12:20.7425144Z ##[group]GITHUB_TOKEN Permissions
+2026-10-11T15:12:20.7426488Z Contents: read
+2026-10-11T15:12:20.7426896Z Metadata: read
+2026-10-11T15:12:20.7427242Z ##[endgroup]
+2026-10-11T15:12:20.7428712Z Secret source: Actions
+2026-10-11T15:12:20.7429315Z Cache mode: write
+2026-10-11T15:12:20.7429849Z Prepare workflow directory
+2026-10-11T15:12:20.7735038Z Prepare all required actions
+2026-10-11T15:12:20.7769396Z Getting action download info
+2026-10-11T15:12:21.0066237Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-10-11T15:12:21.0927404Z Download action repository 'actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405' (SHA:a309ff8b426b58ec0e2a45f0f869d46889d02405)
+2026-10-11T15:12:21.2024290Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-10-11T15:12:21.3684762Z Complete job name: Python 3.12
+2026-10-11T15:12:21.4191753Z ##[group]Run actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+2026-10-11T15:12:21.4192298Z with:
+2026-10-11T15:12:21.4192534Z   fetch-depth: 0
+2026-10-11T15:12:21.4192797Z   repository: Memorithm/itd-simulator
+2026-10-11T15:12:21.4195401Z   token: ***
+2026-10-11T15:12:21.4195662Z   ssh-strict: true
+2026-10-11T15:12:21.4195908Z   ssh-user: git
+2026-10-11T15:12:21.4196161Z   persist-credentials: true
+2026-10-11T15:12:21.4196434Z   clean: true
+2026-10-11T15:12:21.4196684Z   sparse-checkout-cone-mode: true
+2026-10-11T15:12:21.4196973Z   fetch-tags: false
+2026-10-11T15:12:21.4197223Z   show-progress: true
+2026-10-11T15:12:21.4197469Z   lfs: false
+2026-10-11T15:12:21.4197700Z   submodules: false
+2026-10-11T15:12:21.4197950Z   set-safe-directory: true
+2026-10-11T15:12:21.4198308Z env:
+2026-10-11T15:12:21.4198584Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T15:12:21.4198878Z   PYTHONHASHSEED: 0
+2026-10-11T15:12:21.4199126Z   OMP_NUM_THREADS: 1
+2026-10-11T15:12:21.4199454Z   OPENBLAS_NUM_THREADS: 1
+2026-10-11T15:12:21.4199712Z   MKL_NUM_THREADS: 1
+2026-10-11T15:12:21.4199965Z   NUMEXPR_NUM_THREADS: 1
+2026-10-11T15:12:21.4200267Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-11T15:12:21.4200555Z ##[endgroup]
+2026-10-11T15:12:21.4904391Z Syncing repository: Memorithm/itd-simulator
+2026-10-11T15:12:21.4906335Z ##[group]Getting Git version info
+2026-10-11T15:12:21.4907045Z Working directory is '/home/runner/work/itd-simulator/itd-simulator'
+2026-10-11T15:12:21.4908094Z [command]/usr/bin/git version
+2026-10-11T15:12:21.4936167Z git version 2.55.0
+2026-10-11T15:12:21.4953863Z ##[endgroup]
+2026-10-11T15:12:21.4972451Z Temporarily overriding HOME='/home/runner/work/_temp/dd01d3ce-0150-42e2-848c-314cb62daf3f' before making global git config changes
+2026-10-11T15:12:21.4973780Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-11T15:12:21.4984554Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/itd-simulator/itd-simulator
+2026-10-11T15:12:21.5027744Z Deleting the contents of '/home/runner/work/itd-simulator/itd-simulator'
+2026-10-11T15:12:21.5033263Z ##[group]Initializing the repository
+2026-10-11T15:12:21.5037112Z [command]/usr/bin/git init /home/runner/work/itd-simulator/itd-simulator
+2026-10-11T15:12:21.5127427Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-11T15:12:21.5128664Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-11T15:12:21.5131091Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-11T15:12:21.5132934Z hint: call:
+2026-10-11T15:12:21.5133821Z hint:
+2026-10-11T15:12:21.5134401Z hint: 	git config --global init.defaultBranch <name>
+2026-10-11T15:12:21.5134960Z hint:
+2026-10-11T15:12:21.5135485Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-11T15:12:21.5136372Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-11T15:12:21.5137022Z hint:
+2026-10-11T15:12:21.5137380Z hint: 	git branch -m <name>
+2026-10-11T15:12:21.5137792Z hint:
+2026-10-11T15:12:21.5138338Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-11T15:12:21.5139594Z Initialized empty Git repository in /home/runner/work/itd-simulator/itd-simulator/.git/
+2026-10-11T15:12:21.5141371Z [command]/usr/bin/git remote add origin https://github.com/Memorithm/itd-simulator
+2026-10-11T15:12:21.5227186Z ##[endgroup]
+2026-10-11T15:12:21.5227946Z ##[group]Disabling automatic garbage collection
+2026-10-11T15:12:21.5228658Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-11T15:12:21.5264395Z ##[endgroup]
+2026-10-11T15:12:21.5265062Z ##[group]Setting up auth
+2026-10-11T15:12:21.5265598Z Removing SSH command configuration
+2026-10-11T15:12:21.5270995Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-11T15:12:21.5311317Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-11T15:12:21.5598508Z Removing HTTP extra header
+2026-10-11T15:12:21.5604579Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-11T15:12:21.5636203Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-11T15:12:21.5814696Z Removing includeIf entries pointing to credentials config files
+2026-10-11T15:12:21.5819730Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-11T15:12:21.5850536Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-11T15:12:21.6038929Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-11T15:12:21.6075005Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/itd-simulator/itd-simulator/.git.path /home/runner/work/_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:12:21.6105873Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/itd-simulator/itd-simulator/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:12:21.6139011Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:12:21.6176767Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:12:21.6204435Z ##[endgroup]
+2026-10-11T15:12:21.6205092Z ##[group]Fetching the repository
+2026-10-11T15:12:21.6211261Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-11T15:12:22.4289823Z From https://github.com/Memorithm/itd-simulator
+2026-10-11T15:12:22.4291318Z  * [new branch]      agent/bootstrap-contract -> origin/agent/bootstrap-contract
+2026-10-11T15:12:22.4292287Z  * [new branch]      agent/ecosystem-roadmap -> origin/agent/ecosystem-roadmap
+2026-10-11T15:12:22.4294706Z  * [new branch]      audit/b-itd-01-durable-campaign-store -> origin/audit/b-itd-01-durable-campaign-store
+2026-10-11T15:12:22.4295942Z  * [new branch]      feat/ai-attention-protocol -> origin/feat/ai-attention-protocol
+2026-10-11T15:12:22.4297003Z  * [new branch]      feat/ai-experiment-schema-v1 -> origin/feat/ai-experiment-schema-v1
+2026-10-11T15:12:22.4298333Z  * [new branch]      fix/itd-evidence-integrity-61-63 -> origin/fix/itd-evidence-integrity-61-63
+2026-10-11T15:12:22.4299541Z  * [new branch]      fix/itd30-post-merge-evidence -> origin/fix/itd30-post-merge-evidence
+2026-10-11T15:12:22.4300508Z  * [new branch]      main                    -> origin/main
+2026-10-11T15:12:22.4301419Z  * [new branch]      policy/v0-deny-automerge -> origin/policy/v0-deny-automerge
+2026-10-11T15:12:22.4302572Z  * [new branch]      repair/itd-issue-contracts-20260922 -> origin/repair/itd-issue-contracts-20260922
+2026-10-11T15:12:22.4304025Z  * [new branch]      repair/itd-pr-conflicts-20260922 -> origin/repair/itd-pr-conflicts-20260922
+2026-10-11T15:12:22.4305302Z  * [new branch]      research/itd-30-2-evidence-adapters -> origin/research/itd-30-2-evidence-adapters
+2026-10-11T15:12:22.4306485Z  * [new branch]      research/itd-30-3-campaign-runner -> origin/research/itd-30-3-campaign-runner
+2026-10-11T15:12:22.4307828Z  * [new branch]      research/itd-30-4-campaign-persistence -> origin/research/itd-30-4-campaign-persistence
+2026-10-11T15:12:22.4309702Z  * [new branch]      research/itd-31-1-representation-accounting -> origin/research/itd-31-1-representation-accounting
+2026-10-11T15:12:22.4311021Z  * [new branch]      research/itd-31-2-transition-graph -> origin/research/itd-31-2-transition-graph
+2026-10-11T15:12:22.4312301Z  * [new branch]      research/itd-32-1-neural-operator-adapter -> origin/research/itd-32-1-neural-operator-adapter
+2026-10-11T15:12:22.4314153Z  * [new branch]      research/itd-32-2-aux-supervision -> origin/research/itd-32-2-aux-supervision
+2026-10-11T15:12:22.4315579Z  * [new branch]      research/itd-33-1-tdi-adapter -> origin/research/itd-33-1-tdi-adapter
+2026-10-11T15:12:22.4316808Z  * [new branch]      research/itd-34-1-calibration-selective -> origin/research/itd-34-1-calibration-selective
+2026-10-11T15:12:22.4318234Z  * [new branch]      research/itd-35-1-flat-reference-adapter -> origin/research/itd-35-1-flat-reference-adapter
+2026-10-11T15:12:22.4319472Z  * [new branch]      research/itd-35-2-maa-adapter -> origin/research/itd-35-2-maa-adapter
+2026-10-11T15:12:22.4320753Z  * [new branch]      research/itd-36-1-elastic-shadow-evaluation -> origin/research/itd-36-1-elastic-shadow-evaluation
+2026-10-11T15:12:22.4322304Z  * [new branch]      research/itd-37-0-noiselab-adapter -> origin/research/itd-37-0-noiselab-adapter
+2026-10-11T15:12:22.4323754Z  * [new branch]      research/itd-38-0-forge-search-adapter -> origin/research/itd-38-0-forge-search-adapter
+2026-10-11T15:12:22.4324966Z  * [new branch]      research/itd-39-0-scirust-parity -> origin/research/itd-39-0-scirust-parity
+2026-10-11T15:12:22.4326117Z  * [new branch]      research/itd-39-2-scirust-verify -> origin/research/itd-39-2-scirust-verify
+2026-10-11T15:12:22.4327324Z  * [new branch]      research/itd-39-3-hub-orchestration -> origin/research/itd-39-3-hub-orchestration
+2026-10-11T15:12:22.4328772Z  * [new branch]      research/itd-3x-bootstrap -> origin/research/itd-3x-bootstrap
+2026-10-11T15:12:22.4330326Z  * [new branch]      research/itd-pascal-r1-protocol -> origin/research/itd-pascal-r1-protocol
+2026-10-11T15:12:22.4331525Z  * [new branch]      research/itd-pascal-r2-integrity -> origin/research/itd-pascal-r2-integrity
+2026-10-11T15:12:22.4332629Z  * [new branch]      research/itd-pascal-r3-exec -> origin/research/itd-pascal-r3-exec
+2026-10-11T15:12:22.4333922Z  * [new branch]      research/itd-pascal-r3-prereg -> origin/research/itd-pascal-r3-prereg
+2026-10-11T15:12:22.4335122Z  * [new branch]      research/itd-pascal-r4-evidence -> origin/research/itd-pascal-r4-evidence
+2026-10-11T15:12:22.4336218Z  * [new branch]      research/itd-pascal-r4-exec -> origin/research/itd-pascal-r4-exec
+2026-10-11T15:12:22.4337326Z  * [new branch]      research/itd-pascal-r4-preflight -> origin/research/itd-pascal-r4-preflight
+2026-10-11T15:12:22.4338600Z  * [new branch]      research/itd-pascal-r4-preflight-ci-fix -> origin/research/itd-pascal-r4-preflight-ci-fix
+2026-10-11T15:12:22.4339973Z  * [new branch]      research/itd-pascal-r4-preflight-ci-fix2 -> origin/research/itd-pascal-r4-preflight-ci-fix2
+2026-10-11T15:12:22.4341194Z  * [new branch]      research/itd-pascal-r4-prereg -> origin/research/itd-pascal-r4-prereg
+2026-10-11T15:12:22.4342317Z  * [new branch]      research/itd-pascal-r5-preflight -> origin/research/itd-pascal-r5-preflight
+2026-10-11T15:12:22.4343746Z  * [new branch]      research/itd-pascal-r5-preflight-v2 -> origin/research/itd-pascal-r5-preflight-v2
+2026-10-11T15:12:22.4345044Z  * [new branch]      research/itd-pascal-r5-relocation-prereg -> origin/research/itd-pascal-r5-relocation-prereg
+2026-10-11T15:12:22.4346367Z  * [new branch]      research/itd-pascal-r6-execution-gate -> origin/research/itd-pascal-r6-execution-gate
+2026-10-11T15:12:22.4347792Z  * [new branch]      research/itd-pascal-r6-ledger-semantics-prereg -> origin/research/itd-pascal-r6-ledger-semantics-prereg
+2026-10-11T15:12:22.4349182Z  * [new branch]      research/itd-pascal-r6-preflight -> origin/research/itd-pascal-r6-preflight
+2026-10-11T15:12:22.4350346Z  * [new branch]      research/representation-geometry -> origin/research/representation-geometry
+2026-10-11T15:12:22.4351809Z  * [new branch]      research/v888-game-environment-v1 -> origin/research/v888-game-environment-v1
+2026-10-11T15:12:22.4353094Z  * [new branch]      research/v888-game-process-io-v1 -> origin/research/v888-game-process-io-v1
+2026-10-11T15:12:22.4354284Z  * [new tag]         v0.1.1                  -> v0.1.1
+2026-10-11T15:12:22.4354982Z  * [new tag]         v29.0                   -> v29.0
+2026-10-11T15:12:22.4355602Z  * [new tag]         v29.10                  -> v29.10
+2026-10-11T15:12:22.4356289Z  * [new tag]         v29.11                  -> v29.11
+2026-10-11T15:12:22.4356911Z  * [new tag]         v29.12                  -> v29.12
+2026-10-11T15:12:22.4357489Z  * [new tag]         v29.13                  -> v29.13
+2026-10-11T15:12:22.4358077Z  * [new tag]         v29.14                  -> v29.14
+2026-10-11T15:12:22.4358695Z  * [new tag]         v29.15                  -> v29.15
+2026-10-11T15:12:22.4359287Z  * [new tag]         v29.16                  -> v29.16
+2026-10-11T15:12:22.4359892Z  * [new tag]         v29.17                  -> v29.17
+2026-10-11T15:12:22.4360483Z  * [new tag]         v29.18                  -> v29.18
+2026-10-11T15:12:22.4361075Z  * [new tag]         v29.4                   -> v29.4
+2026-10-11T15:12:22.4361663Z  * [new tag]         v29.5                   -> v29.5
+2026-10-11T15:12:22.4362263Z  * [new tag]         v29.6                   -> v29.6
+2026-10-11T15:12:22.4535224Z  * [new tag]         v29.7                   -> v29.7
+2026-10-11T15:12:22.4536418Z  * [new tag]         v29.8                   -> v29.8
+2026-10-11T15:12:22.4538184Z  * [new tag]         v29.9                   -> v29.9
+2026-10-11T15:12:22.4541697Z [command]/usr/bin/git branch --list --remote origin/main
+2026-10-11T15:12:22.4543284Z   origin/main
+2026-10-11T15:12:22.4544503Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-10-11T15:12:22.4547016Z 9a8a88c4c7579929132dfb0e01308baf9ec23a87
+2026-10-11T15:12:22.4549356Z ##[endgroup]
+2026-10-11T15:12:22.4551450Z ##[group]Determining the checkout info
+2026-10-11T15:12:22.4551937Z ##[endgroup]
+2026-10-11T15:12:22.4552220Z [command]/usr/bin/git sparse-checkout disable
+2026-10-11T15:12:22.4622128Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-11T15:12:22.4705353Z ##[group]Checking out the ref
+2026-10-11T15:12:22.4711000Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-11T15:12:22.5133919Z Switched to a new branch 'main'
+2026-10-11T15:12:22.5137814Z branch 'main' set up to track 'origin/main'.
+2026-10-11T15:12:22.5146908Z ##[endgroup]
+2026-10-11T15:12:22.5195775Z [command]/usr/bin/git log -1 --format=%H
+2026-10-11T15:12:22.5224007Z 9a8a88c4c7579929132dfb0e01308baf9ec23a87
+2026-10-11T15:12:22.5458291Z ##[group]Run actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+2026-10-11T15:12:22.5458806Z with:
+2026-10-11T15:12:22.5459050Z   python-version: 3.12
+2026-10-11T15:12:22.5459310Z   cache: pip
+2026-10-11T15:12:22.5459586Z   cache-dependency-path: requirements-dev.lock
+2026-10-11T15:12:22.5459921Z   check-latest: false
+2026-10-11T15:12:22.5462156Z   token: ***
+2026-10-11T15:12:22.5462405Z   update-environment: true
+2026-10-11T15:12:22.5462686Z   allow-prereleases: false
+2026-10-11T15:12:22.5462964Z   freethreaded: false
+2026-10-11T15:12:22.5463216Z env:
+2026-10-11T15:12:22.5463550Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T15:12:22.5463834Z   PYTHONHASHSEED: 0
+2026-10-11T15:12:22.5464094Z   OMP_NUM_THREADS: 1
+2026-10-11T15:12:22.5464369Z   OPENBLAS_NUM_THREADS: 1
+2026-10-11T15:12:22.5464641Z   MKL_NUM_THREADS: 1
+2026-10-11T15:12:22.5464898Z   NUMEXPR_NUM_THREADS: 1
+2026-10-11T15:12:22.5465175Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-11T15:12:22.5465467Z ##[endgroup]
+2026-10-11T15:12:22.6430243Z ##[group]Installed versions
+2026-10-11T15:12:22.6492790Z Successfully set up CPython (3.12.15)
+2026-10-11T15:12:22.6494377Z ##[endgroup]
+2026-10-11T15:12:22.6781000Z [command]/opt/hostedtoolcache/Python/3.12.15/x64/bin/pip cache dir
+2026-10-11T15:12:22.9175601Z /home/runner/.cache/pip
+2026-10-11T15:12:23.0979456Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.15-pip-6e5d9d9e8d90d196a6969ddd09048a1f27adf4a1b7885a2e961a67eb31324ad9
+2026-10-11T15:12:24.2642494Z Received 104904770 of 117487682 (89.3%), 100.0 MBs/sec
+2026-10-11T15:12:24.3435165Z Received 117487682 of 117487682 (100.0%), 103.7 MBs/sec
+2026-10-11T15:12:24.3440752Z Cache Size: ~112 MB (117487682 B)
+2026-10-11T15:12:24.3462968Z [command]/usr/bin/tar -xf /home/runner/work/_temp/ce53262b-2102-4fdc-a69c-93f106be5def/cache.tzst -P -C /home/runner/work/itd-simulator/itd-simulator --use-compress-program unzstd
+2026-10-11T15:12:24.4899130Z Cache restored successfully
+2026-10-11T15:12:24.4953171Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.15-pip-6e5d9d9e8d90d196a6969ddd09048a1f27adf4a1b7885a2e961a67eb31324ad9
+2026-10-11T15:12:24.5137926Z ##[group]Run set -o pipefail
+2026-10-11T15:12:24.5138219Z [36;1mset -o pipefail[0m
+2026-10-11T15:12:24.5138367Z [36;1mmkdir -p logs[0m
+2026-10-11T15:12:24.5138625Z [36;1mpython -m pip install --upgrade pip==26.1.2 2>&1 | tee logs/install.log[0m
+2026-10-11T15:12:24.5138965Z [36;1mpython -m pip install -r requirements-dev.lock 2>&1 | tee -a logs/install.log[0m
+2026-10-11T15:12:24.5139296Z [36;1mpython -m pip install --no-deps -e . 2>&1 | tee -a logs/install.log[0m
+2026-10-11T15:12:24.5139567Z [36;1mpython -m pip check 2>&1 | tee -a logs/install.log[0m
+2026-10-11T15:12:24.5362762Z shell: /usr/bin/bash -e {0}
+2026-10-11T15:12:24.5362983Z env:
+2026-10-11T15:12:24.5363150Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T15:12:24.5363491Z   PYTHONHASHSEED: 0
+2026-10-11T15:12:24.5363624Z   OMP_NUM_THREADS: 1
+2026-10-11T15:12:24.5363760Z   OPENBLAS_NUM_THREADS: 1
+2026-10-11T15:12:24.5363907Z   MKL_NUM_THREADS: 1
+2026-10-11T15:12:24.5364039Z   NUMEXPR_NUM_THREADS: 1
+2026-10-11T15:12:24.5364492Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-11T15:12:24.5364696Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:24.5364997Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-11T15:12:24.5365252Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:24.5365485Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:24.5365733Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:24.5365966Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-11T15:12:24.5366166Z ##[endgroup]
+2026-10-11T15:12:25.4389513Z Collecting pip==26.1.2
+2026-10-11T15:12:25.4402048Z   Using cached pip-26.1.2-py3-none-any.whl.metadata (4.6 kB)
+2026-10-11T15:12:25.4427984Z Using cached pip-26.1.2-py3-none-any.whl (1.8 MB)
+2026-10-11T15:12:25.4759690Z Installing collected packages: pip
+2026-10-11T15:12:25.4760949Z   Attempting uninstall: pip
+2026-10-11T15:12:25.4773569Z     Found existing installation: pip 26.2.1
+2026-10-11T15:12:25.5754877Z     Uninstalling pip-26.2.1:
+2026-10-11T15:12:25.5827732Z       Successfully uninstalled pip-26.2.1
+2026-10-11T15:12:26.2979753Z Successfully installed pip-26.1.2
+2026-10-11T15:12:27.1047934Z Ignoring numpy: markers 'python_version < "3.12"' don't match your environment
+2026-10-11T15:12:27.1048608Z Ignoring scipy: markers 'python_version < "3.12"' don't match your environment
+2026-10-11T15:12:27.2091092Z Collecting contourpy==1.3.3 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 3))
+2026-10-11T15:12:27.2106939Z   Using cached contourpy-1.3.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+2026-10-11T15:12:27.2284438Z Collecting cycler==0.12.1 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 4))
+2026-10-11T15:12:27.2295389Z   Using cached cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+2026-10-11T15:12:27.3439488Z Collecting fonttools==4.63.0 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 5))
+2026-10-11T15:12:27.3450916Z   Using cached fonttools-4.63.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (118 kB)
+2026-10-11T15:12:27.3988758Z Collecting kiwisolver==1.5.0 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 6))
+2026-10-11T15:12:27.3999918Z   Using cached kiwisolver-1.5.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.1 kB)
+2026-10-11T15:12:27.4915232Z Collecting matplotlib==3.11.0 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 7))
+2026-10-11T15:12:27.4927803Z   Using cached matplotlib-3.11.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (80 kB)
+2026-10-11T15:12:27.7189151Z Collecting numpy==2.5.1 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 9))
+2026-10-11T15:12:27.7205078Z   Using cached numpy-2.5.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-10-11T15:12:27.7387456Z Collecting packaging==26.2 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 10))
+2026-10-11T15:12:27.7399159Z   Using cached packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+2026-10-11T15:12:27.8845982Z Collecting pillow==12.3.0 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 11))
+2026-10-11T15:12:27.8858361Z   Using cached pillow-12.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+2026-10-11T15:12:27.9668407Z Collecting pyparsing==3.3.2 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 12))
+2026-10-11T15:12:27.9681626Z   Using cached pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-10-11T15:12:27.9860764Z Collecting python-dateutil==2.9.0.post0 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 13))
+2026-10-11T15:12:27.9872959Z   Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-10-11T15:12:28.0750050Z Collecting scipy==1.18.0 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 15))
+2026-10-11T15:12:28.0761719Z   Using cached scipy-1.18.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2026-10-11T15:12:28.1006496Z Collecting six==1.17.0 (from -r /home/runner/work/itd-simulator/itd-simulator/requirements.lock (line 16))
+2026-10-11T15:12:28.1016672Z   Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-10-11T15:12:28.1404253Z Collecting ast_serialize==0.6.0 (from -r requirements-dev.lock (line 4))
+2026-10-11T15:12:28.1415896Z   Using cached ast_serialize-0.6.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.3 kB)
+2026-10-11T15:12:28.1592099Z Collecting boolean.py==5.0 (from -r requirements-dev.lock (line 5))
+2026-10-11T15:12:28.1602239Z   Using cached boolean_py-5.0-py3-none-any.whl.metadata (2.3 kB)
+2026-10-11T15:12:28.1780688Z Collecting build==1.5.0 (from -r requirements-dev.lock (line 6))
+2026-10-11T15:12:28.1790694Z   Using cached build-1.5.0-py3-none-any.whl.metadata (5.7 kB)
+2026-10-11T15:12:28.1966787Z Collecting CacheControl==0.14.4 (from -r requirements-dev.lock (line 7))
+2026-10-11T15:12:28.1976642Z   Using cached cachecontrol-0.14.4-py3-none-any.whl.metadata (3.1 kB)
+2026-10-11T15:12:28.2171116Z Collecting certifi==2026.6.17 (from -r requirements-dev.lock (line 8))
+2026-10-11T15:12:28.2181413Z   Using cached certifi-2026.6.17-py3-none-any.whl.metadata (2.5 kB)
+2026-10-11T15:12:28.3015760Z Collecting charset-normalizer==3.4.9 (from -r requirements-dev.lock (line 9))
+2026-10-11T15:12:28.3027675Z   Using cached charset_normalizer-3.4.9-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (41 kB)
+2026-10-11T15:12:28.3283532Z Collecting cyclonedx-python-lib==11.11.0 (from -r requirements-dev.lock (line 10))
+2026-10-11T15:12:28.3294634Z   Using cached cyclonedx_python_lib-11.11.0-py3-none-any.whl.metadata (6.9 kB)
+2026-10-11T15:12:28.3460795Z Collecting defusedxml==0.7.1 (from -r requirements-dev.lock (line 11))
+2026-10-11T15:12:28.3470536Z   Using cached defusedxml-0.7.1-py2.py3-none-any.whl.metadata (32 kB)
+2026-10-11T15:12:28.3717211Z Collecting filelock==3.31.0 (from -r requirements-dev.lock (line 12))
+2026-10-11T15:12:28.3728008Z   Using cached filelock-3.31.0-py3-none-any.whl.metadata (2.0 kB)
+2026-10-11T15:12:28.3899905Z Collecting idna==3.18 (from -r requirements-dev.lock (line 13))
+2026-10-11T15:12:28.3910526Z   Using cached idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-10-11T15:12:28.4072355Z Collecting iniconfig==2.3.0 (from -r requirements-dev.lock (line 14))
+2026-10-11T15:12:28.4083286Z   Using cached iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-11T15:12:28.4971706Z Collecting librt==0.13.0 (from -r requirements-dev.lock (line 15))
+2026-10-11T15:12:28.4983513Z   Using cached librt-0.13.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-10-11T15:12:28.5159331Z Collecting license-expression==30.4.4 (from -r requirements-dev.lock (line 16))
+2026-10-11T15:12:28.5168935Z   Using cached license_expression-30.4.4-py3-none-any.whl.metadata (11 kB)
+2026-10-11T15:12:28.5348736Z Collecting markdown-it-py==4.2.0 (from -r requirements-dev.lock (line 17))
+2026-10-11T15:12:28.5358428Z   Using cached markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+2026-10-11T15:12:28.5524197Z Collecting mdurl==0.1.2 (from -r requirements-dev.lock (line 18))
+2026-10-11T15:12:28.5533533Z   Using cached mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+2026-10-11T15:12:28.6082401Z Collecting msgpack==1.2.1 (from -r requirements-dev.lock (line 19))
+2026-10-11T15:12:28.6094030Z   Using cached msgpack-1.2.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (8.3 kB)
+2026-10-11T15:12:28.7200904Z Collecting mypy==2.3.0 (from -r requirements-dev.lock (line 20))
+2026-10-11T15:12:28.7213802Z   Using cached mypy-2.3.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-10-11T15:12:28.7398013Z Collecting mypy_extensions==1.1.0 (from -r requirements-dev.lock (line 21))
+2026-10-11T15:12:28.7407538Z   Using cached mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+2026-10-11T15:12:28.7584026Z Collecting packageurl-python==0.17.6 (from -r requirements-dev.lock (line 22))
+2026-10-11T15:12:28.7592964Z   Using cached packageurl_python-0.17.6-py3-none-any.whl.metadata (5.1 kB)
+2026-10-11T15:12:28.7761218Z Collecting pathspec==1.1.1 (from -r requirements-dev.lock (line 23))
+2026-10-11T15:12:28.7770186Z   Using cached pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-10-11T15:12:28.7941977Z Collecting pip-api==0.0.34 (from -r requirements-dev.lock (line 24))
+2026-10-11T15:12:28.7951526Z   Using cached pip_api-0.0.34-py3-none-any.whl.metadata (6.6 kB)
+2026-10-11T15:12:28.8133571Z Collecting pip-audit==2.10.1 (from -r requirements-dev.lock (line 25))
+2026-10-11T15:12:28.8143117Z   Using cached pip_audit-2.10.1-py3-none-any.whl.metadata (28 kB)
+2026-10-11T15:12:28.8314854Z Collecting pip-requirements-parser==32.0.1 (from -r requirements-dev.lock (line 26))
+2026-10-11T15:12:28.8329795Z   Using cached pip_requirements_parser-32.0.1-py3-none-any.whl.metadata (9.3 kB)
+2026-10-11T15:12:28.8558854Z Collecting platformdirs==4.10.1 (from -r requirements-dev.lock (line 27))
+2026-10-11T15:12:28.8569698Z   Using cached platformdirs-4.10.1-py3-none-any.whl.metadata (5.5 kB)
+2026-10-11T15:12:28.8735866Z Collecting pluggy==1.6.0 (from -r requirements-dev.lock (line 28))
+2026-10-11T15:12:28.8746908Z   Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2026-10-11T15:12:28.8944845Z Collecting Pygments==2.20.0 (from -r requirements-dev.lock (line 29))
+2026-10-11T15:12:28.8955913Z   Using cached pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-11T15:12:28.9153018Z Collecting py-serializable==2.1.0 (from -r requirements-dev.lock (line 30))
+2026-10-11T15:12:28.9166129Z   Using cached py_serializable-2.1.0-py3-none-any.whl.metadata (4.3 kB)
+2026-10-11T15:12:28.9322285Z Collecting pyproject_hooks==1.2.0 (from -r requirements-dev.lock (line 31))
+2026-10-11T15:12:28.9332292Z   Using cached pyproject_hooks-1.2.0-py3-none-any.whl.metadata (1.3 kB)
+2026-10-11T15:12:28.9566010Z Collecting pytest==9.1.1 (from -r requirements-dev.lock (line 32))
+2026-10-11T15:12:28.9576977Z   Using cached pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-10-11T15:12:28.9799910Z Collecting requests==2.34.2 (from -r requirements-dev.lock (line 33))
+2026-10-11T15:12:28.9810080Z   Using cached requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-10-11T15:12:29.0091496Z Collecting rich==15.0.0 (from -r requirements-dev.lock (line 34))
+2026-10-11T15:12:29.0102428Z   Using cached rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+2026-10-11T15:12:29.2670254Z Collecting ruff==0.15.22 (from -r requirements-dev.lock (line 35))
+2026-10-11T15:12:29.2681831Z   Using cached ruff-0.15.22-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (26 kB)
+2026-10-11T15:12:29.2863588Z Collecting sortedcontainers==2.4.0 (from -r requirements-dev.lock (line 36))
+2026-10-11T15:12:29.2875149Z   Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata (10 kB)
+2026-10-11T15:12:29.3154214Z Collecting tomli==2.4.1 (from -r requirements-dev.lock (line 37))
+2026-10-11T15:12:29.3165266Z   Using cached tomli-2.4.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (10 kB)
+2026-10-11T15:12:29.3323903Z Collecting tomli_w==1.2.0 (from -r requirements-dev.lock (line 38))
+2026-10-11T15:12:29.3333493Z   Using cached tomli_w-1.2.0-py3-none-any.whl.metadata (5.7 kB)
+2026-10-11T15:12:29.3516807Z Collecting typing_extensions==4.16.0 (from -r requirements-dev.lock (line 39))
+2026-10-11T15:12:29.3528343Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-10-11T15:12:29.3728262Z Collecting urllib3==2.8.0 (from -r requirements-dev.lock (line 40))
+2026-10-11T15:12:29.3739728Z   Using cached urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+2026-10-11T15:12:29.3990876Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages (from pip-api==0.0.34->-r requirements-dev.lock (line 24)) (26.1.2)
+2026-10-11T15:12:29.4171519Z Using cached contourpy-1.3.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (362 kB)
+2026-10-11T15:12:29.4182165Z Using cached cycler-0.12.1-py3-none-any.whl (8.3 kB)
+2026-10-11T15:12:29.4190934Z Using cached fonttools-4.63.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.0 MB)
+2026-10-11T15:12:29.4212528Z Using cached kiwisolver-1.5.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.5 MB)
+2026-10-11T15:12:29.4224759Z Using cached matplotlib-3.11.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.0 MB)
+2026-10-11T15:12:29.4259023Z Using cached numpy-2.5.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+2026-10-11T15:12:29.4309938Z Using cached packaging-26.2-py3-none-any.whl (100 kB)
+2026-10-11T15:12:29.4320182Z Using cached pillow-12.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+2026-10-11T15:12:29.4345425Z Using cached pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-10-11T15:12:29.4353155Z Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-10-11T15:12:29.4361252Z Using cached scipy-1.18.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+2026-10-11T15:12:29.4460445Z Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-10-11T15:12:29.4471793Z Using cached ast_serialize-0.6.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
+2026-10-11T15:12:29.4484042Z Using cached boolean_py-5.0-py3-none-any.whl (26 kB)
+2026-10-11T15:12:29.4492128Z Using cached build-1.5.0-py3-none-any.whl (26 kB)
+2026-10-11T15:12:29.4499579Z Using cached cachecontrol-0.14.4-py3-none-any.whl (22 kB)
+2026-10-11T15:12:29.4507219Z Using cached msgpack-1.2.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (419 kB)
+2026-10-11T15:12:29.4515305Z Using cached certifi-2026.6.17-py3-none-any.whl (133 kB)
+2026-10-11T15:12:29.4522719Z Using cached charset_normalizer-3.4.9-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (224 kB)
+2026-10-11T15:12:29.4530138Z Using cached cyclonedx_python_lib-11.11.0-py3-none-any.whl (528 kB)
+2026-10-11T15:12:29.4538381Z Using cached license_expression-30.4.4-py3-none-any.whl (120 kB)
+2026-10-11T15:12:29.4545447Z Using cached packageurl_python-0.17.6-py3-none-any.whl (36 kB)
+2026-10-11T15:12:29.4552116Z Using cached py_serializable-2.1.0-py3-none-any.whl (23 kB)
+2026-10-11T15:12:29.4558904Z Using cached defusedxml-0.7.1-py2.py3-none-any.whl (25 kB)
+2026-10-11T15:12:29.4565618Z Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+2026-10-11T15:12:29.4572247Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-11T15:12:29.4579062Z Using cached filelock-3.31.0-py3-none-any.whl (96 kB)
+2026-10-11T15:12:29.4587055Z Using cached idna-3.18-py3-none-any.whl (65 kB)
+2026-10-11T15:12:29.4593816Z Using cached iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2026-10-11T15:12:29.4600575Z Using cached librt-0.13.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (531 kB)
+2026-10-11T15:12:29.4608951Z Using cached markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+2026-10-11T15:12:29.4615804Z Using cached mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+2026-10-11T15:12:29.4622646Z Using cached mypy-2.3.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (15.3 MB)
+2026-10-11T15:12:29.4670117Z Using cached mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+2026-10-11T15:12:29.4677665Z Using cached pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-10-11T15:12:29.4685168Z Using cached pip_api-0.0.34-py3-none-any.whl (120 kB)
+2026-10-11T15:12:29.4692182Z Using cached pip_audit-2.10.1-py3-none-any.whl (62 kB)
+2026-10-11T15:12:29.4699180Z Using cached pip_requirements_parser-32.0.1-py3-none-any.whl (35 kB)
+2026-10-11T15:12:29.4706041Z Using cached platformdirs-4.10.1-py3-none-any.whl (22 kB)
+2026-10-11T15:12:29.4712540Z Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-10-11T15:12:29.4719440Z Using cached pygments-2.20.0-py3-none-any.whl (1.2 MB)
+2026-10-11T15:12:29.4729238Z Using cached pyproject_hooks-1.2.0-py3-none-any.whl (10 kB)
+2026-10-11T15:12:29.4735867Z Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-10-11T15:12:29.4743466Z Using cached requests-2.34.2-py3-none-any.whl (73 kB)
+2026-10-11T15:12:29.4750084Z Using cached urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-10-11T15:12:29.4757054Z Using cached rich-15.0.0-py3-none-any.whl (310 kB)
+2026-10-11T15:12:29.4764723Z Using cached ruff-0.15.22-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (11.4 MB)
+2026-10-11T15:12:29.4800555Z Using cached tomli-2.4.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (253 kB)
+2026-10-11T15:12:29.4808069Z Using cached tomli_w-1.2.0-py3-none-any.whl (6.7 kB)
+2026-10-11T15:12:29.7242922Z Installing collected packages: sortedcontainers, boolean.py, urllib3, typing_extensions, tomli_w, tomli, six, ruff, pyproject_hooks, pyparsing, Pygments, pluggy, platformdirs, pip-api, pillow, pathspec, packaging, packageurl-python, numpy, mypy_extensions, msgpack, mdurl, license-expression, librt, kiwisolver, iniconfig, idna, fonttools, filelock, defusedxml, cycler, charset-normalizer, certifi, ast_serialize, scipy, requests, python-dateutil, pytest, py-serializable, pip-requirements-parser, mypy, markdown-it-py, contourpy, build, rich, matplotlib, cyclonedx-python-lib, CacheControl, pip-audit
+2026-10-11T15:12:40.0258819Z 
+2026-10-11T15:12:40.0288252Z Successfully installed CacheControl-0.14.4 Pygments-2.20.0 ast_serialize-0.6.0 boolean.py-5.0 build-1.5.0 certifi-2026.6.17 charset-normalizer-3.4.9 contourpy-1.3.3 cycler-0.12.1 cyclonedx-python-lib-11.11.0 defusedxml-0.7.1 filelock-3.31.0 fonttools-4.63.0 idna-3.18 iniconfig-2.3.0 kiwisolver-1.5.0 librt-0.13.0 license-expression-30.4.4 markdown-it-py-4.2.0 matplotlib-3.11.0 mdurl-0.1.2 msgpack-1.2.1 mypy-2.3.0 mypy_extensions-1.1.0 numpy-2.5.1 packageurl-python-0.17.6 packaging-26.2 pathspec-1.1.1 pillow-12.3.0 pip-api-0.0.34 pip-audit-2.10.1 pip-requirements-parser-32.0.1 platformdirs-4.10.1 pluggy-1.6.0 py-serializable-2.1.0 pyparsing-3.3.2 pyproject_hooks-1.2.0 pytest-9.1.1 python-dateutil-2.9.0.post0 requests-2.34.2 rich-15.0.0 ruff-0.15.22 scipy-1.18.0 six-1.17.0 sortedcontainers-2.4.0 tomli-2.4.1 tomli_w-1.2.0 typing_extensions-4.16.0 urllib3-2.8.0
+2026-10-11T15:12:40.5742495Z Obtaining file:///home/runner/work/itd-simulator/itd-simulator
+2026-10-11T15:12:40.5759619Z   Installing build dependencies: started
+2026-10-11T15:12:41.1915819Z   Installing build dependencies: finished with status 'done'
+2026-10-11T15:12:41.1920453Z   Checking if build backend supports build_editable: started
+2026-10-11T15:12:41.4656377Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-10-11T15:12:41.4663155Z   Getting requirements to build editable: started
+2026-10-11T15:12:41.8555207Z   Getting requirements to build editable: finished with status 'done'
+2026-10-11T15:12:41.8562203Z   Preparing editable metadata (pyproject.toml): started
+2026-10-11T15:12:42.2472111Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-10-11T15:12:42.2513745Z Building wheels for collected packages: itd-simulator
+2026-10-11T15:12:42.2520067Z   Building editable for itd-simulator (pyproject.toml): started
+2026-10-11T15:12:42.6633742Z   Building editable for itd-simulator (pyproject.toml): finished with status 'done'
+2026-10-11T15:12:42.6639146Z   Created wheel for itd-simulator: filename=itd_simulator-0.2.0-0.editable-py3-none-any.whl size=9966 sha256=9935c1eaf1bf822d55a18e1900cdab710d3716ba5d4a6e2c213b1fdfc9b76730
+2026-10-11T15:12:42.6640426Z   Stored in directory: /tmp/pip-ephem-wheel-cache-nm1gmgvr/wheels/df/ec/25/103368ec7c9494f9f8de53f7be1bfa120baeb5cbce014ba6eb
+2026-10-11T15:12:42.6661875Z Successfully built itd-simulator
+2026-10-11T15:12:42.6712392Z Installing collected packages: itd-simulator
+2026-10-11T15:12:42.6787966Z Successfully installed itd-simulator-0.2.0
+2026-10-11T15:12:42.9494584Z No broken requirements found.
+2026-10-11T15:12:42.9972699Z ##[group]Run set -o pipefail
+2026-10-11T15:12:42.9972924Z [36;1mset -o pipefail[0m
+2026-10-11T15:12:42.9973468Z [36;1mpython -m compileall -q itd_v29.py compare_scenarios.py oracle_harness.py itd_simulator itd_v29_core itd_research tools tests 2>&1 | tee logs/compile.log[0m
+2026-10-11T15:12:43.0035548Z shell: /usr/bin/bash -e {0}
+2026-10-11T15:12:43.0035733Z env:
+2026-10-11T15:12:43.0035876Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T15:12:43.0036030Z   PYTHONHASHSEED: 0
+2026-10-11T15:12:43.0036159Z   OMP_NUM_THREADS: 1
+2026-10-11T15:12:43.0036294Z   OPENBLAS_NUM_THREADS: 1
+2026-10-11T15:12:43.0036435Z   MKL_NUM_THREADS: 1
+2026-10-11T15:12:43.0036573Z   NUMEXPR_NUM_THREADS: 1
+2026-10-11T15:12:43.0036726Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-11T15:12:43.0036961Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.0037273Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-11T15:12:43.0037574Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.0037812Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.0038053Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.0038302Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-11T15:12:43.0038516Z ##[endgroup]
+2026-10-11T15:12:43.3096109Z ##[group]Run set -o pipefail
+2026-10-11T15:12:43.3096329Z [36;1mset -o pipefail[0m
+2026-10-11T15:12:43.3096485Z [36;1mruff check . 2>&1 | tee logs/ruff.log[0m
+2026-10-11T15:12:43.3152540Z shell: /usr/bin/bash -e {0}
+2026-10-11T15:12:43.3152701Z env:
+2026-10-11T15:12:43.3152838Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T15:12:43.3152987Z   PYTHONHASHSEED: 0
+2026-10-11T15:12:43.3153110Z   OMP_NUM_THREADS: 1
+2026-10-11T15:12:43.3153240Z   OPENBLAS_NUM_THREADS: 1
+2026-10-11T15:12:43.3153500Z   MKL_NUM_THREADS: 1
+2026-10-11T15:12:43.3153629Z   NUMEXPR_NUM_THREADS: 1
+2026-10-11T15:12:43.3153775Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-11T15:12:43.3153973Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.3154235Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-11T15:12:43.3154479Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.3154748Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.3154978Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.3155209Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-11T15:12:43.3155402Z ##[endgroup]
+2026-10-11T15:12:43.3505218Z All checks passed!
+2026-10-11T15:12:43.3540821Z ##[group]Run set -o pipefail
+2026-10-11T15:12:43.3541041Z [36;1mset -o pipefail[0m
+2026-10-11T15:12:43.3541414Z [36;1mmypy tools/check_manifest.py tools/check_commit_messages.py tools/check_v29_summary.py tools/deterministic_smoke.py itd_research 2>&1 | tee logs/mypy.log[0m
+2026-10-11T15:12:43.3599225Z shell: /usr/bin/bash -e {0}
+2026-10-11T15:12:43.3599392Z env:
+2026-10-11T15:12:43.3599533Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T15:12:43.3599682Z   PYTHONHASHSEED: 0
+2026-10-11T15:12:43.3599808Z   OMP_NUM_THREADS: 1
+2026-10-11T15:12:43.3599937Z   OPENBLAS_NUM_THREADS: 1
+2026-10-11T15:12:43.3600079Z   MKL_NUM_THREADS: 1
+2026-10-11T15:12:43.3600217Z   NUMEXPR_NUM_THREADS: 1
+2026-10-11T15:12:43.3600369Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-11T15:12:43.3600569Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.3600825Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-11T15:12:43.3601118Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.3601345Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.3601567Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:43.3601988Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-11T15:12:43.3602186Z ##[endgroup]
+2026-10-11T15:12:48.1166096Z Success: no issues found in 167 source files
+2026-10-11T15:12:48.1366168Z ##[group]Run set -o pipefail
+2026-10-11T15:12:48.1366377Z [36;1mset -o pipefail[0m
+2026-10-11T15:12:48.1366559Z [36;1m./run_validation.sh 2>&1 | tee logs/validation.log[0m
+2026-10-11T15:12:48.1421441Z shell: /usr/bin/bash -e {0}
+2026-10-11T15:12:48.1421594Z env:
+2026-10-11T15:12:48.1421719Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T15:12:48.1421868Z   PYTHONHASHSEED: 0
+2026-10-11T15:12:48.1421994Z   OMP_NUM_THREADS: 1
+2026-10-11T15:12:48.1422122Z   OPENBLAS_NUM_THREADS: 1
+2026-10-11T15:12:48.1422257Z   MKL_NUM_THREADS: 1
+2026-10-11T15:12:48.1422384Z   NUMEXPR_NUM_THREADS: 1
+2026-10-11T15:12:48.1422524Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-11T15:12:48.1422715Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:48.1422965Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-11T15:12:48.1423226Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:48.1423694Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:48.1423915Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:12:48.1424152Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-11T15:12:48.1424359Z ##[endgroup]
+2026-10-11T15:12:48.1727514Z [1/29] Compile current Python sources
+2026-10-11T15:12:48.2099032Z [2/29] Run the V29.18 pytest validator suite
+2026-10-11T15:12:51.2726046Z ........................................................................ [  9%]
+2026-10-11T15:12:59.5168430Z ........................................................................ [ 19%]
+2026-10-11T15:13:04.8488933Z ........................................................................ [ 28%]
+2026-10-11T15:13:04.8776688Z ........................................................................ [ 38%]
+2026-10-11T15:13:04.9060677Z ........................................................................ [ 48%]
+2026-10-11T15:13:22.6516835Z ........................................................................ [ 57%]
+2026-10-11T15:13:39.0158058Z ........................................................................ [ 67%]
+2026-10-11T15:13:43.8615086Z ........................................................................ [ 77%]
+2026-10-11T15:13:52.9730654Z ........................................................................ [ 86%]
+2026-10-11T15:13:58.0205006Z ........................................................................ [ 96%]
+2026-10-11T15:14:01.4578433Z ............................                                             [100%]
+2026-10-11T15:14:01.4579327Z 748 passed in 72.90s (0:01:12)
+2026-10-11T15:14:01.5131504Z [3/29] Verify modular architecture dependencies
+2026-10-11T15:14:01.5861789Z regression : fermeture spatial_mean (bug historique V29.15) : RÉUSSI
+2026-10-11T15:14:01.5862208Z regression : capture d'un local du parent (ni field ni scale) : RÉUSSI
+2026-10-11T15:14:01.5862464Z 1. noms liés par except ... as ... : RÉUSSI
+2026-10-11T15:14:01.5862687Z 2. paramètres de fonction imbriquée : RÉUSSI
+2026-10-11T15:14:01.5862923Z 3. variables libres capturées par fermeture : RÉUSSI
+2026-10-11T15:14:01.5863135Z 4. valeurs par défaut imbriquées : RÉUSSI
+2026-10-11T15:14:01.5863517Z 5. annotations imbriquées : RÉUSSI
+2026-10-11T15:14:01.5863750Z 6. annotation de retour : RÉUSSI
+2026-10-11T15:14:01.5863921Z 7. compréhension de liste : RÉUSSI
+2026-10-11T15:14:01.5864096Z 8. compréhension d'ensemble : RÉUSSI
+2026-10-11T15:14:01.5864283Z 9. compréhension de dictionnaire : RÉUSSI
+2026-10-11T15:14:01.5864480Z 10. expression génératrice : RÉUSSI
+2026-10-11T15:14:01.5864650Z 11. with ... as ... : RÉUSSI
+2026-10-11T15:14:01.5864824Z 12. destructuration tuple / liste : RÉUSSI
+2026-10-11T15:14:01.5865004Z 13. affectation walrus : RÉUSSI
+2026-10-11T15:14:01.5865164Z 14. lambda imbriqué : RÉUSSI
+2026-10-11T15:14:01.5865710Z 15. fonction async imbriquée : RÉUSSI
+2026-10-11T15:14:01.5865890Z 16. classe imbriquée : RÉUSSI
+2026-10-11T15:14:01.5866057Z 17. déclaration global : RÉUSSI
+2026-10-11T15:14:01.5866443Z 18. déclaration nonlocal : RÉUSSI
+2026-10-11T15:14:01.5866618Z 19. import local à la fonction : RÉUSSI
+2026-10-11T15:14:01.5866813Z 20. fonction locale récursive : RÉUSSI
+2026-10-11T15:14:01.5866931Z 
+2026-10-11T15:14:01.5867017Z Total : 22  Échecs : 0
+2026-10-11T15:14:01.5937507Z [4/29] Run independent-process deterministic smoke checks
+2026-10-11T15:14:01.7605375Z [5/29] Run the current V29 simulator and certify its summary
+2026-10-11T15:14:04.7245972Z V29.18 summary matches within declared tolerances
+2026-10-11T15:14:04.7283535Z [6/29] Verify the complete public manifest
+2026-10-11T15:14:04.7802934Z manifest verified: 588 tracked files
+2026-10-11T15:14:04.7863247Z [7/29] Generate and compare the Rust oracle reference
+2026-10-11T15:14:11.0984267Z [8/29] Run the deterministic post-V29 research quick suite
+2026-10-11T15:14:11.2681573Z [9/29] Run the external-validation quick suite (ITD vs established diagnostics)
+2026-10-11T15:14:11.7395547Z [10/29] Run the spectral3d Gate-A validation (3D Navier-Stokes solver)
+2026-10-11T15:14:16.7107314Z [11/29] Run the validation-laboratory quick suite (channel dependence + ablation)
+2026-10-11T15:14:19.7341553Z [12/29] Run the merger-prediction quick pipeline (H7, leakage-safe)
+2026-10-11T15:14:23.5229268Z [13/29] Run the cross-flow transfer/generalization studies (H8/H9/H10/H13)
+2026-10-11T15:14:27.0781636Z [14/29] Write the industrial-readiness maturity assessment (H16)
+2026-10-11T15:14:27.1768779Z [15/29] Run the hard-prediction quick pipeline (Mission 4, H17/H18/H21/H22)
+2026-10-11T15:14:36.3349332Z [16/29] Run the OOD detection/abstention quick pipeline (Mission 4, H23)
+2026-10-11T15:14:43.2746756Z [17/29] Run the end-to-end product latency benchmark (Mission 4, H26)
+2026-10-11T15:14:47.9583829Z [18/29] Run the same-physics cross-code quick study (Mission 5, H29)
+2026-10-11T15:14:53.7900705Z [19/29] Run the near-OOD abstention quick campaign (Mission 5, H31)
+2026-10-11T15:15:20.3993270Z [20/29] Run the event-profile stability quick study (Mission 5, H34)
+2026-10-11T15:15:28.9620454Z [21/29] Run the full-volume ITD-3D benchmark (Mission 5, H35)
+2026-10-11T15:15:29.4555076Z [22/29] Verify Python<->Rust equivalence (Mission 5, H36; skipped if no cargo)
+2026-10-11T15:15:36.7061701Z [23/29] Run the competent-baseline cross-code campaign (Mission 6, H37-H42)
+2026-10-11T15:15:44.4610222Z [24/29] Run the shift-aware calibrated-abstention campaign (Mission 6, H43-H45)
+2026-10-11T15:16:01.8347988Z [25/29] Verify full-volume shared-gradient equivalence (Mission 6, H48)
+2026-10-11T15:16:02.6197971Z [26/29] Run the Mission 7 external-evidence pipeline on the offline fixture (H49-H54)
+2026-10-11T15:16:02.8476659Z [27/29] Run the Mission 8 structural/topological pipeline on the offline oracle (H61-H74)
+2026-10-11T15:16:17.3408892Z [28/29] (reserved for external holdout; network-blocked in CI)
+2026-10-11T15:16:17.3413514Z [29/29] Verify validation did not modify tracked files
+2026-10-11T15:16:17.3445639Z ITD V29.18 validation: PASSED
+2026-10-11T15:16:17.3582157Z ##[group]Run set -o pipefail
+2026-10-11T15:16:17.3582366Z [36;1mset -o pipefail[0m
+2026-10-11T15:16:17.3582633Z [36;1mpip-audit -r requirements-dev.lock --progress-spinner off 2>&1 | tee logs/pip-audit.log[0m
+2026-10-11T15:16:17.3640090Z shell: /usr/bin/bash -e {0}
+2026-10-11T15:16:17.3640247Z env:
+2026-10-11T15:16:17.3640383Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T15:16:17.3640530Z   PYTHONHASHSEED: 0
+2026-10-11T15:16:17.3640654Z   OMP_NUM_THREADS: 1
+2026-10-11T15:16:17.3640783Z   OPENBLAS_NUM_THREADS: 1
+2026-10-11T15:16:17.3640922Z   MKL_NUM_THREADS: 1
+2026-10-11T15:16:17.3641052Z   NUMEXPR_NUM_THREADS: 1
+2026-10-11T15:16:17.3641194Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-11T15:16:17.3641389Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:16:17.3641648Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-11T15:16:17.3642094Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:16:17.3642363Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:16:17.3642592Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:16:17.3642819Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-11T15:16:17.3643012Z ##[endgroup]
+2026-10-11T15:16:24.1702789Z No known vulnerabilities found
+2026-10-11T15:16:24.2540419Z ##[group]Run git diff --exit-code
+2026-10-11T15:16:24.2540674Z [36;1mgit diff --exit-code[0m
+2026-10-11T15:16:24.2540898Z [36;1mtest -z "$(git status --porcelain=v1 --untracked-files=no)"[0m
+2026-10-11T15:16:24.2596570Z shell: /usr/bin/bash -e {0}
+2026-10-11T15:16:24.2596741Z env:
+2026-10-11T15:16:24.2596886Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T15:16:24.2597054Z   PYTHONHASHSEED: 0
+2026-10-11T15:16:24.2597199Z   OMP_NUM_THREADS: 1
+2026-10-11T15:16:24.2597334Z   OPENBLAS_NUM_THREADS: 1
+2026-10-11T15:16:24.2597487Z   MKL_NUM_THREADS: 1
+2026-10-11T15:16:24.2597622Z   NUMEXPR_NUM_THREADS: 1
+2026-10-11T15:16:24.2597764Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-11T15:16:24.2597963Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:16:24.2598217Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-11T15:16:24.2598467Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:16:24.2598739Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:16:24.2598981Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-11T15:16:24.2599209Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-11T15:16:24.2599406Z ##[endgroup]
+2026-10-11T15:16:24.2833939Z Post job cleanup.
+2026-10-11T15:16:24.3713465Z Cache hit occurred on the primary key setup-python-Linux-x64-24.04-Ubuntu-python-3.12.15-pip-6e5d9d9e8d90d196a6969ddd09048a1f27adf4a1b7885a2e961a67eb31324ad9, not saving cache.
+2026-10-11T15:16:24.3832149Z Post job cleanup.
+2026-10-11T15:16:24.4478332Z [command]/usr/bin/git version
+2026-10-11T15:16:24.4518286Z git version 2.55.0
+2026-10-11T15:16:24.4548827Z Temporarily overriding HOME='/home/runner/work/_temp/6c8eb9d9-d27d-4682-8350-816fc50a0b80' before making global git config changes
+2026-10-11T15:16:24.4549615Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-11T15:16:24.4552813Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/itd-simulator/itd-simulator
+2026-10-11T15:16:24.4588865Z Removing SSH command configuration
+2026-10-11T15:16:24.4595358Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-11T15:16:24.4634054Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-11T15:16:24.4856314Z Removing HTTP extra header
+2026-10-11T15:16:24.4862020Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-11T15:16:24.4915434Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-11T15:16:24.5137715Z Removing includeIf entries pointing to credentials config files
+2026-10-11T15:16:24.5144243Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-11T15:16:24.5175255Z includeif.gitdir:/home/runner/work/itd-simulator/itd-simulator/.git.path
+2026-10-11T15:16:24.5175777Z includeif.gitdir:/home/runner/work/itd-simulator/itd-simulator/.git/worktrees/*.path
+2026-10-11T15:16:24.5176222Z includeif.gitdir:/github/workspace/.git.path
+2026-10-11T15:16:24.5176583Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-11T15:16:24.5185988Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/itd-simulator/itd-simulator/.git.path
+2026-10-11T15:16:24.5213714Z /home/runner/work/_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:16:24.5224396Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/itd-simulator/itd-simulator/.git.path /home/runner/work/_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:16:24.5264752Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/itd-simulator/itd-simulator/.git/worktrees/*.path
+2026-10-11T15:16:24.5291211Z /home/runner/work/_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:16:24.5300798Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/itd-simulator/itd-simulator/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:16:24.5337812Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-11T15:16:24.5363769Z /github/runner_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:16:24.5371340Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:16:24.5408305Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-11T15:16:24.5433915Z /github/runner_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:16:24.5442418Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config
+2026-10-11T15:16:24.5482847Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-11T15:16:24.5689985Z Removing credentials config '/home/runner/work/_temp/git-credentials-6058e3a0-83cb-4e18-a5c5-1c838b5bb663.config'
+2026-10-11T15:16:24.5838865Z Cleaning up orphan processes

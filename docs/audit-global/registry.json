@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T17:59:14.000+02:00",
+  "updated_at": "2026-10-13T18:02:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 87,
-    "remaining": 14,
-    "merged_prs": 96
+    "closed": 88,
+    "remaining": 13,
+    "merged_prs": 97
   },
   "batches": [
     {
@@ -522,6 +522,11 @@
           "repository": "Memorithm/ADA",
           "number": 59,
           "merge_sha": "7958439630ff5e092d32ac8d618411785d885d59"
+        },
+        {
+          "repository": "Memorithm/itd-simulator",
+          "number": 70,
+          "merge_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87"
         }
       ]
     }
@@ -6411,8 +6416,8 @@
       "base": "main",
       "base_sha": "5cd8433f4e6c1c28f3fce22732c52640fd3c7d71",
       "head_sha": "5ae6953eed38b3586242375d44e23a70c2c82dff",
-      "merge_sha": null,
-      "status": "qualified_blocked_by_repository_policy",
+      "merge_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+      "status": "merged_target_validated",
       "ids": [
         "B-ITD-01"
       ],
@@ -6452,16 +6457,55 @@
       ],
       "review": {
         "threads": 1,
-        "resolved_threads": 1,
-        "correction_sha": "0bd15c602f8ea883cff6ede578eed0565fcf97ed",
-        "finding": "P1 resume path must use unlocked persistence helpers while outer transaction owns the lock"
+        "resolved_threads": 1
       },
       "integration_policy": {
         "source_branch": "agent/ecosystem-roadmap",
         "source_path": ".agent/ITD_SIMULATOR_ECOSYSTEM_ROADMAP.yaml",
         "decision": "deny",
         "rule": "V0 holdout — Orchestrator must not AUTO_MERGE this repository."
-      }
+      },
+      "target_head": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+      "merged_at": "2026-10-11T15:12:15Z",
+      "merge_origin": "preexisting_GitHub_integration_reconciled_read_only_not_auto_merged_by_this_session",
+      "target_checks": [
+        {
+          "name": "Python 3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173571",
+          "id": 114502173571
+        },
+        {
+          "name": "Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173561",
+          "id": 114502173561
+        },
+        {
+          "name": "Python 3.13",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173474",
+          "id": 114502173474
+        },
+        {
+          "name": "Commit policy",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173321",
+          "id": 114502173321
+        }
+      ],
+      "limitations": [
+        "POSIX single-writer advisory locking; not a distributed filesystem transaction guarantee.",
+        "No frozen V29.18, holdout, population or scientific contract changes."
+      ]
     },
     {
       "repository": "Memorithm/scirust",
@@ -12364,27 +12408,117 @@
         "Déclarer strictement un seul writer, puis utiliser temp unique create-exclusive, fsync du fichier et dossier et verrou/transaction pour l'état du ledger. Tester interruption et contention si la campagne doit s'exécuter en parallèle.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "blocked",
-      "current_head": "5cd8433f4e6c1c28f3fce22732c52640fd3c7d71",
+      "status": "resolved",
+      "current_head": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
       "default_branch": "main",
       "audit_head": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f",
-      "head_reconciliation": "gap_confirmed_on_current_main_candidate_qualified_not_integrated",
-      "policy_review": "Root AGENTS.md and PolyForm Noncommercial 1.0.0 read; mandatory off-main ecosystem roadmap read from agent/ecosystem-roadmap and its autonomous_merge_policy decision is deny.",
+      "head_reconciliation": "preexisting_PR70_merge_detected_and_actual_integrated_HEAD_CI_verified",
+      "policy_review": "Root AGENTS.md and PolyForm Noncommercial 1.0.0 read; mandatory off-main ecosystem roadmap read from agent/ecosystem-roadmap and its autonomous_merge_policy decision is deny. Existing policy-governed integration was discovered read-only; no auto-merge or policy modification performed.",
       "prs": [
         {
+          "repository": "Memorithm/itd-simulator",
           "number": 70,
           "url": "https://github.com/Memorithm/itd-simulator/pull/70",
+          "base": "main",
           "base_sha": "5cd8433f4e6c1c28f3fce22732c52640fd3c7d71",
           "head_sha": "5ae6953eed38b3586242375d44e23a70c2c82dff",
-          "merge_sha": null,
-          "status": "qualified_blocked_by_repository_policy"
+          "merge_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "status": "merged_target_validated",
+          "ids": [
+            "B-ITD-01"
+          ],
+          "batch": 2,
+          "checks": [
+            {
+              "id": 38117373391,
+              "name": "CI",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "5ae6953eed38b3586242375d44e23a70c2c82dff",
+              "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38117373391",
+              "jobs": [
+                {
+                  "name": "Commit policy",
+                  "job_id": 114404857360,
+                  "conclusion": "success"
+                },
+                {
+                  "name": "Python 3.11",
+                  "job_id": 114404857601,
+                  "conclusion": "success"
+                },
+                {
+                  "name": "Python 3.12",
+                  "job_id": 114404857433,
+                  "conclusion": "success"
+                },
+                {
+                  "name": "Python 3.13",
+                  "job_id": 114404857571,
+                  "conclusion": "success"
+                }
+              ],
+              "tests": "compile, Ruff, mypy, complete 29-step V29.18 validation with 748 tests on Python 3.11/3.12/3.13, pip-audit on 3.12, manifest and clean-worktree verification"
+            }
+          ],
+          "review": {
+            "threads": 1,
+            "resolved_threads": 1
+          },
+          "integration_policy": {
+            "source_branch": "agent/ecosystem-roadmap",
+            "source_path": ".agent/ITD_SIMULATOR_ECOSYSTEM_ROADMAP.yaml",
+            "decision": "deny",
+            "rule": "V0 holdout — Orchestrator must not AUTO_MERGE this repository."
+          },
+          "target_head": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "merged_at": "2026-10-11T15:12:15Z",
+          "merge_origin": "preexisting_GitHub_integration_reconciled_read_only_not_auto_merged_by_this_session",
+          "target_checks": [
+            {
+              "name": "Python 3.12",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+              "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173571",
+              "id": 114502173571
+            },
+            {
+              "name": "Python 3.11",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+              "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173561",
+              "id": 114502173561
+            },
+            {
+              "name": "Python 3.13",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+              "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173474",
+              "id": 114502173474
+            },
+            {
+              "name": "Commit policy",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+              "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173321",
+              "id": 114502173321
+            }
+          ],
+          "limitations": [
+            "POSIX single-writer advisory locking; not a distributed filesystem transaction guarantee.",
+            "No frozen V29.18, holdout, population or scientific contract changes."
+          ]
         }
       ],
       "resolution_evidence": [
-        "docs/audit-global/proofs/itd-simulator-70-B-ITD-01-waiting-policy.json"
+        "docs/audit-global/proofs/itd-simulator-70-B-ITD-01-integrated.json"
       ],
-      "last_observed_at": "2026-10-11T08:23:00+02:00",
-      "next_action": "Do not count as resolved. Integrate PR #70 only through the repository's policy-governed path, then validate the exact main SHA before closure."
+      "last_observed_at": "2026-10-13T18:02:00+02:00",
+      "next_action": "Closed on integrated main with complete three-version validation; preserve holdout policy and POSIX scope."
     },
     {
       "id": "B-ITD-02",
@@ -12401,15 +12535,15 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "to_do",
-      "current_head": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f",
+      "current_head": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
       "default_branch": "main",
       "audit_head": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
+      "head_reconciliation": "current_main_still_declares_no_distribution_hashes",
+      "policy_review": "Root AGENTS, complete off-main roadmap and PolyForm license read. Linux x86_64 CPython 3.11/3.12/3.13 supported; deny autonomous merge remains in force.",
       "prs": [],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "last_observed_at": "2026-10-13T18:02:00+02:00",
+      "next_action": "Generate complete runtime/dev --require-hashes wheel locks for the three Linux supported interpreters; preserve existing pins/frozen model, validate all clean environments, integrate only through policy-governed path."
     },
     {
       "id": "B-ITD-03",

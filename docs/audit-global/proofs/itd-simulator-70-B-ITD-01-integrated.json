@@ -1,0 +1,113 @@
+{
+  "schema": "memorithm.audit-proof.v1",
+  "finding": "B-ITD-01",
+  "observed_at": "2026-10-13T18:02:00+02:00",
+  "closure": true,
+  "repository": "Memorithm/itd-simulator",
+  "number": 70,
+  "url": "https://github.com/Memorithm/itd-simulator/pull/70",
+  "base": "main",
+  "base_sha": "5cd8433f4e6c1c28f3fce22732c52640fd3c7d71",
+  "head_sha": "5ae6953eed38b3586242375d44e23a70c2c82dff",
+  "merge_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+  "status": "merged_target_validated",
+  "ids": [
+    "B-ITD-01"
+  ],
+  "batch": 2,
+  "checks": [
+    {
+      "id": 38117373391,
+      "name": "CI",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "5ae6953eed38b3586242375d44e23a70c2c82dff",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38117373391",
+      "jobs": [
+        {
+          "name": "Commit policy",
+          "job_id": 114404857360,
+          "conclusion": "success"
+        },
+        {
+          "name": "Python 3.11",
+          "job_id": 114404857601,
+          "conclusion": "success"
+        },
+        {
+          "name": "Python 3.12",
+          "job_id": 114404857433,
+          "conclusion": "success"
+        },
+        {
+          "name": "Python 3.13",
+          "job_id": 114404857571,
+          "conclusion": "success"
+        }
+      ],
+      "tests": "compile, Ruff, mypy, complete 29-step V29.18 validation with 748 tests on Python 3.11/3.12/3.13, pip-audit on 3.12, manifest and clean-worktree verification"
+    }
+  ],
+  "review": {
+    "threads": 1,
+    "resolved_threads": 1
+  },
+  "integration_policy": {
+    "source_branch": "agent/ecosystem-roadmap",
+    "source_path": ".agent/ITD_SIMULATOR_ECOSYSTEM_ROADMAP.yaml",
+    "decision": "deny",
+    "rule": "V0 holdout — Orchestrator must not AUTO_MERGE this repository."
+  },
+  "target_head": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+  "merged_at": "2026-10-11T15:12:15Z",
+  "merge_origin": "preexisting_GitHub_integration_reconciled_read_only_not_auto_merged_by_this_session",
+  "target_checks": [
+    {
+      "name": "Python 3.12",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173571",
+      "id": 114502173571
+    },
+    {
+      "name": "Python 3.11",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173561",
+      "id": 114502173561
+    },
+    {
+      "name": "Python 3.13",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173474",
+      "id": 114502173474
+    },
+    {
+      "name": "Commit policy",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38150297740/job/114502173321",
+      "id": 114502173321
+    }
+  ],
+  "limitations": [
+    "POSIX single-writer advisory locking; not a distributed filesystem transaction guarantee.",
+    "No frozen V29.18, holdout, population or scientific contract changes."
+  ],
+  "executed": {
+    "test_cases_per_python_version": 748,
+    "versions": [
+      "3.11",
+      "3.12",
+      "3.13"
+    ],
+    "full_validation_steps": 29,
+    "manifest_files": 588
+  },
+  "no_this_session_execution_claim": true
+}
