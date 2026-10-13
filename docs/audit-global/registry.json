@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T17:54:43.051Z",
+  "updated_at": "2026-10-13T18:02:10.160Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 92,
-    "remaining": 9,
+    "closed": 93,
+    "remaining": 8,
     "merged_prs": 104
   },
   "batches": [
@@ -8982,7 +8982,7 @@
       ],
       "head_sha": "3c836a570fd95a5774b6ef1ce24f112d0aee6b60",
       "base_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
-      "status": "merged_waiting_integrated_CI",
+      "status": "merged_target_validated",
       "batch": 3,
       "user_merge_authorization": "explicit_20261013_automatic_engineering_PR_merge_scientific_holdouts_unchanged",
       "merge_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
@@ -9031,20 +9031,20 @@
       "integrated_checks": [
         {
           "name": "Python 3.11",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381037"
         },
         {
           "name": "Python 3.13",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381018"
         },
         {
           "name": "Python 3.12",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450380950"
         },
         {
@@ -9059,7 +9059,8 @@
       "review_corrections": [
         "package bootstrap hash lock and wheel byte manifest in source distributions"
       ],
-      "security_correction": "pip 26.1.2 rejected by PYSEC-2026-3721; pin 26.2.1, recompute hashes, local audit clear"
+      "security_correction": "pip 26.1.2 rejected by PYSEC-2026-3721; pin 26.2.1, recompute hashes, local audit clear",
+      "integrated_archive_digests_verified": true
     },
     {
       "repository": "Memorithm/ProofLab",
@@ -9069,9 +9070,15 @@
         "B-PL-03"
       ],
       "base_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
-      "head_sha": "87f14cd211b3ec978f76914704c3be7de27cf366",
-      "status": "open_waiting_CI",
-      "batch": null
+      "head_sha": "a427c6fdf317e44517dec4271638a62ef98214a3",
+      "status": "open_review_corrected_waiting_CI",
+      "batch": null,
+      "review": {
+        "threads": 1,
+        "resolved": 1,
+        "correction": "deny_unknown_fields on nested BenchExportManifest and BenchExportEntry; root/export/entry regressions"
+      },
+      "old_head_checks_invalid_for_merge": true
     }
   ],
   "repository_observations": [
@@ -13354,11 +13361,11 @@
         "Générer des locks --require-hashes complets pour les environnements supportés et conserver les hashes de wheels dans les artefacts d'environnement.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
       "default_branch": "main",
       "audit_head": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f",
-      "head_reconciliation": "PR71_merged_all_8_exact_candidate_checks_green_waiting_4_integrated_checks",
+      "head_reconciliation": "all_8_candidate_and_4_integrated_gates_passed_three_native_interpreters_52_verified_wheels_751_tests_each_archives_verified_and_retained",
       "policy_review": "Root AGENTS, complete off-main roadmap and PolyForm license read. Linux x86_64 CPython 3.11/3.12/3.13 supported; deny autonomous merge remains in force.",
       "prs": [
         {
@@ -13373,18 +13380,34 @@
       "resolution_evidence": [
         {
           "proof": "docs/audit-global/proofs/itd-71-B-ITD-02-waiting-ci.json",
-          "candidate_sha": "d6800c57233dd7ae88f042270a0a77b816e1f418",
-          "status": "local_validation_passed_waiting_native_CI",
-          "wheel_count": 76,
-          "per_interpreter_wheels": 52,
-          "local_python": "3.12",
-          "local_tests_passed": 751,
-          "validation_stages": 29,
-          "myPy_files": 167
+          "status": "qualified",
+          "candidate_sha": "3c836a570fd95a5774b6ef1ce24f112d0aee6b60",
+          "integrated_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+          "candidate_checks": 8,
+          "integrated_checks": 4,
+          "per_interpreter_verified_wheels": 52,
+          "tests_per_interpreter": 751,
+          "artifact_archives": [
+            {
+              "path": "docs/audit-global/proofs/itd-71/itd71-wheel-provenance-python-3.12.zip",
+              "sha256": "87d0fc7bca9d9e3320cf38efbc55a8ffa4755251af7159344f86a781a057ebe3",
+              "artifact_id": 11837795581
+            },
+            {
+              "path": "docs/audit-global/proofs/itd-71/itd71-wheel-provenance-python-3.11.zip",
+              "sha256": "98baba64ce3bb2a21458d33c88eaaaeb9b79c45fcfe613161ccc1c968c651247",
+              "artifact_id": 11837210589
+            },
+            {
+              "path": "docs/audit-global/proofs/itd-71/itd71-wheel-provenance-python-3.13.zip",
+              "sha256": "78868d26d9e785882b613ebc12f1a1803e7a7070045da49d8fc18b52a8b09cae",
+              "artifact_id": 11836217249
+            }
+          ]
         }
       ],
-      "last_observed_at": "2026-10-13T17:54:43.051Z",
-      "next_action": "Verify all four integrated CI gates and retained per-interpreter wheel manifests on 0820c4057979e3adb05e991e8b0cdedf73f2bbd3, then close if all pass. Candidate and integrated trees match 8fd922ba1b31564f8ae11081322fcd42938dc658."
+      "last_observed_at": "2026-10-13T18:02:10.160Z",
+      "next_action": "Closed: preserve native three-interpreter hash inventory, pip security gate and frozen V29.18. Future dependency changes regenerate and qualify all distribution bytes."
     },
     {
       "id": "B-ITD-03",
@@ -13701,17 +13724,17 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "87f14cd211b3ec978f76914704c3be7de27cf366",
+      "current_head": "a427c6fdf317e44517dec4271638a62ef98214a3",
       "default_branch": "main",
       "audit_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
-      "head_reconciliation": "bounded_consumer_and_real_archived_Riemann_owner_authenticated_import_locally_qualified_new_PR84_waiting_CI",
+      "head_reconciliation": "nested_unknown_field_review_fixed_on_new_exact_head_local_full_workspace_and_authenticated_real_import_replayed_CI_restarted",
       "policy_review": "pending_target_bootstrap",
       "prs": [
         {
           "number": 84,
           "url": "https://github.com/Memorithm/ProofLab/pull/84",
           "base_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
-          "head_sha": "87f14cd211b3ec978f76914704c3be7de27cf366",
+          "head_sha": "a427c6fdf317e44517dec4271638a62ef98214a3",
           "status": "open_waiting_CI"
         }
       ],
@@ -13729,7 +13752,7 @@
           "status": "local_qualified_waiting_candidate_and_integrated_CI"
         }
       ],
-      "last_observed_at": "2026-10-13T17:54:43.051Z",
+      "last_observed_at": "2026-10-13T18:02:10.160Z",
       "next_action": "Reconcile exact-head ProofLab #84 Rust/Lean/authenticated-import CI and review; repair, merge SHA-guarded and verify integrated gates. Reconcile scoped first real producer acceptance; no proof, new producer execution, production publisher or live TDI claims."
     },
     {
