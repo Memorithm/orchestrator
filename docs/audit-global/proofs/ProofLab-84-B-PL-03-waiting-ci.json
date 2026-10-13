@@ -1,7 +1,7 @@
 {
   "schema": "memorithm.audit.qualification.v1",
   "finding": "B-PL-03",
-  "observed_at": "2026-10-13T18:03:06.708Z",
+  "observed_at": "2026-10-13T18:14:48.064Z",
   "proof": "docs/audit-global/proofs/ProofLab-84-B-PL-03-waiting-ci.json",
   "local_rust": "1.98.1",
   "local_tests": 281,
@@ -11,7 +11,7 @@
   "owner_authentication_sha": "662a30dc774dd19c68a79bed3889036a91930123",
   "source_log_sha256": "803d5be6dc558ab9476904cdef587ba89ca994b730e08cd685a526f67898a104",
   "observed_execution_id": "70afafd25b78f74f98a4ff7a5905041d6b93d13429f490f059c6b760072b8890",
-  "status": "review_corrected_waiting_restarted_exact_CI",
+  "status": "qualified",
   "pr": 84,
   "candidate_sha": "a427c6fdf317e44517dec4271638a62ef98214a3",
   "base_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
@@ -26,5 +26,52 @@
     "threads": 1,
     "resolved": 1,
     "correction": "nested export unknown fields rejected; root/export/entry regression; full workspace and real authenticated import replayed"
-  }
+  },
+  "integrated_sha": "b49e2e51397a33370c3c35fa16897eebf2929559",
+  "candidate_checks": [
+    {
+      "name": "Rust",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/ProofLab/actions/runs/38443216904/job/115454843166"
+    },
+    {
+      "name": "Lean",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/ProofLab/actions/runs/38443216904/job/115454842894"
+    },
+    {
+      "name": "qualify",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/ProofLab/actions/runs/38443216938/job/115454842068"
+    }
+  ],
+  "integrated_checks": [
+    {
+      "name": "Rust",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/ProofLab/actions/runs/38444203775/job/115458218583"
+    },
+    {
+      "name": "Lean",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/ProofLab/actions/runs/38444203775/job/115458218162"
+    },
+    {
+      "name": "qualify",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/ProofLab/actions/runs/38444203891/job/115458217713"
+    }
+  ],
+  "integrated_artifact": {
+    "artifact_id": 11836972420,
+    "sha256": "af8e76cbf77364b91aa1f94daa424bc57fe84dd03964ee5625063c456def1e8d",
+    "source_revision": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+    "ci_run": 37193369605,
+    "evidence_status": "Observed",
+    "authentication": "verified",
+    "qualification": "not_evaluated",
+    "execution_id": "70afafd25b78f74f98a4ff7a5905041d6b93d13429f490f059c6b760072b8890",
+    "retained_archive": "docs/audit-global/proofs/ProofLab-84/integrated.zip"
+  },
+  "first_real_producer_scope": "archived executed Riemann development CI log imported through independently configured existing owner authentication; mathematical status Observed only"
 }
