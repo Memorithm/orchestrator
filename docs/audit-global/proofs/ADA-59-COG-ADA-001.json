@@ -5,8 +5,8 @@
   ],
   "repository": "Memorithm/ADA",
   "pr": 59,
-  "status": "merged_waiting_target_validation",
-  "observed_at": "2026-10-13T15:16:00+02:00",
+  "status": "resolved",
+  "observed_at": "2026-10-13T16:18:00+02:00",
   "base": {
     "branch": "main",
     "sha": "7034491cc408ff77820589957349aa4fad1ee097"
@@ -83,7 +83,7 @@
       "asimd": true
     }
   },
-  "acceptance_state": "Not resolved: integrated native qualification and signed artifact are verified; integrated generic CI remains in progress.",
+  "acceptance_state": "Resolved on exact integrated main SHA: native AArch64 qualification and signed artifact verified; integrated generic CI completed successfully with all six jobs, including Miri.",
   "limitations": [
     "Correctness qualification only; no performance, GPU, production-runtime, adoption or novelty claim."
   ],
@@ -104,19 +104,17 @@
       },
       "generic": {
         "run_id": 38402316367,
-        "status": "in_progress",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367",
         "jobs": {
           "success": [
             "build/test",
             "MSRV 1.85",
-            "rustdoc"
-          ],
-          "in_progress": [
-            "fuzz-smoke",
             "miri",
-            "supply-chain"
+            "rustdoc",
+            "supply-chain",
+            "fuzz-smoke"
           ]
         }
       }
@@ -149,6 +147,12 @@
         "physical_performance_claim": false,
         "gpu_claim": false
       }
-    }
+    },
+    "main_head_verified": true
+  },
+  "roadmap": {
+    "branch": "agent/ecosystem-roadmap",
+    "commit": "5cdcd2da606ece80fbfecf9e4f47f3181d7c26f5",
+    "merged_to_main": false
   }
 }

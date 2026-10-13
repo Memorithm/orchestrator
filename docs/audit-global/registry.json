@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T16:16:00+02:00",
+  "updated_at": "2026-10-13T16:18:00+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 86,
-    "remaining": 15,
+    "closed": 87,
+    "remaining": 14,
     "merged_prs": 96
   },
   "batches": [
@@ -7918,7 +7918,7 @@
       "base_sha": "7034491cc408ff77820589957349aa4fad1ee097",
       "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
       "merge_sha": "7958439630ff5e092d32ac8d618411785d885d59",
-      "status": "merged_waiting_target_validation",
+      "status": "merged_target_validated",
       "ids": [
         "COG-ADA-001"
       ],
@@ -7961,20 +7961,18 @@
         {
           "id": 38402316367,
           "name": "ci integrated",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "7958439630ff5e092d32ac8d618411785d885d59",
           "url": "https://github.com/Memorithm/ADA/actions/runs/38402316367",
           "jobs": {
             "success": [
               "build/test",
               "MSRV 1.85",
-              "rustdoc"
-            ],
-            "in_progress": [
-              "fuzz-smoke",
               "miri",
-              "supply-chain"
+              "rustdoc",
+              "supply-chain",
+              "fuzz-smoke"
             ]
           }
         }
@@ -8003,11 +8001,16 @@
         }
       ],
       "limitations": [
-        "Candidate proof is correctness evidence only; no performance, GPU, production-runtime, adoption or novelty claim.",
-        "Finding remains open until both integrated-main workflows succeed and the exact integrated native artifact is downloaded and cryptographically verified."
+        "Correctness qualification only; no performance, GPU, production-runtime, adoption or novelty claim.",
+        "Closure is scoped to exact candidate and integrated SHAs, declared Jetson AGX Thor AArch64/ASIMD environment, and cryptographically verified evidence."
       ],
       "merged_at": "2026-10-13T13:06:08Z",
-      "merge_method": "squash_with_expected_head_sha"
+      "merge_method": "squash_with_expected_head_sha",
+      "roadmap": {
+        "branch": "agent/ecosystem-roadmap",
+        "commit": "5cdcd2da606ece80fbfecf9e4f47f3181d7c26f5",
+        "merged_to_main": false
+      }
     }
   ],
   "repository_observations": [
@@ -10812,7 +10815,7 @@
         "Ajouter un job AArch64 explicite et figé qui exécute les tests NEON/queues scalaires et publie provenance matériel/toolchain/SHA. Garder l'exception unsafe SIMD confinée.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "resolved",
       "current_head": "7958439630ff5e092d32ac8d618411785d885d59",
       "default_branch": "main",
       "audit_head": "7034491cc408ff77820589957349aa4fad1ee097",
@@ -10826,7 +10829,7 @@
           "base_sha": "7034491cc408ff77820589957349aa4fad1ee097",
           "head_sha": "82e76d8a1f2f553234a86170ce7cbaaea25ad7e7",
           "merge_sha": "7958439630ff5e092d32ac8d618411785d885d59",
-          "status": "merged_waiting_target_validation",
+          "status": "merged_target_validated",
           "role": "native_aarch64_qualification"
         }
       ],
@@ -10847,7 +10850,7 @@
             "threads": 1,
             "resolved_threads": 1
           },
-          "status": "waiting_for_integrated_validation",
+          "status": "resolved",
           "merge_sha": "7958439630ff5e092d32ac8d618411785d885d59",
           "integrated_runs": [
             38402316537,
@@ -10858,11 +10861,31 @@
             "digest": "sha256:d69f26b659a4cfcd675ecf13cc9448dbca58ae8a5823a6a68499f28c4d6df1d8",
             "evidence_sha256": "30d8d1387bbc462de9fbda9e2498a09c20d6a6c14bcb742847076c29a28d6c25",
             "verified": true
+          },
+          "integrated_generic_jobs": [
+            "build/test",
+            "MSRV 1.85",
+            "miri",
+            "rustdoc",
+            "supply-chain",
+            "fuzz-smoke"
+          ],
+          "integrated_main_sha_verified": true,
+          "roadmap": {
+            "branch": "agent/ecosystem-roadmap",
+            "commit": "5cdcd2da606ece80fbfecf9e4f47f3181d7c26f5",
+            "merged_to_main": false
           }
         }
       ],
-      "last_observed_at": "2026-10-13T15:16:00+02:00",
-      "next_action": "Wait for remaining jobs in integrated generic CI 38402316367, including Miri. Native integrated run and signed artifact are already verified."
+      "last_observed_at": "2026-10-13T16:18:00+02:00",
+      "next_action": "Resolved. Preserve the exact integrated runs, signed native artifact and bounded claims; continue with COG-ADA-002.",
+      "resolution_summary": "PR #59 is merged on exact main SHA 7958439630ff5e092d32ac8d618411785d885d59. Candidate and integrated generic CI (all six jobs, including Miri) and native AArch64 qualification succeeded. The integrated Jetson AGX Thor artifact digest, manifest, Ed25519 signature, source/run identity and Rust 1.85 locked provenance were verified.",
+      "roadmap": {
+        "branch": "agent/ecosystem-roadmap",
+        "commit": "5cdcd2da606ece80fbfecf9e4f47f3181d7c26f5",
+        "merged_to_main": false
+      }
     },
     {
       "id": "COG-ADA-002",
