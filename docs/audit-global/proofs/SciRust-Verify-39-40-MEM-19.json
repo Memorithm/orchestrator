@@ -1,0 +1,116 @@
+{
+  "schema": "audit-global-proof-v1",
+  "observed_at": "2026-10-13T07:16:58+02:00",
+  "repository": "Memorithm/SciRust-Verify",
+  "ids": [
+    "MEM-19"
+  ],
+  "authoritative_branch": "feat/scirust-verify-foundation",
+  "source": {
+    "audit_date": "2026-09-30",
+    "finding_ref": "libfile_6e12d363113c8191886a6e694ff69a13#MEM-19",
+    "report_ref": "libfile_ac2c9662ab208191b3fe5f68734dacb9",
+    "audit_url": "https://github.com/Memorithm/SciRust-Verify/blob/593692aea76b90e50899e733344ffa4cf61ba380/docs/THREAT_MODEL.md#L87"
+  },
+  "audit_sha": "593692aea76b90e50899e733344ffa4cf61ba380",
+  "pull_requests": [
+    {
+      "number": 39,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/39",
+      "base_sha": "99e6a8ba8e9ee5346319ef385360c21ed1a61890",
+      "final_exact_head": "068fd50d04081f3ea7f8581fc656649a8f2ea952",
+      "merge_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+      "role": "detached authorship implementation",
+      "candidate_ci": {
+        "id": 38162544969,
+        "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38162544969",
+        "conclusion": "success",
+        "jobs": [
+          "fmt / check / clippy / test / doc",
+          "Dogfood — scirust-verify verify ."
+        ]
+      },
+      "integrated_ci": {
+        "id": 38162812636,
+        "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38162812636",
+        "head_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+        "conclusion": "success",
+        "jobs": [
+          "fmt / check / clippy / test / doc",
+          "Dogfood — scirust-verify verify ."
+        ]
+      }
+    },
+    {
+      "number": 40,
+      "url": "https://github.com/Memorithm/SciRust-Verify/pull/40",
+      "base_sha": "52582457c3c309d8a78eb8e6ac9ef0e9be6b66d4",
+      "final_exact_head": "40021884a1ba7c736cc87293f516cd16f0207c5d",
+      "merge_sha": "662a30dc774dd19c68a79bed3889036a91930123",
+      "role": "close writable-memfd procfs race and align platform diagnostic",
+      "candidate_ci": {
+        "id": 38349914098,
+        "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38349914098",
+        "conclusion": "success",
+        "jobs": [
+          "fmt / check / clippy / test / doc",
+          "Dogfood — scirust-verify verify ."
+        ]
+      },
+      "integrated_ci": {
+        "id": 38350291671,
+        "url": "https://github.com/Memorithm/SciRust-Verify/actions/runs/38350291671",
+        "head_sha": "662a30dc774dd19c68a79bed3889036a91930123",
+        "conclusion": "success",
+        "jobs": [
+          "fmt / check / clippy / test / doc",
+          "Dogfood — scirust-verify verify ."
+        ]
+      }
+    }
+  ],
+  "changed_files": [
+    "CHANGELOG.md",
+    "Cargo.lock",
+    "Cargo.toml",
+    "README.md",
+    "crates/scirust-verify-cli/Cargo.toml",
+    "crates/scirust-verify-cli/src/main.rs",
+    "crates/scirust-verify-cli/tests/e2e.rs",
+    "crates/scirust-verify-store/src/lib.rs",
+    "docs/EVIDENCE_FORMAT.md",
+    "docs/THREAT_MODEL.md"
+  ],
+  "review": {
+    "pr39_threads_total": 24,
+    "pr39_threads_resolved": 24,
+    "pr40_threads_total": 0,
+    "final_exact_head_review": "Codex review completed on 40021884a1 with no major issues",
+    "final_review_comment": "https://github.com/Memorithm/SciRust-Verify/pull/40#issuecomment-6138766170"
+  },
+  "acceptance": [
+    "Detached OpenSSH SSHSIG envelope binds the independently configured principal and exact integrity-checked bundle manifest.",
+    "The allowed-signers policy is no-follow, regular, bounded to 1 MiB, copied into an anonymous memfd and fully sealed before verification.",
+    "Procfs descriptor reopening is disabled for the complete writable memfd interval, including same-UID adversaries without ptrace capability.",
+    "Integrity, authenticity and qualification remain separate; signatures do not upgrade execution truth, imported evidence or scientific qualification.",
+    "The exact integrated head 662a30dc passed both target-branch CI jobs."
+  ],
+  "limitations": [
+    "Detached publication and authentication are Linux-only in this release; other platforms fail closed.",
+    "Publication is no-clobber; operators must rotate an existing envelope explicitly.",
+    "Authorship under the configured trust policy does not prove execution truth or product/scientific qualification."
+  ],
+  "branch_governance": {
+    "protected_flag": false,
+    "protection_endpoint": "403 Resource not accessible by integration",
+    "rulesets": [],
+    "merge_target_verified": "feat/scirust-verify-foundation"
+  },
+  "roadmap": {
+    "branch": "agent/ecosystem-roadmap",
+    "commit": "c8ed7f8d1847860a80c6cc3162a31565a31fff0b",
+    "default_branch_untouched": true
+  },
+  "conclusion": "resolved_on_integrated_head",
+  "excluded_repositories_modified": []
+}
