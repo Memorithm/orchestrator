@@ -1,8 +1,8 @@
 {
   "schema": "memorithm.audit.qualification.v1",
   "finding": "B-ITD-02",
-  "status": "merged_waiting_integrated_CI",
-  "observed_at": "2026-10-13T17:54:43.051Z",
+  "status": "qualified",
+  "observed_at": "2026-10-13T18:03:05.174Z",
   "pr": {
     "repository": "Memorithm/itd-simulator",
     "number": 71,
@@ -12,7 +12,7 @@
     ],
     "head_sha": "3c836a570fd95a5774b6ef1ce24f112d0aee6b60",
     "base_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
-    "status": "merged_waiting_integrated_CI",
+    "status": "merged_target_validated",
     "batch": 3,
     "user_merge_authorization": "explicit_20261013_automatic_engineering_PR_merge_scientific_holdouts_unchanged",
     "merge_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
@@ -61,20 +61,20 @@
     "integrated_checks": [
       {
         "name": "Python 3.11",
-        "status": "in_progress",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381037"
       },
       {
         "name": "Python 3.13",
-        "status": "in_progress",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381018"
       },
       {
         "name": "Python 3.12",
-        "status": "in_progress",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450380950"
       },
       {
@@ -89,7 +89,8 @@
     "review_corrections": [
       "package bootstrap hash lock and wheel byte manifest in source distributions"
     ],
-    "security_correction": "pip 26.1.2 rejected by PYSEC-2026-3721; pin 26.2.1, recompute hashes, local audit clear"
+    "security_correction": "pip 26.1.2 rejected by PYSEC-2026-3721; pin 26.2.1, recompute hashes, local audit clear",
+    "integrated_archive_digests_verified": true
   },
   "local": {
     "python": "3.12",
@@ -105,5 +106,72 @@
     "sdist_lock_artifacts": "verified",
     "wheel_hash_entries": 76,
     "per_interpreter_distributions": 52
+  },
+  "archives": [
+    {
+      "artifact_id": 11837795581,
+      "name": "wheel-provenance-python-3.12",
+      "sha256": "87d0fc7bca9d9e3320cf38efbc55a8ffa4755251af7159344f86a781a057ebe3",
+      "lock_manifest_bytes_match_exact_integrated_version": true,
+      "filename": "itd71-wheel-provenance-python-3.12.zip"
+    },
+    {
+      "artifact_id": 11837210589,
+      "name": "wheel-provenance-python-3.11",
+      "sha256": "98baba64ce3bb2a21458d33c88eaaaeb9b79c45fcfe613161ccc1c968c651247",
+      "lock_manifest_bytes_match_exact_integrated_version": true,
+      "filename": "itd71-wheel-provenance-python-3.11.zip"
+    },
+    {
+      "artifact_id": 11836217249,
+      "name": "wheel-provenance-python-3.13",
+      "sha256": "78868d26d9e785882b613ebc12f1a1803e7a7070045da49d8fc18b52a8b09cae",
+      "lock_manifest_bytes_match_exact_integrated_version": true,
+      "filename": "itd71-wheel-provenance-python-3.13.zip"
+    }
+  ],
+  "integrated_checks": [
+    {
+      "name": "Python 3.11",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381037"
+    },
+    {
+      "name": "Python 3.13",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381018"
+    },
+    {
+      "name": "Python 3.12",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450380950"
+    },
+    {
+      "name": "Commit policy",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450380510"
+    }
+  ],
+  "native_results": {
+    "python311": {
+      "verified_distribution_bytes": 52,
+      "tests_passed": 751,
+      "validation": "passed"
+    },
+    "python312": {
+      "verified_distribution_bytes": 52,
+      "tests_passed": 751,
+      "validation": "passed",
+      "dependency_audit": "no known vulnerabilities"
+    },
+    "python313": {
+      "verified_distribution_bytes": 52,
+      "tests_passed": 751,
+      "validation": "passed"
+    }
   }
 }
