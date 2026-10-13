@@ -54,7 +54,7 @@ Dernière réconciliation 2026-10-13T18:33:15.000+02:00 : **lot 3 2/50**, **102 
 | MEM-18 | Memorithm/SciRust-Verify | 8 | résolu | [PR #38](https://github.com/Memorithm/SciRust-Verify/pull/38) · [preuve](Workflow push branches now include feat/scirust-verify-foundation while preserving main and pull_request validation.) |
 | MEM-19 | Memorithm/SciRust-Verify | 9 | résolu | [PR #39](https://github.com/Memorithm/SciRust-Verify/pull/39), [PR #40](https://github.com/Memorithm/SciRust-Verify/pull/40) · [preuve](proofs/SciRust-Verify-39-40-MEM-19.json) |
 | COG-ADA-001 | Memorithm/ADA | 9 | résolu | [PR #59](https://github.com/Memorithm/ADA/pull/59) · [preuve](proofs/ADA-59-COG-ADA-001.json) |
-| COG-ADA-002 | Memorithm/ADA | 9 | attente CI | [PR #60](https://github.com/Memorithm/ADA/pull/60) · [preuve](proofs/ADA-60-COG-ADA-002-waiting-ci.json) |
+| COG-ADA-002 | Memorithm/ADA | 9 | attente CI | [PR #60](https://github.com/Memorithm/ADA/pull/60) validée sur le SHA intégré · [PR #61](https://github.com/Memorithm/ADA/pull/61) épinglage des actions en cours · [preuve](proofs/ADA-60-61-COG-ADA-002-waiting-ci.json) |
 | COG-COGNO-001 | Memorithm/COGNO-1 | 4 | résolu | [PR #261](https://github.com/Memorithm/COGNO-1/pull/261), [PR #262](https://github.com/Memorithm/COGNO-1/pull/262) · [preuve](COGNO_TASTE_TOKEN is mandatory and bounded before bind.) |
 | COG-COGNO-002 | Memorithm/COGNO-1 | 4 | résolu | [PR #261](https://github.com/Memorithm/COGNO-1/pull/261) · [preuve](Every accepted TCP stream receives read and write timeouts before protocol processing.) |
 | COG-COGNO-003 | Memorithm/COGNO-1 | 9 | résolu | [PR #263](https://github.com/Memorithm/COGNO-1/pull/263) · [preuve](proofs/cogno-263-COG-COGNO-003.json) |

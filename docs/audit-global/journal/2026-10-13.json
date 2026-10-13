@@ -2152,6 +2152,240 @@
         "Memorithm/SciCapsule#32"
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "timestamp": "2026-10-13T19:12:31+02:00",
+      "event": "integrated_ADA_Miri_success_and_full_SHA_action_pin_followup",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 2,
+        "batch_target": 50,
+        "merged_prs": 102,
+        "closed_findings": 91,
+        "remaining_findings": 10
+      },
+      "work_items": [
+        {
+          "id": "COG-ADA-002",
+          "repository": "Memorithm/ADA",
+          "status": "waiting_ci",
+          "actions": [
+            "Reconciled ADA #60 exact integrated main run: all six jobs passed.",
+            "Verified whole-workspace cargo miri test: 338 passed, 0 failed, 2 ignored.",
+            "Detected mutable workflow action tags, created #61 to pin all external actions to full commit SHAs and added a repository-wide pin-policy gate."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/ADA/pull/60",
+            "https://github.com/Memorithm/ADA/pull/61"
+          ],
+          "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+          "checks": [
+            {
+              "id": 115432011976,
+              "name": "miri",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436577889/job/115432011976",
+              "started_at": "2026-10-13T17:11:01Z",
+              "completed_at": null
+            },
+            {
+              "id": 115432011695,
+              "name": "build/test",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436577889/job/115432011695",
+              "started_at": "2026-10-13T17:11:01Z",
+              "completed_at": "2026-10-13T17:11:32Z"
+            },
+            {
+              "id": 115432011689,
+              "name": "MSRV 1.85",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436577889/job/115432011689",
+              "started_at": "2026-10-13T17:11:01Z",
+              "completed_at": "2026-10-13T17:11:19Z"
+            },
+            {
+              "id": 115432011678,
+              "name": "rustdoc",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436577889/job/115432011678",
+              "started_at": "2026-10-13T17:11:01Z",
+              "completed_at": "2026-10-13T17:11:16Z"
+            },
+            {
+              "id": 115432011509,
+              "name": "supply-chain",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436577889/job/115432011509",
+              "started_at": "2026-10-13T17:11:01Z",
+              "completed_at": null
+            },
+            {
+              "id": 115432011255,
+              "name": "fuzz-smoke",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "13948fd971f59bd3f8d8928e9c88c4d9beba32a3",
+              "url": "https://github.com/Memorithm/ADA/actions/runs/38436577889/job/115432011255",
+              "started_at": "2026-10-13T17:11:01Z",
+              "completed_at": null
+            }
+          ],
+          "reason_for_wait": "PR #61 exact-head Miri, fuzz and supply-chain checks are still running; no prior-SHA green is accepted.",
+          "dependencies": [],
+          "next_action": "Wait for all six exact-head checks and review on ADA #61; merge only with expected_head_sha, then rerun and verify the six gates on the integrated main SHA before closing."
+        },
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "No mutation in this observed interval; the documented dependency or policy boundary remains unchanged."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/NNIS/pull/262"
+          ],
+          "head_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+          "checks": [],
+          "reason_for_wait": "Keep open and blocked on documented contributor-rights, consent, imported-material, dependency-license and notice review in NNIS #150; use the merged fail-closed gate to prevent unreviewed drift.",
+          "dependencies": [],
+          "next_action": "Keep open and blocked on documented contributor-rights, consent, imported-material, dependency-license and notice review in NNIS #150; use the merged fail-closed gate to prevent unreviewed drift."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "No mutation in this observed interval; the documented dependency or policy boundary remains unchanged."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/SciCapsule/pull/32"
+          ],
+          "head_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+          "checks": [],
+          "reason_for_wait": "Do not remerge #32. Verify actual runner-group selected-workflow restriction externally, then qualify installed PR path; merged workflow split is not runner-group enforcement proof.",
+          "dependencies": [],
+          "next_action": "Do not remerge #32. Verify actual runner-group selected-workflow restriction externally, then qualify installed PR path; merged workflow split is not runner-group enforcement proof."
+        },
+        {
+          "id": "COG-SML-001",
+          "repository": null,
+          "status": "to_do",
+          "actions": [
+            "No mutation in this observed interval; the documented dependency or policy boundary remains unchanged."
+          ],
+          "prs": [],
+          "head_sha": null,
+          "checks": [],
+          "reason_for_wait": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification.",
+          "dependencies": [],
+          "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+        },
+        {
+          "id": "COG-SML-003",
+          "repository": null,
+          "status": "to_do",
+          "actions": [
+            "No mutation in this observed interval; the documented dependency or policy boundary remains unchanged."
+          ],
+          "prs": [],
+          "head_sha": null,
+          "checks": [],
+          "reason_for_wait": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification.",
+          "dependencies": [],
+          "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "blocked_external",
+          "actions": [
+            "No mutation in this observed interval; the documented dependency or policy boundary remains unchanged."
+          ],
+          "prs": [
+            "https://github.com/Memorithm/PAPERS-AGENT/pull/7"
+          ],
+          "head_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+          "checks": [],
+          "reason_for_wait": "Wait for a versioned SciRust-Hub/RemoteOps qualified backend and then wire PAPERS execution to its typed API; do not relabel the current fail-closed local path as resolution.",
+          "dependencies": [],
+          "next_action": "Wait for a versioned SciRust-Hub/RemoteOps qualified backend and then wire PAPERS execution to its typed API; do not relabel the current fail-closed local path as resolution."
+        },
+        {
+          "id": "B-ITD-02",
+          "repository": "Memorithm/itd-simulator",
+          "status": "to_do",
+          "actions": [
+            "No mutation in this observed interval; the documented dependency or policy boundary remains unchanged."
+          ],
+          "prs": [],
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "checks": [],
+          "reason_for_wait": "Generate complete runtime/dev --require-hashes wheel locks for the three Linux supported interpreters; preserve existing pins/frozen model, validate all clean environments, integrate only through policy-governed path.",
+          "dependencies": [],
+          "next_action": "Generate complete runtime/dev --require-hashes wheel locks for the three Linux supported interpreters; preserve existing pins/frozen model, validate all clean environments, integrate only through policy-governed path."
+        },
+        {
+          "id": "B-ITD-03",
+          "repository": "Memorithm/itd-simulator",
+          "status": "to_do",
+          "actions": [
+            "No mutation in this observed interval; the documented dependency or policy boundary remains unchanged."
+          ],
+          "prs": [],
+          "head_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
+          "checks": [],
+          "reason_for_wait": "Qualify actual Development-only Hub<->ITD<->NeuralOperator exchange on exact pins, bytes and split identities; preserve frozen V29.18/holdouts and repository integration policy. The Rust residual #37 is a newly qualified candidate consumer, not proof of this exchange.",
+          "dependencies": [
+            "B-NO-03"
+          ],
+          "next_action": "Qualify actual Development-only Hub<->ITD<->NeuralOperator exchange on exact pins, bytes and split identities; preserve frozen V29.18/holdouts and repository integration policy. The Rust residual #37 is a newly qualified candidate consumer, not proof of this exchange."
+        },
+        {
+          "id": "B-NR-02",
+          "repository": null,
+          "status": "blocked",
+          "actions": [
+            "No mutation in this observed interval; the documented dependency or policy boundary remains unchanged."
+          ],
+          "prs": [],
+          "head_sha": null,
+          "checks": [],
+          "reason_for_wait": "Follow the repository's permitted integration path, then verify the exact integrated private version; do not close or auto-merge through the documented holdout.",
+          "dependencies": [],
+          "next_action": "Follow the repository's permitted integration path, then verify the exact integrated private version; do not close or auto-merge through the documented holdout."
+        },
+        {
+          "id": "B-PL-03",
+          "repository": "Memorithm/ProofLab",
+          "status": "to_do",
+          "actions": [
+            "No mutation in this observed interval; the documented dependency or policy boundary remains unchanged."
+          ],
+          "prs": [],
+          "head_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+          "checks": [],
+          "reason_for_wait": "Implement real partner execution-manifest ingestion reusing owner provenance/authentication contracts; bind repository/SHA/protocol/input/splits/output hashes/CI, qualify a real producer, never seal ProofArtifact from empirical evidence.",
+          "dependencies": [
+            "B-PL-01",
+            "B-PL-02"
+          ],
+          "next_action": "Implement real partner execution-manifest ingestion reusing owner provenance/authentication contracts; bind repository/SHA/protocol/input/splits/output hashes/CI, qualify a real producer, never seal ProofArtifact from empirical evidence."
+        }
+      ],
+      "new_finding_closures_since_previous_checkpoint": [],
+      "new_merges_since_previous_checkpoint": [],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -2176,12 +2410,12 @@
       "COG-ADA-002"
     ],
     "blocked_external": [
+      "RT-NNIS-03",
       "MEM-11",
       "PAPERS-01",
-      "B-ITD-01",
-      "RT-NNIS-03"
+      "B-NR-02"
     ],
-    "next_action": "Complete ADA exact-target Miri validation, then continue still-open manifests/integration/hash locks and private trust-boundary findings without changing policy or claiming external obstacles resolved.",
+    "next_action": "Wait for all six exact-head checks and review on ADA #61; merge only with expected_head_sha, then rerun and verify the six gates on the integrated main SHA before closing.",
     "excluded_repositories_modified": [],
     "blocked_repository_policy": [
       "B-NR-02"
