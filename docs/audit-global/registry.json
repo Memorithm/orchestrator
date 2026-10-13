@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T17:35:40.767Z",
+  "updated_at": "2026-10-13T17:54:43.051Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 92,
     "remaining": 9,
-    "merged_prs": 103
+    "merged_prs": 104
   },
   "batches": [
     {
@@ -565,6 +565,11 @@
           "scope": "restricted",
           "private_proof": "B-NR-02-qualification-20261013",
           "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session"
+        },
+        {
+          "repository": "Memorithm/itd-simulator",
+          "number": 71,
+          "merge_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3"
         }
       ]
     }
@@ -8975,11 +8980,98 @@
       "ids": [
         "B-ITD-02"
       ],
-      "head_sha": "d6800c57233dd7ae88f042270a0a77b816e1f418",
+      "head_sha": "3c836a570fd95a5774b6ef1ce24f112d0aee6b60",
       "base_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
-      "status": "open_waiting_ci",
-      "batch": null,
-      "user_merge_authorization": "explicit_20261013_automatic_engineering_PR_merge_scientific_holdouts_unchanged"
+      "status": "merged_waiting_integrated_CI",
+      "batch": 3,
+      "user_merge_authorization": "explicit_20261013_automatic_engineering_PR_merge_scientific_holdouts_unchanged",
+      "merge_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
+      "candidate_checks": [
+        {
+          "name": "Python 3.13",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440760522/job/115446408455"
+        },
+        {
+          "name": "Python 3.12",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440760522/job/115446408417"
+        },
+        {
+          "name": "Python 3.11",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440760522/job/115446408337"
+        },
+        {
+          "name": "Commit policy",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440760522/job/115446407952"
+        },
+        {
+          "name": "Python 3.11",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440751983/job/115446379913"
+        },
+        {
+          "name": "Python 3.12",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440751983/job/115446379671"
+        },
+        {
+          "name": "Commit policy",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440751983/job/115446379512"
+        },
+        {
+          "name": "Python 3.13",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38440751983/job/115446379329"
+        }
+      ],
+      "integrated_checks": [
+        {
+          "name": "Python 3.11",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381037"
+        },
+        {
+          "name": "Python 3.13",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450381018"
+        },
+        {
+          "name": "Python 3.12",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450380950"
+        },
+        {
+          "name": "Commit policy",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/itd-simulator/actions/runs/38441919886/job/115450380510"
+        }
+      ],
+      "merge_method": "merge_with_expected_head_sha",
+      "candidate_integrated_tree": "8fd922ba1b31564f8ae11081322fcd42938dc658",
+      "review_corrections": [
+        "package bootstrap hash lock and wheel byte manifest in source distributions"
+      ],
+      "security_correction": "pip 26.1.2 rejected by PYSEC-2026-3721; pin 26.2.1, recompute hashes, local audit clear"
+    },
+    {
+      "repository": "Memorithm/ProofLab",
+      "number": 84,
+      "url": "https://github.com/Memorithm/ProofLab/pull/84",
+      "ids": [
+        "B-PL-03"
+      ],
+      "base_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+      "head_sha": "87f14cd211b3ec978f76914704c3be7de27cf366",
+      "status": "open_waiting_CI",
+      "batch": null
     }
   ],
   "repository_observations": [
@@ -13263,18 +13355,19 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "d6800c57233dd7ae88f042270a0a77b816e1f418",
+      "current_head": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3",
       "default_branch": "main",
       "audit_head": "5f270cf079eb99a0e2ff8d5487e5cc2a9f3a564f",
-      "head_reconciliation": "complete_76_wheel_hash_locks_published_clean_CP312_local_install_and_29_stage_validation_passed_waiting_all_supported_native_CI",
+      "head_reconciliation": "PR71_merged_all_8_exact_candidate_checks_green_waiting_4_integrated_checks",
       "policy_review": "Root AGENTS, complete off-main roadmap and PolyForm license read. Linux x86_64 CPython 3.11/3.12/3.13 supported; deny autonomous merge remains in force.",
       "prs": [
         {
           "number": 71,
           "url": "https://github.com/Memorithm/itd-simulator/pull/71",
-          "head_sha": "d6800c57233dd7ae88f042270a0a77b816e1f418",
+          "head_sha": "3c836a570fd95a5774b6ef1ce24f112d0aee6b60",
           "base_sha": "9a8a88c4c7579929132dfb0e01308baf9ec23a87",
-          "status": "open_waiting_ci"
+          "status": "merged_waiting_integrated_CI",
+          "merge_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3"
         }
       ],
       "resolution_evidence": [
@@ -13290,8 +13383,8 @@
           "myPy_files": 167
         }
       ],
-      "last_observed_at": "2026-10-13T17:35:40.767Z",
-      "next_action": "Reconcile exact-head native 3.11/3.12/3.13 CI and review, repair failures; merge SHA-guarded under explicit user engineering merge authorization and requalify integrated SHA. Frozen V29.18 and scientific holdouts unchanged."
+      "last_observed_at": "2026-10-13T17:54:43.051Z",
+      "next_action": "Verify all four integrated CI gates and retained per-interpreter wheel manifests on 0820c4057979e3adb05e991e8b0cdedf73f2bbd3, then close if all pass. Candidate and integrated trees match 8fd922ba1b31564f8ae11081322fcd42938dc658."
     },
     {
       "id": "B-ITD-03",
@@ -13607,16 +13700,37 @@
         "Construire un adaptateur réel de manifeste d'exécution contenant dépôt+SHA, protocole, identités des entrées/splits, hashes des sorties et lien CI; conserver la frontière EvidenceClaim/ProofArtifact et requalifier chaque version.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+      "status": "waiting_ci",
+      "current_head": "87f14cd211b3ec978f76914704c3be7de27cf366",
       "default_branch": "main",
       "audit_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
-      "head_reconciliation": "read_only_gap_confirmed_on_current_default_HEAD",
+      "head_reconciliation": "bounded_consumer_and_real_archived_Riemann_owner_authenticated_import_locally_qualified_new_PR84_waiting_CI",
       "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-13T18:38:09.000+02:00",
-      "next_action": "Implement real partner execution-manifest ingestion reusing owner provenance/authentication contracts; bind repository/SHA/protocol/input/splits/output hashes/CI, qualify a real producer, never seal ProofArtifact from empirical evidence."
+      "prs": [
+        {
+          "number": 84,
+          "url": "https://github.com/Memorithm/ProofLab/pull/84",
+          "base_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
+          "head_sha": "87f14cd211b3ec978f76914704c3be7de27cf366",
+          "status": "open_waiting_CI"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/ProofLab-84-B-PL-03-waiting-ci.json",
+          "local_rust": "1.98.1",
+          "local_tests": 281,
+          "local_strict_workspace_clippy": "passed",
+          "real_archived_producer_run": 37193369605,
+          "producer_sha": "d7f0b70feb515a3f3a80cd681d820510bc2ed938",
+          "owner_authentication_sha": "662a30dc774dd19c68a79bed3889036a91930123",
+          "source_log_sha256": "803d5be6dc558ab9476904cdef587ba89ca994b730e08cd685a526f67898a104",
+          "observed_execution_id": "70afafd25b78f74f98a4ff7a5905041d6b93d13429f490f059c6b760072b8890",
+          "status": "local_qualified_waiting_candidate_and_integrated_CI"
+        }
+      ],
+      "last_observed_at": "2026-10-13T17:54:43.051Z",
+      "next_action": "Reconcile exact-head ProofLab #84 Rust/Lean/authenticated-import CI and review; repair, merge SHA-guarded and verify integrated gates. Reconcile scoped first real producer acceptance; no proof, new producer execution, production publisher or live TDI claims."
     },
     {
       "id": "B-FL-01",
