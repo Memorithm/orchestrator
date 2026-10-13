@@ -1,10 +1,9 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "released",
-  "owner": "chatgpt-audit-20261013T1713",
-  "acquired_at": "2026-10-13T17:20:27+02:00",
-  "expires_at": "2026-10-13T18:05:27+02:00",
-  "base_sha": "748c59636fda0c6962fa48f7336774b2970951a1",
-  "purpose": "COG-ADA-002 implementation, validation, PR and tracking",
-  "released_at": "2026-10-13T17:27:00+02:00"
+  "status": "held",
+  "owner": "chatgpt-audit-20261013-continue",
+  "acquired_at": "2026-10-13T17:29:05+02:00",
+  "expires_at": "2026-10-13T18:29:05+02:00",
+  "base_sha": "466adf7459cee131d686a9b53e2fe084350025ff",
+  "purpose": "COG-OCTA-003 remediation and ADA-60 exact-head qualification"
 }
