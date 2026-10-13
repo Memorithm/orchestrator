@@ -1,9 +1,10 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "chatgpt-audit-20261013T1348",
   "acquired_at": "2026-10-13T13:50:00+02:00",
   "expires_at": "2026-10-13T14:20:00+02:00",
   "base_sha": "0fab72a1da90e13b985754b9ea0c3bd9cecc2a9e",
-  "purpose": "COG-ADA-001 reconcile Miri and append observed run journal"
+  "purpose": "COG-ADA-001 reconcile Miri and append observed run journal",
+  "released_at": "2026-10-13T13:54:00+02:00"
 }
