@@ -1,22 +1,9 @@
 {
-  "schema_version": 1,
-  "owner": "chatgpt-audit-202610131345-comment",
-  "acquired_at": "2026-10-13T13:45:40+02:00",
-  "expires_at": "2026-10-13T13:55:40+02:00",
-  "released_at": "2026-10-13T13:46:00+02:00",
-  "status": "released",
-  "scope": "audit-global-remediation",
-  "previous_owner": "chatgpt-audit-202610131315",
-  "canonical_counts": {
-    "merged_prs": 95,
-    "closed_findings": 86,
-    "remaining_findings": 15
-  },
-  "batch": {
-    "number": 2,
-    "merged_prs": 45,
-    "target": 50
-  },
-  "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "COG-ADA-001 remains waiting on Miri in ADA run 38390334276. Reacquire a fresh lease, reconcile PR #59 and exact-head CI, and merge only after every candidate gate succeeds."
+  "schema": "memorithm-remediation-lease.v1",
+  "status": "active",
+  "owner": "chatgpt-audit-20261013T1348",
+  "acquired_at": "2026-10-13T13:50:00+02:00",
+  "expires_at": "2026-10-13T14:20:00+02:00",
+  "base_sha": "0fab72a1da90e13b985754b9ea0c3bd9cecc2a9e",
+  "purpose": "COG-ADA-001 reconcile Miri and append observed run journal"
 }
