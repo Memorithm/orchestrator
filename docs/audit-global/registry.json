@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T19:58:49.916Z",
+  "updated_at": "2026-10-13T20:14:10.755Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 96,
     "remaining": 5,
-    "merged_prs": 108
+    "merged_prs": 109
   },
   "batches": [
     {
@@ -590,6 +590,12 @@
           "repository": "restricted:COG-SML-001",
           "number": 559,
           "merge_sha": "7afb6a38a7ebae0ba1b1e6de941b10b95716b472",
+          "scope": "restricted"
+        },
+        {
+          "repository": "restricted:COG-SML-003",
+          "number": 561,
+          "merge_sha": "69cf44d25000c7f5f77d1bd35b160b93fc225879",
           "scope": "restricted"
         }
       ]
@@ -9495,15 +9501,16 @@
     {
       "repository": "restricted:COG-SML-003",
       "number": 561,
-      "head_sha": "7cd668983f61643b0893c92ff0c5eb3e2c43784a",
+      "head_sha": "956de0ede29ff58b790f2551bd252108c7566cd7",
       "base_sha": "0dd6290aa4aff194e7828a2b51f249ba045f9cd2",
-      "status": "waiting_ci",
+      "status": "merged_waiting_target_ci",
       "ids": [
         "COG-SML-003"
       ],
       "batch": 3,
       "source_scope": "restricted",
-      "private_proof": "COG-SML-003-qualification-20261013"
+      "private_proof": "COG-SML-003-qualification-20261013",
+      "merge_sha": "69cf44d25000c7f5f77d1bd35b160b93fc225879"
     }
   ],
   "repository_observations": [
@@ -13192,7 +13199,7 @@
       "acceptance_criteria": [
         "Consulter les critères dans la source interne par ID ; conserver les preuves dans le dépôt privé."
       ],
-      "status": "waiting_ci",
+      "status": "waiting_target_ci",
       "current_head": null,
       "default_branch": null,
       "audit_head": null,
@@ -13202,11 +13209,12 @@
         {
           "repository": "restricted:COG-SML-003",
           "number": 561,
-          "head_sha": "7cd668983f61643b0893c92ff0c5eb3e2c43784a",
+          "head_sha": "956de0ede29ff58b790f2551bd252108c7566cd7",
           "base_sha": "0dd6290aa4aff194e7828a2b51f249ba045f9cd2",
-          "status": "waiting_ci",
+          "status": "merged_waiting_target_ci",
           "source_scope": "restricted",
-          "private_proof": "COG-SML-003-qualification-20261013"
+          "private_proof": "COG-SML-003-qualification-20261013",
+          "merge_sha": "69cf44d25000c7f5f77d1bd35b160b93fc225879"
         }
       ],
       "resolution_evidence": [],
