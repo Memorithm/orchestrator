@@ -85,17 +85,147 @@
         "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-13T09:14:29+02:00",
+      "observed_session_start": "2026-10-13T08:46:21+02:00",
+      "lease_owner": "chatgpt-audit-202610130813",
+      "counts": {
+        "batch": 2,
+        "batch_merged_prs": 41,
+        "batch_target": 50,
+        "merged_prs": 91,
+        "closed_findings": 84,
+        "remaining_findings": 17,
+        "backlog": 101
+      },
+      "work_items": [
+        {
+          "id": "MEM-07",
+          "repository": "Memorithm/CCOS-Enterprise",
+          "status": "resolved",
+          "base_sha": "1c46f2982a4ec6b30e4a9b85222f99f3e7cbbe47",
+          "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+          "merge_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+          "pr": "https://github.com/Memorithm/CCOS-Enterprise/pull/193",
+          "actions": [
+            "Verified the audit gap on the unchanged main head and implemented a fail-closed production data-at-rest profile.",
+            "Inventoried state, provider, evidence, source and backup roots; rejected path, symlink and filesystem-identity aliases.",
+            "Bound restore and old-key retirement to external purge-floor and backup reconciliation receipts.",
+            "Corrected all five P1 review findings, merged with an expected-head guard, and validated the integrated main SHA.",
+            "Updated the repository roadmap only on agent/ecosystem-roadmap."
+          ],
+          "checks": [
+            {
+              "id": 38359045282,
+              "name": "CI (fast) candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040"
+            },
+            {
+              "id": 38359045380,
+              "name": "CI (full) candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040"
+            },
+            {
+              "id": 38359045508,
+              "name": "CI (security) candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040"
+            },
+            {
+              "id": 38359045288,
+              "name": "DeepSeek Harness candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040"
+            },
+            {
+              "id": 38359045281,
+              "name": "Strict BEIR candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040"
+            },
+            {
+              "id": 38359045469,
+              "name": "Provider recovery candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040"
+            },
+            {
+              "id": 38359990453,
+              "name": "CI (fast) integrated",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147"
+            },
+            {
+              "id": 38359990784,
+              "name": "CI (full) integrated",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147"
+            },
+            {
+              "id": 38359990428,
+              "name": "CI (security) integrated",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147"
+            },
+            {
+              "id": 38359990438,
+              "name": "DeepSeek Harness integrated",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147"
+            },
+            {
+              "id": 38359990486,
+              "name": "Strict BEIR integrated",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147"
+            },
+            {
+              "id": 38359990426,
+              "name": "Provider recovery integrated",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147"
+            }
+          ],
+          "reason_for_wait": null,
+          "dependencies": [],
+          "next_action": "Closed. Preserve fail-closed production admission and operator-attestation limits.",
+          "proof": "docs/audit-global/proofs/CCOS-Enterprise-193-MEM-07.json"
+        }
+      ],
+      "external_obstacles": [
+        "MEM-11 remains blocked on its documented external dependency.",
+        "PAPERS-01 remains blocked on its documented external dependency.",
+        "B-ITD-01 remains blocked by the repository policy prohibiting orchestrator self-merge despite green candidate CI.",
+        "RT-NNIS-03 remains blocked on external rights, consent and licence review in NNIS #150."
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "batch": 2,
-    "batch_merged_prs": 40,
+    "batch_merged_prs": 41,
     "batch_target": 50,
-    "merged_prs": 90,
-    "closed_findings": 83,
-    "remaining_findings": 18,
+    "merged_prs": 91,
+    "closed_findings": 84,
+    "remaining_findings": 17,
     "resolved_today": [
-      "MEM-19"
+      "MEM-19",
+      "MEM-07"
     ],
     "waiting_ci": [],
     "blocked_external": [
@@ -109,11 +239,11 @@
   },
   "latest_counts": {
     "batch": 2,
-    "batch_merged_prs": 40,
+    "batch_merged_prs": 41,
     "batch_target": 50,
-    "merged_prs": 90,
-    "closed_findings": 83,
-    "remaining_findings": 18,
+    "merged_prs": 91,
+    "closed_findings": 84,
+    "remaining_findings": 17,
     "backlog": 101
   }
 }

@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T07:18:18+02:00",
+  "updated_at": "2026-10-13T09:14:29+02:00",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,9 +28,9 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 83,
-    "remaining": 18,
-    "merged_prs": 90
+    "closed": 84,
+    "remaining": 17,
+    "merged_prs": 91
   },
   "batches": [
     {
@@ -492,6 +492,11 @@
           "repository": "Memorithm/SciRust-Verify",
           "number": 40,
           "merge_sha": "662a30dc774dd19c68a79bed3889036a91930123"
+        },
+        {
+          "repository": "Memorithm/CCOS-Enterprise",
+          "number": 193,
+          "merge_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147"
         }
       ]
     }
@@ -7265,6 +7270,131 @@
         "Procfs protection is Linux-specific and fails closed when unavailable.",
         "Publication remains no-clobber and requires explicit rotation."
       ]
+    },
+    {
+      "repository": "Memorithm/CCOS-Enterprise",
+      "number": 193,
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/pull/193",
+      "base": "main",
+      "base_sha": "1c46f2982a4ec6b30e4a9b85222f99f3e7cbbe47",
+      "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+      "merge_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+      "status": "merged_target_validated",
+      "ids": [
+        "MEM-07"
+      ],
+      "batch": 2,
+      "checks": [
+        {
+          "id": 38359045282,
+          "name": "CI (fast) candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045282"
+        },
+        {
+          "id": 38359045380,
+          "name": "CI (full) candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045380"
+        },
+        {
+          "id": 38359045508,
+          "name": "CI (security) candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045508"
+        },
+        {
+          "id": 38359045288,
+          "name": "DeepSeek Harness candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045288"
+        },
+        {
+          "id": 38359045281,
+          "name": "Strict BEIR import candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045281"
+        },
+        {
+          "id": 38359045469,
+          "name": "Governed provider recovery candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045469"
+        }
+      ],
+      "target_head": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+      "target_checks": [
+        {
+          "id": 38359990453,
+          "name": "CI (fast) integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990453"
+        },
+        {
+          "id": 38359990784,
+          "name": "CI (full) integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990784"
+        },
+        {
+          "id": 38359990428,
+          "name": "CI (security) integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990428"
+        },
+        {
+          "id": 38359990438,
+          "name": "DeepSeek Harness integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990438"
+        },
+        {
+          "id": 38359990486,
+          "name": "Strict BEIR import integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990486"
+        },
+        {
+          "id": 38359990426,
+          "name": "Governed provider recovery integrated",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990426"
+        }
+      ],
+      "review": {
+        "threads": 5,
+        "resolved_threads": 5,
+        "findings": "five P1 review findings corrected: purge-floor rollback, symlink ancestors, backup reconciliation, non-UTF-8 profile and filesystem aliases"
+      },
+      "limitations": [
+        "Operator-managed encrypted-volume declarations are operational attestations, not cryptographic proof.",
+        "No FIPS or production Vault/HSM/IAM qualification is claimed.",
+        "Copies outside the declared roots remain out of scope."
+      ]
     }
   ],
   "repository_observations": [
@@ -7303,11 +7433,12 @@
       "repository": "Memorithm/CCOS-Enterprise",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "1c46f2982a4ec6b30e4a9b85222f99f3e7cbbe47",
-      "tree_sha": "b2aa9685eebbfac7c0bd7f9a3f7568b7181b4a34",
+      "current_head": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+      "tree_sha": "5e610e6fc19b5bb8d859e849cc2c2d69ed22620d",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": "rulesets endpoint returned none; branch-protection detail remained inaccessible to the integration (403); no bypass performed",
+      "last_observed_at": "2026-10-13T09:14:29+02:00"
     },
     {
       "repository": "Memorithm/COGNO-1",
@@ -9378,16 +9509,49 @@
         "Établir inventaire des données et profil production exigeant encrypted; étendre selon sensibilité aux journaux, sources et sauvegardes avec conservation du purge floor et politique clés.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "to_do",
-      "current_head": "1c46f2982a4ec6b30e4a9b85222f99f3e7cbbe47",
+      "status": "resolved",
+      "current_head": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
       "default_branch": "main",
       "audit_head": "1c46f2982a4ec6b30e4a9b85222f99f3e7cbbe47",
-      "head_reconciliation": "unchanged_since_audit",
-      "policy_review": "pending_target_bootstrap",
-      "prs": [],
-      "resolution_evidence": [],
-      "last_observed_at": "2026-10-01T00:16:41+02:00",
-      "next_action": "Lire instructions/licences du dépôt et vérifier le constat sur la source du HEAD actuel avant modification."
+      "head_reconciliation": "The audit HEAD was unchanged at start. PR #193 introduced the production data-at-rest profile and was squash-merged onto exact validated main 50a3e66b.",
+      "policy_review": "Root AGENTS.md, PolyForm Noncommercial license and the live agent/ecosystem-roadmap were reviewed. The roadmap update remains isolated on agent/ecosystem-roadmap at 2b59eab2.",
+      "prs": [
+        {
+          "number": 193,
+          "url": "https://github.com/Memorithm/CCOS-Enterprise/pull/193",
+          "base": "main",
+          "base_sha": "1c46f2982a4ec6b30e4a9b85222f99f3e7cbbe47",
+          "head_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+          "merge_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+          "status": "merged_target_validated"
+        }
+      ],
+      "resolution_evidence": [
+        {
+          "proof": "docs/audit-global/proofs/CCOS-Enterprise-193-MEM-07.json",
+          "candidate_sha": "26a154c33815245b5e28883f8466c09b9abf2040",
+          "candidate_runs": [
+            38359045282,
+            38359045380,
+            38359045508,
+            38359045288,
+            38359045281,
+            38359045469
+          ],
+          "merge_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+          "target_runs": [
+            38359990453,
+            38359990784,
+            38359990428,
+            38359990438,
+            38359990486,
+            38359990426
+          ],
+          "status": "resolved_on_integrated_main"
+        }
+      ],
+      "last_observed_at": "2026-10-13T09:14:29+02:00",
+      "next_action": "Closed. Preserve fail-closed production admission and the distinction between runtime verification and operator storage attestation."
     },
     {
       "id": "MEM-08",

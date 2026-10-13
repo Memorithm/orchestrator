@@ -1,0 +1,135 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "finding_ids": [
+    "MEM-07"
+  ],
+  "repository": "Memorithm/CCOS-Enterprise",
+  "default_branch": "main",
+  "audit_head": "1c46f2982a4ec6b30e4a9b85222f99f3e7cbbe47",
+  "pull_request": {
+    "number": 193,
+    "url": "https://github.com/Memorithm/CCOS-Enterprise/pull/193",
+    "candidate_head": "26a154c33815245b5e28883f8466c09b9abf2040",
+    "merge_sha": "50a3e66bcfe9734f35cea2d44ba985b514c9f147",
+    "method": "squash",
+    "expected_head_guard": true
+  },
+  "result": {
+    "status": "resolved_on_integrated_main",
+    "production_profile": "fail_closed",
+    "durable_data_classes": [
+      "state_and_enterprise_journals",
+      "governed_provider_generations",
+      "knowledge_and_evidence",
+      "source_blobs",
+      "independent_backups"
+    ],
+    "root_alias_checks": [
+      "exact_canonical_path",
+      "no_symlink_component",
+      "unix_device_inode_identity"
+    ],
+    "restore_and_key_lifecycle": [
+      "external_purge_floor_receipt_bound_to_tenant_provider_generation_and_live_hash",
+      "external_backup_receipt_bound_to_root_key_policy_key_scope_generation_and_manifest_hash"
+    ]
+  },
+  "candidate_checks": [
+    {
+      "id": 38359045282,
+      "name": "CI (fast)",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045282"
+    },
+    {
+      "id": 38359045380,
+      "name": "CI (full)",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045380"
+    },
+    {
+      "id": 38359045508,
+      "name": "CI (security)",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045508"
+    },
+    {
+      "id": 38359045288,
+      "name": "CI (DeepSeek Harness adapter)",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045288"
+    },
+    {
+      "id": 38359045281,
+      "name": "Strict BEIR import",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045281"
+    },
+    {
+      "id": 38359045469,
+      "name": "Governed provider recovery",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359045469"
+    }
+  ],
+  "integrated_checks": [
+    {
+      "id": 38359990453,
+      "name": "CI (fast)",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990453"
+    },
+    {
+      "id": 38359990784,
+      "name": "CI (full)",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990784"
+    },
+    {
+      "id": 38359990428,
+      "name": "CI (security)",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990428"
+    },
+    {
+      "id": 38359990438,
+      "name": "CI (DeepSeek Harness adapter)",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990438"
+    },
+    {
+      "id": 38359990486,
+      "name": "Strict BEIR import",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990486"
+    },
+    {
+      "id": 38359990426,
+      "name": "Governed provider recovery",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/CCOS-Enterprise/actions/runs/38359990426"
+    }
+  ],
+  "review": {
+    "threads": 5,
+    "resolved_threads": 5,
+    "corrected_findings": [
+      "purge_floor_rollback",
+      "symlink_ancestor_retargeting",
+      "backup_reconciliation_before_key_retirement",
+      "non_utf8_profile_fallback",
+      "filesystem_aliasing"
+    ]
+  },
+  "roadmap": {
+    "branch": "agent/ecosystem-roadmap",
+    "commit": "2b59eab2809650a21dacb654fa508d69c2a94fc3",
+    "merged_to_default": false
+  },
+  "limitations": [
+    "Operator-managed encrypted-volume declarations are attestations, not cryptographic proof.",
+    "No FIPS or production Vault/HSM/IAM qualification is claimed.",
+    "Copies outside declared roots remain out of scope."
+  ],
+  "observed_at": "2026-10-13T09:14:29+02:00"
+}

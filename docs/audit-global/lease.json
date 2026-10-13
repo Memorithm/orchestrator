@@ -3,20 +3,20 @@
   "owner": "chatgpt-audit-202610130813",
   "acquired_at": "2026-10-13T06:14:00Z",
   "expires_at": "2026-10-13T07:44:00Z",
-  "released_at": null,
-  "status": "active",
+  "released_at": "2026-10-13T07:14:29Z",
+  "status": "released",
   "scope": "audit-global-remediation",
   "previous_owner": "chatgpt-audit-202610130707",
   "canonical_counts": {
-    "merged_prs": 90,
-    "closed_findings": 83,
-    "remaining_findings": 18
+    "merged_prs": 91,
+    "closed_findings": 84,
+    "remaining_findings": 17
   },
   "batch": {
     "number": 2,
-    "merged_prs": 40,
+    "merged_prs": 41,
     "target": 50
   },
   "rule": "CAS branch head, verify owner/expiry before mutations",
-  "next_action": "Verify MEM-07 on current CCOS-Enterprise HEAD, remediate if still present, validate, merge, and reconcile durable evidence."
+  "next_action": "Acquire a fresh lease and continue the next unblocked finding; keep documented external blockers open."
 }
