@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T18:02:10.160Z",
+  "updated_at": "2026-10-13T18:08:56.839Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 93,
     "remaining": 8,
-    "merged_prs": 104
+    "merged_prs": 106
   },
   "batches": [
     {
@@ -570,6 +570,16 @@
           "repository": "Memorithm/itd-simulator",
           "number": 71,
           "merge_sha": "0820c4057979e3adb05e991e8b0cdedf73f2bbd3"
+        },
+        {
+          "repository": "Memorithm/ProofLab",
+          "number": 84,
+          "merge_sha": "b49e2e51397a33370c3c35fa16897eebf2929559"
+        },
+        {
+          "repository": "Memorithm/ADA",
+          "number": 61,
+          "merge_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0"
         }
       ]
     }
@@ -8811,11 +8821,11 @@
       "base": "main",
       "base_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
       "head_sha": "48779bc080f1d36d5940a64e3b48a1431efbb01a",
-      "status": "open_review_corrected_waiting_ci",
+      "status": "merged_waiting_integrated_CI",
       "ids": [
         "COG-ADA-002"
       ],
-      "batch": null,
+      "batch": 3,
       "checks": [
         {
           "id": 115434513636,
@@ -8959,7 +8969,121 @@
         "branch": "agent/ecosystem-roadmap",
         "commit": "87b609f70fca6a8e562e5b1876350b13e98cd3c9",
         "merged_to_default": false
-      }
+      },
+      "merge_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
+      "merge_method": "merge_with_expected_head_sha",
+      "candidate_checks": [
+        {
+          "name": "rustdoc",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513636"
+        },
+        {
+          "name": "fuzz-smoke",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513542"
+        },
+        {
+          "name": "miri",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513384"
+        },
+        {
+          "name": "build/test",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513300"
+        },
+        {
+          "name": "MSRV 1.85",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434513221"
+        },
+        {
+          "name": "supply-chain",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437222555/job/115434512943"
+        },
+        {
+          "name": "build/test",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434402"
+        },
+        {
+          "name": "fuzz-smoke",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434349"
+        },
+        {
+          "name": "miri",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434336"
+        },
+        {
+          "name": "rustdoc",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434084"
+        },
+        {
+          "name": "MSRV 1.85",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434434075"
+        },
+        {
+          "name": "supply-chain",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38437214944/job/115434433724"
+        }
+      ],
+      "target_checks": [
+        {
+          "name": "fuzz-smoke",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265875"
+        },
+        {
+          "name": "supply-chain",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265807"
+        },
+        {
+          "name": "MSRV 1.85",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265747"
+        },
+        {
+          "name": "miri",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265686"
+        },
+        {
+          "name": "rustdoc",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265567"
+        },
+        {
+          "name": "build/test",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ADA/actions/runs/38444216689/job/115458265255"
+        }
+      ]
     },
     {
       "repository": "restricted:B-NR-02",
@@ -9071,14 +9195,56 @@
       ],
       "base_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
       "head_sha": "a427c6fdf317e44517dec4271638a62ef98214a3",
-      "status": "open_review_corrected_waiting_CI",
-      "batch": null,
+      "status": "merged_waiting_integrated_CI",
+      "batch": 3,
       "review": {
         "threads": 1,
         "resolved": 1,
         "correction": "deny_unknown_fields on nested BenchExportManifest and BenchExportEntry; root/export/entry regressions"
       },
-      "old_head_checks_invalid_for_merge": true
+      "old_head_checks_invalid_for_merge": true,
+      "merge_sha": "b49e2e51397a33370c3c35fa16897eebf2929559",
+      "merge_method": "merge_with_expected_head_sha",
+      "candidate_checks": [
+        {
+          "name": "Rust",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/38443216904/job/115454843166"
+        },
+        {
+          "name": "Lean",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/38443216904/job/115454842894"
+        },
+        {
+          "name": "qualify",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/38443216938/job/115454842068"
+        }
+      ],
+      "target_checks": [
+        {
+          "name": "Rust",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/38444203775/job/115458218583"
+        },
+        {
+          "name": "Lean",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/38444203775/job/115458218162"
+        },
+        {
+          "name": "qualify",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/Memorithm/ProofLab/actions/runs/38444203891/job/115458217713"
+        }
+      ]
     }
   ],
   "repository_observations": [
@@ -11979,10 +12145,10 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "48779bc080f1d36d5940a64e3b48a1431efbb01a",
+      "current_head": "28b7a18d9ae1ab062a890cb2edee819237e50cc0",
       "default_branch": "main",
       "audit_head": "7034491cc408ff77820589957349aa4fad1ee097",
-      "head_reconciliation": "ADA_60_integrated_six_gates_green_follow_up_61_recursive_action_pin_review_corrected_exact_head_ci_restarted",
+      "head_reconciliation": "candidate_exact_checks_green_SHA_guarded_merge_done_waiting_integrated_gates",
       "policy_review": "Root AGENTS.md, MIT OR Apache-2.0 workspace metadata, main default branch and mandatory agent/ecosystem-roadmap were reviewed. Hub and ElasticXxx owner contracts were read at exact integrated SHAs; neither owner repository was modified.",
       "prs": [
         {
@@ -11997,7 +12163,8 @@
           "url": "https://github.com/Memorithm/ADA/pull/61",
           "head_sha": "48779bc080f1d36d5940a64e3b48a1431efbb01a",
           "base_sha": "6e18b6330655bbd434776dccbda48b2777241a62",
-          "status": "open_review_corrected_waiting_ci"
+          "status": "merged_waiting_integrated_CI",
+          "merge_sha": "28b7a18d9ae1ab062a890cb2edee819237e50cc0"
         }
       ],
       "resolution_evidence": [
@@ -12152,8 +12319,8 @@
           }
         }
       ],
-      "last_observed_at": "2026-10-13T19:16:50+02:00",
-      "next_action": "Wait for all six exact-head checks and review on ADA #61; merge only with expected_head_sha, then rerun and verify the six gates on the integrated main SHA before closing.",
+      "last_observed_at": "2026-10-13T18:08:56.839Z",
+      "next_action": "Verify six exact integrated gates on 28b7a18d9ae1ab062a890cb2edee819237e50cc0, including whole-workspace Miri; close only when all six succeed. Do not remerge or double-count #60/#61.",
       "roadmap": {
         "branch": "agent/ecosystem-roadmap",
         "commit": "87b609f70fca6a8e562e5b1876350b13e98cd3c9",
@@ -13724,10 +13891,10 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "a427c6fdf317e44517dec4271638a62ef98214a3",
+      "current_head": "b49e2e51397a33370c3c35fa16897eebf2929559",
       "default_branch": "main",
       "audit_head": "ece52c66d4c99cd4c4059df26449bcd985621ea1",
-      "head_reconciliation": "nested_unknown_field_review_fixed_on_new_exact_head_local_full_workspace_and_authenticated_real_import_replayed_CI_restarted",
+      "head_reconciliation": "candidate_exact_checks_green_SHA_guarded_merge_done_waiting_integrated_gates",
       "policy_review": "pending_target_bootstrap",
       "prs": [
         {
@@ -13735,7 +13902,8 @@
           "url": "https://github.com/Memorithm/ProofLab/pull/84",
           "base_sha": "674a1f1d8a32bf6c097a7b75765845aa30af3cc2",
           "head_sha": "a427c6fdf317e44517dec4271638a62ef98214a3",
-          "status": "open_waiting_CI"
+          "status": "merged_waiting_integrated_CI",
+          "merge_sha": "b49e2e51397a33370c3c35fa16897eebf2929559"
         }
       ],
       "resolution_evidence": [
@@ -13752,8 +13920,8 @@
           "status": "local_qualified_waiting_candidate_and_integrated_CI"
         }
       ],
-      "last_observed_at": "2026-10-13T18:02:10.160Z",
-      "next_action": "Reconcile exact-head ProofLab #84 Rust/Lean/authenticated-import CI and review; repair, merge SHA-guarded and verify integrated gates. Reconcile scoped first real producer acceptance; no proof, new producer execution, production publisher or live TDI claims."
+      "last_observed_at": "2026-10-13T18:08:56.839Z",
+      "next_action": "Verify integrated Rust, Lean and real owner-authenticated archival producer import on b49e2e51397a33370c3c35fa16897eebf2929559. Validate retained artifact/digest/source identities and scoped first-producer acceptance; no live TDI or production publisher claims."
     },
     {
       "id": "B-FL-01",
