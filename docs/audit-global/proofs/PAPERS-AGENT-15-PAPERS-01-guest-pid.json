@@ -1057,5 +1057,31 @@
     "manifest/receipt byte equality": "true",
     "locked graph full3 sources": "true",
     "action refs": "upstream fullSHA verified (rusttoolchain stable is branch not tag)"
+  },
+  "integrated_Rust_tests_observed": {
+    "passed": 232,
+    "failed": 0,
+    "ordinary_live_ignored": 1,
+    "dedicated_live_still_running": true
+  },
+  "next_owner_acceptance": {
+    "owner": "Memorithm/scirust-hub",
+    "current_source": "f873bc04e996e13c33958702e48e8b1c411f9c11",
+    "reuse_inspected": [
+      "crates/hub-core/src/task_lifecycle.rs: existing immutable TaskRecord and monotonic transitions; failure does not encode cleanup proof",
+      "crates/hub-store-sqlite/src/lib.rs: existing transactional TaskRepository put and append-only derived events"
+    ],
+    "remaining": [
+      "Aggregate writable workspace quota enforced by the actual OS backend, not per-file limits or directory-size postcondition",
+      "Durable per-attempt container identity and ambiguous-create quarantine state; reconciliation survives restart and forbids blind replay/name deletion"
+    ],
+    "required_tests": [
+      "Crash/response-loss between creation and received container ID",
+      "Daemon unavailable: never assert absence or mark cleaned",
+      "Concurrency, unknown/colliding ownership and replay refusals",
+      "Bounded reconciliation using exact verified container ID",
+      "Many-small-file quota refusal with positive runtime entry and unchanged source provenance"
+    ],
+    "nonclaim": "Read-only reuse analysis only; no new backend/quarantine code or qualification implemented on this slice"
   }
 }
