@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T00:44:57Z",
+  "updated_at": "2026-10-14T00:48:46Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9666,12 +9666,12 @@
       "repository": "Memorithm/PAPERS-AGENT",
       "number": 12,
       "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
-      "head_sha": "6446594b98259e0ed03e4c8c079eb7072bbfb18d",
+      "head_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
       "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
       "ids": [
         "PAPERS-01"
       ],
-      "status": "waiting_consistent_wrapper_head_ci_and_review",
+      "status": "waiting_budgeted_final_head_ci_and_review",
       "merge_sha": null,
       "checks": [],
       "candidate_tests": {
@@ -13673,9 +13673,9 @@
         {
           "number": 12,
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
-          "head_sha": "6446594b98259e0ed03e4c8c079eb7072bbfb18d",
+          "head_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
           "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-          "status": "waiting_consistent_wrapper_head_ci_and_review"
+          "status": "waiting_budgeted_final_head_ci_and_review"
         }
       ],
       "resolution_evidence": [
@@ -13688,8 +13688,8 @@
           "candidate_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a"
         }
       ],
-      "last_observed_at": "2026-10-14T00:44:57Z",
-      "next_action": "Qualify #12 at 6446594b98259e0ed03e4c8c079eb7072bbfb18d after last P2 wrapper correction. Require current full/live CI and fresh review, then guarded merge/integrated gates. Independent compilation deadline, hostile IO/resource qualifications remain necessary before closure. No old candidate results count.",
+      "last_observed_at": "2026-10-14T00:48:46Z",
+      "next_action": "Qualify budgeted final #12 head 5af865e8e3070f0ecb7ad6e83396519e5907352f: full/live current-source CI and review, guarded merge then integrated validation. Afterward add independent compile/execution deadlines and adversarial IO/resource qualification; do not close original finding from benign runtime diagnostic.",
       "blockers": [
         "SciRust-Hub main explicitly states that its configured local and remote process executors are not an OS sandbox; AXH-5 container-class backend remains active and RemoteOps owns concrete isolation enforcement.",
         "No qualified backend evidence currently exists that proves stronger-than-process isolation, default-deny network and enforced CPU/RAM/time limits for this PAPERS workload."

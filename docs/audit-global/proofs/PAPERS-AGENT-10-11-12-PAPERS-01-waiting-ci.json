@@ -1,10 +1,10 @@
 {
   "schema": "memorithm-remediation-proof.v1",
-  "observed_at": "2026-10-14T00:39:16Z",
+  "observed_at": "2026-10-14T00:48:46Z",
   "id": "PAPERS-01",
-  "status": "waiting_consistent_wrapper_head_ci_and_review",
+  "status": "waiting_budgeted_final_head_ci_and_review",
   "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-  "candidate_sha": "6446594b98259e0ed03e4c8c079eb7072bbfb18d",
+  "candidate_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
   "pr": 12,
   "verified_adapter_merges": [
     {
@@ -35,29 +35,7 @@
       "url": "https://github.com/Memorithm/scirust-hub/pull/85"
     }
   ],
-  "candidate_checks": [
-    {
-      "name": "audit",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978996"
-    },
-    {
-      "name": "live-qualified-consumer",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336480/job/115616978943"
-    },
-    {
-      "name": "rust",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978802"
-    }
-  ],
+  "candidate_checks": [],
   "integrated_11_checks": [
     {
       "name": "live-qualified-consumer",
@@ -168,5 +146,12 @@
         "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641198"
       }
     ]
+  },
+  "static_budget": {
+    "max_source_bytes": 65536,
+    "max_body_call_depth": 16,
+    "max_activity_visits": 4096,
+    "exhaustion": "refuse",
+    "regression": "branching_no_work_call_graph_is_budgeted"
   }
 }
