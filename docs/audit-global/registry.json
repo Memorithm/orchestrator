@@ -16468,7 +16468,11 @@
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
   ],
-  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6159826001",
+  "last_central_comment": {
+    "id": 6160821173,
+    "url": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6160821173",
+    "observed_at": "2026-10-14 06:46:52 Europe/Paris"
+  },
   "last_verified_targets": {
     "PAPERS-AGENT": {
       "sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
