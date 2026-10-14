@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-13T20:21:50.915Z",
+  "updated_at": "2026-10-14T00:14:00.042Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 109
+    "merged_prs": 115
   },
   "batches": [
     {
@@ -597,6 +597,64 @@
           "number": 561,
           "merge_sha": "69cf44d25000c7f5f77d1bd35b160b93fc225879",
           "scope": "restricted"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 10,
+          "merge_sha": "b799543075f0286c75640f68e69dda94e818cf53",
+          "head_sha": "887d51150a7d89ec4bf4db7df69c13a340f09f1b",
+          "base_sha": "19dfe00a67a9d9dd5c2528d493a19c80c458b044",
+          "merged_at": "2026-10-13T21:25:56Z",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/10",
+          "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 11,
+          "merge_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+          "head_sha": "0c9e2ee1b4c2cc3133f4de009c2e95c14c391dc3",
+          "base_sha": "b799543075f0286c75640f68e69dda94e818cf53",
+          "merged_at": "2026-10-13T21:31:16Z",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/11",
+          "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session"
+        },
+        {
+          "repository": "Memorithm/SciCapsule",
+          "number": 35,
+          "merge_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
+          "head_sha": "9451929e5edb1f249862374536fd6f679e5857d2",
+          "base_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+          "merged_at": "2026-10-13T23:25:54Z",
+          "url": "https://github.com/Memorithm/SciCapsule/pull/35",
+          "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session"
+        },
+        {
+          "repository": "restricted:COG-SML-001",
+          "number": 562,
+          "scope": "restricted",
+          "private_proof": "COG-SML-001-production-acceptance-20261014",
+          "status": "merged_production_acceptance_blocked",
+          "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session"
+        },
+        {
+          "repository": "Memorithm/scirust-hub",
+          "number": 85,
+          "merge_sha": "60f000d9a4f021cb14b9fe2cd68999408b797dd8",
+          "head_sha": "ae4240acb7fc6f1a2f915b594155bcafb6b5aef6",
+          "base_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+          "merged_at": "2026-10-13T21:14:08Z",
+          "url": "https://github.com/Memorithm/scirust-hub/pull/85",
+          "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session"
+        },
+        {
+          "repository": "Memorithm/scirust-hub",
+          "number": 86,
+          "merge_sha": "d6b679e696f5e1b1d3c004c7c95c36c0ea1584d2",
+          "head_sha": "8b59a7c039d66a02b3ac43842da1a687c237258d",
+          "base_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+          "merged_at": "2026-10-13T20:49:10Z",
+          "url": "https://github.com/Memorithm/scirust-hub/pull/86",
+          "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session"
         }
       ]
     }
@@ -9511,6 +9569,111 @@
       "source_scope": "restricted",
       "private_proof": "COG-SML-003-qualification-20261013",
       "merge_sha": "69cf44d25000c7f5f77d1bd35b160b93fc225879"
+    },
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 10,
+      "merge_sha": "b799543075f0286c75640f68e69dda94e818cf53",
+      "head_sha": "887d51150a7d89ec4bf4db7df69c13a340f09f1b",
+      "base_sha": "19dfe00a67a9d9dd5c2528d493a19c80c458b044",
+      "merged_at": "2026-10-13T21:25:56Z",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/10",
+      "ids": [
+        "PAPERS-01"
+      ],
+      "batch": 3,
+      "status": "merged_reconciled"
+    },
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 11,
+      "merge_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+      "head_sha": "0c9e2ee1b4c2cc3133f4de009c2e95c14c391dc3",
+      "base_sha": "b799543075f0286c75640f68e69dda94e818cf53",
+      "merged_at": "2026-10-13T21:31:16Z",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/11",
+      "ids": [
+        "PAPERS-01"
+      ],
+      "batch": 3,
+      "status": "merged_reconciled"
+    },
+    {
+      "repository": "Memorithm/SciCapsule",
+      "number": 35,
+      "merge_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
+      "head_sha": "9451929e5edb1f249862374536fd6f679e5857d2",
+      "base_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+      "merged_at": "2026-10-13T23:25:54Z",
+      "url": "https://github.com/Memorithm/SciCapsule/pull/35",
+      "ids": [
+        "MEM-11"
+      ],
+      "batch": 3,
+      "status": "merged_reconciled"
+    },
+    {
+      "repository": "restricted:COG-SML-001",
+      "number": 562,
+      "scope": "restricted",
+      "private_proof": "COG-SML-001-production-acceptance-20261014",
+      "status": "merged_production_acceptance_blocked",
+      "ids": [
+        "COG-SML-001"
+      ],
+      "batch": 3
+    },
+    {
+      "repository": "Memorithm/scirust-hub",
+      "number": 85,
+      "merge_sha": "60f000d9a4f021cb14b9fe2cd68999408b797dd8",
+      "head_sha": "ae4240acb7fc6f1a2f915b594155bcafb6b5aef6",
+      "base_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+      "merged_at": "2026-10-13T21:14:08Z",
+      "url": "https://github.com/Memorithm/scirust-hub/pull/85",
+      "ids": [
+        "PAPERS-01"
+      ],
+      "batch": 3,
+      "status": "merged_reconciled"
+    },
+    {
+      "repository": "Memorithm/scirust-hub",
+      "number": 86,
+      "merge_sha": "d6b679e696f5e1b1d3c004c7c95c36c0ea1584d2",
+      "head_sha": "8b59a7c039d66a02b3ac43842da1a687c237258d",
+      "base_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+      "merged_at": "2026-10-13T20:49:10Z",
+      "url": "https://github.com/Memorithm/scirust-hub/pull/86",
+      "ids": [
+        "COG-SML-001"
+      ],
+      "batch": 3,
+      "status": "merged_reconciled"
+    },
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 12,
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
+      "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+      "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+      "ids": [
+        "PAPERS-01"
+      ],
+      "status": "waiting_ci",
+      "merge_sha": null
+    },
+    {
+      "repository": "Memorithm/SciCapsule",
+      "number": 36,
+      "url": "https://github.com/Memorithm/SciCapsule/pull/36",
+      "head_sha": "b505505e0cadeabc07ee382ad18f846c0e8fd799",
+      "base_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
+      "ids": [
+        "MEM-11"
+      ],
+      "status": "waiting_ci",
+      "merge_sha": null
     }
   ],
   "repository_observations": [
@@ -11129,7 +11292,7 @@
           "status": "technical_gate_qualified_external_review_open"
         }
       ],
-      "last_observed_at": "2026-10-11T17:06:38+02:00",
+      "last_observed_at": "2026-10-14T00:14:00.042Z",
       "next_action": "Keep open and blocked on documented contributor-rights, consent, imported-material, dependency-license and notice review in NNIS #150; use the merged fail-closed gate to prevent unreviewed drift."
     },
     {
@@ -11890,7 +12053,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "blocked_external",
-      "current_head": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+      "current_head": "6eeaaaf2259b41290f73571d855194973a0bb26c",
       "default_branch": "main",
       "audit_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
       "head_reconciliation": "PR32_already_merged_but_runner_group_administration_and_safe_selected_workflow_probe_unverified",
@@ -11911,6 +12074,23 @@
           "status": "merged_external_runner_acceptance_blocked",
           "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session",
           "batch": 2
+        },
+        {
+          "repository": "Memorithm/SciCapsule",
+          "number": 35,
+          "merge_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
+          "head_sha": "9451929e5edb1f249862374536fd6f679e5857d2",
+          "base_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+          "merged_at": "2026-10-13T23:25:54Z",
+          "url": "https://github.com/Memorithm/SciCapsule/pull/35",
+          "status": "merged_external_runner_acceptance_blocked"
+        },
+        {
+          "number": 36,
+          "url": "https://github.com/Memorithm/SciCapsule/pull/36",
+          "head_sha": "b505505e0cadeabc07ee382ad18f846c0e8fd799",
+          "base_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
+          "status": "waiting_exact_head_ci_and_review"
         }
       ],
       "resolution_evidence": [
@@ -11922,10 +12102,14 @@
           "candidate_job": 112583921398,
           "result": "Hosted ARM64 format/check/clippy/tests/MSRV 1.89 succeeded; evidence is insufficient to prove Thor isolation.",
           "status": "blocked_not_resolved"
+        },
+        {
+          "proof": "docs/audit-global/proofs/SciCapsule-35-36-MEM-11-waiting-ci.json",
+          "status": "hosted_parser_candidate_green_full_gate_pending_external_restrictions_unverified"
         }
       ],
-      "last_observed_at": "2026-10-13T18:04:59.000+02:00",
-      "next_action": "Do not remerge #32. Verify actual runner-group selected-workflow restriction externally, then qualify installed PR path; merged workflow split is not runner-group enforcement proof.",
+      "last_observed_at": "2026-10-14T00:14:00.042Z",
+      "next_action": "Qualify exact #36 proposed-workflow validator and integrated gate; separately require actual organization runner-group selected-workflow enforcement and safe probe. #35 target push cargo success did not execute its new YAML step; remain open.",
       "blockers": [
         "The available GitHub connection cannot read or change organization/repository runner-group administration.",
         "A future PR can request the ordinary Thor labels unless the runner group is externally restricted to the trusted main-pinned workflow.",
@@ -13129,11 +13313,18 @@
           "source_scope": "restricted",
           "private_proof": "COG-SML-001-qualification-20261013",
           "merge_sha": "7afb6a38a7ebae0ba1b1e6de941b10b95716b472"
+        },
+        {
+          "repository": "restricted:COG-SML-001",
+          "number": 562,
+          "status": "merged_production_acceptance_failed_external_configuration_missing",
+          "source_scope": "restricted",
+          "private_proof": "COG-SML-001-production-acceptance-20261014"
         }
       ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-13T19:52:50.461Z",
-      "next_action": "Acceptation externe de production encore requise; aucune clôture déduite d'une fixture de développement. Détails et preuves conservés dans le dépôt privé."
+      "last_observed_at": "2026-10-14T00:14:00.042Z",
+      "next_action": "Production publication workflow failed because required operator-owned signing configuration was not available. Do not substitute/create a credential or close from development evidence. Technical consumer and engineering merges are tracked; detailed failure proof remains private."
     },
     {
       "id": "COG-SML-002",
@@ -13429,11 +13620,11 @@
         "Isoler rustc et compilation JIT sous utilisateur dédié et quotas OS; limiter octets source/module, mémoire/table WASM via StoreLimits/ResourceLimiter et durée de compilation séparée; drainer stderr pendant compilation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "blocked_external",
-      "current_head": "86b3dc2b84e98e3468448cb44395aeca3f989460",
+      "status": "waiting_ci",
+      "current_head": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
-      "head_reconciliation": "integrated_bounded_local_slice_validated_exact_tree_external_isolation_pending",
+      "head_reconciliation": "qualified_adapter_integrated_engineer_routing_candidate_published",
       "policy_review": "Root AGENTS, SECURITY and mandatory off-main roadmap read; PAPERS boundary preserved and no RemoteOps/scirust-hub modification attempted.",
       "prs": [
         {
@@ -13441,13 +13632,47 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/7",
           "head_sha": "5996497060cbc01bc21fb6209e10d73799d2ea0a",
           "merge_sha": "86b3dc2b84e98e3468448cb44395aeca3f989460"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 10,
+          "merge_sha": "b799543075f0286c75640f68e69dda94e818cf53",
+          "head_sha": "887d51150a7d89ec4bf4db7df69c13a340f09f1b",
+          "base_sha": "19dfe00a67a9d9dd5c2528d493a19c80c458b044",
+          "merged_at": "2026-10-13T21:25:56Z",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/10",
+          "status": "merged_adapter_qualified_on_final_11"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 11,
+          "merge_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+          "head_sha": "0c9e2ee1b4c2cc3133f4de009c2e95c14c391dc3",
+          "base_sha": "b799543075f0286c75640f68e69dda94e818cf53",
+          "merged_at": "2026-10-13T21:31:16Z",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/11",
+          "status": "merged_adapter_qualified_on_final_11"
+        },
+        {
+          "number": 12,
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
+          "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+          "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+          "status": "waiting_exact_head_ci_and_review"
         }
       ],
       "resolution_evidence": [
-        "docs/audit-global/proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json"
+        "docs/audit-global/proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json",
+        {
+          "proof": "docs/audit-global/proofs/PAPERS-AGENT-10-11-12-PAPERS-01-waiting-ci.json",
+          "status": "adapter_integrated_engineer_route_pending",
+          "integrated_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+          "integrated_checks": 3,
+          "candidate_sha": "40e3b58606069eb187c8deb2875d351b76b186e2"
+        }
       ],
-      "last_observed_at": "2026-10-06T21:24:58Z",
-      "next_action": "Wait for a versioned SciRust-Hub/RemoteOps qualified backend and then wire PAPERS execution to its typed API; do not relabel the current fail-closed local path as resolution.",
+      "last_observed_at": "2026-10-14T00:14:00.042Z",
+      "next_action": "Qualify exact PAPERS #12 candidate review/full tests/real gVisor Engineer route; guarded merge only if green, then integrated validation; preserve diagnostic-only authority. Original local untrusted path stays fail-closed.",
       "blockers": [
         "SciRust-Hub main explicitly states that its configured local and remote process executors are not an OS sandbox; AXH-5 container-class backend remains active and RemoteOps owns concrete isolation enforcement.",
         "No qualified backend evidence currently exists that proves stronger-than-process isolation, default-deny network and enforced CPU/RAM/time limits for this PAPERS workload."
@@ -15379,15 +15604,10 @@
     "RT-NNIS-04"
   ],
   "lease": {
-    "schema": "memorithm-remediation-lease.v1",
-    "status": "released",
-    "owner": "codex-audit-20261013-sml",
-    "acquired_at": "2026-10-13T18:22:03.837Z",
-    "expires_at": "2026-10-13T20:21:50.915Z",
-    "base_sha": "e5ed2af1027b7dd52b06e247cd3d2f8e0fd38ea4",
-    "purpose": "Completed exact integrated closures; four external acceptances remain documented for next authorized run",
-    "renewed_at": "2026-10-13T19:49:44.103Z",
-    "released_at": "2026-10-13T20:21:50.915Z"
+    "path": "docs/audit-global/lease.json",
+    "owner": "codex-audit-20261014-0206",
+    "status": "active",
+    "expires_at": "2026-10-14T01:01:49.432Z"
   },
   "capabilities": [
     {

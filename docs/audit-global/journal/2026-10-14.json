@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Europe/Paris",
+  "entries": [
+    {
+      "observed_at": "2026-10-14T02:14:28+02:00",
+      "observed_session_start": "2026-10-14T02:06:03+02:00",
+      "lease_owner": "codex-audit-20261014-0206",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 15,
+        "batch_target": 50,
+        "merged_prs": 115,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "Re-read NNIS #150: open; zero comments; no new rights/consent proof"
+          ],
+          "head_sha": "1c1e5b54a782fabed6f0f92b2d34c252236d1ce2",
+          "prs": [
+            "https://github.com/Memorithm/NNIS/pull/262"
+          ],
+          "checks": [],
+          "reason_for_wait": "Keep open and blocked on documented contributor-rights, consent, imported-material, dependency-license and notice review in NNIS #150; use the merged fail-closed gate to prevent unreviewed drift.",
+          "dependencies": [],
+          "next_action": "Keep open and blocked on documented contributor-rights, consent, imported-material, dependency-license and notice review in NNIS #150; use the merged fail-closed gate to prevent unreviewed drift."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Reconciled #35 target success; new YAML step not executed in that push",
+            "Created #36 to exercise candidate YAML on hosted VM"
+          ],
+          "head_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
+          "prs": [
+            "https://github.com/Memorithm/SciCapsule/pull/32",
+            "https://github.com/Memorithm/SciCapsule/pull/35",
+            "https://github.com/Memorithm/SciCapsule/pull/36"
+          ],
+          "checks": [
+            {
+              "name": "quality-and-msrv",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "b505505e0cadeabc07ee382ad18f846c0e8fd799",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38488851581/job/115608992913"
+            },
+            {
+              "name": "proposed-workflow-yaml",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "b505505e0cadeabc07ee382ad18f846c0e8fd799",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38488851429/job/115608989915"
+            }
+          ],
+          "reason_for_wait": "Qualify exact #36 proposed-workflow validator and integrated gate; separately require actual organization runner-group selected-workflow enforcement and safe probe. #35 target push cargo success did not execute its new YAML step; remain open.",
+          "dependencies": [],
+          "next_action": "Qualify exact #36 proposed-workflow validator and integrated gate; separately require actual organization runner-group selected-workflow enforcement and safe probe. #35 target push cargo success did not execute its new YAML step; remain open."
+        },
+        {
+          "id": "COG-SML-001",
+          "repository": null,
+          "status": "blocked_external",
+          "actions": [
+            "Reconciled engineering merge; integrated production acceptance failed due unavailable external signing configuration"
+          ],
+          "head_sha": null,
+          "prs": [],
+          "checks": [],
+          "reason_for_wait": "Production publication workflow failed because required operator-owned signing configuration was not available. Do not substitute/create a credential or close from development evidence. Technical consumer and engineering merges are tracked; detailed failure proof remains private.",
+          "dependencies": [],
+          "next_action": "Production publication workflow failed because required operator-owned signing configuration was not available. Do not substitute/create a credential or close from development evidence. Technical consumer and engineering merges are tracked; detailed failure proof remains private."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "actions": [
+            "Reconciled #10/#11 and exact integrated real consumer gates",
+            "Created #12 to route evaluation through qualified owner admission"
+          ],
+          "head_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+          "prs": [
+            "https://github.com/Memorithm/PAPERS-AGENT/pull/7",
+            "https://github.com/Memorithm/PAPERS-AGENT/pull/10",
+            "https://github.com/Memorithm/PAPERS-AGENT/pull/11",
+            "https://github.com/Memorithm/PAPERS-AGENT/pull/12"
+          ],
+          "checks": [
+            {
+              "name": "rust",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38488612232/job/115608213855"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38488612297/job/115608213677"
+            },
+            {
+              "name": "audit",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38488612232/job/115608213479"
+            }
+          ],
+          "reason_for_wait": "Qualify exact PAPERS #12 candidate review/full tests/real gVisor Engineer route; guarded merge only if green, then integrated validation; preserve diagnostic-only authority. Original local untrusted path stays fail-closed.",
+          "dependencies": [],
+          "next_action": "Qualify exact PAPERS #12 candidate review/full tests/real gVisor Engineer route; guarded merge only if green, then integrated validation; preserve diagnostic-only authority. Original local untrusted path stays fail-closed."
+        }
+      ],
+      "new_merges_this_session": [],
+      "preexisting_merge_reconciliations": 6,
+      "excluded_repositories_modified": []
+    }
+  ],
+  "daily_summary": {
+    "closed": 97,
+    "remaining": 4,
+    "merged_prs": 115,
+    "batch": 3,
+    "batch_merged_prs": 15,
+    "scope": "only observed interval; no fabricated prior-hour entries"
+  }
+}

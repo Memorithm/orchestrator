@@ -1,0 +1,52 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-14T02:14:28+02:00",
+  "id": "MEM-11",
+  "status": "not_resolved",
+  "merged_35": {
+    "repository": "Memorithm/SciCapsule",
+    "number": 35,
+    "merge_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
+    "head_sha": "9451929e5edb1f249862374536fd6f679e5857d2",
+    "base_sha": "94e5a000ba862d0ae1d1b41353353ec72b5cded5",
+    "merged_at": "2026-10-13T23:25:54Z",
+    "url": "https://github.com/Memorithm/SciCapsule/pull/35"
+  },
+  "target_35": [
+    {
+      "name": "quality-and-msrv",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38484199185/job/115593777314"
+    }
+  ],
+  "target_35_event": "push",
+  "target_35_validation_yaml_step_executed": false,
+  "candidate_36_sha": "b505505e0cadeabc07ee382ad18f846c0e8fd799",
+  "candidate_36_checks": [
+    {
+      "name": "quality-and-msrv",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "b505505e0cadeabc07ee382ad18f846c0e8fd799",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38488851581/job/115608992913"
+    },
+    {
+      "name": "proposed-workflow-yaml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b505505e0cadeabc07ee382ad18f846c0e8fd799",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38488851429/job/115608989915"
+    }
+  ],
+  "local_executed": [
+    "git diff --cached --check: passed"
+  ],
+  "local_Ruby": "unavailable; no local parsing success claimed",
+  "external_runner_group_restrictions": "not_verified",
+  "required_before_closure": [
+    "exact #36 CI/review/integrated parser",
+    "actual organization runner restrictions and safe probe"
+  ]
+}

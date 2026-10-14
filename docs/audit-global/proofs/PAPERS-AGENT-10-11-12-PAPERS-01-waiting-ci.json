@@ -1,0 +1,113 @@
+{
+  "schema": "memorithm-remediation-proof.v1",
+  "observed_at": "2026-10-14T02:14:28+02:00",
+  "id": "PAPERS-01",
+  "status": "not_resolved",
+  "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+  "candidate_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+  "pr": 12,
+  "verified_adapter_merges": [
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 10,
+      "merge_sha": "b799543075f0286c75640f68e69dda94e818cf53",
+      "head_sha": "887d51150a7d89ec4bf4db7df69c13a340f09f1b",
+      "base_sha": "19dfe00a67a9d9dd5c2528d493a19c80c458b044",
+      "merged_at": "2026-10-13T21:25:56Z",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/10"
+    },
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 11,
+      "merge_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+      "head_sha": "0c9e2ee1b4c2cc3133f4de009c2e95c14c391dc3",
+      "base_sha": "b799543075f0286c75640f68e69dda94e818cf53",
+      "merged_at": "2026-10-13T21:31:16Z",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/11"
+    },
+    {
+      "repository": "Memorithm/scirust-hub",
+      "number": 85,
+      "merge_sha": "60f000d9a4f021cb14b9fe2cd68999408b797dd8",
+      "head_sha": "ae4240acb7fc6f1a2f915b594155bcafb6b5aef6",
+      "base_sha": "01cf5f1e6d96573d57eef8d2aea22a5a8b0da02f",
+      "merged_at": "2026-10-13T21:14:08Z",
+      "url": "https://github.com/Memorithm/scirust-hub/pull/85"
+    }
+  ],
+  "candidate_checks": [
+    {
+      "name": "rust",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38488612232/job/115608213855"
+    },
+    {
+      "name": "live-qualified-consumer",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38488612297/job/115608213677"
+    },
+    {
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38488612232/job/115608213479"
+    }
+  ],
+  "integrated_11_checks": [
+    {
+      "name": "live-qualified-consumer",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38471236193/job/115550534919"
+    },
+    {
+      "name": "rust",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38471236259/job/115550534059"
+    },
+    {
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38471236259/job/115550533545"
+    }
+  ],
+  "hub_integrated_checks": [
+    {
+      "name": "real runsc isolation and PAPERS compile probe",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "60f000d9a4f021cb14b9fe2cd68999408b797dd8",
+      "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38469040003/job/115543030751"
+    },
+    {
+      "name": "fmt / clippy / build / test / doc",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "60f000d9a4f021cb14b9fe2cd68999408b797dd8",
+      "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38469039605/job/115543030094"
+    }
+  ],
+  "local_executed": [
+    "rustfmt changed sources: passed",
+    "git diff --check: passed"
+  ],
+  "local_functional_test": "offline locked cargo test could not start: anyhow absent from cache; no functional success claimed",
+  "scope": "explicit operator configuration only; Engineer/Evolution/PapersEngine route; zero diagnostic fitness and no scientific promotion",
+  "required_before_closure": [
+    "exact candidate full CI/review",
+    "real runsc Engineer path",
+    "exact integrated gates",
+    "remaining compilation/IO/resource boundary qualification"
+  ],
+  "excluded_modified": []
+}
