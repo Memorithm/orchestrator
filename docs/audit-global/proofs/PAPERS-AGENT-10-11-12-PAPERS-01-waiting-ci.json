@@ -1,10 +1,10 @@
 {
   "schema": "memorithm-remediation-proof.v1",
-  "observed_at": "2026-10-14T00:48:46Z",
+  "observed_at": "2026-10-14T00:54:33Z",
   "id": "PAPERS-01",
-  "status": "waiting_budgeted_final_head_ci_and_review",
+  "status": "waiting_named_logging_and_parser_bounds_ci_review",
   "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-  "candidate_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
+  "candidate_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
   "pr": 12,
   "verified_adapter_merges": [
     {
@@ -35,29 +35,7 @@
       "url": "https://github.com/Memorithm/scirust-hub/pull/85"
     }
   ],
-  "candidate_checks": [
-    {
-      "name": "audit",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492238235/job/115619926380"
-    },
-    {
-      "name": "rust",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492238235/job/115619926137"
-    },
-    {
-      "name": "live-qualified-consumer",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492238033/job/115619924901"
-    }
-  ],
+  "candidate_checks": [],
   "integrated_11_checks": [
     {
       "name": "live-qualified-consumer",
@@ -110,7 +88,7 @@
     "remaining compilation/IO/resource boundary qualification"
   ],
   "excluded_modified": [],
-  "stale_candidate_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+  "stale_candidate_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
   "review": {
     "corrected": "logging-only helper chains",
     "threads_pending": [
@@ -118,7 +96,11 @@
       "PRRT_kwDOS8iSH86sHfix"
     ],
     "limitations": "Syntactic activity is not semantic correctness/reachability/task relevance. No scientific qualification inferred.",
-    "current_head_review": "requested"
+    "current_head_review": "requested",
+    "pending_threads": [
+      "PRRT_kwDOS8iSH86sHnhE",
+      "PRRT_kwDOS8iSH86sHvrP"
+    ]
   },
   "candidate_tests": {
     "status": "pending_exact_head"
@@ -171,10 +153,14 @@
   },
   "static_budget": {
     "max_source_bytes": 65536,
+    "max_ascii_punctuation": 512,
     "max_body_call_depth": 16,
     "max_activity_visits": 4096,
     "exhaustion": "refuse",
-    "regression": "branching_no_work_call_graph_is_budgeted"
+    "regressions": [
+      "branching_no_work_call_graph_is_budgeted asserts actual zero visits",
+      "punctuation_dense_source_is_refused_before_recursive_parsing"
+    ]
   },
   "historical_qualified_candidates": [
     {

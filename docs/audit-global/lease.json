@@ -3,7 +3,9 @@
   "status": "active",
   "owner": "codex-audit-20261014-0206",
   "acquired_at": "2026-10-14T00:06:49.432Z",
-  "expires_at": "2026-10-14T01:01:49.432Z",
+  "expires_at": "2026-10-14T01:14:33.000Z",
   "base_sha": "99cefe075d6f835a03b71b068e9fb635a9aa47bd",
-  "purpose": "Reconcile exact integrated merges; retain open production acceptance; implement PAPERS evaluation consumer if ownership is clear; record verified gates."
+  "purpose": "Reconcile exact integrated merges; retain open production acceptance; implement PAPERS evaluation consumer if ownership is clear; record verified gates.",
+  "renewed_at": "2026-10-14T00:54:33Z",
+  "renewal_reason": "Exact PAPERS corrective source CI/review and integrated validation in progress; release after checkpoint."
 }
