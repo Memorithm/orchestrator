@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T01:05:35Z",
+  "updated_at": "2026-10-14T01:07:17Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -11369,8 +11369,8 @@
           "status": "technical_gate_qualified_external_review_open"
         }
       ],
-      "last_observed_at": "2026-10-14T00:14:00.042Z",
-      "next_action": "Keep open and blocked on documented contributor-rights, consent, imported-material, dependency-license and notice review in NNIS #150; use the merged fail-closed gate to prevent unreviewed drift."
+      "last_observed_at": "2026-10-14T01:07:17Z",
+      "next_action": "NNIS #150 remains open with zero comments on fresh re-read; require documented rights/consent/source/dependency notice review without inventing legal authority."
     },
     {
       "id": "RT-NNIS-05",
@@ -13401,8 +13401,8 @@
         }
       ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-14T00:14:00.042Z",
-      "next_action": "Production publication workflow failed because required operator-owned signing configuration was not available. Do not substitute/create a credential or close from development evidence. Technical consumer and engineering merges are tracked; detailed failure proof remains private."
+      "last_observed_at": "2026-10-14T01:07:17Z",
+      "next_action": "Latest observed production publication remains failed; require operator-owned signing configuration and real adopted/ACL-bound production evidence. Do not create/substitute credentials or infer adoption from successful development gates."
     },
     {
       "id": "COG-SML-002",
@@ -15685,8 +15685,9 @@
   "lease": {
     "path": "docs/audit-global/lease.json",
     "owner": "codex-audit-20261014-0206",
-    "status": "active",
-    "expires_at": "2026-10-14T01:14:33.000Z"
+    "status": "released",
+    "expires_at": "2026-10-14T01:14:33.000Z",
+    "released_at": "2026-10-14T01:07:17Z"
   },
   "capabilities": [
     {

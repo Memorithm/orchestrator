@@ -519,6 +519,58 @@
       ],
       "new_merges_this_session": [],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T03:07:17.000+02:00",
+      "event": "final_external_reconciliation_and_lease_release",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 17,
+        "batch_target": 50,
+        "merged_prs": 117,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "Fresh #150 read: open, zero comments, no new documented rights/consent review"
+          ],
+          "checks": [],
+          "reason_for_wait": "Rights review remains undocumented",
+          "dependencies": [],
+          "next_action": "NNIS #150 remains open with zero comments on fresh re-read; require documented rights/consent/source/dependency notice review without inventing legal authority."
+        },
+        {
+          "id": "COG-SML-001",
+          "repository": "restricted:COG-SML-001",
+          "status": "blocked_external",
+          "actions": [
+            "Fresh workflow list: latest production publication still failed; successful development gates not production evidence"
+          ],
+          "checks": [],
+          "reason_for_wait": "External production signing/adoption/ACL proof missing; private details retained",
+          "dependencies": [],
+          "next_action": "Latest observed production publication remains failed; require operator-owned signing configuration and real adopted/ACL-bound production evidence. Do not create/substitute credentials or infer adoption from successful development gates."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "No new external runner-group evidence in central discussion; no organization administration access or speculative enforcement change"
+          ],
+          "checks": [],
+          "reason_for_wait": "Actual selected-workflow restriction and safe probe still unverified",
+          "dependencies": [],
+          "next_action": "Obtain actual operator-owned runner restriction/probe evidence; candidate/integrated YAML and quality already verified at #36."
+        }
+      ],
+      "new_merges_this_session": [],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
