@@ -2,7 +2,7 @@
   "schema": "memorithm-remediation-proof.v1",
   "observed_at": "2026-10-14T02:14:28+02:00",
   "id": "MEM-11",
-  "status": "not_resolved",
+  "status": "technical_validator_qualified_external_restrictions_not_verified",
   "merged_35": {
     "repository": "Memorithm/SciCapsule",
     "number": 35,
@@ -48,5 +48,27 @@
   "required_before_closure": [
     "exact #36 CI/review/integrated parser",
     "actual organization runner restrictions and safe probe"
+  ],
+  "integrated_36_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+  "integrated_36_checks": [
+    {
+      "name": "proposed-workflow-yaml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38489178586/job/115610048554"
+    },
+    {
+      "name": "quality-and-msrv",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38489178259/job/115610047214"
+    }
+  ],
+  "integrated_parser_log_excerpt": [
+    "2026-10-14T00:16:14.2525989Z validated .github/workflows/ci.yml",
+    "2026-10-14T00:16:14.2526649Z validated .github/workflows/internal-ci.yml",
+    "2026-10-14T00:16:14.2527252Z validated .github/workflows/workflow-validation.yml"
   ]
 }

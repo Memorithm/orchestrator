@@ -4,7 +4,7 @@
   "id": "PAPERS-01",
   "status": "not_resolved",
   "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-  "candidate_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+  "candidate_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
   "pr": 12,
   "verified_adapter_merges": [
     {
@@ -37,25 +37,25 @@
   ],
   "candidate_checks": [
     {
-      "name": "rust",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38488612232/job/115608213855"
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641383"
     },
     {
       "name": "live-qualified-consumer",
       "status": "in_progress",
       "conclusion": null,
-      "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38488612297/job/115608213677"
+      "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361317/job/115610641280"
     },
     {
-      "name": "audit",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38488612232/job/115608213479"
+      "name": "rust",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641198"
     }
   ],
   "integrated_11_checks": [
@@ -109,5 +109,12 @@
     "exact integrated gates",
     "remaining compilation/IO/resource boundary qualification"
   ],
-  "excluded_modified": []
+  "excluded_modified": [],
+  "stale_candidate_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+  "review": {
+    "thread": "PRRT_kwDOS8iSH86sHO_I",
+    "priority": "P1",
+    "correction": "calling development harness in generation/fallbacks; live actual Researcher→Engineer route",
+    "status": "corrected_pending_exact_head_gates"
+  }
 }

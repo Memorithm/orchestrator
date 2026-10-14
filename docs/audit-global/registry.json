@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T00:14:00.042Z",
+  "updated_at": "2026-10-14T00:18:51.675Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 115
+    "merged_prs": 116
   },
   "batches": [
     {
@@ -655,6 +655,17 @@
           "merged_at": "2026-10-13T20:49:10Z",
           "url": "https://github.com/Memorithm/scirust-hub/pull/86",
           "merge_origin": "preexisting_GitHub_merge_reconciled_not_performed_in_this_session"
+        },
+        {
+          "repository": "Memorithm/SciCapsule",
+          "number": 36,
+          "head_sha": "b505505e0cadeabc07ee382ad18f846c0e8fd799",
+          "merge_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+          "merged_at": "2026-10-14T00:16:04Z",
+          "ids": [
+            "MEM-11"
+          ],
+          "merge_origin": "guarded_merge_performed_in_this_session"
         }
       ]
     }
@@ -9672,8 +9683,9 @@
       "ids": [
         "MEM-11"
       ],
-      "status": "waiting_ci",
-      "merge_sha": null
+      "status": "merged_target_validated_external_runner_acceptance_blocked",
+      "merge_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+      "batch": 3
     }
   ],
   "repository_observations": [
@@ -12053,7 +12065,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "blocked_external",
-      "current_head": "6eeaaaf2259b41290f73571d855194973a0bb26c",
+      "current_head": "1418b8d71653658b7daabcc304d71a315f7187fe",
       "default_branch": "main",
       "audit_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
       "head_reconciliation": "PR32_already_merged_but_runner_group_administration_and_safe_selected_workflow_probe_unverified",
@@ -12090,7 +12102,8 @@
           "url": "https://github.com/Memorithm/SciCapsule/pull/36",
           "head_sha": "b505505e0cadeabc07ee382ad18f846c0e8fd799",
           "base_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
-          "status": "waiting_exact_head_ci_and_review"
+          "status": "merged_target_validated_external_runner_acceptance_blocked",
+          "merge_sha": "1418b8d71653658b7daabcc304d71a315f7187fe"
         }
       ],
       "resolution_evidence": [
@@ -12109,7 +12122,7 @@
         }
       ],
       "last_observed_at": "2026-10-14T00:14:00.042Z",
-      "next_action": "Qualify exact #36 proposed-workflow validator and integrated gate; separately require actual organization runner-group selected-workflow enforcement and safe probe. #35 target push cargo success did not execute its new YAML step; remain open.",
+      "next_action": "Candidate and integrated YAML validator now actually pass at #36. Still require actual organization runner-group selected-workflow enforcement and safe probe; no enforcement inferred from workflow-only change.",
       "blockers": [
         "The available GitHub connection cannot read or change organization/repository runner-group administration.",
         "A future PR can request the ordinary Thor labels unless the runner group is externally restricted to the trusted main-pinned workflow.",
@@ -13656,7 +13669,7 @@
         {
           "number": 12,
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
-          "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+          "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
           "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
           "status": "waiting_exact_head_ci_and_review"
         }
@@ -13672,7 +13685,7 @@
         }
       ],
       "last_observed_at": "2026-10-14T00:14:00.042Z",
-      "next_action": "Qualify exact PAPERS #12 candidate review/full tests/real gVisor Engineer route; guarded merge only if green, then integrated validation; preserve diagnostic-only authority. Original local untrusted path stays fail-closed.",
+      "next_action": "Requalify corrected #12 at f4400972ad6bf3a7a613da913dbb8000e7994e82 after P1 review: Researcher emits calling executable harnesses and all ten existing fallback algorithms are preserved. Require full CI, real Researcher→Engineer→gVisor qualification, reviewed exact head, guarded merge and integrated gates; independent compile/execution/IO resource qualification remains required before closure.",
       "blockers": [
         "SciRust-Hub main explicitly states that its configured local and remote process executors are not an OS sandbox; AXH-5 container-class backend remains active and RemoteOps owns concrete isolation enforcement.",
         "No qualified backend evidence currently exists that proves stronger-than-process isolation, default-deny network and enforced CPU/RAM/time limits for this PAPERS workload."

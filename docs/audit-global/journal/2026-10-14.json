@@ -125,14 +125,97 @@
       "new_merges_this_session": [],
       "preexisting_merge_reconciliations": 6,
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T02:18:51+02:00",
+      "event": "guarded_SciCapsule36_merge_and_PAPERS12_P1_correction",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 16,
+        "batch_target": 50,
+        "merged_prs": 116,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "new_merges_this_session": [
+        "Memorithm/SciCapsule#36"
+      ],
+      "work_items": [
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "head_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+          "pr": "https://github.com/Memorithm/SciCapsule/pull/36",
+          "actions": [
+            "Merged #36 with expected head; exact integrated hosted parser and quality/MSRV succeeded",
+            "Verified integrated logs name all three validated workflow files"
+          ],
+          "checks": [
+            {
+              "name": "proposed-workflow-yaml",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38489178586/job/115610048554"
+            },
+            {
+              "name": "quality-and-msrv",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38489178259/job/115610047214"
+            }
+          ],
+          "reason_for_wait": "Actual organization runner-group selected-workflow restriction and safe probe unverified",
+          "next_action": "Candidate and integrated YAML validator now actually pass at #36. Still require actual organization runner-group selected-workflow enforcement and safe probe; no enforcement inferred from workflow-only change."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
+          "actions": [
+            "Corrected P1 helper-only candidate review: main invokes the preserved fallback algorithm; LLM generation requires calling harness",
+            "Live gate now consumes actual Researcher fallback through Engineer; zero diagnostic fitness retained"
+          ],
+          "checks": [
+            {
+              "name": "audit",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641383"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361317/job/115610641280"
+            },
+            {
+              "name": "rust",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641198"
+            }
+          ],
+          "reason_for_wait": "Old-head green results invalid; corrected exact-head CI and review pending",
+          "next_action": "Requalify corrected #12 at f4400972ad6bf3a7a613da913dbb8000e7994e82 after P1 review: Researcher emits calling executable harnesses and all ten existing fallback algorithms are preserved. Require full CI, real Researcher→Engineer→gVisor qualification, reviewed exact head, guarded merge and integrated gates; independent compile/execution/IO resource qualification remains required before closure."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 115,
+    "merged_prs": 116,
     "batch": 3,
-    "batch_merged_prs": 15,
+    "batch_merged_prs": 16,
     "scope": "only observed interval; no fabricated prior-hour entries"
   }
 }
