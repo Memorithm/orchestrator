@@ -1,9 +1,9 @@
 {
   "schema": "memorithm-remediation-lease.v1",
   "status": "active",
-  "owner": "codex-audit-20261013-final4",
-  "acquired_at": "2026-10-13T20:23:05.123Z",
-  "expires_at": "2026-10-13T23:36:28.598Z",
-  "base_sha": "1262588e4a8881327a5347a4df45d2f3b917814b",
-  "purpose": "Resolve the final four findings with actual rights, runner-group, isolated-backend and production-adoption evidence; guarded automatic merges"
+  "owner": "codex-audit-20261014-0206",
+  "acquired_at": "2026-10-14T00:06:49.432Z",
+  "expires_at": "2026-10-14T01:01:49.432Z",
+  "base_sha": "99cefe075d6f835a03b71b068e9fb635a9aa47bd",
+  "purpose": "Reconcile exact integrated merges; retain open production acceptance; implement PAPERS evaluation consumer if ownership is clear; record verified gates."
 }
