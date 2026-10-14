@@ -1129,17 +1129,78 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T05:07:55.821+02:00",
+      "event": "PAPERS14_guarded_merge_wait_target",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 21,
+        "batch_target": 50,
+        "merged_prs": 121,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "actions": [
+            "Final477 exact three candidate gates green, review complete, zero unresolved threads, diff/base/protection verified",
+            "Guarded merge773b; actual master tree equals candidate",
+            "231 Rust tests plus live executed; no scientific authority upgrade"
+          ],
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
+          "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+          "merge_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+          "checks": [
+            {
+              "name": "audit",
+              "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140372/job/115657618062"
+            },
+            {
+              "name": "rust",
+              "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140372/job/115657617703"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140321/job/115657616921"
+            }
+          ],
+          "reason_waiting": "integrated target three gates still running",
+          "next_action": "Vérifier trois gates intégrés773b et archive. Puis quotas agrégés/PID/réconciliation durable chez propriétaire; ne pas clore original sur ce slice."
+        }
+      ],
+      "new_merges_this_session": [
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 14,
+          "merge_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+          "performed_by_this_run": true
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 120,
+    "merged_prs": 121,
     "batch": 3,
-    "batch_merged_prs": 20,
+    "batch_merged_prs": 21,
     "scope": "only observed interval; no fabricated prior-hour entries",
-    "new_merges_observed_today": 5,
+    "new_merges_observed_today": 6,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14T05:02:41.545+02:00"
+    "latest_observed_at": "2026-10-14T05:07:55.821+02:00"
   }
 }

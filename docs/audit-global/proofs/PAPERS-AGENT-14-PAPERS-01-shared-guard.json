@@ -5,7 +5,7 @@
   "candidate_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
   "base_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
   "candidate_tree": "5b961bbb220493338fbe7b6bc1cf87ba2e2ce797",
-  "status": "waiting_exact_candidate_ci_review",
+  "status": "merged_waiting_target_ci_partial_acceptance",
   "owner_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
   "qualification": {
     "schema": "scirust-hub.gvisor-qualification-evidence/v1",
@@ -57,5 +57,84 @@
     "ambiguous creation quarantine/workspace reclamation",
     "guest PID qualification",
     "PAPERS pinned guard adoption"
-  ]
+  ],
+  "merge_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+  "merged_at": "2026-10-14T03:07:16Z",
+  "integrated_tree": "5b961bbb220493338fbe7b6bc1cf87ba2e2ce797",
+  "candidate_checks": [
+    {
+      "name": "audit",
+      "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140372/job/115657618062"
+    },
+    {
+      "name": "rust",
+      "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140372/job/115657617703"
+    },
+    {
+      "name": "live-qualified-consumer",
+      "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140321/job/115657616921"
+    }
+  ],
+  "candidate_full_test_count": 231,
+  "candidate_live_scenarios": [
+    "Researcher/Engineer success zero fitness",
+    "compile refusal",
+    "runtime-entry timeout",
+    "output refusal retains workspace and completed compile facts"
+  ],
+  "candidate_live_artifact": {
+    "run_id": 38504140321,
+    "artifact_id": 11867676100,
+    "sha256": "336fc8f32975d8810b77da260e045493275425a02729680aa3f25909bc81b1cd",
+    "path": "docs/audit-global/proofs/PAPERS-14/candidate-live.zip"
+  },
+  "premerge_source": {
+    "sha": "e18b18f7e39499e6b201045853c6fb16417a2a23",
+    "node_id": "C_kwDOS8iSH9oAKGUxOGIxOGY3ZTM5NDk5ZTZiMjAxMDQ1ODUzYzZmYjE2NDE3YTJhMjM",
+    "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/commits/e18b18f7e39499e6b201045853c6fb16417a2a23",
+    "html_url": "https://github.com/Memorithm/PAPERS-AGENT/commit/e18b18f7e39499e6b201045853c6fb16417a2a23",
+    "author": {
+      "name": "MEMOPERF",
+      "email": "contact@checkupauto.fr",
+      "date": "2026-10-14T03:01:57Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-10-14T03:01:57Z"
+    },
+    "tree": {
+      "sha": "5b961bbb220493338fbe7b6bc1cf87ba2e2ce797",
+      "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/trees/5b961bbb220493338fbe7b6bc1cf87ba2e2ce797"
+    },
+    "message": "Merge 4771400e205c3f0f75c94b073bbee7613f6fbf16 into 7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+    "parents": [
+      {
+        "sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/commits/7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+        "html_url": "https://github.com/Memorithm/PAPERS-AGENT/commit/7ab65af8fbb854b3bcca92e3c42de83a54630dfb"
+      },
+      {
+        "sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+        "url": "https://api.github.com/repos/Memorithm/PAPERS-AGENT/git/commits/4771400e205c3f0f75c94b073bbee7613f6fbf16",
+        "html_url": "https://github.com/Memorithm/PAPERS-AGENT/commit/4771400e205c3f0f75c94b073bbee7613f6fbf16"
+      }
+    ],
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqzvClCRC1aQ7uu5UhlAAAyf8QAKQEjJ9aynzuUrCx+cYaX5G4\n0d9PnfeHT2rNuo725wJYTqGZF/fR+G1kWX/zv5/6WDiBIVEIbsDJ1JQoVw8FYHxV\n0DvLZSpXdxzTityPxgB7HFERLvrXbh7uOIFPf/oLdy4IK5xwt9YpogJNTdcf76bn\nQi1yJi+nJ3NW8OF6LWtOixdBBcs0GfQjK1WyhLKob1Q1sHtL3tK7QMaucwOHhTgt\n69tGdCs2TQyU+0mWs7SRk2wskW5UpuwUT9YWQGBYenAAKrIrVNXwEihFm/Kd4t/U\nKmaIyZ6WCqdEThFT40Ly4BBI5M2kbRHFxHWjUmYquUdfrNSPZu1wjD6Na6v9xnAc\n6G4vdDdalQW0cOQCOShKMowKDyv+9OQiXs+lAn06vMR2j3vfBGT5P5Z87pBNNfZ8\nibnHW1TDku9oObDeLnEHevSXnDuvDG1SqGu8Uynz7B6bXi84yXvHxJgGmXxViJ9x\nnfpJN2UOl+G8G59Nlu32ZqhLyDmbyb7C125ABzQu7z7r+LlL663YidRETw9pADAs\ntGJslKn8h3gBwAAZ7eyyGsmnYKAwVojNKZukamlYvn05Mya0bBamcG3TZCCJ7PnW\nHfzfxbIJ8s0WbsUnruBYGmO+4MLMlVebZpLANY8qysHDaYZLPIcuNNn+NTHZuZVv\n6uum21pzcO6Qj/46uolp\n=7z1+\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 5b961bbb220493338fbe7b6bc1cf87ba2e2ce797\nparent 7ab65af8fbb854b3bcca92e3c42de83a54630dfb\nparent 4771400e205c3f0f75c94b073bbee7613f6fbf16\nauthor MEMOPERF <contact@checkupauto.fr> 1791946917 +0000\ncommitter GitHub <noreply@github.com> 1791946917 +0000\n\nMerge 4771400e205c3f0f75c94b073bbee7613f6fbf16 into 7ab65af8fbb854b3bcca92e3c42de83a54630dfb\n",
+      "verified_at": "2026-10-14T03:01:57Z"
+    }
+  }
 }
