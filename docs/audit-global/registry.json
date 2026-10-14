@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T04:15:12.417Z",
+  "updated_at": "2026-10-14T04:20:31.685Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -10014,6 +10014,19 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087155"
         }
       ]
+    },
+    {
+      "repository": "Memorithm/scirust-hub",
+      "number": 89,
+      "url": "https://github.com/Memorithm/scirust-hub/pull/89",
+      "base": "main",
+      "base_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+      "head_sha": "25f598fd73de99759fb801c21c6845a652f71cb0",
+      "ids": [
+        "PAPERS-01"
+      ],
+      "status": "waiting_exact_candidate_ci_review",
+      "merge_sha": null
     }
   ],
   "repository_observations": [
@@ -13961,7 +13974,7 @@
         "Isoler rustc et compilation JIT sous utilisateur dédié et quotas OS; limiter octets source/module, mémoire/table WASM via StoreLimits/ResourceLimiter et durée de compilation séparée; drainer stderr pendant compilation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "in_progress",
+      "status": "waiting_ci",
       "current_head": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
@@ -14218,6 +14231,19 @@
               "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087155"
             }
           ]
+        },
+        {
+          "repository": "Memorithm/scirust-hub",
+          "number": 89,
+          "url": "https://github.com/Memorithm/scirust-hub/pull/89",
+          "base": "main",
+          "base_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+          "head_sha": "25f598fd73de99759fb801c21c6845a652f71cb0",
+          "ids": [
+            "PAPERS-01"
+          ],
+          "status": "waiting_exact_candidate_ci_review",
+          "merge_sha": null
         }
       ],
       "resolution_evidence": [
@@ -14249,8 +14275,8 @@
           "integrated_checks": 3
         }
       ],
-      "last_observed_at": "2026-10-14T03:13:24.130Z",
-      "next_action": "Chez le propriétaire, qualifier limite PID guest par probe fini et quota agrégé workspace sans perdre artifact/provenance compilation-exécution; ajouter réconciliation durable des créations/refus ambigus. Préserver les trois gates exactes/holdouts et tous dépôts exclus.",
+      "last_observed_at": "2026-10-14T04:20:31.685Z",
+      "next_action": "Qualifier Hub89, corriger toute revue/gate réelle puis fusion gardée et deux gates intégrées; ensuite repin consommateur PAPERS aux preuves propriétaires exactes.",
       "blockers": [
         "Shared guard/refusal retention/pinned owner source and consumer integrated scope qualified by #14: 3/3 integrated gates, 231 tests + one real live test, archive verified.",
         "Aggregate workspace quota, adversarial guest PID bound, durable ambiguous-creation/quarantine reconciliation not yet enforced/qualified; original PAPERS-01 remains open."

@@ -1290,6 +1290,87 @@
       ],
       "next_action": "Chez le propriétaire, qualifier limite PID guest par probe fini et quota agrégé workspace sans perdre artifact/provenance compilation-exécution; ajouter réconciliation durable des créations/refus ambigus. Préserver les trois gates exactes/holdouts et tous dépôts exclus.",
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T06:20:31.685+02:00",
+      "event": "resume_sources_complete_and_guest_pid_pr89",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 21,
+        "batch_target": 50,
+        "merged_prs": 121,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "source_read": {
+        "json_windows": 18,
+        "json_lines": 17530,
+        "report_windows": 3,
+        "report_lines": 2492,
+        "findings": 113,
+        "immutable_modified": "2026-09-30",
+        "zip": "persistent reference metadata read; text mode has no readable archive content"
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/scirust-hub",
+          "status": "waiting_ci",
+          "actions": [
+            "Reconciled closed/merged #14 snapshot stale state; never refusionned/recounted",
+            "Read all persistent JSON/report windows, all113 findings inventoried; root/offmain/ML/AX/holdout policies and currentdbad code read",
+            "Owned recoverable lease acquired via observed lease blob SHA and readback",
+            "Published89 matching guestNPROC/hostPID with nonroot preflight and finite mixed96thread+8process probe/128positivecontrol",
+            "Local diff/Python syntax passed; rustfmt absent, no host fallback"
+          ],
+          "pr": "https://github.com/Memorithm/scirust-hub/pull/89",
+          "head_sha": "25f598fd73de99759fb801c21c6845a652f71cb0",
+          "checks": [
+            {
+              "name": "fmt / clippy / build / test / doc",
+              "status": "in_progress",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38510801546/job/115678609934"
+            },
+            {
+              "name": "real runsc isolation and PAPERS compile probe",
+              "status": "in_progress",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38510801551/job/115678609709"
+            }
+          ],
+          "reason_waiting": "exact-head full CI/live/review still running",
+          "next_action": "Qualifier Hub89, corriger toute revue/gate réelle puis fusion gardée et deux gates intégrées; ensuite repin consommateur PAPERS aux preuves propriétaires exactes."
+        },
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "Fresh #150 still open,0comments; rights/consents not supplied"
+          ],
+          "next_action": "Documented ownership review required, no invented legal authority"
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Actualmain1418 unchanged; organization administration unavailable by advertised connector scope"
+          ],
+          "next_action": "Actual runner-group selected-workflow restriction and safe probe required"
+        },
+        {
+          "id": "COG-SML-001",
+          "repository": "restricted",
+          "status": "blocked_external",
+          "actions": [
+            "Private current PR accessible; available PR-only run inventory does not establish production dispatch acceptance"
+          ],
+          "next_action": "Operator-owned signing/ACL/adoption evidence required; no new signing credentials inferred"
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -1301,6 +1382,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 6,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14T05:15:49.145+02:00"
+    "latest_observed_at": "2026-10-14T06:20:31.685+02:00"
   }
 }

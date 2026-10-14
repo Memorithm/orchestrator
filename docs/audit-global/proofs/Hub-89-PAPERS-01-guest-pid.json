@@ -1,0 +1,23 @@
+{
+  "schema": "memorithm-audit-proof.v1",
+  "id": "PAPERS-01",
+  "pr": "https://github.com/Memorithm/scirust-hub/pull/89",
+  "status": "waiting_exact_candidate_ci_review",
+  "candidate_sha": "25f598fd73de99759fb801c21c6845a652f71cb0",
+  "candidate_tree": "a2b923df5e1dc8e8fe2bbc76f1a2df522744bf10",
+  "base_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+  "scope": "guest soft/hard NPROC, nonroot workspace admission, finite mixed-task PID64/128 real runsc controls",
+  "expected_full_tests": 285,
+  "local_checks": [
+    "git diff --check passed",
+    "Python py_compile passed",
+    "rustfmt unavailable; no functional host tests"
+  ],
+  "nonclaims": [
+    "No aggregate workspace quota",
+    "No durable ambiguous-creation/quarantine reconciliation",
+    "No empirical/hardware-performance verdict"
+  ],
+  "source_model": "https://gvisor.dev/docs/architecture_guide/resources/",
+  "excluded_modified": []
+}
