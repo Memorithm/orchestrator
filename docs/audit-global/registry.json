@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T04:20:31.685Z",
+  "updated_at": "2026-10-14T04:28:58.151Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -10021,12 +10021,15 @@
       "url": "https://github.com/Memorithm/scirust-hub/pull/89",
       "base": "main",
       "base_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
-      "head_sha": "25f598fd73de99759fb801c21c6845a652f71cb0",
+      "head_sha": "3bb8a7ab97c06db5670218b620eed13cf37c3681",
       "ids": [
         "PAPERS-01"
       ],
       "status": "waiting_exact_candidate_ci_review",
-      "merge_sha": null
+      "merge_sha": null,
+      "superseded_heads": [
+        "25f598fd73de99759fb801c21c6845a652f71cb0"
+      ]
     }
   ],
   "repository_observations": [
@@ -14238,12 +14241,15 @@
           "url": "https://github.com/Memorithm/scirust-hub/pull/89",
           "base": "main",
           "base_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
-          "head_sha": "25f598fd73de99759fb801c21c6845a652f71cb0",
+          "head_sha": "3bb8a7ab97c06db5670218b620eed13cf37c3681",
           "ids": [
             "PAPERS-01"
           ],
           "status": "waiting_exact_candidate_ci_review",
-          "merge_sha": null
+          "merge_sha": null,
+          "superseded_heads": [
+            "25f598fd73de99759fb801c21c6845a652f71cb0"
+          ]
         }
       ],
       "resolution_evidence": [

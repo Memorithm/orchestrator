@@ -1371,6 +1371,34 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T04:28:58.151Z",
+      "event": "hub89_review_corrections_new_head",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 121
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/scirust-hub",
+          "status": "waiting_ci",
+          "pr": "https://github.com/Memorithm/scirust-hub/pull/89",
+          "head_sha": "3bb8a7ab97c06db5670218b620eed13cf37c3681",
+          "actions": [
+            "P1: host512 fixed while guest64/128 independent finite range105",
+            "P2: root-run fake-Docker fixture owned leaf chown; actual UID0 bounded CI binary"
+          ],
+          "checks": "two exact new-head gates running; old285 coupled-control greens not reused",
+          "next_action": "Inspect286 tests, UID0 fixtures, independent actual runsc receipts and review before guarded merge"
+        }
+      ]
     }
   ],
   "daily_summary": {
@@ -1382,6 +1410,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 6,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14T06:20:31.685+02:00"
+    "latest_observed_at": "2026-10-14T04:28:58.151Z"
   }
 }

@@ -3,11 +3,11 @@
   "id": "PAPERS-01",
   "pr": "https://github.com/Memorithm/scirust-hub/pull/89",
   "status": "waiting_exact_candidate_ci_review",
-  "candidate_sha": "25f598fd73de99759fb801c21c6845a652f71cb0",
-  "candidate_tree": "a2b923df5e1dc8e8fe2bbc76f1a2df522744bf10",
+  "candidate_sha": "3bb8a7ab97c06db5670218b620eed13cf37c3681",
+  "candidate_tree": "e0fbcbad3a2b3ef3ea54557f746fbf4698f32416",
   "base_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
-  "scope": "guest soft/hard NPROC, nonroot workspace admission, finite mixed-task PID64/128 real runsc controls",
-  "expected_full_tests": 285,
+  "scope": "independent guest soft/hard NPROC64/128 under hostPID512, legacy wire default, nonroot admission, real finite runsc control and root-run protocol regression",
+  "expected_full_tests": 286,
   "local_checks": [
     "git diff --check passed",
     "Python py_compile passed",
@@ -19,5 +19,12 @@
     "No empirical/hardware-performance verdict"
   ],
   "source_model": "https://gvisor.dev/docs/architecture_guide/resources/",
-  "excluded_modified": []
+  "excluded_modified": [],
+  "superseded_heads": [
+    "25f598fd73de99759fb801c21c6845a652f71cb0"
+  ],
+  "review_corrections": [
+    "P1: host512 fixed while guest64/128 independent finite range105",
+    "P2: root-run fake-Docker fixture owned leaf chown; actual UID0 bounded CI binary"
+  ]
 }
