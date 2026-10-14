@@ -1931,6 +1931,66 @@
       ],
       "no_excluded_mutations": true,
       "no_new_automation_created": true
+    },
+    {
+      "observed_at": "2026-10-14 07:52:52 Europe/Paris",
+      "event": "consumer16_integrated_qualified_exact_remaining_scope",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 125,
+        "batch": 3,
+        "batch_merged_prs": 25
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "in_progress_aggregate_quota_pending",
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/16",
+          "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+          "merge_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+          "checks": [
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447080/job/115702434318"
+            },
+            {
+              "name": "rust",
+              "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447039/job/115702434089"
+            },
+            {
+              "name": "audit",
+              "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447039/job/115702433792"
+            }
+          ],
+          "actions": [
+            "3integratedgatesgreen,232Rust+dedicatedreal1passed0ignored,7durableattemptsobserved; artifactd20a80c3verifiedandretained; sourcecandidate=integrated",
+            "No regression observed; rollback unnecessary; no overall findingclosure",
+            "Updated off-default roadmaps and durable capability/owner/consumer provenance. RemoteOps reference read-only; no execution or modification of excluded repos."
+          ],
+          "next_action": "Implement/qualify actual aggregate persistent task workspace quota in existing owner/provider ports; preserve artifacts across compilation/execution, private journal outside writable volume, finite positive/negative multi-file/inode probes, quarantine and scientific fail-closed semantics."
+        }
+      ],
+      "roadmaps": {
+        "Hub": "af73c44ca78eed76674b6c38d22bbbc182a57513",
+        "PAPERS": "3cc27da4ec9f8956630e1d4eafdc1d885e681a18"
+      },
+      "no_excluded_mutations": true,
+      "no_new_automation_created": true
     }
   ],
   "daily_summary": {
@@ -1942,6 +2002,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 10,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 07:47:00 Europe/Paris"
+    "latest_observed_at": "2026-10-14 07:52:52 Europe/Paris"
   }
 }

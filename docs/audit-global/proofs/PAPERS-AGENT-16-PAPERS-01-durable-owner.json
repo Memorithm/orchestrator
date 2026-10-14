@@ -12,7 +12,7 @@
     "base": "master",
     "base_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
     "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
-    "status": "merged_integrated_validation_pending",
+    "status": "merged_target_validated_partial_original_acceptance",
     "superseded_heads": [
       "03622393b8f2f82a3b50428190abafd66a0596f1",
       "3fbf38bf69c140321a83ddcdca49a4b57abed74d"
@@ -42,12 +42,34 @@
         "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38517929439/job/115700824122"
       }
     ],
-    "integrated_checks": [],
+    "integrated_checks": [
+      {
+        "name": "live-qualified-consumer",
+        "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447080/job/115702434318"
+      },
+      {
+        "name": "rust",
+        "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447039/job/115702434089"
+      },
+      {
+        "name": "audit",
+        "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447039/job/115702433792"
+      }
+    ],
     "candidate_tree": "1cc96860abcb11f7b2ec59f4a5d63134df9981c2",
     "merged_at": "2026-10-14T05:46:31Z",
     "merge_origin": "guarded_expected_head_merge_performed_in_this_run"
   },
-  "observed_at": "2026-10-14 07:47:00 Europe/Paris",
+  "observed_at": "2026-10-14 07:52:52 Europe/Paris",
   "owner_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
   "owner_qualification_run": 38517039600,
   "owner_archive_sha256": "42436f60653968c1be42a198c625a9a22e690f1d569aecd2956699df3ae16eed",
@@ -67,5 +89,42 @@
     "full lock bytes verified equal local=published Gitblob294a2a90b5fc86f06874fedd7356a181d4fab0a2",
     "two shell recovery continuations fixed; all predicates preserved and actually run"
   ],
-  "review_threads_resolved": 2
+  "review_threads_resolved": 2,
+  "integrated_validation": {
+    "checks": [
+      {
+        "name": "live-qualified-consumer",
+        "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447080/job/115702434318"
+      },
+      {
+        "name": "rust",
+        "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447039/job/115702434089"
+      },
+      {
+        "name": "audit",
+        "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447039/job/115702433792"
+      }
+    ],
+    "Rust_tests": 232,
+    "ordinary_live_ignored": 1,
+    "dedicated_live": {
+      "passed": 1,
+      "ignored": 0,
+      "durable_phase_observations": 7
+    },
+    "source_tree_equals_candidate": true,
+    "artifact_sha256": "d20a80c3efce9d2fabad030bad9d945de1c76ee46347e3d996da74cb1eb27996",
+    "archive": "PAPERS16-integrated-run38518447080.zip",
+    "raw_ci": "PAPERS16-integrated-CI.log",
+    "raw_live": "PAPERS16-integrated-live.log"
+  }
 }

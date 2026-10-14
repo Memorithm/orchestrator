@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14 07:47:00 Europe/Paris",
+  "updated_at": "2026-10-14 07:52:52 Europe/Paris",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -10237,7 +10237,7 @@
       "base": "master",
       "base_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
       "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
-      "status": "merged_integrated_validation_pending",
+      "status": "merged_target_validated_partial_original_acceptance",
       "superseded_heads": [
         "03622393b8f2f82a3b50428190abafd66a0596f1",
         "3fbf38bf69c140321a83ddcdca49a4b57abed74d"
@@ -10267,7 +10267,29 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38517929439/job/115700824122"
         }
       ],
-      "integrated_checks": [],
+      "integrated_checks": [
+        {
+          "name": "live-qualified-consumer",
+          "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447080/job/115702434318"
+        },
+        {
+          "name": "rust",
+          "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447039/job/115702434089"
+        },
+        {
+          "name": "audit",
+          "head_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38518447039/job/115702433792"
+        }
+      ],
       "candidate_tree": "1cc96860abcb11f7b2ec59f4a5d63134df9981c2",
       "merged_at": "2026-10-14T05:46:31Z",
       "merge_origin": "guarded_expected_head_merge_performed_in_this_run"
@@ -10434,12 +10456,12 @@
       "repository": "Memorithm/PAPERS-AGENT",
       "visibility": "public",
       "default_branch": "master",
-      "current_head": "86b3dc2b84e98e3468448cb44395aeca3f989460",
-      "tree_sha": "e54f4a3169995ac97863aac261b4b8d41785508d",
+      "current_head": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+      "tree_sha": "1cc96860abcb11f7b2ec59f4a5d63134df9981c2",
       "protected": false,
       "required_checks": [],
       "error": null,
-      "last_observed_at": "2026-10-07T17:03:22+02:00"
+      "last_observed_at": "2026-10-14 07:52:52 Europe/Paris"
     },
     {
       "repository": "Memorithm/ProofLab",
@@ -10611,11 +10633,12 @@
       "repository": "Memorithm/scirust-hub",
       "visibility": "public",
       "default_branch": "main",
-      "current_head": "c53ecd84af0a8bf17b595296004539c0252582d2",
-      "tree_sha": "2937ae142649a9927ebffef7da40ce318bd74694",
+      "current_head": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+      "tree_sha": "014ae3199c24cfea8455933b9dee9f5c946ba3e0",
       "protected": false,
       "required_checks": [],
-      "error": null
+      "error": null,
+      "last_observed_at": "2026-10-14 07:52:52 Europe/Paris"
     },
     {
       "repository": "Memorithm/ProofLab",
@@ -14593,7 +14616,8 @@
           "number": 90,
           "url": "https://github.com/Memorithm/scirust-hub/pull/90",
           "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
-          "status": "candidate_ci_review_pending"
+          "status": "merged_target_validated_partial_original_acceptance",
+          "merge_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08"
         },
         {
           "repository": "Memorithm/PAPERS-AGENT",
@@ -14605,12 +14629,12 @@
           "base": "master",
           "base_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
           "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
-          "status": "candidate_ci_review_pending",
+          "status": "merged_target_validated_partial_original_acceptance",
           "superseded_heads": [
             "03622393b8f2f82a3b50428190abafd66a0596f1",
             "3fbf38bf69c140321a83ddcdca49a4b57abed74d"
           ],
-          "merge_sha": null,
+          "merge_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
           "owner_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
           "checks": [],
           "integrated_checks": []
@@ -14662,13 +14686,19 @@
           "merge_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
           "status": "merged_target_validated_partial_original_acceptance",
           "integrated_checks": 2
+        },
+        {
+          "proof": "docs/audit-global/proofs/PAPERS-AGENT-16-PAPERS-01-durable-owner.json",
+          "merge_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+          "owner_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+          "status": "merged_target_validated_partial_original_acceptance",
+          "integrated_checks": 3
         }
       ],
-      "last_observed_at": "2026-10-14 07:47:00 Europe/Paris",
-      "next_action": "Verify integrated3gates and retained exact artifact forPAPERS16; then aggregate filesystem quota engineering/actual multi-file and inode enforcement qualification, preserving phase persistence and private journal.",
+      "last_observed_at": "2026-10-14 07:52:52 Europe/Paris",
+      "next_action": "Implement/qualify actual aggregate persistent task workspace quota in existing owner/provider ports; preserve artifacts across compilation/execution, private journal outside writable volume, finite positive/negative multi-file/inode probes, quarantine and scientific fail-closed semantics.",
       "blockers": [
-        "Aggregate writable workspace OS quota not implemented/qualified",
-        "PAPERS16 exact candidate and integrated owner-adoption qualification pending"
+        "Actual aggregate multi-file and inode writable workspace OS quota not implemented/qualified; per-file RLIMIT_FSIZE not substitute"
       ],
       "current_owner_head": "cf5233af12499605bd57d9d613b3cddc3bc39d08"
     },
@@ -16636,10 +16666,10 @@
       "partial_consumers": [
         {
           "repository": "Memorithm/PAPERS-AGENT",
-          "head": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
-          "owner_commit": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
-          "proof": "docs/audit-global/proofs/PAPERS-AGENT-14-PAPERS-01-shared-guard.json",
-          "scope": "shared guard, exact pinned qualified gVisor/phase provenance/refusal retention; aggregate quotas/PID/durable quarantine still incomplete"
+          "head": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+          "owner_commit": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+          "proof": "docs/audit-global/proofs/PAPERS-AGENT-16-PAPERS-01-durable-owner.json",
+          "scope": "qualified sharedguard,gVisor6controls,independentguestPID,durableownerattempts/readonlyreconciliation/4packageprovenance; aggregate workspace quota still incomplete"
         }
       ]
     },
@@ -16677,25 +16707,33 @@
         "orchestrator"
       ],
       "status": "necessity_permissions_inventory_required_no_repository_created"
+    },
+    {
+      "name": "durable_backend_attempts",
+      "owner": "Memorithm/scirust-hub/crates/hub-store-sqlite + hub-executor",
+      "status": "owner_and_PAPERS_scoped_contract_integrated_qualified",
+      "owner_commit": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+      "consumer_commit": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+      "proofs": [
+        "docs/audit-global/proofs/Hub-90-PAPERS-01-durable-recovery.json",
+        "docs/audit-global/proofs/PAPERS-AGENT-16-PAPERS-01-durable-owner.json"
+      ],
+      "boundary": "reuse existing SQLite/lifecycle_events, not new scheduler or proofauthority; metadata/process cleanup never semantic success/scientific fitness; aggregate quota not qualified"
     }
   ],
-  "last_central_comment": {
-    "id": 6160821173,
-    "url": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6160821173",
-    "observed_at": "2026-10-14 06:46:52 Europe/Paris"
-  },
+  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6161536296",
   "last_verified_targets": {
     "PAPERS-AGENT": {
-      "sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+      "sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
       "checks": 3,
       "all_success": true,
-      "scope": "guest PID owner adoption/shared guard/provenance/refusal diagnostics; original aggregate quota and durable quarantine acceptance incomplete"
+      "scope": "Exact locked4-package owner graph/qualified CLI/manifest/receipt/archive and durable cleanup metadata adopted; aggregate OS workspace quota incomplete"
     },
     "scirust-hub": {
-      "sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
+      "sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
       "checks": 2,
       "all_success": true,
-      "scope": "independent guest PID plus six real controls; no aggregate workspace quota/durable ambiguous-create cleanup"
+      "scope": "Six real controls and two real durable crash/lost-response reconciliation probes; aggregate workspace OS quota incomplete"
     }
   }
 }
