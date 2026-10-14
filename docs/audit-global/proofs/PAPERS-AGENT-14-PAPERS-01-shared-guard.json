@@ -1,0 +1,42 @@
+{
+  "schema": "memorithm-audit-proof.v1",
+  "id": "PAPERS-01",
+  "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
+  "candidate_sha": "b900c30aa2da17b31c0012eff128632afb7d5a06",
+  "base_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+  "candidate_tree": "fa1403eac9596147b9391ade057f698459cd9922",
+  "status": "waiting_exact_candidate_ci_review",
+  "owner_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+  "qualification": {
+    "schema": "scirust-hub.gvisor-qualification-evidence/v1",
+    "source_commit": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+    "workflow_run_id": 38502405612,
+    "receipt_sha256": "f346a966c7ae8dbaa681a84291ffd9cf04f3f98aecf009971ae6950810278653"
+  },
+  "checks": [
+    {
+      "name": "rust",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38503313290/job/115655011577"
+    },
+    {
+      "name": "live-qualified-consumer",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38503313334/job/115655011395"
+    },
+    {
+      "name": "audit",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38503313290/job/115655011269"
+    }
+  ],
+  "nonclaims": [
+    "aggregate workspace quota",
+    "ambiguous creation quarantine/workspace reclamation",
+    "guest PID qualification",
+    "PAPERS pinned guard adoption"
+  ]
+}
