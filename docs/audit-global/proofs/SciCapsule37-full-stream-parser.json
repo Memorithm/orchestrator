@@ -1,0 +1,62 @@
+{
+  "schema": "memorithm.audit.parser-proof/v1",
+  "finding": "MEM-11",
+  "repository": "Memorithm/SciCapsule",
+  "number": 37,
+  "url": "https://github.com/Memorithm/SciCapsule/pull/37",
+  "ids": [
+    "MEM-11"
+  ],
+  "base": "main",
+  "base_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+  "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+  "merge_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+  "merged_at": "2026-10-14T06:49:31Z",
+  "merge_origin": "guarded_expected_head_merge_performed_in_this_run",
+  "status": "merged_target_parser_validated_external_runner_group_blocked",
+  "candidate_tree": "dfb52971c1b0c5ad6b94deab3b5d12a8b0f05bc7",
+  "checks": [
+    {
+      "name": "proposed-workflow-yaml",
+      "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524194454/job/115720564219"
+    },
+    {
+      "name": "quality-and-msrv",
+      "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524193525/job/115720562660"
+    }
+  ],
+  "integrated_checks": [
+    {
+      "name": "proposed-workflow-yaml",
+      "head_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524495997/job/115721536705",
+      "scope": "actual exact integrated full-stream parsers with positive/negative controls"
+    },
+    {
+      "name": "quality-and-msrv",
+      "head_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524495735/job/115721535421",
+      "scope": "internal workflow checks pinned prior trusted1418b8; not new parser proof"
+    }
+  ],
+  "superseded_heads": [
+    "07759b97d007e6bbc3e6988423cfdbf6568be28f"
+  ],
+  "actual_parser_run": 38524495997,
+  "actual_parser_job": 115721536705,
+  "actual_markers": [
+    "WORKFLOW_YAML_FULL_STREAM_POSITIVE_AND_5_NEGATIVES_OK",
+    "BASE_WORKFLOW_YAML_FULL_STREAM_POSITIVE_AND_5_NEGATIVES_OK"
+  ],
+  "external_runner_acceptance": "not qualified; no closure"
+}

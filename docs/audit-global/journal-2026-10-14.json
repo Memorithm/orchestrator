@@ -2239,19 +2239,78 @@
         }
       ],
       "no_excluded_mutations": true
+    },
+    {
+      "observed_at": "2026-10-14 08:55:40 Europe/Paris",
+      "event": "parser_merge_integrated_scope_and_consumer_requalification",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 127,
+        "batch": 3,
+        "batch_merged_prs": 27
+      },
+      "work_items": [
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked",
+          "pr": 37,
+          "head": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+          "merge_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+          "actions": [
+            "P2 old36/P1 new37 fixed: both proposed and base-controlled parsers require full stream/one mapping and actual one-positive/five-negative controls. Guarded merge performed after2candidate gates,97 Rust/MSRV tests.",
+            "Integrated exact parser gate emits both regression markers. Separate internal quality job checks pinned1418b8, not new-parser proof; this distinction retained."
+          ],
+          "checks_executed": [
+            {
+              "name": "proposed-workflow-yaml",
+              "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524194454/job/115720564219"
+            },
+            {
+              "name": "quality-and-msrv",
+              "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524193525/job/115720562660"
+            }
+          ],
+          "next_action": "PR37 fixes full-stream parser in trusted base + actual proposed gate. Exact integrated parser checks both markers; internal quality metadata green but actual checkout remains trusted1418b8, not new-parser proof. Require real org runner-group selected-workflow restrictions and safe probe; connection lacks administration endpoints. Remains blocked."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT; Memorithm/scirust-hub",
+          "status": "waiting_ci",
+          "pr": 17,
+          "head": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+          "actions": [
+            "P1 cleanup refusal repaired and real mode000 probe passed,234 functional Rust tests and13 owner attempts observed on superseded72e897.",
+            "Observed rustfmt stdin check prints diffs but succeeds; corrected file-check gate and exact PR/push format range on d93cee. CI requalification pending, no consumer merge/closure."
+          ],
+          "next_action": "PAPERS17 P1 cleanup fixed,234 functional Rust + real13 attempt/mode000 controls passed on72e897, but stdin formatting gate was unsound. d93cee enforces file-format/exact source; all3 candidate gates and actual integrated gates still required; do not reuse prior greens."
+        }
+      ],
+      "no_excluded_mutations": true
     }
   ],
   "daily_summary": {
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 125,
+    "merged_prs": 127,
     "batch": 3,
-    "batch_merged_prs": 25,
+    "batch_merged_prs": 27,
     "scope": "only observed interval; no fabricated prior-hour entries",
-    "new_merges_observed_today": 10,
+    "new_merges_observed_today": 12,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 07:55:08 Europe/Paris",
-    "last_public_summary": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6161536296",
+    "latest_observed_at": "2026-10-14 08:55:40 Europe/Paris",
+    "last_public_summary": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6162168060",
     "current_pass_merges": 2
   }
 }

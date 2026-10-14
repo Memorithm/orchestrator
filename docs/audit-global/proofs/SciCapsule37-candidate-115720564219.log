@@ -1,0 +1,208 @@
+﻿2026-10-14T06:46:35.7116649Z Current runner version: '2.337.0'
+2026-10-14T06:46:35.7148687Z ##[group]Runner Image Provisioner
+2026-10-14T06:46:35.7149921Z Hosted Compute Agent
+2026-10-14T06:46:35.7150522Z Version: 20261002.596
+2026-10-14T06:46:35.7151159Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-14T06:46:35.7151988Z Build Date: 2026-10-02T22:28:27Z
+2026-10-14T06:46:35.7152760Z Worker ID: {bf6a492f-abcf-497c-af8d-f156e4639ca8}
+2026-10-14T06:46:35.7153549Z Region: centralus
+2026-10-14T06:46:35.7154132Z Cloud: Azure
+2026-10-14T06:46:35.7154724Z ##[endgroup]
+2026-10-14T06:46:35.7156989Z ##[group]Operating System
+2026-10-14T06:46:35.7158079Z Ubuntu
+2026-10-14T06:46:35.7158813Z 24.04.5
+2026-10-14T06:46:35.7159373Z LTS
+2026-10-14T06:46:35.7159892Z ##[endgroup]
+2026-10-14T06:46:35.7160498Z ##[group]Runner Image
+2026-10-14T06:46:35.7161187Z Image: ubuntu-24.04-arm
+2026-10-14T06:46:35.7161774Z Version: 20261004.142.1
+2026-10-14T06:46:35.7163247Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24-arm64/20261004.142/images/ubuntu/Ubuntu2404-Arm64-Readme.md
+2026-10-14T06:46:35.7164860Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24-arm64%2F20261004.142
+2026-10-14T06:46:35.7165834Z ##[endgroup]
+2026-10-14T06:46:35.7167073Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T06:46:35.7170224Z Contents: read
+2026-10-14T06:46:35.7170828Z Metadata: read
+2026-10-14T06:46:35.7171588Z ##[endgroup]
+2026-10-14T06:46:35.7174649Z Secret source: Actions
+2026-10-14T06:46:35.7175980Z Cache mode: write
+2026-10-14T06:46:35.7176770Z Prepare workflow directory
+2026-10-14T06:46:35.7588501Z Prepare all required actions
+2026-10-14T06:46:35.7647893Z Getting action download info
+2026-10-14T06:46:36.0314444Z Download action repository 'actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-10-14T06:46:36.2792829Z Complete job name: proposed-workflow-yaml
+2026-10-14T06:46:36.3729654Z ##[group]Run actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+2026-10-14T06:46:36.3731826Z with:
+2026-10-14T06:46:36.3732461Z   ref: 97b8db734f3be2e6810e6f59ae094aaf733f44b7
+2026-10-14T06:46:36.3733368Z   persist-credentials: false
+2026-10-14T06:46:36.3734050Z   repository: Memorithm/SciCapsule
+2026-10-14T06:46:36.3738528Z   token: ***
+2026-10-14T06:46:36.3739159Z   ssh-strict: true
+2026-10-14T06:46:36.3739702Z   ssh-user: git
+2026-10-14T06:46:36.3740325Z   clean: true
+2026-10-14T06:46:36.3740940Z   sparse-checkout-cone-mode: true
+2026-10-14T06:46:36.3741632Z   fetch-depth: 1
+2026-10-14T06:46:36.3742228Z   fetch-tags: false
+2026-10-14T06:46:36.3742810Z   show-progress: true
+2026-10-14T06:46:36.3743505Z   lfs: false
+2026-10-14T06:46:36.3744044Z   submodules: false
+2026-10-14T06:46:36.3744628Z   set-safe-directory: true
+2026-10-14T06:46:36.3746304Z ##[endgroup]
+2026-10-14T06:46:36.4672083Z Syncing repository: Memorithm/SciCapsule
+2026-10-14T06:46:36.4674725Z ##[group]Getting Git version info
+2026-10-14T06:46:36.4675659Z Working directory is '/home/runner/work/SciCapsule/SciCapsule'
+2026-10-14T06:46:36.4677156Z [command]/usr/bin/git version
+2026-10-14T06:46:36.4749877Z git version 2.55.0
+2026-10-14T06:46:36.4779351Z ##[endgroup]
+2026-10-14T06:46:36.4787082Z Temporarily overriding HOME='/home/runner/work/_temp/67640195-d892-438b-b52d-375f05acad07' before making global git config changes
+2026-10-14T06:46:36.4789619Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T06:46:36.4790942Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/SciCapsule/SciCapsule
+2026-10-14T06:46:36.4806149Z Deleting the contents of '/home/runner/work/SciCapsule/SciCapsule'
+2026-10-14T06:46:36.4822813Z ##[group]Initializing the repository
+2026-10-14T06:46:36.4838481Z [command]/usr/bin/git init /home/runner/work/SciCapsule/SciCapsule
+2026-10-14T06:46:36.4959978Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-14T06:46:36.4961834Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-14T06:46:36.4963809Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-14T06:46:36.4965588Z hint: call:
+2026-10-14T06:46:36.4966418Z hint:
+2026-10-14T06:46:36.4967138Z hint: 	git config --global init.defaultBranch <name>
+2026-10-14T06:46:36.4968596Z hint:
+2026-10-14T06:46:36.4969367Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-14T06:46:36.4970365Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-14T06:46:36.4971349Z hint:
+2026-10-14T06:46:36.4971908Z hint: 	git branch -m <name>
+2026-10-14T06:46:36.4972551Z hint:
+2026-10-14T06:46:36.4973321Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-14T06:46:36.4974394Z Initialized empty Git repository in /home/runner/work/SciCapsule/SciCapsule/.git/
+2026-10-14T06:46:36.4976614Z [command]/usr/bin/git remote add origin https://github.com/Memorithm/SciCapsule
+2026-10-14T06:46:36.5014214Z ##[endgroup]
+2026-10-14T06:46:36.5015489Z ##[group]Disabling automatic garbage collection
+2026-10-14T06:46:36.5018208Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T06:46:36.5058606Z ##[endgroup]
+2026-10-14T06:46:36.5059799Z ##[group]Setting up auth
+2026-10-14T06:46:36.5060712Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T06:46:36.5088404Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T06:46:36.5424277Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T06:46:36.5455887Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T06:46:36.5650862Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T06:46:36.5683008Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T06:46:36.5880531Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-14T06:46:36.5923479Z ##[endgroup]
+2026-10-14T06:46:36.5924589Z ##[group]Fetching the repository
+2026-10-14T06:46:36.5931962Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 97b8db734f3be2e6810e6f59ae094aaf733f44b7
+2026-10-14T06:46:36.9379833Z From https://github.com/Memorithm/SciCapsule
+2026-10-14T06:46:36.9381241Z  * branch            97b8db734f3be2e6810e6f59ae094aaf733f44b7 -> FETCH_HEAD
+2026-10-14T06:46:36.9383975Z ##[endgroup]
+2026-10-14T06:46:36.9385160Z ##[group]Determining the checkout info
+2026-10-14T06:46:36.9387293Z ##[endgroup]
+2026-10-14T06:46:36.9393916Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T06:46:36.9442991Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T06:46:36.9475636Z ##[group]Checking out the ref
+2026-10-14T06:46:36.9478053Z [command]/usr/bin/git checkout --progress --force 97b8db734f3be2e6810e6f59ae094aaf733f44b7
+2026-10-14T06:46:36.9528924Z Note: switching to '97b8db734f3be2e6810e6f59ae094aaf733f44b7'.
+2026-10-14T06:46:36.9529628Z 
+2026-10-14T06:46:36.9530157Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-14T06:46:36.9531284Z changes and commit them, and you can discard any commits you make in this
+2026-10-14T06:46:36.9532550Z state without impacting any branches by switching back to a branch.
+2026-10-14T06:46:36.9533699Z 
+2026-10-14T06:46:36.9534218Z If you want to create a new branch to retain commits you create, you may
+2026-10-14T06:46:36.9535556Z do so (now or later) by using -c with the switch command. Example:
+2026-10-14T06:46:36.9536171Z 
+2026-10-14T06:46:36.9536503Z   git switch -c <new-branch-name>
+2026-10-14T06:46:36.9537381Z 
+2026-10-14T06:46:36.9538051Z Or undo this operation with:
+2026-10-14T06:46:36.9538653Z 
+2026-10-14T06:46:36.9539023Z   git switch -
+2026-10-14T06:46:36.9540044Z 
+2026-10-14T06:46:36.9540674Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-14T06:46:36.9541405Z 
+2026-10-14T06:46:36.9542570Z HEAD is now at 97b8db7 MEM-11: enforce complete stream in trusted base parser and actually exercise proposed definition
+2026-10-14T06:46:36.9546051Z ##[endgroup]
+2026-10-14T06:46:36.9588414Z [command]/usr/bin/git log -1 --format=%H
+2026-10-14T06:46:36.9611109Z 97b8db734f3be2e6810e6f59ae094aaf733f44b7
+2026-10-14T06:46:36.9620817Z ##[group]Removing auth
+2026-10-14T06:46:36.9624847Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T06:46:36.9651401Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T06:46:36.9834722Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T06:46:36.9857098Z http.https://github.com/.extraheader
+2026-10-14T06:46:36.9864600Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-14T06:46:36.9899005Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T06:46:37.0078374Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T06:46:37.0105732Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T06:46:37.0290959Z ##[endgroup]
+2026-10-14T06:46:37.0527113Z ##[group]Run set -euo pipefail
+2026-10-14T06:46:37.0528605Z [36;1mset -euo pipefail[0m
+2026-10-14T06:46:37.0529604Z [36;1mruby <<'RUBY'[0m
+2026-10-14T06:46:37.0530345Z [36;1mrequire 'yaml'[0m
+2026-10-14T06:46:37.0531147Z [36;1mdef workflow_document(bytes)[0m
+2026-10-14T06:46:37.0532062Z [36;1m  stream = YAML.parse_stream(bytes)[0m
+2026-10-14T06:46:37.0533311Z [36;1m  raise 'workflow must contain exactly one YAML document' unless stream.children.length == 1[0m
+2026-10-14T06:46:37.0534645Z [36;1m  document = YAML.safe_load(bytes, aliases: true)[0m
+2026-10-14T06:46:37.0535691Z [36;1m  raise 'workflow must be a mapping' unless document.is_a?(Hash)[0m
+2026-10-14T06:46:37.0536708Z [36;1m  document[0m
+2026-10-14T06:46:37.0537350Z [36;1mend[0m
+2026-10-14T06:46:37.0538493Z [36;1m# Exercise the same parser on finite positive/negative inputs. A[0m
+2026-10-14T06:46:37.0539728Z [36;1m# valid first document cannot conceal an invalid/extra second one.[0m
+2026-10-14T06:46:37.0541265Z [36;1mraise 'positive parser control failed' unless workflow_document("name: positive\njobs: {}\n").is_a?(Hash)[0m
+2026-10-14T06:46:37.0542570Z [36;1mnegatives = [[0m
+2026-10-14T06:46:37.0543274Z [36;1m  '',[0m
+2026-10-14T06:46:37.0543994Z [36;1m  "name: first\n---\nname: second\n",[0m
+2026-10-14T06:46:37.0544972Z [36;1m  "name: first\n---\nmalformed: [\n",[0m
+2026-10-14T06:46:37.0545762Z [36;1m  "[one, two]\n",[0m
+2026-10-14T06:46:37.0546560Z [36;1m  "name: [\n"[0m
+2026-10-14T06:46:37.0547218Z [36;1m][0m
+2026-10-14T06:46:37.0548170Z [36;1mnegatives.each_with_index do |bytes, index|[0m
+2026-10-14T06:46:37.0549123Z [36;1m  refused = false[0m
+2026-10-14T06:46:37.0549816Z [36;1m  begin[0m
+2026-10-14T06:46:37.0550544Z [36;1m    workflow_document(bytes)[0m
+2026-10-14T06:46:37.0551398Z [36;1m  rescue Psych::Exception, RuntimeError[0m
+2026-10-14T06:46:37.0552297Z [36;1m    refused = true[0m
+2026-10-14T06:46:37.0553076Z [36;1m  end[0m
+2026-10-14T06:46:37.0554003Z [36;1m  raise "negative parser control #{index} was accepted" unless refused[0m
+2026-10-14T06:46:37.0555013Z [36;1mend[0m
+2026-10-14T06:46:37.0555876Z [36;1mputs 'WORKFLOW_YAML_FULL_STREAM_POSITIVE_AND_5_NEGATIVES_OK'[0m
+2026-10-14T06:46:37.0557315Z [36;1mpaths = Dir['.github/workflows/*.{yml,yaml}'].sort[0m
+2026-10-14T06:46:37.0558896Z [36;1mabort 'invalid workflow inventory' if paths.empty? || paths.length > 64[0m
+2026-10-14T06:46:37.0559913Z [36;1mpaths.each do |path|[0m
+2026-10-14T06:46:37.0560810Z [36;1m  abort "workflow too large: #{path}" if File.size(path) > 1024 * 1024[0m
+2026-10-14T06:46:37.0562006Z [36;1m  workflow_document(File.read(path))[0m
+2026-10-14T06:46:37.0562925Z [36;1m  puts "validated #{path}"[0m
+2026-10-14T06:46:37.0563759Z [36;1mend[0m
+2026-10-14T06:46:37.0564413Z [36;1mRUBY[0m
+2026-10-14T06:46:37.0819132Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:46:37.0820276Z ##[endgroup]
+2026-10-14T06:46:37.8988747Z WORKFLOW_YAML_FULL_STREAM_POSITIVE_AND_5_NEGATIVES_OK
+2026-10-14T06:46:37.8990779Z validated .github/workflows/ci.yml
+2026-10-14T06:46:37.8991902Z validated .github/workflows/internal-ci.yml
+2026-10-14T06:46:37.8993206Z validated .github/workflows/workflow-validation.yml
+2026-10-14T06:46:37.9098314Z ##[group]Run set -euo pipefail
+2026-10-14T06:46:37.9099726Z [36;1mset -euo pipefail[0m
+2026-10-14T06:46:37.9100766Z [36;1mruby <<'RUBY'[0m
+2026-10-14T06:46:37.9101742Z [36;1mrequire 'yaml'[0m
+2026-10-14T06:46:37.9103258Z [36;1mdocument = YAML.safe_load(File.read('.github/workflows/ci.yml'), aliases: true)[0m
+2026-10-14T06:46:37.9105255Z [36;1msteps = document.fetch('jobs').fetch('quality-and-msrv').fetch('steps')[0m
+2026-10-14T06:46:37.9107285Z [36;1mselected = steps.select { |step| step['name'] == 'Validate proposed workflow YAML' }[0m
+2026-10-14T06:46:37.9109929Z [36;1mabort 'expected exactly one proposed base parser' unless selected.length == 1[0m
+2026-10-14T06:46:37.9111568Z [36;1mscript = selected[0].fetch('run')[0m
+2026-10-14T06:46:37.9113350Z [36;1mabort 'proposed base parser too large' unless script.is_a?(String) && script.bytesize <= 65536[0m
+2026-10-14T06:46:37.9115217Z [36;1mexec('bash', '-euo', 'pipefail', '-c', script)[0m
+2026-10-14T06:46:37.9116568Z [36;1mRUBY[0m
+2026-10-14T06:46:37.9172379Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:46:37.9173629Z ##[endgroup]
+2026-10-14T06:46:38.0378717Z BASE_WORKFLOW_YAML_FULL_STREAM_POSITIVE_AND_5_NEGATIVES_OK
+2026-10-14T06:46:38.0380078Z validated .github/workflows/ci.yml
+2026-10-14T06:46:38.0381325Z validated .github/workflows/internal-ci.yml
+2026-10-14T06:46:38.0382553Z validated .github/workflows/workflow-validation.yml
+2026-10-14T06:46:38.0648531Z Post job cleanup.
+2026-10-14T06:46:38.1381337Z [command]/usr/bin/git version
+2026-10-14T06:46:38.1419391Z git version 2.55.0
+2026-10-14T06:46:38.1453297Z Temporarily overriding HOME='/home/runner/work/_temp/df903de3-954d-4dbc-b1d1-9c906dd5d5dc' before making global git config changes
+2026-10-14T06:46:38.1456287Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T06:46:38.1459847Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/SciCapsule/SciCapsule
+2026-10-14T06:46:38.1499573Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T06:46:38.1536970Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T06:46:38.1723788Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T06:46:38.1754432Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T06:46:38.1968999Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T06:46:38.1995708Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T06:46:38.2335686Z Cleaning up orphan processes
+2026-10-14T06:46:38.2739242Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

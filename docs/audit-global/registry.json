@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T06:30:45Z",
+  "updated_at": "2026-10-14T06:55:40Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 126
+    "merged_prs": 127
   },
   "batches": [
     {
@@ -781,6 +781,17 @@
           "merged_at": "2026-10-14T06:30:32Z",
           "ids": [
             "PAPERS-01"
+          ]
+        },
+        {
+          "repository": "Memorithm/SciCapsule",
+          "number": 37,
+          "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+          "base_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+          "merge_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+          "merged_at": "2026-10-14T06:49:31Z",
+          "ids": [
+            "MEM-11"
           ]
         }
       ]
@@ -10356,6 +10367,59 @@
           "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38522621768/job/115715572651"
         }
       ]
+    },
+    {
+      "repository": "Memorithm/SciCapsule",
+      "number": 37,
+      "url": "https://github.com/Memorithm/SciCapsule/pull/37",
+      "ids": [
+        "MEM-11"
+      ],
+      "base": "main",
+      "base_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+      "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+      "merge_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+      "merged_at": "2026-10-14T06:49:31Z",
+      "merge_origin": "guarded_expected_head_merge_performed_in_this_run",
+      "status": "merged_target_parser_validated_external_runner_group_blocked",
+      "candidate_tree": "dfb52971c1b0c5ad6b94deab3b5d12a8b0f05bc7",
+      "checks": [
+        {
+          "name": "proposed-workflow-yaml",
+          "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524194454/job/115720564219"
+        },
+        {
+          "name": "quality-and-msrv",
+          "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524193525/job/115720562660"
+        }
+      ],
+      "integrated_checks": [
+        {
+          "name": "proposed-workflow-yaml",
+          "head_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524495997/job/115721536705",
+          "scope": "actual exact integrated full-stream parsers with positive/negative controls"
+        },
+        {
+          "name": "quality-and-msrv",
+          "head_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524495735/job/115721535421",
+          "scope": "internal workflow checks pinned prior trusted1418b8; not new parser proof"
+        }
+      ],
+      "superseded_heads": [
+        "07759b97d007e6bbc3e6988423cfdbf6568be28f"
+      ]
     }
   ],
   "repository_observations": [
@@ -12736,7 +12800,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "blocked_external",
-      "current_head": "1418b8d71653658b7daabcc304d71a315f7187fe",
+      "current_head": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
       "default_branch": "main",
       "audit_head": "31e4a825c8a45837ce4f8ff69f936b46e53d3b82",
       "head_reconciliation": "PR32_already_merged_but_runner_group_administration_and_safe_selected_workflow_probe_unverified",
@@ -12775,6 +12839,59 @@
           "base_sha": "6eeaaaf2259b41290f73571d855194973a0bb26c",
           "status": "merged_target_validated_external_runner_acceptance_blocked",
           "merge_sha": "1418b8d71653658b7daabcc304d71a315f7187fe"
+        },
+        {
+          "repository": "Memorithm/SciCapsule",
+          "number": 37,
+          "url": "https://github.com/Memorithm/SciCapsule/pull/37",
+          "ids": [
+            "MEM-11"
+          ],
+          "base": "main",
+          "base_sha": "1418b8d71653658b7daabcc304d71a315f7187fe",
+          "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+          "merge_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+          "merged_at": "2026-10-14T06:49:31Z",
+          "merge_origin": "guarded_expected_head_merge_performed_in_this_run",
+          "status": "merged_target_parser_validated_external_runner_group_blocked",
+          "candidate_tree": "dfb52971c1b0c5ad6b94deab3b5d12a8b0f05bc7",
+          "checks": [
+            {
+              "name": "proposed-workflow-yaml",
+              "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524194454/job/115720564219"
+            },
+            {
+              "name": "quality-and-msrv",
+              "head_sha": "97b8db734f3be2e6810e6f59ae094aaf733f44b7",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524193525/job/115720562660"
+            }
+          ],
+          "integrated_checks": [
+            {
+              "name": "proposed-workflow-yaml",
+              "head_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524495997/job/115721536705",
+              "scope": "actual exact integrated full-stream parsers with positive/negative controls"
+            },
+            {
+              "name": "quality-and-msrv",
+              "head_sha": "3fa2d3eea7bed6ac0c40782596221fab11492fed",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/SciCapsule/actions/runs/38524495735/job/115721535421",
+              "scope": "internal workflow checks pinned prior trusted1418b8; not new parser proof"
+            }
+          ],
+          "superseded_heads": [
+            "07759b97d007e6bbc3e6988423cfdbf6568be28f"
+          ]
         }
       ],
       "resolution_evidence": [
@@ -12792,8 +12909,8 @@
           "status": "hosted_parser_candidate_green_full_gate_pending_external_restrictions_unverified"
         }
       ],
-      "last_observed_at": "2026-10-14T06:24:20Z",
-      "next_action": "Fresh main1418b8 and workflow validator read. PR36 has unresolved P2 full-YAML-stream review; actual runner-group selected-workflow restrictions remain unexposed by available connection and unqualified. No closure.",
+      "last_observed_at": "2026-10-14T06:55:40Z",
+      "next_action": "PR37 fixes full-stream parser in trusted base + actual proposed gate. Exact integrated parser checks both markers; internal quality metadata green but actual checkout remains trusted1418b8, not new-parser proof. Require real org runner-group selected-workflow restrictions and safe probe; connection lacks administration endpoints. Remains blocked.",
       "blockers": [
         "The available GitHub connection cannot read or change organization/repository runner-group administration.",
         "A future PR can request the ordinary Thor labels unless the runner group is externally restricted to the trusted main-pinned workflow.",
@@ -14760,9 +14877,13 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/17",
           "base": "master",
           "base_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
-          "head_sha": "2a9eed1b1bdb2c30031dbc68c3f2ea69cea0ede6",
+          "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
           "owner_sha": "a1ce544d5a6027a224627b738268214775a56881",
-          "status": "candidate_waiting_3gates_and_review"
+          "status": "candidate_waiting_real_file_format_3gates",
+          "superseded_heads": [
+            "2a9eed1b1bdb2c30031dbc68c3f2ea69cea0ede6",
+            "72e897d0582dfe7b82a423909eb29ceb14521d47"
+          ]
         }
       ],
       "resolution_evidence": [
@@ -14821,7 +14942,7 @@
         }
       ],
       "last_observed_at": "2026-10-14T06:24:20Z",
-      "next_action": "Owner91 exact integrated source fully qualified; consumer17 adopts mandatory quota and private external phase inputs. Require3/3 actual candidate gates + review + exact integrated validation before closure.",
+      "next_action": "PAPERS17 P1 cleanup fixed,234 functional Rust + real13 attempt/mode000 controls passed on72e897, but stdin formatting gate was unsound. d93cee enforces file-format/exact source; all3 candidate gates and actual integrated gates still required; do not reuse prior greens.",
       "blockers": [
         "Actual aggregate multi-file and inode writable workspace OS quota not implemented/qualified; per-file RLIMIT_FSIZE not substitute"
       ],
@@ -16754,13 +16875,12 @@
   ],
   "lease": {
     "schema": "memorithm-remediation-lease.v1",
-    "status": "release_pending",
-    "owner": "codex-audit-20261014-0705",
-    "acquired_at": "2026-10-14T05:08:52.195Z",
-    "expires_at": "2026-10-14T06:08:52.195Z",
-    "base_sha": "9cf357f236b66bceec9620be8522e32f552fb94e",
-    "purpose": "PAPERS-01 durable owner gVisor attempt/quarantine and non-replay; no excluded repository changes",
-    "release_reason": "Qualified owner90/consumer16 handoff; canonical lease release follows via observed blob SHA; no complete audit closure."
+    "status": "active",
+    "owner": "codex-audit-20261014-0807",
+    "acquired_at": "2026-10-14T06:10:28Z",
+    "expires_at": "2026-10-14T07:10:28.000Z",
+    "base_sha": "4425ef54ed0c0170b343b775b5313dda5a806eeb",
+    "purpose": "PAPERS-01 aggregate persistent workspace quota admission and bounded real qualification; no excluded repository changes"
   },
   "capabilities": [
     {
