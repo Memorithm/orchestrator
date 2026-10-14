@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14 07:55:08 Europe/Paris",
+  "updated_at": "2026-10-14T06:24:20Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -11912,8 +11912,8 @@
           "status": "technical_gate_qualified_external_review_open"
         }
       ],
-      "last_observed_at": "2026-10-14T04:51:58.595Z",
-      "next_action": "NNIS #150 remains open with zero comments on fresh re-read; require documented rights/consent/source/dependency notice review without inventing legal authority."
+      "last_observed_at": "2026-10-14T06:24:20Z",
+      "next_action": "Fresh HEAD unchanged1c1e5b54; NNIS150 still open/zero comments, documented rights/consents review missing; no relicensing authority inferred."
     },
     {
       "id": "RT-NNIS-05",
@@ -12729,8 +12729,8 @@
           "status": "hosted_parser_candidate_green_full_gate_pending_external_restrictions_unverified"
         }
       ],
-      "last_observed_at": "2026-10-14T04:51:58.595Z",
-      "next_action": "Candidate and integrated YAML validator now actually pass at #36. Still require actual organization runner-group selected-workflow enforcement and safe probe; no enforcement inferred from workflow-only change.",
+      "last_observed_at": "2026-10-14T06:24:20Z",
+      "next_action": "Fresh main1418b8 and workflow validator read. PR36 has unresolved P2 full-YAML-stream review; actual runner-group selected-workflow restrictions remain unexposed by available connection and unqualified. No closure.",
       "blockers": [
         "The available GitHub connection cannot read or change organization/repository runner-group administration.",
         "A future PR can request the ordinary Thor labels unless the runner group is externally restricted to the trusted main-pinned workflow.",
@@ -13944,8 +13944,8 @@
         }
       ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-14T04:51:58.595Z",
-      "next_action": "Latest observed production publication remains failed; require operator-owned signing configuration and real adopted/ACL-bound production evidence. Do not create/substitute credentials or infer adoption from successful development gates."
+      "last_observed_at": "2026-10-14T06:24:20Z",
+      "next_action": "Fresh actual current-HEAD push production workflow remains failed (no PR-only shortcut). Owner signing/ACL/adoption evidence still missing; preserve restricted source, no substitute credential."
     },
     {
       "id": "COG-SML-002",
@@ -14638,6 +14638,18 @@
           "owner_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
           "checks": [],
           "integrated_checks": []
+        },
+        {
+          "repository": "Memorithm/scirust-hub",
+          "number": 91,
+          "url": "https://github.com/Memorithm/scirust-hub/pull/91",
+          "base": "main",
+          "base_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+          "head_sha": "03480fece87693ab4f6a9806637cbd69cda814ed",
+          "status": "candidate_waiting_real_quota_diagnostics",
+          "superseded_heads": [
+            "612175f46b6d45e9b2bd2e2da063aec6145e14eb"
+          ]
         }
       ],
       "resolution_evidence": [
@@ -14695,8 +14707,8 @@
           "integrated_checks": 3
         }
       ],
-      "last_observed_at": "2026-10-14 07:52:52 Europe/Paris",
-      "next_action": "Implement/qualify actual aggregate persistent task workspace quota in existing owner/provider ports; preserve artifacts across compilation/execution, private journal outside writable volume, finite positive/negative multi-file/inode probes, quarantine and scientific fail-closed semantics.",
+      "last_observed_at": "2026-10-14T06:24:20Z",
+      "next_action": "Hub91 Rust green, first real quota gate failed at many-file case. Current03480f retains failure receipt/artifacts; diagnose without weakening predicates; exact HEAD candidate then integrated proof required. Consumer design must preserve persistent bounded volume and controller inputs outside guest.",
       "blockers": [
         "Actual aggregate multi-file and inode writable workspace OS quota not implemented/qualified; per-file RLIMIT_FSIZE not substitute"
       ],
@@ -16722,7 +16734,7 @@
       "boundary": "reuse existing SQLite/lifecycle_events, not new scheduler or proofauthority; metadata/process cleanup never semantic success/scientific fitness; aggregate quota not qualified"
     }
   ],
-  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6161536296",
+  "last_central_comment": 6162168060,
   "last_verified_targets": {
     "PAPERS-AGENT": {
       "sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",

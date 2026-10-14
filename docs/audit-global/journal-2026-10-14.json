@@ -2076,6 +2076,71 @@
         }
       ],
       "no_excluded_mutations": true
+    },
+    {
+      "observed_at": "2026-10-14 08:24:20 Europe/Paris",
+      "event": "owner_quota_candidate_and_external_reconciliation",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 125,
+        "batch": 3,
+        "batch_merged_prs": 25
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "status": "waiting_ci",
+          "repository": "Memorithm/scirust-hub; Memorithm/PAPERS-AGENT",
+          "pr": 91,
+          "head": "03480fece87693ab4f6a9806637cbd69cda814ed",
+          "actions": [
+            "Created coherent owner quota PR91; exact local/uploaded Git blob hashes verified; four unit regressions and finite real probe added.",
+            "First612175 candidate fullRust CI green; actual quota phase failed, not accepted. Diagnostic fix03480f retains failed receipts. Current fullRust CI green, actual live gate pending."
+          ],
+          "checks_executed": [
+            "Local git diff --check and Python syntax",
+            "Actual candidate full fmt/clippy/build/test/doc; no quota success inferred"
+          ],
+          "dependencies": [
+            "Owner actual aggregate quota qualification",
+            "Separate exact integrated owner version and consumer adoption"
+          ],
+          "next_action": "Hub91 Rust green, first real quota gate failed at many-file case. Current03480f retains failure receipt/artifacts; diagnose without weakening predicates; exact HEAD candidate then integrated proof required. Consumer design must preserve persistent bounded volume and controller inputs outside guest."
+        },
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "Fresh main unchanged; issue150 open,0comments; no consent review"
+          ],
+          "next_action": "Fresh HEAD unchanged1c1e5b54; NNIS150 still open/zero comments, documented rights/consents review missing; no relicensing authority inferred."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked",
+          "actions": [
+            "Fresh main/validator and PR36 review re-read; runner group tools unavailable; full YAML stream parser review remains valid"
+          ],
+          "next_action": "Fresh main1418b8 and workflow validator read. PR36 has unresolved P2 full-YAML-stream review; actual runner-group selected-workflow restrictions remain unexposed by available connection and unqualified. No closure."
+        },
+        {
+          "id": "COG-SML-001",
+          "source_scope": "restricted",
+          "status": "blocked",
+          "actions": [
+            "Fresh current-HEAD actual push production run remains failed; no successful DEV/PR inference"
+          ],
+          "next_action": "Fresh actual current-HEAD push production workflow remains failed (no PR-only shortcut). Owner signing/ACL/adoption evidence still missing; preserve restricted source, no substitute credential."
+        }
+      ],
+      "no_excluded_mutations": true
     }
   ],
   "daily_summary": {
