@@ -1,13 +1,9 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "released",
-  "owner": "codex-audit-20261014-0206",
-  "acquired_at": "2026-10-14T00:06:49.432Z",
-  "expires_at": "2026-10-14T01:14:33.000Z",
-  "base_sha": "99cefe075d6f835a03b71b068e9fb635a9aa47bd",
-  "purpose": "Reconcile exact integrated merges; retain open production acceptance; implement PAPERS evaluation consumer if ownership is clear; record verified gates.",
-  "renewed_at": "2026-10-14T00:54:33Z",
-  "renewal_reason": "Exact PAPERS corrective source CI/review and integrated validation in progress; release after checkpoint.",
-  "released_at": "2026-10-14T01:07:17Z",
-  "release_reason": "SciCapsule36/PAPERS12 candidate and integrated gates qualified, exact proofs retained; original remaining acceptances remain open with next actions."
+  "status": "active",
+  "owner": "codex-audit-20261014-0314",
+  "acquired_at": "2026-10-14T01:18:39Z",
+  "expires_at": "2026-10-14T02:13:39.000Z",
+  "base_sha": "7253144f21df19841791ecddc548c43968d24a1e",
+  "purpose": "PAPERS-01 separate qualified owner compilation/execution budgets and phase provenance; reconcile external blockers without credential/admin mutation."
 }
