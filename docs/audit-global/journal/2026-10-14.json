@@ -1001,7 +1001,7 @@
       "excluded_repositories_modified": []
     },
     {
-      "observed_at": "2026-10-14T02:51:14.206Z",
+      "observed_at": "2026-10-14T04:51:14.206+02:00",
       "event": "Hub88_guarded_merge_integrated_qualification",
       "counts": {
         "batch": 3,
@@ -1078,6 +1078,57 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T05:02:41.545+02:00",
+      "event": "PAPERS14_resolved_precise_source_review_fix",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 20,
+        "batch_target": 50,
+        "merged_prs": 120,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "actions": [
+            "Cargo graph triggers and exact3 resolved source fragments (not only declaration) verified against qualified dbad; positive/negative metadata checks executed",
+            "Final exact477 three gates and review rerun; b900/bce no longer qualify final source"
+          ],
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
+          "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+          "checks": [
+            {
+              "name": "audit",
+              "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140372/job/115657618062"
+            },
+            {
+              "name": "rust",
+              "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+              "status": "in_progress",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140372/job/115657617703"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+              "status": "in_progress",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140321/job/115657616921"
+            }
+          ],
+          "reason_waiting": "final gate executions and review incomplete",
+          "next_action": "guarded merge only after final CI/review and exact current base/head"
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -1089,6 +1140,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 5,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14T04:56:53.088+02:00"
+    "latest_observed_at": "2026-10-14T05:02:41.545+02:00"
   }
 }

@@ -2,9 +2,9 @@
   "schema": "memorithm-audit-proof.v1",
   "id": "PAPERS-01",
   "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
-  "candidate_sha": "b900c30aa2da17b31c0012eff128632afb7d5a06",
+  "candidate_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
   "base_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
-  "candidate_tree": "fa1403eac9596147b9391ade057f698459cd9922",
+  "candidate_tree": "5b961bbb220493338fbe7b6bc1cf87ba2e2ce797",
   "status": "waiting_exact_candidate_ci_review",
   "owner_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
   "qualification": {
@@ -15,25 +15,44 @@
   },
   "checks": [
     {
+      "name": "audit",
+      "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140372/job/115657618062"
+    },
+    {
       "name": "rust",
+      "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38503313290/job/115655011577"
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140372/job/115657617703"
     },
     {
       "name": "live-qualified-consumer",
+      "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38503313334/job/115655011395"
-    },
-    {
-      "name": "audit",
-      "status": "in_progress",
-      "conclusion": null,
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38503313290/job/115655011269"
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140321/job/115657616921"
     }
   ],
-  "nonclaims": [
+  "review_fixes": [
+    {
+      "id": 4266290418,
+      "status": "resolved",
+      "fix": "Cargo trigger dependency graph"
+    },
+    {
+      "id": 4266311378,
+      "status": "resolved",
+      "fix": "precise full resolved Hub graph equality"
+    }
+  ],
+  "local_checks": [
+    "changed files rustfmt/diff",
+    "Cargo metadata exact3 positive and mismatched fragment negative"
+  ],
+  "remaining": [
     "aggregate workspace quota",
     "ambiguous creation quarantine/workspace reclamation",
     "guest PID qualification",
