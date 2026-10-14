@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T01:30:46Z",
+  "updated_at": "2026-10-14T01:39:22Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9761,30 +9761,30 @@
       ],
       "base": "master",
       "base_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
-      "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
+      "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
       "status": "waiting_exact_candidate_ci_review",
       "merge_sha": null,
       "checks": [
         {
-          "name": "audit",
-          "status": "completed",
-          "conclusion": "success",
-          "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
-          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057500/job/115631957185"
-        },
-        {
           "name": "rust",
           "status": "in_progress",
           "conclusion": null,
-          "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
-          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057500/job/115631957015"
+          "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634309209"
         },
         {
           "name": "live-qualified-consumer",
           "status": "in_progress",
           "conclusion": null,
-          "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
-          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057456/job/115631956741"
+          "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799546/job/115634309105"
+        },
+        {
+          "name": "audit",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634308908"
         }
       ]
     }
@@ -13784,30 +13784,30 @@
           ],
           "base": "master",
           "base_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
-          "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
+          "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
           "status": "waiting_exact_candidate_ci_review",
           "merge_sha": null,
           "checks": [
             {
-              "name": "audit",
-              "status": "completed",
-              "conclusion": "success",
-              "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
-              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057500/job/115631957185"
-            },
-            {
               "name": "rust",
               "status": "in_progress",
               "conclusion": null,
-              "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
-              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057500/job/115631957015"
+              "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634309209"
             },
             {
               "name": "live-qualified-consumer",
               "status": "in_progress",
               "conclusion": null,
-              "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
-              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057456/job/115631956741"
+              "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799546/job/115634309105"
+            },
+            {
+              "name": "audit",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634308908"
             }
           ]
         }
@@ -13822,11 +13822,11 @@
           "candidate_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49"
         }
       ],
-      "last_observed_at": "2026-10-14T01:30:46Z",
-      "next_action": "Qualify #13 at b34412984e4b3c56c7f25fda221aebf07ab74ae1: full CI/audit, ABI fixture regressions and real four-scenario gVisor gate; inspect fresh review; guarded exact-head merge then integrated checks. Keep original audit open for remaining memory/PID/filesystem and failed-Docker process-tree/drain acceptance.",
+      "last_observed_at": "2026-10-14T01:39:22Z",
+      "next_action": "Qualify #13 at d72e05e6efea66ada83cb2a216b5c1b9f2d70a61: full/audit/live exact CI, corrected provenance review, guarded merge then integrated validation. Audit remaining resource/outer-process/drain acceptance; inspect owner-scoped capabilities without touching RemoteOps.",
       "blockers": [
-        "Independent compilation/execution deadlines remain unimplemented in current PAPERS adapter command (rustc && candidate within one combined budget).",
-        "Hostile compilation, memory/IO/resource qualification of the consumer is not yet executed; benign live evidence is diagnostic only. Legacy local WASM remains fail-closed."
+        "PR13 independent phases and refusal provenance awaiting corrected-head full/live qualification.",
+        "Adversarial memory/PID/filesystem enforcement and failed-Docker process-tree/drain acceptance not fully qualified; trusted-only local WASM JIT is not the generated-source production path."
       ]
     },
     {

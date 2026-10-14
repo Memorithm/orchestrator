@@ -625,6 +625,66 @@
       ],
       "new_merges_this_session": [],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T03:39:22+02:00",
+      "event": "PAPERS13_review_and_ci_correction",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 17,
+        "batch_target": 50,
+        "merged_prs": 117,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/13",
+          "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+          "actions": [
+            "Initial 229 tests passed and four real gVisor scenarios passed; full gate failed Clippy needless borrow",
+            "Fixed Clippy and P2 loss of verified compilation evidence on artifact/runtime refusal; added ABI and real Engineer regression",
+            "Inspected trusted-only JIT current callsites; no generated-source production JIT route observed"
+          ],
+          "checks": [
+            {
+              "name": "rust",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634309209"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799546/job/115634309105"
+            },
+            {
+              "name": "audit",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634308908"
+            }
+          ],
+          "next_action": "Qualify #13 at d72e05e6efea66ada83cb2a216b5c1b9f2d70a61: full/audit/live exact CI, corrected provenance review, guarded merge then integrated validation. Audit remaining resource/outer-process/drain acceptance; inspect owner-scoped capabilities without touching RemoteOps."
+        },
+        {
+          "id": "MEM-11",
+          "status": "blocked",
+          "actions": [
+            "Read-only existing RemoteOps control-plane fallback evaluated; endpoint unsupported, no operation or credential extraction"
+          ],
+          "next_action": "Actual runner-group selected-workflow restriction and authorized probe still required"
+        }
+      ],
+      "new_merges_this_session": [],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {

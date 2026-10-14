@@ -3,9 +3,9 @@
   "id": "PAPERS-01",
   "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/13",
   "status": "waiting_exact_candidate_ci_review",
-  "observed_at": "2026-10-14T01:30:46Z",
+  "observed_at": "2026-10-14T01:39:22Z",
   "base_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
-  "candidate_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
+  "candidate_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
   "owner_contract_source": "Memorithm/scirust-hub@60f000d9a4f021cb14b9fe2cd68999408b797dd8",
   "policy": {
     "PAPERS_AGENTS": "read",
@@ -16,25 +16,25 @@
   },
   "candidate_checks": [
     {
-      "name": "audit",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057500/job/115631957185"
-    },
-    {
       "name": "rust",
       "status": "in_progress",
       "conclusion": null,
-      "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057500/job/115631957015"
+      "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634309209"
     },
     {
       "name": "live-qualified-consumer",
       "status": "in_progress",
       "conclusion": null,
-      "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057456/job/115631956741"
+      "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799546/job/115634309105"
+    },
+    {
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634308908"
     }
   ],
   "local_checks": [
@@ -58,5 +58,28 @@
     "owner aggregate workspace disk quota/read-only execution policy when needed",
     "robust failed-Docker process-tree and bounded-drain qualification"
   ],
-  "excluded_modified": []
+  "excluded_modified": [],
+  "history": [
+    {
+      "candidate_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
+      "full_tests": {
+        "passed": 229,
+        "failed": 0,
+        "ignored_live": 1
+      },
+      "rust_gate": "failed Clippy needless borrow; fixed",
+      "live_job": 115631956741,
+      "live_run": 38496057456,
+      "live_four_scenarios": "success",
+      "artifact": {
+        "id": 11864585752,
+        "sha256": "12438b02d2a1fae7911151aff1ff739fcb8c4ad42cd8b9c51c599e14cf758379",
+        "retained": "docs/audit-global/proofs/PAPERS-13/initial-live.zip"
+      },
+      "review": "P2 retained verified compilation evidence on later refusal; corrected"
+    }
+  ],
+  "refusal_provenance": "Typed refusal retains only verified phases, no refused execution attestation; Engineer live output refusal regression added",
+  "current_wasm_path_inspection": "execute_trusted_wasm and compile_trusted_source_to_wasm explicit trusted-only APIs; internal callsites are fixtures. Engineer local generated Rust path refuses and does not invoke JIT. Does not qualify arbitrary hostile use of trusted API.",
+  "remoteops_fallback": "Read-only README/AGENTS inspected. workflows fetch rejected as unsupported endpoint; no dispatch/mutation/credential extraction. Org runner administration not exposed by connector; MEM-11 not closed."
 }
