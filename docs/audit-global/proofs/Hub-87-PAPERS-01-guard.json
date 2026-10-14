@@ -3,9 +3,9 @@
   "id": "PAPERS-01",
   "pr": "https://github.com/Memorithm/scirust-hub/pull/87",
   "status": "waiting_exact_candidate_ci_review",
-  "observed_at": "2026-10-14T02:25:23Z",
+  "observed_at": "2026-10-14T02:29:46Z",
   "base_sha": "60f000d9a4f021cb14b9fe2cd68999408b797dd8",
-  "candidate_sha": "fda6392f80c7238daa3b2a743ef58e928cd9f1a3",
+  "candidate_sha": "30fbd6f1ff7cdf5bc1cb098de9b57f717614218e",
   "policy_read": [
     "orchestrator AGENTS/HOLDOUTS/off-main roadmap/audit README",
     "Hub AGENTS/off-main roadmap/ML overlay/AX bootstrap/AX roadmap",
@@ -26,5 +26,20 @@
     "adversarial guest PID enforcement",
     "PAPERS consumer outer adapter guard and new pinned owner qualification"
   ],
-  "excluded_modified": []
+  "excluded_modified": [],
+  "history": [
+    {
+      "candidate_sha": "fda6392f80c7238daa3b2a743ef58e928cd9f1a3",
+      "full_ci": "failed: detached test pre-setsid race; 48/49 hub-executor tests green",
+      "real_control_job": 115647221987,
+      "real_controls": [
+        "runtime-entry timeout/exact-ID absence",
+        "output128bytes cap",
+        "root write denial",
+        "128MiB memory+no extra swap: bounded 384MiB probe OOM137 after runtime entry"
+      ],
+      "result": "passed, historical only; not qualification of current source"
+    }
+  ],
+  "public_api": "hub_executor::execution_guard::execute_guarded_command additive; 1 byte..1 MiB captures, process guard not sandbox; exact pinned consumer remains to implement"
 }

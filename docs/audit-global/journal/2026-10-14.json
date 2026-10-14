@@ -895,6 +895,36 @@
       ],
       "new_merges_this_session": [],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T04:29:46+02:00",
+      "event": "Hub87_fixture_and_shared_api_correction",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 18,
+        "batch_target": 50,
+        "merged_prs": 118,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/scirust-hub",
+          "status": "waiting_ci",
+          "pr": "https://github.com/Memorithm/scirust-hub/pull/87",
+          "head_sha": "30fbd6f1ff7cdf5bc1cb098de9b57f717614218e",
+          "actions": [
+            "Real initial runtime timeout/output/readonly/memory+swap controls passed",
+            "Corrected full-CI detached-fixture synchronization (not weakened gate)",
+            "Exposed owner guard additive Rust API with bounded captures for pinned PAPERS adoption"
+          ],
+          "reason_for_wait": "All source changes invalidate older gates; current exact head full/live and review pending",
+          "next_action": "Qualify Hub #87 exact head full workspace and real runsc controls, review and guarded merge. Then qualify integrated owner and repin PAPERS with exact artifacts; keep all original acceptance open until tests and consumer integration complete."
+        }
+      ],
+      "new_merges_this_session": [],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
