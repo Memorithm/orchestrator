@@ -143,5 +143,27 @@
     "run_id": 38496799546,
     "sha256": "cd0c76d11650190c93fc8ed96988c680b71d2e7be3ea9884d93fc24150167af3",
     "retained": "docs/audit-global/proofs/PAPERS-13/candidate-live.zip"
+  },
+  "next_owner_work": {
+    "observed_source": "60f000d9a4f021cb14b9fe2cd68999408b797dd8",
+    "owner": "Memorithm/scirust-hub",
+    "existing_capability": "crates/hub-executor/src/execution_guard.rs",
+    "capabilities_observed": [
+      "capped pipe readers retaining truncation",
+      "shared 1-second drain deadline",
+      "ordinary process-group termination confirmation"
+    ],
+    "integration_gap": "gvisor.rs and PAPERS adapter still use separate raw child/reader handling rather than the existing guard; robust Docker container cleanup must not be inferred from killing a local group",
+    "sequencing": [
+      "Extend/reuse existing owner guard, bounded Docker control and cleanup policy, with exact source/owner qualification",
+      "Requalify owner real runsc/runtime boundary and retain immutable artifacts",
+      "Pin qualified owner source in PAPERS consumer and verify integrated resource/timeout/IO acceptance"
+    ],
+    "restrictions": [
+      "No new scheduler or evidence schema",
+      "No RemoteOps modification",
+      "No destructive production probe",
+      "No old green or ABI fixtures accepted as hostile-code qualification"
+    ]
   }
 }
