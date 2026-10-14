@@ -1,10 +1,11 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "codex-audit-20261014-0807",
   "acquired_at": "2026-10-14T06:10:28Z",
   "expires_at": "2026-10-14T08:03:11.000Z",
   "base_sha": "4425ef54ed0c0170b343b775b5313dda5a806eeb",
-  "purpose": "PAPERS-01 aggregate persistent workspace quota admission and bounded real qualification; no excluded repository changes",
-  "renewed_at": "2026-10-14T07:03:11.000Z"
+  "purpose": "PAPERS-01 qualified and closed;98/101 resolved,128 merges,lot3 28/50. Only this task paused for three externally required evidence blockers; no global closure.",
+  "renewed_at": "2026-10-14T07:03:11.000Z",
+  "released_at": "2026-10-14T07:15:32.000Z"
 }
