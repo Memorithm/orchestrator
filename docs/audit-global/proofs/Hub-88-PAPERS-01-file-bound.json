@@ -1,0 +1,18 @@
+{
+  "schema": "memorithm-audit-proof.v1",
+  "id": "PAPERS-01",
+  "pr": "https://github.com/Memorithm/scirust-hub/pull/88",
+  "base_sha": "c37d9341bf16ced15be4b2e1de33022cf7482b2b",
+  "candidate_sha": "32192593364fab921c7eee6d91a5d62b09fb3c66",
+  "status": "waiting_exact_candidate_ci_review",
+  "observed_at": "2026-10-14T02:39:51Z",
+  "depends_on": "c37d9341bf16ced15be4b2e1de33022cf7482b2b",
+  "scope": "OS RLIMIT_FSIZE 16MiB verified by attempted17MiB write; positive guest root ro mount check plus actual refused write; no old or DAC-only qualification reused",
+  "remaining": [
+    "aggregate workspace quota",
+    "ambiguous creation quarantine/workspace reclamation",
+    "guest PID qualification",
+    "PAPERS pinned guard adoption"
+  ],
+  "excluded_modified": []
+}

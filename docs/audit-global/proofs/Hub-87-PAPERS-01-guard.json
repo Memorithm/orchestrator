@@ -2,8 +2,8 @@
   "schema": "memorithm-audit-proof.v1",
   "id": "PAPERS-01",
   "pr": "https://github.com/Memorithm/scirust-hub/pull/87",
-  "status": "waiting_exact_candidate_ci_review",
-  "observed_at": "2026-10-14T02:29:46Z",
+  "status": "merged_target_validated_partial_acceptance",
+  "observed_at": "2026-10-14T02:39:51Z",
   "base_sha": "60f000d9a4f021cb14b9fe2cd68999408b797dd8",
   "candidate_sha": "30fbd6f1ff7cdf5bc1cb098de9b57f717614218e",
   "policy_read": [
@@ -41,5 +41,42 @@
       "result": "passed, historical only; not qualification of current source"
     }
   ],
-  "public_api": "hub_executor::execution_guard::execute_guarded_command additive; 1 byte..1 MiB captures, process guard not sandbox; exact pinned consumer remains to implement"
+  "public_api": "hub_executor::execution_guard::execute_guarded_command additive; 1 byte..1 MiB captures, process guard not sandbox; exact pinned consumer remains to implement",
+  "merge_sha": "c37d9341bf16ced15be4b2e1de33022cf7482b2b",
+  "merge_origin": "external_GitHub_merge_reconciled_not_performed_by_this_run",
+  "merged_at": "2026-10-14T02:31:02Z",
+  "candidate_tree": "9636b5340ddf28ec43e50c45c419514961be4b21",
+  "integrated_tree": "9636b5340ddf28ec43e50c45c419514961be4b21",
+  "integrated_checks": [
+    {
+      "name": "fmt / clippy / build / test / doc",
+      "head_sha": "c37d9341bf16ced15be4b2e1de33022cf7482b2b",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38501442914/job/115649080484"
+    },
+    {
+      "name": "real runsc isolation and PAPERS compile probe",
+      "head_sha": "c37d9341bf16ced15be4b2e1de33022cf7482b2b",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38501443033/job/115649080261"
+    }
+  ],
+  "integrated_tests": {
+    "rust_passed": 283,
+    "rust_failed": 0,
+    "ignored": 0
+  },
+  "integrated_artifact": {
+    "id": 11865509774,
+    "run_id": 38501443033,
+    "sha256": "0d28c1ea65a99fee533e1e0418e7a0db066e1ceb952750c3940a9b1bd7e5e9a4",
+    "retained": "docs/audit-global/proofs/Hub-87/integrated-qualification.zip"
+  },
+  "nonclaims": [
+    "Root write refusal at #87 alone does not positively prove read-only mount; strengthened in #88",
+    "OS per-file ceiling was not in #87; awaiting #88",
+    "Creation ambiguity, aggregate disk quota, guest PID adversarial enforcement and PAPERS outer adoption remain incomplete"
+  ]
 }
