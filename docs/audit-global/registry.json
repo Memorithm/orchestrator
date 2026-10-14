@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T00:54:33Z",
+  "updated_at": "2026-10-14T01:00:15Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 116
+    "merged_prs": 117
   },
   "batches": [
     {
@@ -664,6 +664,18 @@
           "merged_at": "2026-10-14T00:16:04Z",
           "ids": [
             "MEM-11"
+          ],
+          "merge_origin": "guarded_merge_performed_in_this_session"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 12,
+          "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+          "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+          "merge_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+          "merged_at": "2026-10-14T00:59:17Z",
+          "ids": [
+            "PAPERS-01"
           ],
           "merge_origin": "guarded_merge_performed_in_this_session"
         }
@@ -9671,12 +9683,37 @@
       "ids": [
         "PAPERS-01"
       ],
-      "status": "waiting_named_logging_and_parser_bounds_ci_review",
-      "merge_sha": null,
-      "checks": [],
+      "status": "merged_waiting_integrated_validation",
+      "merge_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+      "checks": [
+        {
+          "name": "audit",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492737269/job/115621518407"
+        },
+        {
+          "name": "rust",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492737269/job/115621518143"
+        },
+        {
+          "name": "live-qualified-consumer",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492737241/job/115621518113"
+        }
+      ],
       "candidate_tests": {
         "status": "pending_exact_head"
-      }
+      },
+      "merged_at": "2026-10-14T00:59:17Z",
+      "merge_method": "merge_with_expected_head_sha",
+      "target_head": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d"
     },
     {
       "repository": "Memorithm/SciCapsule",
@@ -13638,7 +13675,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+      "current_head": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
       "head_reconciliation": "qualified_adapter_integrated_engine_adoption_in_qualification",
@@ -13675,7 +13712,8 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
           "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
           "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-          "status": "waiting_named_logging_and_parser_bounds_ci_review"
+          "status": "merged_waiting_integrated_validation",
+          "merge_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d"
         }
       ],
       "resolution_evidence": [
@@ -13688,11 +13726,11 @@
           "candidate_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f"
         }
       ],
-      "last_observed_at": "2026-10-14T00:48:46Z",
-      "next_action": "Qualify exact source 3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49 of #12 with named-format RHS, bounded parser grammar and proven static budget. Require full/live CI/review then guarded merge and integrated checks. Independent compile/execution deadline and hostile IO/resource evidence remain needed before original closure.",
+      "last_observed_at": "2026-10-14T01:00:15Z",
+      "next_action": "Verify exact 1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d integrated full Rust/audit/real gVisor gates and retain artifacts. Then add independent compile/execution deadlines and adversarial compilation/IO/resource qualification; no closure from benign diagnostic alone.",
       "blockers": [
-        "Qualified typed gVisor adapter is integrated in PAPERS #10/#11; engine/evolution adoption #12 at current source requires full/live CI, corrected review, guarded merge and integrated validation.",
-        "Independent compilation/execution deadlines and adversarial compilation, memory/IO/resource qualification for this consumer are not yet exercised; benign diagnostic alone does not close original acceptance. Legacy local WASM path stays fail-closed."
+        "Engine/evolution qualified owner route #12 merged; exact target qualification is running.",
+        "Independent compilation/execution deadlines and adversarial compilation/IO/resource evidence still required before original acceptance; legacy host WASM stays fail-closed."
       ]
     },
     {

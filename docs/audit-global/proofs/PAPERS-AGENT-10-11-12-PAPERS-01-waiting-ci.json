@@ -1,8 +1,8 @@
 {
   "schema": "memorithm-remediation-proof.v1",
-  "observed_at": "2026-10-14T00:54:33Z",
+  "observed_at": "2026-10-14T01:00:15Z",
   "id": "PAPERS-01",
-  "status": "waiting_named_logging_and_parser_bounds_ci_review",
+  "status": "merged_waiting_integrated_validation",
   "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
   "candidate_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
   "pr": 12,
@@ -35,7 +35,29 @@
       "url": "https://github.com/Memorithm/scirust-hub/pull/85"
     }
   ],
-  "candidate_checks": [],
+  "candidate_checks": [
+    {
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492737269/job/115621518407"
+    },
+    {
+      "name": "rust",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492737269/job/115621518143"
+    },
+    {
+      "name": "live-qualified-consumer",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492737241/job/115621518113"
+    }
+  ],
   "integrated_11_checks": [
     {
       "name": "live-qualified-consumer",
@@ -90,23 +112,43 @@
   "excluded_modified": [],
   "stale_candidate_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
   "review": {
-    "corrected": "logging-only helper chains",
-    "threads_pending": [
+    "unresolved_threads": 0,
+    "all_five_findings_corrected_and_regressions_executed": true,
+    "latest_review_commit": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+    "no_major_issues_comment": "https://github.com/Memorithm/PAPERS-AGENT/pull/12#issuecomment-6158471527",
+    "resolved_threads": [
+      "PRRT_kwDOS8iSH86sHO_I",
       "PRRT_kwDOS8iSH86sHW6m",
-      "PRRT_kwDOS8iSH86sHfix"
-    ],
-    "limitations": "Syntactic activity is not semantic correctness/reachability/task relevance. No scientific qualification inferred.",
-    "current_head_review": "requested",
-    "pending_threads": [
+      "PRRT_kwDOS8iSH86sHfix",
       "PRRT_kwDOS8iSH86sHnhE",
       "PRRT_kwDOS8iSH86sHvrP"
     ]
   },
   "candidate_tests": {
-    "status": "pending_exact_head"
+    "command": "cargo test --all-targets",
+    "passed": 225,
+    "failed": 0,
+    "ignored": 1,
+    "suites": 11,
+    "synthetic_merge_sha": "7ce53df1132a18f1b232ac7e5a4569b028155e80",
+    "synthetic_parents": [
+      "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+      "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49"
+    ],
+    "tested_tree": "44408ef55bdd9276a642ab59d916c4f52fed0db2",
+    "candidate_tree_identical": true,
+    "log_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492737269/job/115621518143",
+    "retained_log": "docs/audit-global/proofs/PAPERS-12/candidate-final-rust.log"
   },
   "live_candidate": {
-    "status": "pending_exact_head"
+    "passed": 1,
+    "failed": 0,
+    "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+    "log_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492737241/job/115621518113",
+    "artifact_id": 11863065292,
+    "archive_sha256": "40dd17eee0e6749eaba6a690292f87507b37323dadfcf7875727442ef0351187",
+    "downloaded_hash_verified": true,
+    "retained_path": "docs/audit-global/proofs/PAPERS-12/candidate-final-researcher-engineer.zip"
   },
   "historical_candidate_tests": {
     "sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
@@ -175,5 +217,40 @@
       "retained_path": "docs/audit-global/proofs/PAPERS-12/candidate-829-researcher-engineer.zip",
       "invalid_for_current_head": true
     }
-  ]
+  ],
+  "merge_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+  "merge_gate": {
+    "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+    "target_branch": "master",
+    "default_branch": "master",
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "protected": false,
+    "rulesets": [],
+    "allowed_method": "merge",
+    "expected_head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
+    "all_three_checks_success": true,
+    "integrated_tree_identical": true,
+    "lease_owner": "codex-audit-20261014-0206"
+  },
+  "integrated_checks": {
+    "status": "running",
+    "sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+    "runs": [
+      {
+        "id": 38493225753,
+        "name": "Hub gVisor qualification",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225753"
+      },
+      {
+        "id": 38493225740,
+        "name": "CI",
+        "status": "in_progress",
+        "conclusion": null,
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225740"
+      }
+    ]
+  }
 }
