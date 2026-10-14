@@ -13641,7 +13641,7 @@
       "current_head": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
-      "head_reconciliation": "qualified_adapter_integrated_engineer_routing_candidate_published",
+      "head_reconciliation": "qualified_adapter_integrated_engine_adoption_in_qualification",
       "policy_review": "Root AGENTS, SECURITY and mandatory off-main roadmap read; PAPERS boundary preserved and no RemoteOps/scirust-hub modification attempted.",
       "prs": [
         {
@@ -13685,14 +13685,14 @@
           "status": "adapter_integrated_engineer_route_pending",
           "integrated_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
           "integrated_checks": 3,
-          "candidate_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a"
+          "candidate_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f"
         }
       ],
       "last_observed_at": "2026-10-14T00:48:46Z",
       "next_action": "Qualify budgeted final #12 head 5af865e8e3070f0ecb7ad6e83396519e5907352f: full/live current-source CI and review, guarded merge then integrated validation. Afterward add independent compile/execution deadlines and adversarial IO/resource qualification; do not close original finding from benign runtime diagnostic.",
       "blockers": [
-        "SciRust-Hub main explicitly states that its configured local and remote process executors are not an OS sandbox; AXH-5 container-class backend remains active and RemoteOps owns concrete isolation enforcement.",
-        "No qualified backend evidence currently exists that proves stronger-than-process isolation, default-deny network and enforced CPU/RAM/time limits for this PAPERS workload."
+        "Qualified typed gVisor adapter is integrated in PAPERS #10/#11; engine/evolution adoption #12 at current source requires full/live CI, corrected review, guarded merge and integrated validation.",
+        "Independent compilation/execution deadlines and adversarial compilation, memory/IO/resource qualification for this consumer are not yet exercised; benign diagnostic alone does not close original acceptance. Legacy local WASM path stays fail-closed."
       ]
     },
     {

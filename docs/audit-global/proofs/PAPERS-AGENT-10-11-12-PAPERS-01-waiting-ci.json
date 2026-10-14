@@ -35,7 +35,29 @@
       "url": "https://github.com/Memorithm/scirust-hub/pull/85"
     }
   ],
-  "candidate_checks": [],
+  "candidate_checks": [
+    {
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492238235/job/115619926380"
+    },
+    {
+      "name": "rust",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492238235/job/115619926137"
+    },
+    {
+      "name": "live-qualified-consumer",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38492238033/job/115619924901"
+    }
+  ],
   "integrated_11_checks": [
     {
       "name": "live-qualified-consumer",
@@ -153,5 +175,19 @@
     "max_activity_visits": 4096,
     "exhaustion": "refuse",
     "regression": "branching_no_work_call_graph_is_budgeted"
-  }
+  },
+  "historical_qualified_candidates": [
+    {
+      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+      "passed": 223,
+      "failed": 0,
+      "ignored": 1,
+      "live_passed": 1,
+      "artifact_id": 11862261842,
+      "archive_sha256": "71211e3a604227ad20292896cae40559246c612d3550be692e77bb3e20e41384",
+      "proof_snapshot_commit": "1836eb056a58b4939a84ee25bffafbda9a4e89f2",
+      "retained_path": "docs/audit-global/proofs/PAPERS-12/candidate-829-researcher-engineer.zip",
+      "invalid_for_current_head": true
+    }
+  ]
 }
