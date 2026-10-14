@@ -1,0 +1,62 @@
+{
+  "schema": "memorithm-audit-proof.v1",
+  "id": "PAPERS-01",
+  "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/13",
+  "status": "waiting_exact_candidate_ci_review",
+  "observed_at": "2026-10-14T01:30:46Z",
+  "base_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+  "candidate_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
+  "owner_contract_source": "Memorithm/scirust-hub@60f000d9a4f021cb14b9fe2cd68999408b797dd8",
+  "policy": {
+    "PAPERS_AGENTS": "read",
+    "PAPERS_off_main_roadmap": "read",
+    "orchestrator_AGENTS_holdouts_roadmap": "read",
+    "Hub_AGENTS_off_main_roadmap_ML_overlay_AX_bootstrap_and_roadmap": "read",
+    "license": "No root LICENSE or package grant found; existing rights/attribution preserved; no dependency or grant added"
+  },
+  "candidate_checks": [
+    {
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057500/job/115631957185"
+    },
+    {
+      "name": "rust",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057500/job/115631957015"
+    },
+    {
+      "name": "live-qualified-consumer",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "b34412984e4b3c56c7f25fda221aebf07ab74ae1",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496057456/job/115631956741"
+    }
+  ],
+  "local_checks": [
+    {
+      "command": "rustfmt --edition 2021 changed Rust files",
+      "result": "success"
+    },
+    {
+      "command": "git diff --check",
+      "result": "success"
+    },
+    {
+      "command": "cargo +1.98.1 test --manifest-path papers_core/Cargo.toml --offline --lib hub_gvisor::tests",
+      "result": "did not execute tests: anyhow not cached"
+    }
+  ],
+  "scope": "Independent phase budgets and existing owner wire v1; diagnostic-only scientific authority; selected phase source/artifact/request/receipt provenance",
+  "required_before_closure": [
+    "exact candidate/integrated CI and real live scenarios",
+    "adversarial memory/PID/filesystem enforcement qualification",
+    "owner aggregate workspace disk quota/read-only execution policy when needed",
+    "robust failed-Docker process-tree and bounded-drain qualification"
+  ],
+  "excluded_modified": []
+}
