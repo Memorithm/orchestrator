@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T02:52:52.134Z",
+  "updated_at": "2026-10-14T02:56:53.088Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9920,7 +9920,7 @@
       "base": "master",
       "base_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
       "head": "audit/papers-01-shared-guard-20261014",
-      "head_sha": "b900c30aa2da17b31c0012eff128632afb7d5a06",
+      "head_sha": "bce47c594a0e99f65b338e1cfece64dffb9ee222",
       "head_repo_id": 1271435807,
       "head_repo_full_name": "Memorithm/PAPERS-AGENT",
       "merge_commit_sha": null,
@@ -9950,7 +9950,11 @@
         "PAPERS-01"
       ],
       "status": "waiting_exact_candidate_ci_review",
-      "merge_sha": null
+      "merge_sha": null,
+      "superseded_heads": [
+        "b900c30aa2da17b31c0012eff128632afb7d5a06"
+      ],
+      "review_fix": "Dependency files trigger live on PR/push; imported owner guard source bound to qualified CLI; thread4266290418 fixed and resolved."
     }
   ],
   "repository_observations": [
@@ -14072,7 +14076,7 @@
           "base": "master",
           "base_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
           "head": "audit/papers-01-shared-guard-20261014",
-          "head_sha": "b900c30aa2da17b31c0012eff128632afb7d5a06",
+          "head_sha": "bce47c594a0e99f65b338e1cfece64dffb9ee222",
           "head_repo_id": 1271435807,
           "head_repo_full_name": "Memorithm/PAPERS-AGENT",
           "merge_commit_sha": null,
@@ -14102,7 +14106,11 @@
             "PAPERS-01"
           ],
           "status": "waiting_exact_candidate_ci_review",
-          "merge_sha": null
+          "merge_sha": null,
+          "superseded_heads": [
+            "b900c30aa2da17b31c0012eff128632afb7d5a06"
+          ],
+          "review_fix": "Dependency files trigger live on PR/push; imported owner guard source bound to qualified CLI; thread4266290418 fixed and resolved."
         }
       ],
       "resolution_evidence": [
@@ -14128,7 +14136,7 @@
           "integrated_checks": 2
         }
       ],
-      "last_observed_at": "2026-10-14T02:51:14.206Z",
+      "last_observed_at": "2026-10-14T02:56:53.088Z",
       "next_action": "Qualifier PAPERS #14 au HEAD b900c30; corriger revue/CI puis fusion gardée et trois gates intégrés. Quota agrégé/PID/reconciliation restent non clos.",
       "blockers": [
         "Independent phase budgets and retained refusal provenance resolved by #13 with 3/3 integrated gates, 230 tests and four real isolated scenarios.",
@@ -16130,5 +16138,5 @@
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
   ],
-  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6158984563"
+  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6159826001"
 }

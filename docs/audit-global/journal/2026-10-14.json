@@ -1046,6 +1046,38 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T04:56:53.088+02:00",
+      "event": "PAPERS14_review_trigger_fix",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 20,
+        "batch_target": 50,
+        "merged_prs": 120,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "actions": [
+            "Owner shared guard imported at exact dbad and lock graph generated without existing package version changes",
+            "Review found dependency-only changes skipped live gate; both Cargo paths and source equality added; final bce all gates/review rerun",
+            "No old green reused; retained workspace live assertion pending"
+          ],
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
+          "head_sha": "bce47c594a0e99f65b338e1cfece64dffb9ee222",
+          "reason_waiting": "exact final rust/audit/live and review are still running",
+          "dependencies": [
+            "qualified Hub88 dbad"
+          ],
+          "next_action": "Fix any final CI/review error, guarded merge when qualified, verify three integrated gates"
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -1057,6 +1089,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 5,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14T02:51:14.206Z"
+    "latest_observed_at": "2026-10-14T04:56:53.088+02:00"
   }
 }
