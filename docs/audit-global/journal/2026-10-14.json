@@ -685,6 +685,88 @@
       ],
       "new_merges_this_session": [],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T03:44:23+02:00",
+      "event": "PAPERS13_guarded_merge",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 18,
+        "batch_target": 50,
+        "merged_prs": 118,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/13",
+          "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+          "merge_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+          "actions": [
+            "Exact-head review corrected/completed; all 3 candidate gates green, 230 tests and 4 real scenarios",
+            "Downloaded/hash-verified live archive and checked synthetic/candidate/integrated tree equality",
+            "Merged with expected_head_sha; integrated 3 jobs started"
+          ],
+          "checks": [
+            {
+              "name": "rust",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634309209"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799546/job/115634309105"
+            },
+            {
+              "name": "audit",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634308908"
+            }
+          ],
+          "integrated_checks": [
+            {
+              "name": "audit",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934695"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317449/job/115635934488"
+            },
+            {
+              "name": "rust",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934420"
+            }
+          ],
+          "next_action": "Verify 3 integrated gates and exact retained live artifact on merge 7ab65af8fbb854b3bcca92e3c42de83a54630dfb. Then reuse existing owner execution_guard for process-tree/drains and qualify resource/FS acceptance; no RemoteOps mutation."
+        }
+      ],
+      "new_merges_this_session": [
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 13,
+          "merge_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb"
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {

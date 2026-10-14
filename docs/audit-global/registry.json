@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T01:39:22Z",
+  "updated_at": "2026-10-14T01:44:23Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 117
+    "merged_prs": 118
   },
   "batches": [
     {
@@ -674,6 +674,18 @@
           "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
           "merge_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
           "merged_at": "2026-10-14T00:59:17Z",
+          "ids": [
+            "PAPERS-01"
+          ],
+          "merge_origin": "guarded_merge_performed_in_this_session"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 13,
+          "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+          "base_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+          "merge_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+          "merged_at": "2026-10-14T01:44:13Z",
           "ids": [
             "PAPERS-01"
           ],
@@ -9762,20 +9774,20 @@
       "base": "master",
       "base_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
       "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
-      "status": "waiting_exact_candidate_ci_review",
-      "merge_sha": null,
+      "status": "merged_waiting_target_validation",
+      "merge_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
       "checks": [
         {
           "name": "rust",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
           "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634309209"
         },
         {
           "name": "live-qualified-consumer",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
           "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799546/job/115634309105"
         },
@@ -9786,7 +9798,32 @@
           "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
           "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634308908"
         }
-      ]
+      ],
+      "merged_at": "2026-10-14T01:44:13Z",
+      "integrated_checks": [
+        {
+          "name": "audit",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934695"
+        },
+        {
+          "name": "live-qualified-consumer",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317449/job/115635934488"
+        },
+        {
+          "name": "rust",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934420"
+        }
+      ],
+      "batch": 3
     }
   ],
   "repository_observations": [
@@ -13735,7 +13772,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "waiting_ci",
-      "current_head": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+      "current_head": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
       "head_reconciliation": "engine_owner_route_integrated_qualified_partial_acceptance",
@@ -13785,20 +13822,20 @@
           "base": "master",
           "base_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
           "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
-          "status": "waiting_exact_candidate_ci_review",
-          "merge_sha": null,
+          "status": "merged_waiting_target_validation",
+          "merge_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
           "checks": [
             {
               "name": "rust",
-              "status": "in_progress",
-              "conclusion": null,
+              "status": "completed",
+              "conclusion": "success",
               "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
               "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634309209"
             },
             {
               "name": "live-qualified-consumer",
-              "status": "in_progress",
-              "conclusion": null,
+              "status": "completed",
+              "conclusion": "success",
               "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
               "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799546/job/115634309105"
             },
@@ -13808,6 +13845,30 @@
               "conclusion": "success",
               "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
               "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38496799467/job/115634308908"
+            }
+          ],
+          "merged_at": "2026-10-14T01:44:13Z",
+          "integrated_checks": [
+            {
+              "name": "audit",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934695"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317449/job/115635934488"
+            },
+            {
+              "name": "rust",
+              "status": "in_progress",
+              "conclusion": null,
+              "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934420"
             }
           ]
         }
@@ -13822,11 +13883,11 @@
           "candidate_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49"
         }
       ],
-      "last_observed_at": "2026-10-14T01:39:22Z",
-      "next_action": "Qualify #13 at d72e05e6efea66ada83cb2a216b5c1b9f2d70a61: full/audit/live exact CI, corrected provenance review, guarded merge then integrated validation. Audit remaining resource/outer-process/drain acceptance; inspect owner-scoped capabilities without touching RemoteOps.",
+      "last_observed_at": "2026-10-14T01:44:23Z",
+      "next_action": "Verify 3 integrated gates and exact retained live artifact on merge 7ab65af8fbb854b3bcca92e3c42de83a54630dfb. Then reuse existing owner execution_guard for process-tree/drains and qualify resource/FS acceptance; no RemoteOps mutation.",
       "blockers": [
-        "PR13 independent phases and refusal provenance awaiting corrected-head full/live qualification.",
-        "Adversarial memory/PID/filesystem enforcement and failed-Docker process-tree/drain acceptance not fully qualified; trusted-only local WASM JIT is not the generated-source production path."
+        "Integrated #13 validation in progress; exact candidate three gates green, 230 tests and four real runsc scenarios.",
+        "Remaining hostile resource/FS and failed-Docker process-tree/drain acceptance requires owner enforcement/qualification; no full audit closure claimed."
       ]
     },
     {
@@ -15824,5 +15885,5 @@
       "status": "necessity_permissions_inventory_required_no_repository_created"
     }
   ],
-  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6157952195"
+  "last_central_comment": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6158984563"
 }
