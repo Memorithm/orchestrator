@@ -2298,19 +2298,73 @@
         }
       ],
       "no_excluded_mutations": true
+    },
+    {
+      "observed_at": "2026-10-14 08:59:32 Europe/Paris",
+      "event": "guarded_consumer17_merge_integrated_wait",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 128,
+        "batch": 3,
+        "batch_merged_prs": 28
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "waiting_ci",
+          "pr": 17,
+          "head": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+          "merge_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+          "actions": [
+            "Final d93cee3/3 gates complete success,234 Rust (ordinary live1ignored not counted), dedicated actual live1passed0ignored;13 durable attempts, byte/inode ENOSPC and mode000 refusal; artifact digest4b7a1ee6 verified.",
+            "P1 fixed/resolved only after actual tests. Final11file diff, correctmaster target, exactunchangedbase0c, cleanmergeable, no protections/rulesets changed; expected-head merge performed. Integrated tree6983f7b identical."
+          ],
+          "checks_executed": [
+            {
+              "name": "audit",
+              "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891257/job/115722818107"
+            },
+            {
+              "name": "rust",
+              "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891257/job/115722817740"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891126/job/115722817033"
+            }
+          ],
+          "next_action": "PAPERS17 expected-head merged after actual3/3 final candidate gates,234 Rust, real13 durable attempts including aggregate byte/inode and inaccessible cleanup refusal. Integrated e8606a8 tree identical; require actual3/3 integrated gates and artifact before closure."
+        }
+      ],
+      "no_excluded_mutations": true
     }
   ],
   "daily_summary": {
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 127,
+    "merged_prs": 128,
     "batch": 3,
-    "batch_merged_prs": 27,
+    "batch_merged_prs": 28,
     "scope": "only observed interval; no fabricated prior-hour entries",
-    "new_merges_observed_today": 12,
+    "new_merges_observed_today": 13,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 08:55:40 Europe/Paris",
+    "latest_observed_at": "2026-10-14 08:59:32 Europe/Paris",
     "last_public_summary": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6162168060",
-    "current_pass_merges": 2
+    "current_pass_merges": 3
   }
 }

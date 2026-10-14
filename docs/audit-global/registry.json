@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T06:55:40Z",
+  "updated_at": "2026-10-14T06:59:32Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 127
+    "merged_prs": 128
   },
   "batches": [
     {
@@ -792,6 +792,17 @@
           "merged_at": "2026-10-14T06:49:31Z",
           "ids": [
             "MEM-11"
+          ]
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 17,
+          "merge_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+          "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+          "base_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+          "merged_at": "2026-10-14T06:59:30Z",
+          "ids": [
+            "PAPERS-01"
           ]
         }
       ]
@@ -10420,6 +10431,51 @@
       "superseded_heads": [
         "07759b97d007e6bbc3e6988423cfdbf6568be28f"
       ]
+    },
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 17,
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/17",
+      "ids": [
+        "PAPERS-01"
+      ],
+      "base": "master",
+      "base_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+      "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+      "merge_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+      "merged_at": "2026-10-14T06:59:30Z",
+      "merge_origin": "guarded_expected_head_merge_performed_in_this_run",
+      "status": "merged_waiting_integrated_3gates_original_acceptance",
+      "owner_sha": "a1ce544d5a6027a224627b738268214775a56881",
+      "candidate_tree": "6983f7b287457bcad1aa09669d5e646cbf39f434",
+      "checks": [
+        {
+          "name": "audit",
+          "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891257/job/115722818107"
+        },
+        {
+          "name": "rust",
+          "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891257/job/115722817740"
+        },
+        {
+          "name": "live-qualified-consumer",
+          "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891126/job/115722817033"
+        }
+      ],
+      "superseded_heads": [
+        "2a9eed1b1bdb2c30031dbc68c3f2ea69cea0ede6",
+        "72e897d0582dfe7b82a423909eb29ceb14521d47"
+      ],
+      "review_fix": "actual mode000 cleanup refusal; explicit close/verified absence; real file rustfmt check and exact PR/push range"
     }
   ],
   "repository_observations": [
@@ -14422,7 +14478,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "in_progress",
-      "current_head": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+      "current_head": "e8606a8c692988d455bd33f6e57d42e207884217",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
       "head_reconciliation": "exact_integrated10f_consumer_and_f873_owner_guest_PID_controls_qualified_original_acceptance_incomplete",
@@ -14879,11 +14935,42 @@
           "base_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
           "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
           "owner_sha": "a1ce544d5a6027a224627b738268214775a56881",
-          "status": "candidate_waiting_real_file_format_3gates",
+          "status": "merged_waiting_integrated_3gates_original_acceptance",
           "superseded_heads": [
             "2a9eed1b1bdb2c30031dbc68c3f2ea69cea0ede6",
             "72e897d0582dfe7b82a423909eb29ceb14521d47"
-          ]
+          ],
+          "ids": [
+            "PAPERS-01"
+          ],
+          "merge_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+          "merged_at": "2026-10-14T06:59:30Z",
+          "merge_origin": "guarded_expected_head_merge_performed_in_this_run",
+          "candidate_tree": "6983f7b287457bcad1aa09669d5e646cbf39f434",
+          "checks": [
+            {
+              "name": "audit",
+              "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891257/job/115722818107"
+            },
+            {
+              "name": "rust",
+              "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891257/job/115722817740"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891126/job/115722817033"
+            }
+          ],
+          "review_fix": "actual mode000 cleanup refusal; explicit close/verified absence; real file rustfmt check and exact PR/push range"
         }
       ],
       "resolution_evidence": [
@@ -14941,8 +15028,8 @@
           "integrated_checks": 3
         }
       ],
-      "last_observed_at": "2026-10-14T06:24:20Z",
-      "next_action": "PAPERS17 P1 cleanup fixed,234 functional Rust + real13 attempt/mode000 controls passed on72e897, but stdin formatting gate was unsound. d93cee enforces file-format/exact source; all3 candidate gates and actual integrated gates still required; do not reuse prior greens.",
+      "last_observed_at": "2026-10-14T06:59:32Z",
+      "next_action": "PAPERS17 expected-head merged after actual3/3 final candidate gates,234 Rust, real13 durable attempts including aggregate byte/inode and inaccessible cleanup refusal. Integrated e8606a8 tree identical; require actual3/3 integrated gates and artifact before closure.",
       "blockers": [
         "Actual aggregate multi-file and inode writable workspace OS quota not implemented/qualified; per-file RLIMIT_FSIZE not substitute"
       ],

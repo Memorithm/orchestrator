@@ -1,0 +1,804 @@
+﻿2026-10-14T06:53:33.8145642Z Current runner version: '2.337.0'
+2026-10-14T06:53:33.8170489Z ##[group]Runner Image Provisioner
+2026-10-14T06:53:33.8171761Z Hosted Compute Agent
+2026-10-14T06:53:33.8172363Z Version: 20261002.596
+2026-10-14T06:53:33.8173032Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-14T06:53:33.8173769Z Build Date: 2026-10-02T22:28:27Z
+2026-10-14T06:53:33.8174463Z Worker ID: {6dbe1184-8502-4e17-8fe9-39da3455539f}
+2026-10-14T06:53:33.8175242Z Region: westus
+2026-10-14T06:53:33.8175771Z Cloud: Azure
+2026-10-14T06:53:33.8176278Z ##[endgroup]
+2026-10-14T06:53:33.8177913Z ##[group]Operating System
+2026-10-14T06:53:33.8178551Z Ubuntu
+2026-10-14T06:53:33.8179207Z 24.04.5
+2026-10-14T06:53:33.8179718Z LTS
+2026-10-14T06:53:33.8180204Z ##[endgroup]
+2026-10-14T06:53:33.8180803Z ##[group]Runner Image
+2026-10-14T06:53:33.8181648Z Image: ubuntu-24.04
+2026-10-14T06:53:33.8182299Z Version: 20261004.327.1
+2026-10-14T06:53:33.8183566Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T06:53:33.8185169Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-14T06:53:33.8186126Z ##[endgroup]
+2026-10-14T06:53:33.8187279Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T06:53:33.8189123Z Contents: read
+2026-10-14T06:53:33.8189841Z Metadata: read
+2026-10-14T06:53:33.8190428Z ##[endgroup]
+2026-10-14T06:53:33.8193123Z Secret source: Actions
+2026-10-14T06:53:33.8194187Z Cache mode: write
+2026-10-14T06:53:33.8194871Z Prepare workflow directory
+2026-10-14T06:53:33.8606189Z Prepare all required actions
+2026-10-14T06:53:33.8656232Z Getting action download info
+2026-10-14T06:53:34.2285287Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-14T06:53:34.7270930Z Download action repository 'dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249' (SHA:686976e191b89faba57d3206551f0f330d8cb249)
+2026-10-14T06:53:34.9400583Z Download action repository 'actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+2026-10-14T06:53:35.2225915Z Complete job name: rust
+2026-10-14T06:53:35.3034656Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-10-14T06:53:35.3035722Z with:
+2026-10-14T06:53:35.3036143Z   fetch-depth: 0
+2026-10-14T06:53:35.3036606Z   persist-credentials: false
+2026-10-14T06:53:35.3037157Z   ref: d93cee7b32206284ca74fb78713bb575ca8d3896
+2026-10-14T06:53:35.3037753Z   repository: Memorithm/PAPERS-AGENT
+2026-10-14T06:53:35.3041953Z   token: ***
+2026-10-14T06:53:35.3042401Z   ssh-strict: true
+2026-10-14T06:53:35.3042827Z   ssh-user: git
+2026-10-14T06:53:35.3043237Z   clean: true
+2026-10-14T06:53:35.3043694Z   sparse-checkout-cone-mode: true
+2026-10-14T06:53:35.3044217Z   fetch-tags: false
+2026-10-14T06:53:35.3044661Z   show-progress: true
+2026-10-14T06:53:35.3045105Z   lfs: false
+2026-10-14T06:53:35.3045512Z   submodules: false
+2026-10-14T06:53:35.3045953Z   set-safe-directory: true
+2026-10-14T06:53:35.3046489Z   allow-unsafe-pr-checkout: false
+2026-10-14T06:53:35.3047287Z ##[endgroup]
+2026-10-14T06:53:35.4059187Z Syncing repository: Memorithm/PAPERS-AGENT
+2026-10-14T06:53:35.4062165Z ##[group]Getting Git version info
+2026-10-14T06:53:35.4063422Z Working directory is '/home/runner/work/PAPERS-AGENT/PAPERS-AGENT'
+2026-10-14T06:53:35.4065197Z [command]/usr/bin/git version
+2026-10-14T06:53:35.5578516Z git version 2.55.0
+2026-10-14T06:53:35.5604862Z ##[endgroup]
+2026-10-14T06:53:35.5621774Z Temporarily overriding HOME='/home/runner/work/_temp/4b68829a-cebc-4ca8-bab1-a0abf6b458b8' before making global git config changes
+2026-10-14T06:53:35.5623998Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T06:53:35.5627586Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PAPERS-AGENT/PAPERS-AGENT
+2026-10-14T06:53:35.5949775Z Deleting the contents of '/home/runner/work/PAPERS-AGENT/PAPERS-AGENT'
+2026-10-14T06:53:35.5954792Z ##[group]Initializing the repository
+2026-10-14T06:53:35.5959500Z [command]/usr/bin/git init /home/runner/work/PAPERS-AGENT/PAPERS-AGENT
+2026-10-14T06:53:35.6605466Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-14T06:53:35.6607553Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-14T06:53:35.6609765Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-14T06:53:35.6611896Z hint: call:
+2026-10-14T06:53:35.6612945Z hint:
+2026-10-14T06:53:35.6614145Z hint: 	git config --global init.defaultBranch <name>
+2026-10-14T06:53:35.6615302Z hint:
+2026-10-14T06:53:35.6616457Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-14T06:53:35.6618288Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-14T06:53:35.6619703Z hint:
+2026-10-14T06:53:35.6620514Z hint: 	git branch -m <name>
+2026-10-14T06:53:35.6621594Z hint:
+2026-10-14T06:53:35.6622894Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-14T06:53:35.6625074Z Initialized empty Git repository in /home/runner/work/PAPERS-AGENT/PAPERS-AGENT/.git/
+2026-10-14T06:53:35.6628121Z [command]/usr/bin/git remote add origin https://github.com/Memorithm/PAPERS-AGENT
+2026-10-14T06:53:35.7068862Z ##[endgroup]
+2026-10-14T06:53:35.7071301Z ##[group]Disabling automatic garbage collection
+2026-10-14T06:53:35.7074250Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T06:53:35.7114627Z ##[endgroup]
+2026-10-14T06:53:35.7116397Z ##[group]Setting up auth
+2026-10-14T06:53:35.7120575Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T06:53:35.7156362Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T06:53:35.9778384Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T06:53:35.9820299Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T06:53:36.0050752Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T06:53:36.0088215Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T06:53:36.0316331Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-14T06:53:36.0358890Z ##[endgroup]
+2026-10-14T06:53:36.0431692Z ##[group]Fetching the repository
+2026-10-14T06:53:36.0435626Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-14T06:53:38.2059482Z From https://github.com/Memorithm/PAPERS-AGENT
+2026-10-14T06:53:38.2062166Z  * [new branch]      agent/ax-task-bootstrap -> origin/agent/ax-task-bootstrap
+2026-10-14T06:53:38.2063402Z  * [new branch]      agent/ecosystem-roadmap -> origin/agent/ecosystem-roadmap
+2026-10-14T06:53:38.2064301Z  * [new branch]      audit/papers-01-default-branch-probe -> origin/audit/papers-01-default-branch-probe
+2026-10-14T06:53:38.2065251Z  * [new branch]      audit/papers-01-durable-owner-adoption-20261014 -> origin/audit/papers-01-durable-owner-adoption-20261014
+2026-10-14T06:53:38.2066227Z  * [new branch]      audit/papers-01-engineer-admission-20261014 -> origin/audit/papers-01-engineer-admission-20261014
+2026-10-14T06:53:38.2067477Z  * [new branch]      audit/papers-01-guest-pid-consumer-20261014 -> origin/audit/papers-01-guest-pid-consumer-20261014
+2026-10-14T06:53:38.2069112Z  * [new branch]      audit/papers-01-hub-gvisor-consumer -> origin/audit/papers-01-hub-gvisor-consumer
+2026-10-14T06:53:38.2070914Z  * [new branch]      audit/papers-01-persistent-aggregate-quota-20261014 -> origin/audit/papers-01-persistent-aggregate-quota-20261014
+2026-10-14T06:53:38.2073343Z  * [new branch]      audit/papers-01-phase-budgets-20261014 -> origin/audit/papers-01-phase-budgets-20261014
+2026-10-14T06:53:38.2074860Z  * [new branch]      audit/papers-01-shared-guard-20261014 -> origin/audit/papers-01-shared-guard-20261014
+2026-10-14T06:53:38.2076343Z  * [new branch]      audit/papers-01-wasm-bounds -> origin/audit/papers-01-wasm-bounds
+2026-10-14T06:53:38.2077779Z  * [new branch]      audit/papers-02-evaluation-authority -> origin/audit/papers-02-evaluation-authority
+2026-10-14T06:53:38.2079328Z  * [new branch]      audit/papers-02-evaluation-authority-clean -> origin/audit/papers-02-evaluation-authority-clean
+2026-10-14T06:53:38.2080793Z  * [new branch]      audit/papers-03-post-outcome -> origin/audit/papers-03-post-outcome
+2026-10-14T06:53:38.2082465Z  * [new branch]      audit/papers-04-bounded-arxiv -> origin/audit/papers-04-bounded-arxiv
+2026-10-14T06:53:38.2083511Z  * [new branch]      master                  -> origin/master
+2026-10-14T06:53:38.2085978Z [command]/usr/bin/git rev-parse --verify --quiet d93cee7b32206284ca74fb78713bb575ca8d3896^{object}
+2026-10-14T06:53:38.2110265Z d93cee7b32206284ca74fb78713bb575ca8d3896
+2026-10-14T06:53:38.2133502Z ##[endgroup]
+2026-10-14T06:53:38.2134681Z ##[group]Determining the checkout info
+2026-10-14T06:53:38.2135887Z ##[endgroup]
+2026-10-14T06:53:38.2139039Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T06:53:38.2410212Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T06:53:38.2450839Z ##[group]Checking out the ref
+2026-10-14T06:53:38.2451864Z [command]/usr/bin/git checkout --progress --force d93cee7b32206284ca74fb78713bb575ca8d3896
+2026-10-14T06:53:38.2595395Z Note: switching to 'd93cee7b32206284ca74fb78713bb575ca8d3896'.
+2026-10-14T06:53:38.2596087Z 
+2026-10-14T06:53:38.2596662Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-14T06:53:38.2598054Z changes and commit them, and you can discard any commits you make in this
+2026-10-14T06:53:38.2599593Z state without impacting any branches by switching back to a branch.
+2026-10-14T06:53:38.2600503Z 
+2026-10-14T06:53:38.2601037Z If you want to create a new branch to retain commits you create, you may
+2026-10-14T06:53:38.2602458Z do so (now or later) by using -c with the switch command. Example:
+2026-10-14T06:53:38.2603151Z 
+2026-10-14T06:53:38.2603518Z   git switch -c <new-branch-name>
+2026-10-14T06:53:38.2604231Z 
+2026-10-14T06:53:38.2604482Z Or undo this operation with:
+2026-10-14T06:53:38.2604869Z 
+2026-10-14T06:53:38.2605081Z   git switch -
+2026-10-14T06:53:38.2605335Z 
+2026-10-14T06:53:38.2605677Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-14T06:53:38.2606122Z 
+2026-10-14T06:53:38.2606584Z HEAD is now at d93cee7 PAPERS-01: enforce real file rustfmt gate and exact candidate/integrated source selection
+2026-10-14T06:53:38.2608897Z ##[endgroup]
+2026-10-14T06:53:38.2655923Z [command]/usr/bin/git log -1 --format=%H
+2026-10-14T06:53:38.2686033Z d93cee7b32206284ca74fb78713bb575ca8d3896
+2026-10-14T06:53:38.2702612Z ##[group]Removing auth
+2026-10-14T06:53:38.2703656Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T06:53:38.2744068Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T06:53:38.2987292Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T06:53:38.3016060Z http.https://github.com/.extraheader
+2026-10-14T06:53:38.3025655Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-14T06:53:38.3062862Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T06:53:38.3294355Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T06:53:38.3332877Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T06:53:38.3559951Z ##[endgroup]
+2026-10-14T06:53:38.3945941Z ##[group]Run dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249
+2026-10-14T06:53:38.3946546Z with:
+2026-10-14T06:53:38.3946900Z   components: rustfmt, clippy
+2026-10-14T06:53:38.3947293Z   toolchain: stable
+2026-10-14T06:53:38.3947648Z ##[endgroup]
+2026-10-14T06:53:38.4019529Z ##[start-action display=Parse toolchain version;id=__dtolnay_rust-toolchain.parse]
+2026-10-14T06:53:38.4091146Z ##[group]Run if [[ -z $toolchain ]]; then
+2026-10-14T06:53:38.4091984Z [36;1mif [[ -z $toolchain ]]; then[0m
+2026-10-14T06:53:38.4092681Z [36;1m  # GitHub does not enforce `required: true` inputs itself. https://github.com/actions/runner/issues/1070[0m
+2026-10-14T06:53:38.4093445Z [36;1m  echo "'toolchain' is a required input" >&2[0m
+2026-10-14T06:53:38.4093891Z [36;1m  exit 1[0m
+2026-10-14T06:53:38.4094377Z [36;1melif [[ $toolchain =~ ^stable' '[0-9]+' '(year|month|week|day)s?' 'ago$ ]]; then[0m
+2026-10-14T06:53:38.4094942Z [36;1m  if [[ Linux == macOS ]]; then[0m
+2026-10-14T06:53:38.4095658Z [36;1m    echo "toolchain=1.$((($(date -v-$(sed 's/stable \([0-9]*\) \(.\).*/\1\2/' <<< $toolchain) +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-10-14T06:53:38.4096306Z [36;1m  else[0m
+2026-10-14T06:53:38.4096850Z [36;1m    echo "toolchain=1.$((($(date --date "${toolchain#stable }" +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-10-14T06:53:38.4097807Z [36;1m  fi[0m
+2026-10-14T06:53:38.4098536Z [36;1melif [[ $toolchain =~ ^stable' 'minus' '[0-9]+' 'releases?$ ]]; then[0m
+2026-10-14T06:53:38.4099711Z [36;1m  echo "toolchain=1.$((($(date +%s)/60/60/24-16569)/7/6-${toolchain//[^0-9]/}))" >> $GITHUB_OUTPUT[0m
+2026-10-14T06:53:38.4100806Z [36;1melif [[ $toolchain =~ ^1\.[0-9]+$ ]]; then[0m
+2026-10-14T06:53:38.4102110Z [36;1m  echo "toolchain=1.$((i=${toolchain#1.}, c=($(date +%s)/60/60/24-16569)/7/6, i+9*i*(10*i<=c)+90*i*(100*i<=c)))" >> $GITHUB_OUTPUT[0m
+2026-10-14T06:53:38.4103193Z [36;1melse[0m
+2026-10-14T06:53:38.4103821Z [36;1m  delimiter=EOF[0m
+2026-10-14T06:53:38.4104672Z [36;1m  while [[ $toolchain == *$delimiter* ]]; do delimiter+=_; done[0m
+2026-10-14T06:53:38.4105854Z [36;1m  printf 'toolchain<<%s\n%s\n%s\n' "$delimiter" "$toolchain" "$delimiter" >> $GITHUB_OUTPUT[0m
+2026-10-14T06:53:38.4106907Z [36;1mfi[0m
+2026-10-14T06:53:38.5674797Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:38.5675454Z env:
+2026-10-14T06:53:38.5675891Z   toolchain: stable
+2026-10-14T06:53:38.5676324Z ##[endgroup]
+2026-10-14T06:53:38.5829255Z ##[end-action id=__dtolnay_rust-toolchain.parse;outcome=success;conclusion=success;duration_ms=180]
+2026-10-14T06:53:38.5836200Z ##[start-action display=Set $CARGO_HOME;id=__dtolnay_rust-toolchain.__run]
+2026-10-14T06:53:38.5880467Z ##[group]Run echo CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV
+2026-10-14T06:53:38.5881099Z [36;1mecho CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV[0m
+2026-10-14T06:53:38.5944293Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:38.5944807Z ##[endgroup]
+2026-10-14T06:53:38.6038868Z ##[end-action id=__dtolnay_rust-toolchain.__run;outcome=success;conclusion=success;duration_ms=20]
+2026-10-14T06:53:38.6042541Z ##[start-action display=Install rustup if needed;id=__dtolnay_rust-toolchain.__run_2]
+2026-10-14T06:53:38.6083968Z ##[group]Run if ! command -v rustup &>/dev/null; then
+2026-10-14T06:53:38.6084488Z [36;1mif ! command -v rustup &>/dev/null; then[0m
+2026-10-14T06:53:38.6085412Z [36;1m  curl --proto '=https' --tlsv1.2 --retry 10 --retry-connrefused --location --silent --show-error --fail https://sh.rustup.rs | sh -s -- --default-toolchain none -y[0m
+2026-10-14T06:53:38.6086525Z [36;1m  echo "$CARGO_HOME/bin" >> $GITHUB_PATH[0m
+2026-10-14T06:53:38.6086953Z [36;1mfi[0m
+2026-10-14T06:53:38.6146358Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:38.6146847Z env:
+2026-10-14T06:53:38.6147190Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:38.6147576Z ##[endgroup]
+2026-10-14T06:53:38.6237778Z ##[end-action id=__dtolnay_rust-toolchain.__run_2;outcome=success;conclusion=success;duration_ms=19]
+2026-10-14T06:53:38.6240800Z ##[start-action display=Install rustup if needed on windows;id=__dtolnay_rust-toolchain.__run_3]
+2026-10-14T06:53:38.6249684Z ##[end-action id=__dtolnay_rust-toolchain.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-14T06:53:38.6263941Z ##[start-action display=rustup toolchain install stable;id=__dtolnay_rust-toolchain.__run_4]
+2026-10-14T06:53:38.6296356Z ##[group]Run set -f  # split targets and components on commas and whitespace, without glob expansion
+2026-10-14T06:53:38.6297262Z [36;1mset -f  # split targets and components on commas and whitespace, without glob expansion[0m
+2026-10-14T06:53:38.6297859Z [36;1mflags=()[0m
+2026-10-14T06:53:38.6298264Z [36;1mfor t in ${targets//,/ }; do flags+=(--target "$t"); done[0m
+2026-10-14T06:53:38.6298821Z [36;1mfor c in ${components//,/ }; do flags+=(--component "$c"); done[0m
+2026-10-14T06:53:38.6299477Z [36;1mif [[ $toolchain == nightly && -n $components ]]; then flags+=(--allow-downgrade); fi[0m
+2026-10-14T06:53:38.6300043Z [36;1mlog=$(mktemp)[0m
+2026-10-14T06:53:38.6300403Z [36;1mtrap 'rm -f "$log"' EXIT[0m
+2026-10-14T06:53:38.6300787Z [36;1mfor attempt in 1 2 3 4 5; do[0m
+2026-10-14T06:53:38.6301781Z [36;1m  if rustup toolchain install "$toolchain" "${flags[@]}" --profile minimal --no-self-update --force-non-host 2>&1 | tee "$log"; then[0m
+2026-10-14T06:53:38.6302499Z [36;1m    break[0m
+2026-10-14T06:53:38.6302826Z [36;1m  else[0m
+2026-10-14T06:53:38.6303152Z [36;1m    status=$?[0m
+2026-10-14T06:53:38.6303496Z [36;1m  fi[0m
+2026-10-14T06:53:38.6303942Z [36;1m  if [[ $attempt == 5 ]] || ! grep -Fq 'checksum failed for ' "$log" \[0m
+2026-10-14T06:53:38.6304651Z [36;1m      || ! grep -Fq 'this is likely due to an ongoing update of the official release server' "$log"; then[0m
+2026-10-14T06:53:38.6305253Z [36;1m    exit "$status"[0m
+2026-10-14T06:53:38.6305607Z [36;1m  fi[0m
+2026-10-14T06:53:38.6306099Z [36;1m  echo "Retrying rustup toolchain install in 30 seconds (retry $attempt of 4)" >&2[0m
+2026-10-14T06:53:38.6306649Z [36;1m  sleep 30[0m
+2026-10-14T06:53:38.6306980Z [36;1mdone[0m
+2026-10-14T06:53:38.6369799Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:38.6370286Z env:
+2026-10-14T06:53:38.6370626Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:38.6371027Z   toolchain: stable
+2026-10-14T06:53:38.6371520Z   targets: 
+2026-10-14T06:53:38.6371868Z   components: rustfmt, clippy
+2026-10-14T06:53:38.6372264Z   RUSTUP_PERMIT_COPY_RENAME: 1
+2026-10-14T06:53:38.6372628Z ##[endgroup]
+2026-10-14T06:53:41.1932514Z info: syncing channel updates for stable-x86_64-unknown-linux-gnu
+2026-10-14T06:53:41.4535674Z info: latest update on 2026-10-01 for version 1.99.0 (b940084d7 2026-09-28)
+2026-10-14T06:53:41.4793186Z info: component clippy is up to date
+2026-10-14T06:53:41.4793817Z info: component rustfmt is up to date
+2026-10-14T06:53:41.4805241Z 
+2026-10-14T06:53:41.4882778Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.0 (b940084d7 2026-09-28)
+2026-10-14T06:53:41.4883174Z 
+2026-10-14T06:53:41.4929723Z ##[end-action id=__dtolnay_rust-toolchain.__run_4;outcome=success;conclusion=success;duration_ms=2866]
+2026-10-14T06:53:41.4936811Z ##[start-action display=rustup default stable;id=__dtolnay_rust-toolchain.__run_5]
+2026-10-14T06:53:41.4956960Z ##[group]Run rustup default "$toolchain" --force-non-host
+2026-10-14T06:53:41.4957381Z [36;1mrustup default "$toolchain" --force-non-host[0m
+2026-10-14T06:53:41.5020035Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:41.5020376Z env:
+2026-10-14T06:53:41.5020759Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:41.5021018Z   toolchain: stable
+2026-10-14T06:53:41.5021223Z ##[endgroup]
+2026-10-14T06:53:41.5172056Z info: using existing install for stable-x86_64-unknown-linux-gnu
+2026-10-14T06:53:41.5182231Z info: default toolchain set to stable-x86_64-unknown-linux-gnu
+2026-10-14T06:53:41.5182719Z 
+2026-10-14T06:53:41.5258044Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.0 (b940084d7 2026-09-28)
+2026-10-14T06:53:41.5258456Z 
+2026-10-14T06:53:41.5275513Z ##[end-action id=__dtolnay_rust-toolchain.__run_5;outcome=success;conclusion=success;duration_ms=33]
+2026-10-14T06:53:41.5279300Z ##[start-action display=Create cachekey;id=__dtolnay_rust-toolchain.rustc-version]
+2026-10-14T06:53:41.5299172Z ##[group]Run DATE=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')
+2026-10-14T06:53:41.5300048Z [36;1mDATE=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')[0m
+2026-10-14T06:53:41.5300752Z [36;1mHASH=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-hash: //p')[0m
+2026-10-14T06:53:41.5301278Z [36;1mecho "cachekey=$(echo $DATE$HASH | head -c12)" >> $GITHUB_OUTPUT[0m
+2026-10-14T06:53:41.5363689Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:41.5364037Z env:
+2026-10-14T06:53:41.5364239Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:41.5364494Z   toolchain: stable
+2026-10-14T06:53:41.5364701Z ##[endgroup]
+2026-10-14T06:53:41.6027912Z ##[end-action id=__dtolnay_rust-toolchain.rustc-version;outcome=success;conclusion=success;duration_ms=74]
+2026-10-14T06:53:41.6030454Z ##[start-action display=Disable incremental compilation;id=__dtolnay_rust-toolchain.__run_6]
+2026-10-14T06:53:41.6051143Z ##[group]Run if [ -z "${CARGO_INCREMENTAL+set}" ]; then
+2026-10-14T06:53:41.6051880Z [36;1mif [ -z "${CARGO_INCREMENTAL+set}" ]; then[0m
+2026-10-14T06:53:41.6052217Z [36;1m  echo CARGO_INCREMENTAL=0 >> $GITHUB_ENV[0m
+2026-10-14T06:53:41.6052524Z [36;1mfi[0m
+2026-10-14T06:53:41.6114551Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:41.6114895Z env:
+2026-10-14T06:53:41.6115112Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:41.6115369Z ##[endgroup]
+2026-10-14T06:53:41.6199596Z ##[end-action id=__dtolnay_rust-toolchain.__run_6;outcome=success;conclusion=success;duration_ms=16]
+2026-10-14T06:53:41.6202141Z ##[start-action display=Enable colors in Cargo output;id=__dtolnay_rust-toolchain.__run_7]
+2026-10-14T06:53:41.6220737Z ##[group]Run if [ -z "${CARGO_TERM_COLOR+set}" ]; then
+2026-10-14T06:53:41.6221119Z [36;1mif [ -z "${CARGO_TERM_COLOR+set}" ]; then[0m
+2026-10-14T06:53:41.6221768Z [36;1m  echo CARGO_TERM_COLOR=always >> $GITHUB_ENV[0m
+2026-10-14T06:53:41.6222078Z [36;1mfi[0m
+2026-10-14T06:53:41.6278381Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:41.6278729Z env:
+2026-10-14T06:53:41.6278934Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:41.6279204Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:53:41.6279419Z ##[endgroup]
+2026-10-14T06:53:41.6361744Z ##[end-action id=__dtolnay_rust-toolchain.__run_7;outcome=success;conclusion=success;duration_ms=15]
+2026-10-14T06:53:41.6364977Z ##[start-action display=Enable Cargo sparse registry;id=__dtolnay_rust-toolchain.__run_8]
+2026-10-14T06:53:41.6384972Z ##[group]Run # implemented in 1.66, stabilized in 1.68, made default in 1.70
+2026-10-14T06:53:41.6385480Z [36;1m# implemented in 1.66, stabilized in 1.68, made default in 1.70[0m
+2026-10-14T06:53:41.6386219Z [36;1mif [ -z "${CARGO_REGISTRIES_CRATES_IO_PROTOCOL+set}" -o -f "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol ]; then[0m
+2026-10-14T06:53:41.6386983Z [36;1m  if rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.6[89]\.'; then[0m
+2026-10-14T06:53:41.6387595Z [36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-10-14T06:53:41.6388301Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse >> $GITHUB_ENV[0m
+2026-10-14T06:53:41.6388877Z [36;1m  elif rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.6[67]\.'; then[0m
+2026-10-14T06:53:41.6389472Z [36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-10-14T06:53:41.6390129Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=git >> $GITHUB_ENV[0m
+2026-10-14T06:53:41.6390484Z [36;1m  fi[0m
+2026-10-14T06:53:41.6390675Z [36;1mfi[0m
+2026-10-14T06:53:41.6446889Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:41.6447234Z env:
+2026-10-14T06:53:41.6447435Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:41.6447703Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:53:41.6448028Z   CARGO_TERM_COLOR: always
+2026-10-14T06:53:41.6448260Z   toolchain: stable
+2026-10-14T06:53:41.6448468Z ##[endgroup]
+2026-10-14T06:53:41.6782107Z ##[end-action id=__dtolnay_rust-toolchain.__run_8;outcome=success;conclusion=success;duration_ms=41]
+2026-10-14T06:53:41.6786174Z ##[start-action display=Work around spurious network errors in curl 8.0;id=__dtolnay_rust-toolchain.__run_9]
+2026-10-14T06:53:41.6807836Z ##[group]Run # https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation
+2026-10-14T06:53:41.6808639Z [36;1m# https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation[0m
+2026-10-14T06:53:41.6809292Z [36;1mif rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.7[01]\.'; then[0m
+2026-10-14T06:53:41.6809781Z [36;1m  echo CARGO_HTTP_MULTIPLEXING=false >> $GITHUB_ENV[0m
+2026-10-14T06:53:41.6810097Z [36;1mfi[0m
+2026-10-14T06:53:41.6872721Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:41.6873068Z env:
+2026-10-14T06:53:41.6873269Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:41.6873537Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:53:41.6873759Z   CARGO_TERM_COLOR: always
+2026-10-14T06:53:41.6873983Z   toolchain: stable
+2026-10-14T06:53:41.6874198Z ##[endgroup]
+2026-10-14T06:53:41.7084583Z ##[end-action id=__dtolnay_rust-toolchain.__run_9;outcome=success;conclusion=success;duration_ms=29]
+2026-10-14T06:53:41.7089275Z ##[start-action display=rustc +stable --version --verbose;id=__dtolnay_rust-toolchain.__run_10]
+2026-10-14T06:53:41.7108769Z ##[group]Run rustc +"$toolchain" --version --verbose
+2026-10-14T06:53:41.7109159Z [36;1mrustc +"$toolchain" --version --verbose[0m
+2026-10-14T06:53:41.7172050Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:53:41.7172410Z env:
+2026-10-14T06:53:41.7172617Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:41.7172888Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:53:41.7173126Z   CARGO_TERM_COLOR: always
+2026-10-14T06:53:41.7173365Z   toolchain: stable
+2026-10-14T06:53:41.7173582Z ##[endgroup]
+2026-10-14T06:53:41.7362977Z rustc 1.99.0 (b940084d7 2026-09-28)
+2026-10-14T06:53:41.7363695Z binary: rustc
+2026-10-14T06:53:41.7364307Z commit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4
+2026-10-14T06:53:41.7364977Z commit-date: 2026-09-28
+2026-10-14T06:53:41.7365460Z host: x86_64-unknown-linux-gnu
+2026-10-14T06:53:41.7366049Z release: 1.99.0
+2026-10-14T06:53:41.7366574Z LLVM version: 23.1.1
+2026-10-14T06:53:41.7385686Z ##[end-action id=__dtolnay_rust-toolchain.__run_10;outcome=success;conclusion=success;duration_ms=29]
+2026-10-14T06:53:41.8043630Z ##[group]Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+2026-10-14T06:53:41.8044008Z with:
+2026-10-14T06:53:41.8044273Z   path: ~/.cargo/registry
+~/.cargo/git
+papers_core/target
+
+2026-10-14T06:53:41.8044761Z   key: Linux-cargo-db2ec1bb045bb0b06bd254002434c5d6dd62dc90b4cb0f6859fbf504813cc5da
+2026-10-14T06:53:41.8045211Z   restore-keys: Linux-cargo-
+
+2026-10-14T06:53:41.8045467Z   enableCrossOsArchive: false
+2026-10-14T06:53:41.8045717Z   fail-on-cache-miss: false
+2026-10-14T06:53:41.8045962Z   lookup-only: false
+2026-10-14T06:53:41.8046172Z   save-always: false
+2026-10-14T06:53:41.8046372Z env:
+2026-10-14T06:53:41.8046767Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:53:41.8047016Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:53:41.8047235Z   CARGO_TERM_COLOR: always
+2026-10-14T06:53:41.8047455Z ##[endgroup]
+2026-10-14T06:53:41.9171809Z (node:2519) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-14T06:53:41.9172888Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-14T06:53:42.2108006Z Cache hit for: Linux-cargo-db2ec1bb045bb0b06bd254002434c5d6dd62dc90b4cb0f6859fbf504813cc5da
+2026-10-14T06:53:42.2284705Z (node:2519) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-14T06:53:43.4854276Z Received 4194304 of 6025144556 (0.1%), 4.0 MBs/sec
+2026-10-14T06:53:44.4908473Z Received 134217728 of 6025144556 (2.2%), 63.8 MBs/sec
+2026-10-14T06:53:45.4910894Z Received 268435456 of 6025144556 (4.5%), 85.2 MBs/sec
+2026-10-14T06:53:46.4915582Z Received 415236096 of 6025144556 (6.9%), 98.8 MBs/sec
+2026-10-14T06:53:47.4992683Z Received 591396864 of 6025144556 (9.8%), 112.6 MBs/sec
+2026-10-14T06:53:48.4945300Z Received 754974720 of 6025144556 (12.5%), 119.8 MBs/sec
+2026-10-14T06:53:49.4964280Z Received 918552576 of 6025144556 (15.2%), 124.9 MBs/sec
+2026-10-14T06:53:50.4975174Z Received 1073741824 of 6025144556 (17.8%), 127.8 MBs/sec
+2026-10-14T06:53:51.5072607Z Received 1237319680 of 6025144556 (20.5%), 130.9 MBs/sec
+2026-10-14T06:53:52.5032512Z Received 1409286144 of 6025144556 (23.4%), 134.2 MBs/sec
+2026-10-14T06:53:53.4990827Z Received 1572864000 of 6025144556 (26.1%), 136.2 MBs/sec
+2026-10-14T06:53:54.4995035Z Received 1736441856 of 6025144556 (28.8%), 137.8 MBs/sec
+2026-10-14T06:53:55.5004517Z Received 1879048192 of 6025144556 (31.2%), 137.7 MBs/sec
+2026-10-14T06:53:56.5012643Z Received 2034237440 of 6025144556 (33.8%), 138.4 MBs/sec
+2026-10-14T06:53:57.5012596Z Received 2181038080 of 6025144556 (36.2%), 138.5 MBs/sec
+2026-10-14T06:53:58.5020033Z Received 2323644416 of 6025144556 (38.6%), 138.4 MBs/sec
+2026-10-14T06:53:59.5036551Z Received 2474639360 of 6025144556 (41.1%), 138.7 MBs/sec
+2026-10-14T06:54:00.5039207Z Received 2617245696 of 6025144556 (43.4%), 138.5 MBs/sec
+2026-10-14T06:54:01.5054416Z Received 2772434944 of 6025144556 (46.0%), 139.0 MBs/sec
+2026-10-14T06:54:02.5057740Z Received 2843738112 of 6025144556 (47.2%), 135.5 MBs/sec
+2026-10-14T06:54:03.5049469Z Received 2961178624 of 6025144556 (49.1%), 134.3 MBs/sec
+2026-10-14T06:54:04.5081552Z Received 3087007744 of 6025144556 (51.2%), 133.7 MBs/sec
+2026-10-14T06:54:05.5102553Z Received 3225419776 of 6025144556 (53.5%), 133.6 MBs/sec
+2026-10-14T06:54:06.5078883Z Received 3355443200 of 6025144556 (55.7%), 133.2 MBs/sec
+2026-10-14T06:54:07.5079889Z Received 3489660928 of 6025144556 (57.9%), 133.0 MBs/sec
+2026-10-14T06:54:08.5092728Z Received 3623878656 of 6025144556 (60.1%), 132.8 MBs/sec
+2026-10-14T06:54:09.5101581Z Received 3758096384 of 6025144556 (62.4%), 132.6 MBs/sec
+2026-10-14T06:54:10.5107401Z Received 3892314112 of 6025144556 (64.6%), 132.4 MBs/sec
+2026-10-14T06:54:11.5126031Z Received 4026531840 of 6025144556 (66.8%), 132.3 MBs/sec
+2026-10-14T06:54:12.5130590Z Received 4156555264 of 6025144556 (69.0%), 132.0 MBs/sec
+2026-10-14T06:54:13.5259082Z Received 4294967296 of 6025144556 (71.3%), 132.0 MBs/sec
+2026-10-14T06:54:14.5242836Z Received 4420796416 of 6025144556 (73.4%), 131.6 MBs/sec
+2026-10-14T06:54:15.5248485Z Received 4550819840 of 6025144556 (75.5%), 131.4 MBs/sec
+2026-10-14T06:54:16.5257434Z Received 4563402752 of 6025144556 (75.7%), 127.8 MBs/sec
+2026-10-14T06:54:17.5280981Z Received 4697620480 of 6025144556 (78.0%), 127.8 MBs/sec
+2026-10-14T06:54:18.5283124Z Received 4831838208 of 6025144556 (80.2%), 127.8 MBs/sec
+2026-10-14T06:54:19.5290317Z Received 4982833152 of 6025144556 (82.7%), 128.3 MBs/sec
+2026-10-14T06:54:20.5309903Z Received 5112856576 of 6025144556 (84.9%), 128.2 MBs/sec
+2026-10-14T06:54:21.5322552Z Received 5234491392 of 6025144556 (86.9%), 127.8 MBs/sec
+2026-10-14T06:54:22.5332893Z Received 5389680640 of 6025144556 (89.5%), 128.3 MBs/sec
+2026-10-14T06:54:23.5335513Z Received 5523898368 of 6025144556 (91.7%), 128.3 MBs/sec
+2026-10-14T06:54:24.5341022Z Received 5666504704 of 6025144556 (94.0%), 128.5 MBs/sec
+2026-10-14T06:54:25.5347558Z Received 5834276864 of 6025144556 (96.8%), 129.2 MBs/sec
+2026-10-14T06:54:26.5350848Z Received 5981077504 of 6025144556 (99.3%), 129.5 MBs/sec
+2026-10-14T06:54:26.7660504Z Received 6025144556 of 6025144556 (100.0%), 129.8 MBs/sec
+2026-10-14T06:54:26.7663756Z Cache Size: ~5746 MB (6025144556 B)
+2026-10-14T06:54:26.7709696Z [command]/usr/bin/tar -xf /home/runner/work/_temp/af8a9cc8-4095-45aa-a7e8-983e8ab9054c/cache.tzst -P -C /home/runner/work/PAPERS-AGENT/PAPERS-AGENT --use-compress-program unzstd
+2026-10-14T06:55:52.8285670Z Cache restored successfully
+2026-10-14T06:55:52.8884405Z Cache restored from key: Linux-cargo-db2ec1bb045bb0b06bd254002434c5d6dd62dc90b4cb0f6859fbf504813cc5da
+2026-10-14T06:55:52.9065530Z ##[group]Run if grep --line-number -E 'path[[:space:]]*=[[:space:]]*"/tmp/scirust' Cargo.toml; then
+2026-10-14T06:55:52.9066232Z [36;1mif grep --line-number -E 'path[[:space:]]*=[[:space:]]*"/tmp/scirust' Cargo.toml; then[0m
+2026-10-14T06:55:52.9066781Z [36;1m  echo 'machine-local /tmp/scirust Cargo dependency detected' >&2[0m
+2026-10-14T06:55:52.9067159Z [36;1m  exit 1[0m
+2026-10-14T06:55:52.9067368Z [36;1mfi[0m
+2026-10-14T06:55:52.9214312Z shell: /usr/bin/bash -e {0}
+2026-10-14T06:55:52.9214578Z env:
+2026-10-14T06:55:52.9214785Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:55:52.9215057Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:55:52.9215282Z   CARGO_TERM_COLOR: always
+2026-10-14T06:55:52.9215519Z ##[endgroup]
+2026-10-14T06:55:52.9342185Z ##[group]Run set -euo pipefail
+2026-10-14T06:55:52.9342558Z [36;1mset -euo pipefail[0m
+2026-10-14T06:55:52.9342862Z [36;1mgit cat-file -e "$FORMAT_BASE_SHA^{commit}"[0m
+2026-10-14T06:55:52.9343454Z [36;1mmapfile -t files < <(git diff --name-only --diff-filter=ACMRT "$FORMAT_BASE_SHA" HEAD -- 'papers_core/**/*.rs')[0m
+2026-10-14T06:55:52.9344031Z [36;1mif [ "${#files[@]}" -eq 0 ]; then[0m
+2026-10-14T06:55:52.9344315Z [36;1m  exit 0[0m
+2026-10-14T06:55:52.9344511Z [36;1mfi[0m
+2026-10-14T06:55:52.9344721Z [36;1mfor file in "${files[@]}"; do[0m
+2026-10-14T06:55:52.9344993Z [36;1m  echo "Checking $file"[0m
+2026-10-14T06:55:52.9345279Z [36;1m  rustfmt --edition 2021 --check "$file"[0m
+2026-10-14T06:55:52.9345570Z [36;1mdone[0m
+2026-10-14T06:55:52.9401219Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T06:55:52.9401799Z env:
+2026-10-14T06:55:52.9402016Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:55:52.9402280Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:55:52.9402531Z   CARGO_TERM_COLOR: always
+2026-10-14T06:55:52.9402826Z   FORMAT_BASE_SHA: 0c0bbab15bf75790a370a9802171e75034cd7f38
+2026-10-14T06:55:52.9403147Z ##[endgroup]
+2026-10-14T06:55:52.9523988Z Checking papers_core/src/evolution/engineer.rs
+2026-10-14T06:55:53.8154233Z Checking papers_core/src/hub_gvisor.rs
+2026-10-14T06:55:54.0606611Z Checking papers_core/tests/hub_gvisor_live.rs
+2026-10-14T06:55:54.0808714Z ##[group]Run cargo test --all-targets --locked
+2026-10-14T06:55:54.0809202Z [36;1mcargo test --all-targets --locked[0m
+2026-10-14T06:55:54.0871766Z shell: /usr/bin/bash -e {0}
+2026-10-14T06:55:54.0872034Z env:
+2026-10-14T06:55:54.0872239Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:55:54.0872512Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:55:54.0872739Z   CARGO_TERM_COLOR: always
+2026-10-14T06:55:54.0872977Z ##[endgroup]
+2026-10-14T06:55:55.9801301Z [1m[92m   Compiling[0m ort-sys v2.0.0-rc.12
+2026-10-14T06:56:06.5562709Z [1m[92m   Compiling[0m ort v2.0.0-rc.12
+2026-10-14T06:56:08.5640092Z [1m[92m   Compiling[0m papers_core v0.4.1 (/home/runner/work/PAPERS-AGENT/PAPERS-AGENT/papers_core)
+2026-10-14T06:56:37.2097734Z [1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 42.57s
+2026-10-14T06:56:37.2510036Z [1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/papers_core-84bf77593896b14c)
+2026-10-14T06:56:37.2566611Z 
+2026-10-14T06:56:37.2566925Z running 210 tests
+2026-10-14T06:56:37.2578772Z test analysis::tests::risk_analyzer_flags_missing_code_and_text ... ok
+2026-10-14T06:56:37.2579913Z test analysis::tests::scoring_integration_is_clamped_to_one ... ok
+2026-10-14T06:56:37.2592758Z test analysis::tests::scoring_reproducibility_bounds_and_signals ... ok
+2026-10-14T06:56:37.2729584Z test analysis::tests::mathematical_analyzer_on_empty_text_is_safe ... ok
+2026-10-14T06:56:37.2736230Z test arxiv_http::tests::exact_limit_is_accepted_and_sentinel_is_rejected ... ok
+2026-10-14T06:56:37.2801890Z test analysis::tests::mathematical_analyzer_extracts_equations_and_variables ... ok
+2026-10-14T06:56:37.3673422Z test arxiv_http::tests::production_client_rejects_plain_http ... ok
+2026-10-14T06:56:37.4077476Z test arxiv_http::tests::oversized_declared_and_chunked_bodies_are_rejected ... ok
+2026-10-14T06:56:37.4120225Z test analysis::tests::heuristic_analyzer_end_to_end_consistency ... ok
+2026-10-14T06:56:37.5466845Z test arxiv_http::tests::redirects_and_error_statuses_are_not_parsed_or_followed ... ok
+2026-10-14T06:56:37.6259920Z test ccos::tests::result_endpoint_roundtrips_payload ... ok
+2026-10-14T06:56:37.7083541Z test ccos::tests::server_errors_are_retried_then_succeed ... ok
+2026-10-14T06:56:37.8161969Z test ccos::tests::committed_submission_with_lost_ack_is_never_retried ... ok
+2026-10-14T06:56:37.8467471Z test arxiv_http::tests::delayed_response_obeys_total_timeout ... ok
+2026-10-14T06:56:37.9612512Z test ccos::tests::status_and_result_gets_preserve_redirects ... ok
+2026-10-14T06:56:38.1047686Z test ccos::tests::status_maps_terminal_states ... ok
+2026-10-14T06:56:38.1792873Z test ccos::tests::submit_returns_id_and_queued_state ... ok
+2026-10-14T06:56:38.2520197Z test ccos::tests::malformed_submission_ack_is_unknown_not_fake_queued_success ... ok
+2026-10-14T06:56:38.2539009Z test ccos::tests::unknown_state_is_forward_compatible ... ok
+2026-10-14T06:56:38.2944784Z test ccos::tests::submission_5xx_is_unknown_and_never_retried ... ok
+2026-10-14T06:56:38.2945761Z test config::tests::test_default_config ... ok
+2026-10-14T06:56:38.2960179Z test config::tests::test_gpu_weights_configurable ... ok
+2026-10-14T06:56:38.2962782Z test config::tests::test_load_config_no_file ... ok
+2026-10-14T06:56:38.2964066Z test config::tests::test_to_evolution_config ... ok
+2026-10-14T06:56:38.2965430Z test config::tests::test_to_llm_config ... ok
+2026-10-14T06:56:38.2966701Z test container::tests::test_cache_insert_and_get ... ok
+2026-10-14T06:56:38.2967986Z test container::tests::test_cache_is_empty ... ok
+2026-10-14T06:56:38.2986091Z test container::tests::test_cache_lru_eviction ... ok
+2026-10-14T06:56:38.2987148Z test container::tests::test_cache_prune_expired ... ok
+2026-10-14T06:56:38.2988107Z test container::tests::test_candidate_eviction_at_capacity ... ok
+2026-10-14T06:56:38.2988859Z test container::tests::test_candidate_top_k_and_best ... ok
+2026-10-14T06:56:38.2989629Z test container::tests::test_knowledge_add_query_remove ... ok
+2026-10-14T06:56:38.2990706Z test container::tests::test_knowledge_prune_expired ... ok
+2026-10-14T06:56:38.2991927Z test container::tests::test_knowledge_tag_indexing ... ok
+2026-10-14T06:56:38.2992643Z test database::tests::add_assigns_sequential_ids ... ok
+2026-10-14T06:56:38.2993374Z test database::tests::best_and_top_k_ordering ... ok
+2026-10-14T06:56:38.2994058Z test database::tests::clone_preserves_nodes_but_drops_vector_store ... ok
+2026-10-14T06:56:38.3014367Z test database::tests::prune_bottom_keeps_only_top_nodes ... ok
+2026-10-14T06:56:38.3017035Z test database::tests::sample_increments_visit_count_in_store ... ok
+2026-10-14T06:56:38.3018625Z test database::tests::semantic_search_without_vector_store_returns_empty ... ok
+2026-10-14T06:56:38.3019658Z test database::tests::stats_are_consistent ... ok
+2026-10-14T06:56:38.3024276Z test database::tests::to_json_roundtrip_preserves_nodes ... ok
+2026-10-14T06:56:38.3025534Z test doc_store::tests::test_add_and_search ... ok
+2026-10-14T06:56:38.3571943Z test ccos::tests::submission_redirect_is_not_followed ... ok
+2026-10-14T06:56:38.3573086Z test doc_store::tests::test_remove_and_get ... ok
+2026-10-14T06:56:38.3576541Z test doc_store::tests::test_search_with_filter ... ok
+2026-10-14T06:56:38.3577986Z test doc_store::tests::test_search_with_threshold ... ok
+2026-10-14T06:56:38.3580614Z test doc_store::tests::test_with_corpus_documents_indexes_seed_texts ... ok
+2026-10-14T06:56:38.3582015Z test embedding::tests::embed_batch ... ok
+2026-10-14T06:56:38.3583448Z test embedding::tests::embedding_dimension_and_replay_are_stable ... ok
+2026-10-14T06:56:38.3584240Z test embedding::tests::empty_string_is_zero_vector ... ok
+2026-10-14T06:56:38.3586503Z test embedding::tests::search_prefers_shared_terms ... ok
+2026-10-14T06:56:38.3587467Z test embedding::tests::similarity_identical_and_orthogonal ... ok
+2026-10-14T06:56:38.3603853Z test embedding_cache::tests::batch_and_drop_flush ... ok
+2026-10-14T06:56:38.3618391Z test doc_store::tests::test_persistence_roundtrip ... ok
+2026-10-14T06:56:38.3625162Z test embedding_cache::tests::cache_roundtrip_across_instances ... ok
+2026-10-14T06:56:38.3642569Z test embedding_cache::tests::corrupted_cache_file_starts_empty_without_panic ... ok
+2026-10-14T06:56:38.3643565Z test embedding_onnx::tests::test_cosine_similarity_identical ... ok
+2026-10-14T06:56:38.3644597Z test embedding_onnx::tests::test_embed_deterministic_fallback ... ok
+2026-10-14T06:56:38.3645445Z test embedding_onnx::tests::test_embed_normalization ... ok
+2026-10-14T06:56:38.3646155Z test embedding_cache::tests::dimension_is_part_of_the_key ... ok
+2026-10-14T06:56:38.3646866Z test embedding_onnx::tests::test_tokenizer_basic ... ok
+2026-10-14T06:56:38.3647523Z test engine::tests::test_recommendation_from_score ... ok
+2026-10-14T06:56:38.3648431Z test evolution::engineer::tests::configured_backend_failure_never_becomes_structural_success ... ok
+2026-10-14T06:56:38.3649524Z test evolution::engineer::tests::explicit_evaluator_is_the_task_oracle_boundary ... ok
+2026-10-14T06:56:38.3650578Z test evolution::engineer::tests::invalid_backend_configuration_is_returned_not_silently_ignored ... ok
+2026-10-14T06:56:38.3652686Z test evolution::engineer::tests::wasm_runtime_success_is_diagnostic_not_empirical_fitness ... ok
+2026-10-14T06:56:38.3723715Z test ccos::tests::wait_for_completion_polls_until_terminal ... ok
+2026-10-14T06:56:38.3740144Z test evolution::researcher::tests::empty_noncalling_or_conditional_entrypoints_are_refused ... ok
+2026-10-14T06:56:38.3827945Z test evolution::researcher::tests::branching_no_work_call_graph_is_budgeted ... ok
+2026-10-14T06:56:38.3832829Z test evolution::researcher::tests::helper_only_generation_is_not_an_executable_candidate ... ok
+2026-10-14T06:56:38.3855974Z test evolution::researcher::tests::logging_only_helpers_are_not_candidate_invocations ... ok
+2026-10-14T06:56:38.3857590Z test evolution::researcher::tests::punctuation_dense_source_is_refused_before_recursive_parsing ... ok
+2026-10-14T06:56:38.3862305Z test evolution::tests::failed_evaluation_never_becomes_best_candidate ... ok
+2026-10-14T06:56:38.3890627Z test evolution::researcher::tests::every_fallback_preserves_its_algorithm_and_adds_a_calling_harness ... ok
+2026-10-14T06:56:38.3893587Z test extraction::tests::test_extract_xml_tag ... ok
+2026-10-14T06:56:38.4784301Z test extraction::tests::test_arxiv_can_handle ... ok
+2026-10-14T06:56:38.4785449Z test extraction::tests::test_parse_arxiv_feed_multiple_entries ... ok
+2026-10-14T06:56:38.4787225Z test extraction::tests::test_pdf_can_handle ... ok
+2026-10-14T06:56:38.4788033Z test extraction::tests::test_text_can_handle ... ok
+2026-10-14T06:56:38.5128355Z test engine::tests::test_engine_creation ... ok
+2026-10-14T06:56:38.5129339Z test extraction::tests::test_urlencode_spaces_and_specials ... ok
+2026-10-14T06:56:38.5137016Z test gpu::tests::test_check_cuda_availability_returns_bool ... ok
+2026-10-14T06:56:38.5137917Z test gpu::tests::test_format_memory_gb ... ok
+2026-10-14T06:56:38.5139175Z test gpu::tests::test_format_memory_mb ... ok
+2026-10-14T06:56:38.5139993Z test gpu::tests::test_format_memory_tb ... ok
+2026-10-14T06:56:38.5140830Z test gpu::tests::test_get_devices_initially_empty ... ok
+2026-10-14T06:56:38.5141983Z test gpu::tests::test_gpu_task_enum_values ... ok
+2026-10-14T06:56:38.5142783Z test gpu::tests::test_is_cuda_available_fresh ... ok
+2026-10-14T06:56:38.5144106Z test graph::tests::bound_node_identity_wins_over_mismatched_argument ... ok
+2026-10-14T06:56:38.5145209Z test graph::tests::tag_lookup_returns_stable_paper_ids ... ok
+2026-10-14T06:56:38.5223971Z test extraction::tests::test_extraction_pipeline_unknown ... ok
+2026-10-14T06:56:38.5422692Z test extraction::tests::test_url_can_handle ... ok
+2026-10-14T06:56:38.5614388Z test hub_gvisor::tests::execution_refusal_retains_verified_compile_evidence ... ok
+2026-10-14T06:56:38.5649332Z test hub_gvisor::tests::failed_or_timed_out_compilation_never_dispatches_execution ... ok
+2026-10-14T06:56:38.5838471Z test hub_gvisor::tests::inaccessible_guest_tree_refuses_success_and_retains_completed_facts ... ok
+2026-10-14T06:56:38.5842821Z test hub_gvisor::tests::native_artifact_refuses_empty_oversized_and_symlink_files ... ok
+2026-10-14T06:56:38.5844157Z test hub_gvisor::tests::phase_deadline_overflow_and_submillisecond_budget_fail_before_spawn ... ok
+2026-10-14T06:56:38.5848949Z test hub_gvisor::tests::pid_budget_matches_owner_before_workspace_or_dispatch ... ok
+2026-10-14T06:56:38.5854759Z test hub_gvisor::tests::quota_bounds_fail_before_materialization_or_dispatch ... ok
+2026-10-14T06:56:38.5856593Z test hub_gvisor::tests::rejects_mutable_image_before_execution ... ok
+2026-10-14T06:56:38.5871066Z test hub_gvisor::tests::independent_phase_requests_preserve_receipt_provenance ... ok
+2026-10-14T06:56:38.5972596Z test hub_gvisor::tests::wrong_phase_identity_never_dispatches_execution ... ok
+2026-10-14T06:56:38.6452146Z test llm::tests::client_error_is_not_retried ... ok
+2026-10-14T06:56:38.6647833Z test llm::tests::exhausts_retries_and_returns_clear_error ... ok
+2026-10-14T06:56:38.6876412Z test ccos::tests::wait_for_completion_times_out_with_clear_error ... ok
+2026-10-14T06:56:38.6974793Z test llm::tests::generate_json_extracts_from_markdown_fence ... ok
+2026-10-14T06:56:38.7377629Z test llm::tests::ollama_provider_prefers_response_over_thinking ... ok
+2026-10-14T06:56:38.7599970Z test llm::tests::openai_request_sends_bearer_token_when_configured ... ok
+2026-10-14T06:56:38.7760065Z test llm::tests::openai_request_has_no_auth_header_without_api_key ... ok
+2026-10-14T06:56:38.8202973Z test llm_analyzer::tests::fallback_mode_hides_failure_but_does_not_record_it ... ok
+2026-10-14T06:56:38.8365088Z test llm::tests::retries_on_5xx_then_succeeds ... ok
+2026-10-14T06:56:38.8377198Z test metrics_server::tests::counters_increment_and_render_after_init ... ok
+2026-10-14T06:56:38.8384446Z test metrics_server::tests::metrics_serves_on_ephemeral_port ... ok
+2026-10-14T06:56:38.8389329Z test nas::tests::config_is_deterministic ... ok
+2026-10-14T06:56:38.8390132Z test nas::tests::search_refuses_to_invent_fitness ... ok
+2026-10-14T06:56:38.8503283Z test llm_analyzer::tests::strict_mode_records_failure_when_llm_returns_garbage ... ok
+2026-10-14T06:56:38.8544033Z test paper_parser::tests::test_extract_equations ... ok
+2026-10-14T06:56:38.8553356Z test paper_parser::tests::test_extract_github_urls ... ok
+2026-10-14T06:56:38.8868876Z test llm_analyzer::tests::successful_llm_response_produces_no_failures ... ok
+2026-10-14T06:56:38.8873697Z test paper_registry::tests::test_add_and_get ... ok
+2026-10-14T06:56:38.8891175Z test paper_registry::tests::test_corrupted_registry_restores_from_backup ... ok
+2026-10-14T06:56:38.8892537Z test paper_registry::tests::test_filter_by_tag ... ok
+2026-10-14T06:56:38.8901363Z test paper_registry::tests::test_save_creates_backup_and_roundtrips ... ok
+2026-10-14T06:56:38.8908203Z test paper_registry::tests::test_save_refuses_to_wipe_corrupted_registry ... ok
+2026-10-14T06:56:38.8915554Z test paper_registry::tests::test_search ... ok
+2026-10-14T06:56:38.8916720Z test paper_registry::tests::test_stats ... ok
+2026-10-14T06:56:38.8917681Z test pdf::tests::test_add_divider_produces_valid_pdf ... ok
+2026-10-14T06:56:38.8918533Z test pdf::tests::test_add_table_produces_valid_pdf ... ok
+2026-10-14T06:56:38.8919391Z test pdf::tests::test_add_title_produces_valid_pdf ... ok
+2026-10-14T06:56:38.8920141Z test pdf::tests::test_empty_pdf ... ok
+2026-10-14T06:56:38.8920851Z test pdf::tests::test_escape_pdf_string ... ok
+2026-10-14T06:56:38.8922144Z test pdf::tests::test_pdf_with_content ... ok
+2026-10-14T06:56:38.8923310Z test pdf::tests::test_wrap_text ... ok
+2026-10-14T06:56:38.8924400Z test pdf::tests::test_wrap_text_empty_produces_single_empty_string ... ok
+2026-10-14T06:56:38.8925725Z test pdf::tests::test_wrap_text_long_word_exceeds_max_chars ... ok
+2026-10-14T06:56:38.8926872Z test pdf::tests::test_wrap_text_multi_empty_paragraphs ... ok
+2026-10-14T06:56:38.8930268Z test probabilistic::tests::comparison_is_stable_for_extreme_evidence ... ok
+2026-10-14T06:56:38.8931905Z test probabilistic::tests::uncertainty_returns_interval_bounds_not_cdf_values ... ok
+2026-10-14T06:56:38.8933133Z test probabilistic::tests::zero_variance_interval_collapses_to_mean ... ok
+2026-10-14T06:56:38.8934231Z test probes::tests::test_calculate_cyclomatic_complexity ... ok
+2026-10-14T06:56:38.8935165Z test probes::tests::test_estimate_memory_usage ... ok
+2026-10-14T06:56:38.8936023Z test probes::tests::test_has_required_constructs ... ok
+2026-10-14T06:56:38.9446585Z test probes::tests::test_real_compilation_accepts_valid_rust ... ok
+2026-10-14T06:56:39.0209193Z test paper_parser::tests::test_parse_abstract ... ok
+2026-10-14T06:56:39.0835140Z test paper_parser::tests::test_empty_text ... ok
+2026-10-14T06:56:39.0835828Z test probes::tests::test_run_tests_empty_program ... ok
+2026-10-14T06:56:39.1095701Z test probes::tests::test_run_tests_valid_program ... ok
+2026-10-14T06:56:39.1096413Z test probes::tests::test_validate_basic_syntax_invalid_unmatched_brace ... ok
+2026-10-14T06:56:39.1097452Z test probes::tests::test_validate_basic_syntax_invalid_unmatched_paren ... ok
+2026-10-14T06:56:39.1098370Z test probes::tests::test_validate_basic_syntax_valid ... ok
+2026-10-14T06:56:39.1099468Z test queue::tests::test_backpressure ... ok
+2026-10-14T06:56:39.1100160Z test queue::tests::test_result_queue ... ok
+2026-10-14T06:56:39.1101277Z test queue::tests::test_work_queue_priority ... ok
+2026-10-14T06:56:39.1103834Z test reporting::tests::test_render_report ... ok
+2026-10-14T06:56:39.1106836Z test reporting::tests::test_save_report ... ok
+2026-10-14T06:56:39.1107952Z test samplers::tests::create_sampler_known_names_and_unknown_fallback ... ok
+2026-10-14T06:56:39.1109185Z test samplers::tests::greedy_n_larger_than_pool_returns_all ... ok
+2026-10-14T06:56:39.1110449Z test samplers::tests::greedy_returns_nodes_sorted_by_descending_score ... ok
+2026-10-14T06:56:39.1114134Z test samplers::tests::island_sampler_stays_within_bounds ... ok
+2026-10-14T06:56:39.1116774Z test samplers::tests::random_sampler_respects_bounds_and_uniqueness ... ok
+2026-10-14T06:56:39.1117958Z test samplers::tests::ucb1_empty_pool_yields_empty_result ... ok
+2026-10-14T06:56:39.1119324Z test samplers::tests::ucb1_exploits_best_node_when_all_visited_evenly ... ok
+2026-10-14T06:56:39.1121271Z test samplers::tests::ucb1_exploration_decays_as_visits_grow ... ok
+2026-10-14T06:56:39.1122248Z test samplers::tests::ucb1_prioritizes_unvisited_nodes ... ok
+2026-10-14T06:56:39.1124025Z test samplers::tests::ucb1_with_no_visits_falls_back_to_random_without_crash ... ok
+2026-10-14T06:56:39.1125443Z test scientific_contract::tests::claim_rejects_invalid_confidence ... ok
+2026-10-14T06:56:39.1128418Z test scientific_contract::tests::csv_escapes_quotes_and_commas_with_stable_header ... ok
+2026-10-14T06:56:39.1129533Z test scientific_contract::tests::evidence_hashes_exact_text ... ok
+2026-10-14T06:56:39.1130963Z test scientific_contract::tests::ids_are_stable_and_domain_separated ... ok
+2026-10-14T06:56:39.1136969Z test scientific_contract::tests::jsonl_has_header_and_one_line_per_claim ... ok
+2026-10-14T06:56:39.1137979Z test scientific_contract::tests::proposal_requires_repetition ... ok
+2026-10-14T06:56:39.1141284Z test signaling::tests::test_coordination_barrier_multiple_threads ... ok
+2026-10-14T06:56:39.1144107Z test signaling::tests::test_countdown_latch ... ok
+2026-10-14T06:56:39.1145165Z test signaling::tests::test_event_bus ... ok
+2026-10-14T06:56:39.1146676Z test signaling::tests::test_event_bus_recent_events_and_counts ... ok
+2026-10-14T06:56:39.1148074Z test signaling::tests::test_event_bus_specific_subscription ... ok
+2026-10-14T06:56:39.1150618Z test signaling::tests::test_rendezvous ... ok
+2026-10-14T06:56:39.1653121Z test signaling::tests::test_signal ... ok
+2026-10-14T06:56:39.1856228Z test signaling::tests::test_signal_wait_timeout_and_reset ... ok
+2026-10-14T06:56:39.1857891Z test symbolic::tests::discovers_affine_law_with_measured_mse ... ok
+2026-10-14T06:56:39.1859042Z test symbolic::tests::finds_bracketed_root ... ok
+2026-10-14T06:56:39.1860269Z test symbolic::tests::integrates_sine ... ok
+2026-10-14T06:56:39.1861851Z test symbolic::tests::solves_linear_system ... ok
+2026-10-14T06:56:39.1866525Z test vector_store::tests::test_add_and_search ... ok
+2026-10-14T06:56:39.1869176Z test vector_store::tests::test_get_source ... ok
+2026-10-14T06:56:39.1871755Z test vector_store::tests::test_remove ... ok
+2026-10-14T06:56:39.1875488Z test vector_store::tests::test_search_dissimilar ... ok
+2026-10-14T06:56:39.1879302Z test vector_store::tests::test_search_with_threshold ... ok
+2026-10-14T06:56:39.1883177Z test vector_store::tests::test_snapshot_roundtrip ... ok
+2026-10-14T06:56:39.1884262Z test wasm_executor::tests::test_adapter_selection ... ok
+2026-10-14T06:56:39.4904358Z test wasm_executor::tests::test_compile_source_to_wasm_produces_valid_module ... ok
+2026-10-14T06:56:39.4905487Z test wasm_executor::tests::test_config_defaults ... ok
+2026-10-14T06:56:39.4919440Z test wasm_executor::tests::test_execute_invalid_wasm ... ok
+2026-10-14T06:56:39.4921851Z test wasm_executor::tests::test_execute_rust_source_no_fn_is_refused ... ok
+2026-10-14T06:56:39.4924578Z test wasm_executor::tests::test_execute_rust_source_requires_external_isolation ... ok
+2026-10-14T06:56:39.4927230Z test wasm_executor::tests::test_executor_creation ... ok
+2026-10-14T06:56:39.4930478Z test wasm_executor::tests::test_missing_entrypoint_is_rejected_before_toolchain_lookup ... ok
+2026-10-14T06:56:39.4933188Z test wasm_executor::tests::test_module_byte_limit_fails_before_wasmtime_compile ... ok
+2026-10-14T06:56:39.4935586Z test wasm_executor::tests::test_source_byte_limit_fails_before_rustc ... ok
+2026-10-14T06:56:39.4991255Z test wasm_executor::tests::test_store_memory_limit_rejects_oversized_initial_memory ... ok
+2026-10-14T06:56:39.5039035Z test wasm_executor::tests::test_store_table_limit_rejects_oversized_initial_table ... ok
+2026-10-14T06:56:39.5298563Z test wasm_executor::tests::test_trusted_local_compiler_rejects_type_error ... ok
+2026-10-14T06:56:39.5299632Z test wasm_executor::tests::test_validate_wasm_invalid ... ok
+2026-10-14T06:56:39.5300783Z test wasm_executor::tests::test_validate_wasm_too_short ... ok
+2026-10-14T06:56:39.5301960Z test wasm_executor::tests::test_validate_wasm_valid ... ok
+2026-10-14T06:56:39.5302598Z test wasm_executor::tests::test_zero_resource_budget_is_rejected ... ok
+2026-10-14T06:56:39.5426863Z test hub_gvisor::tests::detached_adapter_pipe_refusal_preserves_workspace ... ok
+2026-10-14T06:56:39.6736923Z test probes::tests::test_real_compilation_rejects_unresolved_name ... ok
+2026-10-14T06:56:39.8753034Z test probes::tests::test_real_compilation_rejects_type_error ... ok
+2026-10-14T06:56:39.8753587Z 
+2026-10-14T06:56:39.8754023Z test result: ok. 210 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.62s
+2026-10-14T06:56:39.8754631Z 
+2026-10-14T06:56:39.8779540Z [1m[92m     Running[0m unittests src/main.rs (target/debug/deps/papers-82f749afa6dea2a6)
+2026-10-14T06:56:39.8803248Z 
+2026-10-14T06:56:39.8803829Z running 0 tests
+2026-10-14T06:56:39.8804040Z 
+2026-10-14T06:56:39.8804428Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-14T06:56:39.8804973Z 
+2026-10-14T06:56:39.8808534Z [1m[92m     Running[0m unittests src/bin/papers_contract.rs (target/debug/deps/papers_contract-d20b7e10a8cb4a9f)
+2026-10-14T06:56:39.8828160Z 
+2026-10-14T06:56:39.8828449Z running 0 tests
+2026-10-14T06:56:39.8828679Z 
+2026-10-14T06:56:39.8829275Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-14T06:56:39.8829890Z 
+2026-10-14T06:56:39.8833580Z [1m[92m     Running[0m unittests src/bin/papers_experiment.rs (target/debug/deps/papers_experiment-f3bf5f46d8d11c36)
+2026-10-14T06:56:39.8853108Z 
+2026-10-14T06:56:39.8853293Z running 0 tests
+2026-10-14T06:56:39.8853508Z 
+2026-10-14T06:56:39.8853928Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-14T06:56:39.8854475Z 
+2026-10-14T06:56:39.8857548Z [1m[92m     Running[0m unittests src/bin/papers_lab.rs (target/debug/deps/papers_lab-1cb091db7f3c2b51)
+2026-10-14T06:56:39.8877202Z 
+2026-10-14T06:56:39.8877392Z running 1 test
+2026-10-14T06:56:39.8884125Z test tests::reconciliation_requires_lab_url_and_id ... ok
+2026-10-14T06:56:39.8884557Z 
+2026-10-14T06:56:39.8884902Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-14T06:56:39.8885278Z 
+2026-10-14T06:56:39.8887778Z [1m[92m     Running[0m tests/experiment_planner_cli.rs (target/debug/deps/experiment_planner_cli-2a1a87ac25ce3012)
+2026-10-14T06:56:39.8908013Z 
+2026-10-14T06:56:39.8908198Z running 2 tests
+2026-10-14T06:56:39.8943439Z test planner_rejects_claim_not_present_in_bundle ... ok
+2026-10-14T06:56:39.8974948Z test planner_emits_valid_deterministic_proposal ... ok
+2026-10-14T06:56:39.8975224Z 
+2026-10-14T06:56:39.8975486Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+2026-10-14T06:56:39.8975859Z 
+2026-10-14T06:56:39.8979081Z [1m[92m     Running[0m tests/hub_gvisor_live.rs (target/debug/deps/hub_gvisor_live-6df31f286faaae7e)
+2026-10-14T06:56:39.8998860Z 
+2026-10-14T06:56:39.8999022Z running 1 test
+2026-10-14T06:56:39.9000046Z test executes_untrusted_rust_through_qualified_hub_gvisor ... ignored, requires Docker with the runsc runtime and a qualified SciRust Hub binary
+2026-10-14T06:56:39.9000918Z 
+2026-10-14T06:56:39.9001338Z test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-14T06:56:39.9002206Z 
+2026-10-14T06:56:39.9004297Z [1m[92m     Running[0m tests/integration_test.rs (target/debug/deps/integration_test-da889d3386e330c8)
+2026-10-14T06:56:39.9031484Z 
+2026-10-14T06:56:39.9031720Z running 16 tests
+2026-10-14T06:56:39.9036604Z test tests::test_cognition_retrieve_empty ... ok
+2026-10-14T06:56:39.9037271Z test tests::test_cognition_item_new ... ok
+2026-10-14T06:56:39.9037860Z test tests::test_cognition_search_by_tag ... ok
+2026-10-14T06:56:39.9038475Z test tests::test_create_sampler ... ok
+2026-10-14T06:56:39.9039627Z test tests::test_cognition_store ... ok
+2026-10-14T06:56:39.9040201Z test tests::test_database_best ... ok
+2026-10-14T06:56:39.9040760Z test tests::test_database_add_and_sample ... ok
+2026-10-14T06:56:39.9041342Z test tests::test_database_is_empty ... ok
+2026-10-14T06:56:39.9042159Z test tests::test_database_stats ... ok
+2026-10-14T06:56:39.9042819Z test tests::test_database_prune ... ok
+2026-10-14T06:56:39.9043373Z test tests::test_evolution_config_default ... ok
+2026-10-14T06:56:39.9044239Z test tests::test_greedy_sampler ... ok
+2026-10-14T06:56:39.9044748Z test tests::test_node_creation ... ok
+2026-10-14T06:56:39.9045161Z test tests::test_ucb1_sampler ... ok
+2026-10-14T06:56:39.9045459Z test tests::test_random_sampler ... ok
+2026-10-14T06:56:39.9046295Z test tests::test_evolution_loop_basic ... ok
+2026-10-14T06:56:39.9046570Z 
+2026-10-14T06:56:39.9047011Z test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-14T06:56:39.9047872Z 
+2026-10-14T06:56:39.9053896Z [1m[92m     Running[0m tests/lab_reconciliation_cli.rs (target/debug/deps/lab_reconciliation_cli-4875bacece411cf3)
+2026-10-14T06:56:39.9063724Z 
+2026-10-14T06:56:39.9063908Z running 1 test
+2026-10-14T06:56:39.9978183Z test reconcile_queries_existing_experiment_without_a_post ... ok
+2026-10-14T06:56:39.9978573Z 
+2026-10-14T06:56:39.9978854Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+2026-10-14T06:56:39.9979436Z 
+2026-10-14T06:56:39.9981027Z [1m[92m     Running[0m tests/scientific_bundle_fixture.rs (target/debug/deps/scientific_bundle_fixture-0fece40a9c3bc4c3)
+2026-10-14T06:56:40.0003888Z 
+2026-10-14T06:56:40.0004054Z running 1 test
+2026-10-14T06:56:40.0010836Z test canonical_bundle_v1_round_trips_through_papers_types ... ok
+2026-10-14T06:56:40.0011814Z 
+2026-10-14T06:56:40.0012148Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-14T06:56:40.0012612Z 
+2026-10-14T06:56:40.0015156Z [1m[92m     Running[0m tests/scientific_interchange.rs (target/debug/deps/scientific_interchange-fc731aee6950cca8)
+2026-10-14T06:56:40.0034246Z 
+2026-10-14T06:56:40.0034418Z running 3 tests
+2026-10-14T06:56:40.0040145Z test analysis_report_exports_versioned_valid_bundle ... ok
+2026-10-14T06:56:40.0040973Z test model_identity_changes_trust_state_without_inventing_confidence ... ok
+2026-10-14T06:56:40.0045753Z test conversion_is_replay_stable_for_same_analysis ... ok
+2026-10-14T06:56:40.0046211Z 
+2026-10-14T06:56:40.0046657Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-14T06:56:40.0047264Z 
+2026-10-14T06:56:40.0388532Z ##[group]Run cargo clippy --all-targets --locked -- -D warnings
+2026-10-14T06:56:40.0389033Z [36;1mcargo clippy --all-targets --locked -- -D warnings[0m
+2026-10-14T06:56:40.0463143Z shell: /usr/bin/bash -e {0}
+2026-10-14T06:56:40.0463412Z env:
+2026-10-14T06:56:40.0463638Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:56:40.0463920Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:56:40.0464165Z   CARGO_TERM_COLOR: always
+2026-10-14T06:56:40.0464402Z ##[endgroup]
+2026-10-14T06:56:40.7203735Z [1m[92m   Compiling[0m ort-sys v2.0.0-rc.12
+2026-10-14T06:56:40.9134975Z [1m[92m    Checking[0m ort v2.0.0-rc.12
+2026-10-14T06:56:41.7736970Z [1m[92m    Checking[0m papers_core v0.4.1 (/home/runner/work/PAPERS-AGENT/PAPERS-AGENT/papers_core)
+2026-10-14T06:56:45.8172559Z [1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 5.68s
+2026-10-14T06:56:45.8556040Z ##[group]Run cargo doc --no-deps --locked
+2026-10-14T06:56:45.8556419Z [36;1mcargo doc --no-deps --locked[0m
+2026-10-14T06:56:45.8617831Z shell: /usr/bin/bash -e {0}
+2026-10-14T06:56:45.8618097Z env:
+2026-10-14T06:56:45.8618310Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T06:56:45.8618588Z   CARGO_INCREMENTAL: 0
+2026-10-14T06:56:45.8618824Z   CARGO_TERM_COLOR: always
+2026-10-14T06:56:45.8619086Z ##[endgroup]
+2026-10-14T06:56:46.2669200Z [1m[92m    Checking[0m papers_core v0.4.1 (/home/runner/work/PAPERS-AGENT/PAPERS-AGENT/papers_core)
+2026-10-14T06:56:46.2670556Z [1m[92m Documenting[0m papers_core v0.4.1 (/home/runner/work/PAPERS-AGENT/PAPERS-AGENT/papers_core)
+2026-10-14T06:56:48.4223503Z [1m[33mwarning[0m[1m: unresolved link to `Self::execute`[0m
+2026-10-14T06:56:48.4224230Z    [1m[94m--> [0msrc/wasm_executor.rs:181:12
+2026-10-14T06:56:48.4224634Z     [1m[94m|[0m
+2026-10-14T06:56:48.4225410Z [1m[94m181[0m [1m[94m|[0m /// Only [`Self::execute`] performs empirical execution. Rust source text is not
+2026-10-14T06:56:48.4226487Z     [1m[94m|[0m            [1m[33m^^^^^^^^^^^^^[0m [1m[33mthe struct `WasmExecutor` has no field or associated item named `execute`[0m
+2026-10-14T06:56:48.4227189Z     [1m[94m|[0m
+2026-10-14T06:56:48.4227730Z     [1m[94m= [0m[1mnote[0m: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+2026-10-14T06:56:48.4228130Z 
+2026-10-14T06:56:49.4762382Z [1m[33mwarning[0m: `papers_core` (lib doc) generated 1 warning
+2026-10-14T06:56:51.5733302Z [1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 5.69s
+2026-10-14T06:56:51.5979038Z [1m[92m   Generated[0m /home/runner/work/PAPERS-AGENT/PAPERS-AGENT/papers_core/target/doc/papers_core/index.html and 4 other files
+2026-10-14T06:56:51.7936427Z Post job cleanup.
+2026-10-14T06:56:51.9121317Z Cache hit occurred on the primary key Linux-cargo-db2ec1bb045bb0b06bd254002434c5d6dd62dc90b4cb0f6859fbf504813cc5da, not saving cache.
+2026-10-14T06:56:51.9123631Z (node:3533) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-14T06:56:51.9124877Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-14T06:56:51.9259682Z Post job cleanup.
+2026-10-14T06:56:52.0178778Z [command]/usr/bin/git version
+2026-10-14T06:56:52.0233948Z git version 2.55.0
+2026-10-14T06:56:52.0280685Z Temporarily overriding HOME='/home/runner/work/_temp/353ce201-9dc3-4654-9cee-d25c71f9da4e' before making global git config changes
+2026-10-14T06:56:52.0282304Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T06:56:52.0287765Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PAPERS-AGENT/PAPERS-AGENT
+2026-10-14T06:56:52.0332719Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T06:56:52.0370640Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T06:56:52.0637296Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T06:56:52.0675222Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T06:56:52.0945695Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T06:56:52.0989443Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T06:56:52.1404704Z Cleaning up orphan processes
+2026-10-14T06:56:52.1781215Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830, actions/checkout@11d5960a326750d5838078e36cf38b85af677262. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
