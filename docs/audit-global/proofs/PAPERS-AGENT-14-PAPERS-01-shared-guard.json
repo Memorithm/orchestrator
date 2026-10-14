@@ -136,5 +136,50 @@
       "payload": "tree 5b961bbb220493338fbe7b6bc1cf87ba2e2ce797\nparent 7ab65af8fbb854b3bcca92e3c42de83a54630dfb\nparent 4771400e205c3f0f75c94b073bbee7613f6fbf16\nauthor MEMOPERF <contact@checkupauto.fr> 1791946917 +0000\ncommitter GitHub <noreply@github.com> 1791946917 +0000\n\nMerge 4771400e205c3f0f75c94b073bbee7613f6fbf16 into 7ab65af8fbb854b3bcca92e3c42de83a54630dfb\n",
       "verified_at": "2026-10-14T03:01:57Z"
     }
+  },
+  "premerge_policy": {
+    "default_branch": "master",
+    "base_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+    "candidate_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+    "diff_files": [
+      {
+        "path": ".github/workflows/hub-gvisor-qualification.yml",
+        "status": "modified"
+      },
+      {
+        "path": "docs/hub-gvisor-isolation.md",
+        "status": "modified"
+      },
+      {
+        "path": "papers_core/Cargo.lock",
+        "status": "modified"
+      },
+      {
+        "path": "papers_core/Cargo.toml",
+        "status": "modified"
+      },
+      {
+        "path": "papers_core/qualification/hub-gvisor/qualification.json",
+        "status": "modified"
+      },
+      {
+        "path": "papers_core/qualification/hub-gvisor/receipt.json",
+        "status": "modified"
+      },
+      {
+        "path": "papers_core/src/hub_gvisor.rs",
+        "status": "modified"
+      },
+      {
+        "path": "papers_core/tests/hub_gvisor_live.rs",
+        "status": "modified"
+      }
+    ],
+    "merge_method": "merge_commit_with_expected_head_sha",
+    "protected": false,
+    "rulesets": [],
+    "required_all_three_checks_success": true,
+    "review_completed_on": "4771400",
+    "unresolved_threads": 0
   }
 }

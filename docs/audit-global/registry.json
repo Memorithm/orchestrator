@@ -14200,8 +14200,8 @@
       "last_observed_at": "2026-10-14T03:02:41.544Z",
       "next_action": "Vérifier trois gates intégrés773b et archive. Puis quotas agrégés/PID/réconciliation durable chez propriétaire; ne pas clore original sur ce slice.",
       "blockers": [
-        "Independent phase budgets and retained refusal provenance resolved by #13 with 3/3 integrated gates, 230 tests and four real isolated scenarios.",
-        "Remaining adversarial resource/FS and failed-Docker process-tree/drain acceptance has not been fully qualified; no full PAPERS-01 closure."
+        "Hub public guard, exact container-ID cleanup, memory/swap/root/per-file controls and PAPERS refusal retention are implemented; final integrated validation pending on773b.",
+        "Remaining aggregate workspace quota, adversarial guest PID qualification and durable ambiguous-creation/quarantine reconciliation require owner enforcement and real proof before full closure."
       ],
       "current_owner_head": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4"
     },
