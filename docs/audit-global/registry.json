@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14 07:23:00 Europe/Paris",
+  "updated_at": "2026-10-14 07:31:00 Europe/Paris",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -10150,6 +10150,25 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38513045263/job/115685646811"
         }
       ]
+    },
+    {
+      "repository": "Memorithm/scirust-hub",
+      "number": 90,
+      "url": "https://github.com/Memorithm/scirust-hub/pull/90",
+      "ids": [
+        "PAPERS-01"
+      ],
+      "base": "main",
+      "base_sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
+      "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
+      "status": "candidate_ci_review_pending",
+      "merge_sha": null,
+      "checks": [],
+      "integrated_checks": [],
+      "remaining": [
+        "aggregate writable workspace OS quota",
+        "exact owner and consumer adoption qualification"
+      ]
     }
   ],
   "repository_observations": [
@@ -14466,7 +14485,8 @@
               "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38513045263/job/115685646811"
             }
           ]
-        }
+        },
+        "https://github.com/Memorithm/scirust-hub/pull/90"
       ],
       "resolution_evidence": [
         "docs/audit-global/proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json",
@@ -14510,8 +14530,8 @@
           "integrated_checks": 3
         }
       ],
-      "last_observed_at": "2026-10-14T04:51:04.475Z",
-      "next_action": "Implement and qualify actual aggregate workspace quota and durable ambiguous-creation/quarantine reconciliation in existing Hub owner; reuse lifecycle/transactional store without duplicating scheduler/proof authority. Preserve unknown-ID refusal and no blind replay/deletion.",
+      "last_observed_at": "2026-10-14 07:31:00 Europe/Paris",
+      "next_action": "Qualify Hub90 exact HEAD aac89a20acd5ece5bd61dc108e96582b608c4231 then guarded merge and integrated gates; consumer locked graph adoption required; aggregate quota still missing.",
       "blockers": [
         "Owner Hub89 and consumer PAPERS15 are fully qualified for their scoped guest PID/source/provenance adoption (2+3 exact integrated gates).",
         "Aggregate workspace quota and durable ambiguous-create/quarantine reconciliation remain unimplemented/unqualified. Retained workspace is not durable cleanup proof."

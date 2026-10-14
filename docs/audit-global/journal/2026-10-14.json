@@ -1714,6 +1714,37 @@
       },
       "no_excluded_mutations": true,
       "no_new_automation_created": true
+    },
+    {
+      "observed_at": "2026-10-14 07:31:00 Europe/Paris",
+      "event": "owner_pr90_candidate_pending",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 123,
+        "batch": 3,
+        "batch_merged_prs": 23
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/scirust-hub",
+          "status": "awaiting_ci",
+          "pr": "https://github.com/Memorithm/scirust-hub/pull/90",
+          "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
+          "actions": [
+            "14-file coherent durable-attempt owner PR published",
+            "First Format gate failed; downstream tests skipped, not accepted. Exact retained diagnostic SHA256413dc28e1fe297ec9e6dbb3197684a829e343ac1e926dce36495ed9ed24c4b4f applied; fresh HEAD revalidation required.",
+            "Previous superseded HEAD real runsc recovery executed successfully, not used to qualify current HEAD. Documentation corrected to actual Hub graph: core/executor/protocol/store."
+          ],
+          "next_action": "Qualify Hub90 exact HEAD aac89a20acd5ece5bd61dc108e96582b608c4231 then guarded merge and integrated gates; consumer locked graph adoption required; aggregate quota still missing."
+        }
+      ],
+      "no_excluded_mutations": true
     }
   ],
   "daily_summary": {
@@ -1725,6 +1756,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 8,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 07:23:00 Europe/Paris"
+    "latest_observed_at": "2026-10-14 07:31:00 Europe/Paris"
   }
 }
