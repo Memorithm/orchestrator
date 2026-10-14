@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T04:38:03.619Z",
+  "updated_at": "2026-10-14T04:40:48.277Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -10077,6 +10077,20 @@
           "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38512141556/job/115682810455"
         }
       ]
+    },
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 15,
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/15",
+      "ids": [
+        "PAPERS-01"
+      ],
+      "base": "master",
+      "base_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+      "head_sha": "78151131e8c495eec263b0a3676ed387a1a8b5c8",
+      "candidate_tree": "f279ae42a56fd7b8917fe18330eae6ecf48f1382",
+      "status": "waiting_exact_candidate_ci_review",
+      "merge_sha": null
     }
   ],
   "repository_observations": [
@@ -14332,6 +14346,20 @@
               "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38512141556/job/115682810455"
             }
           ]
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 15,
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/15",
+          "ids": [
+            "PAPERS-01"
+          ],
+          "base": "master",
+          "base_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+          "head_sha": "78151131e8c495eec263b0a3676ed387a1a8b5c8",
+          "candidate_tree": "f279ae42a56fd7b8917fe18330eae6ecf48f1382",
+          "status": "waiting_exact_candidate_ci_review",
+          "merge_sha": null
         }
       ],
       "resolution_evidence": [
@@ -14370,7 +14398,7 @@
         }
       ],
       "last_observed_at": "2026-10-14T04:35:17.435Z",
-      "next_action": "Qualifier Hub89, corriger toute revue/gate réelle puis fusion gardée et deux gates intégrées; ensuite repin consommateur PAPERS aux preuves propriétaires exactes.",
+      "next_action": "PAPERS15 exact3gates/review then guarded merge and integrated3gates; next owner aggregatequota/durablequarantine acceptance.",
       "blockers": [
         "Hub89 independent guestPID control qualified on integratedf873 (286Rust+12root protocol,6real controls); consumer repin still pending.",
         "Aggregate workspace quota and durable ambiguous-creation/quarantine reconciliation not implemented/qualified; originalPAPERS01 remains open."

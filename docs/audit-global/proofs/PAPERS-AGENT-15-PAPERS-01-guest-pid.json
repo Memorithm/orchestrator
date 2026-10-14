@@ -1,0 +1,36 @@
+{
+  "schema": "memorithm-audit-proof.v1",
+  "id": "PAPERS-01",
+  "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/15",
+  "status": "waiting_exact_candidate_ci_review",
+  "candidate_sha": "78151131e8c495eec263b0a3676ed387a1a8b5c8",
+  "candidate_tree": "f279ae42a56fd7b8917fe18330eae6ecf48f1382",
+  "base_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+  "owner": {
+    "pr": "Memorithm/scirust-hub#89",
+    "merge_sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
+    "integrated_controls_run": 38512141573,
+    "archive_sha256": "03d2b15feb6993fc23ade8163a2b86c83faafc06440f5eb07cd48ee1fe9d18a1",
+    "qualified_scope": [
+      "timeout_exact_id_cleanup",
+      "bounded_output",
+      "read_only_root_mount",
+      "per_file_16MiB",
+      "memory_swap_refusal",
+      "independent_guest_PID_64_128"
+    ]
+  },
+  "expected_Rust_tests": 232,
+  "expected_separate_real_consumer_test": 1,
+  "local_checks": [
+    "git diff --check",
+    "exact retained low/high jq predicates true",
+    "source/lock/wire pins verified by diff; cargo not available locally"
+  ],
+  "nonclaims": [
+    "no aggregate filesystemquota",
+    "no durable ambiguouscreation quarantine reconciliation",
+    "no hardware performance or empirical promotion"
+  ],
+  "privacy": "public owner scope only; private repository details not reproduced"
+}
