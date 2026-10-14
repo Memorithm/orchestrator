@@ -4,8 +4,8 @@
   "pr": "https://github.com/Memorithm/scirust-hub/pull/88",
   "base_sha": "c37d9341bf16ced15be4b2e1de33022cf7482b2b",
   "candidate_sha": "32192593364fab921c7eee6d91a5d62b09fb3c66",
-  "status": "waiting_exact_candidate_ci_review",
-  "observed_at": "2026-10-14T02:39:51Z",
+  "status": "merged_target_validated_partial_acceptance",
+  "observed_at": "2026-10-14T02:51:14.206Z",
   "depends_on": "c37d9341bf16ced15be4b2e1de33022cf7482b2b",
   "scope": "OS RLIMIT_FSIZE 16MiB verified by attempted17MiB write; positive guest root ro mount check plus actual refused write; no old or DAC-only qualification reused",
   "remaining": [
@@ -14,5 +14,328 @@
     "guest PID qualification",
     "PAPERS pinned guard adoption"
   ],
-  "excluded_modified": []
+  "excluded_modified": [],
+  "merge_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+  "candidate_tree": "b4f3c8eba583a3b8d359da28fe4854007c50740a",
+  "integrated_tree": "b4f3c8eba583a3b8d359da28fe4854007c50740a",
+  "candidate_checks": [
+    {
+      "id": 115651209471,
+      "name": "fmt / clippy / build / test / doc",
+      "node_id": "CR_kwDOUDjBKc8AAAAa7Vlo_w",
+      "head_sha": "32192593364fab921c7eee6d91a5d62b09fb3c66",
+      "external_id": "ff6277df-3377-5797-97ae-190468b80b63",
+      "url": "https://api.github.com/repos/Memorithm/scirust-hub/check-runs/115651209471",
+      "html_url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502099867/job/115651209471",
+      "details_url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502099867/job/115651209471",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-14T02:38:38Z",
+      "completed_at": "2026-10-14T02:39:28Z",
+      "output": {
+        "title": null,
+        "summary": null,
+        "text": null,
+        "annotations_count": 2,
+        "annotations_url": "https://api.github.com/repos/Memorithm/scirust-hub/check-runs/115651209471/annotations"
+      },
+      "check_suite": {
+        "id": 104327332049
+      },
+      "app": {
+        "id": 15368,
+        "client_id": "Iv1.05c79e9ad1f6bdfa",
+        "slug": "github-actions",
+        "node_id": "MDM6QXBwMTUzNjg=",
+        "owner": {
+          "login": "github",
+          "id": 9919,
+          "node_id": "MDEyOk9yZ2FuaXphdGlvbjk5MTk=",
+          "avatar_url": "https://avatars.githubusercontent.com/u/9919?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/github",
+          "html_url": "https://github.com/github",
+          "followers_url": "https://api.github.com/users/github/followers",
+          "following_url": "https://api.github.com/users/github/following{/other_user}",
+          "gists_url": "https://api.github.com/users/github/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/github/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/github/subscriptions",
+          "organizations_url": "https://api.github.com/users/github/orgs",
+          "repos_url": "https://api.github.com/users/github/repos",
+          "events_url": "https://api.github.com/users/github/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/github/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "name": "GitHub Actions",
+        "description": "Automate your workflow from idea to production",
+        "external_url": "https://help.github.com/en/actions",
+        "html_url": "https://github.com/apps/github-actions",
+        "created_at": "2018-07-30T09:30:17Z",
+        "updated_at": "2026-06-18T16:17:48Z",
+        "permissions": {
+          "actions": "write",
+          "administration": "read",
+          "artifact_metadata": "write",
+          "attestations": "write",
+          "checks": "write",
+          "code_quality": "write",
+          "contents": "write",
+          "copilot_requests": "write",
+          "deployments": "write",
+          "discussions": "write",
+          "drives": "write",
+          "issues": "write",
+          "merge_queues": "write",
+          "metadata": "read",
+          "models": "read",
+          "packages": "write",
+          "pages": "write",
+          "pull_requests": "write",
+          "repository_hooks": "write",
+          "repository_projects": "write",
+          "security_events": "write",
+          "statuses": "write",
+          "vulnerability_alerts": "read"
+        },
+        "events": [
+          "branch_protection_rule",
+          "check_run",
+          "check_suite",
+          "create",
+          "delete",
+          "deployment",
+          "deployment_status",
+          "discussion",
+          "discussion_comment",
+          "fork",
+          "gollum",
+          "issues",
+          "issue_comment",
+          "label",
+          "merge_group",
+          "milestone",
+          "page_build",
+          "public",
+          "pull_request",
+          "pull_request_review",
+          "pull_request_review_comment",
+          "push",
+          "registry_package",
+          "release",
+          "repository",
+          "repository_dispatch",
+          "status",
+          "watch",
+          "workflow_dispatch",
+          "workflow_run"
+        ]
+      },
+      "pull_requests": [
+        {
+          "url": "https://api.github.com/repos/Memorithm/scirust-hub/pulls/88",
+          "id": 4852165113,
+          "number": 88,
+          "head": {
+            "ref": "audit/papers-01-file-bound-20261014",
+            "sha": "32192593364fab921c7eee6d91a5d62b09fb3c66",
+            "repo": {
+              "id": 1345896745,
+              "url": "https://api.github.com/repos/Memorithm/scirust-hub",
+              "name": "scirust-hub"
+            }
+          },
+          "base": {
+            "ref": "main",
+            "sha": "c37d9341bf16ced15be4b2e1de33022cf7482b2b",
+            "repo": {
+              "id": 1345896745,
+              "url": "https://api.github.com/repos/Memorithm/scirust-hub",
+              "name": "scirust-hub"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 115651208869,
+      "name": "real runsc isolation and PAPERS compile probe",
+      "node_id": "CR_kwDOUDjBKc8AAAAa7VlmpQ",
+      "head_sha": "32192593364fab921c7eee6d91a5d62b09fb3c66",
+      "external_id": "740936de-b4e8-57de-b1e6-a06a1f4aa7a4",
+      "url": "https://api.github.com/repos/Memorithm/scirust-hub/check-runs/115651208869",
+      "html_url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502099892/job/115651208869",
+      "details_url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502099892/job/115651208869",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-14T02:38:38Z",
+      "completed_at": "2026-10-14T02:40:22Z",
+      "output": {
+        "title": null,
+        "summary": null,
+        "text": null,
+        "annotations_count": 1,
+        "annotations_url": "https://api.github.com/repos/Memorithm/scirust-hub/check-runs/115651208869/annotations"
+      },
+      "check_suite": {
+        "id": 104327332134
+      },
+      "app": {
+        "id": 15368,
+        "client_id": "Iv1.05c79e9ad1f6bdfa",
+        "slug": "github-actions",
+        "node_id": "MDM6QXBwMTUzNjg=",
+        "owner": {
+          "login": "github",
+          "id": 9919,
+          "node_id": "MDEyOk9yZ2FuaXphdGlvbjk5MTk=",
+          "avatar_url": "https://avatars.githubusercontent.com/u/9919?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/github",
+          "html_url": "https://github.com/github",
+          "followers_url": "https://api.github.com/users/github/followers",
+          "following_url": "https://api.github.com/users/github/following{/other_user}",
+          "gists_url": "https://api.github.com/users/github/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/github/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/github/subscriptions",
+          "organizations_url": "https://api.github.com/users/github/orgs",
+          "repos_url": "https://api.github.com/users/github/repos",
+          "events_url": "https://api.github.com/users/github/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/github/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "name": "GitHub Actions",
+        "description": "Automate your workflow from idea to production",
+        "external_url": "https://help.github.com/en/actions",
+        "html_url": "https://github.com/apps/github-actions",
+        "created_at": "2018-07-30T09:30:17Z",
+        "updated_at": "2026-06-18T16:17:48Z",
+        "permissions": {
+          "actions": "write",
+          "administration": "read",
+          "artifact_metadata": "write",
+          "attestations": "write",
+          "checks": "write",
+          "code_quality": "write",
+          "contents": "write",
+          "copilot_requests": "write",
+          "deployments": "write",
+          "discussions": "write",
+          "drives": "write",
+          "issues": "write",
+          "merge_queues": "write",
+          "metadata": "read",
+          "models": "read",
+          "packages": "write",
+          "pages": "write",
+          "pull_requests": "write",
+          "repository_hooks": "write",
+          "repository_projects": "write",
+          "security_events": "write",
+          "statuses": "write",
+          "vulnerability_alerts": "read"
+        },
+        "events": [
+          "branch_protection_rule",
+          "check_run",
+          "check_suite",
+          "create",
+          "delete",
+          "deployment",
+          "deployment_status",
+          "discussion",
+          "discussion_comment",
+          "fork",
+          "gollum",
+          "issues",
+          "issue_comment",
+          "label",
+          "merge_group",
+          "milestone",
+          "page_build",
+          "public",
+          "pull_request",
+          "pull_request_review",
+          "pull_request_review_comment",
+          "push",
+          "registry_package",
+          "release",
+          "repository",
+          "repository_dispatch",
+          "status",
+          "watch",
+          "workflow_dispatch",
+          "workflow_run"
+        ]
+      },
+      "pull_requests": [
+        {
+          "url": "https://api.github.com/repos/Memorithm/scirust-hub/pulls/88",
+          "id": 4852165113,
+          "number": 88,
+          "head": {
+            "ref": "audit/papers-01-file-bound-20261014",
+            "sha": "32192593364fab921c7eee6d91a5d62b09fb3c66",
+            "repo": {
+              "id": 1345896745,
+              "url": "https://api.github.com/repos/Memorithm/scirust-hub",
+              "name": "scirust-hub"
+            }
+          },
+          "base": {
+            "ref": "main",
+            "sha": "c37d9341bf16ced15be4b2e1de33022cf7482b2b",
+            "repo": {
+              "id": 1345896745,
+              "url": "https://api.github.com/repos/Memorithm/scirust-hub",
+              "name": "scirust-hub"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "integrated_checks": [
+    {
+      "name": "fmt / clippy / build / test / doc",
+      "head_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502405639/job/115652176085"
+    },
+    {
+      "name": "real runsc isolation and PAPERS compile probe",
+      "head_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502405612/job/115652175796"
+    }
+  ],
+  "qualification": {
+    "schema": "scirust-hub.gvisor-qualification-evidence/v1",
+    "source_commit": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+    "workflow_run_id": 38502405612,
+    "receipt_sha256": "f346a966c7ae8dbaa681a84291ffd9cf04f3f98aecf009971ae6950810278653"
+  },
+  "integrated_artifact": {
+    "run_id": 38502405612,
+    "artifact_id": 11866716903,
+    "sha256": "b4aa3d55f66993c327d3445c502947ba8db9a3c1d0220e290a618633b228ed11",
+    "path": "docs/audit-global/proofs/Hub-88/integrated-qualification.zip"
+  },
+  "scenarios": [
+    "runtime entry timeout exact-ID cleanup",
+    "bounded output",
+    "positive root ro mount and refused write",
+    "17MiB file write refused at16MiB OS limit",
+    "memory+noswap refusal"
+  ],
+  "tests": {
+    "passed": 283,
+    "failed": 0,
+    "ignored": 0
+  }
 }

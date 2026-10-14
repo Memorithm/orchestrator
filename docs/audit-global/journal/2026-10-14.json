@@ -999,17 +999,64 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T02:51:14.206Z",
+      "event": "Hub88_guarded_merge_integrated_qualification",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 20,
+        "batch_target": 50,
+        "merged_prs": 120,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/scirust-hub",
+          "status": "in_progress",
+          "actions": [
+            "runtime entry timeout exact-ID cleanup",
+            "bounded output",
+            "positive root ro mount and refused write",
+            "17MiB file write refused at16MiB OS limit",
+            "memory+noswap refusal"
+          ],
+          "pr": "https://github.com/Memorithm/scirust-hub/pull/88",
+          "head_sha": "32192593364fab921c7eee6d91a5d62b09fb3c66",
+          "merge_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+          "checks": [
+            {
+              "name": "fmt / clippy / build / test / doc",
+              "head_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502405639/job/115652176085"
+            },
+            {
+              "name": "real runsc isolation and PAPERS compile probe",
+              "head_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502405612/job/115652175796"
+            }
+          ],
+          "next_action": "Adopter guard public au SHA propriétaire dbad, qualification exacte et préservation workspace en PAPERS; qualifier CI/revue/live puis merge gardé. Quotas agrégés/PID et réconciliation ambiguë restent ouverts."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 119,
+    "merged_prs": 120,
     "batch": 3,
-    "batch_merged_prs": 19,
+    "batch_merged_prs": 20,
     "scope": "only observed interval; no fabricated prior-hour entries",
-    "new_merges_observed_today": 4,
+    "new_merges_observed_today": 5,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14T04:39:51+02:00"
+    "latest_observed_at": "2026-10-14T02:51:14.206Z"
   }
 }

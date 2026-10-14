@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T02:39:51Z",
+  "updated_at": "2026-10-14T02:51:14.206Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 119
+    "merged_prs": 120
   },
   "batches": [
     {
@@ -701,6 +701,17 @@
             "PAPERS-01"
           ],
           "merge_origin": "external_GitHub_merge_reconciled_not_performed_by_this_run"
+        },
+        {
+          "repository": "Memorithm/scirust-hub",
+          "number": 88,
+          "head_sha": "32192593364fab921c7eee6d91a5d62b09fb3c66",
+          "merge_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+          "merged_at": "2026-10-14T02:42:06Z",
+          "ids": [
+            "PAPERS-01"
+          ],
+          "merge_origin": "guarded_merge_performed_in_this_run"
         }
       ]
     }
@@ -9877,8 +9888,25 @@
       "ids": [
         "PAPERS-01"
       ],
-      "status": "waiting_exact_candidate_ci_review",
-      "merge_sha": null
+      "status": "merged_target_validated_partial_acceptance",
+      "merge_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+      "merged_at": "2026-10-14T02:42:06Z",
+      "integrated_checks": [
+        {
+          "name": "fmt / clippy / build / test / doc",
+          "head_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502405639/job/115652176085"
+        },
+        {
+          "name": "real runsc isolation and PAPERS compile probe",
+          "head_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502405612/job/115652175796"
+        }
+      ]
     }
   ],
   "repository_observations": [
@@ -13826,7 +13854,7 @@
         "Isoler rustc et compilation JIT sous utilisateur dédié et quotas OS; limiter octets source/module, mémoire/table WASM via StoreLimits/ResourceLimiter et durée de compilation séparée; drainer stderr pendant compilation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "in_progress",
       "current_head": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
@@ -13968,8 +13996,25 @@
           "ids": [
             "PAPERS-01"
           ],
-          "status": "waiting_exact_candidate_ci_review",
-          "merge_sha": null
+          "status": "merged_target_validated_partial_acceptance",
+          "merge_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+          "merged_at": "2026-10-14T02:42:06Z",
+          "integrated_checks": [
+            {
+              "name": "fmt / clippy / build / test / doc",
+              "head_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502405639/job/115652176085"
+            },
+            {
+              "name": "real runsc isolation and PAPERS compile probe",
+              "head_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38502405612/job/115652175796"
+            }
+          ]
         }
       ],
       "resolution_evidence": [
@@ -13987,15 +14032,21 @@
           "integrated_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
           "candidate_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
           "integrated_checks": 3
+        },
+        {
+          "proof": "docs/audit-global/proofs/Hub-88-PAPERS-01-file-bound.json",
+          "status": "merged_target_validated_partial_acceptance",
+          "merge_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+          "integrated_checks": 2
         }
       ],
-      "last_observed_at": "2026-10-14T02:39:51Z",
-      "next_action": "Qualify #88 exact source for per-file/root-mount controls, reconcile any external merge before mutation, then adopt exact qualified Hub guard and source/proofs in PAPERS. Original full acceptance remains incomplete.",
+      "last_observed_at": "2026-10-14T02:51:14.206Z",
+      "next_action": "Adopter guard public au SHA propriétaire dbad, qualification exacte et préservation workspace en PAPERS; qualifier CI/revue/live puis merge gardé. Quotas agrégés/PID et réconciliation ambiguë restent ouverts.",
       "blockers": [
         "Independent phase budgets and retained refusal provenance resolved by #13 with 3/3 integrated gates, 230 tests and four real isolated scenarios.",
         "Remaining adversarial resource/FS and failed-Docker process-tree/drain acceptance has not been fully qualified; no full PAPERS-01 closure."
       ],
-      "current_owner_head": "c37d9341bf16ced15be4b2e1de33022cf7482b2b"
+      "current_owner_head": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4"
     },
     {
       "id": "PAPERS-02",
