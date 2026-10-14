@@ -1746,17 +1746,48 @@
       ],
       "no_excluded_mutations": true,
       "timestamp_correction": "Earlier checkpoint used rounded 07:31 ahead of clock; corrected to actual observed07:29:08, no unobserved period claimed."
+    },
+    {
+      "observed_at": "2026-10-14 07:32:13 Europe/Paris",
+      "event": "owner90_external_merge_reconciliation",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 124,
+        "batch": 3,
+        "batch_merged_prs": 24
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/scirust-hub",
+          "status": "awaiting_integrated_ci",
+          "pr": "https://github.com/Memorithm/scirust-hub/pull/90",
+          "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
+          "merge_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+          "actions": [
+            "Already merged by GitHub before this passage's guarded merge stage; no merge call/retry performed.",
+            "Final candidate2/2green:293Rust+15rootprotocol+66Python+6realcontrols+2actualrecoveryprobes; archiveSHA256verified. Integratedtreeequalscandidate."
+          ],
+          "next_action": "Verify integrated2gates and artifact before locked4-package PAPERS adoption; aggregatequota still missing."
+        }
+      ],
+      "no_excluded_mutations": true
     }
   ],
   "daily_summary": {
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 123,
+    "merged_prs": 124,
     "batch": 3,
-    "batch_merged_prs": 23,
+    "batch_merged_prs": 24,
     "scope": "only observed interval; no fabricated prior-hour entries",
-    "new_merges_observed_today": 8,
+    "new_merges_observed_today": 9,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 07:29:08 Europe/Paris"
+    "latest_observed_at": "2026-10-14 07:32:13 Europe/Paris"
   }
 }

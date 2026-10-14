@@ -1,0 +1,55 @@
+{
+  "finding": "PAPERS-01",
+  "owner": "Memorithm/scirust-hub",
+  "pull_request": 90,
+  "source": {
+    "repository": "Memorithm/scirust-hub",
+    "number": 90,
+    "url": "https://github.com/Memorithm/scirust-hub/pull/90",
+    "ids": [
+      "PAPERS-01"
+    ],
+    "base": "main",
+    "base_sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
+    "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
+    "status": "merged_integrated_validation_pending",
+    "merge_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+    "checks": [
+      {
+        "name": "fmt / clippy / build / test / doc",
+        "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38516852044/job/115697487694"
+      },
+      {
+        "name": "real runsc isolation and PAPERS compile probe",
+        "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38516852233/job/115697479952"
+      }
+    ],
+    "integrated_checks": [],
+    "remaining": [
+      "aggregate writable workspace OS quota",
+      "exact owner and consumer adoption qualification"
+    ],
+    "merged_at": "2026-10-14T05:30:49Z",
+    "candidate_tree": "014ae3199c24cfea8455933b9dee9f5c946ba3e0",
+    "merge_origin": "external_GitHub_merge_reconciled_not_performed_by_this_run"
+  },
+  "observed_at": "2026-10-14 07:32:13 Europe/Paris",
+  "validation": {
+    "Rust_tests": 293,
+    "root_protocol_tests": 15,
+    "Python_tests": 66,
+    "real_controls": 6,
+    "real_recovery_probes": 2,
+    "candidate_archive_sha256": "cc7e48c983ac36f8da2bc40ec33620275d0f25e271fb557a7fda16aac3527f4c",
+    "archive": "Hub-90-candidate-run38516852233.zip",
+    "raw_ci": "Hub-90-candidate-CI.log",
+    "raw_live": "Hub-90-candidate-runsc.log"
+  },
+  "scope": "Durable attempts and read-only quarantine/reconciliation only; aggregate quota, consumer adoption, production external authority not closed."
+}
