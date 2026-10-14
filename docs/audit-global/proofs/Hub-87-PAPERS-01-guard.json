@@ -1,0 +1,30 @@
+{
+  "schema": "memorithm-audit-proof.v1",
+  "id": "PAPERS-01",
+  "pr": "https://github.com/Memorithm/scirust-hub/pull/87",
+  "status": "waiting_exact_candidate_ci_review",
+  "observed_at": "2026-10-14T02:25:23Z",
+  "base_sha": "60f000d9a4f021cb14b9fe2cd68999408b797dd8",
+  "candidate_sha": "fda6392f80c7238daa3b2a743ef58e928cd9f1a3",
+  "policy_read": [
+    "orchestrator AGENTS/HOLDOUTS/off-main roadmap/audit README",
+    "Hub AGENTS/off-main roadmap/ML overlay/AX bootstrap/AX roadmap",
+    "immutable audit source PAPERS-01 recommendation and unchanged metadata"
+  ],
+  "license": "No root licence file or Cargo licence grant found; no grant/dependency/attribution changed",
+  "local_validation": {
+    "fmt": "passed",
+    "diff_check": "passed",
+    "python_syntax": "passed",
+    "initial_offline_gvisor_tests": "8 passed, 1 failed; Linux Instant accepts u64 milliseconds; explicit one-hour bound corrected",
+    "isolated_rerun": "not executed: namespace NETLINK_ROUTE denied; no weaker rerun"
+  },
+  "scope": "Shared guard nonblocking reap/group/drain and exact Docker ID control; v1 wire unchanged, one-hour admission bound and no swap addition",
+  "remaining_acceptance": [
+    "ambiguous daemon creation quarantine and workspace reclamation",
+    "aggregate workspace file quota",
+    "adversarial guest PID enforcement",
+    "PAPERS consumer outer adapter guard and new pinned owner qualification"
+  ],
+  "excluded_modified": []
+}

@@ -851,6 +851,50 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T04:25:23+02:00",
+      "event": "Hub87_shared_guard_candidate",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 18,
+        "batch_target": 50,
+        "merged_prs": 118,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/scirust-hub",
+          "status": "waiting_ci",
+          "pr": "https://github.com/Memorithm/scirust-hub/pull/87",
+          "head_sha": "fda6392f80c7238daa3b2a743ef58e928cd9f1a3",
+          "actions": [
+            "Canonical registry/source metadata and mandatory owner/bootstrap policies reread; exact base/lease acquired",
+            "Shared guard reused for bounded group/reap/drain and exact-owned-container create/start/cleanup/query",
+            "Published real isolated controls qualification and explicit unqualified scope"
+          ],
+          "checks": [
+            {
+              "name": "fmt / clippy / build / test / doc",
+              "status": "in_progress",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38500861677/job/115647222740"
+            },
+            {
+              "name": "real runsc isolation and PAPERS compile probe",
+              "status": "in_progress",
+              "conclusion": null,
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38500861626/job/115647221987"
+            }
+          ],
+          "reason_for_wait": "Exact full/live CI and review pending; local namespace-isolated rerun denied and no weaker rerun taken",
+          "next_action": "Qualify Hub #87 exact head full workspace and real runsc controls, review and guarded merge. Then qualify integrated owner and repin PAPERS with exact artifacts; keep all original acceptance open until tests and consumer integration complete."
+        }
+      ],
+      "new_merges_this_session": [],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
