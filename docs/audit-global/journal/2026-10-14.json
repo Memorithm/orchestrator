@@ -1716,7 +1716,7 @@
       "no_new_automation_created": true
     },
     {
-      "observed_at": "2026-10-14 07:31:00 Europe/Paris",
+      "observed_at": "2026-10-14 07:29:08 Europe/Paris",
       "event": "owner_pr90_candidate_pending",
       "counts": {
         "audited_repositories": 33,
@@ -1744,7 +1744,8 @@
           "next_action": "Qualify Hub90 exact HEAD aac89a20acd5ece5bd61dc108e96582b608c4231 then guarded merge and integrated gates; consumer locked graph adoption required; aggregate quota still missing."
         }
       ],
-      "no_excluded_mutations": true
+      "no_excluded_mutations": true,
+      "timestamp_correction": "Earlier checkpoint used rounded 07:31 ahead of clock; corrected to actual observed07:29:08, no unobserved period claimed."
     }
   ],
   "daily_summary": {
@@ -1756,6 +1757,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 8,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 07:31:00 Europe/Paris"
+    "latest_observed_at": "2026-10-14 07:29:08 Europe/Paris"
   }
 }
