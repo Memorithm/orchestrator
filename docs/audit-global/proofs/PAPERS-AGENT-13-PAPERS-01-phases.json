@@ -2,8 +2,8 @@
   "schema": "memorithm-audit-proof.v1",
   "id": "PAPERS-01",
   "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/13",
-  "status": "merged_waiting_target_validation",
-  "observed_at": "2026-10-14T01:44:23Z",
+  "status": "merged_target_validated_partial_original_acceptance",
+  "observed_at": "2026-10-14T01:48:57Z",
   "base_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
   "candidate_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
   "owner_contract_source": "Memorithm/scirust-hub@60f000d9a4f021cb14b9fe2cd68999408b797dd8",
@@ -87,22 +87,22 @@
   "integrated_checks": [
     {
       "name": "audit",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
       "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934695"
     },
     {
       "name": "live-qualified-consumer",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
       "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317449/job/115635934488"
     },
     {
       "name": "rust",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
       "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934420"
     }
@@ -165,5 +165,27 @@
       "No destructive production probe",
       "No old green or ABI fixtures accepted as hostile-code qualification"
     ]
+  },
+  "integrated_functional": {
+    "passed": 230,
+    "failed": 0,
+    "ignored_live_in_normal_suite": 1,
+    "separate_real_live": {
+      "passed": 1,
+      "failed": 0,
+      "scenarios": 4,
+      "owner": "60f000d9a4f021cb14b9fe2cd68999408b797dd8"
+    }
+  },
+  "integrated_artifact": {
+    "id": 11864742375,
+    "run_id": 38497317449,
+    "sha256": "2948a8f2d91d2bdf22770d5152e8d2cbc59495c70fa155496554aaa7d9dbd51a",
+    "retained": "docs/audit-global/proofs/PAPERS-13/integrated-live.zip"
+  },
+  "target_reread": {
+    "default_branch": "master",
+    "sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+    "unchanged": true
   }
 }

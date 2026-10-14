@@ -767,14 +767,101 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T03:48:57+02:00",
+      "event": "PAPERS13_integrated_qualification_and_handoff",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 18,
+        "batch_target": 50,
+        "merged_prs": 118,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "in_progress",
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/13",
+          "head_sha": "d72e05e6efea66ada83cb2a216b5c1b9f2d70a61",
+          "merge_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+          "actions": [
+            "Verified all 3 integrated gates, 230 tests/no failures, four real gVisor scenarios",
+            "Downloaded integrated archive and verified SHA-256, retained durable archive and logs",
+            "Reread master identity unchanged; next owner guard integration recorded without duplicate capability"
+          ],
+          "checks": [
+            {
+              "name": "audit",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934695"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317449/job/115635934488"
+            },
+            {
+              "name": "rust",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38497317454/job/115635934420"
+            }
+          ],
+          "next_action": "Reuse and extend existing scirust-hub execution_guard for bounded adapter/Docker process-tree and drainage; qualify remaining memory/PID/filesystem/resource enforcement under isolated exact-owner CI, then repin consumer and revalidate integrated acceptance. No RemoteOps modification or scientific promotion."
+        },
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "NNIS #150 fresh read: open, zero comments, no documented rights/consent review"
+          ],
+          "next_action": "Documented authoritative rights/consent review required"
+        },
+        {
+          "id": "MEM-11",
+          "status": "blocked",
+          "actions": [
+            "Actual group restriction/probe not exposed; read-only RemoteOps alternative endpoint unsupported, no dispatch"
+          ],
+          "next_action": "Real runner-group restriction and authorized probe required"
+        },
+        {
+          "id": "COG-SML-001",
+          "status": "blocked",
+          "actions": [
+            "Production failure observed at 03:31:36 Paris; no production signing/adoption/ACL evidence supplied"
+          ],
+          "next_action": "Operator-owned configuration and production adoption proof required; do not substitute credentials"
+        }
+      ],
+      "new_merges_this_session": [
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 13,
+          "merge_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb"
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 117,
+    "merged_prs": 118,
     "batch": 3,
-    "batch_merged_prs": 17,
-    "scope": "only observed interval; no fabricated prior-hour entries"
+    "batch_merged_prs": 18,
+    "scope": "only observed interval; no fabricated prior-hour entries",
+    "new_merges_observed_today": 3,
+    "prior_merges_reconciled_today": 6,
+    "latest_observed_at": "2026-10-14T03:48:57+02:00"
   }
 }

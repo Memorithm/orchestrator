@@ -1,9 +1,10 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "codex-audit-20261014-0314",
   "acquired_at": "2026-10-14T01:18:39Z",
-  "expires_at": "2026-10-14T02:13:39.000Z",
+  "expires_at": "2026-10-14T01:48:57Z",
   "base_sha": "7253144f21df19841791ecddc548c43968d24a1e",
-  "purpose": "PAPERS-01 separate qualified owner compilation/execution budgets and phase provenance; reconcile external blockers without credential/admin mutation."
+  "purpose": "PAPERS-01 separate qualified owner compilation/execution budgets and phase provenance; reconcile external blockers without credential/admin mutation.",
+  "released_at": "2026-10-14T01:48:57Z"
 }
