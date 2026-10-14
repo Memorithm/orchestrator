@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T07:07:21Z",
+  "updated_at": "2026-10-14T07:11:06Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -12118,7 +12118,7 @@
           "status": "technical_gate_qualified_external_review_open"
         }
       ],
-      "last_observed_at": "2026-10-14T06:24:20Z",
+      "last_observed_at": "2026-10-14T07:11:06Z",
       "next_action": "Fresh HEAD unchanged1c1e5b54; NNIS150 still open/zero comments, documented rights/consents review missing; no relicensing authority inferred."
     },
     {
@@ -12988,7 +12988,7 @@
           "status": "hosted_parser_candidate_green_full_gate_pending_external_restrictions_unverified"
         }
       ],
-      "last_observed_at": "2026-10-14T06:55:40Z",
+      "last_observed_at": "2026-10-14T07:11:06Z",
       "next_action": "PR37 fixes full-stream parser in trusted base + actual proposed gate. Exact integrated parser checks both markers; internal quality metadata green but actual checkout remains trusted1418b8, not new-parser proof. Require real org runner-group selected-workflow restrictions and safe probe; connection lacks administration endpoints. Remains blocked.",
       "blockers": [
         "The available GitHub connection cannot read or change organization/repository runner-group administration.",
@@ -14203,7 +14203,7 @@
         }
       ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-14T06:24:20Z",
+      "last_observed_at": "2026-10-14T07:11:06Z",
       "next_action": "Fresh actual current-HEAD push production workflow remains failed (no PR-only shortcut). Owner signing/ACL/adoption evidence still missing; preserve restricted source, no substitute credential."
     },
     {
@@ -17076,13 +17076,14 @@
   ],
   "lease": {
     "schema": "memorithm-remediation-lease.v1",
-    "status": "active",
+    "status": "release_pending",
     "owner": "codex-audit-20261014-0807",
     "acquired_at": "2026-10-14T06:10:28Z",
     "expires_at": "2026-10-14T08:03:11.000Z",
     "base_sha": "4425ef54ed0c0170b343b775b5313dda5a806eeb",
     "purpose": "PAPERS-01 aggregate persistent workspace quota admission and bounded real qualification; no excluded repository changes",
-    "renewed_at": "2026-10-14T07:03:11.000Z"
+    "renewed_at": "2026-10-14T07:03:11.000Z",
+    "reason": "Available engineering complete; three required external evidence/authority blockers remain. Canonical lease.json release follows observed blob CAS/readback."
   },
   "capabilities": [
     {

@@ -1,0 +1,43 @@
+{
+  "schema": "memorithm.audit.external-blockers/v1",
+  "observed_at": "2026-10-14T07:11:06Z",
+  "counts": {
+    "audited_repositories": 33,
+    "source_findings": 113,
+    "positive_findings": 12,
+    "backlog": 101,
+    "closed": 98,
+    "remaining": 3,
+    "merged_prs": 128
+  },
+  "blocked": [
+    {
+      "id": "RT-NNIS-03",
+      "status": "blocked",
+      "repository": "Memorithm/NNIS",
+      "next_action": "Fresh HEAD unchanged1c1e5b54; NNIS150 still open/zero comments, documented rights/consents review missing; no relicensing authority inferred."
+    },
+    {
+      "id": "MEM-11",
+      "status": "blocked_external",
+      "repository": "Memorithm/SciCapsule",
+      "next_action": "PR37 fixes full-stream parser in trusted base + actual proposed gate. Exact integrated parser checks both markers; internal quality metadata green but actual checkout remains trusted1418b8, not new-parser proof. Require real org runner-group selected-workflow restrictions and safe probe; connection lacks administration endpoints. Remains blocked."
+    },
+    {
+      "id": "COG-SML-001",
+      "status": "blocked_external",
+      "repository": null,
+      "next_action": "Fresh actual current-HEAD push production workflow remains failed (no PR-only shortcut). Owner signing/ACL/adoption evidence still missing; preserve restricted source, no substitute credential."
+    }
+  ],
+  "automation": {
+    "only_current_task_changed": true,
+    "is_enabled": false,
+    "reason": "fully blocked by required external evidence, not global completion"
+  },
+  "global_issue_remains_open": true,
+  "roadmaps": {
+    "owner": "ffe6d16119a6b97bb8780e38452a17f07cc6809f",
+    "consumer": "f611058d8b5aec6c2c8925158512cb91746be66c"
+  }
+}
