@@ -1614,6 +1614,67 @@
           "next_action": "Implement and qualify actual aggregate workspace quota and durable ambiguous-creation/quarantine reconciliation in existing Hub owner; reuse lifecycle/transactional store without duplicating scheduler/proof authority. Preserve unknown-ID refusal and no blind replay/deletion."
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-14 06:53:34 Europe/Paris",
+      "event": "durable_checkpoint_and_external_reconciliation",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 123,
+        "batch": 3,
+        "batch_merged_prs": 23
+      },
+      "work_items": [
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "Fresh issue150 still open,0comments; no documented rights/consent review supplied"
+          ],
+          "next_action": "Documented owner rights/consent/source/dependency notices review"
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Actualmain1418b8 unchanged; required organization administrative API outside advertised installation scope"
+          ],
+          "next_action": "Effective runner-group restrictions and safeprobe by authorized operator; no workflow-only inference"
+        },
+        {
+          "id": "COG-SML-001",
+          "repository": "restricted",
+          "status": "blocked_external",
+          "actions": [
+            "Private purpose-scoped PR and PR-only run observations accessible; no production dispatch acceptance established"
+          ],
+          "next_action": "Operator-owned signing/ACL and adoption evidence, kept private"
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "in_progress",
+          "actions": [
+            "Owner89/consumer15 integrated; durable source/proofs and offdefault roadmaps updated"
+          ],
+          "next_action": "Implement and qualify actual aggregate workspace quota and durable ambiguous-creation/quarantine reconciliation in existing Hub owner; reuse lifecycle/transactional store without duplicating scheduler/proof authority. Preserve unknown-ID refusal and no blind replay/deletion."
+        }
+      ],
+      "roadmaps": {
+        "Hub": "c27d0e3a3a50cdc05913f19f87f90f2e6709c742",
+        "PAPERS": "6be59f27c4238423993b1a7d97fd8ef4d852b9c2"
+      },
+      "lease": "owned canonical release to follow this checkpoint via observed content SHA; actual status is authoritative in lease.json",
+      "no_excluded_mutations": true,
+      "no_other_automation_changes": true,
+      "no_new_automation_created": true
     }
   ],
   "daily_summary": {
@@ -1625,6 +1686,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 8,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 06:51:04 Europe/Paris"
+    "latest_observed_at": "2026-10-14 06:53:34 Europe/Paris"
   }
 }

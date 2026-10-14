@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T04:51:04.475Z",
+  "updated_at": "2026-10-14T04:53:34.423Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -11768,7 +11768,7 @@
           "status": "technical_gate_qualified_external_review_open"
         }
       ],
-      "last_observed_at": "2026-10-14T01:48:57Z",
+      "last_observed_at": "2026-10-14T04:51:58.595Z",
       "next_action": "NNIS #150 remains open with zero comments on fresh re-read; require documented rights/consent/source/dependency notice review without inventing legal authority."
     },
     {
@@ -12585,7 +12585,7 @@
           "status": "hosted_parser_candidate_green_full_gate_pending_external_restrictions_unverified"
         }
       ],
-      "last_observed_at": "2026-10-14T01:48:57Z",
+      "last_observed_at": "2026-10-14T04:51:58.595Z",
       "next_action": "Candidate and integrated YAML validator now actually pass at #36. Still require actual organization runner-group selected-workflow enforcement and safe probe; no enforcement inferred from workflow-only change.",
       "blockers": [
         "The available GitHub connection cannot read or change organization/repository runner-group administration.",
@@ -13800,7 +13800,7 @@
         }
       ],
       "resolution_evidence": [],
-      "last_observed_at": "2026-10-14T01:07:17Z",
+      "last_observed_at": "2026-10-14T04:51:58.595Z",
       "next_action": "Latest observed production publication remains failed; require operator-owned signing configuration and real adopted/ACL-bound production evidence. Do not create/substitute credentials or infer adoption from successful development gates."
     },
     {
@@ -16444,9 +16444,11 @@
     "RT-NNIS-04"
   ],
   "lease": {
-    "status": "active",
+    "status": "release_pending",
     "owner": "codex-audit-20261014-0612",
-    "expires_at": "2026-10-14T05:14:38.122Z"
+    "expires_at": "2026-10-14T05:14:38.122Z",
+    "observed_at": "2026-10-14T04:53:34.423Z",
+    "authority": "docs/audit-global/lease.json on audit/global-remediation-2026-09-30; reread canonical lease after the following contents-API release; this is a pre-release snapshot"
   },
   "capabilities": [
     {
@@ -16528,16 +16530,16 @@
   },
   "last_verified_targets": {
     "PAPERS-AGENT": {
-      "sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+      "sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
       "checks": 3,
       "all_success": true,
-      "scope": "partial original acceptance"
+      "scope": "guest PID owner adoption/shared guard/provenance/refusal diagnostics; original aggregate quota and durable quarantine acceptance incomplete"
     },
     "scirust-hub": {
-      "sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+      "sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
       "checks": 2,
       "all_success": true,
-      "scope": "owner resource/control scope"
+      "scope": "independent guest PID plus six real controls; no aggregate workspace quota/durable ambiguous-create cleanup"
     }
   }
 }
