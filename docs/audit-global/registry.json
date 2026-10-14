@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T00:18:51.675Z",
+  "updated_at": "2026-10-14T00:32:00.072Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9666,12 +9666,12 @@
       "repository": "Memorithm/PAPERS-AGENT",
       "number": 12,
       "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
-      "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+      "head_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
       "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
       "ids": [
         "PAPERS-01"
       ],
-      "status": "candidate_3_of_3_green_waiting_exact_head_review",
+      "status": "waiting_corrected_AST_head_ci_and_review",
       "merge_sha": null
     },
     {
@@ -13669,9 +13669,9 @@
         {
           "number": 12,
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
-          "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+          "head_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
           "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-          "status": "candidate_3_of_3_green_waiting_exact_head_review"
+          "status": "waiting_corrected_AST_head_ci_and_review"
         }
       ],
       "resolution_evidence": [
@@ -13684,8 +13684,8 @@
           "candidate_sha": "40e3b58606069eb187c8deb2875d351b76b186e2"
         }
       ],
-      "last_observed_at": "2026-10-14T00:14:00.042Z",
-      "next_action": "Requalify corrected #12 at f4400972ad6bf3a7a613da913dbb8000e7994e82 after P1 review: Researcher emits calling executable harnesses and all ten existing fallback algorithms are preserved. Require full CI, real Researcher→Engineer→gVisor qualification, reviewed exact head, guarded merge and integrated gates; independent compile/execution/IO resource qualification remains required before closure.",
+      "last_observed_at": "2026-10-14T00:32:00.072Z",
+      "next_action": "Requalify #12 at 69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a after second P1: pinned syn syntax preflight rejects empty/noncalling/deferred entrypoints; first main statement invokes declared nonempty free function with literal/no arguments. Preserve all fallback algorithms and zero scientific fitness. Require exact full/live CI/review then guarded merge and integrated validation; compile/IO/resource qualifications remain open.",
       "blockers": [
         "SciRust-Hub main explicitly states that its configured local and remote process executors are not an OS sandbox; AXH-5 container-class backend remains active and RemoteOps owns concrete isolation enforcement.",
         "No qualified backend evidence currently exists that proves stronger-than-process isolation, default-deny network and enforced CPU/RAM/time limits for this PAPERS workload."

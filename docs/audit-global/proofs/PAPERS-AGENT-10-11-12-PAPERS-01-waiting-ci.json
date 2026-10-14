@@ -4,7 +4,7 @@
   "id": "PAPERS-01",
   "status": "not_resolved",
   "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-  "candidate_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+  "candidate_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
   "pr": 12,
   "verified_adapter_merges": [
     {
@@ -37,25 +37,25 @@
   ],
   "candidate_checks": [
     {
+      "name": "rust",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38490452441/job/115614137350"
+    },
+    {
       "name": "audit",
       "status": "completed",
       "conclusion": "success",
-      "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641383"
+      "head_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38490452441/job/115614137095"
     },
     {
       "name": "live-qualified-consumer",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361317/job/115610641280"
-    },
-    {
-      "name": "rust",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641198"
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38490452469/job/115614137057"
     }
   ],
   "integrated_11_checks": [
@@ -112,26 +112,61 @@
   "excluded_modified": [],
   "stale_candidate_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
   "review": {
-    "thread": "PRRT_kwDOS8iSH86sHO_I",
-    "priority": "P1",
-    "correction": "calling development harness in generation/fallbacks; live actual Researcher→Engineer route",
-    "status": "P1_resolved_new_exact_head_review_running"
+    "corrected_threads": [
+      "PRRT_kwDOS8iSH86sHO_I",
+      "PRRT_kwDOS8iSH86sHW6m"
+    ],
+    "status": "second_P1_corrected_waiting_current_head_tests_and_review",
+    "dependency": {
+      "name": "syn",
+      "version": "2.0.119",
+      "previously_locked": true
+    },
+    "scope": "conservative executable calling protocol; not semantic/scientific qualification"
   },
-  "candidate_tests": {
-    "passed": 221,
-    "failed": 0,
-    "ignored": 1,
-    "suites": 11
-  },
-  "live_candidate": {
-    "run": 38489361317,
-    "job": 115610641280,
-    "passed": 1,
-    "failed": 0,
-    "researcher_engineer_route": true,
-    "artifact_id": 11861391197,
-    "archive_sha256": "01abe3a5e4baf93b6bb37e93146b82212345d33cb54559812acf49b985608952",
-    "downloaded_and_verified": true,
-    "retained_zip": "docs/audit-global/proofs/PAPERS-12/candidate-researcher-engineer.zip"
+  "candidate_tests": null,
+  "live_candidate": null,
+  "historical_candidate_tests": {
+    "sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+    "tests": {
+      "passed": 221,
+      "failed": 0,
+      "ignored": 1,
+      "suites": 11
+    },
+    "live": {
+      "run": 38489361317,
+      "job": 115610641280,
+      "passed": 1,
+      "failed": 0,
+      "researcher_engineer_route": true,
+      "artifact_id": 11861391197,
+      "archive_sha256": "01abe3a5e4baf93b6bb37e93146b82212345d33cb54559812acf49b985608952",
+      "downloaded_and_verified": true,
+      "retained_zip": "docs/audit-global/proofs/PAPERS-12/candidate-researcher-engineer.zip"
+    },
+    "checks": [
+      {
+        "name": "audit",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641383"
+      },
+      {
+        "name": "live-qualified-consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361317/job/115610641280"
+      },
+      {
+        "name": "rust",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
+        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641198"
+      }
+    ]
   }
 }
