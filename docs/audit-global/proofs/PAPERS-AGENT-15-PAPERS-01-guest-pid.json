@@ -2,7 +2,7 @@
   "schema": "memorithm-audit-proof.v1",
   "id": "PAPERS-01",
   "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/15",
-  "status": "merged_waiting_integrated_checks",
+  "status": "merged_target_validated_partial_original_acceptance",
   "candidate_sha": "78151131e8c495eec263b0a3676ed387a1a8b5c8",
   "candidate_tree": "f279ae42a56fd7b8917fe18330eae6ecf48f1382",
   "base_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
@@ -1062,7 +1062,17 @@
     "passed": 232,
     "failed": 0,
     "ordinary_live_ignored": 1,
-    "dedicated_live_still_running": true
+    "dedicated_live_executed": {
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0,
+      "scenarios": [
+        "successful_Researcher_Engineer_compilation_and_execution",
+        "compile_error_no_execution",
+        "runtime_timeout_after_actual_entry",
+        "actual_output_refusal_keeps_workspace_and_completed_compile_provenance"
+      ]
+    }
   },
   "next_owner_acceptance": {
     "owner": "Memorithm/scirust-hub",
@@ -1083,5 +1093,37 @@
       "Many-small-file quota refusal with positive runtime entry and unchanged source provenance"
     ],
     "nonclaim": "Read-only reuse analysis only; no new backend/quarantine code or qualification implemented on this slice"
-  }
+  },
+  "integrated_checks": [
+    {
+      "name": "live-qualified-consumer",
+      "head_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38513045336/job/115685647203"
+    },
+    {
+      "name": "rust",
+      "head_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38513045263/job/115685647089"
+    },
+    {
+      "name": "audit",
+      "head_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38513045263/job/115685646811"
+    }
+  ],
+  "integrated_artifact": {
+    "run_id": 38513045336,
+    "id": 11870387970,
+    "sha256": "2209f7cc016880de1ca3cf5cb33ceda5de01cb4c72a0d3f2a2d61e9e9751c047",
+    "path": "docs/audit-global/proofs/PAPERS-15-integrated.zip"
+  },
+  "no_regression_observed": true,
+  "no_rollback_needed": true,
+  "scope": "Ubuntu x86_64 hosted CI real runsc diagnostics; no ARM64/Thor/hardware performance qualification claimed"
 }

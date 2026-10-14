@@ -1558,6 +1558,62 @@
           "next_action": "Exact integrated rust/audit/live and artifact; no full finding closure"
         }
       ]
+    },
+    {
+      "observed_at": "2026-10-14 06:51:04 Europe/Paris",
+      "event": "papers15_integrated_scope_qualified",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 123,
+        "batch": 3,
+        "batch_merged_prs": 23
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "in_progress",
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/15",
+          "merge_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+          "owner_sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
+          "checks": [
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38513045336/job/115685647203"
+            },
+            {
+              "name": "rust",
+              "head_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38513045263/job/115685647089"
+            },
+            {
+              "name": "audit",
+              "head_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38513045263/job/115685646811"
+            }
+          ],
+          "actions": [
+            "Three exact integrated gates actually green;232Rust passed plus separate1live (ordinary1ignored)",
+            "Exact integrated artifact downloaded/SHA verified and retained; phase evidence binds qualifiedownerf873",
+            "No regression observed/rollback needed; no empirical promotion or hardware extrapolation",
+            "Read existing HubTaskRecord/TaskRepository transaction/events; read-only reuse analysis for remaining durableattempt scope"
+          ],
+          "reason_waiting": "No CI waiting; remaining owner quota and durable ambiguous-create quarantine work not implemented",
+          "next_action": "Implement and qualify actual aggregate workspace quota and durable ambiguous-creation/quarantine reconciliation in existing Hub owner; reuse lifecycle/transactional store without duplicating scheduler/proof authority. Preserve unknown-ID refusal and no blind replay/deletion."
+        }
+      ]
     }
   ],
   "daily_summary": {
@@ -1569,6 +1625,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 8,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 06:46:00 Europe/Paris"
+    "latest_observed_at": "2026-10-14 06:51:04 Europe/Paris"
   }
 }
