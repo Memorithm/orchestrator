@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T01:00:15Z",
+  "updated_at": "2026-10-14T01:05:35Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9683,7 +9683,7 @@
       "ids": [
         "PAPERS-01"
       ],
-      "status": "merged_waiting_integrated_validation",
+      "status": "merged_target_validated",
       "merge_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
       "checks": [
         {
@@ -9713,7 +9713,31 @@
       },
       "merged_at": "2026-10-14T00:59:17Z",
       "merge_method": "merge_with_expected_head_sha",
-      "target_head": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d"
+      "target_head": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+      "target_checks": [
+        {
+          "name": "audit",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225740/job/115623063032"
+        },
+        {
+          "name": "rust",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225740/job/115623062825"
+        },
+        {
+          "name": "live-qualified-consumer",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225753/job/115623062772"
+        }
+      ],
+      "target_validation": "Exact integrated master passed all 3 gates; 225 full-suite tests and separate real Researcher/Engineer/runsc execution; artifact downloaded/hash checked. Original finding remains open for independent compile/run deadlines and hostile IO/resource qualification."
     },
     {
       "repository": "Memorithm/SciCapsule",
@@ -13674,11 +13698,11 @@
         "Isoler rustc et compilation JIT sous utilisateur dédié et quotas OS; limiter octets source/module, mémoire/table WASM via StoreLimits/ResourceLimiter et durée de compilation séparée; drainer stderr pendant compilation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "in_progress",
       "current_head": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
-      "head_reconciliation": "qualified_adapter_integrated_engine_adoption_in_qualification",
+      "head_reconciliation": "engine_owner_route_integrated_qualified_partial_acceptance",
       "policy_review": "Root AGENTS, SECURITY and mandatory off-main roadmap read; PAPERS boundary preserved and no RemoteOps/scirust-hub modification attempted.",
       "prs": [
         {
@@ -13712,7 +13736,7 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
           "head_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
           "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-          "status": "merged_waiting_integrated_validation",
+          "status": "merged_target_validated",
           "merge_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d"
         }
       ],
@@ -13720,17 +13744,17 @@
         "docs/audit-global/proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json",
         {
           "proof": "docs/audit-global/proofs/PAPERS-AGENT-10-11-12-PAPERS-01-waiting-ci.json",
-          "status": "adapter_integrated_engineer_route_pending",
-          "integrated_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+          "status": "engine_route_integrated_scope_qualified_original_acceptance_incomplete",
+          "integrated_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
           "integrated_checks": 3,
-          "candidate_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f"
+          "candidate_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49"
         }
       ],
-      "last_observed_at": "2026-10-14T01:00:15Z",
-      "next_action": "Verify exact 1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d integrated full Rust/audit/real gVisor gates and retain artifacts. Then add independent compile/execution deadlines and adversarial compilation/IO/resource qualification; no closure from benign diagnostic alone.",
+      "last_observed_at": "2026-10-14T01:05:35Z",
+      "next_action": "Read current owner contract at qualified Hub source before extending PAPERS adapter; split rustc and candidate into independently bounded owner executions with immutable receipts, preserve zero scientific fitness/fail-closed behavior, then qualify bounded compile timeout, runtime timeout, output drain/truncation, memory/process resource enforcement on isolated hosted runner. No changes to RemoteOps or unapproved production configuration.",
       "blockers": [
-        "Engine/evolution qualified owner route #12 merged; exact target qualification is running.",
-        "Independent compilation/execution deadlines and adversarial compilation/IO/resource evidence still required before original acceptance; legacy host WASM stays fail-closed."
+        "Independent compilation/execution deadlines remain unimplemented in current PAPERS adapter command (rustc && candidate within one combined budget).",
+        "Hostile compilation, memory/IO/resource qualification of the consumer is not yet executed; benign live evidence is diagnostic only. Legacy local WASM remains fail-closed."
       ]
     },
     {

@@ -1,6 +1,6 @@
 # Backlog de remédiation — 30 septembre 2026
 
-Dernière réconciliation 2026-10-14T03:01:31.000+02:00 : **lot 3 17/50**, **117 PR fusionnées uniques**, **97/101 constats clos**, **4 restants**. [SciCapsule #36](https://github.com/Memorithm/SciCapsule/pull/36) intégrée avec validation YAML exécutée ; restriction runner organisationnelle encore non prouvée. [PAPERS #12](https://github.com/Memorithm/PAPERS-AGENT/pull/12) fusionnée sous `1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d`, qualification intégrée en cours. [Journal quotidien](journal/2026-10-14.md).
+Dernière réconciliation 2026-10-14T03:05:35.000+02:00 : **lot 3 17/50**, **117 PR fusionnées uniques**, **97/101 constats clos**, **4 restants**. [SciCapsule #36](https://github.com/Memorithm/SciCapsule/pull/36) et [PAPERS #12](https://github.com/Memorithm/PAPERS-AGENT/pull/12) intégrées et qualifiées sur leurs SHA exacts. MEM-11 reste bloqué sur restrictions runner ; PAPERS-01 reste en cours pour budgets indépendants/IO/ressources. [Journal quotidien](journal/2026-10-14.md).
 
 État réconcilié du 13 octobre 2026 à 12:18 Europe/Paris : **95 PR techniques fusionnées au total**, **86/101 constats clos**, **15 restants** ; lot 2 à **45/50**. MEM-09 est clos par [CCOS-Enterprise #195](https://github.com/Memorithm/CCOS-Enterprise/pull/195) et son correctif de portabilité [#196](https://github.com/Memorithm/CCOS-Enterprise/pull/196), sur le SHA intégré final `ac3e64b57aec8120ab98922c76afae4df48d6336`. Les validations exact-head et intégrées, les artefacts signés et la vérification après téléchargement sont consignés dans la [preuve MEM-09](proofs/CCOS-Enterprise-195-196-MEM-09.json). Aucun dépôt exclu n’a été modifié.
 
@@ -73,7 +73,7 @@ Dernière réconciliation 2026-10-14T03:01:31.000+02:00 : **lot 3 17/50**, **117
 | FORGE-03 | Memorithm/Forge | 9 | résolu |  · [preuve](proofs/Forge-FORGE-03-current-head-20261007.json) |
 | FORGE-04 | Memorithm/Forge | 3 | résolu | [PR #48](https://github.com/Memorithm/Forge/pull/48) · [preuve](Stdout and stderr are drained concurrently while retaining at most 1 MiB per stream; drain completion has its own two-second bound.) |
 | ORCH-01 | Memorithm/orchestrator | 7 | résolu | [PR #82](https://github.com/Memorithm/orchestrator/pull/82) · [preuve](proofs/orchestrator-82-ORCH-01.json) |
-| PAPERS-01 | Memorithm/PAPERS-AGENT | 7 | attente CI | [PR #7](https://github.com/Memorithm/PAPERS-AGENT/pull/7) · [preuve](proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json) |
+| PAPERS-01 | Memorithm/PAPERS-AGENT | 7 | en cours | [PR #7](https://github.com/Memorithm/PAPERS-AGENT/pull/7) · [preuve](proofs/PAPERS-AGENT-7-PAPERS-01-bounds.json) |
 | PAPERS-02 | Memorithm/PAPERS-AGENT | 7 | résolu | [PR #6](https://github.com/Memorithm/PAPERS-AGENT/pull/6) · [preuve](proofs/PAPERS-AGENT-6-PAPERS-02.json) |
 | PAPERS-03 | Memorithm/PAPERS-AGENT | 9 | résolu | [PR #9](https://github.com/Memorithm/PAPERS-AGENT/pull/9) · [preuve](proofs/PAPERS-AGENT-9-PAPERS-03-waiting-ci.json) |
 | PAPERS-04 | Memorithm/PAPERS-AGENT | 9 | résolu | [PR #8](https://github.com/Memorithm/PAPERS-AGENT/pull/8) · [preuve](proofs/PAPERS-AGENT-8-PAPERS-04-waiting-ci.json) |

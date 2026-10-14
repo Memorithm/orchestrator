@@ -465,6 +465,60 @@
         "Memorithm/PAPERS-AGENT#12"
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T03:05:35.000+02:00",
+      "event": "PAPERS12_target_qualified_scope_partial",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 17,
+        "batch_target": 50,
+        "merged_prs": 117,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "in_progress",
+          "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
+          "actions": [
+            "All three exact integrated gates succeeded",
+            "Verified 225 tests/0 failed, separate live Researcher→Engineer→runsc success and immutable owner receipt identity",
+            "Downloaded integrated artifact and verified SHA-256; master readback unchanged"
+          ],
+          "checks": [
+            {
+              "name": "audit",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225740/job/115623063032"
+            },
+            {
+              "name": "rust",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225740/job/115623062825"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225753/job/115623062772"
+            }
+          ],
+          "reason_for_wait": "Original independent compilation budget and hostile IO/resource acceptance not yet implemented/qualified; keep open",
+          "dependencies": [],
+          "next_action": "Read current owner contract at qualified Hub source before extending PAPERS adapter; split rustc and candidate into independently bounded owner executions with immutable receipts, preserve zero scientific fitness/fail-closed behavior, then qualify bounded compile timeout, runtime timeout, output drain/truncation, memory/process resource enforcement on isolated hosted runner. No changes to RemoteOps or unapproved production configuration."
+        }
+      ],
+      "new_merges_this_session": [],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {

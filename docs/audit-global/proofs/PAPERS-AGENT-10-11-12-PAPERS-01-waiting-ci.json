@@ -1,8 +1,8 @@
 {
   "schema": "memorithm-remediation-proof.v1",
-  "observed_at": "2026-10-14T01:00:15Z",
+  "observed_at": "2026-10-14T01:05:35Z",
   "id": "PAPERS-01",
-  "status": "merged_waiting_integrated_validation",
+  "status": "engine_route_integrated_scope_qualified_original_acceptance_incomplete",
   "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
   "candidate_sha": "3e78db3ad678f8bdf8f3f2d190b49fb02fa1aa49",
   "pr": 12,
@@ -104,10 +104,10 @@
   "local_functional_test": "offline locked cargo test could not start: anyhow absent from cache; no functional success claimed",
   "scope": "explicit operator configuration only; Engineer/Evolution/PapersEngine route; zero diagnostic fitness and no scientific promotion",
   "required_before_closure": [
-    "exact candidate full CI/review",
-    "real runsc Engineer path",
-    "exact integrated gates",
-    "remaining compilation/IO/resource boundary qualification"
+    "implement independent compilation/execution deadlines under existing owner boundary",
+    "isolated hostile compilation/IO/drain/memory/pids qualification on actual consumer version",
+    "exact candidate and integrated validation of any subsequent corrective source",
+    "preserve diagnostic-only authority, private scopes and correct fail-closed legacy path"
   ],
   "excluded_modified": [],
   "stale_candidate_sha": "5af865e8e3070f0ecb7ad6e83396519e5907352f",
@@ -233,24 +233,52 @@
     "integrated_tree_identical": true,
     "lease_owner": "codex-audit-20261014-0206"
   },
-  "integrated_checks": {
-    "status": "running",
+  "integrated_checks": [
+    {
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225740/job/115623063032"
+    },
+    {
+      "name": "rust",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225740/job/115623062825"
+    },
+    {
+      "name": "live-qualified-consumer",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225753/job/115623062772"
+    }
+  ],
+  "integrated_tests": {
+    "command": "cargo test --all-targets",
+    "passed": 225,
+    "failed": 0,
+    "ignored": 1,
+    "suites": 11,
     "sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
-    "runs": [
-      {
-        "id": 38493225753,
-        "name": "Hub gVisor qualification",
-        "status": "in_progress",
-        "conclusion": null,
-        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225753"
-      },
-      {
-        "id": 38493225740,
-        "name": "CI",
-        "status": "in_progress",
-        "conclusion": null,
-        "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225740"
-      }
-    ]
-  }
+    "checked_out_sha_verified_in_log": true,
+    "retained_log": "docs/audit-global/proofs/PAPERS-12/integrated-rust.log",
+    "log_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225740/job/115623062825"
+  },
+  "integrated_live": {
+    "passed": 1,
+    "failed": 0,
+    "sha": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d",
+    "checked_out_sha_verified_in_log": true,
+    "log_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38493225753/job/115623062772",
+    "artifact_id": 11862876340,
+    "archive_sha256": "fc60a8a7d787a26a9ccddba9aa2e2aae0d66c59be9517afc9f4a58bcc2df1dc4",
+    "downloaded_hash_verified": true,
+    "retained_path": "docs/audit-global/proofs/PAPERS-12/integrated-researcher-engineer.zip",
+    "retained_log": "docs/audit-global/proofs/PAPERS-12/integrated-live.log",
+    "owner_evidence": "github:Memorithm/scirust-hub@60f000d9a4f021cb14b9fe2cd68999408b797dd8/actions/runs/38469040003#receipt-sha256:43f3ceb7f20322cb7eafb7537f7d3baa7ea63bf4d1384477479ac63fb0fc68e7"
+  },
+  "target_head_readback": "1e1f2ee653a9c42efa9ce183ad6247b27d2b2f7d"
 }
