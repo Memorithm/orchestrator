@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T06:59:32Z",
+  "updated_at": "2026-10-14T07:07:21Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -28,8 +28,8 @@
     "source_findings": 113,
     "positive_findings": 12,
     "backlog": 101,
-    "closed": 97,
-    "remaining": 4,
+    "closed": 98,
+    "remaining": 3,
     "merged_prs": 128
   },
   "batches": [
@@ -10445,7 +10445,7 @@
       "merge_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
       "merged_at": "2026-10-14T06:59:30Z",
       "merge_origin": "guarded_expected_head_merge_performed_in_this_run",
-      "status": "merged_waiting_integrated_3gates_original_acceptance",
+      "status": "merged_target_validated_original_acceptance_closed",
       "owner_sha": "a1ce544d5a6027a224627b738268214775a56881",
       "candidate_tree": "6983f7b287457bcad1aa09669d5e646cbf39f434",
       "checks": [
@@ -10475,7 +10475,30 @@
         "2a9eed1b1bdb2c30031dbc68c3f2ea69cea0ede6",
         "72e897d0582dfe7b82a423909eb29ceb14521d47"
       ],
-      "review_fix": "actual mode000 cleanup refusal; explicit close/verified absence; real file rustfmt check and exact PR/push range"
+      "review_fix": "actual mode000 cleanup refusal; explicit close/verified absence; real file rustfmt check and exact PR/push range",
+      "integrated_checks": [
+        {
+          "name": "audit",
+          "head_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495706/job/115724765942"
+        },
+        {
+          "name": "live-qualified-consumer",
+          "head_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495679/job/115724765752"
+        },
+        {
+          "name": "rust",
+          "head_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495706/job/115724765715"
+        }
+      ]
     }
   ],
   "repository_observations": [
@@ -14477,11 +14500,11 @@
         "Isoler rustc et compilation JIT sous utilisateur dédié et quotas OS; limiter octets source/module, mémoire/table WASM via StoreLimits/ResourceLimiter et durée de compilation séparée; drainer stderr pendant compilation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "in_progress",
+      "status": "resolved",
       "current_head": "e8606a8c692988d455bd33f6e57d42e207884217",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
-      "head_reconciliation": "exact_integrated10f_consumer_and_f873_owner_guest_PID_controls_qualified_original_acceptance_incomplete",
+      "head_reconciliation": "exact_integrated_owner91_consumer17_qualified_original_acceptance_closed_with_trusted_diagnostic_scope",
       "policy_review": "Root AGENTS, SECURITY and mandatory off-main PAPERS/Hub roadmaps plus Hub ML/AX policies read. Shared owner Hub guard reused; no RemoteOps or other excluded repository modified; no source freeze/holdout or scientific authority change.",
       "prs": [
         {
@@ -14935,7 +14958,7 @@
           "base_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
           "head_sha": "d93cee7b32206284ca74fb78713bb575ca8d3896",
           "owner_sha": "a1ce544d5a6027a224627b738268214775a56881",
-          "status": "merged_waiting_integrated_3gates_original_acceptance",
+          "status": "merged_target_validated_original_acceptance_closed",
           "superseded_heads": [
             "2a9eed1b1bdb2c30031dbc68c3f2ea69cea0ede6",
             "72e897d0582dfe7b82a423909eb29ceb14521d47"
@@ -14970,7 +14993,30 @@
               "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891126/job/115722817033"
             }
           ],
-          "review_fix": "actual mode000 cleanup refusal; explicit close/verified absence; real file rustfmt check and exact PR/push range"
+          "review_fix": "actual mode000 cleanup refusal; explicit close/verified absence; real file rustfmt check and exact PR/push range",
+          "integrated_checks": [
+            {
+              "name": "audit",
+              "head_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495706/job/115724765942"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495679/job/115724765752"
+            },
+            {
+              "name": "rust",
+              "head_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495706/job/115724765715"
+            }
+          ]
         }
       ],
       "resolution_evidence": [
@@ -15026,10 +15072,78 @@
           "owner_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
           "status": "merged_target_validated_partial_original_acceptance",
           "integrated_checks": 3
+        },
+        {
+          "proof": "docs/audit-global/proofs/PAPERS-01-closed-owner91-consumer17.json",
+          "owner_merge": "a1ce544d5a6027a224627b738268214775a56881",
+          "consumer_merge": "e8606a8c692988d455bd33f6e57d42e207884217",
+          "candidate_checks": [
+            {
+              "name": "audit",
+              "head": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891257/job/115722818107",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "rust",
+              "head": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891257/job/115722817740",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "head": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38524891126/job/115722817033",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ],
+          "integrated_checks": [
+            {
+              "name": "audit",
+              "head": "e8606a8c692988d455bd33f6e57d42e207884217",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495706/job/115724765942",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "head": "e8606a8c692988d455bd33f6e57d42e207884217",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495679/job/115724765752",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "rust",
+              "head": "e8606a8c692988d455bd33f6e57d42e207884217",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495706/job/115724765715",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ],
+          "artifact_sha256": "sha256:39cb7101f2911836de80308ce7e971bf732320e60d8bb245e5dd6d12941f2135",
+          "status": "resolved_original_criteria_with_documented_trusted_diagnostic_scope",
+          "actual_live_attempts": 13,
+          "limits": [
+            {
+              "limit": "Local trusted-only Wasmtime JIT is not an OS hostile-code sandbox and is not externally qualified",
+              "justification": "No automatic/generated/third-party local compilation or JIT route; public generated-source method refuses; explicitly trusted diagnostics API preserves useful local methods and bounded regression tests."
+            },
+            {
+              "limit": "Linux hosted runsc CPU fixture only; no production, ARM64 or hardware performance inference",
+              "justification": "Actual qualified source/toolchain/image pinned, claims limited to performed tests. No scientific oracle/holdout authority from fixtures."
+            },
+            {
+              "limit": "Operator-provisioned ext-family volume, co-located trusted daemon and no concurrent administrative mount replacement/resizing; whole-volume quota not free-space reservation",
+              "justification": "Backend refuses nonqualified filesystem/geometry/submounts; operator/provider retains privileged mount lifecycle. Domain cleanup refuses inaccessible/overbudget trees and keeps quarantine instead of silently promising availability."
+            }
+          ]
         }
       ],
-      "last_observed_at": "2026-10-14T06:59:32Z",
-      "next_action": "PAPERS17 expected-head merged after actual3/3 final candidate gates,234 Rust, real13 durable attempts including aggregate byte/inode and inaccessible cleanup refusal. Integrated e8606a8 tree identical; require actual3/3 integrated gates and artifact before closure.",
+      "last_observed_at": "2026-10-14T07:07:21Z",
+      "next_action": "No further remediation in accepted source scope. Preserve operator provisioned persistent volume/trusted co-located daemon, fail-closed generated local route, trusted-only local Wasmtime diagnostics and scientific authority separation. No production/hardware claim.",
       "blockers": [
         "Actual aggregate multi-file and inode writable workspace OS quota not implemented/qualified; per-file RLIMIT_FSIZE not substitute"
       ],
@@ -16965,9 +17079,10 @@
     "status": "active",
     "owner": "codex-audit-20261014-0807",
     "acquired_at": "2026-10-14T06:10:28Z",
-    "expires_at": "2026-10-14T07:10:28.000Z",
+    "expires_at": "2026-10-14T08:03:11.000Z",
     "base_sha": "4425ef54ed0c0170b343b775b5313dda5a806eeb",
-    "purpose": "PAPERS-01 aggregate persistent workspace quota admission and bounded real qualification; no excluded repository changes"
+    "purpose": "PAPERS-01 aggregate persistent workspace quota admission and bounded real qualification; no excluded repository changes",
+    "renewed_at": "2026-10-14T07:03:11.000Z"
   },
   "capabilities": [
     {

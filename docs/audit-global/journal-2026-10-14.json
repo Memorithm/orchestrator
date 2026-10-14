@@ -2352,19 +2352,100 @@
         }
       ],
       "no_excluded_mutations": true
+    },
+    {
+      "observed_at": "2026-10-14 09:07:21 Europe/Paris",
+      "event": "PAPERS_original_acceptance_closed_integrated_proofs",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 98,
+        "remaining": 3,
+        "merged_prs": 128,
+        "batch": 3,
+        "batch_merged_prs": 28
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "resolved",
+          "pr": 17,
+          "head": "d93cee7b32206284ca74fb78713bb575ca8d3896",
+          "merge_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+          "actions": [
+            "Exact integrated3/3 completedsuccess,234 Rusttests, actual file-format checks on all3 changedRust files, dedicated real live1passed0ignored,13 actual durable attempts.",
+            "Integrated ZIP digest39cb7101 verified; aggregate bytes/inodes, private inputs, mode000 failure/zero fitness retainedfacts and trusted WASM limits/localgeneratedfailclosed tested. Criteria and trusted-only localJIT/operator/Linux scope documented."
+          ],
+          "checks_executed": [
+            {
+              "name": "audit",
+              "head_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495706/job/115724765942"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495679/job/115724765752"
+            },
+            {
+              "name": "rust",
+              "head_sha": "e8606a8c692988d455bd33f6e57d42e207884217",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38525495706/job/115724765715"
+            }
+          ],
+          "next_action": "No further remediation in accepted source scope. Preserve operator provisioned persistent volume/trusted co-located daemon, fail-closed generated local route, trusted-only local Wasmtime diagnostics and scientific authority separation. No production/hardware claim."
+        },
+        {
+          "id": "RT-NNIS-03",
+          "status": "blocked",
+          "actions": [
+            "Fresh rights issue150 open0comments; missing third-party rights/consents review"
+          ],
+          "next_action": "Document actual contributor/source/dependency rights and consents in owner issue150; no unsupported relicensing."
+        },
+        {
+          "id": "MEM-11",
+          "status": "blocked",
+          "actions": [
+            "Parser review36/37 fixed/qualified; runner-group selected-workflow enforcement and safeprobe still externally absent"
+          ],
+          "next_action": "Actual organization administration evidence and bounded safe enforcement probe; no YAML-as-ACL inference."
+        },
+        {
+          "id": "COG-SML-001",
+          "source_scope": "restricted",
+          "status": "blocked",
+          "actions": [
+            "Fresh currentHEAD actual production publication stillfailed; DEV greens not adoption"
+          ],
+          "next_action": "Owner configured production signing identity, effective organization ACL and real adopted production proof; no generated substitute credentials."
+        }
+      ],
+      "no_excluded_mutations": true,
+      "no_scientific_or_holdout_promotion": true
     }
   ],
   "daily_summary": {
-    "closed": 97,
-    "remaining": 4,
+    "closed": 98,
+    "remaining": 3,
     "merged_prs": 128,
     "batch": 3,
     "batch_merged_prs": 28,
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 13,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 08:59:32 Europe/Paris",
+    "latest_observed_at": "2026-10-14 09:07:21 Europe/Paris",
     "last_public_summary": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6162168060",
-    "current_pass_merges": 3
+    "current_pass_merges": 3,
+    "current_pass_closed": 1
   }
 }
