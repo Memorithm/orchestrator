@@ -9666,12 +9666,12 @@
       "repository": "Memorithm/PAPERS-AGENT",
       "number": 12,
       "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
-      "head_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+      "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
       "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
       "ids": [
         "PAPERS-01"
       ],
-      "status": "waiting_ci",
+      "status": "candidate_3_of_3_green_waiting_exact_head_review",
       "merge_sha": null
     },
     {
@@ -13671,7 +13671,7 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
           "head_sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
           "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-          "status": "waiting_exact_head_ci_and_review"
+          "status": "candidate_3_of_3_green_waiting_exact_head_review"
         }
       ],
       "resolution_evidence": [
