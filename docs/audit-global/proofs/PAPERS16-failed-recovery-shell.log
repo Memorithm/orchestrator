@@ -1,0 +1,582 @@
+﻿2026-10-14T05:38:43.6080415Z Current runner version: '2.337.0'
+2026-10-14T05:38:43.6104756Z ##[group]Runner Image Provisioner
+2026-10-14T05:38:43.6105596Z Hosted Compute Agent
+2026-10-14T05:38:43.6106170Z Version: 20261002.596
+2026-10-14T05:38:43.6106900Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-14T05:38:43.6107661Z Build Date: 2026-10-02T22:28:27Z
+2026-10-14T05:38:43.6108668Z Worker ID: {2e4259f3-1e37-457d-a7fd-37461d91d356}
+2026-10-14T05:38:43.6109411Z Region: northcentralus
+2026-10-14T05:38:43.6109984Z Cloud: Azure
+2026-10-14T05:38:43.6110579Z ##[endgroup]
+2026-10-14T05:38:43.6112084Z ##[group]Operating System
+2026-10-14T05:38:43.6112785Z Ubuntu
+2026-10-14T05:38:43.6113312Z 24.04.5
+2026-10-14T05:38:43.6113829Z LTS
+2026-10-14T05:38:43.6114404Z ##[endgroup]
+2026-10-14T05:38:43.6114988Z ##[group]Runner Image
+2026-10-14T05:38:43.6115652Z Image: ubuntu-24.04
+2026-10-14T05:38:43.6116239Z Version: 20261004.327.1
+2026-10-14T05:38:43.6117552Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T05:38:43.6119469Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-14T05:38:43.6120537Z ##[endgroup]
+2026-10-14T05:38:43.6121698Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T05:38:43.6123678Z Contents: read
+2026-10-14T05:38:43.6124347Z Metadata: read
+2026-10-14T05:38:43.6124910Z ##[endgroup]
+2026-10-14T05:38:43.6127135Z Secret source: Actions
+2026-10-14T05:38:43.6128388Z Cache mode: write
+2026-10-14T05:38:43.6129201Z Prepare workflow directory
+2026-10-14T05:38:43.6465091Z Prepare all required actions
+2026-10-14T05:38:43.6513344Z Getting action download info
+2026-10-14T05:38:43.8631099Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-14T05:38:43.9719716Z Download action repository 'dtolnay/rust-toolchain@4360b52568e2003a75bf9bc1d59f33a8e3fc893c' (SHA:4360b52568e2003a75bf9bc1d59f33a8e3fc893c)
+2026-10-14T05:38:44.1229972Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-10-14T05:38:44.3341438Z Complete job name: live-qualified-consumer
+2026-10-14T05:38:44.4160823Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-10-14T05:38:44.4161908Z with:
+2026-10-14T05:38:44.4162391Z   ref: 3fbf38bf69c140321a83ddcdca49a4b57abed74d
+2026-10-14T05:38:44.4163013Z   persist-credentials: false
+2026-10-14T05:38:44.4163556Z   repository: Memorithm/PAPERS-AGENT
+2026-10-14T05:38:44.4167630Z   token: ***
+2026-10-14T05:38:44.4168293Z   ssh-strict: true
+2026-10-14T05:38:44.4168736Z   ssh-user: git
+2026-10-14T05:38:44.4169158Z   clean: true
+2026-10-14T05:38:44.4169614Z   sparse-checkout-cone-mode: true
+2026-10-14T05:38:44.4170149Z   fetch-depth: 1
+2026-10-14T05:38:44.4170594Z   fetch-tags: false
+2026-10-14T05:38:44.4171049Z   show-progress: true
+2026-10-14T05:38:44.4171499Z   lfs: false
+2026-10-14T05:38:44.4171909Z   submodules: false
+2026-10-14T05:38:44.4172388Z   set-safe-directory: true
+2026-10-14T05:38:44.4172899Z   allow-unsafe-pr-checkout: false
+2026-10-14T05:38:44.4173690Z ##[endgroup]
+2026-10-14T05:38:44.5193266Z Syncing repository: Memorithm/PAPERS-AGENT
+2026-10-14T05:38:44.5195900Z ##[group]Getting Git version info
+2026-10-14T05:38:44.5197117Z Working directory is '/home/runner/work/PAPERS-AGENT/PAPERS-AGENT'
+2026-10-14T05:38:44.5199103Z [command]/usr/bin/git version
+2026-10-14T05:38:44.5262172Z git version 2.55.0
+2026-10-14T05:38:44.5285136Z ##[endgroup]
+2026-10-14T05:38:44.5300627Z Temporarily overriding HOME='/home/runner/work/_temp/cfa153e9-1a3b-40d1-a023-36a94a08f4a3' before making global git config changes
+2026-10-14T05:38:44.5302963Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T05:38:44.5306188Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PAPERS-AGENT/PAPERS-AGENT
+2026-10-14T05:38:44.5366080Z Deleting the contents of '/home/runner/work/PAPERS-AGENT/PAPERS-AGENT'
+2026-10-14T05:38:44.5371873Z ##[group]Initializing the repository
+2026-10-14T05:38:44.5376960Z [command]/usr/bin/git init /home/runner/work/PAPERS-AGENT/PAPERS-AGENT
+2026-10-14T05:38:44.5488412Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-14T05:38:44.5490554Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-14T05:38:44.5492755Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-14T05:38:44.5494163Z hint: call:
+2026-10-14T05:38:44.5495011Z hint:
+2026-10-14T05:38:44.5496196Z hint: 	git config --global init.defaultBranch <name>
+2026-10-14T05:38:44.5497633Z hint:
+2026-10-14T05:38:44.5499274Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-14T05:38:44.5501262Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-14T05:38:44.5502823Z hint:
+2026-10-14T05:38:44.5503607Z hint: 	git branch -m <name>
+2026-10-14T05:38:44.5504586Z hint:
+2026-10-14T05:38:44.5505828Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-14T05:38:44.5509345Z Initialized empty Git repository in /home/runner/work/PAPERS-AGENT/PAPERS-AGENT/.git/
+2026-10-14T05:38:44.5594888Z [command]/usr/bin/git remote add origin https://github.com/Memorithm/PAPERS-AGENT
+2026-10-14T05:38:44.5598465Z ##[endgroup]
+2026-10-14T05:38:44.5599815Z ##[group]Disabling automatic garbage collection
+2026-10-14T05:38:44.5600910Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T05:38:44.5611715Z ##[endgroup]
+2026-10-14T05:38:44.5613001Z ##[group]Setting up auth
+2026-10-14T05:38:44.5617220Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T05:38:44.5653050Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T05:38:44.6060794Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T05:38:44.6100552Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T05:38:44.6354630Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T05:38:44.6395521Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T05:38:44.6653051Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-14T05:38:44.6701807Z ##[endgroup]
+2026-10-14T05:38:44.6703135Z ##[group]Fetching the repository
+2026-10-14T05:38:44.6717177Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 3fbf38bf69c140321a83ddcdca49a4b57abed74d
+2026-10-14T05:38:45.0799674Z From https://github.com/Memorithm/PAPERS-AGENT
+2026-10-14T05:38:45.0819914Z  * branch            3fbf38bf69c140321a83ddcdca49a4b57abed74d -> FETCH_HEAD
+2026-10-14T05:38:45.0823774Z ##[endgroup]
+2026-10-14T05:38:45.0829589Z ##[group]Determining the checkout info
+2026-10-14T05:38:45.0831666Z ##[endgroup]
+2026-10-14T05:38:45.0832989Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T05:38:45.0884546Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T05:38:45.0925825Z ##[group]Checking out the ref
+2026-10-14T05:38:45.0929600Z [command]/usr/bin/git checkout --progress --force 3fbf38bf69c140321a83ddcdca49a4b57abed74d
+2026-10-14T05:38:45.1057382Z Note: switching to '3fbf38bf69c140321a83ddcdca49a4b57abed74d'.
+2026-10-14T05:38:45.1059467Z 
+2026-10-14T05:38:45.1060708Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-14T05:38:45.1062788Z changes and commit them, and you can discard any commits you make in this
+2026-10-14T05:38:45.1064771Z state without impacting any branches by switching back to a branch.
+2026-10-14T05:38:45.1065861Z 
+2026-10-14T05:38:45.1066439Z If you want to create a new branch to retain commits you create, you may
+2026-10-14T05:38:45.1067976Z do so (now or later) by using -c with the switch command. Example:
+2026-10-14T05:38:45.1069305Z 
+2026-10-14T05:38:45.1069781Z   git switch -c <new-branch-name>
+2026-10-14T05:38:45.1070624Z 
+2026-10-14T05:38:45.1070968Z Or undo this operation with:
+2026-10-14T05:38:45.1071689Z 
+2026-10-14T05:38:45.1071985Z   git switch -
+2026-10-14T05:38:45.1072409Z 
+2026-10-14T05:38:45.1073075Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-14T05:38:45.1074157Z 
+2026-10-14T05:38:45.1075171Z HEAD is now at 3fbf38b fix(PAPERS-01): restore complete locked dependency bytes after truncated transport
+2026-10-14T05:38:45.1078988Z ##[endgroup]
+2026-10-14T05:38:45.1112627Z [command]/usr/bin/git log -1 --format=%H
+2026-10-14T05:38:45.1140164Z 3fbf38bf69c140321a83ddcdca49a4b57abed74d
+2026-10-14T05:38:45.1150042Z ##[group]Removing auth
+2026-10-14T05:38:45.1153770Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T05:38:45.1187643Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T05:38:45.1409950Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T05:38:45.1436969Z http.https://github.com/.extraheader
+2026-10-14T05:38:45.1444938Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-14T05:38:45.1483448Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T05:38:45.1703749Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T05:38:45.1739617Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T05:38:45.1961767Z ##[endgroup]
+2026-10-14T05:38:45.2370932Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-10-14T05:38:45.2372540Z with:
+2026-10-14T05:38:45.2373792Z   repository: Memorithm/scirust-hub
+2026-10-14T05:38:45.2375260Z   ref: cf5233af12499605bd57d9d613b3cddc3bc39d08
+2026-10-14T05:38:45.2376439Z   path: scirust-hub
+2026-10-14T05:38:45.2377510Z   persist-credentials: false
+2026-10-14T05:38:45.2391406Z   token: ***
+2026-10-14T05:38:45.2392485Z   ssh-strict: true
+2026-10-14T05:38:45.2393320Z   ssh-user: git
+2026-10-14T05:38:45.2394537Z   clean: true
+2026-10-14T05:38:45.2395879Z   sparse-checkout-cone-mode: true
+2026-10-14T05:38:45.2397511Z   fetch-depth: 1
+2026-10-14T05:38:45.2398693Z   fetch-tags: false
+2026-10-14T05:38:45.2400034Z   show-progress: true
+2026-10-14T05:38:45.2400968Z   lfs: false
+2026-10-14T05:38:45.2401748Z   submodules: false
+2026-10-14T05:38:45.2403039Z   set-safe-directory: true
+2026-10-14T05:38:45.2404608Z   allow-unsafe-pr-checkout: false
+2026-10-14T05:38:45.2406092Z ##[endgroup]
+2026-10-14T05:38:45.3387205Z Syncing repository: Memorithm/scirust-hub
+2026-10-14T05:38:45.3393437Z ##[group]Getting Git version info
+2026-10-14T05:38:45.3396336Z Working directory is '/home/runner/work/PAPERS-AGENT/PAPERS-AGENT/scirust-hub'
+2026-10-14T05:38:45.3428948Z [command]/usr/bin/git version
+2026-10-14T05:38:45.3470826Z git version 2.55.0
+2026-10-14T05:38:45.3496149Z ##[endgroup]
+2026-10-14T05:38:45.3510135Z Temporarily overriding HOME='/home/runner/work/_temp/e1ccc4bc-01a1-4e04-acdb-dde664b45c51' before making global git config changes
+2026-10-14T05:38:45.3513493Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T05:38:45.3517145Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PAPERS-AGENT/PAPERS-AGENT/scirust-hub
+2026-10-14T05:38:45.3780414Z ##[group]Initializing the repository
+2026-10-14T05:38:45.3798032Z [command]/usr/bin/git init /home/runner/work/PAPERS-AGENT/PAPERS-AGENT/scirust-hub
+2026-10-14T05:38:45.3812164Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-14T05:38:45.3831016Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-14T05:38:45.3834086Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-14T05:38:45.3836011Z hint: call:
+2026-10-14T05:38:45.3837261Z hint:
+2026-10-14T05:38:45.3847483Z hint: 	git config --global init.defaultBranch <name>
+2026-10-14T05:38:45.3849754Z hint:
+2026-10-14T05:38:45.3851589Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-14T05:38:45.3854661Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-14T05:38:45.3857113Z hint:
+2026-10-14T05:38:45.3858551Z hint: 	git branch -m <name>
+2026-10-14T05:38:45.3860067Z hint:
+2026-10-14T05:38:45.3862048Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-14T05:38:45.3865812Z Initialized empty Git repository in /home/runner/work/PAPERS-AGENT/PAPERS-AGENT/scirust-hub/.git/
+2026-10-14T05:38:45.3874853Z [command]/usr/bin/git remote add origin https://github.com/Memorithm/scirust-hub
+2026-10-14T05:38:45.3893247Z ##[endgroup]
+2026-10-14T05:38:45.3895534Z ##[group]Disabling automatic garbage collection
+2026-10-14T05:38:45.3897603Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T05:38:45.3946602Z ##[endgroup]
+2026-10-14T05:38:45.3949604Z ##[group]Setting up auth
+2026-10-14T05:38:45.3979945Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T05:38:45.4011022Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T05:38:45.4302127Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T05:38:45.4352743Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T05:38:45.4652175Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T05:38:45.4681529Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T05:38:45.4909562Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-14T05:38:45.9309869Z ##[endgroup]
+2026-10-14T05:38:45.9311404Z ##[group]Fetching the repository
+2026-10-14T05:38:45.9321358Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin cf5233af12499605bd57d9d613b3cddc3bc39d08
+2026-10-14T05:38:46.3337094Z From https://github.com/Memorithm/scirust-hub
+2026-10-14T05:38:46.3338014Z  * branch            cf5233af12499605bd57d9d613b3cddc3bc39d08 -> FETCH_HEAD
+2026-10-14T05:38:46.3360664Z ##[endgroup]
+2026-10-14T05:38:46.3361640Z ##[group]Determining the checkout info
+2026-10-14T05:38:46.3362501Z ##[endgroup]
+2026-10-14T05:38:46.3363127Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T05:38:46.3429957Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T05:38:46.3755878Z ##[group]Checking out the ref
+2026-10-14T05:38:46.3766902Z [command]/usr/bin/git checkout --progress --force cf5233af12499605bd57d9d613b3cddc3bc39d08
+2026-10-14T05:38:46.4185197Z Note: switching to 'cf5233af12499605bd57d9d613b3cddc3bc39d08'.
+2026-10-14T05:38:46.4185971Z 
+2026-10-14T05:38:46.4186685Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-14T05:38:46.4208877Z changes and commit them, and you can discard any commits you make in this
+2026-10-14T05:38:46.4210250Z state without impacting any branches by switching back to a branch.
+2026-10-14T05:38:46.4210819Z 
+2026-10-14T05:38:46.4211171Z If you want to create a new branch to retain commits you create, you may
+2026-10-14T05:38:46.4212036Z do so (now or later) by using -c with the switch command. Example:
+2026-10-14T05:38:46.4212567Z 
+2026-10-14T05:38:46.4212795Z   git switch -c <new-branch-name>
+2026-10-14T05:38:46.4213118Z 
+2026-10-14T05:38:46.4213302Z Or undo this operation with:
+2026-10-14T05:38:46.4213619Z 
+2026-10-14T05:38:46.4213797Z   git switch -
+2026-10-14T05:38:46.4214016Z 
+2026-10-14T05:38:46.4214411Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-14T05:38:46.4214844Z 
+2026-10-14T05:38:46.4215130Z HEAD is now at cf5233a docs(PAPERS-01): name the actual four-package locked owner graph
+2026-10-14T05:38:46.4229566Z ##[endgroup]
+2026-10-14T05:38:46.4274190Z [command]/usr/bin/git log -1 --format=%H
+2026-10-14T05:38:46.4303316Z cf5233af12499605bd57d9d613b3cddc3bc39d08
+2026-10-14T05:38:46.4329031Z ##[group]Removing auth
+2026-10-14T05:38:46.4329456Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T05:38:46.4360114Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T05:38:46.4586801Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T05:38:46.4613002Z http.https://github.com/.extraheader
+2026-10-14T05:38:46.4620976Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-14T05:38:46.4681407Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T05:38:46.4924905Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T05:38:46.4960967Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T05:38:46.5196903Z ##[endgroup]
+2026-10-14T05:38:46.6772387Z ##[group]Run dtolnay/rust-toolchain@4360b52568e2003a75bf9bc1d59f33a8e3fc893c
+2026-10-14T05:38:46.6772871Z with:
+2026-10-14T05:38:46.6773097Z   toolchain: stable
+2026-10-14T05:38:46.6773332Z ##[endgroup]
+2026-10-14T05:38:46.6841802Z ##[start-action display=Parse toolchain version;id=__dtolnay_rust-toolchain.parse]
+2026-10-14T05:38:46.6905918Z ##[group]Run if [[ -z $toolchain ]]; then
+2026-10-14T05:38:46.6906335Z [36;1mif [[ -z $toolchain ]]; then[0m
+2026-10-14T05:38:46.6906877Z [36;1m  # GitHub does not enforce `required: true` inputs itself. https://github.com/actions/runner/issues/1070[0m
+2026-10-14T05:38:46.6907437Z [36;1m  echo "'toolchain' is a required input" >&2[0m
+2026-10-14T05:38:46.6907948Z [36;1m  exit 1[0m
+2026-10-14T05:38:46.6908329Z [36;1melif [[ $toolchain =~ ^stable' '[0-9]+' '(year|month|week|day)s?' 'ago$ ]]; then[0m
+2026-10-14T05:38:46.6908742Z [36;1m  if [[ Linux == macOS ]]; then[0m
+2026-10-14T05:38:46.6909316Z [36;1m    echo "toolchain=1.$((($(date -v-$(sed 's/stable \([0-9]*\) \(.\).*/\1\2/' <<< $toolchain) +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-10-14T05:38:46.6909849Z [36;1m  else[0m
+2026-10-14T05:38:46.6910252Z [36;1m    echo "toolchain=1.$((($(date --date "${toolchain#stable }" +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-10-14T05:38:46.6910702Z [36;1m  fi[0m
+2026-10-14T05:38:46.6910995Z [36;1melif [[ $toolchain =~ ^stable' 'minus' '[0-9]+' 'releases?$ ]]; then[0m
+2026-10-14T05:38:46.6911521Z [36;1m  echo "toolchain=1.$((($(date +%s)/60/60/24-16569)/7/6-${toolchain//[^0-9]/}))" >> $GITHUB_OUTPUT[0m
+2026-10-14T05:38:46.6912002Z [36;1melif [[ $toolchain =~ ^1\.[0-9]+$ ]]; then[0m
+2026-10-14T05:38:46.6912537Z [36;1m  echo "toolchain=1.$((i=${toolchain#1.}, c=($(date +%s)/60/60/24-16569)/7/6, i+9*i*(10*i<=c)+90*i*(100*i<=c)))" >> $GITHUB_OUTPUT[0m
+2026-10-14T05:38:46.6913276Z [36;1melse[0m
+2026-10-14T05:38:46.6913524Z [36;1m  echo "toolchain=$toolchain" >> $GITHUB_OUTPUT[0m
+2026-10-14T05:38:46.6913825Z [36;1mfi[0m
+2026-10-14T05:38:47.1308006Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.1308666Z env:
+2026-10-14T05:38:47.1309008Z   toolchain: stable
+2026-10-14T05:38:47.1309384Z ##[endgroup]
+2026-10-14T05:38:47.1476477Z ##[end-action id=__dtolnay_rust-toolchain.parse;outcome=success;conclusion=success;duration_ms=463]
+2026-10-14T05:38:47.1484214Z ##[start-action display=Construct rustup command line;id=__dtolnay_rust-toolchain.flags]
+2026-10-14T05:38:47.1518292Z ##[group]Run echo "targets=$(for t in ${targets//,/ }; do echo -n ' --target' $t; done)" >> $GITHUB_OUTPUT
+2026-10-14T05:38:47.1518972Z [36;1mecho "targets=$(for t in ${targets//,/ }; do echo -n ' --target' $t; done)" >> $GITHUB_OUTPUT[0m
+2026-10-14T05:38:47.1519611Z [36;1mecho "components=$(for c in ${components//,/ }; do echo -n ' --component' $c; done)" >> $GITHUB_OUTPUT[0m
+2026-10-14T05:38:47.1520112Z [36;1mecho "downgrade=" >> $GITHUB_OUTPUT[0m
+2026-10-14T05:38:47.1581595Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.1581952Z env:
+2026-10-14T05:38:47.1582138Z   targets: 
+2026-10-14T05:38:47.1582335Z   components: 
+2026-10-14T05:38:47.1582535Z ##[endgroup]
+2026-10-14T05:38:47.1677585Z ##[end-action id=__dtolnay_rust-toolchain.flags;outcome=success;conclusion=success;duration_ms=19]
+2026-10-14T05:38:47.1680281Z ##[start-action display=Set $CARGO_HOME;id=__dtolnay_rust-toolchain.__run]
+2026-10-14T05:38:47.1704124Z ##[group]Run echo CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV
+2026-10-14T05:38:47.1704587Z [36;1mecho CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV[0m
+2026-10-14T05:38:47.1763381Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.1763746Z ##[endgroup]
+2026-10-14T05:38:47.1850594Z ##[end-action id=__dtolnay_rust-toolchain.__run;outcome=success;conclusion=success;duration_ms=16]
+2026-10-14T05:38:47.1852845Z ##[start-action display=Install rustup if needed;id=__dtolnay_rust-toolchain.__run_2]
+2026-10-14T05:38:47.1882795Z ##[group]Run if ! command -v rustup &>/dev/null; then
+2026-10-14T05:38:47.1883171Z [36;1mif ! command -v rustup &>/dev/null; then[0m
+2026-10-14T05:38:47.1883925Z [36;1m  curl --proto '=https' --tlsv1.2 --retry 10 --retry-connrefused --location --silent --show-error --fail https://sh.rustup.rs | sh -s -- --default-toolchain none -y[0m
+2026-10-14T05:38:47.1884659Z [36;1m  echo "$CARGO_HOME/bin" >> $GITHUB_PATH[0m
+2026-10-14T05:38:47.1884933Z [36;1mfi[0m
+2026-10-14T05:38:47.1942284Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.1942621Z env:
+2026-10-14T05:38:47.1942817Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:47.1943061Z ##[endgroup]
+2026-10-14T05:38:47.2026172Z ##[end-action id=__dtolnay_rust-toolchain.__run_2;outcome=success;conclusion=success;duration_ms=17]
+2026-10-14T05:38:47.2028641Z ##[start-action display=Install rustup if needed on windows;id=__dtolnay_rust-toolchain.__run_3]
+2026-10-14T05:38:47.2035267Z ##[end-action id=__dtolnay_rust-toolchain.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-14T05:38:47.2046190Z ##[start-action display=rustup toolchain install stable;id=__dtolnay_rust-toolchain.__run_4]
+2026-10-14T05:38:47.2070630Z ##[group]Run rustup toolchain install stable --profile minimal --no-self-update
+2026-10-14T05:38:47.2071172Z [36;1mrustup toolchain install stable --profile minimal --no-self-update[0m
+2026-10-14T05:38:47.2131480Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.2131830Z env:
+2026-10-14T05:38:47.2132030Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:47.2132295Z   RUSTUP_PERMIT_COPY_RENAME: 1
+2026-10-14T05:38:47.2132536Z ##[endgroup]
+2026-10-14T05:38:47.5221564Z info: syncing channel updates for stable-x86_64-unknown-linux-gnu
+2026-10-14T05:38:47.7626306Z 
+2026-10-14T05:38:47.7705742Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.0 (b940084d7 2026-09-28)
+2026-10-14T05:38:47.7706219Z 
+2026-10-14T05:38:47.7734776Z ##[end-action id=__dtolnay_rust-toolchain.__run_4;outcome=success;conclusion=success;duration_ms=568]
+2026-10-14T05:38:47.7742174Z ##[start-action display=rustup default stable;id=__dtolnay_rust-toolchain.__run_5]
+2026-10-14T05:38:47.7763059Z ##[group]Run rustup default stable
+2026-10-14T05:38:47.7763352Z [36;1mrustup default stable[0m
+2026-10-14T05:38:47.7827665Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.7828335Z env:
+2026-10-14T05:38:47.7828563Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:47.7828868Z ##[endgroup]
+2026-10-14T05:38:47.7952601Z info: using existing install for stable-x86_64-unknown-linux-gnu
+2026-10-14T05:38:47.7965417Z info: default toolchain set to stable-x86_64-unknown-linux-gnu
+2026-10-14T05:38:47.7965841Z 
+2026-10-14T05:38:47.8041779Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.0 (b940084d7 2026-09-28)
+2026-10-14T05:38:47.8042604Z 
+2026-10-14T05:38:47.8060093Z ##[end-action id=__dtolnay_rust-toolchain.__run_5;outcome=success;conclusion=success;duration_ms=31]
+2026-10-14T05:38:47.8063034Z ##[start-action display=Create cachekey;id=__dtolnay_rust-toolchain.rustc-version]
+2026-10-14T05:38:47.8084018Z ##[group]Run DATE=$(rustc +stable --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')
+2026-10-14T05:38:47.8084851Z [36;1mDATE=$(rustc +stable --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')[0m
+2026-10-14T05:38:47.8085490Z [36;1mHASH=$(rustc +stable --version --verbose | sed -ne 's/^commit-hash: //p')[0m
+2026-10-14T05:38:47.8085994Z [36;1mecho "cachekey=$(echo $DATE$HASH | head -c12)" >> $GITHUB_OUTPUT[0m
+2026-10-14T05:38:47.8151051Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.8151437Z env:
+2026-10-14T05:38:47.8151672Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:47.8151952Z ##[endgroup]
+2026-10-14T05:38:47.8784788Z ##[end-action id=__dtolnay_rust-toolchain.rustc-version;outcome=success;conclusion=success;duration_ms=72]
+2026-10-14T05:38:47.8788048Z ##[start-action display=Disable incremental compilation;id=__dtolnay_rust-toolchain.__run_6]
+2026-10-14T05:38:47.8808659Z ##[group]Run if [ -z "${CARGO_INCREMENTAL+set}" ]; then
+2026-10-14T05:38:47.8809051Z [36;1mif [ -z "${CARGO_INCREMENTAL+set}" ]; then[0m
+2026-10-14T05:38:47.8809397Z [36;1m  echo CARGO_INCREMENTAL=0 >> $GITHUB_ENV[0m
+2026-10-14T05:38:47.8809691Z [36;1mfi[0m
+2026-10-14T05:38:47.8876435Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.8876814Z env:
+2026-10-14T05:38:47.8877028Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:47.8877310Z ##[endgroup]
+2026-10-14T05:38:47.8970049Z ##[end-action id=__dtolnay_rust-toolchain.__run_6;outcome=success;conclusion=success;duration_ms=18]
+2026-10-14T05:38:47.8972403Z ##[start-action display=Enable colors in Cargo output;id=__dtolnay_rust-toolchain.__run_7]
+2026-10-14T05:38:47.8991088Z ##[group]Run if [ -z "${CARGO_TERM_COLOR+set}" ]; then
+2026-10-14T05:38:47.8991466Z [36;1mif [ -z "${CARGO_TERM_COLOR+set}" ]; then[0m
+2026-10-14T05:38:47.8991803Z [36;1m  echo CARGO_TERM_COLOR=always >> $GITHUB_ENV[0m
+2026-10-14T05:38:47.8992105Z [36;1mfi[0m
+2026-10-14T05:38:47.9053286Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.9053650Z env:
+2026-10-14T05:38:47.9053854Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:47.9054125Z   CARGO_INCREMENTAL: 0
+2026-10-14T05:38:47.9054385Z ##[endgroup]
+2026-10-14T05:38:47.9141775Z ##[end-action id=__dtolnay_rust-toolchain.__run_7;outcome=success;conclusion=success;duration_ms=16]
+2026-10-14T05:38:47.9144018Z ##[start-action display=Enable Cargo sparse registry;id=__dtolnay_rust-toolchain.__run_8]
+2026-10-14T05:38:47.9180593Z ##[group]Run # implemented in 1.66, stabilized in 1.68, made default in 1.70
+2026-10-14T05:38:47.9181242Z [36;1m# implemented in 1.66, stabilized in 1.68, made default in 1.70[0m
+2026-10-14T05:38:47.9181962Z [36;1mif [ -z "${CARGO_REGISTRIES_CRATES_IO_PROTOCOL+set}" -o -f "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol ]; then[0m
+2026-10-14T05:38:47.9182689Z [36;1m  if rustc +stable --version --verbose | grep -q '^release: 1\.6[89]\.'; then[0m
+2026-10-14T05:38:47.9183258Z [36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-10-14T05:38:47.9183799Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse >> $GITHUB_ENV[0m
+2026-10-14T05:38:47.9184293Z [36;1m  elif rustc +stable --version --verbose | grep -q '^release: 1\.6[67]\.'; then[0m
+2026-10-14T05:38:47.9184853Z [36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-10-14T05:38:47.9185374Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=git >> $GITHUB_ENV[0m
+2026-10-14T05:38:47.9185728Z [36;1m  fi[0m
+2026-10-14T05:38:47.9185920Z [36;1mfi[0m
+2026-10-14T05:38:47.9247577Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.9248210Z env:
+2026-10-14T05:38:47.9248421Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:47.9248707Z   CARGO_INCREMENTAL: 0
+2026-10-14T05:38:47.9248944Z   CARGO_TERM_COLOR: always
+2026-10-14T05:38:47.9249177Z ##[endgroup]
+2026-10-14T05:38:47.9589346Z ##[end-action id=__dtolnay_rust-toolchain.__run_8;outcome=success;conclusion=success;duration_ms=44]
+2026-10-14T05:38:47.9592148Z ##[start-action display=Work around spurious network errors in curl 8.0;id=__dtolnay_rust-toolchain.__run_9]
+2026-10-14T05:38:47.9613554Z ##[group]Run # https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation
+2026-10-14T05:38:47.9614302Z [36;1m# https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation[0m
+2026-10-14T05:38:47.9614919Z [36;1mif rustc +stable --version --verbose | grep -q '^release: 1\.7[01]\.'; then[0m
+2026-10-14T05:38:47.9615393Z [36;1m  echo CARGO_HTTP_MULTIPLEXING=false >> $GITHUB_ENV[0m
+2026-10-14T05:38:47.9615707Z [36;1mfi[0m
+2026-10-14T05:38:47.9689858Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:47.9690573Z env:
+2026-10-14T05:38:47.9690799Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:47.9691080Z   CARGO_INCREMENTAL: 0
+2026-10-14T05:38:47.9691438Z   CARGO_TERM_COLOR: always
+2026-10-14T05:38:47.9691721Z ##[endgroup]
+2026-10-14T05:38:47.9910729Z ##[end-action id=__dtolnay_rust-toolchain.__run_9;outcome=success;conclusion=success;duration_ms=31]
+2026-10-14T05:38:47.9914821Z ##[start-action display=rustc +stable --version --verbose;id=__dtolnay_rust-toolchain.__run_10]
+2026-10-14T05:38:47.9935119Z ##[group]Run rustc +stable --version --verbose
+2026-10-14T05:38:47.9935464Z [36;1mrustc +stable --version --verbose[0m
+2026-10-14T05:38:48.0002268Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:48.0002646Z env:
+2026-10-14T05:38:48.0002880Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:48.0003138Z   CARGO_INCREMENTAL: 0
+2026-10-14T05:38:48.0003358Z   CARGO_TERM_COLOR: always
+2026-10-14T05:38:48.0003589Z ##[endgroup]
+2026-10-14T05:38:48.0191669Z rustc 1.99.0 (b940084d7 2026-09-28)
+2026-10-14T05:38:48.0192237Z binary: rustc
+2026-10-14T05:38:48.0192765Z commit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4
+2026-10-14T05:38:48.0193532Z commit-date: 2026-09-28
+2026-10-14T05:38:48.0193820Z host: x86_64-unknown-linux-gnu
+2026-10-14T05:38:48.0194086Z release: 1.99.0
+2026-10-14T05:38:48.0194312Z LLVM version: 23.1.1
+2026-10-14T05:38:48.0213527Z ##[end-action id=__dtolnay_rust-toolchain.__run_10;outcome=success;conclusion=success;duration_ms=29]
+2026-10-14T05:38:48.0271924Z ##[group]Run set -euo pipefail
+2026-10-14T05:38:48.0272269Z [36;1mset -euo pipefail[0m
+2026-10-14T05:38:48.0272781Z [36;1mrelease=https://github.com/google/gvisor/releases/download/release-20261005.0/gvisor-x86_64.tar.bz2[0m
+2026-10-14T05:38:48.0273667Z [36;1mcurl --fail --location --proto '=https' --tlsv1.2 -o "$RUNNER_TEMP/gvisor.tar.bz2" "$release"[0m
+2026-10-14T05:38:48.0274574Z [36;1mprintf '%s  %s\n' 'bd4eb2ca0ee74f0fbbb5f5273ba011e79c56a29fbb047393b88b981cd3230ede' "$RUNNER_TEMP/gvisor.tar.bz2" | sha256sum --check -[0m
+2026-10-14T05:38:48.0275393Z [36;1mtar --extract --bzip2 --file "$RUNNER_TEMP/gvisor.tar.bz2" --directory "$RUNNER_TEMP" runsc[0m
+2026-10-14T05:38:48.0275947Z [36;1msudo install -m 0755 "$RUNNER_TEMP/runsc" /usr/local/bin/runsc[0m
+2026-10-14T05:38:48.0276330Z [36;1msudo /usr/local/bin/runsc install[0m
+2026-10-14T05:38:48.0276620Z [36;1msudo systemctl reload docker[0m
+2026-10-14T05:38:48.0276971Z [36;1mdocker run --rm --runtime=runsc hello-world[0m
+2026-10-14T05:38:48.0342062Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:38:48.0342410Z env:
+2026-10-14T05:38:48.0342613Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:38:48.0342874Z   CARGO_INCREMENTAL: 0
+2026-10-14T05:38:48.0343094Z   CARGO_TERM_COLOR: always
+2026-10-14T05:38:48.0343322Z ##[endgroup]
+2026-10-14T05:38:48.0476056Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2026-10-14T05:38:48.0476835Z                                  Dload  Upload   Total   Spent    Left  Speed
+2026-10-14T05:38:48.0477257Z 
+2026-10-14T05:38:48.2566352Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-14T05:38:48.2566858Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-14T05:38:48.6706765Z 
+2026-10-14T05:38:48.6707421Z 100  159M  100  159M    0     0   255M      0 --:--:-- --:--:-- --:--:--  255M
+2026-10-14T05:38:48.7981433Z /home/runner/work/_temp/gvisor.tar.bz2: OK
+2026-10-14T05:39:02.0840789Z 2026/10/14 05:39:02 Runtime runsc not found: adding
+2026-10-14T05:39:21.1604522Z 2026/10/14 05:39:21 Installed sidecar binaries from https://storage.googleapis.com/gvisor/releases/release/20261005.0/x86_64/gvisor.tar.bz2 to "/usr/local/bin/gvisor-bin". This is BEST-EFFORT FUNCTIONALITY which will STOP WORKING in a few weeks. Please see gvisor.dev/issue/13718
+2026-10-14T05:39:21.1847455Z 2026/10/14 05:39:21 Successfully updated config.
+2026-10-14T05:39:21.2881032Z Unable to find image 'hello-world:latest' locally
+2026-10-14T05:39:21.6747147Z latest: Pulling from library/hello-world
+2026-10-14T05:39:21.7939584Z 4f55086f7dd0: Pulling fs layer
+2026-10-14T05:39:21.8738482Z 4f55086f7dd0: Verifying Checksum
+2026-10-14T05:39:21.8739044Z 4f55086f7dd0: Download complete
+2026-10-14T05:39:21.8794490Z 4f55086f7dd0: Pull complete
+2026-10-14T05:39:21.8840094Z Digest: sha256:11a3eb1597e864c51b3f56733cb2e8a90bf0c284bfc05f9444d81c558bc848aa
+2026-10-14T05:39:21.8855017Z Status: Downloaded newer image for hello-world:latest
+2026-10-14T05:39:22.5270711Z 
+2026-10-14T05:39:22.5271972Z Hello from Docker!
+2026-10-14T05:39:22.5272752Z This message shows that your installation appears to be working correctly.
+2026-10-14T05:39:22.5273307Z 
+2026-10-14T05:39:22.5273594Z To generate this message, Docker took the following steps:
+2026-10-14T05:39:22.5274274Z  1. The Docker client contacted the Docker daemon.
+2026-10-14T05:39:22.5275003Z  2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+2026-10-14T05:39:22.5275433Z     (amd64)
+2026-10-14T05:39:22.5275741Z  3. The Docker daemon created a new container from that image which runs the
+2026-10-14T05:39:22.5276210Z     executable that produces the output you are currently reading.
+2026-10-14T05:39:22.5276673Z  4. The Docker daemon streamed that output to the Docker client, which sent it
+2026-10-14T05:39:22.5277100Z     to your terminal.
+2026-10-14T05:39:22.5277229Z 
+2026-10-14T05:39:22.5278204Z To try something more ambitious, you can run an Ubuntu container with:
+2026-10-14T05:39:22.5278932Z  $ docker run -it ubuntu bash
+2026-10-14T05:39:22.5279465Z 
+2026-10-14T05:39:22.5279797Z Share images, automate workflows, and more with a free Docker ID:
+2026-10-14T05:39:22.5281044Z  https://hub.docker.com/
+2026-10-14T05:39:22.5281335Z 
+2026-10-14T05:39:22.5281880Z For more examples and ideas, visit:
+2026-10-14T05:39:22.5282403Z  https://docs.docker.com/get-started/
+2026-10-14T05:39:22.5282731Z 
+2026-10-14T05:39:22.6400832Z ##[group]Run set -euo pipefail
+2026-10-14T05:39:22.6401213Z [36;1mset -euo pipefail[0m
+2026-10-14T05:39:22.6401601Z [36;1mqualification=papers_core/qualification/hub-gvisor/qualification.json[0m
+2026-10-14T05:39:22.6402098Z [36;1mreceipt=papers_core/qualification/hub-gvisor/receipt.json[0m
+2026-10-14T05:39:22.6402638Z [36;1mtest "$(jq -r .source_commit "$qualification")" = cf5233af12499605bd57d9d613b3cddc3bc39d08[0m
+2026-10-14T05:39:22.6403176Z [36;1mtest "$(jq -r .workflow_run_id "$qualification")" = 38517039600[0m
+2026-10-14T05:39:22.6403716Z [36;1mtest "$(jq -r .receipt_sha256 "$qualification")" = "$(sha256sum "$receipt" | cut -d' ' -f1)"[0m
+2026-10-14T05:39:22.6404279Z [36;1marchive=papers_core/qualification/hub-gvisor/owner-controls.zip[0m
+2026-10-14T05:39:22.6404942Z [36;1mprintf '%s  %s\n' '42436f60653968c1be42a198c625a9a22e690f1d569aecd2956699df3ae16eed' "$archive" | sha256sum --check -[0m
+2026-10-14T05:39:22.6405632Z [36;1mcmp <(unzip -p "$archive" qualification.json) "$qualification"[0m
+2026-10-14T05:39:22.6406054Z [36;1mcmp <(unzip -p "$archive" receipt.json) "$receipt"[0m
+2026-10-14T05:39:22.6406497Z [36;1m# Retained owner observations, not a substitute for the live consumer.[0m
+2026-10-14T05:39:22.6406990Z [36;1mfor pair in 'pid-limited:64' 'pid-positive-control:128'; do[0m
+2026-10-14T05:39:22.6407345Z [36;1m  name=${pair%:*}[0m
+2026-10-14T05:39:22.6407581Z [36;1m  budget=${pair#*:}[0m
+2026-10-14T05:39:22.6408256Z [36;1m  unzip -p "$archive" "gvisor-controls/$name.receipt.request.json" \[0m
+2026-10-14T05:39:22.6408891Z [36;1m    | jq -e --argjson budget "$budget" '.pids_limit == 512 and .guest_pids_limit == $budget and .timeout_ms == 15000'[0m
+2026-10-14T05:39:22.6409389Z [36;1mdone[0m
+2026-10-14T05:39:22.6409695Z [36;1munzip -p "$archive" gvisor-controls/pid-limited.receipt.json \[0m
+2026-10-14T05:39:22.6410724Z [36;1m  | jq -e '.task_id == "papers-01-38517039600-pid-limited" and .exit_code == 0 and .timed_out == false and .stdout_truncated == false and .stderr_truncated == false and (.stdout | contains("PID_COUNTS=8,55,11") and contains("PID_UID=Uid:\t1001"))'[0m
+2026-10-14T05:39:22.6411775Z [36;1munzip -p "$archive" gvisor-controls/pid-positive-control.receipt.json \[0m
+2026-10-14T05:39:22.6412853Z [36;1m  | jq -e '.task_id == "papers-01-38517039600-pid-positive-control" and .exit_code == 0 and .timed_out == false and .stdout_truncated == false and .stderr_truncated == false and (.stdout | contains("PID_COUNTS=8,96,0") and contains("PID_UID=Uid:\t1001"))'[0m
+2026-10-14T05:39:22.6413907Z [36;1m# Exact retained real owner recovery facts, not scientific authority.[0m
+2026-10-14T05:39:22.6414350Z [36;1munzip -p "$archive" gvisor-recovery/crash.json \\[0m
+2026-10-14T05:39:22.6416020Z [36;1m  | jq -e '.before.task_id == "papers-01-38517039600-recovery-crash" and .before == .after and .before.state == "owned" and .daemon.running == true and .guest_entry_observed == true and .cleaned.state == "cleaned" and .cleaned.owned_handle == .before.owned_handle and .daemon.container_id == .before.owned_handle and .daemon.labels["org.memorithm.hub.attempt"] == .before.attempt_id and .daemon.labels["org.memorithm.hub.request"] == .before.request_sha256'[0m
+2026-10-14T05:39:22.6418192Z [36;1munzip -p "$archive" gvisor-recovery/lost-response.json \\[0m
+2026-10-14T05:39:22.6420324Z [36;1m  | jq -e '.reserved.task_id == "papers-01-38517039600-recovery-lost-response" and .reserved.state == "reserved" and .reserved.owned_handle == null and .owned.state == "owned" and .reserved.attempt_id == .owned.attempt_id and .daemon.running == false and .never_started == true and .cleaned.state == "cleaned" and .cleaned.owned_handle == .owned.owned_handle and .daemon.container_id == .owned.owned_handle and .daemon.labels["org.memorithm.hub.attempt"] == .owned.attempt_id and .daemon.labels["org.memorithm.hub.request"] == .owned.request_sha256'[0m
+2026-10-14T05:39:22.6422875Z [36;1mimported_guard=$(cargo metadata --locked --no-deps --format-version 1 --manifest-path papers_core/Cargo.toml \[0m
+2026-10-14T05:39:22.6423665Z [36;1m  | jq -er '.packages[] | select(.name == "papers_core") | .dependencies[] | select(.name == "hub-executor") | .source')[0m
+2026-10-14T05:39:22.6424484Z [36;1mtest "$imported_guard" = 'git+https://github.com/Memorithm/scirust-hub.git?rev=cf5233af12499605bd57d9d613b3cddc3bc39d08'[0m
+2026-10-14T05:39:22.6425215Z [36;1mcargo metadata --locked --format-version 1 --manifest-path papers_core/Cargo.toml \[0m
+2026-10-14T05:39:22.6426093Z [36;1m  | jq -e --arg expected 'git+https://github.com/Memorithm/scirust-hub.git?rev=cf5233af12499605bd57d9d613b3cddc3bc39d08#cf5233af12499605bd57d9d613b3cddc3bc39d08' \[0m
+2026-10-14T05:39:22.6427220Z [36;1m    '[.packages[] | select(.name == "hub-executor" or .name == "hub-core" or .name == "hub-protocol" or .name == "hub-store-sqlite")] | length == 4 and all(.[]; .source == $expected)'[0m
+2026-10-14T05:39:22.6490739Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-14T05:39:22.6491089Z env:
+2026-10-14T05:39:22.6491289Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:39:22.6491551Z   CARGO_INCREMENTAL: 0
+2026-10-14T05:39:22.6491768Z   CARGO_TERM_COLOR: always
+2026-10-14T05:39:22.6491986Z ##[endgroup]
+2026-10-14T05:39:22.6681456Z papers_core/qualification/hub-gvisor/owner-controls.zip: OK
+2026-10-14T05:39:22.6751458Z true
+2026-10-14T05:39:22.6779931Z true
+2026-10-14T05:39:22.6808761Z true
+2026-10-14T05:39:22.6837135Z true
+2026-10-14T05:39:22.6852853Z caution: filename not matched:  \
+2026-10-14T05:39:22.6853330Z {
+2026-10-14T05:39:22.6854939Z   "before": {
+2026-10-14T05:39:22.6855409Z     "task_id": "papers-01-38517039600-recovery-crash",
+2026-10-14T05:39:22.6856033Z     "attempt_id": "2708c36c-622f-4413-8753-8461017bd719",
+2026-10-14T05:39:22.6856628Z     "backend": "docker-runsc",
+2026-10-14T05:39:22.6857357Z     "request_sha256": "100c7bc05c271badd38a42a6d02b706e048e55efb172df5db8961f25d1c09229",
+2026-10-14T05:39:22.6858687Z     "workspace": "/home/runner/work/_temp/scirust-hub-workspaces/recovery-crash",
+2026-10-14T05:39:22.6859155Z     "state": "owned",
+2026-10-14T05:39:22.6859533Z     "owned_handle": "caf0f6710e49ede667505d1e0185def56bade97a96669449ca8a14f98adeb1a1"
+2026-10-14T05:39:22.6859945Z   },
+2026-10-14T05:39:22.6860115Z   "after": {
+2026-10-14T05:39:22.6860353Z     "task_id": "papers-01-38517039600-recovery-crash",
+2026-10-14T05:39:22.6860696Z     "attempt_id": "2708c36c-622f-4413-8753-8461017bd719",
+2026-10-14T05:39:22.6860995Z     "backend": "docker-runsc",
+2026-10-14T05:39:22.6861381Z     "request_sha256": "100c7bc05c271badd38a42a6d02b706e048e55efb172df5db8961f25d1c09229",
+2026-10-14T05:39:22.6861937Z     "workspace": "/home/runner/work/_temp/scirust-hub-workspaces/recovery-crash",
+2026-10-14T05:39:22.6862315Z     "state": "owned",
+2026-10-14T05:39:22.6862660Z     "owned_handle": "caf0f6710e49ede667505d1e0185def56bade97a96669449ca8a14f98adeb1a1"
+2026-10-14T05:39:22.6863055Z   },
+2026-10-14T05:39:22.6863226Z   "daemon": {
+2026-10-14T05:39:22.6863562Z     "container_id": "caf0f6710e49ede667505d1e0185def56bade97a96669449ca8a14f98adeb1a1",
+2026-10-14T05:39:22.6863972Z     "running": true,
+2026-10-14T05:39:22.6864172Z     "labels": {
+2026-10-14T05:39:22.6864463Z       "org.memorithm.hub.attempt": "2708c36c-622f-4413-8753-8461017bd719",
+2026-10-14T05:39:22.6865017Z       "org.memorithm.hub.request": "100c7bc05c271badd38a42a6d02b706e048e55efb172df5db8961f25d1c09229",
+2026-10-14T05:39:22.6865640Z       "org.opencontainers.image.source": "https://github.com/rust-lang/docker-rust"
+2026-10-14T05:39:22.6866048Z     }
+2026-10-14T05:39:22.6866215Z   },
+2026-10-14T05:39:22.6866386Z   "cleaned": {
+2026-10-14T05:39:22.6866624Z     "task_id": "papers-01-38517039600-recovery-crash",
+2026-10-14T05:39:22.6866952Z     "attempt_id": "2708c36c-622f-4413-8753-8461017bd719",
+2026-10-14T05:39:22.6867246Z     "backend": "docker-runsc",
+2026-10-14T05:39:22.6868585Z     "request_sha256": "100c7bc05c271badd38a42a6d02b706e048e55efb172df5db8961f25d1c09229",
+2026-10-14T05:39:22.6869546Z     "workspace": "/home/runner/work/_temp/scirust-hub-workspaces/recovery-crash",
+2026-10-14T05:39:22.6869973Z     "state": "cleaned",
+2026-10-14T05:39:22.6870338Z     "owned_handle": "caf0f6710e49ede667505d1e0185def56bade97a96669449ca8a14f98adeb1a1"
+2026-10-14T05:39:22.6870733Z   },
+2026-10-14T05:39:22.6870919Z   "guest_entry_observed": true
+2026-10-14T05:39:22.6871153Z }
+2026-10-14T05:39:22.6881654Z ##[error]Process completed with exit code 11.
+2026-10-14T05:39:22.6960304Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-10-14T05:39:22.6960730Z with:
+2026-10-14T05:39:22.6961036Z   name: papers-hub-gvisor-3fbf38bf69c140321a83ddcdca49a4b57abed74d
+2026-10-14T05:39:22.6961472Z   path: /home/runner/work/_temp/papers-hub-gvisor-live.log
+2026-10-14T05:39:22.6961810Z   if-no-files-found: error
+2026-10-14T05:39:22.6962039Z   retention-days: 30
+2026-10-14T05:39:22.6962266Z   compression-level: 6
+2026-10-14T05:39:22.6962476Z   overwrite: false
+2026-10-14T05:39:22.6962694Z   include-hidden-files: false
+2026-10-14T05:39:22.6962925Z   archive: true
+2026-10-14T05:39:22.6963110Z env:
+2026-10-14T05:39:22.6963299Z   CARGO_HOME: /home/runner/.cargo
+2026-10-14T05:39:22.6963548Z   CARGO_INCREMENTAL: 0
+2026-10-14T05:39:22.6963763Z   CARGO_TERM_COLOR: always
+2026-10-14T05:39:22.6963975Z ##[endgroup]
+2026-10-14T05:39:22.8362599Z ##[error]No files were found with the provided path: /home/runner/work/_temp/papers-hub-gvisor-live.log. No artifacts will be uploaded.
+2026-10-14T05:39:22.8558298Z Post job cleanup.
+2026-10-14T05:39:22.9465758Z [command]/usr/bin/git version
+2026-10-14T05:39:22.9510862Z git version 2.55.0
+2026-10-14T05:39:22.9555295Z Temporarily overriding HOME='/home/runner/work/_temp/47e0a98d-a3c8-44fc-875c-70ecac5919b0' before making global git config changes
+2026-10-14T05:39:22.9556628Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T05:39:22.9561771Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PAPERS-AGENT/PAPERS-AGENT/scirust-hub
+2026-10-14T05:39:22.9603083Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T05:39:22.9638078Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T05:39:22.9884106Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T05:39:22.9919056Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T05:39:23.0176021Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T05:39:23.0213202Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T05:39:23.0644569Z Post job cleanup.
+2026-10-14T05:39:23.1509172Z [command]/usr/bin/git version
+2026-10-14T05:39:23.1565679Z git version 2.55.0
+2026-10-14T05:39:23.1621412Z Temporarily overriding HOME='/home/runner/work/_temp/cf956554-c5ea-4b92-817b-1d5ad38d531a' before making global git config changes
+2026-10-14T05:39:23.1631299Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T05:39:23.1632617Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PAPERS-AGENT/PAPERS-AGENT
+2026-10-14T05:39:23.1670392Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T05:39:23.1718087Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T05:39:23.2026182Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T05:39:23.2075336Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T05:39:23.2411277Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T05:39:23.2459557Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-14T05:39:23.2913932Z Cleaning up orphan processes
+2026-10-14T05:39:23.3265781Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

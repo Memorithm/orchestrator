@@ -1777,6 +1777,77 @@
         }
       ],
       "no_excluded_mutations": true
+    },
+    {
+      "observed_at": "2026-10-14 07:40:35 Europe/Paris",
+      "event": "owner90_integrated_consumer16_corrected_candidate",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 124,
+        "batch": 3,
+        "batch_merged_prs": 24
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/scirust-hub",
+          "status": "owner_scoped_resolution_consumer_pending",
+          "pr": "https://github.com/Memorithm/scirust-hub/pull/90",
+          "merge_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+          "checks": [
+            {
+              "name": "fmt / clippy / build / test / doc",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38517039715/job/115698055218"
+            },
+            {
+              "name": "real runsc isolation and PAPERS compile probe",
+              "status": "completed",
+              "conclusion": "success",
+              "head_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+              "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38517039600/job/115698054287"
+            }
+          ],
+          "actions": [
+            "2integratedgatesgreen,293Rust+15rootfixtures+66Python+6runsccontrols+2realrecoveryprobes; exactarchive42436f60verified,treecandidate=integrated; no regression or rollback needed"
+          ],
+          "next_action": "Qualify and merge PAPERS16 exact HEAD c7afad51693cd4389b497b755b9a66d4b04c3f4a then integrated3gates and artifact; aggregate OS quota remains next owner engineering."
+        },
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "awaiting_ci",
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/16",
+          "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+          "actions": [
+            "Pin4-packagegraphCLI/manifest/receipt/exactownerarchive; newconsumer durablecleanedmetadata checks preserve semantic refusal",
+            "Truncated lock transport caught in remote diff, restored exact120928bytes; blob294a2a90b5fc86f06874fedd7356a181d4fab0a2 confirmedlocal=remote; no existing package versions altered",
+            "Live gate failed correctly on shell double-backslash exit11; no live result claimed forfailedHEAD; two continuations corrected and localarchivehash/proofpredicates passed; rerun3gates fornewHEAD required"
+          ],
+          "next_action": "Qualify and merge PAPERS16 exact HEAD c7afad51693cd4389b497b755b9a66d4b04c3f4a then integrated3gates and artifact; aggregate OS quota remains next owner engineering."
+        }
+      ],
+      "roadmaps": [
+        {
+          "repo": "Memorithm/scirust-hub",
+          "sha": "af73c44ca78eed76674b6c38d22bbbc182a57513",
+          "base": "c27d0e3a3a50cdc05913f19f87f90f2e6709c742"
+        },
+        {
+          "repo": "Memorithm/PAPERS-AGENT",
+          "sha": "995101b1a41277b8c7d4c2d287aab18024de8619",
+          "base": "6be59f27c4238423993b1a7d97fd8ef4d852b9c2"
+        }
+      ],
+      "no_excluded_mutations": true,
+      "no_new_automation_created": true
     }
   ],
   "daily_summary": {
@@ -1788,6 +1859,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 9,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 07:32:13 Europe/Paris"
+    "latest_observed_at": "2026-10-14 07:40:35 Europe/Paris"
   }
 }

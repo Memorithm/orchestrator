@@ -12,7 +12,7 @@
     "base": "main",
     "base_sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
     "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
-    "status": "merged_integrated_validation_pending",
+    "status": "merged_target_validated_partial_original_acceptance",
     "merge_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
     "checks": [
       {
@@ -30,7 +30,22 @@
         "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38516852233/job/115697479952"
       }
     ],
-    "integrated_checks": [],
+    "integrated_checks": [
+      {
+        "name": "fmt / clippy / build / test / doc",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+        "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38517039715/job/115698055218"
+      },
+      {
+        "name": "real runsc isolation and PAPERS compile probe",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+        "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38517039600/job/115698054287"
+      }
+    ],
     "remaining": [
       "aggregate writable workspace OS quota",
       "exact owner and consumer adoption qualification"
@@ -39,7 +54,7 @@
     "candidate_tree": "014ae3199c24cfea8455933b9dee9f5c946ba3e0",
     "merge_origin": "external_GitHub_merge_reconciled_not_performed_by_this_run"
   },
-  "observed_at": "2026-10-14 07:32:13 Europe/Paris",
+  "observed_at": "2026-10-14 07:40:35 Europe/Paris",
   "validation": {
     "Rust_tests": 293,
     "root_protocol_tests": 15,
@@ -51,5 +66,33 @@
     "raw_ci": "Hub-90-candidate-CI.log",
     "raw_live": "Hub-90-candidate-runsc.log"
   },
-  "scope": "Durable attempts and read-only quarantine/reconciliation only; aggregate quota, consumer adoption, production external authority not closed."
+  "scope": "Durable attempts and read-only quarantine/reconciliation only; aggregate quota, consumer adoption, production external authority not closed.",
+  "integrated_validation": {
+    "checks": [
+      {
+        "name": "fmt / clippy / build / test / doc",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+        "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38517039715/job/115698055218"
+      },
+      {
+        "name": "real runsc isolation and PAPERS compile probe",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+        "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38517039600/job/115698054287"
+      }
+    ],
+    "Rust_tests": 293,
+    "root_protocol_tests": 15,
+    "Python_tests": 66,
+    "real_controls": 6,
+    "real_recovery_probes": 2,
+    "source_tree_equals_candidate": true,
+    "archive_sha256": "42436f60653968c1be42a198c625a9a22e690f1d569aecd2956699df3ae16eed",
+    "archive": "Hub-90-integrated-run38517039600.zip",
+    "raw_ci": "Hub-90-integrated-CI.log",
+    "raw_live": "Hub-90-integrated-runsc.log"
+  }
 }

@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14 07:32:13 Europe/Paris",
+  "updated_at": "2026-10-14 07:40:35 Europe/Paris",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -10173,7 +10173,7 @@
       "base": "main",
       "base_sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
       "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
-      "status": "merged_integrated_validation_pending",
+      "status": "merged_target_validated_partial_original_acceptance",
       "merge_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
       "checks": [
         {
@@ -10191,7 +10191,22 @@
           "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38516852233/job/115697479952"
         }
       ],
-      "integrated_checks": [],
+      "integrated_checks": [
+        {
+          "name": "fmt / clippy / build / test / doc",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+          "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38517039715/job/115698055218"
+        },
+        {
+          "name": "real runsc isolation and PAPERS compile probe",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+          "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38517039600/job/115698054287"
+        }
+      ],
       "remaining": [
         "aggregate writable workspace OS quota",
         "exact owner and consumer adoption qualification"
@@ -10199,6 +10214,26 @@
       "merged_at": "2026-10-14T05:30:49Z",
       "candidate_tree": "014ae3199c24cfea8455933b9dee9f5c946ba3e0",
       "merge_origin": "external_GitHub_merge_reconciled_not_performed_by_this_run"
+    },
+    {
+      "repository": "Memorithm/PAPERS-AGENT",
+      "number": 16,
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/16",
+      "ids": [
+        "PAPERS-01"
+      ],
+      "base": "master",
+      "base_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+      "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+      "status": "candidate_ci_review_pending",
+      "superseded_heads": [
+        "03622393b8f2f82a3b50428190abafd66a0596f1",
+        "3fbf38bf69c140321a83ddcdca49a4b57abed74d"
+      ],
+      "merge_sha": null,
+      "owner_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+      "checks": [],
+      "integrated_checks": []
     }
   ],
   "repository_observations": [
@@ -14522,6 +14557,26 @@
           "url": "https://github.com/Memorithm/scirust-hub/pull/90",
           "head_sha": "aac89a20acd5ece5bd61dc108e96582b608c4231",
           "status": "candidate_ci_review_pending"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 16,
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/16",
+          "ids": [
+            "PAPERS-01"
+          ],
+          "base": "master",
+          "base_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+          "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+          "status": "candidate_ci_review_pending",
+          "superseded_heads": [
+            "03622393b8f2f82a3b50428190abafd66a0596f1",
+            "3fbf38bf69c140321a83ddcdca49a4b57abed74d"
+          ],
+          "merge_sha": null,
+          "owner_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+          "checks": [],
+          "integrated_checks": []
         }
       ],
       "resolution_evidence": [
@@ -14564,15 +14619,21 @@
           "owner_sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
           "status": "merged_target_validated_partial_original_acceptance",
           "integrated_checks": 3
+        },
+        {
+          "proof": "docs/audit-global/proofs/Hub-90-PAPERS-01-durable-recovery.json",
+          "merge_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
+          "status": "merged_target_validated_partial_original_acceptance",
+          "integrated_checks": 2
         }
       ],
-      "last_observed_at": "2026-10-14 07:29:08 Europe/Paris",
-      "next_action": "Qualify Hub90 exact HEAD aac89a20acd5ece5bd61dc108e96582b608c4231 then guarded merge and integrated gates; consumer locked graph adoption required; aggregate quota still missing.",
+      "last_observed_at": "2026-10-14 07:40:35 Europe/Paris",
+      "next_action": "Qualify and merge PAPERS16 exact HEAD c7afad51693cd4389b497b755b9a66d4b04c3f4a then integrated3gates and artifact; aggregate OS quota remains next owner engineering.",
       "blockers": [
-        "Owner Hub89 and consumer PAPERS15 are fully qualified for their scoped guest PID/source/provenance adoption (2+3 exact integrated gates).",
-        "Aggregate workspace quota and durable ambiguous-create/quarantine reconciliation remain unimplemented/unqualified. Retained workspace is not durable cleanup proof."
+        "Aggregate writable workspace OS quota not implemented/qualified",
+        "PAPERS16 exact candidate and integrated owner-adoption qualification pending"
       ],
-      "current_owner_head": "f873bc04e996e13c33958702e48e8b1c411f9c11"
+      "current_owner_head": "cf5233af12499605bd57d9d613b3cddc3bc39d08"
     },
     {
       "id": "PAPERS-02",
