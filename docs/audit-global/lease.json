@@ -1,9 +1,10 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "codex-audit-20261014-0414",
   "acquired_at": "2026-10-14T02:16:45Z",
-  "expires_at": "2026-10-14T03:35:45.000Z",
+  "expires_at": "2026-10-14T03:15:49.145Z",
   "base_sha": "d04053143fe4f9df8d92cf8bb1ce6177bc461219",
-  "purpose": "PAPERS-01 reuse existing Hub execution_guard for gVisor parent/drain/Docker control boundaries; qualify exact-owner isolated runtime, no RemoteOps mutation"
+  "purpose": "Owner/consumer guard and partial resource scope qualified; next aggregate/PID/durable quarantine work recorded; external proof gaps remain.",
+  "released_at": "2026-10-14T03:15:49.145Z"
 }

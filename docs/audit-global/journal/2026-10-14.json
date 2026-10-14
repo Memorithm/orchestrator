@@ -1270,6 +1270,26 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T05:15:49.145+02:00",
+      "event": "qualified_slice_handoff_and_lease_release",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 21,
+        "batch_target": 50,
+        "merged_prs": 121,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "actions": [
+        "Ledger uniqueness verified121",
+        "Exact integrated PAPERS3gates freshly all success",
+        "Offmain owner/consumer roadmap updates CAS guarded",
+        "Current issue comment updated, owned lease released recoverably"
+      ],
+      "next_action": "Chez le propriétaire, qualifier limite PID guest par probe fini et quota agrégé workspace sans perdre artifact/provenance compilation-exécution; ajouter réconciliation durable des créations/refus ambigus. Préserver les trois gates exactes/holdouts et tous dépôts exclus.",
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -1281,6 +1301,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 6,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14T05:13:24.132+02:00"
+    "latest_observed_at": "2026-10-14T05:15:49.145+02:00"
   }
 }
