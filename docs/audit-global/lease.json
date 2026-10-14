@@ -1,9 +1,11 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "codex-audit-20261014-0612",
   "acquired_at": "2026-10-14T04:14:38.122Z",
   "expires_at": "2026-10-14T05:14:38.122Z",
   "base_sha": "f6829ec2938ad11c56c514947701905038a12231",
-  "purpose": "PAPERS-01 owner PID guest enforcement and bounded finite real runsc qualification; no excluded repo mutation"
+  "purpose": "PAPERS-01 owner PID guest enforcement and bounded finite real runsc qualification; no excluded repo mutation",
+  "released_at": "2026-10-14T04:54:03.405Z",
+  "release_reason": "Hub89 and PAPERS15 source-integrated scoped qualifications complete; central123/lot3_23/97closed/4remaining checkpoint durable. Next independent engineering: actual aggregate workspace quota and durable ambiguous-create quarantine; no global audit closure."
 }
