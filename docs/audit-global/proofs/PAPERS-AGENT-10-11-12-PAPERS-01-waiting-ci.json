@@ -1,10 +1,10 @@
 {
   "schema": "memorithm-remediation-proof.v1",
-  "observed_at": "2026-10-14T02:14:28+02:00",
+  "observed_at": "2026-10-14T00:39:16Z",
   "id": "PAPERS-01",
-  "status": "not_resolved",
+  "status": "waiting_P2_corrected_head_ci_and_review",
   "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-  "candidate_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
+  "candidate_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
   "pr": 12,
   "verified_adapter_merges": [
     {
@@ -37,25 +37,25 @@
   ],
   "candidate_checks": [
     {
-      "name": "rust",
+      "name": "audit",
       "status": "in_progress",
       "conclusion": null,
-      "head_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38490452441/job/115614137350"
-    },
-    {
-      "name": "audit",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38490452441/job/115614137095"
+      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978996"
     },
     {
       "name": "live-qualified-consumer",
       "status": "in_progress",
       "conclusion": null,
-      "head_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
-      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38490452469/job/115614137057"
+      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336480/job/115616978943"
+    },
+    {
+      "name": "rust",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978802"
     }
   ],
   "integrated_11_checks": [
@@ -110,22 +110,21 @@
     "remaining compilation/IO/resource boundary qualification"
   ],
   "excluded_modified": [],
-  "stale_candidate_sha": "40e3b58606069eb187c8deb2875d351b76b186e2",
+  "stale_candidate_sha": "69ccf3a5de0280c9fb555ddf8ec99d5ccbed1e5a",
   "review": {
-    "corrected_threads": [
-      "PRRT_kwDOS8iSH86sHO_I",
-      "PRRT_kwDOS8iSH86sHW6m"
+    "corrected": "logging-only helper chains",
+    "threads_pending": [
+      "PRRT_kwDOS8iSH86sHW6m",
+      "PRRT_kwDOS8iSH86sHfix"
     ],
-    "status": "second_P1_corrected_waiting_current_head_tests_and_review",
-    "dependency": {
-      "name": "syn",
-      "version": "2.0.119",
-      "previously_locked": true
-    },
-    "scope": "conservative executable calling protocol; not semantic/scientific qualification"
+    "limitations": "Syntactic activity is not semantic correctness/reachability/task relevance. No scientific qualification inferred."
   },
-  "candidate_tests": null,
-  "live_candidate": null,
+  "candidate_tests": {
+    "status": "pending_exact_head"
+  },
+  "live_candidate": {
+    "status": "pending_exact_head"
+  },
   "historical_candidate_tests": {
     "sha": "f4400972ad6bf3a7a613da913dbb8000e7994e82",
     "tests": {
