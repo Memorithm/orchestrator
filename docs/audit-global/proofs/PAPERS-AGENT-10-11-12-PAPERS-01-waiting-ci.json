@@ -1,10 +1,10 @@
 {
   "schema": "memorithm-remediation-proof.v1",
-  "observed_at": "2026-10-14T00:44:57Z",
+  "observed_at": "2026-10-14T00:39:16Z",
   "id": "PAPERS-01",
-  "status": "waiting_logging_wrapper_corrected_head_ci_and_review",
+  "status": "waiting_consistent_wrapper_head_ci_and_review",
   "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-  "candidate_sha": "95ef35305ef3180a50f8220ae656cf98dcc1d7a7",
+  "candidate_sha": "6446594b98259e0ed03e4c8c079eb7072bbfb18d",
   "pr": 12,
   "verified_adapter_merges": [
     {
@@ -35,7 +35,29 @@
       "url": "https://github.com/Memorithm/scirust-hub/pull/85"
     }
   ],
-  "candidate_checks": [],
+  "candidate_checks": [
+    {
+      "name": "audit",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978996"
+    },
+    {
+      "name": "live-qualified-consumer",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336480/job/115616978943"
+    },
+    {
+      "name": "rust",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978802"
+    }
+  ],
   "integrated_11_checks": [
     {
       "name": "live-qualified-consumer",
@@ -90,13 +112,12 @@
   "excluded_modified": [],
   "stale_candidate_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
   "review": {
-    "last_P2": "borrowed literal and similar logging wrappers",
-    "resolved_threads": [
-      "PRRT_kwDOS8iSH86sHO_I",
+    "corrected": "logging-only helper chains",
+    "threads_pending": [
       "PRRT_kwDOS8iSH86sHW6m",
       "PRRT_kwDOS8iSH86sHfix"
     ],
-    "pending_thread": "PRRT_kwDOS8iSH86sHnhE",
+    "limitations": "Syntactic activity is not semantic correctness/reachability/task relevance. No scientific qualification inferred.",
     "current_head_review": "requested"
   },
   "candidate_tests": {
@@ -147,40 +168,5 @@
         "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38489361316/job/115610641198"
       }
     ]
-  },
-  "historical_qualified_candidates": [
-    {
-      "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
-      "candidate_checks": [
-        {
-          "name": "audit",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
-          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978996"
-        },
-        {
-          "name": "live-qualified-consumer",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
-          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336480/job/115616978943"
-        },
-        {
-          "name": "rust",
-          "status": "in_progress",
-          "conclusion": null,
-          "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
-          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978802"
-        }
-      ],
-      "candidate_tests": {
-        "status": "pending_exact_head"
-      },
-      "live_candidate": {
-        "status": "pending_exact_head"
-      },
-      "invalid_for_current_head": true
-    }
-  ]
+  }
 }
