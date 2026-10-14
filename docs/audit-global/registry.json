@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T03:15:49.145Z",
+  "updated_at": "2026-10-14T04:15:12.417Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9922,11 +9922,11 @@
     {
       "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
       "number": 14,
-      "state": "open",
-      "merged": false,
-      "mergeable": false,
+      "state": "closed",
+      "merged": true,
+      "mergeable": null,
       "draft": false,
-      "body": "## Backlog / owner\nPAPERS-01; Memorithm/orchestrator#81. Depends on qualified scirust-hub#87/#88, exact integrated dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4 (two integrated gates green, 283 Rust tests, five real bounded runsc controls). Target actual master 7ab65af8fbb854b3bcca92e3c42de83a54630dfb; candidate b900c30aa2da17b31c0012eff128632afb7d5a06.\n\n## Change\nReuse the owner's public execution_guard via immutable Git rev and Cargo.lock, replacing PAPERS' unbounded wait/capture joins. Separate phase deadlines capped at one hour plus15sec owner cleanup margin; process-group and capped capture semantics shared, not duplicated. Invalid/uncertain adapter/admission refusal keeps executor-owned task workspace for quarantine/reconciliation and retains completed compilation facts through typed errors/Engineer. No automatic deletion/replay or fabricated refused-phase receipt. Pin rebuilt CLI, retained manifest and exact receipt to dbad owner/run38502405612/digest f346a966c7ae8dbaa681a84291ffd9cf04f3f98aecf009971ae6950810278653. Unit detached-pipe mock is ABI/control regression only. Live gate adds actual output-refusal retained-workspace assertion.\n\n## Validation / risk\nChanged Rust files rustfmt and diff checks passed. Whole cargo fmt reports preexisting wasm_executor style differences; not repurposed as functional proof. Cargo metadata resolved pinned15 additional packages without changing existing versions; no host generated-source compile/execution. CI rust/audit/live must actually run for exact candidate and integrated source; review and current protections/base required before guarded merge. Owner's memory+noswap/root/per-file qualification not extrapolated to aggregate quota/PID. Git dependency adds existing owner graph rather than a new supervisor. No licence/attribution change, excluded repo changes, secret/holdout access or scientific promotion.\n\n## Remaining acceptance\nPAPERS-01 remains open: aggregate disk quotas, adversarial guest PID qualification, durable reconciliation after ambiguous Docker creation, full resource/failed-daemon acceptance. Retention is not a durable quarantine journal; future owner work needed. Candidate/refusal fixtures are zero-fitness diagnostics, not empirical/hardware qualification.",
+      "body": "## Backlog / owner\nPAPERS-01; Memorithm/orchestrator#81. Depends on qualified scirust-hub#87/#88, exact integrated dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4 (two integrated gates green, 283 Rust tests, five real bounded runsc controls). Target actual master 7ab65af8fbb854b3bcca92e3c42de83a54630dfb; candidate 4771400e205c3f0f75c94b073bbee7613f6fbf16.\n\n## Change\nReuse the owner's public execution_guard via immutable Git rev and Cargo.lock, replacing PAPERS' unbounded wait/capture joins. Separate phase deadlines capped at one hour plus15sec owner cleanup margin; process-group and capped capture semantics shared, not duplicated. Invalid/uncertain adapter/admission refusal keeps executor-owned task workspace for quarantine/reconciliation and retains completed compilation facts through typed errors/Engineer. No automatic deletion/replay or fabricated refused-phase receipt. Pin rebuilt CLI, retained manifest and exact receipt to dbad owner/run38502405612/digest f346a966c7ae8dbaa681a84291ffd9cf04f3f98aecf009971ae6950810278653. Unit detached-pipe mock is ABI/control regression only. Live gate adds actual output-refusal retained-workspace assertion.\n\n## Validation / risk\nChanged Rust files rustfmt and diff checks passed. Whole cargo fmt reports preexisting wasm_executor style differences; not repurposed as functional proof. Cargo metadata resolved pinned15 additional packages without changing existing versions; no host generated-source compile/execution. CI rust/audit/live must actually run for exact candidate and integrated source; review and current protections/base required before guarded merge. Owner's memory+noswap/root/per-file qualification not extrapolated to aggregate quota/PID. Git dependency adds existing owner graph rather than a new supervisor. No licence/attribution change, excluded repo changes, secret/holdout access or scientific promotion.\n\n## Remaining acceptance\nPAPERS-01 remains open: aggregate disk quotas, adversarial guest PID qualification, durable reconciliation after ambiguous Docker creation, full resource/failed-daemon acceptance. Retention is not a durable quarantine journal; future owner work needed. Candidate/refusal fixtures are zero-fitness diagnostics, not empirical/hardware qualification.\n\n## Final review corrections\nDependency graph paths trigger the real job on PR/push. Both manifest declaration and full resolved Cargo metadata are checked: exactly3 Hub packages, all matching ?rev=dbad#dbad, not only a nominal revision. Positive exact metadata and mismatched precise-fragment negative policy checks executed; final head 4771400e205c3f0f75c94b073bbee7613f6fbf16 must be independently green. Superseded b900/bce runs do not authorize this HEAD.",
       "title": "Reuse qualified owner guard and retain refused workspaces [PAPERS-01]",
       "base": "master",
       "base_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
@@ -9934,7 +9934,7 @@
       "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
       "head_repo_id": 1271435807,
       "head_repo_full_name": "Memorithm/PAPERS-AGENT",
-      "merge_commit_sha": null,
+      "merge_commit_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
       "user": {
         "login": "CHECKUPAUTO",
         "name": "CHECKUPAUTO",
@@ -9947,12 +9947,12 @@
       "diff": null,
       "comments": null,
       "created_at": "2026-10-14T02:52:23Z",
-      "updated_at": "2026-10-14T02:52:23Z",
-      "closed_at": null,
+      "updated_at": "2026-10-14T03:07:16Z",
+      "closed_at": "2026-10-14T03:07:16Z",
       "merged_at": "2026-10-14T03:07:16Z",
-      "commits": 1,
+      "commits": 3,
       "changed_files": 8,
-      "additions": 331,
+      "additions": 341,
       "deletions": 91,
       "display_url": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
       "display_title": "Reuse qualified owner guard and retain refused workspaces [PAPERS-01]",
@@ -14126,11 +14126,11 @@
         {
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
           "number": 14,
-          "state": "open",
-          "merged": false,
-          "mergeable": false,
+          "state": "closed",
+          "merged": true,
+          "mergeable": null,
           "draft": false,
-          "body": "## Backlog / owner\nPAPERS-01; Memorithm/orchestrator#81. Depends on qualified scirust-hub#87/#88, exact integrated dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4 (two integrated gates green, 283 Rust tests, five real bounded runsc controls). Target actual master 7ab65af8fbb854b3bcca92e3c42de83a54630dfb; candidate b900c30aa2da17b31c0012eff128632afb7d5a06.\n\n## Change\nReuse the owner's public execution_guard via immutable Git rev and Cargo.lock, replacing PAPERS' unbounded wait/capture joins. Separate phase deadlines capped at one hour plus15sec owner cleanup margin; process-group and capped capture semantics shared, not duplicated. Invalid/uncertain adapter/admission refusal keeps executor-owned task workspace for quarantine/reconciliation and retains completed compilation facts through typed errors/Engineer. No automatic deletion/replay or fabricated refused-phase receipt. Pin rebuilt CLI, retained manifest and exact receipt to dbad owner/run38502405612/digest f346a966c7ae8dbaa681a84291ffd9cf04f3f98aecf009971ae6950810278653. Unit detached-pipe mock is ABI/control regression only. Live gate adds actual output-refusal retained-workspace assertion.\n\n## Validation / risk\nChanged Rust files rustfmt and diff checks passed. Whole cargo fmt reports preexisting wasm_executor style differences; not repurposed as functional proof. Cargo metadata resolved pinned15 additional packages without changing existing versions; no host generated-source compile/execution. CI rust/audit/live must actually run for exact candidate and integrated source; review and current protections/base required before guarded merge. Owner's memory+noswap/root/per-file qualification not extrapolated to aggregate quota/PID. Git dependency adds existing owner graph rather than a new supervisor. No licence/attribution change, excluded repo changes, secret/holdout access or scientific promotion.\n\n## Remaining acceptance\nPAPERS-01 remains open: aggregate disk quotas, adversarial guest PID qualification, durable reconciliation after ambiguous Docker creation, full resource/failed-daemon acceptance. Retention is not a durable quarantine journal; future owner work needed. Candidate/refusal fixtures are zero-fitness diagnostics, not empirical/hardware qualification.",
+          "body": "## Backlog / owner\nPAPERS-01; Memorithm/orchestrator#81. Depends on qualified scirust-hub#87/#88, exact integrated dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4 (two integrated gates green, 283 Rust tests, five real bounded runsc controls). Target actual master 7ab65af8fbb854b3bcca92e3c42de83a54630dfb; candidate 4771400e205c3f0f75c94b073bbee7613f6fbf16.\n\n## Change\nReuse the owner's public execution_guard via immutable Git rev and Cargo.lock, replacing PAPERS' unbounded wait/capture joins. Separate phase deadlines capped at one hour plus15sec owner cleanup margin; process-group and capped capture semantics shared, not duplicated. Invalid/uncertain adapter/admission refusal keeps executor-owned task workspace for quarantine/reconciliation and retains completed compilation facts through typed errors/Engineer. No automatic deletion/replay or fabricated refused-phase receipt. Pin rebuilt CLI, retained manifest and exact receipt to dbad owner/run38502405612/digest f346a966c7ae8dbaa681a84291ffd9cf04f3f98aecf009971ae6950810278653. Unit detached-pipe mock is ABI/control regression only. Live gate adds actual output-refusal retained-workspace assertion.\n\n## Validation / risk\nChanged Rust files rustfmt and diff checks passed. Whole cargo fmt reports preexisting wasm_executor style differences; not repurposed as functional proof. Cargo metadata resolved pinned15 additional packages without changing existing versions; no host generated-source compile/execution. CI rust/audit/live must actually run for exact candidate and integrated source; review and current protections/base required before guarded merge. Owner's memory+noswap/root/per-file qualification not extrapolated to aggregate quota/PID. Git dependency adds existing owner graph rather than a new supervisor. No licence/attribution change, excluded repo changes, secret/holdout access or scientific promotion.\n\n## Remaining acceptance\nPAPERS-01 remains open: aggregate disk quotas, adversarial guest PID qualification, durable reconciliation after ambiguous Docker creation, full resource/failed-daemon acceptance. Retention is not a durable quarantine journal; future owner work needed. Candidate/refusal fixtures are zero-fitness diagnostics, not empirical/hardware qualification.\n\n## Final review corrections\nDependency graph paths trigger the real job on PR/push. Both manifest declaration and full resolved Cargo metadata are checked: exactly3 Hub packages, all matching ?rev=dbad#dbad, not only a nominal revision. Positive exact metadata and mismatched precise-fragment negative policy checks executed; final head 4771400e205c3f0f75c94b073bbee7613f6fbf16 must be independently green. Superseded b900/bce runs do not authorize this HEAD.",
           "title": "Reuse qualified owner guard and retain refused workspaces [PAPERS-01]",
           "base": "master",
           "base_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
@@ -14138,7 +14138,7 @@
           "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
           "head_repo_id": 1271435807,
           "head_repo_full_name": "Memorithm/PAPERS-AGENT",
-          "merge_commit_sha": null,
+          "merge_commit_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
           "user": {
             "login": "CHECKUPAUTO",
             "name": "CHECKUPAUTO",
@@ -14151,12 +14151,12 @@
           "diff": null,
           "comments": null,
           "created_at": "2026-10-14T02:52:23Z",
-          "updated_at": "2026-10-14T02:52:23Z",
-          "closed_at": null,
+          "updated_at": "2026-10-14T03:07:16Z",
+          "closed_at": "2026-10-14T03:07:16Z",
           "merged_at": "2026-10-14T03:07:16Z",
-          "commits": 1,
+          "commits": 3,
           "changed_files": 8,
-          "additions": 331,
+          "additions": 341,
           "deletions": 91,
           "display_url": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
           "display_title": "Reuse qualified owner guard and retain refused workspaces [PAPERS-01]",
@@ -16183,10 +16183,9 @@
     "RT-NNIS-04"
   ],
   "lease": {
-    "status": "released",
-    "owner": "codex-audit-20261014-0414",
-    "expires_at": "2026-10-14T03:15:49.145Z",
-    "released_at": "2026-10-14T03:15:49.145Z"
+    "status": "active",
+    "owner": "codex-audit-20261014-0612",
+    "expires_at": "2026-10-14T05:14:38.122Z"
   },
   "capabilities": [
     {
