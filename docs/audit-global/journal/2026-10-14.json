@@ -1991,6 +1991,36 @@
       },
       "no_excluded_mutations": true,
       "no_new_automation_created": true
+    },
+    {
+      "observed_at": "2026-10-14 07:55:08 Europe/Paris",
+      "event": "durable_handoff_before_canonical_lease_release",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 125,
+        "batch": 3,
+        "batch_merged_prs": 25
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT; Memorithm/scirust-hub",
+          "status": "in_progress",
+          "actions": [
+            "Owner90 and consumer16 fully qualified on integrated exact versions; proof archives retained; daily public summary updated",
+            "Next acceptance remains real aggregate multi-file/inode persistent workspace quota; no full closure or production/hardware/scientific inference"
+          ],
+          "next_action": "Implement/qualify actual aggregate persistent task workspace quota in existing owner/provider ports; preserve artifacts across compilation/execution, private journal outside writable volume, finite positive/negative multi-file/inode probes, quarantine and scientific fail-closed semantics."
+        }
+      ],
+      "lease": "Canonical release follows this checkpoint with observed content SHA/readback. Actual lease.json is authoritative.",
+      "no_excluded_mutations": true,
+      "no_other_automation_changes": true
     }
   ],
   "daily_summary": {
@@ -2002,6 +2032,8 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 10,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 07:52:52 Europe/Paris"
+    "latest_observed_at": "2026-10-14 07:55:08 Europe/Paris",
+    "last_public_summary": "https://github.com/Memorithm/orchestrator/issues/81#issuecomment-6161536296",
+    "current_pass_merges": 2
   }
 }

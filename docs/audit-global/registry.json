@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14 07:52:52 Europe/Paris",
+  "updated_at": "2026-10-14 07:55:08 Europe/Paris",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -16629,12 +16629,13 @@
   ],
   "lease": {
     "schema": "memorithm-remediation-lease.v1",
-    "status": "active",
+    "status": "release_pending",
     "owner": "codex-audit-20261014-0705",
     "acquired_at": "2026-10-14T05:08:52.195Z",
     "expires_at": "2026-10-14T06:08:52.195Z",
     "base_sha": "9cf357f236b66bceec9620be8522e32f552fb94e",
-    "purpose": "PAPERS-01 durable owner gVisor attempt/quarantine and non-replay; no excluded repository changes"
+    "purpose": "PAPERS-01 durable owner gVisor attempt/quarantine and non-replay; no excluded repository changes",
+    "release_reason": "Qualified owner90/consumer16 handoff; canonical lease release follows via observed blob SHA; no complete audit closure."
   },
   "capabilities": [
     {
