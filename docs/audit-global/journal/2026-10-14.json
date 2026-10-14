@@ -1675,6 +1675,45 @@
       "no_excluded_mutations": true,
       "no_other_automation_changes": true,
       "no_new_automation_created": true
+    },
+    {
+      "observed_at": "2026-10-14 07:23:00 Europe/Paris",
+      "event": "durable_source_and_owner_recovery_checkpoint",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 123,
+        "batch": 3,
+        "batch_merged_prs": 23
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/scirust-hub; Memorithm/PAPERS-AGENT",
+          "status": "in_progress",
+          "actions": [
+            "Sources immuables relues intégralement:113 constats,17530lignesJSON et2492lignesrapport;instructionspropriétaires etsourcecourantef873/10f92 revalidées.",
+            "Implémentation locale non publiée: migrations SQLitev6 réutilisant lifecycle_events; réservation durable avantcreate,quarantaine et reprise en lecture seule; locks safeFileMSRV1.89.",
+            "Aucun test Rust ou runsc exécuté pour les modifications de ce passage; qualification candidate et intégrée obligatoire avant adoption."
+          ],
+          "next_action": "Ajouter les probes réelles crash/lost-response, publier PR propriétaire et qualifier HEAD exact; quota workspace agrégé reste non implémenté."
+        }
+      ],
+      "lease": {
+        "schema": "memorithm-remediation-lease.v1",
+        "status": "active",
+        "owner": "codex-audit-20261014-0705",
+        "acquired_at": "2026-10-14T05:08:52.195Z",
+        "expires_at": "2026-10-14T06:08:52.195Z",
+        "base_sha": "9cf357f236b66bceec9620be8522e32f552fb94e",
+        "purpose": "PAPERS-01 durable owner gVisor attempt/quarantine and non-replay; no excluded repository changes"
+      },
+      "no_excluded_mutations": true,
+      "no_new_automation_created": true
     }
   ],
   "daily_summary": {
@@ -1686,6 +1725,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 8,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 06:53:34 Europe/Paris"
+    "latest_observed_at": "2026-10-14 07:23:00 Europe/Paris"
   }
 }

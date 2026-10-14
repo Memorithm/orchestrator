@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T04:53:34.423Z",
+  "updated_at": "2026-10-14 07:23:00 Europe/Paris",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -16444,11 +16444,13 @@
     "RT-NNIS-04"
   ],
   "lease": {
-    "status": "release_pending",
-    "owner": "codex-audit-20261014-0612",
-    "expires_at": "2026-10-14T05:14:38.122Z",
-    "observed_at": "2026-10-14T04:53:34.423Z",
-    "authority": "docs/audit-global/lease.json on audit/global-remediation-2026-09-30; reread canonical lease after the following contents-API release; this is a pre-release snapshot"
+    "schema": "memorithm-remediation-lease.v1",
+    "status": "active",
+    "owner": "codex-audit-20261014-0705",
+    "acquired_at": "2026-10-14T05:08:52.195Z",
+    "expires_at": "2026-10-14T06:08:52.195Z",
+    "base_sha": "9cf357f236b66bceec9620be8522e32f552fb94e",
+    "purpose": "PAPERS-01 durable owner gVisor attempt/quarantine and non-replay; no excluded repository changes"
   },
   "capabilities": [
     {
