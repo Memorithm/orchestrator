@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T00:39:16Z",
+  "updated_at": "2026-10-14T00:43:21Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9671,8 +9671,52 @@
       "ids": [
         "PAPERS-01"
       ],
-      "status": "waiting_P2_corrected_head_ci_and_review",
-      "merge_sha": null
+      "status": "candidate_qualified_waiting_current_review",
+      "merge_sha": null,
+      "checks": [
+        {
+          "name": "audit",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978996"
+        },
+        {
+          "name": "live-qualified-consumer",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336480/job/115616978943"
+        },
+        {
+          "name": "rust",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978802"
+        }
+      ],
+      "candidate_tests": {
+        "command": "cargo test --all-targets",
+        "passed": 223,
+        "failed": 0,
+        "ignored": 1,
+        "suites": 11,
+        "synthetic_merge_sha": "dbf1e4fea5d40848f6c58796276fcee1263ced7d",
+        "synthetic_parents": [
+          "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
+          "829d7871cdbb258f62ba07727da5ae0818ac372a"
+        ],
+        "tested_tree": "7fb6b56b2119f4ffbbeb9f4f5a9f21e141d9788b",
+        "candidate_tree_identical": true,
+        "log_url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38491336450/job/115616978802",
+        "regressions": [
+          "empty_noncalling_or_conditional_entrypoints_are_refused",
+          "logging_only_helpers_are_not_candidate_invocations",
+          "every_fallback_preserves_its_algorithm_and_adds_a_calling_harness",
+          "configured_backend_failure_never_becomes_structural_success"
+        ]
+      }
     },
     {
       "repository": "Memorithm/SciCapsule",
@@ -13671,7 +13715,7 @@
           "url": "https://github.com/Memorithm/PAPERS-AGENT/pull/12",
           "head_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a",
           "base_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
-          "status": "waiting_P2_corrected_head_ci_and_review"
+          "status": "candidate_qualified_waiting_current_review"
         }
       ],
       "resolution_evidence": [
@@ -13681,10 +13725,10 @@
           "status": "adapter_integrated_engineer_route_pending",
           "integrated_sha": "b6db77ccc560137bb5283093cf58f7b2ca43e3d5",
           "integrated_checks": 3,
-          "candidate_sha": "40e3b58606069eb187c8deb2875d351b76b186e2"
+          "candidate_sha": "829d7871cdbb258f62ba07727da5ae0818ac372a"
         }
       ],
-      "last_observed_at": "2026-10-14T00:39:16Z",
+      "last_observed_at": "2026-10-14T00:43:21Z",
       "next_action": "Requalify #12 at 829d7871cdbb258f62ba07727da5ae0818ac372a after logging-only P2 correction: bounded AST helper-chain activity detection, regression decoys/wrappers/early return/recursion and all fallback algorithms. Zero diagnostic fitness and semantic limitations explicit. Require exact full/live CI and review, guarded merge then integrated validation; independent compile/IO/resource qualifications remain open.",
       "blockers": [
         "SciRust-Hub main explicitly states that its configured local and remote process executors are not an OS sandbox; AXH-5 container-class backend remains active and RemoteOps owns concrete isolation enforcement.",
