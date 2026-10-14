@@ -2,7 +2,7 @@
   "schema": "memorithm-audit-proof.v1",
   "id": "PAPERS-01",
   "pr": "https://github.com/Memorithm/scirust-hub/pull/89",
-  "status": "merged_waiting_integrated_checks",
+  "status": "merged_target_validated_partial_acceptance",
   "candidate_sha": "b57ea18ece394189885d891fb4b88c33c1167bea",
   "candidate_tree": "4e6eefa55389a1990b67d0a3563f7b36b263c1da",
   "base_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
@@ -1020,5 +1020,60 @@
     ],
     "lease_owner": "codex-audit-20261014-0612",
     "ok": true
-  }
+  },
+  "integrated_checks": [
+    {
+      "name": "real runsc isolation and PAPERS compile probe",
+      "head_sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38512141573/job/115682810734"
+    },
+    {
+      "name": "fmt / clippy / build / test / doc",
+      "head_sha": "f873bc04e996e13c33958702e48e8b1c411f9c11",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/scirust-hub/actions/runs/38512141556/job/115682810455"
+    }
+  ],
+  "integrated_executed_tests": {
+    "workspace_Rust": 286,
+    "failed": 0,
+    "ignored": 0,
+    "additional_UID0_gvisor_protocol": 12,
+    "Python_adapter_catalog": 66
+  },
+  "integrated_real_controls": [
+    "timeout_exact_id_cleanup",
+    "bounded_output",
+    "read_only_root_mount",
+    "per_file_16MiB",
+    "memory_swap_refusal",
+    "independent_guest_PID_64_128"
+  ],
+  "integrated_artifact": {
+    "run_id": 38512141573,
+    "id": 11870076968,
+    "sha256": "03d2b15feb6993fc23ade8163a2b86c83faafc06440f5eb07cd48ee1fe9d18a1",
+    "path": "docs/audit-global/proofs/Hub-89-integrated.zip"
+  },
+  "integrated_PID_observation": {
+    "host_PID_limit": 512,
+    "guest64": {
+      "processes": 8,
+      "threads": 55,
+      "errno": 11,
+      "uid": 1001
+    },
+    "guest128": {
+      "processes": 8,
+      "threads": 96,
+      "errno": 0,
+      "uid": 1001
+    },
+    "max_attempted_guest_tasks": 105
+  },
+  "no_regression_observed": true,
+  "no_rollback_needed": true
 }
