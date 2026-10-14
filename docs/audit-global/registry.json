@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14 07:40:35 Europe/Paris",
+  "updated_at": "2026-10-14 07:47:00 Europe/Paris",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -30,7 +30,7 @@
     "backlog": 101,
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 124
+    "merged_prs": 125
   },
   "batches": [
     {
@@ -759,6 +759,18 @@
             "PAPERS-01"
           ],
           "merge_origin": "external_GitHub_merge_reconciled_not_performed_by_this_run"
+        },
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "number": 16,
+          "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+          "base_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
+          "merge_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+          "merged_at": "2026-10-14T05:46:31Z",
+          "ids": [
+            "PAPERS-01"
+          ],
+          "merge_origin": "guarded_expected_head_merge_performed_in_this_run"
         }
       ]
     }
@@ -10225,15 +10237,40 @@
       "base": "master",
       "base_sha": "10f92ab7815a3c756481fcc580bd87564a81984e",
       "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
-      "status": "candidate_ci_review_pending",
+      "status": "merged_integrated_validation_pending",
       "superseded_heads": [
         "03622393b8f2f82a3b50428190abafd66a0596f1",
         "3fbf38bf69c140321a83ddcdca49a4b57abed74d"
       ],
-      "merge_sha": null,
+      "merge_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
       "owner_sha": "cf5233af12499605bd57d9d613b3cddc3bc39d08",
-      "checks": [],
-      "integrated_checks": []
+      "checks": [
+        {
+          "name": "audit",
+          "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38517929455/job/115700824532"
+        },
+        {
+          "name": "rust",
+          "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38517929455/job/115700824402"
+        },
+        {
+          "name": "live-qualified-consumer",
+          "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38517929439/job/115700824122"
+        }
+      ],
+      "integrated_checks": [],
+      "candidate_tree": "1cc96860abcb11f7b2ec59f4a5d63134df9981c2",
+      "merged_at": "2026-10-14T05:46:31Z",
+      "merge_origin": "guarded_expected_head_merge_performed_in_this_run"
     }
   ],
   "repository_observations": [
@@ -14182,7 +14219,7 @@
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
       "status": "in_progress",
-      "current_head": "10f92ab7815a3c756481fcc580bd87564a81984e",
+      "current_head": "0c0bbab15bf75790a370a9802171e75034cd7f38",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
       "head_reconciliation": "exact_integrated10f_consumer_and_f873_owner_guest_PID_controls_qualified_original_acceptance_incomplete",
@@ -14627,8 +14664,8 @@
           "integrated_checks": 2
         }
       ],
-      "last_observed_at": "2026-10-14 07:40:35 Europe/Paris",
-      "next_action": "Qualify and merge PAPERS16 exact HEAD c7afad51693cd4389b497b755b9a66d4b04c3f4a then integrated3gates and artifact; aggregate OS quota remains next owner engineering.",
+      "last_observed_at": "2026-10-14 07:47:00 Europe/Paris",
+      "next_action": "Verify integrated3gates and retained exact artifact forPAPERS16; then aggregate filesystem quota engineering/actual multi-file and inode enforcement qualification, preserving phase persistence and private journal.",
       "blockers": [
         "Aggregate writable workspace OS quota not implemented/qualified",
         "PAPERS16 exact candidate and integrated owner-adoption qualification pending"

@@ -1848,17 +1848,100 @@
       ],
       "no_excluded_mutations": true,
       "no_new_automation_created": true
+    },
+    {
+      "observed_at": "2026-10-14 07:47:00 Europe/Paris",
+      "event": "consumer16_guarded_merge_integrated_pending",
+      "counts": {
+        "audited_repositories": 33,
+        "source_findings": 113,
+        "positive_findings": 12,
+        "backlog": 101,
+        "closed": 97,
+        "remaining": 4,
+        "merged_prs": 125,
+        "batch": 3,
+        "batch_merged_prs": 25
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "awaiting_integrated_ci",
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/16",
+          "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+          "merge_sha": "0c0bbab15bf75790a370a9802171e75034cd7f38",
+          "checks": [
+            {
+              "name": "audit",
+              "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38517929455/job/115700824532"
+            },
+            {
+              "name": "rust",
+              "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38517929455/job/115700824402"
+            },
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "c7afad51693cd4389b497b755b9a66d4b04c3f4a",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38517929439/job/115700824122"
+            }
+          ],
+          "actions": [
+            "3candidategates actuallygreen;232Rust,1liveignoredordinarybutdedicated1passed0ignored;7durablephaseobservations",
+            "Exact8filesdiff/base/head/source/3checks/reviewthreads/mergeableclean/protectionsverified; expected_head_sha guardedmerge; integratedtreeequalscandidate",
+            "CandidateZIP54882aba verified and retained; semantic outputrefusal/retainedworkspace/zero-fitnesspreserved"
+          ],
+          "next_action": "Verify integrated3gates and retained exact artifact forPAPERS16; then aggregate filesystem quota engineering/actual multi-file and inode enforcement qualification, preserving phase persistence and private journal."
+        },
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "Fresh150open0comments; no rights/consentreview supplied"
+          ],
+          "next_action": "Documented rights/consent/dependencynotice review; no blindrelicensing"
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "Freshmain1418b8 unchanged; organization administration not available through advertised connector"
+          ],
+          "next_action": "Actual runnergrouprestriction and safeprobe by authorizedoperator"
+        },
+        {
+          "id": "COG-SML-001",
+          "repository": "restricted",
+          "status": "blocked_external",
+          "actions": [
+            "Private559remainsmerged; PR-onlyfirstpage workflowobservations cannot establish realorganizationACL orproductionadoption"
+          ],
+          "next_action": "Operator-owned signature/ACL/adoptionproof keptprivate"
+        }
+      ],
+      "no_excluded_mutations": true,
+      "no_new_automation_created": true
     }
   ],
   "daily_summary": {
     "closed": 97,
     "remaining": 4,
-    "merged_prs": 124,
+    "merged_prs": 125,
     "batch": 3,
-    "batch_merged_prs": 24,
+    "batch_merged_prs": 25,
     "scope": "only observed interval; no fabricated prior-hour entries",
-    "new_merges_observed_today": 9,
+    "new_merges_observed_today": 10,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14 07:40:35 Europe/Paris"
+    "latest_observed_at": "2026-10-14 07:47:00 Europe/Paris"
   }
 }

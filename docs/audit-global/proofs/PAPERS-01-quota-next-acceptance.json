@@ -1,0 +1,25 @@
+{
+  "finding": "PAPERS-01",
+  "observed_at": "2026-10-14 07:47:00 Europe/Paris",
+  "status": "design_constraint_research_only_not_runtime_qualification",
+  "sources": [
+    {
+      "url": "https://docs.docker.com/engine/storage/tmpfs",
+      "checked_date": "2026-10-14",
+      "fact": "Container-local tmpfs contents do not survive container stop and cannot be shared as that mount across containers."
+    },
+    {
+      "url": "https://docs.kernel.org/filesystems/tmpfs.html",
+      "checked_date": "2026-10-14",
+      "fact": "Linux tmpfs size/nr_blocks and nr_inodes bound the instance; zero removes the relevant limit. No host setting was applied."
+    }
+  ],
+  "acceptance_requirements": [
+    "OS aggregate multi-file bound, not admission size or RLIMIT_FSIZE alone",
+    "Persistence from compilation to separate execution phase and refusal quarantine",
+    "Private durable controller journal outside guest writable limited volume",
+    "Actual finite multi-file and inode refusal plus positive below-budget control on exact owner and consumer revisions",
+    "Reuse owner/provider capabilities without excluded repository modifications; no production mount/probe or fabricated enforcement"
+  ],
+  "next_action": "Evaluate bounded persistent task volume admission/provisioning through existing owner ports; do not replace current workspace with per-container tmpfs which discards phase artifacts."
+}
