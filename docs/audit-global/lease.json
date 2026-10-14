@@ -1,9 +1,11 @@
 {
   "schema": "memorithm-remediation-lease.v1",
-  "status": "active",
+  "status": "released",
   "owner": "codex-audit-20261014-0705",
   "acquired_at": "2026-10-14T05:08:52.195Z",
   "expires_at": "2026-10-14T06:08:52.195Z",
   "base_sha": "9cf357f236b66bceec9620be8522e32f552fb94e",
-  "purpose": "PAPERS-01 durable owner gVisor attempt/quarantine and non-replay; no excluded repository changes"
+  "purpose": "PAPERS-01 durable owner gVisor attempt/quarantine and non-replay; no excluded repository changes",
+  "released_at": "2026-10-14T05:55:08Z",
+  "release_reason": "Hub90 and PAPERS16 integrated qualified; aggregate quota remains next independent engineering. No complete audit closure or other automation changes."
 }
