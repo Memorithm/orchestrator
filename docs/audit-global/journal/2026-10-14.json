@@ -1190,6 +1190,86 @@
         }
       ],
       "excluded_repositories_modified": []
+    },
+    {
+      "observed_at": "2026-10-14T05:13:24.132+02:00",
+      "event": "PAPERS14_integrated_scope_qualified",
+      "counts": {
+        "batch": 3,
+        "batch_merged_prs": 21,
+        "batch_target": 50,
+        "merged_prs": 121,
+        "closed_findings": 97,
+        "remaining_findings": 4
+      },
+      "work_items": [
+        {
+          "id": "PAPERS-01",
+          "repository": "Memorithm/PAPERS-AGENT",
+          "status": "in_progress",
+          "actions": [
+            "Integrated773b tree equals final477",
+            "Three integrated gates all success; 231 Rust tests0failed1ordinary-liveignored, dedicated live1passed0ignored",
+            "Integrated archive downloaded, digest verified, source/phase/refusal facts retained",
+            "Primary runtime docs reviewed for next quota/PID design; not qualification"
+          ],
+          "pr": "https://github.com/Memorithm/PAPERS-AGENT/pull/14",
+          "head_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
+          "merge_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+          "checks": [
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600169/job/115659087445"
+            },
+            {
+              "name": "rust",
+              "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087288"
+            },
+            {
+              "name": "audit",
+              "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087155"
+            }
+          ],
+          "next_action": "Chez le propriétaire, qualifier limite PID guest par probe fini et quota agrégé workspace sans perdre artifact/provenance compilation-exécution; ajouter réconciliation durable des créations/refus ambigus. Préserver les trois gates exactes/holdouts et tous dépôts exclus."
+        },
+        {
+          "id": "RT-NNIS-03",
+          "repository": "Memorithm/NNIS",
+          "status": "blocked",
+          "actions": [
+            "No new acceptance proof during observed interval; private evidence kept private"
+          ],
+          "next_action": "NNIS #150 remains open with zero comments on fresh re-read; require documented rights/consent/source/dependency notice review without inventing legal authority."
+        },
+        {
+          "id": "MEM-11",
+          "repository": "Memorithm/SciCapsule",
+          "status": "blocked_external",
+          "actions": [
+            "No new acceptance proof during observed interval; private evidence kept private"
+          ],
+          "next_action": "Candidate and integrated YAML validator now actually pass at #36. Still require actual organization runner-group selected-workflow enforcement and safe probe; no enforcement inferred from workflow-only change."
+        },
+        {
+          "id": "COG-SML-001",
+          "repository": null,
+          "status": "blocked_external",
+          "actions": [
+            "No new acceptance proof during observed interval; private evidence kept private"
+          ],
+          "next_action": "Latest observed production publication remains failed; require operator-owned signing configuration and real adopted/ACL-bound production evidence. Do not create/substitute credentials or infer adoption from successful development gates."
+        }
+      ],
+      "excluded_repositories_modified": []
     }
   ],
   "daily_summary": {
@@ -1201,6 +1281,6 @@
     "scope": "only observed interval; no fabricated prior-hour entries",
     "new_merges_observed_today": 6,
     "prior_merges_reconciled_today": 6,
-    "latest_observed_at": "2026-10-14T05:07:55.821+02:00"
+    "latest_observed_at": "2026-10-14T05:13:24.132+02:00"
   }
 }

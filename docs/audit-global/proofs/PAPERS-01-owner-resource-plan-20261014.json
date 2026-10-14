@@ -1,0 +1,35 @@
+{
+  "schema": "memorithm-audit-owner-next-plan.v1",
+  "id": "PAPERS-01",
+  "observed_at": "2026-10-14T03:13:24.130Z",
+  "status": "research_not_runtime_qualification",
+  "sources": [
+    {
+      "url": "https://gvisor.dev/docs/architecture_guide/resources/",
+      "accessed_on": "2026-10-14",
+      "supports": "Guest processes/threads need not correspond one-to-one to host tasks; host cgroup declaration alone does not qualify a guest PID bound."
+    },
+    {
+      "url": "https://gvisor.dev/docs/user_guide/filesystem/",
+      "accessed_on": "2026-10-14",
+      "supports": "Overlay supports bounded upper-layer size; overlay modifications do not change backing mounts. Naive overlay-all can invalidate current host artifact handoff."
+    },
+    {
+      "url": "https://github.com/google/gvisor/issues/2489",
+      "accessed_on": "2026-10-14",
+      "supports": "Old cgroup setup issue closed in April2020, not evidence of a current2026 failure."
+    }
+  ],
+  "next_actions": [
+    "Inspect exact release process-count enforcement; proposed RLIMIT_NPROC must be tested, not inferred from a named enum or host pids.max",
+    "Finite isolated guest spawn saturation test with positive entry/refusal and exact-ID cleanup, no exponential spawning/production",
+    "Quota-owned persistent phase workspace with bounded artifact handoff and source/digest provenance; do not change host-global runtime settings or excluded RemoteOps repository",
+    "Durable quarantine index/reconciliation for ambiguous creation; never auto-delete/replay uncertain state"
+  ],
+  "not_executed": [
+    "No guest PID adversarial probe",
+    "No aggregate workspace quota qualification",
+    "Exact pinned release source web fetch unavailable; no fallback access circumvention"
+  ],
+  "excluded_modified": []
+}

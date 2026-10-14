@@ -5,7 +5,7 @@
   "candidate_sha": "4771400e205c3f0f75c94b073bbee7613f6fbf16",
   "base_sha": "7ab65af8fbb854b3bcca92e3c42de83a54630dfb",
   "candidate_tree": "5b961bbb220493338fbe7b6bc1cf87ba2e2ce797",
-  "status": "merged_waiting_target_ci_partial_acceptance",
+  "status": "merged_target_validated_partial_original_acceptance",
   "owner_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
   "qualification": {
     "schema": "scirust-hub.gvisor-qualification-evidence/v1",
@@ -181,5 +181,48 @@
     "required_all_three_checks_success": true,
     "review_completed_on": "4771400",
     "unresolved_threads": 0
-  }
+  },
+  "observed_at": "2026-10-14T03:13:24.130Z",
+  "integrated_checks": [
+    {
+      "name": "live-qualified-consumer",
+      "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600169/job/115659087445"
+    },
+    {
+      "name": "rust",
+      "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087288"
+    },
+    {
+      "name": "audit",
+      "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087155"
+    }
+  ],
+  "integrated_test_totals": {
+    "passed": 231,
+    "failed": 0,
+    "ignored": 1
+  },
+  "live_ignored_in_ordinary_suite_but_executed_by_dedicated_gate": true,
+  "integrated_live_artifact": {
+    "run_id": 38504600169,
+    "artifact_id": 11866788908,
+    "sha256": "47e0850b1746fba2959d6fb5242d84847faad51944604ffe9fa6d5ad1feb2a31",
+    "path": "docs/audit-global/proofs/PAPERS-14/integrated-live.zip"
+  },
+  "integrated_live_scenarios": [
+    "Researcher/Engineer success zero fitness",
+    "compile refusal",
+    "runtime-entry timeout",
+    "output refusal retains workspace and completed compile facts"
+  ],
+  "original_finding_closed": false
 }

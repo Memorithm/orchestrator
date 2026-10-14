@@ -16,7 +16,7 @@
       "sha256": "80a2075bb9eef67452dfa04ea6d50445ad0f611a2ddead40c6c92315637f8b13"
     }
   ],
-  "updated_at": "2026-10-14T03:07:55.819Z",
+  "updated_at": "2026-10-14T03:13:24.130Z",
   "excluded": [
     "CHECKUPAUTO.FR",
     "RemoteOps",
@@ -9960,7 +9960,7 @@
       "ids": [
         "PAPERS-01"
       ],
-      "status": "merged_waiting_target_ci_partial_acceptance",
+      "status": "merged_target_validated_partial_original_acceptance",
       "merge_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
       "superseded_heads": [
         "b900c30aa2da17b31c0012eff128632afb7d5a06",
@@ -9989,6 +9989,29 @@
           "status": "completed",
           "conclusion": "success",
           "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140321/job/115657616921"
+        }
+      ],
+      "integrated_checks": [
+        {
+          "name": "live-qualified-consumer",
+          "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600169/job/115659087445"
+        },
+        {
+          "name": "rust",
+          "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087288"
+        },
+        {
+          "name": "audit",
+          "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087155"
         }
       ]
     }
@@ -13938,11 +13961,11 @@
         "Isoler rustc et compilation JIT sous utilisateur dédié et quotas OS; limiter octets source/module, mémoire/table WASM via StoreLimits/ResourceLimiter et durée de compilation séparée; drainer stderr pendant compilation.",
         "Vérifier la résolution sur le HEAD intégré ; conserver commandes, résultats et identités source/base/HEAD."
       ],
-      "status": "waiting_ci",
+      "status": "in_progress",
       "current_head": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
       "default_branch": "master",
       "audit_head": "01ca71db260c2b8eaac5bd7fc5e42210cbcc93f3",
-      "head_reconciliation": "qualified_independent_phases_and_refusal_provenance_integrated_partial_original_acceptance",
+      "head_reconciliation": "exact_integrated773b_shared_guard_refusal_retention_qualified_original_acceptance_incomplete",
       "policy_review": "Root AGENTS, SECURITY and mandatory off-main PAPERS/Hub roadmaps plus Hub ML/AX policies read. Shared owner Hub guard reused; no RemoteOps or other excluded repository modified; no source freeze/holdout or scientific authority change.",
       "prs": [
         {
@@ -14141,7 +14164,7 @@
           "ids": [
             "PAPERS-01"
           ],
-          "status": "merged_waiting_target_ci_partial_acceptance",
+          "status": "merged_target_validated_partial_original_acceptance",
           "merge_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
           "superseded_heads": [
             "b900c30aa2da17b31c0012eff128632afb7d5a06",
@@ -14171,6 +14194,29 @@
               "conclusion": "success",
               "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504140321/job/115657616921"
             }
+          ],
+          "integrated_checks": [
+            {
+              "name": "live-qualified-consumer",
+              "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600169/job/115659087445"
+            },
+            {
+              "name": "rust",
+              "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087288"
+            },
+            {
+              "name": "audit",
+              "head_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+              "status": "completed",
+              "conclusion": "success",
+              "url": "https://github.com/Memorithm/PAPERS-AGENT/actions/runs/38504600115/job/115659087155"
+            }
           ]
         }
       ],
@@ -14195,13 +14241,19 @@
           "status": "merged_target_validated_partial_acceptance",
           "merge_sha": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
           "integrated_checks": 2
+        },
+        {
+          "proof": "docs/audit-global/proofs/PAPERS-AGENT-14-PAPERS-01-shared-guard.json",
+          "merge_sha": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+          "status": "merged_target_validated_partial_original_acceptance",
+          "integrated_checks": 3
         }
       ],
-      "last_observed_at": "2026-10-14T03:02:41.544Z",
-      "next_action": "Vérifier trois gates intégrés773b et archive. Puis quotas agrégés/PID/réconciliation durable chez propriétaire; ne pas clore original sur ce slice.",
+      "last_observed_at": "2026-10-14T03:13:24.130Z",
+      "next_action": "Chez le propriétaire, qualifier limite PID guest par probe fini et quota agrégé workspace sans perdre artifact/provenance compilation-exécution; ajouter réconciliation durable des créations/refus ambigus. Préserver les trois gates exactes/holdouts et tous dépôts exclus.",
       "blockers": [
-        "Hub public guard, exact container-ID cleanup, memory/swap/root/per-file controls and PAPERS refusal retention are implemented; final integrated validation pending on773b.",
-        "Remaining aggregate workspace quota, adversarial guest PID qualification and durable ambiguous-creation/quarantine reconciliation require owner enforcement and real proof before full closure."
+        "Shared guard/refusal retention/pinned owner source and consumer integrated scope qualified by #14: 3/3 integrated gates, 231 tests + one real live test, archive verified.",
+        "Aggregate workspace quota, adversarial guest PID bound, durable ambiguous-creation/quarantine reconciliation not yet enforced/qualified; original PAPERS-01 remains open."
       ],
       "current_owner_head": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4"
     },
@@ -16161,6 +16213,15 @@
         "Memorithm/ProofLab",
         "Memorithm/RSI",
         "Memorithm/Forge"
+      ],
+      "partial_consumers": [
+        {
+          "repository": "Memorithm/PAPERS-AGENT",
+          "head": "773b31c2a3a26eabe16e4a89c8be2cc06be999bf",
+          "owner_commit": "dbad915ccf0431b61b4f60ef16b1fc4e2cbc72b4",
+          "proof": "docs/audit-global/proofs/PAPERS-AGENT-14-PAPERS-01-shared-guard.json",
+          "scope": "shared guard, exact pinned qualified gVisor/phase provenance/refusal retention; aggregate quotas/PID/durable quarantine still incomplete"
+        }
       ]
     },
     {
